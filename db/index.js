@@ -93,6 +93,11 @@ const dirname = regularDirname || foundDirname || __dirname
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
+exports.Prisma.QueryMode = makeEnum({
+  default: 'default',
+  insensitive: 'insensitive'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
@@ -142,7 +147,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": "../.env",
+    "schemaEnvPath": "../.env"
   },
   "relativePath": "../prisma",
   "clientVersion": "4.12.0",
@@ -150,7 +156,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "mysql",
+  "activeProvider": "postgresql",
   "dataProxy": false
 }
 config.dirname = dirname

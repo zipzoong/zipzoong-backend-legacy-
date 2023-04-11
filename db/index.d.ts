@@ -1657,6 +1657,14 @@ export namespace Prisma {
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -1779,6 +1787,7 @@ export namespace Prisma {
     contains?: string
     startsWith?: string
     endsWith?: string
+    mode?: QueryMode
     not?: NestedStringFilter | string
   }
 
@@ -1811,6 +1820,7 @@ export namespace Prisma {
     contains?: string
     startsWith?: string
     endsWith?: string
+    mode?: QueryMode
     not?: NestedStringWithAggregatesFilter | string
     _count?: NestedIntFilter
     _min?: NestedStringFilter
