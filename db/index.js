@@ -131,7 +131,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/rojiwon/industriously/nestia-template/db",
+      "value": "/Users/rojiwon/industriously/zipzoong-backend/db",
       "fromEnvVar": null
     },
     "config": {
@@ -142,8 +142,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../.env",
-    "schemaEnvPath": "../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../prisma",
   "clientVersion": "4.12.0",
