@@ -1,0 +1,57 @@
+model HomeCareSpecializedField {
+  id              String              @id
+  sub_category_id String
+  company_id      String
+  sub_category    HomeCareSubCategory @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "home_care_specialized_fields_category_fkey")
+  company         HomeCareCompany     @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "home_care_specialized_fields_company_fkey")
+
+  @@unique([sub_category_id, company_id], map: "home_care_specialized_fields_unique")
+  @@map("home_care_specialized_fields")
+}
+
+model HomeCareSuperCategory {
+  id                       String                @id
+  name                     String                @unique(map: "home_care_super_categories_unique_name")
+  home_care_sub_categories HomeCareSubCategory[]
+
+  @@map("home_care_super_categories")
+}
+
+model HomeCareSubCategory {
+  id                 String                     @id
+  super_id           String
+  name               String                     @unique(map: "home_care_sub_categories_unique_name")
+  specialized_fields HomeCareSpecializedField[]
+  super              HomeCareSuperCategory      @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "home_care_sub_categories_fkey")
+
+  @@map("home_care_sub_categories")
+}
+
+model RealEstateSpecializedField {
+  id                       String                @id
+  sub_category_id          String
+  agent_id                 String
+  agent                    RealEstateAgent       @relation(fields: [agent_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "real_estate_specialized_fields_agent_fkey")
+  real_estate_sub_category RealEstateSubCategory @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "real_estate_specialized_fields_category_fkey")
+
+  @@unique([sub_category_id, agent_id], map: "real_estate_specialized_fields_unique")
+  @@map("real_estate_specialized_fields")
+}
+
+model RealEstateSuperCategory {
+  id                         String                  @id
+  name                       String                  @unique(map: "real_estate_super_categories_unique_name")
+  real_estate_sub_categories RealEstateSubCategory[]
+
+  @@map("real_estate_super_categories")
+}
+
+model RealEstateSubCategory {
+  id                             String                       @id
+  super_id                       String
+  name                           String                       @unique(map: "real_estate_sub_categories_unique_name")
+  real_estate_specialized_fields RealEstateSpecializedField[]
+  super                          RealEstateSuperCategory      @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "real_estate_sub_categories_fkey")
+
+  @@map("real_estate_sub_categories")
+}

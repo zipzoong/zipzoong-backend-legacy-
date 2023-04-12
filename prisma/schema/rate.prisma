@@ -1,0 +1,31 @@
+model BusinessRateCategory {
+  id    String         @id
+  name  String         @unique(map: "business_rate_categories_unique_name")
+  rates BusinessRate[]
+
+  @@map("business_rate_categories")
+}
+
+model BusinessRate {
+  id          String               @id
+  category_id String
+  business_id String
+  rater_id    String
+  rate        Int                  @db.SmallInt
+  business    BusinessUser         @relation(fields: [business_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_business_fkey")
+  category    BusinessRateCategory @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_category_fkey")
+  rater       Customer             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_rater_fkey")
+
+  @@map("business_rate")
+}
+
+model BusinessReview {
+  id          String       @id
+  business_id String
+  reviewer_id String
+  content     String
+  business    BusinessUser @relation(fields: [business_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_reviews_business_fkey")
+  reviewer    Customer     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_reviews_reviewer_fkey")
+
+  @@map("business_reviews")
+}

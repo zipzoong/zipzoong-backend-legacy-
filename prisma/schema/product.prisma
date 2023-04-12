@@ -1,0 +1,9 @@
+model BusinessItem {
+  id         String       @id
+  manager_id String
+  name       String
+  main_image String
+  manager    BusinessUser @relation(fields: [manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_items_manager_fkey")
+
+  @@map("business_items")
+}
