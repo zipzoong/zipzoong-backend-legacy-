@@ -8,7 +8,7 @@ import { LoggerInterceptor } from "./interceptor/logger.interceptor";
   providers: [
     { provide: APP_FILTER, useClass: AllExceptionFilter },
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
-    { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor } // first
+    { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor }
   ]
 })
 export class InfraModule {}

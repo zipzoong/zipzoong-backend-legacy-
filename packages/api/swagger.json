@@ -11,16 +11,18 @@
     "title": "Zipzoong REST API Doc"
   },
   "paths": {
-    "/sign-in/oauth": {
+    "/customers": {
       "post": {
-        "tags": [],
+        "tags": [
+          "customers"
+        ],
         "parameters": [],
         "requestBody": {
-          "description": "oauth code & oauth type",
+          "description": "일반 고객 생성 정보",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IAccessor.IOauthSignIn"
+                "$ref": "#/components/schemas/ICustomer.ICreate"
               }
             }
           },
@@ -29,20 +31,39 @@
         },
         "responses": {
           "201": {
-            "description": "사용자 인증 정보",
+            "description": "일반 고객 정보",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IAccessor"
+                  "$ref": "#/components/schemas/ICustomer"
                 }
               }
             },
             "x-nestia-encrypted": false
           }
         },
-        "description": "oauth 로그인 API",
-        "x-nestia-namespace": "sign-in.oauth.signIn",
+        "summary": "일반 고객 생성 API",
+        "description": "",
+        "x-nestia-namespace": "customers.create",
         "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "일반 고객 생성 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "customers",
+                "kind": "text"
+              }
+            ]
+          },
           {
             "name": "param",
             "text": [
@@ -55,16 +76,97 @@
                 "kind": "space"
               },
               {
-                "text": "oauth code & oauth type",
+                "text": "일반 고객 생성 정보",
                 "kind": "text"
               }
             ]
           },
           {
-            "name": "returns",
+            "name": "return",
             "text": [
               {
-                "text": "사용자 인증 정보",
+                "text": "일반 고객 정보",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/customers/{customer_id}": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "path",
+            "description": "일반 고객 ID",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "일반 고객 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ICustomer"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "일반 고객 조회 API",
+        "description": "",
+        "x-nestia-namespace": "customers.find",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "일반 고객 조회 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "customers",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "customer_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "일반 고객 ID",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "일반 고객 정보",
                 "kind": "text"
               }
             ]
@@ -75,48 +177,174 @@
   },
   "components": {
     "schemas": {
-      "IAccessor.IOauthSignIn": {
+      "ICustomer.ICreate": {
         "type": "object",
         "properties": {
-          "oauth_type": {
+          "type": {
             "type": "string",
             "enum": [
-              "google"
+              "customer"
             ],
             "nullable": false,
             "x-typia-required": true
           },
-          "code": {
+          "birth": {
             "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "customer"
+            ],
             "nullable": false,
             "x-typia-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "oauth_type",
-          "code"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IAccessor": {
-        "type": "object",
-        "properties": {
-          "access_token": {
+          },
+          "name": {
             "type": "string",
             "nullable": false,
             "x-typia-required": true
           },
-          "refresh_token": {
+          "email": {
             "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "email_verified": {
+            "type": "boolean",
             "nullable": false,
+            "x-typia-required": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "phone_verified": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "address_first": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "address_second": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "profile_image": {
+            "type": "string",
+            "nullable": true,
             "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
-          "access_token",
-          "refresh_token"
+          "type",
+          "birth",
+          "gender",
+          "user_type",
+          "name",
+          "email",
+          "email_verified",
+          "phone",
+          "phone_verified",
+          "address_first",
+          "address_second",
+          "profile_image"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "ICustomer": {
+        "type": "object",
+        "properties": {
+          "birth": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "customer"
+            ],
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "email_verified": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "phone_verified": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "address_first": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "address_second": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          },
+          "profile_image": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "birth",
+          "gender",
+          "user_type",
+          "id",
+          "name",
+          "email",
+          "email_verified",
+          "phone",
+          "phone_verified",
+          "address_first",
+          "address_second",
+          "profile_image"
         ],
         "x-typia-jsDocTags": []
       }
