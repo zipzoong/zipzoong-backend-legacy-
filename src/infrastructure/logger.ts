@@ -9,6 +9,8 @@ export namespace Logger {
   };
   export const Console = new ConsoleLogger();
 
+  Console.setLogLevels(["debug", "error", "log", "verbose", "warn"]);
+
   export const get = (): LoggerService => {
     switch (Configuration.NODE_ENV) {
       case "development":

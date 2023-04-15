@@ -1,0 +1,56 @@
+model Board {
+  id   String @id
+  name String @unique
+
+  articles BoardArticle[]
+
+  @@map("boards")
+}
+
+model BoardArticle {
+  id        String @id
+  title     String
+  author_id String
+  board_id  String
+
+  author   User                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  board    Board                 @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contents BoardArticleContent[]
+  comments BoardComment[]
+
+  @@map("board_articles")
+}
+
+model BoardArticleContent {
+  id         String   @id
+  text       String
+  created_at DateTime @db.Timestamptz
+  article_id String
+
+  article BoardArticle @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("board_article_contents")
+}
+
+model BoardComment {
+  id         String @id
+  author_id  String
+  article_id String
+
+  author   User                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article  BoardArticle          @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contents BoardCommentContent[]
+
+  @@map("board_comments")
+}
+
+model BoardCommentContent {
+  id         String   @id
+  text       String
+  created_at DateTime @db.Timestamptz
+  comment_id String
+
+  comment BoardComment @relation(fields: [comment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("board_comment_contents")
+}

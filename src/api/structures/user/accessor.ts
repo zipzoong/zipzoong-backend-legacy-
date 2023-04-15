@@ -1,23 +1,19 @@
+import { IUser } from "./user";
+
 export interface IAccessor {
-  readonly access_token: string;
-  readonly refresh_token: string;
+  readonly id: string;
+  readonly oauth_type: IAccessor.OuathType;
+  readonly oauth_sub: string;
+  readonly business_user_id: string | null;
+  readonly customer_id: string | null;
 }
 
 export namespace IAccessor {
-  export type OuathType = "google";
-
-  export interface IOauthProfile {
-    readonly oauth_type: OuathType;
-    readonly name: string;
-    /**
-     * @format email
-     */
-    readonly email: string;
-    readonly sub: string;
-  }
+  export type OuathType = "kakao" | "naver";
 
   export interface IOauthSignIn {
     readonly oauth_type: OuathType;
+    readonly user_type: IUser.Type;
     readonly code: string;
   }
 }

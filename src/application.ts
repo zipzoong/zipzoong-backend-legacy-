@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { Configuration } from "./infrastructure/config";
 import { InfraModule } from "./infrastructure/infra.module";
+import { KakaoStrategy } from "@APP/user/auth/strategy/kakao.strategy";
 
 export namespace Backend {
   export const start = async (
@@ -15,7 +16,8 @@ export namespace Backend {
 
     const app = await NestFactory.create(
       await DynamicModule.mount(`${__dirname}/controllers`, {
-        imports: [InfraModule]
+        imports: [InfraModule],
+        providers: [{ provide: "kakao", useClass: KakaoStrategy }]
       }),
       options
     );

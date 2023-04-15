@@ -1,0 +1,39 @@
+model HomeCareSpecializedSuperField {
+  id   String @id
+  name String @unique
+
+  sub HomeCareSpecializedSubField[]
+
+  @@map("home_care_specialized_super_fields")
+}
+
+model HomeCareSpecializedSubField {
+  id       String @id
+  name     String @unique
+  super_id String
+
+  super               HomeCareSpecializedSuperField @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  home_care_companies HomeCareCompany[]
+
+  @@map("home_care_specialized_sub_fields")
+}
+
+model RealEstateSpecializedSuperField {
+  id   String @id
+  name String @unique
+
+  sub RealEstateSpecializedSubField[]
+
+  @@map("real_estate_specialized_super_fields")
+}
+
+model RealEstateSpecializedSubField {
+  id       String @id
+  name     String @unique
+  super_id String
+
+  super              RealEstateSpecializedSuperField @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  real_estate_agents RealEstateAgent[]
+
+  @@map("real_estate_specialized_sub_fields")
+}

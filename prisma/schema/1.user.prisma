@@ -1,0 +1,99 @@
+model Authentication {
+  id               String  @id
+  oauth_sub        String
+  oauth_type       String
+  business_user_id String?
+  customer_id      String?
+
+  business_user BusinessUser? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer      Customer?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([oauth_sub, oauth_type])
+  @@map("authentications")
+}
+
+model User {
+  id             String  @id
+  name           String
+  email          String?
+  email_verified Boolean
+  phone          String?
+  phone_verified Boolean
+  address_first  String?
+  address_second String?
+  profile_image  String?
+
+  customer       Customer?
+  business_user  BusinessUser?
+  board_articles BoardArticle[]
+  board_comments BoardComment[]
+
+  @@map("users")
+}
+
+model Customer {
+  id     String  @id
+  birth  String?
+  gender String?
+
+  user            User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  authentications Authentication[]
+  rates           BusinessRate[]
+  reviews         BusinessReview[]
+
+  @@map("customers")
+}
+
+model BusinessUser {
+  id                   String  @id
+  is_verified          Boolean
+  introduction_title   String
+  introduction_content String
+
+  user              User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  authentications   Authentication[]
+  real_estate_agent RealEstateAgent?
+  home_care_company HomeCareCompany?
+  rates             BusinessRate[]
+  reviews           BusinessReview[]
+
+  @@map("business_users")
+}
+
+model RealEstateAgent {
+  id                   String  @id
+  is_licensed          Boolean
+  real_estate_num      String
+  real_estate_name     String
+  real_estate_phone    String
+  licensed_agent_name  String
+  specialized_field_id String
+
+  business          BusinessUser                  @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  specialized_field RealEstateSpecializedSubField @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  properties        RealEstateProperty[]
+
+  @@map("real_estate_agents")
+}
+
+model HomeCareCompany {
+  id                        String @id
+  business_registration_num String
+  specialized_field_id      String
+
+  business            BusinessUser                @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  specialized_field   HomeCareSpecializedSubField @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  introduction_images HomeCareIntroductionImage[]
+
+  @@map("home_care_companies")
+}
+
+model HomeCareIntroductionImage {
+  id         String @id
+  image_url  String
+  company_id String
+
+  company HomeCareCompany @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("home_care_introduction_images")
+}

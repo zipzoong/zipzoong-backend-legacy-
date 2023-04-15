@@ -5,9 +5,11 @@ import { throwIf } from "@UTIL";
 import { pipe } from "rxjs";
 import typia from "typia";
 import { GoogleStrategy } from "./strategy/google.strategy";
+import { KakaoStrategy } from "./strategy/kakao.strategy";
 
 export namespace AccessorService {
   const google = new GoogleStrategy();
+  const kakao = new KakaoStrategy();
 
   const signInGoogle = async (
     code: string
@@ -21,6 +23,10 @@ export namespace AccessorService {
       ),
       google.transform
     )(identity);
+  };
+
+  const signInKakao = async (code: string) => {
+    const { access_token, id_token } = await kakao.authorize(code);
   };
 
   export const signIn = async ({
