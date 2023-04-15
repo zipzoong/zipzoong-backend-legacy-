@@ -180,87 +180,100 @@
       "ICustomer.ICreate": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "customer"
-            ],
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "birth": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
-          },
-          "gender": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
-          },
           "user_type": {
             "type": "string",
             "enum": [
               "customer"
             ],
             "nullable": false,
+            "description": "사용자 타입\n\n- customer 일반 사용자\n- business 사업자",
             "x-typia-required": true
+          },
+          "birth": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "female",
+              "male",
+              "other"
+            ],
+            "nullable": false,
+            "x-typia-required": false
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "description": "이메일",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화번호",
+            "x-typia-required": false
+          },
+          "address_first": {
+            "type": "string",
+            "nullable": false,
+            "description": "1차 주소\n\n모든 사용자는 1차 주소를 입력해야 서비스를 이용할 수 있다.\n\n공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.",
+            "x-typia-required": false
+          },
+          "address_second": {
+            "type": "string",
+            "nullable": false,
+            "description": "2차 주소(상세 주소)",
+            "x-typia-required": false
+          },
+          "profile_image": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지",
+            "x-typia-required": false
           },
           "name": {
             "type": "string",
             "nullable": false,
-            "x-typia-required": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
+            "description": "이름",
+            "x-typia-required": false
           },
           "email_verified": {
             "type": "boolean",
             "nullable": false,
-            "x-typia-required": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
+            "description": "이메일 인증 여부\n\n비즈니스 사용자는 이메일 인증 완료 후 서비스를 이용할 수 있다.",
+            "x-typia-required": false
           },
           "phone_verified": {
             "type": "boolean",
             "nullable": false,
-            "x-typia-required": true
-          },
-          "address_first": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
-          },
-          "address_second": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
-          },
-          "profile_image": {
-            "type": "string",
-            "nullable": true,
-            "x-typia-required": true
+            "description": "전화번호 인증 여부\n\n비즈니스 사용자는 전화번호 인증 완료 후 서비스를 이용할 수 있다.",
+            "x-typia-required": false
           }
         },
         "nullable": false,
         "required": [
-          "type",
-          "birth",
-          "gender",
-          "user_type",
-          "name",
-          "email",
-          "email_verified",
-          "phone",
-          "phone_verified",
-          "address_first",
-          "address_second",
-          "profile_image"
+          "user_type"
         ],
         "x-typia-jsDocTags": []
       },
@@ -270,11 +283,36 @@
           "birth": {
             "type": "string",
             "nullable": true,
-            "x-typia-required": true
+            "description": "생년월일\n\nYYMMDD",
+            "x-typia-metaTags": [
+              {
+                "kind": "pattern",
+                "value": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "pattern": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$"
           },
           "gender": {
             "type": "string",
+            "enum": [
+              "female",
+              "male",
+              "other"
+            ],
             "nullable": true,
+            "description": "성별\n\n- female 여성\n- male 남성\n- other 기타",
             "x-typia-required": true
           },
           "user_type": {
@@ -283,51 +321,97 @@
               "customer"
             ],
             "nullable": false,
+            "description": "사용자 타입\n\n- customer 일반 사용자\n- business 사업자",
             "x-typia-required": true
           },
           "id": {
             "type": "string",
             "nullable": false,
-            "x-typia-required": true
+            "description": "사용자 id",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "uuid"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "uuid",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "uuid"
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "이름",
             "x-typia-required": true
           },
           "email": {
             "type": "string",
             "nullable": true,
-            "x-typia-required": true
+            "description": "이메일",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "email"
           },
           "email_verified": {
             "type": "boolean",
             "nullable": false,
+            "description": "이메일 인증 여부\n\n비즈니스 사용자는 이메일 인증 완료 후 서비스를 이용할 수 있다.",
             "x-typia-required": true
           },
           "phone": {
             "type": "string",
             "nullable": true,
+            "description": "전화번호",
             "x-typia-required": true
           },
           "phone_verified": {
             "type": "boolean",
             "nullable": false,
+            "description": "전화번호 인증 여부\n\n비즈니스 사용자는 전화번호 인증 완료 후 서비스를 이용할 수 있다.",
             "x-typia-required": true
           },
           "address_first": {
             "type": "string",
             "nullable": true,
+            "description": "1차 주소\n\n모든 사용자는 1차 주소를 입력해야 서비스를 이용할 수 있다.\n\n공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.",
             "x-typia-required": true
           },
           "address_second": {
             "type": "string",
             "nullable": true,
+            "description": "2차 주소(상세 주소)",
             "x-typia-required": true
           },
           "profile_image": {
             "type": "string",
             "nullable": true,
+            "description": "프로필 이미지",
             "x-typia-required": true
           }
         },

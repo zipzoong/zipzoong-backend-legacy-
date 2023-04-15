@@ -1,4 +1,5 @@
-import { ICustomer } from "@DTO/user/customer";
+import { CustomerService } from "@APP/user";
+import { ICustomer } from "@DTO/user";
 import { TypedBody, TypedParam } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";
 
@@ -12,7 +13,7 @@ export class CustomerController {
    */
   @Post()
   create(@TypedBody() body: ICustomer.ICreate): Promise<ICustomer> {
-    throw Error("Function is not Implemented.");
+    return CustomerService.create(body);
   }
 
   /**
@@ -20,9 +21,11 @@ export class CustomerController {
    * @tag customers
    * @param customer_id 일반 고객 ID
    * @return 일반 고객 정보
+   * @throw 400 Not Found
+   * @throw 412 Unprocessable Entity
    */
   @Get(":customer_id")
   find(@TypedParam("customer_id") customer_id: string): Promise<ICustomer> {
-    throw Error("Function is not Implemented.");
+    return CustomerService.find(customer_id);
   }
 }

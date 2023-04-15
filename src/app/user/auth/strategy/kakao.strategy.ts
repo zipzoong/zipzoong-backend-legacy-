@@ -1,12 +1,10 @@
 import { Kakao, StrategyException } from "@devts/nestjs-auth";
 import { OAUTH_PROFILE } from "./oauth.profile.key";
-import { IAccessor } from "@DTO/user/accessor";
 import { Configuration } from "@INFRA/config";
 import { UnauthorizedException } from "@nestjs/common";
 
 export class KakaoStrategy extends Kakao.AbstractStrategy<
-  typeof OAUTH_PROFILE,
-  IAccessor.IOauthProfile
+  typeof OAUTH_PROFILE
 > {
   constructor() {
     super({
@@ -37,7 +35,7 @@ export class KakaoStrategy extends Kakao.AbstractStrategy<
   override validate(): boolean {
     throw new Error("Method not implemented.");
   }
-  override transform(): IAccessor.IOauthProfile {
+  override transform(): Kakao.KakaoAccount {
     throw new Error("Method not implemented.");
   }
 }

@@ -5,6 +5,7 @@ import { IConnection } from "@nestia/fetcher";
 import { createWriteStream } from "fs";
 import path from "path";
 import stripAnsi from "strip-ansi";
+import { internal } from "./internal";
 
 const logger = createWriteStream(path.join(__dirname, "./../../test_log.md"), {
   flags: "w"
@@ -35,6 +36,8 @@ async function run(): Promise<void> {
     prefix: "test",
     parameters: () => [connection]
   })(__dirname + "/features");
+
+  await internal.truncate();
 
   await Backend.end(app);
 

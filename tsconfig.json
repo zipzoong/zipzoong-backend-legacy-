@@ -32,6 +32,7 @@
       "@APP": ["src/application"],
       "@INFRA/*": ["src/infrastructure/*"],
       "@DTO/*": ["src/api/structures/*"],
+      "@SDK":["src/api/functional"],
       "@UTIL": ["src/utils"],
       "@APP/*":["src/app/*"],
       "@TYPE":["src/api/types"]
