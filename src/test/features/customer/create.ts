@@ -1,5 +1,5 @@
-import { ICustomer } from "@DTO/user";
 import { customers } from "@SDK";
+import { ICustomer } from "@DTO/user";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import typia from "typia";
