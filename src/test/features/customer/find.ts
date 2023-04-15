@@ -29,7 +29,7 @@ export const test_customers_not_found = async (connection: IConnection) =>
     internal.test_error((id: string) => customers.find(connection, id))(
       (err) => {
         assert.strictEqual(err.status, HttpStatus.NOT_FOUND);
-        assert.strictEqual(err.message, "User Not Found");
+        assert.strictEqual(err.message, "Customer Not Found");
       }
     )
   );

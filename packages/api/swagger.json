@@ -121,6 +121,12 @@
               }
             },
             "x-nestia-encrypted": false
+          },
+          "400": {
+            "description": "Customer Not Found"
+          },
+          "412": {
+            "description": "Unprocessable Entity"
           }
         },
         "summary": "일반 고객 조회 API",
@@ -167,6 +173,24 @@
             "text": [
               {
                 "text": "일반 고객 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "400 Customer Not Found",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "412 Unprocessable Entity",
                 "kind": "text"
               }
             ]

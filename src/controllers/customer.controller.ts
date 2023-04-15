@@ -21,7 +21,7 @@ export class CustomerController {
    * @tag customers
    * @param customer_id 일반 고객 ID
    * @return 일반 고객 정보
-   * @throw 400 Not Found
+   * @throw 400 Customer Not Found
    * @throw 412 Unprocessable Entity
    */
   @Get(":customer_id")

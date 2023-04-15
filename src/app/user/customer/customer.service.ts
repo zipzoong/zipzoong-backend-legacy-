@@ -48,12 +48,12 @@ export namespace CustomerService {
     ]);
 
     if (isNull(customerModel) || isNull(userModel))
-      throw new NotFoundException("User Not Found");
+      throw new NotFoundException("Customer Not Found");
 
     const customer = CustomerInternal.toCustomer(userModel, customerModel);
 
     if (isNull(customer))
-      throw new UnprocessableEntityException("해당 정보에 이상이 있습니다.");
+      throw new UnprocessableEntityException("Unprocessable Entity");
 
     return customer;
   };

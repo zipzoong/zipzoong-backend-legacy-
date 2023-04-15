@@ -62,6 +62,8 @@ export namespace create
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param customer_id 일반 고객 ID
  * @return 일반 고객 정보
+ * @throw 400 Customer Not Found
+ * @throw 412 Unprocessable Entity
  * 
  * @controller CustomerController.find()
  * @path GET /customers/:customer_id
