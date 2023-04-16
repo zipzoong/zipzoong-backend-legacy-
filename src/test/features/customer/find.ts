@@ -1,4 +1,3 @@
-import { internal } from "src/test/internal";
 import { customers } from "@SDK";
 import { ICustomer } from "@DTO/user";
 import { ArrayUtil } from "@nestia/e2e";
@@ -7,6 +6,7 @@ import assert from "assert";
 import typia from "typia";
 import { randomUUID } from "crypto";
 import { HttpStatus } from "@nestjs/common";
+import { internal } from "@TEST/internal";
 
 export const test_customers_find_success = async (connection: IConnection) => {
   const seed = await ArrayUtil.asyncRepeat(5, () => {

@@ -7,21 +7,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model Authentication {
+
+model AuthenticationModel {
   id               String  @id
   oauth_sub        String
   oauth_type       String
   business_user_id String?
   customer_id      String?
 
-  business_user BusinessUser? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer      Customer?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  business_user BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer      CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([oauth_sub, oauth_type])
   @@map("authentications")
 }
 
-model User {
+model UserModel {
   id             String  @id
   name           String
   email          String?
@@ -32,216 +33,220 @@ model User {
   address_second String?
   profile_image  String?
 
-  customer       Customer?
-  business_user  BusinessUser?
-  board_articles BoardArticle[]
-  board_comments BoardComment[]
+  customer       CustomerModel?
+  business_user  BusinessUserModel?
+  board_articles BoardArticleModel[]
+  board_comments BoardCommentModel[]
 
   @@map("users")
 }
 
-model Customer {
+model CustomerModel {
   id     String  @id
   birth  String?
   gender String?
 
-  user            User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  authentications Authentication[]
-  rates           BusinessRate[]
-  reviews         BusinessReview[]
+  user            UserModel             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  authentications AuthenticationModel[]
+  rates           BusinessRateModel[]
+  reviews         BusinessReviewModel[]
 
   @@map("customers")
 }
 
-model BusinessUser {
+model BusinessUserModel {
   id                   String  @id
   is_verified          Boolean
   introduction_title   String
   introduction_content String
 
-  user              User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  authentications   Authentication[]
-  real_estate_agent RealEstateAgent?
-  home_care_company HomeCareCompany?
-  rates             BusinessRate[]
-  reviews           BusinessReview[]
+  user              UserModel             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  authentications   AuthenticationModel[]
+  real_estate_agent RealEstateAgentModel?
+  home_care_company HomeCareCompanyModel?
+  rates             BusinessRateModel[]
+  reviews           BusinessReviewModel[]
 
   @@map("business_users")
 }
 
-model RealEstateAgent {
+model RealEstateAgentModel {
   id                   String  @id
   is_licensed          Boolean
   real_estate_num      String
   real_estate_name     String
   real_estate_phone    String
   licensed_agent_name  String
-  specialized_field_id String
+  specialized_field_id String?
 
-  business          BusinessUser                  @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  specialized_field RealEstateSpecializedSubField @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  properties        RealEstateProperty[]
+  business          BusinessUserModel                   @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  specialized_field RealEstateSpecializedSubFieldModel? @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  properties        RealEstatePropertyModel[]
 
   @@map("real_estate_agents")
 }
 
-model HomeCareCompany {
-  id                        String @id
+model HomeCareCompanyModel {
+  id                        String  @id
   business_registration_num String
-  specialized_field_id      String
+  specialized_field_id      String?
 
-  business            BusinessUser                @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  specialized_field   HomeCareSpecializedSubField @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  introduction_images HomeCareIntroductionImage[]
+  business            BusinessUserModel                 @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  specialized_field   HomeCareSpecializedSubFieldModel? @relation(fields: [specialized_field_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  introduction_images HomeCareIntroductionImageModel[]
 
   @@map("home_care_companies")
 }
 
-model HomeCareIntroductionImage {
+model HomeCareIntroductionImageModel {
   id         String @id
   image_url  String
   company_id String
 
-  company HomeCareCompany @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  company HomeCareCompanyModel @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("home_care_introduction_images")
 }
-model RealEstateProperty {
+
+model RealEstatePropertyModel {
   id             String @id
   name           String
   main_image_url String
   agent_id       String
 
-  agent RealEstateAgent @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agent RealEstateAgentModel @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("real_estate_properties")
 }
-model HomeCareSpecializedSuperField {
+
+model HomeCareSpecializedSuperFieldModel {
   id   String @id
   name String @unique
 
-  sub HomeCareSpecializedSubField[]
+  sub HomeCareSpecializedSubFieldModel[]
 
   @@map("home_care_specialized_super_fields")
 }
 
-model HomeCareSpecializedSubField {
+model HomeCareSpecializedSubFieldModel {
   id       String @id
   name     String @unique
   super_id String
 
-  super               HomeCareSpecializedSuperField @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  home_care_companies HomeCareCompany[]
+  super               HomeCareSpecializedSuperFieldModel @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  home_care_companies HomeCareCompanyModel[]
 
   @@map("home_care_specialized_sub_fields")
 }
 
-model RealEstateSpecializedSuperField {
+model RealEstateSpecializedSuperFieldModel {
   id   String @id
   name String @unique
 
-  sub RealEstateSpecializedSubField[]
+  sub RealEstateSpecializedSubFieldModel[]
 
   @@map("real_estate_specialized_super_fields")
 }
 
-model RealEstateSpecializedSubField {
+model RealEstateSpecializedSubFieldModel {
   id       String @id
   name     String @unique
   super_id String
 
-  super              RealEstateSpecializedSuperField @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  real_estate_agents RealEstateAgent[]
+  super              RealEstateSpecializedSuperFieldModel @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  real_estate_agents RealEstateAgentModel[]
 
   @@map("real_estate_specialized_sub_fields")
 }
-model BusinessRate {
+
+model BusinessRateModel {
   id          String @id
   category_id String
   ratee_id    String
   rater_id    String
   rate        Int    @db.SmallInt
 
-  ratee    BusinessUser         @relation(fields: [ratee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  rater    Customer             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  category BusinessRateCategory @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ratee    BusinessUserModel         @relation(fields: [ratee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rater    CustomerModel             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category BusinessRateCategoryModel @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("business_rates")
 }
 
-model BusinessRateCategory {
+model BusinessRateCategoryModel {
   id   String @id
   name String @unique
 
-  rates BusinessRate[]
+  rates BusinessRateModel[]
 
   @@map("business_rate_categories")
 }
 
-model BusinessReview {
+model BusinessReviewModel {
   id          String @id
   reviewee_id String
   reviewer_id String
   review      String
 
-  reviewee BusinessUser @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  reviewer Customer     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviewee BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviewer CustomerModel     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("business_reviews")
 }
-model Board {
+
+model BoardModel {
   id   String @id
   name String @unique
 
-  articles BoardArticle[]
+  articles BoardArticleModel[]
 
   @@map("boards")
 }
 
-model BoardArticle {
+model BoardArticleModel {
   id        String @id
   title     String
   author_id String
   board_id  String
 
-  author   User                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  board    Board                 @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  contents BoardArticleContent[]
-  comments BoardComment[]
+  author   UserModel                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  board    BoardModel                 @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contents BoardArticleContentModel[]
+  comments BoardCommentModel[]
 
   @@map("board_articles")
 }
 
-model BoardArticleContent {
+model BoardArticleContentModel {
   id         String   @id
   text       String
   created_at DateTime @db.Timestamptz
   article_id String
 
-  article BoardArticle @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article BoardArticleModel @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("board_article_contents")
 }
 
-model BoardComment {
+model BoardCommentModel {
   id         String @id
   author_id  String
   article_id String
 
-  author   User                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  article  BoardArticle          @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  contents BoardCommentContent[]
+  author   UserModel                  @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article  BoardArticleModel          @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contents BoardCommentContentModel[]
 
   @@map("board_comments")
 }
 
-model BoardCommentContent {
+model BoardCommentContentModel {
   id         String   @id
   text       String
   created_at DateTime @db.Timestamptz
   comment_id String
 
-  comment BoardComment @relation(fields: [comment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  comment BoardCommentModel @relation(fields: [comment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("board_comment_contents")
 }

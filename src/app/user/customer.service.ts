@@ -5,14 +5,14 @@ import {
   NotFoundException,
   UnprocessableEntityException
 } from "@nestjs/common";
-import { CustomerInternal } from "./customer.internal";
+import { Customer } from "./customer.core";
 
 export namespace CustomerService {
   export const create = async (body: ICustomer.ICreate): Promise<ICustomer> => {
-    const customer = CustomerInternal.createCustomer(body);
+    const customer = Customer.create(body);
 
     await prisma.$transaction([
-      prisma.user.create({
+      prisma.userModel.create({
         data: {
           id: customer.id,
           name: customer.name,
@@ -27,7 +27,7 @@ export namespace CustomerService {
           profile_image: customer.profile_image
         }
       }),
-      prisma.customer.create({
+      prisma.customerModel.create({
         data: {
           id: customer.id,
           birth: customer.birth,
@@ -40,17 +40,17 @@ export namespace CustomerService {
   };
 
   export const find = async (customer_id: string): Promise<ICustomer> => {
-    const [customerModel, userModel] = await prisma.$transaction([
-      prisma.customer.findFirst({
+    const [userModel, customerModel] = await prisma.$transaction([
+      prisma.userModel.findFirst({ where: { id: customer_id } }),
+      prisma.customerModel.findFirst({
         where: { id: customer_id }
-      }),
-      prisma.user.findFirst({ where: { id: customer_id } })
+      })
     ]);
 
-    if (isNull(customerModel) || isNull(userModel))
+    if (isNull(userModel) || isNull(customerModel)) {
       throw new NotFoundException("Customer Not Found");
-
-    const customer = CustomerInternal.toCustomer(userModel, customerModel);
+    }
+    const customer = Customer.map(userModel, customerModel);
 
     if (isNull(customer))
       throw new UnprocessableEntityException("Unprocessable Entity");

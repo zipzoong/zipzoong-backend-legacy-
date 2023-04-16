@@ -64,8 +64,9 @@ export namespace IUser {
     readonly profile_image: string | null;
   }
 
-  export interface ICreate extends Mutable<Partial<Omit<IBase, "id">>> {
-    user_type: Type;
+  export interface ICreate<T extends Type = Type>
+    extends Mutable<Partial<Omit<IBase, "id">>> {
+    user_type: T;
     email?: string;
     phone?: string;
     address_first?: string;

@@ -1,34 +1,34 @@
-model BusinessRate {
+model BusinessRateModel {
   id          String @id
   category_id String
   ratee_id    String
   rater_id    String
   rate        Int    @db.SmallInt
 
-  ratee    BusinessUser         @relation(fields: [ratee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  rater    Customer             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  category BusinessRateCategory @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ratee    BusinessUserModel         @relation(fields: [ratee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rater    CustomerModel             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category BusinessRateCategoryModel @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("business_rates")
 }
 
-model BusinessRateCategory {
+model BusinessRateCategoryModel {
   id   String @id
   name String @unique
 
-  rates BusinessRate[]
+  rates BusinessRateModel[]
 
   @@map("business_rate_categories")
 }
 
-model BusinessReview {
+model BusinessReviewModel {
   id          String @id
   reviewee_id String
   reviewer_id String
   review      String
 
-  reviewee BusinessUser @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  reviewer Customer     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviewee BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviewer CustomerModel     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("business_reviews")
 }

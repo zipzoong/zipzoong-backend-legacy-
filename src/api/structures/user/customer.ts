@@ -19,8 +19,7 @@ export interface ICustomer extends IUser.IBase<"customer"> {
 }
 
 export namespace ICustomer {
-  export interface ICreate extends IUser.ICreate {
-    user_type: "customer";
+  export interface ICreate extends IUser.ICreate<"customer"> {
     birth?: string;
     gender?: "female" | "male" | "other";
   }

@@ -51,7 +51,7 @@ CREATE TABLE "real_estate_agents" (
     "real_estate_name" TEXT NOT NULL,
     "real_estate_phone" TEXT NOT NULL,
     "licensed_agent_name" TEXT NOT NULL,
-    "specialized_field_id" TEXT NOT NULL,
+    "specialized_field_id" TEXT,
 
     CONSTRAINT "real_estate_agents_pkey" PRIMARY KEY ("id")
 );
@@ -60,7 +60,7 @@ CREATE TABLE "real_estate_agents" (
 CREATE TABLE "home_care_companies" (
     "id" TEXT NOT NULL,
     "business_registration_num" TEXT NOT NULL,
-    "specialized_field_id" TEXT NOT NULL,
+    "specialized_field_id" TEXT,
 
     CONSTRAINT "home_care_companies_pkey" PRIMARY KEY ("id")
 );

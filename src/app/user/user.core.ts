@@ -1,10 +1,10 @@
-import { ICustomer, IUser } from "@DTO/user";
-import { Customer, User } from "@PRISMA";
 import { randomUUID } from "crypto";
-import typia from "typia";
+import { IUser } from "@DTO/user";
 
-export namespace CustomerInternal {
-  export const createUser = (input: IUser.ICreate): IUser.IBase => {
+export namespace User {
+  export const create = <T extends IUser.Type = IUser.Type>(
+    input: IUser.ICreate<T>
+  ): IUser.IBase<T> => {
     const {
       user_type,
       name,
@@ -18,8 +18,8 @@ export namespace CustomerInternal {
     } = input;
 
     return {
-      user_type,
       id: randomUUID(),
+      user_type,
       name: name ?? "",
       email: email ?? null,
       // email is nullish or email_verified is nullish
@@ -34,30 +34,5 @@ export namespace CustomerInternal {
         address_first == null || address_second == null ? null : address_second,
       profile_image: profile_image ?? null
     };
-  };
-
-  export const createCustomer = (input: ICustomer.ICreate): ICustomer => {
-    const user = createUser(input);
-    return {
-      ...user,
-      user_type: "customer",
-      birth: input.birth ?? null,
-      gender: input.gender ?? null
-    };
-  };
-
-  /**
-   * 만약 customer object를 생성할 수 없으면 null을 반환한다.
-   */
-  export const toCustomer = (
-    user: User,
-    customer: Customer
-  ): ICustomer | null => {
-    const union = {
-      ...user,
-      ...customer,
-      user_type: "customer"
-    };
-    return typia.is<ICustomer>(union) ? union : null;
   };
 }

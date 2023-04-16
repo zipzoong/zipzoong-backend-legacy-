@@ -1,10 +1,10 @@
-model RealEstateProperty {
+model RealEstatePropertyModel {
   id             String @id
   name           String
   main_image_url String
   agent_id       String
 
-  agent RealEstateAgent @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agent RealEstateAgentModel @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("real_estate_properties")
 }
