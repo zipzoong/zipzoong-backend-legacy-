@@ -56,7 +56,7 @@ export namespace RealEstateAgent {
       phone_verified: user.phone_verified,
       address_first: user.address_first,
       address_second: user.address_second,
-      profile_image: user.profile_image,
+      profile_image_url: user.profile_image_url,
       is_licensed: agent.is_licensed,
       real_estate_num: agent.real_estate_num,
       real_estate_name: agent.real_estate_name,

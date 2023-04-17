@@ -89,7 +89,7 @@ Prisma.NullTypes = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
-exports.Prisma.AuthenticationModelScalarFieldEnum = makeEnum({
+exports.Prisma.AccessorModelScalarFieldEnum = makeEnum({
   id: 'id',
   oauth_sub: 'oauth_sub',
   oauth_type: 'oauth_type',
@@ -100,8 +100,8 @@ exports.Prisma.AuthenticationModelScalarFieldEnum = makeEnum({
 exports.Prisma.BoardArticleContentModelScalarFieldEnum = makeEnum({
   id: 'id',
   text: 'text',
-  created_at: 'created_at',
-  article_id: 'article_id'
+  article_id: 'article_id',
+  created_at: 'created_at'
 });
 
 exports.Prisma.BoardArticleModelScalarFieldEnum = makeEnum({
@@ -114,8 +114,8 @@ exports.Prisma.BoardArticleModelScalarFieldEnum = makeEnum({
 exports.Prisma.BoardCommentContentModelScalarFieldEnum = makeEnum({
   id: 'id',
   text: 'text',
-  created_at: 'created_at',
-  comment_id: 'comment_id'
+  comment_id: 'comment_id',
+  created_at: 'created_at'
 });
 
 exports.Prisma.BoardCommentModelScalarFieldEnum = makeEnum({
@@ -129,6 +129,12 @@ exports.Prisma.BoardModelScalarFieldEnum = makeEnum({
   name: 'name'
 });
 
+exports.Prisma.BusinessCertificationModelScalarFieldEnum = makeEnum({
+  id: 'id',
+  business_user_id: 'business_user_id',
+  image_url: 'image_url'
+});
+
 exports.Prisma.BusinessRateCategoryModelScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name'
@@ -137,15 +143,15 @@ exports.Prisma.BusinessRateCategoryModelScalarFieldEnum = makeEnum({
 exports.Prisma.BusinessRateModelScalarFieldEnum = makeEnum({
   id: 'id',
   category_id: 'category_id',
-  ratee_id: 'ratee_id',
   rater_id: 'rater_id',
+  ratee_id: 'ratee_id',
   rate: 'rate'
 });
 
 exports.Prisma.BusinessReviewModelScalarFieldEnum = makeEnum({
   id: 'id',
-  reviewee_id: 'reviewee_id',
   reviewer_id: 'reviewer_id',
+  reviewee_id: 'reviewee_id',
   review: 'review'
 });
 
@@ -239,18 +245,11 @@ exports.Prisma.UserModelScalarFieldEnum = makeEnum({
   phone_verified: 'phone_verified',
   address_first: 'address_first',
   address_second: 'address_second',
-  profile_image: 'profile_image'
+  profile_image_url: 'profile_image_url'
 });
 
 
 exports.Prisma.ModelName = makeEnum({
-  AuthenticationModel: 'AuthenticationModel',
-  UserModel: 'UserModel',
-  CustomerModel: 'CustomerModel',
-  BusinessUserModel: 'BusinessUserModel',
-  RealEstateAgentModel: 'RealEstateAgentModel',
-  HomeCareCompanyModel: 'HomeCareCompanyModel',
-  HomeCareIntroductionImageModel: 'HomeCareIntroductionImageModel',
   RealEstatePropertyModel: 'RealEstatePropertyModel',
   HomeCareSpecializedSuperFieldModel: 'HomeCareSpecializedSuperFieldModel',
   HomeCareSpecializedSubFieldModel: 'HomeCareSpecializedSubFieldModel',
@@ -259,6 +258,14 @@ exports.Prisma.ModelName = makeEnum({
   BusinessRateModel: 'BusinessRateModel',
   BusinessRateCategoryModel: 'BusinessRateCategoryModel',
   BusinessReviewModel: 'BusinessReviewModel',
+  BusinessCertificationModel: 'BusinessCertificationModel',
+  AccessorModel: 'AccessorModel',
+  UserModel: 'UserModel',
+  CustomerModel: 'CustomerModel',
+  BusinessUserModel: 'BusinessUserModel',
+  RealEstateAgentModel: 'RealEstateAgentModel',
+  HomeCareCompanyModel: 'HomeCareCompanyModel',
+  HomeCareIntroductionImageModel: 'HomeCareIntroductionImageModel',
   BoardModel: 'BoardModel',
   BoardArticleModel: 'BoardArticleModel',
   BoardArticleContentModel: 'BoardArticleContentModel',

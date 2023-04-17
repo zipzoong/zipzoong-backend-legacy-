@@ -12,8 +12,9 @@
     "swagger": "NODE_ENV=development nestia swagger",
     "sdk": "rimraf ./src/api/functional && NODE_ENV=development nestia sdk && find ./src/api -type f -exec sed -i '' 's/\\r$//' {} \\;",
     "nestia": "npm run swagger ; npm run sdk",
-    "schema": "ls ./prisma/schema/*.prisma | xargs cat > ./prisma/schema.prisma",
-    "db:update": "rimraf db && npm run schema && prisma generate",
+    "db:sch": "ts-node prisma",
+    "db:update": "rimraf db && npm run db:sch && prisma generate",
+    "db:sync": "npm run db:update && rimraf prisma/migrations && prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:dashboard": "prisma studio"
   },
@@ -34,6 +35,7 @@
     "helmet": "^6.1.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "schemix": "^1.11.0",
     "typia": "^3.7.4"
   },
   "devDependencies": {
