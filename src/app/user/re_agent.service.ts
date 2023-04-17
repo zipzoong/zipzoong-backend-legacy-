@@ -1,7 +1,4 @@
-import {
-  IRealEstateAgent,
-  IUnVerifiedRealEstateAgent
-} from "@DTO/user/business";
+import { IRealEstateAgent } from "@DTO/user/business";
 import { prisma } from "@INFRA/DB";
 import { RealEstateAgent } from "./real_estate.core";
 import { isNull } from "@UTIL";
@@ -13,7 +10,7 @@ import {
 export namespace RealEstateAgentService {
   export const create = async (
     body: IRealEstateAgent.ICreate
-  ): Promise<IUnVerifiedRealEstateAgent> => {
+  ): Promise<IRealEstateAgent.IUnVerified> => {
     const agent = RealEstateAgent.create(body);
 
     await prisma.$transaction([
@@ -27,7 +24,7 @@ export namespace RealEstateAgentService {
           phone_verified: agent.phone_verified,
           address_first: agent.address_first,
           address_second: agent.address_second,
-          profile_image: agent.profile_image
+          profile_image_url: agent.profile_image_url
         }
       }),
       prisma.businessUserModel.create({
@@ -56,9 +53,7 @@ export namespace RealEstateAgentService {
     return agent;
   };
 
-  export const find = async (
-    re_id: string
-  ): Promise<IUnVerifiedRealEstateAgent | IRealEstateAgent> => {
+  export const find = async (re_id: string): Promise<IRealEstateAgent> => {
     const [userModel, businessModel, agentModel] = await prisma.$transaction([
       prisma.userModel.findFirst({ where: { id: re_id } }),
       prisma.businessUserModel.findFirst({ where: { id: re_id } }),

@@ -1,8 +1,5 @@
 import { RealEstateAgentService } from "@APP/user";
-import {
-  IRealEstateAgent,
-  IUnVerifiedRealEstateAgent
-} from "@DTO/user/business";
+import { IRealEstateAgent } from "@DTO/user/business";
 import { TypedBody, TypedParam } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";
 
@@ -17,7 +14,7 @@ export class RealEstateController {
   @Post()
   create(
     @TypedBody() body: IRealEstateAgent.ICreate
-  ): Promise<IUnVerifiedRealEstateAgent> {
+  ): Promise<IRealEstateAgent.IUnVerified> {
     return RealEstateAgentService.create(body);
   }
 
@@ -32,7 +29,7 @@ export class RealEstateController {
   @Get(":real_estate_id")
   find(
     @TypedParam("real_estate_id") real_estate_id: string
-  ): Promise<IUnVerifiedRealEstateAgent | IRealEstateAgent> {
+  ): Promise<IRealEstateAgent> {
     return RealEstateAgentService.find(real_estate_id);
   }
 }

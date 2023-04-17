@@ -29,7 +29,7 @@ export namespace IUser {
      *
      * @format email
      */
-    readonly email: string | null;
+    readonly email?: string;
     /**
      * 이메일 인증 여부
      *
@@ -39,7 +39,7 @@ export namespace IUser {
     /**
      * 전화번호
      */
-    readonly phone: string | null;
+    readonly phone?: string;
     /**
      * 전화번호 인증 여부
      *
@@ -53,24 +53,19 @@ export namespace IUser {
      *
      * 공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.
      */
-    readonly address_first: string | null;
+    readonly address_first?: string;
     /**
      * 2차 주소(상세 주소)
      */
-    readonly address_second: string | null;
+    readonly address_second?: string;
     /**
-     * 프로필 이미지
+     * 프로필 이미지 주소
      */
-    readonly profile_image: string | null;
+    readonly profile_image_url?: string;
   }
 
   export interface ICreate<T extends Type = Type>
     extends Mutable<Partial<Omit<IBase, "id">>> {
     user_type: T;
-    email?: string;
-    phone?: string;
-    address_first?: string;
-    address_second?: string;
-    profile_image?: string;
   }
 }

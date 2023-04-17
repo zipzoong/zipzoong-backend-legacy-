@@ -28,7 +28,7 @@ export namespace RealEstateAgent {
       phone_verified: base.phone_verified,
       address_first: base.address_first,
       address_second: base.address_second,
-      profile_image: base.profile_image,
+      profile_image_url: base.profile_image_url,
       is_verified: base.is_verified,
       introduction_title: base.introduction_title,
       introduction_content: base.introduction_content,
@@ -45,18 +45,17 @@ export namespace RealEstateAgent {
     user: UserModel,
     business: BusinessUserModel,
     agent: RealEstateAgentModel
-  ): IRealEstateAgent.IUnVerified | IRealEstateAgent.IVerified | null => {
-    const union = {
+  ): IRealEstateAgent | null => {
+    throw Error("");
+    /**
+    const union: IRealEstateAgent = {
       id: user.id,
       user_type: "business",
       name: user.name,
-      email: user.email,
       email_verified: user.email_verified,
-      phone: user.phone,
+
       phone_verified: user.phone_verified,
-      address_first: user.address_first,
-      address_second: user.address_second,
-      profile_image_url: user.profile_image_url,
+
       is_licensed: agent.is_licensed,
       real_estate_num: agent.real_estate_num,
       real_estate_name: agent.real_estate_name,
@@ -69,8 +68,7 @@ export namespace RealEstateAgent {
       introduction_content: business.introduction_content
     };
 
-    if (typia.is<IRealEstateAgent.IUnVerified>(union)) {
-      return union;
-    }
+    
+      */
   };
 }

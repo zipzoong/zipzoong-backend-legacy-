@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 import { IUser } from "@DTO/user";
+import { isUndefined } from "@UTIL";
 
 export namespace User {
   export const create = <T extends IUser.Type = IUser.Type>(
@@ -14,25 +15,28 @@ export namespace User {
       phone_verified,
       address_first,
       address_second,
-      profile_image
+      profile_image_url
     } = input;
 
     return {
       id: randomUUID(),
       user_type,
       name: name ?? "",
-      email: email ?? null,
-      // email is nullish or email_verified is nullish
       email_verified:
-        email == null || email_verified == null ? false : email_verified,
-      phone: phone ?? null,
-      // phone is nullish or phone_verified is nullish
+        isUndefined(email) || isUndefined(email_verified)
+          ? false
+          : email_verified,
       phone_verified:
-        phone == null || phone_verified == null ? false : phone_verified,
-      address_first: address_first ?? null,
-      address_second:
-        address_first == null || address_second == null ? null : address_second,
-      profile_image: profile_image ?? null
+        isUndefined(phone) || isUndefined(phone_verified)
+          ? false
+          : phone_verified,
+      ...(isUndefined(phone) ? {} : { phone }),
+      ...(isUndefined(email) ? {} : { email }),
+      ...(isUndefined(address_first) ? {} : { address_first }),
+      ...(isUndefined(address_second) || isUndefined(address_first)
+        ? {}
+        : { address_second }),
+      ...(isUndefined(profile_image_url) ? {} : { profile_image_url })
     };
   };
 }

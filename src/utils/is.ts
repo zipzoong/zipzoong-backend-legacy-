@@ -17,3 +17,6 @@ export const isNumber = (input: unknown): input is number =>
 
 export const isNumberArray = (input: unknown): input is number[] =>
   isArray(input) && isNumber(input);
+
+export const isNil = (input: unknown): input is null | undefined =>
+  isNull(input) || isUndefined(input);

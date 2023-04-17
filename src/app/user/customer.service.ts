@@ -24,7 +24,7 @@ export namespace CustomerService {
           phone_verified: customer.phone_verified,
           address_first: customer.address_first,
           address_second: customer.address_second,
-          profile_image: customer.profile_image
+          profile_image_url: customer.profile_image_url
         }
       }),
       prisma.customerModel.create({

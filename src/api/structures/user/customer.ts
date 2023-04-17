@@ -1,3 +1,4 @@
+import { Mutable, Omit } from "@TYPE";
 import { IUser } from "./user";
 
 export interface ICustomer extends IUser.IBase<"customer"> {
@@ -7,7 +8,7 @@ export interface ICustomer extends IUser.IBase<"customer"> {
    * YYMMDD
    * @pattern ^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$
    */
-  readonly birth: string | null;
+  readonly birth?: string;
   /**
    * 성별
    *
@@ -15,12 +16,12 @@ export interface ICustomer extends IUser.IBase<"customer"> {
    * - male 남성
    * - other 기타
    */
-  readonly gender: "female" | "male" | "other" | null;
+  readonly gender?: ICustomer.Gender;
 }
 
 export namespace ICustomer {
-  export interface ICreate extends IUser.ICreate<"customer"> {
-    birth?: string;
-    gender?: "female" | "male" | "other";
+  export type Gender = "female" | "male" | "other";
+  export interface ICreate extends Mutable<Omit<ICustomer, "id">> {
+    user_type: "customer";
   }
 }

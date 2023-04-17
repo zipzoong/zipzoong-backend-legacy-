@@ -4,8 +4,8 @@ export interface IAccessor {
   readonly id: string;
   readonly oauth_type: IAccessor.OuathType;
   readonly oauth_sub: string;
-  readonly business_user_id: string | null;
-  readonly customer_id: string | null;
+  readonly business_user_id?: string;
+  readonly customer_id?: string;
 }
 
 export namespace IAccessor {

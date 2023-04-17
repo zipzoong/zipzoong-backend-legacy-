@@ -18,7 +18,7 @@ export namespace Business {
       phone_verified: base.phone_verified,
       address_first: base.address_first,
       address_second: base.address_second,
-      profile_image: base.profile_image,
+      profile_image_url: base.profile_image_url,
       business_type: business_type,
       introduction_title: introduction_title ?? "",
       introduction_content: introduction_content ?? "",
