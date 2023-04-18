@@ -1,4 +1,10 @@
-import { IBusinessUser, ICustomer, IREAgent, IUser } from "@DTO/user";
+import {
+  IBusinessUser,
+  ICustomer,
+  IHSCompany,
+  IREAgent,
+  IUser
+} from "@DTO/user";
 import { prisma } from "@INFRA/DB";
 
 export namespace Mutation {
@@ -60,6 +66,19 @@ export namespace Mutation {
         }
       })
     ] as const;
+
+  export const createHSCompany = (input: IHSCompany) =>
+    [
+      ...createBusinessUser(input),
+      prisma.hSCompanyModel.create({
+        data: {
+          id: input.id,
+          business_num: input.business_num,
+          address_first: input.address.first,
+          address_second: input.address.second ?? undefined
+        }
+      })
+    ] as const;
 }
 
 export namespace Query {
@@ -82,5 +101,11 @@ export namespace Query {
     [
       ...findBusinessUser(id),
       prisma.rEAgentModel.findFirst({ where: { id } })
+    ] as const;
+
+  export const findHSCompany = (id: string) =>
+    [
+      ...findBusinessUser(id),
+      prisma.hSCompanyModel.findFirst({ where: { id } })
     ] as const;
 }

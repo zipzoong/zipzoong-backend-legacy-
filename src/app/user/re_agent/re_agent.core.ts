@@ -14,6 +14,7 @@ export namespace REAgent {
       is_licensed,
       real_estate
     } = input;
+
     return {
       ...base,
       business_type,
@@ -47,12 +48,7 @@ export namespace REAgent {
       id,
       name,
       phone,
-      email: isNull(email)
-        ? undefined
-        : {
-            email: email,
-            is_verified: email_verified
-          },
+      email: isNull(email) ? undefined : { email, is_verified: email_verified },
       created_at: getISOString(created_at),
       profile_image_url,
       introduction: {

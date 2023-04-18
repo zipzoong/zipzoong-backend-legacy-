@@ -5,4 +5,5 @@
  */
 //================================================================
 export * as customers from "./customers";
+export * as hs_companies from "./hs_companies";
 export * as re_agents from "./re_agents";

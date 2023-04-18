@@ -8,6 +8,8 @@ import { randomUUID } from "crypto";
 import { HttpStatus } from "@nestjs/common";
 import { internal } from "@TEST/internal";
 
+console.log("  - --");
+
 export const test_customers_find_success = async (connection: IConnection) => {
   const seed = await ArrayUtil.asyncRepeat(5, () => {
     const body = typia.random<ICustomer.ICreate>();

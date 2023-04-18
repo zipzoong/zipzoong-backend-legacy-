@@ -1,5 +1,5 @@
-import { IREAgent } from "@DTO/user";
-import { re_agents } from "@SDK";
+import { IHSCompany } from "@DTO/user";
+import { hs_companies } from "@SDK";
 import { internal } from "@TEST/internal";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
@@ -10,26 +10,28 @@ import typia from "typia";
 
 console.log("  - --");
 
-export const test_re_agents_find_success = async (connection: IConnection) => {
+export const test_hs_companies_find_success = async (
+  connection: IConnection
+) => {
   const seed = await ArrayUtil.asyncRepeat(5, () => {
-    const body = typia.random<IREAgent.ICreate>();
+    const body = typia.random<IHSCompany.ICreate>();
 
-    return re_agents.create(connection, body);
+    return hs_companies.create(connection, body);
   });
 
   const received = await ArrayUtil.asyncMap(
     seed.map((cu) => cu.id),
-    (id) => re_agents.find(connection, id)
+    (id) => hs_companies.find(connection, id)
   );
 
   assert.deepStrictEqual(received, seed);
 };
 
-export const test_re_agents_not_found = async (connection: IConnection) =>
+export const test_hs_companies_not_found = async (connection: IConnection) =>
   ArrayUtil.asyncForEach(
     new Array(5).fill(1).map(() => randomUUID()),
-    internal.test_error((id: string) => re_agents.find(connection, id))(
+    internal.test_error((id: string) => hs_companies.find(connection, id))(
       HttpStatus.NOT_FOUND,
-      "Real Estate Agent Not Found"
+      "Home Service Company Not Found"
     )
   );

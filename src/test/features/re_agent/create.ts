@@ -4,6 +4,8 @@ import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
+console.log("  - --");
+
 export const test_re_agents_create_success = async (
   connection: IConnection
 ) => {

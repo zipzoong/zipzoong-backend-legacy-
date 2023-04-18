@@ -63,7 +63,7 @@ export namespace create
  * @param re_agent_id 공인중개사 ID
  * @return 공인중개사 정보
  * @throw 400 Real Estate Agent Not Found
- * @throw 412 Unprocessable Entity
+ * @throw 422 Unprocessable Entity
  * 
  * @controller REAgentController.find()
  * @path GET /re-agents/:re_agent_id

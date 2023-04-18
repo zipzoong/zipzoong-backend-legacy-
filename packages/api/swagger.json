@@ -125,7 +125,7 @@
           "400": {
             "description": "Customer Not Found"
           },
-          "412": {
+          "422": {
             "description": "Unprocessable Entity"
           }
         },
@@ -190,7 +190,194 @@
             "name": "throw",
             "text": [
               {
-                "text": "412 Unprocessable Entity",
+                "text": "422 Unprocessable Entity",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/hs-companies": {
+      "post": {
+        "tags": [
+          "hs_companies"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "생활서비스 회사 생성 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IHSCompany.ICreate"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "생활서비스 회사 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IHSCompany"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "생활서비스 회사 생성 API",
+        "description": "",
+        "x-nestia-namespace": "hs-companies.create",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "생활서비스 회사 생성 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "hs_companies",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "생활서비스 회사 생성 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "생활서비스 회사 정보",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/hs-companies/{hs_company_id}": {
+      "get": {
+        "tags": [
+          "hs_companies"
+        ],
+        "parameters": [
+          {
+            "name": "hs_company_id",
+            "in": "path",
+            "description": "생활서비스 회사 ID",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "생활서비스 회사 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IHSCompany"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "400": {
+            "description": "Home Service Company Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "생활서비스 회사 조회 API",
+        "description": "",
+        "x-nestia-namespace": "hs-companies.find",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "생활서비스 회사 조회 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "hs_companies",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "hs_company_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "생활서비스 회사 ID",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "생활서비스 회사 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "400 Home Service Company Not Found",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "422 Unprocessable Entity",
                 "kind": "text"
               }
             ]
@@ -312,7 +499,7 @@
           "400": {
             "description": "Real Estate Agent Not Found"
           },
-          "412": {
+          "422": {
             "description": "Unprocessable Entity"
           }
         },
@@ -377,7 +564,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "412 Unprocessable Entity",
+                "text": "422 Unprocessable Entity",
                 "kind": "text"
               }
             ]
@@ -651,6 +838,210 @@
         ],
         "x-typia-jsDocTags": []
       },
+      "IHSCompany.ICreate": {
+        "type": "object",
+        "properties": {
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지 주소",
+            "x-typia-required": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "description": "회사 주소",
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "business"
+            ],
+            "nullable": false,
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명",
+            "x-typia-required": true
+          },
+          "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          },
+          "business_num": {
+            "type": "string",
+            "nullable": false,
+            "description": "사업자등록번호",
+            "x-typia-required": true
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "home service"
+            ],
+            "nullable": false,
+            "description": "비즈니스 유형\n- real estate\n- home service",
+            "x-typia-required": true
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "자기 소개",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "profile_image_url",
+          "address",
+          "user_type",
+          "name",
+          "phone",
+          "business_num",
+          "business_type",
+          "introduction"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IIntroduction": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": false,
+            "description": "제목",
+            "x-typia-required": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": false,
+            "description": "본문",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content"
+        ],
+        "description": "자기 소개 정보",
+        "x-typia-jsDocTags": []
+      },
+      "IHSCompany": {
+        "type": "object",
+        "properties": {
+          "business_num": {
+            "type": "string",
+            "nullable": false,
+            "description": "사업자등록번호",
+            "x-typia-required": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "description": "회사 주소",
+            "x-typia-required": true
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "home service"
+            ],
+            "nullable": false,
+            "description": "비즈니스 유형\n- real estate\n- home service",
+            "x-typia-required": true
+          },
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지 주소",
+            "x-typia-required": true
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "자기 소개",
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "business"
+            ],
+            "nullable": false,
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자 고유 id",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명",
+            "x-typia-required": true
+          },
+          "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "계정 생성일",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "business_num",
+          "address",
+          "business_type",
+          "profile_image_url",
+          "introduction",
+          "user_type",
+          "id",
+          "name",
+          "phone",
+          "created_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "IREAgent.ICreate": {
         "type": "object",
         "properties": {
@@ -686,6 +1077,20 @@
             "description": "전화 번호",
             "x-typia-required": true
           },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "real estate"
+            ],
+            "nullable": false,
+            "description": "비즈니스 유형\n- real estate\n- home service",
+            "x-typia-required": true
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "자기 소개",
+            "x-typia-required": true
+          },
           "is_licensed": {
             "type": "boolean",
             "nullable": false,
@@ -696,27 +1101,6 @@
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "description": "부동산 정보\n\n해당 정보는 공공기관에서 부동산개설등록번호로 기록된 내용과 일치해야 한다.",
             "x-typia-required": true
-          },
-          "business_type": {
-            "type": "string",
-            "enum": [
-              "real estate"
-            ],
-            "nullable": false,
-            "description": "비즈니스 유형\n- real estate\n- home service",
-            "x-typia-required": true
-          },
-          "introduction_title": {
-            "type": "string",
-            "nullable": false,
-            "description": "소개 제목",
-            "x-typia-required": true
-          },
-          "introduction_content": {
-            "type": "string",
-            "nullable": false,
-            "description": "소개 본문",
-            "x-typia-required": true
           }
         },
         "nullable": false,
@@ -725,11 +1109,10 @@
           "user_type",
           "name",
           "phone",
-          "is_licensed",
-          "real_estate",
           "business_type",
-          "introduction_title",
-          "introduction_content"
+          "introduction",
+          "is_licensed",
+          "real_estate"
         ],
         "x-typia-jsDocTags": []
       },
@@ -806,16 +1189,9 @@
             "description": "프로필 이미지 주소",
             "x-typia-required": true
           },
-          "introduction_title": {
-            "type": "string",
-            "nullable": false,
-            "description": "소개 제목",
-            "x-typia-required": true
-          },
-          "introduction_content": {
-            "type": "string",
-            "nullable": false,
-            "description": "소개 본문",
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "자기 소개",
             "x-typia-required": true
           },
           "user_type": {
@@ -881,8 +1257,7 @@
           "real_estate",
           "business_type",
           "profile_image_url",
-          "introduction_title",
-          "introduction_content",
+          "introduction",
           "user_type",
           "id",
           "name",
