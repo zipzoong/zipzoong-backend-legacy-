@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@devts/nestjs-auth": "^1.3.13",
+    "@fxts/core": "^0.14.0",
     "@nestia/core": "^1.0.19",
     "@nestjs/common": "^9.4.0",
     "@nestjs/core": "^9.4.0",

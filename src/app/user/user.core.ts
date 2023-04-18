@@ -22,6 +22,10 @@ export namespace User {
       id: randomUUID(),
       user_type,
       name: name ?? "",
+      phone,
+      email,
+      address_first,
+      profile_image_url,
       email_verified:
         isUndefined(email) || isUndefined(email_verified)
           ? false
@@ -30,13 +34,9 @@ export namespace User {
         isUndefined(phone) || isUndefined(phone_verified)
           ? false
           : phone_verified,
-      ...(isUndefined(phone) ? {} : { phone }),
-      ...(isUndefined(email) ? {} : { email }),
-      ...(isUndefined(address_first) ? {} : { address_first }),
       ...(isUndefined(address_second) || isUndefined(address_first)
         ? {}
-        : { address_second }),
-      ...(isUndefined(profile_image_url) ? {} : { profile_image_url })
+        : { address_second })
     };
   };
 }

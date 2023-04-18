@@ -9,15 +9,15 @@ export namespace Customer {
     const base = User.create(input);
     return {
       ...base,
-      ...(input.birth ? { birth: input.birth } : {}),
-      ...(input.gender ? { gender: input.gender } : {})
+      birth: input.birth,
+      gender: input.gender
     };
   };
 
   /**
    * 만약 customer object를 생성할 수 없으면 null을 반환한다.
    */
-  export const map = (
+  export const map = ([
     {
       id,
       name,
@@ -28,9 +28,9 @@ export namespace Customer {
       profile_image_url,
       address_first,
       address_second
-    }: UserModel,
-    { birth, gender }: CustomerModel
-  ): ICustomer | null => {
+    },
+    { birth, gender }
+  ]: readonly [UserModel, CustomerModel]): ICustomer | null => {
     const customer: ICustomer = {
       user_type: "customer",
       id,
