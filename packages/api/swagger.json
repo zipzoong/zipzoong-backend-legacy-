@@ -13,7 +13,10 @@
   "paths": {
     "/sign-in/oauth": {
       "post": {
-        "tags": [],
+        "tags": [
+          "oauth",
+          "authentication"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "oauth 로그인 요청 정보",
@@ -42,13 +45,31 @@
         },
         "summary": "Oauth 로그인 API",
         "description": "Oauth2.0 로그인 요청",
-        "x-nestia-namespace": "sign-in.oauth.singIn",
+        "x-nestia-namespace": "sign-in.oauth.findAccessor",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
                 "text": "Oauth 로그인 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "oauth",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "authentication",
                 "kind": "text"
               }
             ]
@@ -75,6 +96,91 @@
             "text": [
               {
                 "text": "로그인 토큰 정보",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/sign-up/oauth": {
+      "post": {
+        "tags": [
+          "oauth",
+          "authentication"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "oauth 회원가입 요청 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IAccessor.ISignInBody"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "응답 데이터 없음",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "Oauth 회원가입 API",
+        "description": "Oauth2.0 회원가입 요청",
+        "x-nestia-namespace": "sign-up.oauth.createAccessor",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "Oauth 회원가입 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "oauth",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "authentication",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "oauth 회원가입 요청 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "returns",
+            "text": [
+              {
+                "text": "응답 데이터 없음",
                 "kind": "text"
               }
             ]

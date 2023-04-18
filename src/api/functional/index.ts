@@ -5,6 +5,7 @@
  */
 //================================================================
 export * as sign_in from "./sign_in";
+export * as sign_up from "./sign_up";
 export * as customers from "./customers";
 export * as hs_companies from "./hs_companies";
 export * as re_agents from "./re_agents";

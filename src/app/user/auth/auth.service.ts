@@ -66,4 +66,10 @@ export namespace AuthService {
 
       (access_token) => ({ access_token })
     );
+
+  export const signUp = async ({
+    code,
+    oauth_type,
+    user_type
+  }: IAccessor.ISignUpBody): Promise<void> => {};
 }

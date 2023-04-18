@@ -37,4 +37,6 @@ export namespace IAccessor {
     readonly oauth_type: OauthType;
     readonly user_type: IUser.Type;
   }
+
+  export type ISignUpBody = ISignInBody;
 }
