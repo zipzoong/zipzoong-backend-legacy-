@@ -106,6 +106,9 @@ export namespace Query {
   export const findHSCompany = (id: string) =>
     [
       ...findBusinessUser(id),
-      prisma.hSCompanyModel.findFirst({ where: { id } })
+      prisma.hSCompanyModel.findFirst({ where: { id } }),
+      prisma.hSCompanyIntroductionImageModel.findMany({
+        where: { company_id: id }
+      })
     ] as const;
 }

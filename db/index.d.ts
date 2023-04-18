@@ -88,6 +88,16 @@ export type HSCompanyModel = {
 }
 
 /**
+ * Model HSCompanyIntroductionImageModel
+ * 
+ */
+export type HSCompanyIntroductionImageModel = {
+  id: string
+  url: string
+  company_id: string
+}
+
+/**
  * Model TempREAgentModel
  * 
  */
@@ -330,6 +340,16 @@ export class PrismaClient<
     * ```
     */
   get hSCompanyModel(): Prisma.HSCompanyModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.hSCompanyIntroductionImageModel`: Exposes CRUD operations for the **HSCompanyIntroductionImageModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HSCompanyIntroductionImageModels
+    * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany()
+    * ```
+    */
+  get hSCompanyIntroductionImageModel(): Prisma.HSCompanyIntroductionImageModelDelegate<GlobalReject>;
 
   /**
    * `prisma.tempREAgentModel`: Exposes CRUD operations for the **TempREAgentModel** model.
@@ -825,6 +845,7 @@ export namespace Prisma {
     BusinessUserModel: 'BusinessUserModel',
     REAgentModel: 'REAgentModel',
     HSCompanyModel: 'HSCompanyModel',
+    HSCompanyIntroductionImageModel: 'HSCompanyIntroductionImageModel',
     TempREAgentModel: 'TempREAgentModel',
     TempHSCompanyModel: 'TempHSCompanyModel'
   };
@@ -1069,6 +1090,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the BusinessUserModelCountOutputType
      */
     select?: BusinessUserModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type HSCompanyModelCountOutputType
+   */
+
+
+  export type HSCompanyModelCountOutputType = {
+    introduction_images: number
+  }
+
+  export type HSCompanyModelCountOutputTypeSelect = {
+    introduction_images?: boolean
+  }
+
+  export type HSCompanyModelCountOutputTypeGetPayload<S extends boolean | null | undefined | HSCompanyModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? HSCompanyModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (HSCompanyModelCountOutputTypeArgs)
+    ? HSCompanyModelCountOutputType 
+    : S extends { select: any } & (HSCompanyModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof HSCompanyModelCountOutputType ? HSCompanyModelCountOutputType[P] : never
+  } 
+      : HSCompanyModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * HSCompanyModelCountOutputType without action
+   */
+  export type HSCompanyModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyModelCountOutputType
+     */
+    select?: HSCompanyModelCountOutputTypeSelect | null
   }
 
 
@@ -6021,11 +6085,15 @@ export namespace Prisma {
     address_first?: boolean
     address_second?: boolean
     base?: boolean | BusinessUserModelArgs
+    introduction_images?: boolean | HSCompanyModel$introduction_imagesArgs
+    _count?: boolean | HSCompanyModelCountOutputTypeArgs
   }
 
 
   export type HSCompanyModelInclude = {
     base?: boolean | BusinessUserModelArgs
+    introduction_images?: boolean | HSCompanyModel$introduction_imagesArgs
+    _count?: boolean | HSCompanyModelCountOutputTypeArgs
   }
 
   export type HSCompanyModelGetPayload<S extends boolean | null | undefined | HSCompanyModelArgs> =
@@ -6035,12 +6103,16 @@ export namespace Prisma {
     S extends { include: any } & (HSCompanyModelArgs | HSCompanyModelFindManyArgs)
     ? HSCompanyModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :  never
+        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
+        P extends 'introduction_images' ? Array < HSCompanyIntroductionImageModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? HSCompanyModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (HSCompanyModelArgs | HSCompanyModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof HSCompanyModel ? HSCompanyModel[P] : never
+        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
+        P extends 'introduction_images' ? Array < HSCompanyIntroductionImageModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? HSCompanyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSCompanyModel ? HSCompanyModel[P] : never
   } 
       : HSCompanyModel
 
@@ -6414,6 +6486,8 @@ export namespace Prisma {
 
     base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
+    introduction_images<T extends HSCompanyModel$introduction_imagesArgs= {}>(args?: Subset<T, HSCompanyModel$introduction_imagesArgs>): Prisma.PrismaPromise<Array<HSCompanyIntroductionImageModelGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6770,6 +6844,27 @@ export namespace Prisma {
 
 
   /**
+   * HSCompanyModel.introduction_images
+   */
+  export type HSCompanyModel$introduction_imagesArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    where?: HSCompanyIntroductionImageModelWhereInput
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+  }
+
+
+  /**
    * HSCompanyModel without action
    */
   export type HSCompanyModelArgs = {
@@ -6781,6 +6876,921 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: HSCompanyModelInclude | null
+  }
+
+
+
+  /**
+   * Model HSCompanyIntroductionImageModel
+   */
+
+
+  export type AggregateHSCompanyIntroductionImageModel = {
+    _count: HSCompanyIntroductionImageModelCountAggregateOutputType | null
+    _min: HSCompanyIntroductionImageModelMinAggregateOutputType | null
+    _max: HSCompanyIntroductionImageModelMaxAggregateOutputType | null
+  }
+
+  export type HSCompanyIntroductionImageModelMinAggregateOutputType = {
+    id: string | null
+    url: string | null
+    company_id: string | null
+  }
+
+  export type HSCompanyIntroductionImageModelMaxAggregateOutputType = {
+    id: string | null
+    url: string | null
+    company_id: string | null
+  }
+
+  export type HSCompanyIntroductionImageModelCountAggregateOutputType = {
+    id: number
+    url: number
+    company_id: number
+    _all: number
+  }
+
+
+  export type HSCompanyIntroductionImageModelMinAggregateInputType = {
+    id?: true
+    url?: true
+    company_id?: true
+  }
+
+  export type HSCompanyIntroductionImageModelMaxAggregateInputType = {
+    id?: true
+    url?: true
+    company_id?: true
+  }
+
+  export type HSCompanyIntroductionImageModelCountAggregateInputType = {
+    id?: true
+    url?: true
+    company_id?: true
+    _all?: true
+  }
+
+  export type HSCompanyIntroductionImageModelAggregateArgs = {
+    /**
+     * Filter which HSCompanyIntroductionImageModel to aggregate.
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSCompanyIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HSCompanyIntroductionImageModels
+    **/
+    _count?: true | HSCompanyIntroductionImageModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HSCompanyIntroductionImageModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HSCompanyIntroductionImageModelMaxAggregateInputType
+  }
+
+  export type GetHSCompanyIntroductionImageModelAggregateType<T extends HSCompanyIntroductionImageModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateHSCompanyIntroductionImageModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHSCompanyIntroductionImageModel[P]>
+      : GetScalarType<T[P], AggregateHSCompanyIntroductionImageModel[P]>
+  }
+
+
+
+
+  export type HSCompanyIntroductionImageModelGroupByArgs = {
+    where?: HSCompanyIntroductionImageModelWhereInput
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithAggregationInput>
+    by: HSCompanyIntroductionImageModelScalarFieldEnum[]
+    having?: HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HSCompanyIntroductionImageModelCountAggregateInputType | true
+    _min?: HSCompanyIntroductionImageModelMinAggregateInputType
+    _max?: HSCompanyIntroductionImageModelMaxAggregateInputType
+  }
+
+
+  export type HSCompanyIntroductionImageModelGroupByOutputType = {
+    id: string
+    url: string
+    company_id: string
+    _count: HSCompanyIntroductionImageModelCountAggregateOutputType | null
+    _min: HSCompanyIntroductionImageModelMinAggregateOutputType | null
+    _max: HSCompanyIntroductionImageModelMaxAggregateOutputType | null
+  }
+
+  type GetHSCompanyIntroductionImageModelGroupByPayload<T extends HSCompanyIntroductionImageModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<HSCompanyIntroductionImageModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HSCompanyIntroductionImageModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HSCompanyIntroductionImageModelGroupByOutputType[P]>
+            : GetScalarType<T[P], HSCompanyIntroductionImageModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HSCompanyIntroductionImageModelSelect = {
+    id?: boolean
+    url?: boolean
+    company_id?: boolean
+    company?: boolean | HSCompanyModelArgs
+  }
+
+
+  export type HSCompanyIntroductionImageModelInclude = {
+    company?: boolean | HSCompanyModelArgs
+  }
+
+  export type HSCompanyIntroductionImageModelGetPayload<S extends boolean | null | undefined | HSCompanyIntroductionImageModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? HSCompanyIntroductionImageModel :
+    S extends undefined ? never :
+    S extends { include: any } & (HSCompanyIntroductionImageModelArgs | HSCompanyIntroductionImageModelFindManyArgs)
+    ? HSCompanyIntroductionImageModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'company' ? HSCompanyModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (HSCompanyIntroductionImageModelArgs | HSCompanyIntroductionImageModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'company' ? HSCompanyModelGetPayload<S['select'][P]> :  P extends keyof HSCompanyIntroductionImageModel ? HSCompanyIntroductionImageModel[P] : never
+  } 
+      : HSCompanyIntroductionImageModel
+
+
+  type HSCompanyIntroductionImageModelCountArgs = 
+    Omit<HSCompanyIntroductionImageModelFindManyArgs, 'select' | 'include'> & {
+      select?: HSCompanyIntroductionImageModelCountAggregateInputType | true
+    }
+
+  export interface HSCompanyIntroductionImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one HSCompanyIntroductionImageModel that matches the filter.
+     * @param {HSCompanyIntroductionImageModelFindUniqueArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @example
+     * // Get one HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends HSCompanyIntroductionImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSCompanyIntroductionImageModel'> extends True ? Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>> : Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T> | null, null>
+
+    /**
+     * Find one HSCompanyIntroductionImageModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {HSCompanyIntroductionImageModelFindUniqueOrThrowArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @example
+     * // Get one HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends HSCompanyIntroductionImageModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindUniqueOrThrowArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Find the first HSCompanyIntroductionImageModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelFindFirstArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @example
+     * // Get one HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends HSCompanyIntroductionImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSCompanyIntroductionImageModel'> extends True ? Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>> : Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first HSCompanyIntroductionImageModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelFindFirstOrThrowArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @example
+     * // Get one HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends HSCompanyIntroductionImageModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindFirstOrThrowArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Find zero or more HSCompanyIntroductionImageModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HSCompanyIntroductionImageModels
+     * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany()
+     * 
+     * // Get first 10 HSCompanyIntroductionImageModels
+     * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hSCompanyIntroductionImageModelWithIdOnly = await prisma.hSCompanyIntroductionImageModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends HSCompanyIntroductionImageModelFindManyArgs>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<HSCompanyIntroductionImageModelGetPayload<T>>>
+
+    /**
+     * Create a HSCompanyIntroductionImageModel.
+     * @param {HSCompanyIntroductionImageModelCreateArgs} args - Arguments to create a HSCompanyIntroductionImageModel.
+     * @example
+     * // Create one HSCompanyIntroductionImageModel
+     * const HSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.create({
+     *   data: {
+     *     // ... data to create a HSCompanyIntroductionImageModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends HSCompanyIntroductionImageModelCreateArgs>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelCreateArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Create many HSCompanyIntroductionImageModels.
+     *     @param {HSCompanyIntroductionImageModelCreateManyArgs} args - Arguments to create many HSCompanyIntroductionImageModels.
+     *     @example
+     *     // Create many HSCompanyIntroductionImageModels
+     *     const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends HSCompanyIntroductionImageModelCreateManyArgs>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a HSCompanyIntroductionImageModel.
+     * @param {HSCompanyIntroductionImageModelDeleteArgs} args - Arguments to delete one HSCompanyIntroductionImageModel.
+     * @example
+     * // Delete one HSCompanyIntroductionImageModel
+     * const HSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.delete({
+     *   where: {
+     *     // ... filter to delete one HSCompanyIntroductionImageModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends HSCompanyIntroductionImageModelDeleteArgs>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelDeleteArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Update one HSCompanyIntroductionImageModel.
+     * @param {HSCompanyIntroductionImageModelUpdateArgs} args - Arguments to update one HSCompanyIntroductionImageModel.
+     * @example
+     * // Update one HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends HSCompanyIntroductionImageModelUpdateArgs>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelUpdateArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Delete zero or more HSCompanyIntroductionImageModels.
+     * @param {HSCompanyIntroductionImageModelDeleteManyArgs} args - Arguments to filter HSCompanyIntroductionImageModels to delete.
+     * @example
+     * // Delete a few HSCompanyIntroductionImageModels
+     * const { count } = await prisma.hSCompanyIntroductionImageModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends HSCompanyIntroductionImageModelDeleteManyArgs>(
+      args?: SelectSubset<T, HSCompanyIntroductionImageModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HSCompanyIntroductionImageModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HSCompanyIntroductionImageModels
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends HSCompanyIntroductionImageModelUpdateManyArgs>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one HSCompanyIntroductionImageModel.
+     * @param {HSCompanyIntroductionImageModelUpsertArgs} args - Arguments to update or create a HSCompanyIntroductionImageModel.
+     * @example
+     * // Update or create a HSCompanyIntroductionImageModel
+     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.upsert({
+     *   create: {
+     *     // ... data to create a HSCompanyIntroductionImageModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HSCompanyIntroductionImageModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends HSCompanyIntroductionImageModelUpsertArgs>(
+      args: SelectSubset<T, HSCompanyIntroductionImageModelUpsertArgs>
+    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Count the number of HSCompanyIntroductionImageModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelCountArgs} args - Arguments to filter HSCompanyIntroductionImageModels to count.
+     * @example
+     * // Count the number of HSCompanyIntroductionImageModels
+     * const count = await prisma.hSCompanyIntroductionImageModel.count({
+     *   where: {
+     *     // ... the filter for the HSCompanyIntroductionImageModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends HSCompanyIntroductionImageModelCountArgs>(
+      args?: Subset<T, HSCompanyIntroductionImageModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HSCompanyIntroductionImageModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HSCompanyIntroductionImageModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HSCompanyIntroductionImageModelAggregateArgs>(args: Subset<T, HSCompanyIntroductionImageModelAggregateArgs>): Prisma.PrismaPromise<GetHSCompanyIntroductionImageModelAggregateType<T>>
+
+    /**
+     * Group by HSCompanyIntroductionImageModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSCompanyIntroductionImageModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HSCompanyIntroductionImageModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HSCompanyIntroductionImageModelGroupByArgs['orderBy'] }
+        : { orderBy?: HSCompanyIntroductionImageModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HSCompanyIntroductionImageModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSCompanyIntroductionImageModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HSCompanyIntroductionImageModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__HSCompanyIntroductionImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    company<T extends HSCompanyModelArgs= {}>(args?: Subset<T, HSCompanyModelArgs>): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * HSCompanyIntroductionImageModel base type for findUnique actions
+   */
+  export type HSCompanyIntroductionImageModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     */
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+  }
+
+  /**
+   * HSCompanyIntroductionImageModel findUnique
+   */
+  export interface HSCompanyIntroductionImageModelFindUniqueArgs extends HSCompanyIntroductionImageModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * HSCompanyIntroductionImageModel findUniqueOrThrow
+   */
+  export type HSCompanyIntroductionImageModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     */
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel base type for findFirst actions
+   */
+  export type HSCompanyIntroductionImageModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HSCompanyIntroductionImageModels.
+     */
+    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSCompanyIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HSCompanyIntroductionImageModels.
+     */
+    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+  }
+
+  /**
+   * HSCompanyIntroductionImageModel findFirst
+   */
+  export interface HSCompanyIntroductionImageModelFindFirstArgs extends HSCompanyIntroductionImageModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * HSCompanyIntroductionImageModel findFirstOrThrow
+   */
+  export type HSCompanyIntroductionImageModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HSCompanyIntroductionImageModels.
+     */
+    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSCompanyIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HSCompanyIntroductionImageModels.
+     */
+    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel findMany
+   */
+  export type HSCompanyIntroductionImageModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSCompanyIntroductionImageModels to fetch.
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HSCompanyIntroductionImageModels.
+     */
+    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSCompanyIntroductionImageModels.
+     */
+    skip?: number
+    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel create
+   */
+  export type HSCompanyIntroductionImageModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * The data needed to create a HSCompanyIntroductionImageModel.
+     */
+    data: XOR<HSCompanyIntroductionImageModelCreateInput, HSCompanyIntroductionImageModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel createMany
+   */
+  export type HSCompanyIntroductionImageModelCreateManyArgs = {
+    /**
+     * The data used to create many HSCompanyIntroductionImageModels.
+     */
+    data: Enumerable<HSCompanyIntroductionImageModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel update
+   */
+  export type HSCompanyIntroductionImageModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * The data needed to update a HSCompanyIntroductionImageModel.
+     */
+    data: XOR<HSCompanyIntroductionImageModelUpdateInput, HSCompanyIntroductionImageModelUncheckedUpdateInput>
+    /**
+     * Choose, which HSCompanyIntroductionImageModel to update.
+     */
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel updateMany
+   */
+  export type HSCompanyIntroductionImageModelUpdateManyArgs = {
+    /**
+     * The data used to update HSCompanyIntroductionImageModels.
+     */
+    data: XOR<HSCompanyIntroductionImageModelUpdateManyMutationInput, HSCompanyIntroductionImageModelUncheckedUpdateManyInput>
+    /**
+     * Filter which HSCompanyIntroductionImageModels to update
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel upsert
+   */
+  export type HSCompanyIntroductionImageModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * The filter to search for the HSCompanyIntroductionImageModel to update in case it exists.
+     */
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    /**
+     * In case the HSCompanyIntroductionImageModel found by the `where` argument doesn't exist, create a new HSCompanyIntroductionImageModel with this data.
+     */
+    create: XOR<HSCompanyIntroductionImageModelCreateInput, HSCompanyIntroductionImageModelUncheckedCreateInput>
+    /**
+     * In case the HSCompanyIntroductionImageModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HSCompanyIntroductionImageModelUpdateInput, HSCompanyIntroductionImageModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel delete
+   */
+  export type HSCompanyIntroductionImageModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
+    /**
+     * Filter which HSCompanyIntroductionImageModel to delete.
+     */
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel deleteMany
+   */
+  export type HSCompanyIntroductionImageModelDeleteManyArgs = {
+    /**
+     * Filter which HSCompanyIntroductionImageModels to delete
+     */
+    where?: HSCompanyIntroductionImageModelWhereInput
+  }
+
+
+  /**
+   * HSCompanyIntroductionImageModel without action
+   */
+  export type HSCompanyIntroductionImageModelArgs = {
+    /**
+     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     */
+    select?: HSCompanyIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSCompanyIntroductionImageModelInclude | null
   }
 
 
@@ -8831,6 +9841,15 @@ export namespace Prisma {
   export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
 
 
+  export const HSCompanyIntroductionImageModelScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    company_id: 'company_id'
+  };
+
+  export type HSCompanyIntroductionImageModelScalarFieldEnum = (typeof HSCompanyIntroductionImageModelScalarFieldEnum)[keyof typeof HSCompanyIntroductionImageModelScalarFieldEnum]
+
+
   export const HSCompanyModelScalarFieldEnum: {
     id: 'id',
     business_num: 'business_num',
@@ -9215,6 +10234,7 @@ export namespace Prisma {
     address_first?: StringFilter | string
     address_second?: StringNullableFilter | string | null
     base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
+    introduction_images?: HSCompanyIntroductionImageModelListRelationFilter
   }
 
   export type HSCompanyModelOrderByWithRelationInput = {
@@ -9223,6 +10243,7 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     base?: BusinessUserModelOrderByWithRelationInput
+    introduction_images?: HSCompanyIntroductionImageModelOrderByRelationAggregateInput
   }
 
   export type HSCompanyModelWhereUniqueInput = {
@@ -9247,6 +10268,45 @@ export namespace Prisma {
     business_num?: StringWithAggregatesFilter | string
     address_first?: StringWithAggregatesFilter | string
     address_second?: StringNullableWithAggregatesFilter | string | null
+  }
+
+  export type HSCompanyIntroductionImageModelWhereInput = {
+    AND?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
+    OR?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
+    NOT?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
+    id?: StringFilter | string
+    url?: StringFilter | string
+    company_id?: StringFilter | string
+    company?: XOR<HSCompanyModelRelationFilter, HSCompanyModelWhereInput>
+  }
+
+  export type HSCompanyIntroductionImageModelOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    company_id?: SortOrder
+    company?: HSCompanyModelOrderByWithRelationInput
+  }
+
+  export type HSCompanyIntroductionImageModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type HSCompanyIntroductionImageModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    company_id?: SortOrder
+    _count?: HSCompanyIntroductionImageModelCountOrderByAggregateInput
+    _max?: HSCompanyIntroductionImageModelMaxOrderByAggregateInput
+    _min?: HSCompanyIntroductionImageModelMinOrderByAggregateInput
+  }
+
+  export type HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    url?: StringWithAggregatesFilter | string
+    company_id?: StringWithAggregatesFilter | string
   }
 
   export type TempREAgentModelWhereInput = {
@@ -9755,6 +10815,7 @@ export namespace Prisma {
     address_first: string
     address_second?: string | null
     base: BusinessUserModelCreateNestedOneWithoutHs_companyInput
+    introduction_images?: HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput
   }
 
   export type HSCompanyModelUncheckedCreateInput = {
@@ -9762,6 +10823,7 @@ export namespace Prisma {
     business_num: string
     address_first: string
     address_second?: string | null
+    introduction_images?: HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type HSCompanyModelUpdateInput = {
@@ -9769,6 +10831,7 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     base?: BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput
+    introduction_images?: HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput
   }
 
   export type HSCompanyModelUncheckedUpdateInput = {
@@ -9776,6 +10839,7 @@ export namespace Prisma {
     business_num?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    introduction_images?: HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type HSCompanyModelCreateManyInput = {
@@ -9796,6 +10860,47 @@ export namespace Prisma {
     business_num?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type HSCompanyIntroductionImageModelCreateInput = {
+    id: string
+    url: string
+    company: HSCompanyModelCreateNestedOneWithoutIntroduction_imagesInput
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedCreateInput = {
+    id: string
+    url: string
+    company_id: string
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    company?: HSCompanyModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSCompanyIntroductionImageModelCreateManyInput = {
+    id: string
+    url: string
+    company_id: string
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type TempREAgentModelCreateInput = {
@@ -10296,8 +11401,8 @@ export namespace Prisma {
   }
 
   export type HSCompanyModelRelationFilter = {
-    is?: HSCompanyModelWhereInput | null
-    isNot?: HSCompanyModelWhereInput | null
+    is?: HSCompanyModelWhereInput
+    isNot?: HSCompanyModelWhereInput
   }
 
   export type BusinessUserModelCountOrderByAggregateInput = {
@@ -10354,6 +11459,16 @@ export namespace Prisma {
     re_address_second?: SortOrder
   }
 
+  export type HSCompanyIntroductionImageModelListRelationFilter = {
+    every?: HSCompanyIntroductionImageModelWhereInput
+    some?: HSCompanyIntroductionImageModelWhereInput
+    none?: HSCompanyIntroductionImageModelWhereInput
+  }
+
+  export type HSCompanyIntroductionImageModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type HSCompanyModelCountOrderByAggregateInput = {
     id?: SortOrder
     business_num?: SortOrder
@@ -10373,6 +11488,24 @@ export namespace Prisma {
     business_num?: SortOrder
     address_first?: SortOrder
     address_second?: SortOrder
+  }
+
+  export type HSCompanyIntroductionImageModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    company_id?: SortOrder
+  }
+
+  export type HSCompanyIntroductionImageModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    company_id?: SortOrder
+  }
+
+  export type HSCompanyIntroductionImageModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    company_id?: SortOrder
   }
 
   export type BoolNullableFilter = {
@@ -10875,12 +12008,68 @@ export namespace Prisma {
     connect?: BusinessUserModelWhereUniqueInput
   }
 
+  export type HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
+    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
+    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
+    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
+    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
+    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
+    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+  }
+
   export type BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput = {
     create?: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
     connectOrCreate?: BusinessUserModelCreateOrConnectWithoutHs_companyInput
     upsert?: BusinessUserModelUpsertWithoutHs_companyInput
     connect?: BusinessUserModelWhereUniqueInput
     update?: XOR<BusinessUserModelUpdateWithoutHs_companyInput, BusinessUserModelUncheckedUpdateWithoutHs_companyInput>
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
+    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
+    upsert?: Enumerable<HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput>
+    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
+    set?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    delete?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    update?: Enumerable<HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput>
+    updateMany?: Enumerable<HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput>
+    deleteMany?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
+    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
+    upsert?: Enumerable<HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput>
+    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
+    set?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    delete?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+    update?: Enumerable<HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput>
+    updateMany?: Enumerable<HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput>
+    deleteMany?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+  }
+
+  export type HSCompanyModelCreateNestedOneWithoutIntroduction_imagesInput = {
+    create?: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
+    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput
+    connect?: HSCompanyModelWhereUniqueInput
+  }
+
+  export type HSCompanyModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput = {
+    create?: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
+    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput
+    upsert?: HSCompanyModelUpsertWithoutIntroduction_imagesInput
+    connect?: HSCompanyModelWhereUniqueInput
+    update?: XOR<HSCompanyModelUpdateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput>
   }
 
   export type AccessorModelCreateNestedOneWithoutTemp_re_agentsInput = {
@@ -11575,12 +12764,14 @@ export namespace Prisma {
     business_num: string
     address_first: string
     address_second?: string | null
+    introduction_images?: HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput
   }
 
   export type HSCompanyModelUncheckedCreateWithoutBaseInput = {
     business_num: string
     address_first: string
     address_second?: string | null
+    introduction_images?: HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type HSCompanyModelCreateOrConnectWithoutBaseInput = {
@@ -11675,12 +12866,14 @@ export namespace Prisma {
     business_num?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    introduction_images?: HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput
   }
 
   export type HSCompanyModelUncheckedUpdateWithoutBaseInput = {
     business_num?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    introduction_images?: HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type AccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
@@ -11768,6 +12961,26 @@ export namespace Prisma {
     create: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
   }
 
+  export type HSCompanyIntroductionImageModelCreateWithoutCompanyInput = {
+    id: string
+    url: string
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput = {
+    id: string
+    url: string
+  }
+
+  export type HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput = {
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    create: XOR<HSCompanyIntroductionImageModelCreateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope = {
+    data: Enumerable<HSCompanyIntroductionImageModelCreateManyCompanyInput>
+    skipDuplicates?: boolean
+  }
+
   export type BusinessUserModelUpsertWithoutHs_companyInput = {
     update: XOR<BusinessUserModelUpdateWithoutHs_companyInput, BusinessUserModelUncheckedUpdateWithoutHs_companyInput>
     create: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
@@ -11789,6 +13002,69 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    update: XOR<HSCompanyIntroductionImageModelUpdateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput>
+    create: XOR<HSCompanyIntroductionImageModelCreateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    data: XOR<HSCompanyIntroductionImageModelUpdateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput = {
+    where: HSCompanyIntroductionImageModelScalarWhereInput
+    data: XOR<HSCompanyIntroductionImageModelUpdateManyMutationInput, HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput>
+  }
+
+  export type HSCompanyIntroductionImageModelScalarWhereInput = {
+    AND?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+    OR?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+    NOT?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+    id?: StringFilter | string
+    url?: StringFilter | string
+    company_id?: StringFilter | string
+  }
+
+  export type HSCompanyModelCreateWithoutIntroduction_imagesInput = {
+    business_num: string
+    address_first: string
+    address_second?: string | null
+    base: BusinessUserModelCreateNestedOneWithoutHs_companyInput
+  }
+
+  export type HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput = {
+    id: string
+    business_num: string
+    address_first: string
+    address_second?: string | null
+  }
+
+  export type HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput = {
+    where: HSCompanyModelWhereUniqueInput
+    create: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
+  }
+
+  export type HSCompanyModelUpsertWithoutIntroduction_imagesInput = {
+    update: XOR<HSCompanyModelUpdateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput>
+    create: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
+  }
+
+  export type HSCompanyModelUpdateWithoutIntroduction_imagesInput = {
+    business_num?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    base?: BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput
+  }
+
+  export type HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_num?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccessorModelCreateWithoutTemp_re_agentsInput = {
@@ -11938,6 +13214,26 @@ export namespace Prisma {
     customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     temp_re_agents?: TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
     temp_hs_company?: TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+  }
+
+  export type HSCompanyIntroductionImageModelCreateManyCompanyInput = {
+    id: string
+    url: string
+  }
+
+  export type HSCompanyIntroductionImageModelUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
   }
 
 

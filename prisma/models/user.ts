@@ -114,7 +114,7 @@ export const REAgent = createModel("REAgentModel", (model) => {
 });
 
 /**
- * 생활서비스 추가 정보
+ * 생활서비스 회사 추가 정보
  */
 export const HSCompany = createModel("HSCompanyModel", (model) => {
   model
@@ -123,8 +123,29 @@ export const HSCompany = createModel("HSCompanyModel", (model) => {
     .string("address_first")
     .string("address_second", { optional: true })
     .relation("base", BusinessUser, one_to_one)
+    .relation("introduction_images", CompanyIntroductionImages, { list: true })
     .map("hs_companies");
 });
+
+/**
+ * 생활서비스 회사 소개 이미지 목록
+ */
+export const CompanyIntroductionImages = createModel(
+  "HSCompanyIntroductionImageModel",
+  (model) => {
+    model
+      .string("id", { id: true })
+      .string("url")
+      .string("company_id")
+      .relation("company", HSCompany, {
+        fields: ["company_id"],
+        references: ["id"],
+        onDelete: "NoAction",
+        onUpdate: "NoAction"
+      })
+      .map("hs_company_introduction_images");
+  }
+);
 
 /**
  * 공인중개사 임시 생성 테이블
@@ -182,4 +203,4 @@ export const TempHSCompany = createModel("TempHSCompanyModel", (model) => {
     .map("temp_hs_companies");
 });
 
-// 약관 동의 목록,전문 영역, 사진 목록 관련 추가 구현 필요
+// 약관 동의 목록,전문 영역 관련 추가 구현 필요

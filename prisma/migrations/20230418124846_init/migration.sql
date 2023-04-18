@@ -74,6 +74,15 @@ CREATE TABLE "hs_companies" (
 );
 
 -- CreateTable
+CREATE TABLE "hs_company_introduction_images" (
+    "id" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "company_id" TEXT NOT NULL,
+
+    CONSTRAINT "hs_company_introduction_images_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "temp_re_agents" (
     "id" TEXT NOT NULL,
     "name" TEXT,
@@ -133,6 +142,9 @@ ALTER TABLE "re_agents" ADD CONSTRAINT "re_agents_id_fkey" FOREIGN KEY ("id") RE
 
 -- AddForeignKey
 ALTER TABLE "hs_companies" ADD CONSTRAINT "hs_companies_id_fkey" FOREIGN KEY ("id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "hs_company_introduction_images" ADD CONSTRAINT "hs_company_introduction_images_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "hs_companies"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "temp_re_agents" ADD CONSTRAINT "temp_re_agents_id_fkey" FOREIGN KEY ("id") REFERENCES "oauth_accessors"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

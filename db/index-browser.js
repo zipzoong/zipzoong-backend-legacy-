@@ -113,6 +113,12 @@ exports.Prisma.CustomerModelScalarFieldEnum = makeEnum({
   address_second: 'address_second'
 });
 
+exports.Prisma.HSCompanyIntroductionImageModelScalarFieldEnum = makeEnum({
+  id: 'id',
+  url: 'url',
+  company_id: 'company_id'
+});
+
 exports.Prisma.HSCompanyModelScalarFieldEnum = makeEnum({
   id: 'id',
   business_num: 'business_num',
@@ -208,6 +214,7 @@ exports.Prisma.ModelName = makeEnum({
   BusinessUserModel: 'BusinessUserModel',
   REAgentModel: 'REAgentModel',
   HSCompanyModel: 'HSCompanyModel',
+  HSCompanyIntroductionImageModel: 'HSCompanyIntroductionImageModel',
   TempREAgentModel: 'TempREAgentModel',
   TempHSCompanyModel: 'TempHSCompanyModel'
 });

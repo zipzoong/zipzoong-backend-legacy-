@@ -1,4 +1,9 @@
-import { UserModel, BusinessUserModel, HSCompanyModel } from "@PRISMA";
+import {
+  UserModel,
+  BusinessUserModel,
+  HSCompanyModel,
+  HSCompanyIntroductionImageModel
+} from "@PRISMA";
 import { IHSCompany } from "@DTO/user";
 import { User } from "../user.core";
 import { getISOString, isNull } from "@UTIL";
@@ -19,20 +24,22 @@ export namespace HSCompany {
       ...base,
       business_type,
       profile_image_url,
-      introduction,
       business_num,
-      address
+      address,
+      introduction: { ...introduction, images: [] }
     } satisfies IHSCompany;
   };
 
   export const map = ([
     { id, name, phone, email, email_verified, created_at },
     { profile_image_url, introduction_title, introduction_content },
-    { business_num, address_first, address_second }
+    { business_num, address_first, address_second },
+    images
   ]: readonly [
     UserModel,
     BusinessUserModel,
-    HSCompanyModel
+    HSCompanyModel,
+    HSCompanyIntroductionImageModel[]
   ]): IHSCompany | null => {
     const company: IHSCompany = {
       user_type: "business",
@@ -45,7 +52,8 @@ export namespace HSCompany {
       profile_image_url,
       introduction: {
         title: introduction_title,
-        content: introduction_content
+        content: introduction_content,
+        images: images.map(({ id, url }) => ({ id, url }))
       },
       business_num,
       address: {

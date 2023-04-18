@@ -27,10 +27,10 @@ export namespace HSCompanyService {
 
       (id) => prisma.$transaction([...Query.findHSCompany(id)]),
 
-      ([user, business, company]) =>
+      ([user, business, company, images]) =>
         isNull(company) || isNull(business) || isNull(user)
           ? toThrow(new NotFoundException("Home Service Company Not Found"))
-          : ([user, business, company] as const),
+          : ([user, business, company, images] as const),
 
       HSCompany.map,
 

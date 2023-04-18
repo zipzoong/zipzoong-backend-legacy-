@@ -88,13 +88,23 @@ model REAgentModel {
 }
 
 model HSCompanyModel {
-  id             String            @id
-  business_num   String
-  address_first  String
-  address_second String?
-  base           BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  id                  String                            @id
+  business_num        String
+  address_first       String
+  address_second      String?
+  base                BusinessUserModel                 @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  introduction_images HSCompanyIntroductionImageModel[]
 
   @@map("hs_companies")
+}
+
+model HSCompanyIntroductionImageModel {
+  id         String         @id
+  url        String
+  company_id String
+  company    HSCompanyModel @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("hs_company_introduction_images")
 }
 
 model TempREAgentModel {
