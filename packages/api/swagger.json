@@ -11,6 +11,77 @@
     "title": "Zipzoong REST API Doc"
   },
   "paths": {
+    "/sign-in/oauth": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "oauth 로그인 요청 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IAccessor.ISignInBody"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "로그인 토큰 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IAccessor"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "Oauth 로그인 API",
+        "description": "Oauth2.0 로그인 요청",
+        "x-nestia-namespace": "sign-in.oauth.singIn",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "Oauth 로그인 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "oauth 로그인 요청 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "returns",
+            "text": [
+              {
+                "text": "로그인 토큰 정보",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "/customers": {
       "post": {
         "tags": [
@@ -575,6 +646,58 @@
   },
   "components": {
     "schemas": {
+      "IAccessor.ISignInBody": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "oauth_type": {
+            "type": "string",
+            "enum": [
+              "kakao",
+              "naver"
+            ],
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "customer",
+              "business"
+            ],
+            "nullable": false,
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "code",
+          "oauth_type",
+          "user_type"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IAccessor": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자 인증 토큰",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "access_token"
+        ],
+        "description": "회원 정보 접근자\n\n인증 정보를 담고 있으며, 해당 접근자와 연결된 회원 권한을 요청할 수 있다.",
+        "x-typia-jsDocTags": []
+      },
       "ICustomer.ICreate": {
         "type": "object",
         "properties": {
