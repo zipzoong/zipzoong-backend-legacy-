@@ -22,7 +22,7 @@ export class REAgentController {
    * @param re_agent_id 공인중개사 ID
    * @return 공인중개사 정보
    * @throw 400 Real Estate Agent Not Found
-   * @throw 412 Unprocessable Entity
+   * @throw 422 Unprocessable Entity
    */
   @Get(":re_agent_id")
   find(@TypedParam("re_agent_id") re_agent_id: string): Promise<IREAgent> {

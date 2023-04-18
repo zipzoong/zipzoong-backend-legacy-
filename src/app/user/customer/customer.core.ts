@@ -2,6 +2,7 @@ import { UserModel, CustomerModel } from "@PRISMA";
 import { ICustomer } from "@DTO/user";
 import { User } from "../user.core";
 import { getISOString, isNull, nullToUndefined } from "@UTIL";
+import typia from "typia";
 
 export namespace Customer {
   export const create = (input: ICustomer.ICreate): ICustomer => {
@@ -18,8 +19,8 @@ export namespace Customer {
   export const map = ([
     { id, name, phone, created_at, email, email_verified },
     { profile_image_url, gender, birth, address_first, address_second }
-  ]: readonly [UserModel, CustomerModel]): ICustomer => {
-    return {
+  ]: readonly [UserModel, CustomerModel]): ICustomer | null => {
+    const customer: ICustomer = {
       user_type: "customer",
       id,
       name,
@@ -38,5 +39,6 @@ export namespace Customer {
             second: address_second ?? undefined
           }
     };
+    return typia.equals<ICustomer>(customer) ? customer : null;
   };
 }

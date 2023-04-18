@@ -1,7 +1,8 @@
 import { UserModel, BusinessUserModel, REAgentModel } from "@PRISMA";
 import { IREAgent } from "@DTO/user";
 import { User } from "../user.core";
-import { getISOString } from "@UTIL";
+import { getISOString, isNull } from "@UTIL";
+import typia from "typia";
 
 export namespace REAgent {
   export const create = (input: IREAgent.ICreate): IREAgent => {
@@ -9,8 +10,7 @@ export namespace REAgent {
     const {
       business_type,
       profile_image_url,
-      introduction_title,
-      introduction_content,
+      introduction,
       is_licensed,
       real_estate
     } = input;
@@ -18,15 +18,14 @@ export namespace REAgent {
       ...base,
       business_type,
       profile_image_url,
-      introduction_title,
-      introduction_content,
+      introduction,
       is_licensed,
       real_estate
     };
   };
 
   export const map = ([
-    { id, name, phone, created_at },
+    { id, name, phone, created_at, email, email_verified },
     { profile_image_url, introduction_title, introduction_content },
     {
       is_licensed,
@@ -37,17 +36,29 @@ export namespace REAgent {
       re_address_first,
       re_address_second
     }
-  ]: readonly [UserModel, BusinessUserModel, REAgentModel]): IREAgent => {
-    return {
+  ]: readonly [
+    UserModel,
+    BusinessUserModel,
+    REAgentModel
+  ]): IREAgent | null => {
+    const agent: IREAgent = {
       user_type: "business",
       business_type: "real estate",
       id,
       name,
       phone,
+      email: isNull(email)
+        ? undefined
+        : {
+            email: email,
+            is_verified: email_verified
+          },
       created_at: getISOString(created_at),
       profile_image_url,
-      introduction_title,
-      introduction_content,
+      introduction: {
+        title: introduction_title,
+        content: introduction_content
+      },
       is_licensed,
       real_estate: {
         num: re_num,
@@ -60,5 +71,6 @@ export namespace REAgent {
         licensed_agent_name: re_licensed_agent_name
       }
     };
+    return typia.equals<IREAgent>(agent) ? agent : null;
   };
 }

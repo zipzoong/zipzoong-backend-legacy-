@@ -2,8 +2,11 @@ import { ICustomer } from "@DTO/user";
 import { pipe, tap } from "@fxts/core";
 import { Customer } from "./customer.core";
 import { prisma } from "@INFRA/DB";
-import { isNull, toThrow } from "@UTIL";
-import { NotFoundException } from "@nestjs/common";
+import { isNull, throwIfNull, toThrow } from "@UTIL";
+import {
+  NotFoundException,
+  UnprocessableEntityException
+} from "@nestjs/common";
 import { Mutation, Query } from "../query";
 
 export namespace CustomerService {
@@ -29,8 +32,8 @@ export namespace CustomerService {
           ? toThrow(new NotFoundException("Customer Not Found"))
           : ([user, customer] as const),
 
-      Customer.map
+      Customer.map,
 
-      // throwIfNull(new UnprocessableEntityException("Unprocessable Entity"))
+      throwIfNull(new UnprocessableEntityException("Unprocessable Entity"))
     );
 }

@@ -3,8 +3,11 @@ import { pipe, tap } from "@fxts/core";
 import { REAgent } from "./re_agent.core";
 import { prisma } from "@INFRA/DB";
 import { Mutation, Query } from "../query";
-import { isNull, toThrow } from "@UTIL";
-import { NotFoundException } from "@nestjs/common";
+import { isNull, throwIfNull, toThrow } from "@UTIL";
+import {
+  NotFoundException,
+  UnprocessableEntityException
+} from "@nestjs/common";
 
 export namespace REAgentService {
   export const create = (input: IREAgent.ICreate): Promise<IREAgent> =>
@@ -29,6 +32,8 @@ export namespace REAgentService {
           ? toThrow(new NotFoundException("Real Estate Agent Not Found"))
           : ([user, business, agent] as const),
 
-      REAgent.map
+      REAgent.map,
+
+      throwIfNull(new UnprocessableEntityException("Unprocessable Entity"))
     );
 }

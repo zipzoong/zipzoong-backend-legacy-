@@ -14,15 +14,25 @@ export interface IBusinessUser<
    */
   readonly profile_image_url: string;
   /**
-   * 소개 제목
+   * 자기 소개
    */
-  readonly introduction_title: string;
-  /**
-   * 소개 본문
-   */
-  readonly introduction_content: string;
+  readonly introduction: IBusinessUser.IIntroduction;
 }
 
 export namespace IBusinessUser {
   export type Type = "real estate" | "home service";
+
+  /**
+   * 자기 소개 정보
+   */
+  export interface IIntroduction {
+    /**
+     * 제목
+     */
+    readonly title: string;
+    /**
+     * 본문
+     */
+    readonly content: string;
+  }
 }

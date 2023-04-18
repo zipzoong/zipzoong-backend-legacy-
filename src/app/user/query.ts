@@ -38,8 +38,8 @@ export namespace Mutation {
         data: {
           id: input.id,
           profile_image_url: input.profile_image_url,
-          introduction_title: input.introduction_title,
-          introduction_content: input.introduction_content
+          introduction_title: input.introduction.title,
+          introduction_content: input.introduction.content
         }
       })
     ] as const;
