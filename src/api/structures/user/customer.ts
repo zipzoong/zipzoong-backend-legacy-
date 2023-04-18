@@ -1,27 +1,33 @@
 import { Mutable, Omit } from "@TYPE";
 import { IUser } from "./user";
 
-export interface ICustomer extends IUser.IBase<"customer"> {
+export interface ICustomer extends IUser<"customer"> {
   /**
-   * 생년월일
-   *
-   * YYMMDD
-   * @pattern ^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$
+   * 프로필 이미지
    */
-  readonly birth?: string;
+  readonly profile_image_url?: string;
   /**
-   * 성별
-   *
+   * 사용자 주소 정보
+   */
+  readonly address?: IUser.IAddress;
+  /**
+   * 성벌
    * - female 여성
    * - male 남성
    * - other 기타
    */
-  readonly gender?: ICustomer.Gender;
+  readonly gender?: IUser.GenderType;
+  /**
+   * 생일
+   *
+   * YYYY-MM-DD
+   *
+   * @format date
+   */
+  readonly birth?: string;
 }
 
 export namespace ICustomer {
-  export type Gender = "female" | "male" | "other";
-  export interface ICreate extends Mutable<Omit<ICustomer, "id">> {
-    user_type: "customer";
-  }
+  export interface ICreate
+    extends Mutable<Omit<ICustomer, "id" | "created_at">> {}
 }

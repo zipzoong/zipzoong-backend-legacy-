@@ -93,102 +93,31 @@ exports.Prisma.AccessorModelScalarFieldEnum = makeEnum({
   id: 'id',
   oauth_sub: 'oauth_sub',
   oauth_type: 'oauth_type',
-  business_user_id: 'business_user_id',
-  customer_id: 'customer_id'
-});
-
-exports.Prisma.BoardArticleContentModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  text: 'text',
-  article_id: 'article_id',
-  created_at: 'created_at'
-});
-
-exports.Prisma.BoardArticleModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  title: 'title',
-  author_id: 'author_id',
-  board_id: 'board_id'
-});
-
-exports.Prisma.BoardCommentContentModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  text: 'text',
-  comment_id: 'comment_id',
-  created_at: 'created_at'
-});
-
-exports.Prisma.BoardCommentModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  author_id: 'author_id',
-  article_id: 'article_id'
-});
-
-exports.Prisma.BoardModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name'
-});
-
-exports.Prisma.BusinessCertificationModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  business_user_id: 'business_user_id',
-  image_url: 'image_url'
-});
-
-exports.Prisma.BusinessRateCategoryModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name'
-});
-
-exports.Prisma.BusinessRateModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  category_id: 'category_id',
-  rater_id: 'rater_id',
-  ratee_id: 'ratee_id',
-  rate: 'rate'
-});
-
-exports.Prisma.BusinessReviewModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  reviewer_id: 'reviewer_id',
-  reviewee_id: 'reviewee_id',
-  review: 'review'
+  customer_id: 'customer_id',
+  business_user_id: 'business_user_id'
 });
 
 exports.Prisma.BusinessUserModelScalarFieldEnum = makeEnum({
   id: 'id',
-  is_verified: 'is_verified',
+  profile_image_url: 'profile_image_url',
   introduction_title: 'introduction_title',
   introduction_content: 'introduction_content'
 });
 
 exports.Prisma.CustomerModelScalarFieldEnum = makeEnum({
   id: 'id',
+  profile_image_url: 'profile_image_url',
+  gender: 'gender',
   birth: 'birth',
-  gender: 'gender'
+  address_first: 'address_first',
+  address_second: 'address_second'
 });
 
-exports.Prisma.HomeCareCompanyModelScalarFieldEnum = makeEnum({
+exports.Prisma.HSCompanyModelScalarFieldEnum = makeEnum({
   id: 'id',
-  business_registration_num: 'business_registration_num',
-  specialized_field_id: 'specialized_field_id'
-});
-
-exports.Prisma.HomeCareIntroductionImageModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  image_url: 'image_url',
-  company_id: 'company_id'
-});
-
-exports.Prisma.HomeCareSpecializedSubFieldModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  super_id: 'super_id'
-});
-
-exports.Prisma.HomeCareSpecializedSuperFieldModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name'
+  business_num: 'business_num',
+  address_first: 'address_first',
+  address_second: 'address_second'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -196,37 +125,54 @@ exports.Prisma.QueryMode = makeEnum({
   insensitive: 'insensitive'
 });
 
-exports.Prisma.RealEstateAgentModelScalarFieldEnum = makeEnum({
+exports.Prisma.REAgentModelScalarFieldEnum = makeEnum({
   id: 'id',
   is_licensed: 'is_licensed',
-  real_estate_num: 'real_estate_num',
-  real_estate_name: 'real_estate_name',
-  real_estate_phone: 'real_estate_phone',
-  licensed_agent_name: 'licensed_agent_name',
-  specialized_field_id: 'specialized_field_id'
-});
-
-exports.Prisma.RealEstatePropertyModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  main_image_url: 'main_image_url',
-  agent_id: 'agent_id'
-});
-
-exports.Prisma.RealEstateSpecializedSubFieldModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  super_id: 'super_id'
-});
-
-exports.Prisma.RealEstateSpecializedSuperFieldModelScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name'
+  re_num: 're_num',
+  re_name: 're_name',
+  re_phone: 're_phone',
+  re_licensed_agent_name: 're_licensed_agent_name',
+  re_address_first: 're_address_first',
+  re_address_second: 're_address_second'
 });
 
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
+});
+
+exports.Prisma.TempHSCompanyModelScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  email_verified: 'email_verified',
+  phone: 'phone',
+  phone_verified: 'phone_verified',
+  profile_image_url: 'profile_image_url',
+  address_first: 'address_first',
+  address_second: 'address_second',
+  introduction_title: 'introduction_title',
+  introduction_content: 'introduction_content',
+  business_num: 'business_num'
+});
+
+exports.Prisma.TempREAgentModelScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  email_verified: 'email_verified',
+  phone: 'phone',
+  phone_verified: 'phone_verified',
+  profile_image_url: 'profile_image_url',
+  address_first: 'address_first',
+  address_second: 'address_second',
+  introduction_title: 'introduction_title',
+  introduction_content: 'introduction_content',
+  is_licensed: 'is_licensed',
+  re_num: 're_num',
+  re_name: 're_name',
+  re_phone: 're_phone',
+  re_licensed_agent_name: 're_licensed_agent_name'
 });
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
@@ -237,40 +183,33 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.UserModelScalarFieldEnum = makeEnum({
+  created_at: 'created_at',
   id: 'id',
   name: 'name',
-  email: 'email',
-  email_verified: 'email_verified',
   phone: 'phone',
-  phone_verified: 'phone_verified',
-  address_first: 'address_first',
-  address_second: 'address_second',
-  profile_image_url: 'profile_image_url'
+  email: 'email',
+  email_verified: 'email_verified'
+});
+exports.GenderType = makeEnum({
+  female: 'female',
+  male: 'male',
+  other: 'other'
 });
 
+exports.OauthType = makeEnum({
+  kakao: 'kakao',
+  naver: 'naver'
+});
 
 exports.Prisma.ModelName = makeEnum({
-  RealEstatePropertyModel: 'RealEstatePropertyModel',
-  HomeCareSpecializedSuperFieldModel: 'HomeCareSpecializedSuperFieldModel',
-  HomeCareSpecializedSubFieldModel: 'HomeCareSpecializedSubFieldModel',
-  RealEstateSpecializedSuperFieldModel: 'RealEstateSpecializedSuperFieldModel',
-  RealEstateSpecializedSubFieldModel: 'RealEstateSpecializedSubFieldModel',
-  BusinessRateModel: 'BusinessRateModel',
-  BusinessRateCategoryModel: 'BusinessRateCategoryModel',
-  BusinessReviewModel: 'BusinessReviewModel',
-  BusinessCertificationModel: 'BusinessCertificationModel',
   AccessorModel: 'AccessorModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
-  RealEstateAgentModel: 'RealEstateAgentModel',
-  HomeCareCompanyModel: 'HomeCareCompanyModel',
-  HomeCareIntroductionImageModel: 'HomeCareIntroductionImageModel',
-  BoardModel: 'BoardModel',
-  BoardArticleModel: 'BoardArticleModel',
-  BoardArticleContentModel: 'BoardArticleContentModel',
-  BoardCommentModel: 'BoardCommentModel',
-  BoardCommentContentModel: 'BoardCommentContentModel'
+  REAgentModel: 'REAgentModel',
+  HSCompanyModel: 'HSCompanyModel',
+  TempREAgentModel: 'TempREAgentModel',
+  TempHSCompanyModel: 'TempHSCompanyModel'
 });
 
 /**

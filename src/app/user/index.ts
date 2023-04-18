@@ -1,2 +1,2 @@
-export * from "./customer.service";
-export * from "./re_agent.service";
+export * from "./customer";
+export * from "./re_agent";

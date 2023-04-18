@@ -9,7 +9,6 @@ export const test_customers_create_success = async (
 ) => {
   const received = await ArrayUtil.asyncRepeat(10, () => {
     const body = typia.random<ICustomer.ICreate>();
-    body.birth = body.birth && "970216";
     return customers.create(connection, body);
   });
   typia.assertEquals(received);
