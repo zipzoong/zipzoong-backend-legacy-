@@ -197,6 +197,193 @@
           }
         ]
       }
+    },
+    "/re-agents": {
+      "post": {
+        "tags": [
+          "re_agents"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "공인중개사 생성 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IREAgent.ICreate"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "공인중개사 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREAgent"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "공인중개사 생성 API",
+        "description": "",
+        "x-nestia-namespace": "re-agents.create",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "공인중개사 생성 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re_agents",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "공인중개사 생성 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "공인중개사 정보",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-agents/{re_agent_id}": {
+      "get": {
+        "tags": [
+          "re_agents"
+        ],
+        "parameters": [
+          {
+            "name": "re_agent_id",
+            "in": "path",
+            "description": "공인중개사 ID",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "공인중개사 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREAgent"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "400": {
+            "description": "Real Estate Agent Not Found"
+          },
+          "412": {
+            "description": "Unprocessable Entity"
+          }
+        },
+        "summary": "공인중개사 조회 API",
+        "description": "",
+        "x-nestia-namespace": "re-agents.find",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "공인중개사 조회 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re_agents",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "re_agent_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "공인중개사 ID",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "공인중개사 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "400 Real Estate Agent Not Found",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "412 Unprocessable Entity",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -204,18 +391,15 @@
       "ICustomer.ICreate": {
         "type": "object",
         "properties": {
-          "user_type": {
+          "profile_image_url": {
             "type": "string",
-            "enum": [
-              "customer"
-            ],
             "nullable": false,
-            "description": "사용자 타입\n\n- customer 일반 사용자\n- business 사업자",
-            "x-typia-required": true
+            "description": "프로필 이미지",
+            "x-typia-required": false
           },
-          "birth": {
-            "type": "string",
-            "nullable": false,
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "description": "사용자 주소 정보",
             "x-typia-required": false
           },
           "gender": {
@@ -226,16 +410,17 @@
               "other"
             ],
             "nullable": false,
+            "description": "성벌\n- female 여성\n- male 남성\n- other 기타",
             "x-typia-required": false
           },
-          "email": {
+          "birth": {
             "type": "string",
             "nullable": false,
-            "description": "이메일",
+            "description": "생일\n\nYYYY-MM-DD",
             "x-typia-metaTags": [
               {
                 "kind": "format",
-                "value": "email"
+                "value": "date"
               }
             ],
             "x-typia-jsDocTags": [
@@ -243,101 +428,14 @@
                 "name": "format",
                 "text": [
                   {
-                    "text": "email",
+                    "text": "date",
                     "kind": "text"
                   }
                 ]
               }
             ],
             "x-typia-required": false,
-            "format": "email"
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false,
-            "description": "전화번호",
-            "x-typia-required": false
-          },
-          "address_first": {
-            "type": "string",
-            "nullable": false,
-            "description": "1차 주소\n\n모든 사용자는 1차 주소를 입력해야 서비스를 이용할 수 있다.\n\n공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.",
-            "x-typia-required": false
-          },
-          "address_second": {
-            "type": "string",
-            "nullable": false,
-            "description": "2차 주소(상세 주소)",
-            "x-typia-required": false
-          },
-          "profile_image": {
-            "type": "string",
-            "nullable": false,
-            "description": "프로필 이미지",
-            "x-typia-required": false
-          },
-          "name": {
-            "type": "string",
-            "nullable": false,
-            "description": "이름",
-            "x-typia-required": false
-          },
-          "email_verified": {
-            "type": "boolean",
-            "nullable": false,
-            "description": "이메일 인증 여부\n\n비즈니스 사용자는 이메일 인증 완료 후 서비스를 이용할 수 있다.",
-            "x-typia-required": false
-          },
-          "phone_verified": {
-            "type": "boolean",
-            "nullable": false,
-            "description": "전화번호 인증 여부\n\n비즈니스 사용자는 전화번호 인증 완료 후 서비스를 이용할 수 있다.",
-            "x-typia-required": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "user_type"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "ICustomer": {
-        "type": "object",
-        "properties": {
-          "birth": {
-            "type": "string",
-            "nullable": true,
-            "description": "생년월일\n\nYYMMDD",
-            "x-typia-metaTags": [
-              {
-                "kind": "pattern",
-                "value": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "pattern": "^([0-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "female",
-              "male",
-              "other"
-            ],
-            "nullable": true,
-            "description": "성별\n\n- female 여성\n- male 남성\n- other 기타",
-            "x-typia-required": true
+            "format": "date"
           },
           "user_type": {
             "type": "string",
@@ -345,42 +443,63 @@
               "customer"
             ],
             "nullable": false,
-            "description": "사용자 타입\n\n- customer 일반 사용자\n- business 사업자",
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
             "x-typia-required": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": false,
-            "description": "사용자 id",
-            "x-typia-metaTags": [
-              {
-                "kind": "format",
-                "value": "uuid"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "uuid",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "format": "uuid"
           },
           "name": {
             "type": "string",
             "nullable": false,
-            "description": "이름",
+            "description": "사용자명",
             "x-typia-required": true
           },
           "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
             "type": "string",
-            "nullable": true,
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "user_type",
+          "name",
+          "phone"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IUser.IAddress": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "type": "string",
+            "nullable": false,
+            "description": "1차 주소",
+            "x-typia-required": true
+          },
+          "second": {
+            "type": "string",
+            "nullable": false,
+            "description": "2차 주소(상세 주소)",
+            "x-typia-required": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "first"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IUser.IEmail": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": false,
             "description": "이메일",
             "x-typia-metaTags": [
               {
@@ -402,57 +521,373 @@
             "x-typia-required": true,
             "format": "email"
           },
-          "email_verified": {
+          "is_verified": {
             "type": "boolean",
             "nullable": false,
-            "description": "이메일 인증 여부\n\n비즈니스 사용자는 이메일 인증 완료 후 서비스를 이용할 수 있다.",
-            "x-typia-required": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true,
-            "description": "전화번호",
-            "x-typia-required": true
-          },
-          "phone_verified": {
-            "type": "boolean",
-            "nullable": false,
-            "description": "전화번호 인증 여부\n\n비즈니스 사용자는 전화번호 인증 완료 후 서비스를 이용할 수 있다.",
-            "x-typia-required": true
-          },
-          "address_first": {
-            "type": "string",
-            "nullable": true,
-            "description": "1차 주소\n\n모든 사용자는 1차 주소를 입력해야 서비스를 이용할 수 있다.\n\n공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.",
-            "x-typia-required": true
-          },
-          "address_second": {
-            "type": "string",
-            "nullable": true,
-            "description": "2차 주소(상세 주소)",
-            "x-typia-required": true
-          },
-          "profile_image": {
-            "type": "string",
-            "nullable": true,
-            "description": "프로필 이미지",
+            "description": "이메일 인증 상태",
             "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
-          "birth",
-          "gender",
+          "email",
+          "is_verified"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "ICustomer": {
+        "type": "object",
+        "properties": {
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지",
+            "x-typia-required": false
+          },
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "description": "사용자 주소 정보",
+            "x-typia-required": false
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "female",
+              "male",
+              "other"
+            ],
+            "nullable": false,
+            "description": "성벌\n- female 여성\n- male 남성\n- other 기타",
+            "x-typia-required": false
+          },
+          "birth": {
+            "type": "string",
+            "nullable": false,
+            "description": "생일\n\nYYYY-MM-DD",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "format": "date"
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "customer"
+            ],
+            "nullable": false,
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자 고유 id",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명",
+            "x-typia-required": true
+          },
+          "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "계정 생성일",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
           "user_type",
           "id",
           "name",
-          "email",
-          "email_verified",
           "phone",
-          "phone_verified",
-          "address_first",
-          "address_second",
-          "profile_image"
+          "created_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.ICreate": {
+        "type": "object",
+        "properties": {
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지 주소",
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "business"
+            ],
+            "nullable": false,
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명",
+            "x-typia-required": true
+          },
+          "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          },
+          "is_licensed": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "공인중개사 유형\n- true 개업 공인중개사\n- false 소속 공인중개사",
+            "x-typia-required": true
+          },
+          "real_estate": {
+            "$ref": "#/components/schemas/IREAgent.IRealEstate",
+            "description": "부동산 정보\n\n해당 정보는 공공기관에서 부동산개설등록번호로 기록된 내용과 일치해야 한다.",
+            "x-typia-required": true
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "real estate"
+            ],
+            "nullable": false,
+            "description": "비즈니스 유형\n- real estate\n- home service",
+            "x-typia-required": true
+          },
+          "introduction_title": {
+            "type": "string",
+            "nullable": false,
+            "description": "소개 제목",
+            "x-typia-required": true
+          },
+          "introduction_content": {
+            "type": "string",
+            "nullable": false,
+            "description": "소개 본문",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "profile_image_url",
+          "user_type",
+          "name",
+          "phone",
+          "is_licensed",
+          "real_estate",
+          "business_type",
+          "introduction_title",
+          "introduction_content"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.IRealEstate": {
+        "type": "object",
+        "properties": {
+          "num": {
+            "type": "string",
+            "nullable": false,
+            "description": "개설등록번호",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "상호명",
+            "x-typia-required": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화번호",
+            "x-typia-required": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "description": "주소",
+            "x-typia-required": true
+          },
+          "licensed_agent_name": {
+            "type": "string",
+            "nullable": false,
+            "description": "대표자명",
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "num",
+          "name",
+          "phone",
+          "address",
+          "licensed_agent_name"
+        ],
+        "description": "부동산 관련 정보\n\n해당 정보는 공공기관에서 부동산개설등록번호로 기록된 내용과 일치해야 한다.",
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent": {
+        "type": "object",
+        "properties": {
+          "is_licensed": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "공인중개사 유형\n- true 개업 공인중개사\n- false 소속 공인중개사",
+            "x-typia-required": true
+          },
+          "real_estate": {
+            "$ref": "#/components/schemas/IREAgent.IRealEstate",
+            "description": "부동산 정보\n\n해당 정보는 공공기관에서 부동산개설등록번호로 기록된 내용과 일치해야 한다.",
+            "x-typia-required": true
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "real estate"
+            ],
+            "nullable": false,
+            "description": "비즈니스 유형\n- real estate\n- home service",
+            "x-typia-required": true
+          },
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "description": "프로필 이미지 주소",
+            "x-typia-required": true
+          },
+          "introduction_title": {
+            "type": "string",
+            "nullable": false,
+            "description": "소개 제목",
+            "x-typia-required": true
+          },
+          "introduction_content": {
+            "type": "string",
+            "nullable": false,
+            "description": "소개 본문",
+            "x-typia-required": true
+          },
+          "user_type": {
+            "type": "string",
+            "enum": [
+              "business"
+            ],
+            "nullable": false,
+            "description": "사용자 분류\n\n- customer 일반 고객\n- business 사업자",
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자 고유 id",
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "사용자명",
+            "x-typia-required": true
+          },
+          "email": {
+            "$ref": "#/components/schemas/IUser.IEmail",
+            "description": "이메일 정보",
+            "x-typia-required": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "전화 번호",
+            "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "계정 생성일",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "is_licensed",
+          "real_estate",
+          "business_type",
+          "profile_image_url",
+          "introduction_title",
+          "introduction_content",
+          "user_type",
+          "id",
+          "name",
+          "phone",
+          "created_at"
         ],
         "x-typia-jsDocTags": []
       }

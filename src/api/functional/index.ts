@@ -5,4 +5,4 @@
  */
 //================================================================
 export * as customers from "./customers";
-export * as real_estate from "./real_estate";
+export * as re_agents from "./re_agents";

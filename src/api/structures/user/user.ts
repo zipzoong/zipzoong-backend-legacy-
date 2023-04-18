@@ -1,71 +1,66 @@
 import { Mutable, Omit } from "@TYPE";
-import { ICustomer } from "./customer";
-import { IHomeCareCompany, IRealEstateAgent } from "./business";
 
-export type IUser = ICustomer | IRealEstateAgent | IHomeCareCompany;
+export interface IUser<T extends IUser.Type = IUser.Type> {
+  /**
+   * 사용자 분류
+   *
+   * - customer 일반 고객
+   * - business 사업자
+   */
+  readonly user_type: T;
+  /**
+   * 사용자 고유 id
+   */
+  readonly id: string;
+  /**
+   * 사용자명
+   */
+  readonly name: string;
+  /**
+   * 이메일 정보
+   */
+  readonly email?: IUser.IEmail;
+  /**
+   * 전화 번호
+   */
+  readonly phone: string;
+  /**
+   * 계정 생성일
+   *
+   * @format date-time
+   */
+  readonly created_at: string;
+}
 
 export namespace IUser {
   export type Type = "customer" | "business";
+  export type GenderType = "female" | "male" | "other";
 
-  export interface IBase<T extends Type = Type> {
-    /**
-     * 사용자 타입
-     *
-     * - customer 일반 사용자
-     * - business 사업자
-     */
-    readonly user_type: T;
-    /**
-     * 사용자 id
-     * @format uuid
-     */
-    readonly id: string;
-    /**
-     * 이름
-     */
-    readonly name: string;
+  export interface IEmail {
     /**
      * 이메일
      *
      * @format email
      */
-    readonly email?: string;
+    readonly email: string;
     /**
-     * 이메일 인증 여부
-     *
-     * 비즈니스 사용자는 이메일 인증 완료 후 서비스를 이용할 수 있다.
+     * 이메일 인증 상태
      */
-    readonly email_verified: boolean;
-    /**
-     * 전화번호
-     */
-    readonly phone?: string;
-    /**
-     * 전화번호 인증 여부
-     *
-     * 비즈니스 사용자는 전화번호 인증 완료 후 서비스를 이용할 수 있다.
-     */
-    readonly phone_verified: boolean;
+    readonly is_verified: boolean;
+  }
+
+  export interface IAddress {
     /**
      * 1차 주소
-     *
-     * 모든 사용자는 1차 주소를 입력해야 서비스를 이용할 수 있다.
-     *
-     * 공인중개사의 경우, 부동산개설등록정보와 일치하는 부동산 주소가 입력된다.
      */
-    readonly address_first?: string;
+    readonly first: string;
     /**
      * 2차 주소(상세 주소)
      */
-    readonly address_second?: string;
-    /**
-     * 프로필 이미지 주소
-     */
-    readonly profile_image_url?: string;
+    readonly second?: string;
   }
 
-  export interface ICreate<T extends Type = Type>
-    extends Mutable<Partial<Omit<IBase, "id">>> {
-    user_type: T;
-  }
+  export type ICreate<T extends Type = Type> = Mutable<
+    Omit<IUser<T>, "id" | "created_at">
+  >;
 }

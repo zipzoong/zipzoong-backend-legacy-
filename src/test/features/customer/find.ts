@@ -11,7 +11,7 @@ import { internal } from "@TEST/internal";
 export const test_customers_find_success = async (connection: IConnection) => {
   const seed = await ArrayUtil.asyncRepeat(5, () => {
     const body = typia.random<ICustomer.ICreate>();
-    body.birth = undefined;
+
     return customers.create(connection, body);
   });
 
@@ -27,9 +27,7 @@ export const test_customers_not_found = async (connection: IConnection) =>
   ArrayUtil.asyncForEach(
     new Array(5).fill(1).map(() => randomUUID()),
     internal.test_error((id: string) => customers.find(connection, id))(
-      (err) => {
-        assert.strictEqual(err.status, HttpStatus.NOT_FOUND);
-        assert.strictEqual(err.message, "Customer Not Found");
-      }
+      HttpStatus.NOT_FOUND,
+      "Customer Not Found"
     )
   );
