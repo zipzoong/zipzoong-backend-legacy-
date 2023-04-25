@@ -24,7 +24,6 @@ export namespace IUser {
 }
 
 export interface ICustomer extends IUser.IBase<"customer"> {
-  readonly phone: string;
   /**
    * YYYY-MM-DD
    * @format date
