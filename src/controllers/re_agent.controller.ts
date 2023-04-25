@@ -1,4 +1,4 @@
-import { REAgentService } from "@APP/user";
+import { REAgentService } from "src/providers/user";
 import { IREAgent } from "@DTO/user";
 import { TypedBody, TypedParam } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";

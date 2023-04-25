@@ -39,6 +39,7 @@ model UserModel {
   id             String             @id
   name           String
   phone          String
+  phone_verified Boolean
   email          String?
   email_verified Boolean
   customer       CustomerModel?

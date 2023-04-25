@@ -15,7 +15,7 @@ const one_to_one: RelationalFieldOptions = {
  *
  * customer 계정 하나와 사업자 계정 하나를 연동할 수 있음
  */
-export const OauthAccessor = createModel("AccessorModel", (model) => {
+export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
   model
     .string("id", { id: true })
     .string("oauth_sub")
@@ -38,8 +38,6 @@ export const OauthAccessor = createModel("AccessorModel", (model) => {
       onDelete: "NoAction",
       onUpdate: "NoAction"
     })
-    .relation("temp_re_agents", TempREAgent, { optional: true })
-    .relation("temp_hs_company", TempHSCompany, { optional: true })
     .map("oauth_accessors");
 });
 
@@ -56,9 +54,9 @@ export const User = createModel("UserModel", (model) => {
     .mixin(DateTime)
     .string("id", { id: true })
     .string("name")
-    .string("phone")
+    .string("phone", { optional: true })
     .string("email", { optional: true })
-    .boolean("email_verified")
+    .string("profile_image_url", { optional: true })
     .relation("customer", Customer, { optional: true })
     .relation("business_user", BusinessUser, { optional: true })
     .map("users");
@@ -70,7 +68,6 @@ export const User = createModel("UserModel", (model) => {
 export const Customer = createModel("CustomerModel", (model) => {
   model
     .string("id", { id: true })
-    .string("profile_image_url", { optional: true })
     .enum("gender", GenderType, { optional: true })
     .string("birth", { optional: true })
     .string("address_first", { optional: true })
@@ -86,7 +83,6 @@ export const Customer = createModel("CustomerModel", (model) => {
 export const BusinessUser = createModel("BusinessUserModel", (model) => {
   model
     .string("id", { id: true })
-    .string("profile_image_url")
     .string("introduction_title")
     .string("introduction_content")
     .relation("base", User, one_to_one)
@@ -146,61 +142,5 @@ export const CompanyIntroductionImages = createModel(
       .map("hs_company_introduction_images");
   }
 );
-
-/**
- * 공인중개사 임시 생성 테이블
- *
- * 필수 정보를 모두 입력하고 승인되면 관리자에 의해 공인중개사 정보가 추가됨
- */
-export const TempREAgent = createModel("TempREAgentModel", (model) => {
-  model
-    .string("id", { id: true })
-    .string("name", { optional: true })
-    .string("email", { optional: true })
-    .boolean("email_verified")
-    .string("phone", { optional: true })
-    .boolean("phone_verified")
-    .string("profile_image_url", { optional: true })
-
-    .string("address_first", { optional: true })
-    .string("address_second", { optional: true })
-    .string("introduction_title", { optional: true })
-    .string("introduction_content", { optional: true })
-
-    .boolean("is_licensed", { optional: true })
-    .string("re_num", { optional: true })
-    .string("re_name", { optional: true })
-    .string("re_phone", { optional: true })
-    .string("re_licensed_agent_name", { optional: true })
-
-    .relation("oauth_accessor", OauthAccessor, one_to_one)
-    .map("temp_re_agents");
-});
-
-/**
- * 생활서비스 회사 임시 생성 테이블
- *
- * 필수 정보를 모두 입력하고 승인되면 관리자에 의해 생활서비스 정보가 추가됨
- */
-export const TempHSCompany = createModel("TempHSCompanyModel", (model) => {
-  model
-    .string("id", { id: true })
-    .string("name", { optional: true })
-    .string("email", { optional: true })
-    .boolean("email_verified")
-    .string("phone", { optional: true })
-    .boolean("phone_verified")
-    .string("profile_image_url", { optional: true })
-
-    .string("address_first", { optional: true })
-    .string("address_second", { optional: true })
-    .string("introduction_title", { optional: true })
-    .string("introduction_content", { optional: true })
-
-    .string("business_num", { optional: true })
-
-    .relation("oauth_accessor", OauthAccessor, one_to_one)
-    .map("temp_hs_companies");
-});
 
 // 약관 동의 목록,전문 영역 관련 추가 구현 필요

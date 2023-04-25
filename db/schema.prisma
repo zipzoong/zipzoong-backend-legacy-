@@ -3,6 +3,10 @@ datasource database {
   url      = env("DATABASE_URL")
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../db"
@@ -39,6 +43,7 @@ model UserModel {
   id             String             @id
   name           String
   phone          String
+  phone_verified Boolean
   email          String?
   email_verified Boolean
   customer       CustomerModel?

@@ -1,4 +1,4 @@
-import { CustomerService } from "@APP/user";
+import { CustomerService } from "src/providers/user";
 import { ICustomer } from "@DTO/user";
 import { TypedBody, TypedParam } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";

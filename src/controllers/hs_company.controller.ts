@@ -1,4 +1,4 @@
-import { HSCompanyService } from "@APP/user";
+import { HSCompanyService } from "src/providers/user";
 import { IHSCompany } from "@DTO/user";
 import { TypedBody, TypedParam } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";

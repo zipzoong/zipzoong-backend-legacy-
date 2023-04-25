@@ -1,4 +1,4 @@
-import { AuthService } from "@APP/user/auth";
+import { AuthService } from "src/providers/user/auth";
 import { IAccessor } from "@DTO/user";
 import { TypedBody } from "@nestia/core";
 import { Controller, Post } from "@nestjs/common";
@@ -28,8 +28,8 @@ export class AuthController {
    * @param body oauth 회원가입 요청 정보
    * @returns 응답 데이터 없음
    */
-  @Post("sign-up/oauth")
-  createAccessor(@TypedBody() body: IAccessor.ISignUpBody): Promise<void> {
+  @Post("sign-up/oauth/customer")
+  createCustomer(@TypedBody() body: IAccessor.ISignUpBody): Promise<void> {
     return AuthService.signUp(body);
   }
 }

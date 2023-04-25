@@ -33,6 +33,7 @@ export type UserModel = {
   id: string
   name: string
   phone: string
+  phone_verified: boolean
   email: string | null
   email_verified: boolean
 }
@@ -2106,6 +2107,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     phone: string | null
+    phone_verified: boolean | null
     email: string | null
     email_verified: boolean | null
   }
@@ -2115,6 +2117,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     phone: string | null
+    phone_verified: boolean | null
     email: string | null
     email_verified: boolean | null
   }
@@ -2124,6 +2127,7 @@ export namespace Prisma {
     id: number
     name: number
     phone: number
+    phone_verified: number
     email: number
     email_verified: number
     _all: number
@@ -2135,6 +2139,7 @@ export namespace Prisma {
     id?: true
     name?: true
     phone?: true
+    phone_verified?: true
     email?: true
     email_verified?: true
   }
@@ -2144,6 +2149,7 @@ export namespace Prisma {
     id?: true
     name?: true
     phone?: true
+    phone_verified?: true
     email?: true
     email_verified?: true
   }
@@ -2153,6 +2159,7 @@ export namespace Prisma {
     id?: true
     name?: true
     phone?: true
+    phone_verified?: true
     email?: true
     email_verified?: true
     _all?: true
@@ -2236,6 +2243,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email: string | null
     email_verified: boolean
     _count: UserModelCountAggregateOutputType | null
@@ -2262,6 +2270,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     phone?: boolean
+    phone_verified?: boolean
     email?: boolean
     email_verified?: boolean
     customer?: boolean | CustomerModelArgs
@@ -9945,6 +9954,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     phone: 'phone',
+    phone_verified: 'phone_verified',
     email: 'email',
     email_verified: 'email_verified'
   };
@@ -10019,6 +10029,7 @@ export namespace Prisma {
     id?: StringFilter | string
     name?: StringFilter | string
     phone?: StringFilter | string
+    phone_verified?: BoolFilter | boolean
     email?: StringNullableFilter | string | null
     email_verified?: BoolFilter | boolean
     customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput> | null
@@ -10030,6 +10041,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phone_verified?: SortOrder
     email?: SortOrder
     email_verified?: SortOrder
     customer?: CustomerModelOrderByWithRelationInput
@@ -10045,6 +10057,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phone_verified?: SortOrder
     email?: SortOrder
     email_verified?: SortOrder
     _count?: UserModelCountOrderByAggregateInput
@@ -10060,6 +10073,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     phone?: StringWithAggregatesFilter | string
+    phone_verified?: BoolWithAggregatesFilter | boolean
     email?: StringNullableWithAggregatesFilter | string | null
     email_verified?: BoolWithAggregatesFilter | boolean
   }
@@ -10542,6 +10556,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
@@ -10553,6 +10568,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
@@ -10564,6 +10580,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
@@ -10575,6 +10592,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -10586,6 +10604,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
   }
@@ -10595,6 +10614,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -10604,6 +10624,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -11292,6 +11313,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phone_verified?: SortOrder
     email?: SortOrder
     email_verified?: SortOrder
   }
@@ -11301,6 +11323,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phone_verified?: SortOrder
     email?: SortOrder
     email_verified?: SortOrder
   }
@@ -11310,6 +11333,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    phone_verified?: SortOrder
     email?: SortOrder
     email_verified?: SortOrder
   }
@@ -12610,6 +12634,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
@@ -12620,6 +12645,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
@@ -12668,6 +12694,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
@@ -12678,6 +12705,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -12715,6 +12743,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
@@ -12725,6 +12754,7 @@ export namespace Prisma {
     id: string
     name: string
     phone: string
+    phone_verified: boolean
     email?: string | null
     email_verified: boolean
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
@@ -12817,6 +12847,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
@@ -12827,6 +12858,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
+    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
     email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
