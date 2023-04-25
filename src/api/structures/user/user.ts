@@ -42,6 +42,7 @@ export namespace IBusiness {
 
 export interface IREAgent extends IUser.IBase<"real estate agent"> {
   readonly phone: string;
+  readonly profile_image_url: string;
   readonly is_verified: boolean;
   readonly is_licensed: boolean;
   readonly introduction: IBusiness.IIntroduction;
@@ -60,6 +61,7 @@ export namespace IREAgent {
 
 export interface IHSProvider extends IUser.IBase<"home service provider"> {
   readonly phone: string;
+  readonly profile_image_url: string;
   readonly is_verified: boolean;
   readonly introduction: IHSProvider.IIntroduction;
   readonly address: IUser.IAddress;
