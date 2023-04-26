@@ -55,7 +55,7 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Post("user")
-  createUser(@TypedBody() body: Authentication.ICreateUser): Promise<void> {
+  create(@TypedBody() body: Authentication.ICreateUser): Promise<void> {
     throw Error();
   }
 }
