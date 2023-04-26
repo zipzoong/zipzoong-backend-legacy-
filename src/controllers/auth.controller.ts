@@ -11,6 +11,8 @@ export class AuthenticationController {
    * @tag authentication
    * @param body oauth code, oauth type, user_type
    * @returns tokens
+   * @throw 401 Unauthorized
+   * @throw 404 Not Found
    */
   @Post("sign-in")
   signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
@@ -36,6 +38,8 @@ export class AuthenticationController {
    * @summary OauthProfile 요청 API
    * @tag authentication
    * @returns OauthProfile
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
    */
   @Get("oauth-profile")
   getOauthProfile(): Promise<IOauthProfile> {
@@ -47,6 +51,8 @@ export class AuthenticationController {
    * @tag authentication
    * @param body 사용자 생성 정보
    * @returns void
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
    */
   @Post("user")
   createUser(@TypedBody() body: Authentication.ICreateUser): Promise<void> {
