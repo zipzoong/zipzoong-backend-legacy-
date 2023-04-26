@@ -1,4 +1,4 @@
-import { customers } from "@SDK";
+import { auth, customers } from "@SDK";
 import { ICustomer } from "@DTO/user";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
