@@ -709,7 +709,7 @@
             "x-typia-required": false
           },
           "introduction": {
-            "$ref": "#/components/schemas/IBusiness.IIntroduction",
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true
           },
           "is_licensed": {
@@ -732,7 +732,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IBusiness.IIntroduction": {
+      "IBusinessUser.IIntroduction": {
         "type": "object",
         "properties": {
           "title": {
@@ -807,7 +807,7 @@
             "x-typia-required": false
           },
           "introduction": {
-            "$ref": "#/components/schemas/IBusiness.IIntroduction",
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true
           },
           "introduction_images": {
