@@ -1,7 +1,7 @@
-import { IBusiness } from "./business";
+import { IBusinessUser } from "./business_user";
 import { ICustomer } from "./customer";
 
-export type IUser = ICustomer | IBusiness;
+export type IUser = ICustomer | IBusinessUser;
 
 export namespace IUser {
   export type Type = "customer" | "real estate agent" | "home service provider";

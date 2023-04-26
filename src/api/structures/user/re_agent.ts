@@ -1,8 +1,8 @@
 import { Omit } from "@TYPE";
-import { IBusiness } from "./business";
+import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
 
-export interface IREAgent extends IBusiness.IBase<"real estate agent"> {
+export interface IREAgent extends IBusinessUser.IBase<"real estate agent"> {
   readonly is_licensed: boolean;
   readonly real_estate: IREAgent.IRealEstate;
 }
@@ -19,7 +19,7 @@ export namespace IREAgent {
   export interface ICreate extends IUser.ICreate<"real estate agent"> {
     phone: string;
     profile_image_url: string;
-    introduction: IBusiness.IIntroduction;
+    introduction: IBusinessUser.IIntroduction;
     is_licensed: boolean;
     real_estate: IREAgent.IRealEstate;
   }

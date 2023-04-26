@@ -13,15 +13,27 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
- * Model AccessorModel
+ * Model OauthAccessorModel
  * 
  */
-export type AccessorModel = {
+export type OauthAccessorModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
   id: string
-  oauth_sub: string
   oauth_type: OauthType
-  customer_id: string | null
-  business_user_id: string | null
+  oauth_sub: string
+  business_user_id: string
+  customer_id: string
+  name: string | null
+  email: string | null
+  phone: string | null
+  profile_image_url: string | null
+  birth: string | null
+  gender: GenderType | null
+  address_first: string | null
+  address_second: string | null
 }
 
 /**
@@ -30,12 +42,12 @@ export type AccessorModel = {
  */
 export type UserModel = {
   created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
   id: string
   name: string
-  phone: string
-  phone_verified: boolean
   email: string | null
-  email_verified: boolean
 }
 
 /**
@@ -44,22 +56,27 @@ export type UserModel = {
  */
 export type CustomerModel = {
   id: string
-  profile_image_url: string | null
-  gender: GenderType | null
   birth: string | null
+  gender: GenderType | null
+  phone: string | null
   address_first: string | null
   address_second: string | null
+  profile_image_url: string | null
 }
 
 /**
- * Model BusinessUserModel
+ * Model BusinessUser
  * 
  */
-export type BusinessUserModel = {
+export type BusinessUser = {
   id: string
-  profile_image_url: string
+  is_verified: boolean
   introduction_title: string
   introduction_content: string
+  phone: string
+  address_first: string
+  address_second: string
+  profile_image_url: string
 }
 
 /**
@@ -73,71 +90,114 @@ export type REAgentModel = {
   re_name: string
   re_phone: string
   re_licensed_agent_name: string
-  re_address_first: string
-  re_address_second: string | null
 }
 
 /**
- * Model HSCompanyModel
+ * Model HSProviderModel
  * 
  */
-export type HSCompanyModel = {
+export type HSProviderModel = {
   id: string
-  business_num: string
-  address_first: string
-  address_second: string | null
+  business_registration_num: string
 }
 
 /**
- * Model HSCompanyIntroductionImageModel
+ * Model BusinessCertificationModel
  * 
  */
-export type HSCompanyIntroductionImageModel = {
+export type BusinessCertificationModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
   id: string
-  url: string
-  company_id: string
+  business_user_id: string
+  image_url: string
 }
 
 /**
- * Model TempREAgentModel
+ * Model HSIntroductionImageModel
  * 
  */
-export type TempREAgentModel = {
+export type HSIntroductionImageModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
   id: string
-  name: string | null
-  email: string | null
-  email_verified: boolean
-  phone: string | null
-  phone_verified: boolean
-  profile_image_url: string | null
-  address_first: string | null
-  address_second: string | null
-  introduction_title: string | null
-  introduction_content: string | null
-  is_licensed: boolean | null
-  re_num: string | null
-  re_name: string | null
-  re_phone: string | null
-  re_licensed_agent_name: string | null
+  hs_provider_id: string
+  image_url: string
 }
 
 /**
- * Model TempHSCompanyModel
+ * Model UserExpertiseModel
  * 
  */
-export type TempHSCompanyModel = {
+export type UserExpertiseModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
   id: string
-  name: string | null
-  email: string | null
-  email_verified: boolean
-  phone: string | null
-  phone_verified: boolean
-  profile_image_url: string | null
-  address_first: string | null
-  address_second: string | null
-  introduction_title: string | null
-  introduction_content: string | null
-  business_num: string | null
+  category_id: string
+  business_user_id: string
+}
+
+/**
+ * Model ExpertSubCategoryModel
+ * 
+ */
+export type ExpertSubCategoryModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  id: string
+  name: string
+  super_id: string
+}
+
+/**
+ * Model ExpertSuperCategoryModel
+ * 
+ */
+export type ExpertSuperCategoryModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  id: string
+  name: string
+  business_type: ExpertBusinessType
+}
+
+/**
+ * Model AgreementModel
+ * 
+ */
+export type AgreementModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  id: string
+  title: string
+  content: string
+  user_type: AgreementUserType
+}
+
+/**
+ * Model AgreementAcceptanceModel
+ * 
+ */
+export type AgreementAcceptanceModel = {
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  id: string
+  user_id: string
+  agreement_id: string
 }
 
 
@@ -147,6 +207,25 @@ export type TempHSCompanyModel = {
 
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const AgreementUserType: {
+  all: 'all',
+  customer: 'customer',
+  business: 'business',
+  HS: 'HS',
+  RE: 'RE'
+};
+
+export type AgreementUserType = (typeof AgreementUserType)[keyof typeof AgreementUserType]
+
+
+export const ExpertBusinessType: {
+  HS: 'HS',
+  RE: 'RE'
+};
+
+export type ExpertBusinessType = (typeof ExpertBusinessType)[keyof typeof ExpertBusinessType]
+
 
 export const GenderType: {
   female: 'female',
@@ -172,8 +251,8 @@ export type OauthType = (typeof OauthType)[keyof typeof OauthType]
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more AccessorModels
- * const accessorModels = await prisma.accessorModel.findMany()
+ * // Fetch zero or more OauthAccessorModels
+ * const oauthAccessorModels = await prisma.oauthAccessorModel.findMany()
  * ```
  *
  * 
@@ -193,8 +272,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more AccessorModels
-   * const accessorModels = await prisma.accessorModel.findMany()
+   * // Fetch zero or more OauthAccessorModels
+   * const oauthAccessorModels = await prisma.oauthAccessorModel.findMany()
    * ```
    *
    * 
@@ -283,14 +362,14 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
-   * `prisma.accessorModel`: Exposes CRUD operations for the **AccessorModel** model.
+   * `prisma.oauthAccessorModel`: Exposes CRUD operations for the **OauthAccessorModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more AccessorModels
-    * const accessorModels = await prisma.accessorModel.findMany()
+    * // Fetch zero or more OauthAccessorModels
+    * const oauthAccessorModels = await prisma.oauthAccessorModel.findMany()
     * ```
     */
-  get accessorModel(): Prisma.AccessorModelDelegate<GlobalReject>;
+  get oauthAccessorModel(): Prisma.OauthAccessorModelDelegate<GlobalReject>;
 
   /**
    * `prisma.userModel`: Exposes CRUD operations for the **UserModel** model.
@@ -313,14 +392,14 @@ export class PrismaClient<
   get customerModel(): Prisma.CustomerModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.businessUserModel`: Exposes CRUD operations for the **BusinessUserModel** model.
+   * `prisma.businessUser`: Exposes CRUD operations for the **BusinessUser** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more BusinessUserModels
-    * const businessUserModels = await prisma.businessUserModel.findMany()
+    * // Fetch zero or more BusinessUsers
+    * const businessUsers = await prisma.businessUser.findMany()
     * ```
     */
-  get businessUserModel(): Prisma.BusinessUserModelDelegate<GlobalReject>;
+  get businessUser(): Prisma.BusinessUserDelegate<GlobalReject>;
 
   /**
    * `prisma.rEAgentModel`: Exposes CRUD operations for the **REAgentModel** model.
@@ -333,44 +412,84 @@ export class PrismaClient<
   get rEAgentModel(): Prisma.REAgentModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.hSCompanyModel`: Exposes CRUD operations for the **HSCompanyModel** model.
+   * `prisma.hSProviderModel`: Exposes CRUD operations for the **HSProviderModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more HSCompanyModels
-    * const hSCompanyModels = await prisma.hSCompanyModel.findMany()
+    * // Fetch zero or more HSProviderModels
+    * const hSProviderModels = await prisma.hSProviderModel.findMany()
     * ```
     */
-  get hSCompanyModel(): Prisma.HSCompanyModelDelegate<GlobalReject>;
+  get hSProviderModel(): Prisma.HSProviderModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.hSCompanyIntroductionImageModel`: Exposes CRUD operations for the **HSCompanyIntroductionImageModel** model.
+   * `prisma.businessCertificationModel`: Exposes CRUD operations for the **BusinessCertificationModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more HSCompanyIntroductionImageModels
-    * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany()
+    * // Fetch zero or more BusinessCertificationModels
+    * const businessCertificationModels = await prisma.businessCertificationModel.findMany()
     * ```
     */
-  get hSCompanyIntroductionImageModel(): Prisma.HSCompanyIntroductionImageModelDelegate<GlobalReject>;
+  get businessCertificationModel(): Prisma.BusinessCertificationModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.tempREAgentModel`: Exposes CRUD operations for the **TempREAgentModel** model.
+   * `prisma.hSIntroductionImageModel`: Exposes CRUD operations for the **HSIntroductionImageModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more TempREAgentModels
-    * const tempREAgentModels = await prisma.tempREAgentModel.findMany()
+    * // Fetch zero or more HSIntroductionImageModels
+    * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany()
     * ```
     */
-  get tempREAgentModel(): Prisma.TempREAgentModelDelegate<GlobalReject>;
+  get hSIntroductionImageModel(): Prisma.HSIntroductionImageModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.tempHSCompanyModel`: Exposes CRUD operations for the **TempHSCompanyModel** model.
+   * `prisma.userExpertiseModel`: Exposes CRUD operations for the **UserExpertiseModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more TempHSCompanyModels
-    * const tempHSCompanyModels = await prisma.tempHSCompanyModel.findMany()
+    * // Fetch zero or more UserExpertiseModels
+    * const userExpertiseModels = await prisma.userExpertiseModel.findMany()
     * ```
     */
-  get tempHSCompanyModel(): Prisma.TempHSCompanyModelDelegate<GlobalReject>;
+  get userExpertiseModel(): Prisma.UserExpertiseModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.expertSubCategoryModel`: Exposes CRUD operations for the **ExpertSubCategoryModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExpertSubCategoryModels
+    * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany()
+    * ```
+    */
+  get expertSubCategoryModel(): Prisma.ExpertSubCategoryModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.expertSuperCategoryModel`: Exposes CRUD operations for the **ExpertSuperCategoryModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExpertSuperCategoryModels
+    * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany()
+    * ```
+    */
+  get expertSuperCategoryModel(): Prisma.ExpertSuperCategoryModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.agreementModel`: Exposes CRUD operations for the **AgreementModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgreementModels
+    * const agreementModels = await prisma.agreementModel.findMany()
+    * ```
+    */
+  get agreementModel(): Prisma.AgreementModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.agreementAcceptanceModel`: Exposes CRUD operations for the **AgreementAcceptanceModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgreementAcceptanceModels
+    * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany()
+    * ```
+    */
+  get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -414,8 +533,8 @@ export namespace Prisma {
 
 
   /**
-   * Prisma Client JS version: 4.12.0
-   * Query Engine version: 659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
+   * Prisma Client JS version: 4.13.0
+   * Query Engine version: 1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
    */
   export type PrismaVersion = {
     client: string
@@ -840,15 +959,19 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    AccessorModel: 'AccessorModel',
+    OauthAccessorModel: 'OauthAccessorModel',
     UserModel: 'UserModel',
     CustomerModel: 'CustomerModel',
-    BusinessUserModel: 'BusinessUserModel',
+    BusinessUser: 'BusinessUser',
     REAgentModel: 'REAgentModel',
-    HSCompanyModel: 'HSCompanyModel',
-    HSCompanyIntroductionImageModel: 'HSCompanyIntroductionImageModel',
-    TempREAgentModel: 'TempREAgentModel',
-    TempHSCompanyModel: 'TempHSCompanyModel'
+    HSProviderModel: 'HSProviderModel',
+    BusinessCertificationModel: 'BusinessCertificationModel',
+    HSIntroductionImageModel: 'HSIntroductionImageModel',
+    UserExpertiseModel: 'UserExpertiseModel',
+    ExpertSubCategoryModel: 'ExpertSubCategoryModel',
+    ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
+    AgreementModel: 'AgreementModel',
+    AgreementAcceptanceModel: 'AgreementAcceptanceModel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1010,16 +1133,59 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserModelCountOutputType
+   */
+
+
+  export type UserModelCountOutputType = {
+    agreement_acceptances: number
+  }
+
+  export type UserModelCountOutputTypeSelect = {
+    agreement_acceptances?: boolean
+  }
+
+  export type UserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | UserModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UserModelCountOutputTypeArgs)
+    ? UserModelCountOutputType 
+    : S extends { select: any } & (UserModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UserModelCountOutputType ? UserModelCountOutputType[P] : never
+  } 
+      : UserModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserModelCountOutputType without action
+   */
+  export type UserModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserModelCountOutputType
+     */
+    select?: UserModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
    * Count Type CustomerModelCountOutputType
    */
 
 
   export type CustomerModelCountOutputType = {
-    oauth_accessors: number
+    oauth_accessor: number
   }
 
   export type CustomerModelCountOutputTypeSelect = {
-    oauth_accessors?: boolean
+    oauth_accessor?: boolean
   }
 
   export type CustomerModelCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomerModelCountOutputTypeArgs> =
@@ -1053,30 +1219,34 @@ export namespace Prisma {
 
 
   /**
-   * Count Type BusinessUserModelCountOutputType
+   * Count Type BusinessUserCountOutputType
    */
 
 
-  export type BusinessUserModelCountOutputType = {
-    oauth_accessors: number
+  export type BusinessUserCountOutputType = {
+    certifications: number
+    expertises: number
+    oauth_accessor: number
   }
 
-  export type BusinessUserModelCountOutputTypeSelect = {
-    oauth_accessors?: boolean
+  export type BusinessUserCountOutputTypeSelect = {
+    certifications?: boolean
+    expertises?: boolean
+    oauth_accessor?: boolean
   }
 
-  export type BusinessUserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserModelCountOutputTypeArgs> =
+  export type BusinessUserCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUserModelCountOutputType :
+    S extends true ? BusinessUserCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (BusinessUserModelCountOutputTypeArgs)
-    ? BusinessUserModelCountOutputType 
-    : S extends { select: any } & (BusinessUserModelCountOutputTypeArgs)
+    S extends { include: any } & (BusinessUserCountOutputTypeArgs)
+    ? BusinessUserCountOutputType 
+    : S extends { select: any } & (BusinessUserCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof BusinessUserModelCountOutputType ? BusinessUserModelCountOutputType[P] : never
+    P extends keyof BusinessUserCountOutputType ? BusinessUserCountOutputType[P] : never
   } 
-      : BusinessUserModelCountOutputType
+      : BusinessUserCountOutputType
 
 
 
@@ -1084,42 +1254,42 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * BusinessUserModelCountOutputType without action
+   * BusinessUserCountOutputType without action
    */
-  export type BusinessUserModelCountOutputTypeArgs = {
+  export type BusinessUserCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModelCountOutputType
+     * Select specific fields to fetch from the BusinessUserCountOutputType
      */
-    select?: BusinessUserModelCountOutputTypeSelect | null
+    select?: BusinessUserCountOutputTypeSelect | null
   }
 
 
 
   /**
-   * Count Type HSCompanyModelCountOutputType
+   * Count Type HSProviderModelCountOutputType
    */
 
 
-  export type HSCompanyModelCountOutputType = {
+  export type HSProviderModelCountOutputType = {
     introduction_images: number
   }
 
-  export type HSCompanyModelCountOutputTypeSelect = {
+  export type HSProviderModelCountOutputTypeSelect = {
     introduction_images?: boolean
   }
 
-  export type HSCompanyModelCountOutputTypeGetPayload<S extends boolean | null | undefined | HSCompanyModelCountOutputTypeArgs> =
+  export type HSProviderModelCountOutputTypeGetPayload<S extends boolean | null | undefined | HSProviderModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSCompanyModelCountOutputType :
+    S extends true ? HSProviderModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (HSCompanyModelCountOutputTypeArgs)
-    ? HSCompanyModelCountOutputType 
-    : S extends { select: any } & (HSCompanyModelCountOutputTypeArgs)
+    S extends { include: any } & (HSProviderModelCountOutputTypeArgs)
+    ? HSProviderModelCountOutputType 
+    : S extends { select: any } & (HSProviderModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof HSCompanyModelCountOutputType ? HSCompanyModelCountOutputType[P] : never
+    P extends keyof HSProviderModelCountOutputType ? HSProviderModelCountOutputType[P] : never
   } 
-      : HSCompanyModelCountOutputType
+      : HSProviderModelCountOutputType
 
 
 
@@ -1127,13 +1297,142 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * HSCompanyModelCountOutputType without action
+   * HSProviderModelCountOutputType without action
    */
-  export type HSCompanyModelCountOutputTypeArgs = {
+  export type HSProviderModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModelCountOutputType
+     * Select specific fields to fetch from the HSProviderModelCountOutputType
      */
-    select?: HSCompanyModelCountOutputTypeSelect | null
+    select?: HSProviderModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ExpertSubCategoryModelCountOutputType
+   */
+
+
+  export type ExpertSubCategoryModelCountOutputType = {
+    expertises: number
+  }
+
+  export type ExpertSubCategoryModelCountOutputTypeSelect = {
+    expertises?: boolean
+  }
+
+  export type ExpertSubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ExpertSubCategoryModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ExpertSubCategoryModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ExpertSubCategoryModelCountOutputTypeArgs)
+    ? ExpertSubCategoryModelCountOutputType 
+    : S extends { select: any } & (ExpertSubCategoryModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ExpertSubCategoryModelCountOutputType ? ExpertSubCategoryModelCountOutputType[P] : never
+  } 
+      : ExpertSubCategoryModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ExpertSubCategoryModelCountOutputType without action
+   */
+  export type ExpertSubCategoryModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ExpertSubCategoryModelCountOutputType
+     */
+    select?: ExpertSubCategoryModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ExpertSuperCategoryModelCountOutputType
+   */
+
+
+  export type ExpertSuperCategoryModelCountOutputType = {
+    subs: number
+  }
+
+  export type ExpertSuperCategoryModelCountOutputTypeSelect = {
+    subs?: boolean
+  }
+
+  export type ExpertSuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ExpertSuperCategoryModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ExpertSuperCategoryModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ExpertSuperCategoryModelCountOutputTypeArgs)
+    ? ExpertSuperCategoryModelCountOutputType 
+    : S extends { select: any } & (ExpertSuperCategoryModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ExpertSuperCategoryModelCountOutputType ? ExpertSuperCategoryModelCountOutputType[P] : never
+  } 
+      : ExpertSuperCategoryModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ExpertSuperCategoryModelCountOutputType without action
+   */
+  export type ExpertSuperCategoryModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ExpertSuperCategoryModelCountOutputType
+     */
+    select?: ExpertSuperCategoryModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type AgreementModelCountOutputType
+   */
+
+
+  export type AgreementModelCountOutputType = {
+    acceptances: number
+  }
+
+  export type AgreementModelCountOutputTypeSelect = {
+    acceptances?: boolean
+  }
+
+  export type AgreementModelCountOutputTypeGetPayload<S extends boolean | null | undefined | AgreementModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AgreementModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AgreementModelCountOutputTypeArgs)
+    ? AgreementModelCountOutputType 
+    : S extends { select: any } & (AgreementModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AgreementModelCountOutputType ? AgreementModelCountOutputType[P] : never
+  } 
+      : AgreementModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AgreementModelCountOutputType without action
+   */
+  export type AgreementModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModelCountOutputType
+     */
+    select?: AgreementModelCountOutputTypeSelect | null
   }
 
 
@@ -1143,355 +1442,443 @@ export namespace Prisma {
    */
 
   /**
-   * Model AccessorModel
+   * Model OauthAccessorModel
    */
 
 
-  export type AggregateAccessorModel = {
-    _count: AccessorModelCountAggregateOutputType | null
-    _min: AccessorModelMinAggregateOutputType | null
-    _max: AccessorModelMaxAggregateOutputType | null
+  export type AggregateOauthAccessorModel = {
+    _count: OauthAccessorModelCountAggregateOutputType | null
+    _min: OauthAccessorModelMinAggregateOutputType | null
+    _max: OauthAccessorModelMaxAggregateOutputType | null
   }
 
-  export type AccessorModelMinAggregateOutputType = {
+  export type OauthAccessorModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
-    oauth_sub: string | null
     oauth_type: OauthType | null
-    customer_id: string | null
+    oauth_sub: string | null
     business_user_id: string | null
+    customer_id: string | null
+    name: string | null
+    email: string | null
+    phone: string | null
+    profile_image_url: string | null
+    birth: string | null
+    gender: GenderType | null
+    address_first: string | null
+    address_second: string | null
   }
 
-  export type AccessorModelMaxAggregateOutputType = {
+  export type OauthAccessorModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
-    oauth_sub: string | null
     oauth_type: OauthType | null
-    customer_id: string | null
+    oauth_sub: string | null
     business_user_id: string | null
+    customer_id: string | null
+    name: string | null
+    email: string | null
+    phone: string | null
+    profile_image_url: string | null
+    birth: string | null
+    gender: GenderType | null
+    address_first: string | null
+    address_second: string | null
   }
 
-  export type AccessorModelCountAggregateOutputType = {
+  export type OauthAccessorModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
     id: number
-    oauth_sub: number
     oauth_type: number
-    customer_id: number
+    oauth_sub: number
     business_user_id: number
+    customer_id: number
+    name: number
+    email: number
+    phone: number
+    profile_image_url: number
+    birth: number
+    gender: number
+    address_first: number
+    address_second: number
     _all: number
   }
 
 
-  export type AccessorModelMinAggregateInputType = {
+  export type OauthAccessorModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    oauth_sub?: true
     oauth_type?: true
-    customer_id?: true
+    oauth_sub?: true
     business_user_id?: true
+    customer_id?: true
+    name?: true
+    email?: true
+    phone?: true
+    profile_image_url?: true
+    birth?: true
+    gender?: true
+    address_first?: true
+    address_second?: true
   }
 
-  export type AccessorModelMaxAggregateInputType = {
+  export type OauthAccessorModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    oauth_sub?: true
     oauth_type?: true
-    customer_id?: true
+    oauth_sub?: true
     business_user_id?: true
+    customer_id?: true
+    name?: true
+    email?: true
+    phone?: true
+    profile_image_url?: true
+    birth?: true
+    gender?: true
+    address_first?: true
+    address_second?: true
   }
 
-  export type AccessorModelCountAggregateInputType = {
+  export type OauthAccessorModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    oauth_sub?: true
     oauth_type?: true
-    customer_id?: true
+    oauth_sub?: true
     business_user_id?: true
+    customer_id?: true
+    name?: true
+    email?: true
+    phone?: true
+    profile_image_url?: true
+    birth?: true
+    gender?: true
+    address_first?: true
+    address_second?: true
     _all?: true
   }
 
-  export type AccessorModelAggregateArgs = {
+  export type OauthAccessorModelAggregateArgs = {
     /**
-     * Filter which AccessorModel to aggregate.
+     * Filter which OauthAccessorModel to aggregate.
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccessorModels to fetch.
+     * Determine the order of OauthAccessorModels to fetch.
      */
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: AccessorModelWhereUniqueInput
+    cursor?: OauthAccessorModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccessorModels from the position of the cursor.
+     * Take `±n` OauthAccessorModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccessorModels.
+     * Skip the first `n` OauthAccessorModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned AccessorModels
+     * Count returned OauthAccessorModels
     **/
-    _count?: true | AccessorModelCountAggregateInputType
+    _count?: true | OauthAccessorModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AccessorModelMinAggregateInputType
+    _min?: OauthAccessorModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AccessorModelMaxAggregateInputType
+    _max?: OauthAccessorModelMaxAggregateInputType
   }
 
-  export type GetAccessorModelAggregateType<T extends AccessorModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateAccessorModel]: P extends '_count' | 'count'
+  export type GetOauthAccessorModelAggregateType<T extends OauthAccessorModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateOauthAccessorModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAccessorModel[P]>
-      : GetScalarType<T[P], AggregateAccessorModel[P]>
+        : GetScalarType<T[P], AggregateOauthAccessorModel[P]>
+      : GetScalarType<T[P], AggregateOauthAccessorModel[P]>
   }
 
 
 
 
-  export type AccessorModelGroupByArgs = {
-    where?: AccessorModelWhereInput
-    orderBy?: Enumerable<AccessorModelOrderByWithAggregationInput>
-    by: AccessorModelScalarFieldEnum[]
-    having?: AccessorModelScalarWhereWithAggregatesInput
+  export type OauthAccessorModelGroupByArgs = {
+    where?: OauthAccessorModelWhereInput
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithAggregationInput>
+    by: OauthAccessorModelScalarFieldEnum[]
+    having?: OauthAccessorModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AccessorModelCountAggregateInputType | true
-    _min?: AccessorModelMinAggregateInputType
-    _max?: AccessorModelMaxAggregateInputType
+    _count?: OauthAccessorModelCountAggregateInputType | true
+    _min?: OauthAccessorModelMinAggregateInputType
+    _max?: OauthAccessorModelMaxAggregateInputType
   }
 
 
-  export type AccessorModelGroupByOutputType = {
+  export type OauthAccessorModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    customer_id: string | null
-    business_user_id: string | null
-    _count: AccessorModelCountAggregateOutputType | null
-    _min: AccessorModelMinAggregateOutputType | null
-    _max: AccessorModelMaxAggregateOutputType | null
+    oauth_sub: string
+    business_user_id: string
+    customer_id: string
+    name: string | null
+    email: string | null
+    phone: string | null
+    profile_image_url: string | null
+    birth: string | null
+    gender: GenderType | null
+    address_first: string | null
+    address_second: string | null
+    _count: OauthAccessorModelCountAggregateOutputType | null
+    _min: OauthAccessorModelMinAggregateOutputType | null
+    _max: OauthAccessorModelMaxAggregateOutputType | null
   }
 
-  type GetAccessorModelGroupByPayload<T extends AccessorModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetOauthAccessorModelGroupByPayload<T extends OauthAccessorModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<AccessorModelGroupByOutputType, T['by']> &
+      PickArray<OauthAccessorModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AccessorModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof OauthAccessorModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AccessorModelGroupByOutputType[P]>
-            : GetScalarType<T[P], AccessorModelGroupByOutputType[P]>
+              : GetScalarType<T[P], OauthAccessorModelGroupByOutputType[P]>
+            : GetScalarType<T[P], OauthAccessorModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AccessorModelSelect = {
+  export type OauthAccessorModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
     id?: boolean
-    oauth_sub?: boolean
     oauth_type?: boolean
-    customer_id?: boolean
+    oauth_sub?: boolean
     business_user_id?: boolean
+    customer_id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    profile_image_url?: boolean
+    birth?: boolean
+    gender?: boolean
+    address_first?: boolean
+    address_second?: boolean
+    business_user?: boolean | BusinessUserArgs
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-    temp_re_agents?: boolean | TempREAgentModelArgs
-    temp_hs_company?: boolean | TempHSCompanyModelArgs
   }
 
 
-  export type AccessorModelInclude = {
+  export type OauthAccessorModelInclude = {
+    business_user?: boolean | BusinessUserArgs
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-    temp_re_agents?: boolean | TempREAgentModelArgs
-    temp_hs_company?: boolean | TempHSCompanyModelArgs
   }
 
-  export type AccessorModelGetPayload<S extends boolean | null | undefined | AccessorModelArgs> =
+  export type OauthAccessorModelGetPayload<S extends boolean | null | undefined | OauthAccessorModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AccessorModel :
+    S extends true ? OauthAccessorModel :
     S extends undefined ? never :
-    S extends { include: any } & (AccessorModelArgs | AccessorModelFindManyArgs)
-    ? AccessorModel  & {
+    S extends { include: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
+    ? OauthAccessorModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :
-        P extends 'temp_re_agents' ? TempREAgentModelGetPayload<S['include'][P]> | null :
-        P extends 'temp_hs_company' ? TempHSCompanyModelGetPayload<S['include'][P]> | null :  never
+        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :
+        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (AccessorModelArgs | AccessorModelFindManyArgs)
+    : S extends { select: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :
-        P extends 'temp_re_agents' ? TempREAgentModelGetPayload<S['select'][P]> | null :
-        P extends 'temp_hs_company' ? TempHSCompanyModelGetPayload<S['select'][P]> | null :  P extends keyof AccessorModel ? AccessorModel[P] : never
+        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :
+        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> :  P extends keyof OauthAccessorModel ? OauthAccessorModel[P] : never
   } 
-      : AccessorModel
+      : OauthAccessorModel
 
 
-  type AccessorModelCountArgs = 
-    Omit<AccessorModelFindManyArgs, 'select' | 'include'> & {
-      select?: AccessorModelCountAggregateInputType | true
+  type OauthAccessorModelCountArgs = 
+    Omit<OauthAccessorModelFindManyArgs, 'select' | 'include'> & {
+      select?: OauthAccessorModelCountAggregateInputType | true
     }
 
-  export interface AccessorModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface OauthAccessorModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one AccessorModel that matches the filter.
-     * @param {AccessorModelFindUniqueArgs} args - Arguments to find a AccessorModel
+     * Find zero or one OauthAccessorModel that matches the filter.
+     * @param {OauthAccessorModelFindUniqueArgs} args - Arguments to find a OauthAccessorModel
      * @example
-     * // Get one AccessorModel
-     * const accessorModel = await prisma.accessorModel.findUnique({
+     * // Get one OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends AccessorModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, AccessorModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AccessorModel'> extends True ? Prisma__AccessorModelClient<AccessorModelGetPayload<T>> : Prisma__AccessorModelClient<AccessorModelGetPayload<T> | null, null>
+    findUnique<T extends OauthAccessorModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, OauthAccessorModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'OauthAccessorModel'> extends True ? Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>> : Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T> | null, null>
 
     /**
-     * Find one AccessorModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one OauthAccessorModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {AccessorModelFindUniqueOrThrowArgs} args - Arguments to find a AccessorModel
+     * @param {OauthAccessorModelFindUniqueOrThrowArgs} args - Arguments to find a OauthAccessorModel
      * @example
-     * // Get one AccessorModel
-     * const accessorModel = await prisma.accessorModel.findUniqueOrThrow({
+     * // Get one OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends AccessorModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AccessorModelFindUniqueOrThrowArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    findUniqueOrThrow<T extends OauthAccessorModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, OauthAccessorModelFindUniqueOrThrowArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Find the first AccessorModel that matches the filter.
+     * Find the first OauthAccessorModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelFindFirstArgs} args - Arguments to find a AccessorModel
+     * @param {OauthAccessorModelFindFirstArgs} args - Arguments to find a OauthAccessorModel
      * @example
-     * // Get one AccessorModel
-     * const accessorModel = await prisma.accessorModel.findFirst({
+     * // Get one OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends AccessorModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, AccessorModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AccessorModel'> extends True ? Prisma__AccessorModelClient<AccessorModelGetPayload<T>> : Prisma__AccessorModelClient<AccessorModelGetPayload<T> | null, null>
+    findFirst<T extends OauthAccessorModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, OauthAccessorModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'OauthAccessorModel'> extends True ? Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>> : Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T> | null, null>
 
     /**
-     * Find the first AccessorModel that matches the filter or
+     * Find the first OauthAccessorModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelFindFirstOrThrowArgs} args - Arguments to find a AccessorModel
+     * @param {OauthAccessorModelFindFirstOrThrowArgs} args - Arguments to find a OauthAccessorModel
      * @example
-     * // Get one AccessorModel
-     * const accessorModel = await prisma.accessorModel.findFirstOrThrow({
+     * // Get one OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends AccessorModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AccessorModelFindFirstOrThrowArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    findFirstOrThrow<T extends OauthAccessorModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, OauthAccessorModelFindFirstOrThrowArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Find zero or more AccessorModels that matches the filter.
+     * Find zero or more OauthAccessorModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {OauthAccessorModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all AccessorModels
-     * const accessorModels = await prisma.accessorModel.findMany()
+     * // Get all OauthAccessorModels
+     * const oauthAccessorModels = await prisma.oauthAccessorModel.findMany()
      * 
-     * // Get first 10 AccessorModels
-     * const accessorModels = await prisma.accessorModel.findMany({ take: 10 })
+     * // Get first 10 OauthAccessorModels
+     * const oauthAccessorModels = await prisma.oauthAccessorModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const accessorModelWithIdOnly = await prisma.accessorModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const oauthAccessorModelWithCreated_atOnly = await prisma.oauthAccessorModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends AccessorModelFindManyArgs>(
-      args?: SelectSubset<T, AccessorModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<AccessorModelGetPayload<T>>>
+    findMany<T extends OauthAccessorModelFindManyArgs>(
+      args?: SelectSubset<T, OauthAccessorModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>>
 
     /**
-     * Create a AccessorModel.
-     * @param {AccessorModelCreateArgs} args - Arguments to create a AccessorModel.
+     * Create a OauthAccessorModel.
+     * @param {OauthAccessorModelCreateArgs} args - Arguments to create a OauthAccessorModel.
      * @example
-     * // Create one AccessorModel
-     * const AccessorModel = await prisma.accessorModel.create({
+     * // Create one OauthAccessorModel
+     * const OauthAccessorModel = await prisma.oauthAccessorModel.create({
      *   data: {
-     *     // ... data to create a AccessorModel
+     *     // ... data to create a OauthAccessorModel
      *   }
      * })
      * 
     **/
-    create<T extends AccessorModelCreateArgs>(
-      args: SelectSubset<T, AccessorModelCreateArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    create<T extends OauthAccessorModelCreateArgs>(
+      args: SelectSubset<T, OauthAccessorModelCreateArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Create many AccessorModels.
-     *     @param {AccessorModelCreateManyArgs} args - Arguments to create many AccessorModels.
+     * Create many OauthAccessorModels.
+     *     @param {OauthAccessorModelCreateManyArgs} args - Arguments to create many OauthAccessorModels.
      *     @example
-     *     // Create many AccessorModels
-     *     const accessorModel = await prisma.accessorModel.createMany({
+     *     // Create many OauthAccessorModels
+     *     const oauthAccessorModel = await prisma.oauthAccessorModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends AccessorModelCreateManyArgs>(
-      args?: SelectSubset<T, AccessorModelCreateManyArgs>
+    createMany<T extends OauthAccessorModelCreateManyArgs>(
+      args?: SelectSubset<T, OauthAccessorModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a AccessorModel.
-     * @param {AccessorModelDeleteArgs} args - Arguments to delete one AccessorModel.
+     * Delete a OauthAccessorModel.
+     * @param {OauthAccessorModelDeleteArgs} args - Arguments to delete one OauthAccessorModel.
      * @example
-     * // Delete one AccessorModel
-     * const AccessorModel = await prisma.accessorModel.delete({
+     * // Delete one OauthAccessorModel
+     * const OauthAccessorModel = await prisma.oauthAccessorModel.delete({
      *   where: {
-     *     // ... filter to delete one AccessorModel
+     *     // ... filter to delete one OauthAccessorModel
      *   }
      * })
      * 
     **/
-    delete<T extends AccessorModelDeleteArgs>(
-      args: SelectSubset<T, AccessorModelDeleteArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    delete<T extends OauthAccessorModelDeleteArgs>(
+      args: SelectSubset<T, OauthAccessorModelDeleteArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Update one AccessorModel.
-     * @param {AccessorModelUpdateArgs} args - Arguments to update one AccessorModel.
+     * Update one OauthAccessorModel.
+     * @param {OauthAccessorModelUpdateArgs} args - Arguments to update one OauthAccessorModel.
      * @example
-     * // Update one AccessorModel
-     * const accessorModel = await prisma.accessorModel.update({
+     * // Update one OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1501,34 +1888,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends AccessorModelUpdateArgs>(
-      args: SelectSubset<T, AccessorModelUpdateArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    update<T extends OauthAccessorModelUpdateArgs>(
+      args: SelectSubset<T, OauthAccessorModelUpdateArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Delete zero or more AccessorModels.
-     * @param {AccessorModelDeleteManyArgs} args - Arguments to filter AccessorModels to delete.
+     * Delete zero or more OauthAccessorModels.
+     * @param {OauthAccessorModelDeleteManyArgs} args - Arguments to filter OauthAccessorModels to delete.
      * @example
-     * // Delete a few AccessorModels
-     * const { count } = await prisma.accessorModel.deleteMany({
+     * // Delete a few OauthAccessorModels
+     * const { count } = await prisma.oauthAccessorModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends AccessorModelDeleteManyArgs>(
-      args?: SelectSubset<T, AccessorModelDeleteManyArgs>
+    deleteMany<T extends OauthAccessorModelDeleteManyArgs>(
+      args?: SelectSubset<T, OauthAccessorModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AccessorModels.
+     * Update zero or more OauthAccessorModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {OauthAccessorModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many AccessorModels
-     * const accessorModel = await prisma.accessorModel.updateMany({
+     * // Update many OauthAccessorModels
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1538,59 +1925,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends AccessorModelUpdateManyArgs>(
-      args: SelectSubset<T, AccessorModelUpdateManyArgs>
+    updateMany<T extends OauthAccessorModelUpdateManyArgs>(
+      args: SelectSubset<T, OauthAccessorModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one AccessorModel.
-     * @param {AccessorModelUpsertArgs} args - Arguments to update or create a AccessorModel.
+     * Create or update one OauthAccessorModel.
+     * @param {OauthAccessorModelUpsertArgs} args - Arguments to update or create a OauthAccessorModel.
      * @example
-     * // Update or create a AccessorModel
-     * const accessorModel = await prisma.accessorModel.upsert({
+     * // Update or create a OauthAccessorModel
+     * const oauthAccessorModel = await prisma.oauthAccessorModel.upsert({
      *   create: {
-     *     // ... data to create a AccessorModel
+     *     // ... data to create a OauthAccessorModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the AccessorModel we want to update
+     *     // ... the filter for the OauthAccessorModel we want to update
      *   }
      * })
     **/
-    upsert<T extends AccessorModelUpsertArgs>(
-      args: SelectSubset<T, AccessorModelUpsertArgs>
-    ): Prisma__AccessorModelClient<AccessorModelGetPayload<T>>
+    upsert<T extends OauthAccessorModelUpsertArgs>(
+      args: SelectSubset<T, OauthAccessorModelUpsertArgs>
+    ): Prisma__OauthAccessorModelClient<OauthAccessorModelGetPayload<T>>
 
     /**
-     * Count the number of AccessorModels.
+     * Count the number of OauthAccessorModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelCountArgs} args - Arguments to filter AccessorModels to count.
+     * @param {OauthAccessorModelCountArgs} args - Arguments to filter OauthAccessorModels to count.
      * @example
-     * // Count the number of AccessorModels
-     * const count = await prisma.accessorModel.count({
+     * // Count the number of OauthAccessorModels
+     * const count = await prisma.oauthAccessorModel.count({
      *   where: {
-     *     // ... the filter for the AccessorModels we want to count
+     *     // ... the filter for the OauthAccessorModels we want to count
      *   }
      * })
     **/
-    count<T extends AccessorModelCountArgs>(
-      args?: Subset<T, AccessorModelCountArgs>,
+    count<T extends OauthAccessorModelCountArgs>(
+      args?: Subset<T, OauthAccessorModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AccessorModelCountAggregateOutputType>
+          : GetScalarType<T['select'], OauthAccessorModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a AccessorModel.
+     * Allows you to perform aggregations operations on a OauthAccessorModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {OauthAccessorModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1610,13 +1997,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AccessorModelAggregateArgs>(args: Subset<T, AccessorModelAggregateArgs>): Prisma.PrismaPromise<GetAccessorModelAggregateType<T>>
+    aggregate<T extends OauthAccessorModelAggregateArgs>(args: Subset<T, OauthAccessorModelAggregateArgs>): Prisma.PrismaPromise<GetOauthAccessorModelAggregateType<T>>
 
     /**
-     * Group by AccessorModel.
+     * Group by OauthAccessorModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AccessorModelGroupByArgs} args - Group by arguments.
+     * @param {OauthAccessorModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1631,14 +2018,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AccessorModelGroupByArgs,
+      T extends OauthAccessorModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AccessorModelGroupByArgs['orderBy'] }
-        : { orderBy?: AccessorModelGroupByArgs['orderBy'] },
+        ? { orderBy: OauthAccessorModelGroupByArgs['orderBy'] }
+        : { orderBy?: OauthAccessorModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1687,17 +2074,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AccessorModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccessorModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, OauthAccessorModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOauthAccessorModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for AccessorModel.
+   * The delegate class that acts as a "Promise-like" for OauthAccessorModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AccessorModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__OauthAccessorModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -1712,13 +2099,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
+    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+
     customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
-
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
-
-    temp_re_agents<T extends TempREAgentModelArgs= {}>(args?: Subset<T, TempREAgentModelArgs>): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T> | Null>;
-
-    temp_hs_company<T extends TempHSCompanyModelArgs= {}>(args?: Subset<T, TempHSCompanyModelArgs>): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -1748,27 +2131,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * AccessorModel base type for findUnique actions
+   * OauthAccessorModel base type for findUnique actions
    */
-  export type AccessorModelFindUniqueArgsBase = {
+  export type OauthAccessorModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter, which AccessorModel to fetch.
+     * Filter, which OauthAccessorModel to fetch.
      */
-    where: AccessorModelWhereUniqueInput
+    where: OauthAccessorModelWhereUniqueInput
   }
 
   /**
-   * AccessorModel findUnique
+   * OauthAccessorModel findUnique
    */
-  export interface AccessorModelFindUniqueArgs extends AccessorModelFindUniqueArgsBase {
+  export interface OauthAccessorModelFindUniqueArgs extends OauthAccessorModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -1778,76 +2161,76 @@ export namespace Prisma {
       
 
   /**
-   * AccessorModel findUniqueOrThrow
+   * OauthAccessorModel findUniqueOrThrow
    */
-  export type AccessorModelFindUniqueOrThrowArgs = {
+  export type OauthAccessorModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter, which AccessorModel to fetch.
+     * Filter, which OauthAccessorModel to fetch.
      */
-    where: AccessorModelWhereUniqueInput
+    where: OauthAccessorModelWhereUniqueInput
   }
 
 
   /**
-   * AccessorModel base type for findFirst actions
+   * OauthAccessorModel base type for findFirst actions
    */
-  export type AccessorModelFindFirstArgsBase = {
+  export type OauthAccessorModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter, which AccessorModel to fetch.
+     * Filter, which OauthAccessorModel to fetch.
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccessorModels to fetch.
+     * Determine the order of OauthAccessorModels to fetch.
      */
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AccessorModels.
+     * Sets the position for searching for OauthAccessorModels.
      */
-    cursor?: AccessorModelWhereUniqueInput
+    cursor?: OauthAccessorModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccessorModels from the position of the cursor.
+     * Take `±n` OauthAccessorModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccessorModels.
+     * Skip the first `n` OauthAccessorModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AccessorModels.
+     * Filter by unique combinations of OauthAccessorModels.
      */
-    distinct?: Enumerable<AccessorModelScalarFieldEnum>
+    distinct?: Enumerable<OauthAccessorModelScalarFieldEnum>
   }
 
   /**
-   * AccessorModel findFirst
+   * OauthAccessorModel findFirst
    */
-  export interface AccessorModelFindFirstArgs extends AccessorModelFindFirstArgsBase {
+  export interface OauthAccessorModelFindFirstArgs extends OauthAccessorModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -1857,236 +2240,236 @@ export namespace Prisma {
       
 
   /**
-   * AccessorModel findFirstOrThrow
+   * OauthAccessorModel findFirstOrThrow
    */
-  export type AccessorModelFindFirstOrThrowArgs = {
+  export type OauthAccessorModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter, which AccessorModel to fetch.
+     * Filter, which OauthAccessorModel to fetch.
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccessorModels to fetch.
+     * Determine the order of OauthAccessorModels to fetch.
      */
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AccessorModels.
+     * Sets the position for searching for OauthAccessorModels.
      */
-    cursor?: AccessorModelWhereUniqueInput
+    cursor?: OauthAccessorModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccessorModels from the position of the cursor.
+     * Take `±n` OauthAccessorModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccessorModels.
+     * Skip the first `n` OauthAccessorModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AccessorModels.
+     * Filter by unique combinations of OauthAccessorModels.
      */
-    distinct?: Enumerable<AccessorModelScalarFieldEnum>
+    distinct?: Enumerable<OauthAccessorModelScalarFieldEnum>
   }
 
 
   /**
-   * AccessorModel findMany
+   * OauthAccessorModel findMany
    */
-  export type AccessorModelFindManyArgs = {
+  export type OauthAccessorModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter, which AccessorModels to fetch.
+     * Filter, which OauthAccessorModels to fetch.
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AccessorModels to fetch.
+     * Determine the order of OauthAccessorModels to fetch.
      */
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AccessorModels.
+     * Sets the position for listing OauthAccessorModels.
      */
-    cursor?: AccessorModelWhereUniqueInput
+    cursor?: OauthAccessorModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AccessorModels from the position of the cursor.
+     * Take `±n` OauthAccessorModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AccessorModels.
+     * Skip the first `n` OauthAccessorModels.
      */
     skip?: number
-    distinct?: Enumerable<AccessorModelScalarFieldEnum>
+    distinct?: Enumerable<OauthAccessorModelScalarFieldEnum>
   }
 
 
   /**
-   * AccessorModel create
+   * OauthAccessorModel create
    */
-  export type AccessorModelCreateArgs = {
+  export type OauthAccessorModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * The data needed to create a AccessorModel.
+     * The data needed to create a OauthAccessorModel.
      */
-    data: XOR<AccessorModelCreateInput, AccessorModelUncheckedCreateInput>
+    data: XOR<OauthAccessorModelCreateInput, OauthAccessorModelUncheckedCreateInput>
   }
 
 
   /**
-   * AccessorModel createMany
+   * OauthAccessorModel createMany
    */
-  export type AccessorModelCreateManyArgs = {
+  export type OauthAccessorModelCreateManyArgs = {
     /**
-     * The data used to create many AccessorModels.
+     * The data used to create many OauthAccessorModels.
      */
-    data: Enumerable<AccessorModelCreateManyInput>
+    data: Enumerable<OauthAccessorModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * AccessorModel update
+   * OauthAccessorModel update
    */
-  export type AccessorModelUpdateArgs = {
+  export type OauthAccessorModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * The data needed to update a AccessorModel.
+     * The data needed to update a OauthAccessorModel.
      */
-    data: XOR<AccessorModelUpdateInput, AccessorModelUncheckedUpdateInput>
+    data: XOR<OauthAccessorModelUpdateInput, OauthAccessorModelUncheckedUpdateInput>
     /**
-     * Choose, which AccessorModel to update.
+     * Choose, which OauthAccessorModel to update.
      */
-    where: AccessorModelWhereUniqueInput
+    where: OauthAccessorModelWhereUniqueInput
   }
 
 
   /**
-   * AccessorModel updateMany
+   * OauthAccessorModel updateMany
    */
-  export type AccessorModelUpdateManyArgs = {
+  export type OauthAccessorModelUpdateManyArgs = {
     /**
-     * The data used to update AccessorModels.
+     * The data used to update OauthAccessorModels.
      */
-    data: XOR<AccessorModelUpdateManyMutationInput, AccessorModelUncheckedUpdateManyInput>
+    data: XOR<OauthAccessorModelUpdateManyMutationInput, OauthAccessorModelUncheckedUpdateManyInput>
     /**
-     * Filter which AccessorModels to update
+     * Filter which OauthAccessorModels to update
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
   }
 
 
   /**
-   * AccessorModel upsert
+   * OauthAccessorModel upsert
    */
-  export type AccessorModelUpsertArgs = {
+  export type OauthAccessorModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * The filter to search for the AccessorModel to update in case it exists.
+     * The filter to search for the OauthAccessorModel to update in case it exists.
      */
-    where: AccessorModelWhereUniqueInput
+    where: OauthAccessorModelWhereUniqueInput
     /**
-     * In case the AccessorModel found by the `where` argument doesn't exist, create a new AccessorModel with this data.
+     * In case the OauthAccessorModel found by the `where` argument doesn't exist, create a new OauthAccessorModel with this data.
      */
-    create: XOR<AccessorModelCreateInput, AccessorModelUncheckedCreateInput>
+    create: XOR<OauthAccessorModelCreateInput, OauthAccessorModelUncheckedCreateInput>
     /**
-     * In case the AccessorModel was found with the provided `where` argument, update it with this data.
+     * In case the OauthAccessorModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<AccessorModelUpdateInput, AccessorModelUncheckedUpdateInput>
+    update: XOR<OauthAccessorModelUpdateInput, OauthAccessorModelUncheckedUpdateInput>
   }
 
 
   /**
-   * AccessorModel delete
+   * OauthAccessorModel delete
    */
-  export type AccessorModelDeleteArgs = {
+  export type OauthAccessorModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
     /**
-     * Filter which AccessorModel to delete.
+     * Filter which OauthAccessorModel to delete.
      */
-    where: AccessorModelWhereUniqueInput
+    where: OauthAccessorModelWhereUniqueInput
   }
 
 
   /**
-   * AccessorModel deleteMany
+   * OauthAccessorModel deleteMany
    */
-  export type AccessorModelDeleteManyArgs = {
+  export type OauthAccessorModelDeleteManyArgs = {
     /**
-     * Filter which AccessorModels to delete
+     * Filter which OauthAccessorModels to delete
      */
-    where?: AccessorModelWhereInput
+    where?: OauthAccessorModelWhereInput
   }
 
 
   /**
-   * AccessorModel without action
+   * OauthAccessorModel without action
    */
-  export type AccessorModelArgs = {
+  export type OauthAccessorModelArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
+    include?: OauthAccessorModelInclude | null
   }
 
 
@@ -2104,64 +2487,64 @@ export namespace Prisma {
 
   export type UserModelMinAggregateOutputType = {
     created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    phone: string | null
-    phone_verified: boolean | null
     email: string | null
-    email_verified: boolean | null
   }
 
   export type UserModelMaxAggregateOutputType = {
     created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    phone: string | null
-    phone_verified: boolean | null
     email: string | null
-    email_verified: boolean | null
   }
 
   export type UserModelCountAggregateOutputType = {
     created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
     id: number
     name: number
-    phone: number
-    phone_verified: number
     email: number
-    email_verified: number
     _all: number
   }
 
 
   export type UserModelMinAggregateInputType = {
     created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    phone?: true
-    phone_verified?: true
     email?: true
-    email_verified?: true
   }
 
   export type UserModelMaxAggregateInputType = {
     created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    phone?: true
-    phone_verified?: true
     email?: true
-    email_verified?: true
   }
 
   export type UserModelCountAggregateInputType = {
     created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    phone?: true
-    phone_verified?: true
     email?: true
-    email_verified?: true
     _all?: true
   }
 
@@ -2240,12 +2623,12 @@ export namespace Prisma {
 
   export type UserModelGroupByOutputType = {
     created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email: string | null
-    email_verified: boolean
     _count: UserModelCountAggregateOutputType | null
     _min: UserModelMinAggregateOutputType | null
     _max: UserModelMaxAggregateOutputType | null
@@ -2267,20 +2650,24 @@ export namespace Prisma {
 
   export type UserModelSelect = {
     created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
     id?: boolean
     name?: boolean
-    phone?: boolean
-    phone_verified?: boolean
     email?: boolean
-    email_verified?: boolean
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
+    business_user?: boolean | BusinessUserArgs
+    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
+    _count?: boolean | UserModelCountOutputTypeArgs
   }
 
 
   export type UserModelInclude = {
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
+    business_user?: boolean | BusinessUserArgs
+    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
+    _count?: boolean | UserModelCountOutputTypeArgs
   }
 
   export type UserModelGetPayload<S extends boolean | null | undefined | UserModelArgs> =
@@ -2291,13 +2678,17 @@ export namespace Prisma {
     ? UserModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :  never
+        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> | null :
+        P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserModelArgs | UserModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :  P extends keyof UserModel ? UserModel[P] : never
+        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> | null :
+        P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserModel ? UserModel[P] : never
   } 
       : UserModel
 
@@ -2671,7 +3062,9 @@ export namespace Prisma {
 
     customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
 
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+
+    agreement_acceptances<T extends UserModel$agreement_acceptancesArgs= {}>(args?: Subset<T, UserModel$agreement_acceptancesArgs>): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3029,6 +3422,27 @@ export namespace Prisma {
 
 
   /**
+   * UserModel.agreement_acceptances
+   */
+  export type UserModel$agreement_acceptancesArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    where?: AgreementAcceptanceModelWhereInput
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AgreementAcceptanceModelScalarFieldEnum>
+  }
+
+
+  /**
    * UserModel without action
    */
   export type UserModelArgs = {
@@ -3057,58 +3471,64 @@ export namespace Prisma {
 
   export type CustomerModelMinAggregateOutputType = {
     id: string | null
-    profile_image_url: string | null
-    gender: GenderType | null
     birth: string | null
+    gender: GenderType | null
+    phone: string | null
     address_first: string | null
     address_second: string | null
+    profile_image_url: string | null
   }
 
   export type CustomerModelMaxAggregateOutputType = {
     id: string | null
-    profile_image_url: string | null
-    gender: GenderType | null
     birth: string | null
+    gender: GenderType | null
+    phone: string | null
     address_first: string | null
     address_second: string | null
+    profile_image_url: string | null
   }
 
   export type CustomerModelCountAggregateOutputType = {
     id: number
-    profile_image_url: number
-    gender: number
     birth: number
+    gender: number
+    phone: number
     address_first: number
     address_second: number
+    profile_image_url: number
     _all: number
   }
 
 
   export type CustomerModelMinAggregateInputType = {
     id?: true
-    profile_image_url?: true
-    gender?: true
     birth?: true
+    gender?: true
+    phone?: true
     address_first?: true
     address_second?: true
+    profile_image_url?: true
   }
 
   export type CustomerModelMaxAggregateInputType = {
     id?: true
-    profile_image_url?: true
-    gender?: true
     birth?: true
+    gender?: true
+    phone?: true
     address_first?: true
     address_second?: true
+    profile_image_url?: true
   }
 
   export type CustomerModelCountAggregateInputType = {
     id?: true
-    profile_image_url?: true
-    gender?: true
     birth?: true
+    gender?: true
+    phone?: true
     address_first?: true
     address_second?: true
+    profile_image_url?: true
     _all?: true
   }
 
@@ -3187,11 +3607,12 @@ export namespace Prisma {
 
   export type CustomerModelGroupByOutputType = {
     id: string
-    profile_image_url: string | null
-    gender: GenderType | null
     birth: string | null
+    gender: GenderType | null
+    phone: string | null
     address_first: string | null
     address_second: string | null
+    profile_image_url: string | null
     _count: CustomerModelCountAggregateOutputType | null
     _min: CustomerModelMinAggregateOutputType | null
     _max: CustomerModelMaxAggregateOutputType | null
@@ -3213,20 +3634,21 @@ export namespace Prisma {
 
   export type CustomerModelSelect = {
     id?: boolean
-    profile_image_url?: boolean
-    gender?: boolean
     birth?: boolean
+    gender?: boolean
+    phone?: boolean
     address_first?: boolean
     address_second?: boolean
+    profile_image_url?: boolean
     base?: boolean | UserModelArgs
-    oauth_accessors?: boolean | CustomerModel$oauth_accessorsArgs
+    oauth_accessor?: boolean | CustomerModel$oauth_accessorArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
 
   export type CustomerModelInclude = {
     base?: boolean | UserModelArgs
-    oauth_accessors?: boolean | CustomerModel$oauth_accessorsArgs
+    oauth_accessor?: boolean | CustomerModel$oauth_accessorArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
@@ -3238,14 +3660,14 @@ export namespace Prisma {
     ? CustomerModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
-        P extends 'oauth_accessors' ? Array < AccessorModelGetPayload<S['include'][P]>>  :
+        P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (CustomerModelArgs | CustomerModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
-        P extends 'oauth_accessors' ? Array < AccessorModelGetPayload<S['select'][P]>>  :
+        P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomerModel ? CustomerModel[P] : never
   } 
       : CustomerModel
@@ -3620,7 +4042,7 @@ export namespace Prisma {
 
     base<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
 
-    oauth_accessors<T extends CustomerModel$oauth_accessorsArgs= {}>(args?: Subset<T, CustomerModel$oauth_accessorsArgs>): Prisma.PrismaPromise<Array<AccessorModelGetPayload<T>>| Null>;
+    oauth_accessor<T extends CustomerModel$oauth_accessorArgs= {}>(args?: Subset<T, CustomerModel$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3978,23 +4400,23 @@ export namespace Prisma {
 
 
   /**
-   * CustomerModel.oauth_accessors
+   * CustomerModel.oauth_accessor
    */
-  export type CustomerModel$oauth_accessorsArgs = {
+  export type CustomerModel$oauth_accessorArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the OauthAccessorModel
      */
-    select?: AccessorModelSelect | null
+    select?: OauthAccessorModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
-    where?: AccessorModelWhereInput
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
-    cursor?: AccessorModelWhereUniqueInput
+    include?: OauthAccessorModelInclude | null
+    where?: OauthAccessorModelWhereInput
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
+    cursor?: OauthAccessorModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<AccessorModelScalarFieldEnum>
+    distinct?: Enumerable<OauthAccessorModelScalarFieldEnum>
   }
 
 
@@ -4015,351 +4437,391 @@ export namespace Prisma {
 
 
   /**
-   * Model BusinessUserModel
+   * Model BusinessUser
    */
 
 
-  export type AggregateBusinessUserModel = {
-    _count: BusinessUserModelCountAggregateOutputType | null
-    _min: BusinessUserModelMinAggregateOutputType | null
-    _max: BusinessUserModelMaxAggregateOutputType | null
+  export type AggregateBusinessUser = {
+    _count: BusinessUserCountAggregateOutputType | null
+    _min: BusinessUserMinAggregateOutputType | null
+    _max: BusinessUserMaxAggregateOutputType | null
   }
 
-  export type BusinessUserModelMinAggregateOutputType = {
+  export type BusinessUserMinAggregateOutputType = {
     id: string | null
-    profile_image_url: string | null
+    is_verified: boolean | null
     introduction_title: string | null
     introduction_content: string | null
+    phone: string | null
+    address_first: string | null
+    address_second: string | null
+    profile_image_url: string | null
   }
 
-  export type BusinessUserModelMaxAggregateOutputType = {
+  export type BusinessUserMaxAggregateOutputType = {
     id: string | null
-    profile_image_url: string | null
+    is_verified: boolean | null
     introduction_title: string | null
     introduction_content: string | null
+    phone: string | null
+    address_first: string | null
+    address_second: string | null
+    profile_image_url: string | null
   }
 
-  export type BusinessUserModelCountAggregateOutputType = {
+  export type BusinessUserCountAggregateOutputType = {
     id: number
-    profile_image_url: number
+    is_verified: number
     introduction_title: number
     introduction_content: number
+    phone: number
+    address_first: number
+    address_second: number
+    profile_image_url: number
     _all: number
   }
 
 
-  export type BusinessUserModelMinAggregateInputType = {
+  export type BusinessUserMinAggregateInputType = {
     id?: true
-    profile_image_url?: true
+    is_verified?: true
     introduction_title?: true
     introduction_content?: true
+    phone?: true
+    address_first?: true
+    address_second?: true
+    profile_image_url?: true
   }
 
-  export type BusinessUserModelMaxAggregateInputType = {
+  export type BusinessUserMaxAggregateInputType = {
     id?: true
-    profile_image_url?: true
+    is_verified?: true
     introduction_title?: true
     introduction_content?: true
+    phone?: true
+    address_first?: true
+    address_second?: true
+    profile_image_url?: true
   }
 
-  export type BusinessUserModelCountAggregateInputType = {
+  export type BusinessUserCountAggregateInputType = {
     id?: true
-    profile_image_url?: true
+    is_verified?: true
     introduction_title?: true
     introduction_content?: true
+    phone?: true
+    address_first?: true
+    address_second?: true
+    profile_image_url?: true
     _all?: true
   }
 
-  export type BusinessUserModelAggregateArgs = {
+  export type BusinessUserAggregateArgs = {
     /**
-     * Filter which BusinessUserModel to aggregate.
+     * Filter which BusinessUser to aggregate.
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUserModels to fetch.
+     * Determine the order of BusinessUsers to fetch.
      */
-    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: BusinessUserModelWhereUniqueInput
+    cursor?: BusinessUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUserModels from the position of the cursor.
+     * Take `±n` BusinessUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUserModels.
+     * Skip the first `n` BusinessUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned BusinessUserModels
+     * Count returned BusinessUsers
     **/
-    _count?: true | BusinessUserModelCountAggregateInputType
+    _count?: true | BusinessUserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: BusinessUserModelMinAggregateInputType
+    _min?: BusinessUserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: BusinessUserModelMaxAggregateInputType
+    _max?: BusinessUserMaxAggregateInputType
   }
 
-  export type GetBusinessUserModelAggregateType<T extends BusinessUserModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateBusinessUserModel]: P extends '_count' | 'count'
+  export type GetBusinessUserAggregateType<T extends BusinessUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateBusinessUserModel[P]>
-      : GetScalarType<T[P], AggregateBusinessUserModel[P]>
+        : GetScalarType<T[P], AggregateBusinessUser[P]>
+      : GetScalarType<T[P], AggregateBusinessUser[P]>
   }
 
 
 
 
-  export type BusinessUserModelGroupByArgs = {
-    where?: BusinessUserModelWhereInput
-    orderBy?: Enumerable<BusinessUserModelOrderByWithAggregationInput>
-    by: BusinessUserModelScalarFieldEnum[]
-    having?: BusinessUserModelScalarWhereWithAggregatesInput
+  export type BusinessUserGroupByArgs = {
+    where?: BusinessUserWhereInput
+    orderBy?: Enumerable<BusinessUserOrderByWithAggregationInput>
+    by: BusinessUserScalarFieldEnum[]
+    having?: BusinessUserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: BusinessUserModelCountAggregateInputType | true
-    _min?: BusinessUserModelMinAggregateInputType
-    _max?: BusinessUserModelMaxAggregateInputType
+    _count?: BusinessUserCountAggregateInputType | true
+    _min?: BusinessUserMinAggregateInputType
+    _max?: BusinessUserMaxAggregateInputType
   }
 
 
-  export type BusinessUserModelGroupByOutputType = {
+  export type BusinessUserGroupByOutputType = {
     id: string
-    profile_image_url: string
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
-    _count: BusinessUserModelCountAggregateOutputType | null
-    _min: BusinessUserModelMinAggregateOutputType | null
-    _max: BusinessUserModelMaxAggregateOutputType | null
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    _count: BusinessUserCountAggregateOutputType | null
+    _min: BusinessUserMinAggregateOutputType | null
+    _max: BusinessUserMaxAggregateOutputType | null
   }
 
-  type GetBusinessUserModelGroupByPayload<T extends BusinessUserModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetBusinessUserGroupByPayload<T extends BusinessUserGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<BusinessUserModelGroupByOutputType, T['by']> &
+      PickArray<BusinessUserGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof BusinessUserModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof BusinessUserGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], BusinessUserModelGroupByOutputType[P]>
-            : GetScalarType<T[P], BusinessUserModelGroupByOutputType[P]>
+              : GetScalarType<T[P], BusinessUserGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessUserGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type BusinessUserModelSelect = {
+  export type BusinessUserSelect = {
     id?: boolean
-    profile_image_url?: boolean
+    is_verified?: boolean
     introduction_title?: boolean
     introduction_content?: boolean
+    phone?: boolean
+    address_first?: boolean
+    address_second?: boolean
+    profile_image_url?: boolean
     base?: boolean | UserModelArgs
     re_agent?: boolean | REAgentModelArgs
-    hs_company?: boolean | HSCompanyModelArgs
-    oauth_accessors?: boolean | BusinessUserModel$oauth_accessorsArgs
-    _count?: boolean | BusinessUserModelCountOutputTypeArgs
+    hs_provider?: boolean | HSProviderModelArgs
+    certifications?: boolean | BusinessUser$certificationsArgs
+    expertises?: boolean | BusinessUser$expertisesArgs
+    oauth_accessor?: boolean | BusinessUser$oauth_accessorArgs
+    _count?: boolean | BusinessUserCountOutputTypeArgs
   }
 
 
-  export type BusinessUserModelInclude = {
+  export type BusinessUserInclude = {
     base?: boolean | UserModelArgs
     re_agent?: boolean | REAgentModelArgs
-    hs_company?: boolean | HSCompanyModelArgs
-    oauth_accessors?: boolean | BusinessUserModel$oauth_accessorsArgs
-    _count?: boolean | BusinessUserModelCountOutputTypeArgs
+    hs_provider?: boolean | HSProviderModelArgs
+    certifications?: boolean | BusinessUser$certificationsArgs
+    expertises?: boolean | BusinessUser$expertisesArgs
+    oauth_accessor?: boolean | BusinessUser$oauth_accessorArgs
+    _count?: boolean | BusinessUserCountOutputTypeArgs
   }
 
-  export type BusinessUserModelGetPayload<S extends boolean | null | undefined | BusinessUserModelArgs> =
+  export type BusinessUserGetPayload<S extends boolean | null | undefined | BusinessUserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUserModel :
+    S extends true ? BusinessUser :
     S extends undefined ? never :
-    S extends { include: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
-    ? BusinessUserModel  & {
+    S extends { include: any } & (BusinessUserArgs | BusinessUserFindManyArgs)
+    ? BusinessUser  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
         P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> | null :
-        P extends 'hs_company' ? HSCompanyModelGetPayload<S['include'][P]> | null :
-        P extends 'oauth_accessors' ? Array < AccessorModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> | null :
+        P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['include'][P]>>  :
+        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['include'][P]>>  :
+        P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? BusinessUserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
+    : S extends { select: any } & (BusinessUserArgs | BusinessUserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
         P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> | null :
-        P extends 'hs_company' ? HSCompanyModelGetPayload<S['select'][P]> | null :
-        P extends 'oauth_accessors' ? Array < AccessorModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
+        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> | null :
+        P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['select'][P]>>  :
+        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['select'][P]>>  :
+        P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? BusinessUserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUser ? BusinessUser[P] : never
   } 
-      : BusinessUserModel
+      : BusinessUser
 
 
-  type BusinessUserModelCountArgs = 
-    Omit<BusinessUserModelFindManyArgs, 'select' | 'include'> & {
-      select?: BusinessUserModelCountAggregateInputType | true
+  type BusinessUserCountArgs = 
+    Omit<BusinessUserFindManyArgs, 'select' | 'include'> & {
+      select?: BusinessUserCountAggregateInputType | true
     }
 
-  export interface BusinessUserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface BusinessUserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one BusinessUserModel that matches the filter.
-     * @param {BusinessUserModelFindUniqueArgs} args - Arguments to find a BusinessUserModel
+     * Find zero or one BusinessUser that matches the filter.
+     * @param {BusinessUserFindUniqueArgs} args - Arguments to find a BusinessUser
      * @example
-     * // Get one BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.findUnique({
+     * // Get one BusinessUser
+     * const businessUser = await prisma.businessUser.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends BusinessUserModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, BusinessUserModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
+    findUnique<T extends BusinessUserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessUserFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUser'> extends True ? Prisma__BusinessUserClient<BusinessUserGetPayload<T>> : Prisma__BusinessUserClient<BusinessUserGetPayload<T> | null, null>
 
     /**
-     * Find one BusinessUserModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one BusinessUser that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {BusinessUserModelFindUniqueOrThrowArgs} args - Arguments to find a BusinessUserModel
+     * @param {BusinessUserFindUniqueOrThrowArgs} args - Arguments to find a BusinessUser
      * @example
-     * // Get one BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.findUniqueOrThrow({
+     * // Get one BusinessUser
+     * const businessUser = await prisma.businessUser.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends BusinessUserModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindUniqueOrThrowArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    findUniqueOrThrow<T extends BusinessUserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BusinessUserFindUniqueOrThrowArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Find the first BusinessUserModel that matches the filter.
+     * Find the first BusinessUser that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelFindFirstArgs} args - Arguments to find a BusinessUserModel
+     * @param {BusinessUserFindFirstArgs} args - Arguments to find a BusinessUser
      * @example
-     * // Get one BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.findFirst({
+     * // Get one BusinessUser
+     * const businessUser = await prisma.businessUser.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends BusinessUserModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, BusinessUserModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
+    findFirst<T extends BusinessUserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessUserFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUser'> extends True ? Prisma__BusinessUserClient<BusinessUserGetPayload<T>> : Prisma__BusinessUserClient<BusinessUserGetPayload<T> | null, null>
 
     /**
-     * Find the first BusinessUserModel that matches the filter or
+     * Find the first BusinessUser that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelFindFirstOrThrowArgs} args - Arguments to find a BusinessUserModel
+     * @param {BusinessUserFindFirstOrThrowArgs} args - Arguments to find a BusinessUser
      * @example
-     * // Get one BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.findFirstOrThrow({
+     * // Get one BusinessUser
+     * const businessUser = await prisma.businessUser.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends BusinessUserModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindFirstOrThrowArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    findFirstOrThrow<T extends BusinessUserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BusinessUserFindFirstOrThrowArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Find zero or more BusinessUserModels that matches the filter.
+     * Find zero or more BusinessUsers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {BusinessUserFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all BusinessUserModels
-     * const businessUserModels = await prisma.businessUserModel.findMany()
+     * // Get all BusinessUsers
+     * const businessUsers = await prisma.businessUser.findMany()
      * 
-     * // Get first 10 BusinessUserModels
-     * const businessUserModels = await prisma.businessUserModel.findMany({ take: 10 })
+     * // Get first 10 BusinessUsers
+     * const businessUsers = await prisma.businessUser.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const businessUserModelWithIdOnly = await prisma.businessUserModel.findMany({ select: { id: true } })
+     * const businessUserWithIdOnly = await prisma.businessUser.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends BusinessUserModelFindManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<BusinessUserModelGetPayload<T>>>
+    findMany<T extends BusinessUserFindManyArgs>(
+      args?: SelectSubset<T, BusinessUserFindManyArgs>
+    ): Prisma.PrismaPromise<Array<BusinessUserGetPayload<T>>>
 
     /**
-     * Create a BusinessUserModel.
-     * @param {BusinessUserModelCreateArgs} args - Arguments to create a BusinessUserModel.
+     * Create a BusinessUser.
+     * @param {BusinessUserCreateArgs} args - Arguments to create a BusinessUser.
      * @example
-     * // Create one BusinessUserModel
-     * const BusinessUserModel = await prisma.businessUserModel.create({
+     * // Create one BusinessUser
+     * const BusinessUser = await prisma.businessUser.create({
      *   data: {
-     *     // ... data to create a BusinessUserModel
+     *     // ... data to create a BusinessUser
      *   }
      * })
      * 
     **/
-    create<T extends BusinessUserModelCreateArgs>(
-      args: SelectSubset<T, BusinessUserModelCreateArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    create<T extends BusinessUserCreateArgs>(
+      args: SelectSubset<T, BusinessUserCreateArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Create many BusinessUserModels.
-     *     @param {BusinessUserModelCreateManyArgs} args - Arguments to create many BusinessUserModels.
+     * Create many BusinessUsers.
+     *     @param {BusinessUserCreateManyArgs} args - Arguments to create many BusinessUsers.
      *     @example
-     *     // Create many BusinessUserModels
-     *     const businessUserModel = await prisma.businessUserModel.createMany({
+     *     // Create many BusinessUsers
+     *     const businessUser = await prisma.businessUser.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends BusinessUserModelCreateManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelCreateManyArgs>
+    createMany<T extends BusinessUserCreateManyArgs>(
+      args?: SelectSubset<T, BusinessUserCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a BusinessUserModel.
-     * @param {BusinessUserModelDeleteArgs} args - Arguments to delete one BusinessUserModel.
+     * Delete a BusinessUser.
+     * @param {BusinessUserDeleteArgs} args - Arguments to delete one BusinessUser.
      * @example
-     * // Delete one BusinessUserModel
-     * const BusinessUserModel = await prisma.businessUserModel.delete({
+     * // Delete one BusinessUser
+     * const BusinessUser = await prisma.businessUser.delete({
      *   where: {
-     *     // ... filter to delete one BusinessUserModel
+     *     // ... filter to delete one BusinessUser
      *   }
      * })
      * 
     **/
-    delete<T extends BusinessUserModelDeleteArgs>(
-      args: SelectSubset<T, BusinessUserModelDeleteArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    delete<T extends BusinessUserDeleteArgs>(
+      args: SelectSubset<T, BusinessUserDeleteArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Update one BusinessUserModel.
-     * @param {BusinessUserModelUpdateArgs} args - Arguments to update one BusinessUserModel.
+     * Update one BusinessUser.
+     * @param {BusinessUserUpdateArgs} args - Arguments to update one BusinessUser.
      * @example
-     * // Update one BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.update({
+     * // Update one BusinessUser
+     * const businessUser = await prisma.businessUser.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4369,34 +4831,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends BusinessUserModelUpdateArgs>(
-      args: SelectSubset<T, BusinessUserModelUpdateArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    update<T extends BusinessUserUpdateArgs>(
+      args: SelectSubset<T, BusinessUserUpdateArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Delete zero or more BusinessUserModels.
-     * @param {BusinessUserModelDeleteManyArgs} args - Arguments to filter BusinessUserModels to delete.
+     * Delete zero or more BusinessUsers.
+     * @param {BusinessUserDeleteManyArgs} args - Arguments to filter BusinessUsers to delete.
      * @example
-     * // Delete a few BusinessUserModels
-     * const { count } = await prisma.businessUserModel.deleteMany({
+     * // Delete a few BusinessUsers
+     * const { count } = await prisma.businessUser.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends BusinessUserModelDeleteManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelDeleteManyArgs>
+    deleteMany<T extends BusinessUserDeleteManyArgs>(
+      args?: SelectSubset<T, BusinessUserDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more BusinessUserModels.
+     * Update zero or more BusinessUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {BusinessUserUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many BusinessUserModels
-     * const businessUserModel = await prisma.businessUserModel.updateMany({
+     * // Update many BusinessUsers
+     * const businessUser = await prisma.businessUser.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4406,59 +4868,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends BusinessUserModelUpdateManyArgs>(
-      args: SelectSubset<T, BusinessUserModelUpdateManyArgs>
+    updateMany<T extends BusinessUserUpdateManyArgs>(
+      args: SelectSubset<T, BusinessUserUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one BusinessUserModel.
-     * @param {BusinessUserModelUpsertArgs} args - Arguments to update or create a BusinessUserModel.
+     * Create or update one BusinessUser.
+     * @param {BusinessUserUpsertArgs} args - Arguments to update or create a BusinessUser.
      * @example
-     * // Update or create a BusinessUserModel
-     * const businessUserModel = await prisma.businessUserModel.upsert({
+     * // Update or create a BusinessUser
+     * const businessUser = await prisma.businessUser.upsert({
      *   create: {
-     *     // ... data to create a BusinessUserModel
+     *     // ... data to create a BusinessUser
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the BusinessUserModel we want to update
+     *     // ... the filter for the BusinessUser we want to update
      *   }
      * })
     **/
-    upsert<T extends BusinessUserModelUpsertArgs>(
-      args: SelectSubset<T, BusinessUserModelUpsertArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    upsert<T extends BusinessUserUpsertArgs>(
+      args: SelectSubset<T, BusinessUserUpsertArgs>
+    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
 
     /**
-     * Count the number of BusinessUserModels.
+     * Count the number of BusinessUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelCountArgs} args - Arguments to filter BusinessUserModels to count.
+     * @param {BusinessUserCountArgs} args - Arguments to filter BusinessUsers to count.
      * @example
-     * // Count the number of BusinessUserModels
-     * const count = await prisma.businessUserModel.count({
+     * // Count the number of BusinessUsers
+     * const count = await prisma.businessUser.count({
      *   where: {
-     *     // ... the filter for the BusinessUserModels we want to count
+     *     // ... the filter for the BusinessUsers we want to count
      *   }
      * })
     **/
-    count<T extends BusinessUserModelCountArgs>(
-      args?: Subset<T, BusinessUserModelCountArgs>,
+    count<T extends BusinessUserCountArgs>(
+      args?: Subset<T, BusinessUserCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], BusinessUserModelCountAggregateOutputType>
+          : GetScalarType<T['select'], BusinessUserCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a BusinessUserModel.
+     * Allows you to perform aggregations operations on a BusinessUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {BusinessUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4478,13 +4940,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BusinessUserModelAggregateArgs>(args: Subset<T, BusinessUserModelAggregateArgs>): Prisma.PrismaPromise<GetBusinessUserModelAggregateType<T>>
+    aggregate<T extends BusinessUserAggregateArgs>(args: Subset<T, BusinessUserAggregateArgs>): Prisma.PrismaPromise<GetBusinessUserAggregateType<T>>
 
     /**
-     * Group by BusinessUserModel.
+     * Group by BusinessUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserModelGroupByArgs} args - Group by arguments.
+     * @param {BusinessUserGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4499,14 +4961,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends BusinessUserModelGroupByArgs,
+      T extends BusinessUserGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BusinessUserModelGroupByArgs['orderBy'] }
-        : { orderBy?: BusinessUserModelGroupByArgs['orderBy'] },
+        ? { orderBy: BusinessUserGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessUserGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4555,17 +5017,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BusinessUserModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessUserModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BusinessUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for BusinessUserModel.
+   * The delegate class that acts as a "Promise-like" for BusinessUser.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BusinessUserModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__BusinessUserClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -4584,9 +5046,13 @@ export namespace Prisma {
 
     re_agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
 
-    hs_company<T extends HSCompanyModelArgs= {}>(args?: Subset<T, HSCompanyModelArgs>): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T> | Null>;
+    hs_provider<T extends HSProviderModelArgs= {}>(args?: Subset<T, HSProviderModelArgs>): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | Null>;
 
-    oauth_accessors<T extends BusinessUserModel$oauth_accessorsArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accessorsArgs>): Prisma.PrismaPromise<Array<AccessorModelGetPayload<T>>| Null>;
+    certifications<T extends BusinessUser$certificationsArgs= {}>(args?: Subset<T, BusinessUser$certificationsArgs>): Prisma.PrismaPromise<Array<BusinessCertificationModelGetPayload<T>>| Null>;
+
+    expertises<T extends BusinessUser$expertisesArgs= {}>(args?: Subset<T, BusinessUser$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
+
+    oauth_accessor<T extends BusinessUser$oauth_accessorArgs= {}>(args?: Subset<T, BusinessUser$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4616,27 +5082,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * BusinessUserModel base type for findUnique actions
+   * BusinessUser base type for findUnique actions
    */
-  export type BusinessUserModelFindUniqueArgsBase = {
+  export type BusinessUserFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter, which BusinessUserModel to fetch.
+     * Filter, which BusinessUser to fetch.
      */
-    where: BusinessUserModelWhereUniqueInput
+    where: BusinessUserWhereUniqueInput
   }
 
   /**
-   * BusinessUserModel findUnique
+   * BusinessUser findUnique
    */
-  export interface BusinessUserModelFindUniqueArgs extends BusinessUserModelFindUniqueArgsBase {
+  export interface BusinessUserFindUniqueArgs extends BusinessUserFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -4646,76 +5112,76 @@ export namespace Prisma {
       
 
   /**
-   * BusinessUserModel findUniqueOrThrow
+   * BusinessUser findUniqueOrThrow
    */
-  export type BusinessUserModelFindUniqueOrThrowArgs = {
+  export type BusinessUserFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter, which BusinessUserModel to fetch.
+     * Filter, which BusinessUser to fetch.
      */
-    where: BusinessUserModelWhereUniqueInput
+    where: BusinessUserWhereUniqueInput
   }
 
 
   /**
-   * BusinessUserModel base type for findFirst actions
+   * BusinessUser base type for findFirst actions
    */
-  export type BusinessUserModelFindFirstArgsBase = {
+  export type BusinessUserFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter, which BusinessUserModel to fetch.
+     * Filter, which BusinessUser to fetch.
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUserModels to fetch.
+     * Determine the order of BusinessUsers to fetch.
      */
-    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BusinessUserModels.
+     * Sets the position for searching for BusinessUsers.
      */
-    cursor?: BusinessUserModelWhereUniqueInput
+    cursor?: BusinessUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUserModels from the position of the cursor.
+     * Take `±n` BusinessUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUserModels.
+     * Skip the first `n` BusinessUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BusinessUserModels.
+     * Filter by unique combinations of BusinessUsers.
      */
-    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserScalarFieldEnum>
   }
 
   /**
-   * BusinessUserModel findFirst
+   * BusinessUser findFirst
    */
-  export interface BusinessUserModelFindFirstArgs extends BusinessUserModelFindFirstArgsBase {
+  export interface BusinessUserFindFirstArgs extends BusinessUserFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -4725,257 +5191,299 @@ export namespace Prisma {
       
 
   /**
-   * BusinessUserModel findFirstOrThrow
+   * BusinessUser findFirstOrThrow
    */
-  export type BusinessUserModelFindFirstOrThrowArgs = {
+  export type BusinessUserFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter, which BusinessUserModel to fetch.
+     * Filter, which BusinessUser to fetch.
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUserModels to fetch.
+     * Determine the order of BusinessUsers to fetch.
      */
-    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BusinessUserModels.
+     * Sets the position for searching for BusinessUsers.
      */
-    cursor?: BusinessUserModelWhereUniqueInput
+    cursor?: BusinessUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUserModels from the position of the cursor.
+     * Take `±n` BusinessUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUserModels.
+     * Skip the first `n` BusinessUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BusinessUserModels.
+     * Filter by unique combinations of BusinessUsers.
      */
-    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserScalarFieldEnum>
   }
 
 
   /**
-   * BusinessUserModel findMany
+   * BusinessUser findMany
    */
-  export type BusinessUserModelFindManyArgs = {
+  export type BusinessUserFindManyArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter, which BusinessUserModels to fetch.
+     * Filter, which BusinessUsers to fetch.
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUserModels to fetch.
+     * Determine the order of BusinessUsers to fetch.
      */
-    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing BusinessUserModels.
+     * Sets the position for listing BusinessUsers.
      */
-    cursor?: BusinessUserModelWhereUniqueInput
+    cursor?: BusinessUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUserModels from the position of the cursor.
+     * Take `±n` BusinessUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUserModels.
+     * Skip the first `n` BusinessUsers.
      */
     skip?: number
-    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserScalarFieldEnum>
   }
 
 
   /**
-   * BusinessUserModel create
+   * BusinessUser create
    */
-  export type BusinessUserModelCreateArgs = {
+  export type BusinessUserCreateArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * The data needed to create a BusinessUserModel.
+     * The data needed to create a BusinessUser.
      */
-    data: XOR<BusinessUserModelCreateInput, BusinessUserModelUncheckedCreateInput>
+    data: XOR<BusinessUserCreateInput, BusinessUserUncheckedCreateInput>
   }
 
 
   /**
-   * BusinessUserModel createMany
+   * BusinessUser createMany
    */
-  export type BusinessUserModelCreateManyArgs = {
+  export type BusinessUserCreateManyArgs = {
     /**
-     * The data used to create many BusinessUserModels.
+     * The data used to create many BusinessUsers.
      */
-    data: Enumerable<BusinessUserModelCreateManyInput>
+    data: Enumerable<BusinessUserCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * BusinessUserModel update
+   * BusinessUser update
    */
-  export type BusinessUserModelUpdateArgs = {
+  export type BusinessUserUpdateArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * The data needed to update a BusinessUserModel.
+     * The data needed to update a BusinessUser.
      */
-    data: XOR<BusinessUserModelUpdateInput, BusinessUserModelUncheckedUpdateInput>
+    data: XOR<BusinessUserUpdateInput, BusinessUserUncheckedUpdateInput>
     /**
-     * Choose, which BusinessUserModel to update.
+     * Choose, which BusinessUser to update.
      */
-    where: BusinessUserModelWhereUniqueInput
+    where: BusinessUserWhereUniqueInput
   }
 
 
   /**
-   * BusinessUserModel updateMany
+   * BusinessUser updateMany
    */
-  export type BusinessUserModelUpdateManyArgs = {
+  export type BusinessUserUpdateManyArgs = {
     /**
-     * The data used to update BusinessUserModels.
+     * The data used to update BusinessUsers.
      */
-    data: XOR<BusinessUserModelUpdateManyMutationInput, BusinessUserModelUncheckedUpdateManyInput>
+    data: XOR<BusinessUserUpdateManyMutationInput, BusinessUserUncheckedUpdateManyInput>
     /**
-     * Filter which BusinessUserModels to update
+     * Filter which BusinessUsers to update
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
   }
 
 
   /**
-   * BusinessUserModel upsert
+   * BusinessUser upsert
    */
-  export type BusinessUserModelUpsertArgs = {
+  export type BusinessUserUpsertArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * The filter to search for the BusinessUserModel to update in case it exists.
+     * The filter to search for the BusinessUser to update in case it exists.
      */
-    where: BusinessUserModelWhereUniqueInput
+    where: BusinessUserWhereUniqueInput
     /**
-     * In case the BusinessUserModel found by the `where` argument doesn't exist, create a new BusinessUserModel with this data.
+     * In case the BusinessUser found by the `where` argument doesn't exist, create a new BusinessUser with this data.
      */
-    create: XOR<BusinessUserModelCreateInput, BusinessUserModelUncheckedCreateInput>
+    create: XOR<BusinessUserCreateInput, BusinessUserUncheckedCreateInput>
     /**
-     * In case the BusinessUserModel was found with the provided `where` argument, update it with this data.
+     * In case the BusinessUser was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<BusinessUserModelUpdateInput, BusinessUserModelUncheckedUpdateInput>
+    update: XOR<BusinessUserUpdateInput, BusinessUserUncheckedUpdateInput>
   }
 
 
   /**
-   * BusinessUserModel delete
+   * BusinessUser delete
    */
-  export type BusinessUserModelDeleteArgs = {
+  export type BusinessUserDeleteArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the BusinessUser
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserInclude | null
     /**
-     * Filter which BusinessUserModel to delete.
+     * Filter which BusinessUser to delete.
      */
-    where: BusinessUserModelWhereUniqueInput
+    where: BusinessUserWhereUniqueInput
   }
 
 
   /**
-   * BusinessUserModel deleteMany
+   * BusinessUser deleteMany
    */
-  export type BusinessUserModelDeleteManyArgs = {
+  export type BusinessUserDeleteManyArgs = {
     /**
-     * Filter which BusinessUserModels to delete
+     * Filter which BusinessUsers to delete
      */
-    where?: BusinessUserModelWhereInput
+    where?: BusinessUserWhereInput
   }
 
 
   /**
-   * BusinessUserModel.oauth_accessors
+   * BusinessUser.certifications
    */
-  export type BusinessUserModel$oauth_accessorsArgs = {
+  export type BusinessUser$certificationsArgs = {
     /**
-     * Select specific fields to fetch from the AccessorModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: AccessorModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AccessorModelInclude | null
-    where?: AccessorModelWhereInput
-    orderBy?: Enumerable<AccessorModelOrderByWithRelationInput>
-    cursor?: AccessorModelWhereUniqueInput
+    include?: BusinessCertificationModelInclude | null
+    where?: BusinessCertificationModelWhereInput
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithRelationInput>
+    cursor?: BusinessCertificationModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<AccessorModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessCertificationModelScalarFieldEnum>
   }
 
 
   /**
-   * BusinessUserModel without action
+   * BusinessUser.expertises
    */
-  export type BusinessUserModelArgs = {
+  export type BusinessUser$expertisesArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserModel
+     * Select specific fields to fetch from the UserExpertiseModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: UserExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: UserExpertiseModelInclude | null
+    where?: UserExpertiseModelWhereInput
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    cursor?: UserExpertiseModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * BusinessUser.oauth_accessor
+   */
+  export type BusinessUser$oauth_accessorArgs = {
+    /**
+     * Select specific fields to fetch from the OauthAccessorModel
+     */
+    select?: OauthAccessorModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OauthAccessorModelInclude | null
+    where?: OauthAccessorModelWhereInput
+    orderBy?: Enumerable<OauthAccessorModelOrderByWithRelationInput>
+    cursor?: OauthAccessorModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<OauthAccessorModelScalarFieldEnum>
+  }
+
+
+  /**
+   * BusinessUser without action
+   */
+  export type BusinessUserArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessUser
+     */
+    select?: BusinessUserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessUserInclude | null
   }
 
 
@@ -4998,8 +5506,6 @@ export namespace Prisma {
     re_name: string | null
     re_phone: string | null
     re_licensed_agent_name: string | null
-    re_address_first: string | null
-    re_address_second: string | null
   }
 
   export type REAgentModelMaxAggregateOutputType = {
@@ -5009,8 +5515,6 @@ export namespace Prisma {
     re_name: string | null
     re_phone: string | null
     re_licensed_agent_name: string | null
-    re_address_first: string | null
-    re_address_second: string | null
   }
 
   export type REAgentModelCountAggregateOutputType = {
@@ -5020,8 +5524,6 @@ export namespace Prisma {
     re_name: number
     re_phone: number
     re_licensed_agent_name: number
-    re_address_first: number
-    re_address_second: number
     _all: number
   }
 
@@ -5033,8 +5535,6 @@ export namespace Prisma {
     re_name?: true
     re_phone?: true
     re_licensed_agent_name?: true
-    re_address_first?: true
-    re_address_second?: true
   }
 
   export type REAgentModelMaxAggregateInputType = {
@@ -5044,8 +5544,6 @@ export namespace Prisma {
     re_name?: true
     re_phone?: true
     re_licensed_agent_name?: true
-    re_address_first?: true
-    re_address_second?: true
   }
 
   export type REAgentModelCountAggregateInputType = {
@@ -5055,8 +5553,6 @@ export namespace Prisma {
     re_name?: true
     re_phone?: true
     re_licensed_agent_name?: true
-    re_address_first?: true
-    re_address_second?: true
     _all?: true
   }
 
@@ -5140,8 +5636,6 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second: string | null
     _count: REAgentModelCountAggregateOutputType | null
     _min: REAgentModelMinAggregateOutputType | null
     _max: REAgentModelMaxAggregateOutputType | null
@@ -5168,14 +5662,12 @@ export namespace Prisma {
     re_name?: boolean
     re_phone?: boolean
     re_licensed_agent_name?: boolean
-    re_address_first?: boolean
-    re_address_second?: boolean
-    base?: boolean | BusinessUserModelArgs
+    base?: boolean | BusinessUserArgs
   }
 
 
   export type REAgentModelInclude = {
-    base?: boolean | BusinessUserModelArgs
+    base?: boolean | BusinessUserArgs
   }
 
   export type REAgentModelGetPayload<S extends boolean | null | undefined | REAgentModelArgs> =
@@ -5185,12 +5677,12 @@ export namespace Prisma {
     S extends { include: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
     ? REAgentModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :  never
+        P extends 'base' ? BusinessUserGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
+        P extends 'base' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
   } 
       : REAgentModel
 
@@ -5562,7 +6054,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    base<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -5936,343 +6428,327 @@ export namespace Prisma {
 
 
   /**
-   * Model HSCompanyModel
+   * Model HSProviderModel
    */
 
 
-  export type AggregateHSCompanyModel = {
-    _count: HSCompanyModelCountAggregateOutputType | null
-    _min: HSCompanyModelMinAggregateOutputType | null
-    _max: HSCompanyModelMaxAggregateOutputType | null
+  export type AggregateHSProviderModel = {
+    _count: HSProviderModelCountAggregateOutputType | null
+    _min: HSProviderModelMinAggregateOutputType | null
+    _max: HSProviderModelMaxAggregateOutputType | null
   }
 
-  export type HSCompanyModelMinAggregateOutputType = {
+  export type HSProviderModelMinAggregateOutputType = {
     id: string | null
-    business_num: string | null
-    address_first: string | null
-    address_second: string | null
+    business_registration_num: string | null
   }
 
-  export type HSCompanyModelMaxAggregateOutputType = {
+  export type HSProviderModelMaxAggregateOutputType = {
     id: string | null
-    business_num: string | null
-    address_first: string | null
-    address_second: string | null
+    business_registration_num: string | null
   }
 
-  export type HSCompanyModelCountAggregateOutputType = {
+  export type HSProviderModelCountAggregateOutputType = {
     id: number
-    business_num: number
-    address_first: number
-    address_second: number
+    business_registration_num: number
     _all: number
   }
 
 
-  export type HSCompanyModelMinAggregateInputType = {
+  export type HSProviderModelMinAggregateInputType = {
     id?: true
-    business_num?: true
-    address_first?: true
-    address_second?: true
+    business_registration_num?: true
   }
 
-  export type HSCompanyModelMaxAggregateInputType = {
+  export type HSProviderModelMaxAggregateInputType = {
     id?: true
-    business_num?: true
-    address_first?: true
-    address_second?: true
+    business_registration_num?: true
   }
 
-  export type HSCompanyModelCountAggregateInputType = {
+  export type HSProviderModelCountAggregateInputType = {
     id?: true
-    business_num?: true
-    address_first?: true
-    address_second?: true
+    business_registration_num?: true
     _all?: true
   }
 
-  export type HSCompanyModelAggregateArgs = {
+  export type HSProviderModelAggregateArgs = {
     /**
-     * Filter which HSCompanyModel to aggregate.
+     * Filter which HSProviderModel to aggregate.
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyModels to fetch.
+     * Determine the order of HSProviderModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSProviderModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: HSCompanyModelWhereUniqueInput
+    cursor?: HSProviderModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyModels from the position of the cursor.
+     * Take `±n` HSProviderModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyModels.
+     * Skip the first `n` HSProviderModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned HSCompanyModels
+     * Count returned HSProviderModels
     **/
-    _count?: true | HSCompanyModelCountAggregateInputType
+    _count?: true | HSProviderModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: HSCompanyModelMinAggregateInputType
+    _min?: HSProviderModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: HSCompanyModelMaxAggregateInputType
+    _max?: HSProviderModelMaxAggregateInputType
   }
 
-  export type GetHSCompanyModelAggregateType<T extends HSCompanyModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateHSCompanyModel]: P extends '_count' | 'count'
+  export type GetHSProviderModelAggregateType<T extends HSProviderModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateHSProviderModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateHSCompanyModel[P]>
-      : GetScalarType<T[P], AggregateHSCompanyModel[P]>
+        : GetScalarType<T[P], AggregateHSProviderModel[P]>
+      : GetScalarType<T[P], AggregateHSProviderModel[P]>
   }
 
 
 
 
-  export type HSCompanyModelGroupByArgs = {
-    where?: HSCompanyModelWhereInput
-    orderBy?: Enumerable<HSCompanyModelOrderByWithAggregationInput>
-    by: HSCompanyModelScalarFieldEnum[]
-    having?: HSCompanyModelScalarWhereWithAggregatesInput
+  export type HSProviderModelGroupByArgs = {
+    where?: HSProviderModelWhereInput
+    orderBy?: Enumerable<HSProviderModelOrderByWithAggregationInput>
+    by: HSProviderModelScalarFieldEnum[]
+    having?: HSProviderModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: HSCompanyModelCountAggregateInputType | true
-    _min?: HSCompanyModelMinAggregateInputType
-    _max?: HSCompanyModelMaxAggregateInputType
+    _count?: HSProviderModelCountAggregateInputType | true
+    _min?: HSProviderModelMinAggregateInputType
+    _max?: HSProviderModelMaxAggregateInputType
   }
 
 
-  export type HSCompanyModelGroupByOutputType = {
+  export type HSProviderModelGroupByOutputType = {
     id: string
-    business_num: string
-    address_first: string
-    address_second: string | null
-    _count: HSCompanyModelCountAggregateOutputType | null
-    _min: HSCompanyModelMinAggregateOutputType | null
-    _max: HSCompanyModelMaxAggregateOutputType | null
+    business_registration_num: string
+    _count: HSProviderModelCountAggregateOutputType | null
+    _min: HSProviderModelMinAggregateOutputType | null
+    _max: HSProviderModelMaxAggregateOutputType | null
   }
 
-  type GetHSCompanyModelGroupByPayload<T extends HSCompanyModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetHSProviderModelGroupByPayload<T extends HSProviderModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<HSCompanyModelGroupByOutputType, T['by']> &
+      PickArray<HSProviderModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof HSCompanyModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof HSProviderModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], HSCompanyModelGroupByOutputType[P]>
-            : GetScalarType<T[P], HSCompanyModelGroupByOutputType[P]>
+              : GetScalarType<T[P], HSProviderModelGroupByOutputType[P]>
+            : GetScalarType<T[P], HSProviderModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type HSCompanyModelSelect = {
+  export type HSProviderModelSelect = {
     id?: boolean
-    business_num?: boolean
-    address_first?: boolean
-    address_second?: boolean
-    base?: boolean | BusinessUserModelArgs
-    introduction_images?: boolean | HSCompanyModel$introduction_imagesArgs
-    _count?: boolean | HSCompanyModelCountOutputTypeArgs
+    business_registration_num?: boolean
+    base?: boolean | BusinessUserArgs
+    introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
+    _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
 
 
-  export type HSCompanyModelInclude = {
-    base?: boolean | BusinessUserModelArgs
-    introduction_images?: boolean | HSCompanyModel$introduction_imagesArgs
-    _count?: boolean | HSCompanyModelCountOutputTypeArgs
+  export type HSProviderModelInclude = {
+    base?: boolean | BusinessUserArgs
+    introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
+    _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
 
-  export type HSCompanyModelGetPayload<S extends boolean | null | undefined | HSCompanyModelArgs> =
+  export type HSProviderModelGetPayload<S extends boolean | null | undefined | HSProviderModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSCompanyModel :
+    S extends true ? HSProviderModel :
     S extends undefined ? never :
-    S extends { include: any } & (HSCompanyModelArgs | HSCompanyModelFindManyArgs)
-    ? HSCompanyModel  & {
+    S extends { include: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
+    ? HSProviderModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'introduction_images' ? Array < HSCompanyIntroductionImageModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? HSCompanyModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'base' ? BusinessUserGetPayload<S['include'][P]> :
+        P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (HSCompanyModelArgs | HSCompanyModelFindManyArgs)
+    : S extends { select: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'introduction_images' ? Array < HSCompanyIntroductionImageModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? HSCompanyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSCompanyModel ? HSCompanyModel[P] : never
+        P extends 'base' ? BusinessUserGetPayload<S['select'][P]> :
+        P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSProviderModel ? HSProviderModel[P] : never
   } 
-      : HSCompanyModel
+      : HSProviderModel
 
 
-  type HSCompanyModelCountArgs = 
-    Omit<HSCompanyModelFindManyArgs, 'select' | 'include'> & {
-      select?: HSCompanyModelCountAggregateInputType | true
+  type HSProviderModelCountArgs = 
+    Omit<HSProviderModelFindManyArgs, 'select' | 'include'> & {
+      select?: HSProviderModelCountAggregateInputType | true
     }
 
-  export interface HSCompanyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface HSProviderModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one HSCompanyModel that matches the filter.
-     * @param {HSCompanyModelFindUniqueArgs} args - Arguments to find a HSCompanyModel
+     * Find zero or one HSProviderModel that matches the filter.
+     * @param {HSProviderModelFindUniqueArgs} args - Arguments to find a HSProviderModel
      * @example
-     * // Get one HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.findUnique({
+     * // Get one HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends HSCompanyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HSCompanyModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSCompanyModel'> extends True ? Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>> : Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T> | null, null>
+    findUnique<T extends HSProviderModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSProviderModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>> : Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | null, null>
 
     /**
-     * Find one HSCompanyModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one HSProviderModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {HSCompanyModelFindUniqueOrThrowArgs} args - Arguments to find a HSCompanyModel
+     * @param {HSProviderModelFindUniqueOrThrowArgs} args - Arguments to find a HSProviderModel
      * @example
-     * // Get one HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.findUniqueOrThrow({
+     * // Get one HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HSCompanyModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HSCompanyModelFindUniqueOrThrowArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    findUniqueOrThrow<T extends HSProviderModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, HSProviderModelFindUniqueOrThrowArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Find the first HSCompanyModel that matches the filter.
+     * Find the first HSProviderModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelFindFirstArgs} args - Arguments to find a HSCompanyModel
+     * @param {HSProviderModelFindFirstArgs} args - Arguments to find a HSProviderModel
      * @example
-     * // Get one HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.findFirst({
+     * // Get one HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends HSCompanyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HSCompanyModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSCompanyModel'> extends True ? Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>> : Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T> | null, null>
+    findFirst<T extends HSProviderModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSProviderModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>> : Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | null, null>
 
     /**
-     * Find the first HSCompanyModel that matches the filter or
+     * Find the first HSProviderModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelFindFirstOrThrowArgs} args - Arguments to find a HSCompanyModel
+     * @param {HSProviderModelFindFirstOrThrowArgs} args - Arguments to find a HSProviderModel
      * @example
-     * // Get one HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.findFirstOrThrow({
+     * // Get one HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HSCompanyModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HSCompanyModelFindFirstOrThrowArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    findFirstOrThrow<T extends HSProviderModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, HSProviderModelFindFirstOrThrowArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Find zero or more HSCompanyModels that matches the filter.
+     * Find zero or more HSProviderModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {HSProviderModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all HSCompanyModels
-     * const hSCompanyModels = await prisma.hSCompanyModel.findMany()
+     * // Get all HSProviderModels
+     * const hSProviderModels = await prisma.hSProviderModel.findMany()
      * 
-     * // Get first 10 HSCompanyModels
-     * const hSCompanyModels = await prisma.hSCompanyModel.findMany({ take: 10 })
+     * // Get first 10 HSProviderModels
+     * const hSProviderModels = await prisma.hSProviderModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const hSCompanyModelWithIdOnly = await prisma.hSCompanyModel.findMany({ select: { id: true } })
+     * const hSProviderModelWithIdOnly = await prisma.hSProviderModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends HSCompanyModelFindManyArgs>(
-      args?: SelectSubset<T, HSCompanyModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<HSCompanyModelGetPayload<T>>>
+    findMany<T extends HSProviderModelFindManyArgs>(
+      args?: SelectSubset<T, HSProviderModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<HSProviderModelGetPayload<T>>>
 
     /**
-     * Create a HSCompanyModel.
-     * @param {HSCompanyModelCreateArgs} args - Arguments to create a HSCompanyModel.
+     * Create a HSProviderModel.
+     * @param {HSProviderModelCreateArgs} args - Arguments to create a HSProviderModel.
      * @example
-     * // Create one HSCompanyModel
-     * const HSCompanyModel = await prisma.hSCompanyModel.create({
+     * // Create one HSProviderModel
+     * const HSProviderModel = await prisma.hSProviderModel.create({
      *   data: {
-     *     // ... data to create a HSCompanyModel
+     *     // ... data to create a HSProviderModel
      *   }
      * })
      * 
     **/
-    create<T extends HSCompanyModelCreateArgs>(
-      args: SelectSubset<T, HSCompanyModelCreateArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    create<T extends HSProviderModelCreateArgs>(
+      args: SelectSubset<T, HSProviderModelCreateArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Create many HSCompanyModels.
-     *     @param {HSCompanyModelCreateManyArgs} args - Arguments to create many HSCompanyModels.
+     * Create many HSProviderModels.
+     *     @param {HSProviderModelCreateManyArgs} args - Arguments to create many HSProviderModels.
      *     @example
-     *     // Create many HSCompanyModels
-     *     const hSCompanyModel = await prisma.hSCompanyModel.createMany({
+     *     // Create many HSProviderModels
+     *     const hSProviderModel = await prisma.hSProviderModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends HSCompanyModelCreateManyArgs>(
-      args?: SelectSubset<T, HSCompanyModelCreateManyArgs>
+    createMany<T extends HSProviderModelCreateManyArgs>(
+      args?: SelectSubset<T, HSProviderModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a HSCompanyModel.
-     * @param {HSCompanyModelDeleteArgs} args - Arguments to delete one HSCompanyModel.
+     * Delete a HSProviderModel.
+     * @param {HSProviderModelDeleteArgs} args - Arguments to delete one HSProviderModel.
      * @example
-     * // Delete one HSCompanyModel
-     * const HSCompanyModel = await prisma.hSCompanyModel.delete({
+     * // Delete one HSProviderModel
+     * const HSProviderModel = await prisma.hSProviderModel.delete({
      *   where: {
-     *     // ... filter to delete one HSCompanyModel
+     *     // ... filter to delete one HSProviderModel
      *   }
      * })
      * 
     **/
-    delete<T extends HSCompanyModelDeleteArgs>(
-      args: SelectSubset<T, HSCompanyModelDeleteArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    delete<T extends HSProviderModelDeleteArgs>(
+      args: SelectSubset<T, HSProviderModelDeleteArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Update one HSCompanyModel.
-     * @param {HSCompanyModelUpdateArgs} args - Arguments to update one HSCompanyModel.
+     * Update one HSProviderModel.
+     * @param {HSProviderModelUpdateArgs} args - Arguments to update one HSProviderModel.
      * @example
-     * // Update one HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.update({
+     * // Update one HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6282,34 +6758,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends HSCompanyModelUpdateArgs>(
-      args: SelectSubset<T, HSCompanyModelUpdateArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    update<T extends HSProviderModelUpdateArgs>(
+      args: SelectSubset<T, HSProviderModelUpdateArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Delete zero or more HSCompanyModels.
-     * @param {HSCompanyModelDeleteManyArgs} args - Arguments to filter HSCompanyModels to delete.
+     * Delete zero or more HSProviderModels.
+     * @param {HSProviderModelDeleteManyArgs} args - Arguments to filter HSProviderModels to delete.
      * @example
-     * // Delete a few HSCompanyModels
-     * const { count } = await prisma.hSCompanyModel.deleteMany({
+     * // Delete a few HSProviderModels
+     * const { count } = await prisma.hSProviderModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends HSCompanyModelDeleteManyArgs>(
-      args?: SelectSubset<T, HSCompanyModelDeleteManyArgs>
+    deleteMany<T extends HSProviderModelDeleteManyArgs>(
+      args?: SelectSubset<T, HSProviderModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more HSCompanyModels.
+     * Update zero or more HSProviderModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {HSProviderModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many HSCompanyModels
-     * const hSCompanyModel = await prisma.hSCompanyModel.updateMany({
+     * // Update many HSProviderModels
+     * const hSProviderModel = await prisma.hSProviderModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6319,59 +6795,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends HSCompanyModelUpdateManyArgs>(
-      args: SelectSubset<T, HSCompanyModelUpdateManyArgs>
+    updateMany<T extends HSProviderModelUpdateManyArgs>(
+      args: SelectSubset<T, HSProviderModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one HSCompanyModel.
-     * @param {HSCompanyModelUpsertArgs} args - Arguments to update or create a HSCompanyModel.
+     * Create or update one HSProviderModel.
+     * @param {HSProviderModelUpsertArgs} args - Arguments to update or create a HSProviderModel.
      * @example
-     * // Update or create a HSCompanyModel
-     * const hSCompanyModel = await prisma.hSCompanyModel.upsert({
+     * // Update or create a HSProviderModel
+     * const hSProviderModel = await prisma.hSProviderModel.upsert({
      *   create: {
-     *     // ... data to create a HSCompanyModel
+     *     // ... data to create a HSProviderModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the HSCompanyModel we want to update
+     *     // ... the filter for the HSProviderModel we want to update
      *   }
      * })
     **/
-    upsert<T extends HSCompanyModelUpsertArgs>(
-      args: SelectSubset<T, HSCompanyModelUpsertArgs>
-    ): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T>>
+    upsert<T extends HSProviderModelUpsertArgs>(
+      args: SelectSubset<T, HSProviderModelUpsertArgs>
+    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
 
     /**
-     * Count the number of HSCompanyModels.
+     * Count the number of HSProviderModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelCountArgs} args - Arguments to filter HSCompanyModels to count.
+     * @param {HSProviderModelCountArgs} args - Arguments to filter HSProviderModels to count.
      * @example
-     * // Count the number of HSCompanyModels
-     * const count = await prisma.hSCompanyModel.count({
+     * // Count the number of HSProviderModels
+     * const count = await prisma.hSProviderModel.count({
      *   where: {
-     *     // ... the filter for the HSCompanyModels we want to count
+     *     // ... the filter for the HSProviderModels we want to count
      *   }
      * })
     **/
-    count<T extends HSCompanyModelCountArgs>(
-      args?: Subset<T, HSCompanyModelCountArgs>,
+    count<T extends HSProviderModelCountArgs>(
+      args?: Subset<T, HSProviderModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], HSCompanyModelCountAggregateOutputType>
+          : GetScalarType<T['select'], HSProviderModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a HSCompanyModel.
+     * Allows you to perform aggregations operations on a HSProviderModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {HSProviderModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6391,13 +6867,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends HSCompanyModelAggregateArgs>(args: Subset<T, HSCompanyModelAggregateArgs>): Prisma.PrismaPromise<GetHSCompanyModelAggregateType<T>>
+    aggregate<T extends HSProviderModelAggregateArgs>(args: Subset<T, HSProviderModelAggregateArgs>): Prisma.PrismaPromise<GetHSProviderModelAggregateType<T>>
 
     /**
-     * Group by HSCompanyModel.
+     * Group by HSProviderModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyModelGroupByArgs} args - Group by arguments.
+     * @param {HSProviderModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6412,14 +6888,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends HSCompanyModelGroupByArgs,
+      T extends HSProviderModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: HSCompanyModelGroupByArgs['orderBy'] }
-        : { orderBy?: HSCompanyModelGroupByArgs['orderBy'] },
+        ? { orderBy: HSProviderModelGroupByArgs['orderBy'] }
+        : { orderBy?: HSProviderModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6468,17 +6944,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, HSCompanyModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSCompanyModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, HSProviderModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSProviderModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for HSCompanyModel.
+   * The delegate class that acts as a "Promise-like" for HSProviderModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HSCompanyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__HSProviderModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -6493,9 +6969,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    base<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
 
-    introduction_images<T extends HSCompanyModel$introduction_imagesArgs= {}>(args?: Subset<T, HSCompanyModel$introduction_imagesArgs>): Prisma.PrismaPromise<Array<HSCompanyIntroductionImageModelGetPayload<T>>| Null>;
+    introduction_images<T extends HSProviderModel$introduction_imagesArgs= {}>(args?: Subset<T, HSProviderModel$introduction_imagesArgs>): Prisma.PrismaPromise<Array<HSIntroductionImageModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -6525,27 +7001,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * HSCompanyModel base type for findUnique actions
+   * HSProviderModel base type for findUnique actions
    */
-  export type HSCompanyModelFindUniqueArgsBase = {
+  export type HSProviderModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter, which HSCompanyModel to fetch.
+     * Filter, which HSProviderModel to fetch.
      */
-    where: HSCompanyModelWhereUniqueInput
+    where: HSProviderModelWhereUniqueInput
   }
 
   /**
-   * HSCompanyModel findUnique
+   * HSProviderModel findUnique
    */
-  export interface HSCompanyModelFindUniqueArgs extends HSCompanyModelFindUniqueArgsBase {
+  export interface HSProviderModelFindUniqueArgs extends HSProviderModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -6555,76 +7031,76 @@ export namespace Prisma {
       
 
   /**
-   * HSCompanyModel findUniqueOrThrow
+   * HSProviderModel findUniqueOrThrow
    */
-  export type HSCompanyModelFindUniqueOrThrowArgs = {
+  export type HSProviderModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter, which HSCompanyModel to fetch.
+     * Filter, which HSProviderModel to fetch.
      */
-    where: HSCompanyModelWhereUniqueInput
+    where: HSProviderModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyModel base type for findFirst actions
+   * HSProviderModel base type for findFirst actions
    */
-  export type HSCompanyModelFindFirstArgsBase = {
+  export type HSProviderModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter, which HSCompanyModel to fetch.
+     * Filter, which HSProviderModel to fetch.
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyModels to fetch.
+     * Determine the order of HSProviderModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSProviderModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSCompanyModels.
+     * Sets the position for searching for HSProviderModels.
      */
-    cursor?: HSCompanyModelWhereUniqueInput
+    cursor?: HSProviderModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyModels from the position of the cursor.
+     * Take `±n` HSProviderModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyModels.
+     * Skip the first `n` HSProviderModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSCompanyModels.
+     * Filter by unique combinations of HSProviderModels.
      */
-    distinct?: Enumerable<HSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<HSProviderModelScalarFieldEnum>
   }
 
   /**
-   * HSCompanyModel findFirst
+   * HSProviderModel findFirst
    */
-  export interface HSCompanyModelFindFirstArgs extends HSCompanyModelFindFirstArgsBase {
+  export interface HSProviderModelFindFirstArgs extends HSProviderModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -6634,583 +7110,615 @@ export namespace Prisma {
       
 
   /**
-   * HSCompanyModel findFirstOrThrow
+   * HSProviderModel findFirstOrThrow
    */
-  export type HSCompanyModelFindFirstOrThrowArgs = {
+  export type HSProviderModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter, which HSCompanyModel to fetch.
+     * Filter, which HSProviderModel to fetch.
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyModels to fetch.
+     * Determine the order of HSProviderModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSProviderModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSCompanyModels.
+     * Sets the position for searching for HSProviderModels.
      */
-    cursor?: HSCompanyModelWhereUniqueInput
+    cursor?: HSProviderModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyModels from the position of the cursor.
+     * Take `±n` HSProviderModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyModels.
+     * Skip the first `n` HSProviderModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSCompanyModels.
+     * Filter by unique combinations of HSProviderModels.
      */
-    distinct?: Enumerable<HSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<HSProviderModelScalarFieldEnum>
   }
 
 
   /**
-   * HSCompanyModel findMany
+   * HSProviderModel findMany
    */
-  export type HSCompanyModelFindManyArgs = {
+  export type HSProviderModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter, which HSCompanyModels to fetch.
+     * Filter, which HSProviderModels to fetch.
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyModels to fetch.
+     * Determine the order of HSProviderModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSProviderModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing HSCompanyModels.
+     * Sets the position for listing HSProviderModels.
      */
-    cursor?: HSCompanyModelWhereUniqueInput
+    cursor?: HSProviderModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyModels from the position of the cursor.
+     * Take `±n` HSProviderModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyModels.
+     * Skip the first `n` HSProviderModels.
      */
     skip?: number
-    distinct?: Enumerable<HSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<HSProviderModelScalarFieldEnum>
   }
 
 
   /**
-   * HSCompanyModel create
+   * HSProviderModel create
    */
-  export type HSCompanyModelCreateArgs = {
+  export type HSProviderModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * The data needed to create a HSCompanyModel.
+     * The data needed to create a HSProviderModel.
      */
-    data: XOR<HSCompanyModelCreateInput, HSCompanyModelUncheckedCreateInput>
+    data: XOR<HSProviderModelCreateInput, HSProviderModelUncheckedCreateInput>
   }
 
 
   /**
-   * HSCompanyModel createMany
+   * HSProviderModel createMany
    */
-  export type HSCompanyModelCreateManyArgs = {
+  export type HSProviderModelCreateManyArgs = {
     /**
-     * The data used to create many HSCompanyModels.
+     * The data used to create many HSProviderModels.
      */
-    data: Enumerable<HSCompanyModelCreateManyInput>
+    data: Enumerable<HSProviderModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * HSCompanyModel update
+   * HSProviderModel update
    */
-  export type HSCompanyModelUpdateArgs = {
+  export type HSProviderModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * The data needed to update a HSCompanyModel.
+     * The data needed to update a HSProviderModel.
      */
-    data: XOR<HSCompanyModelUpdateInput, HSCompanyModelUncheckedUpdateInput>
+    data: XOR<HSProviderModelUpdateInput, HSProviderModelUncheckedUpdateInput>
     /**
-     * Choose, which HSCompanyModel to update.
+     * Choose, which HSProviderModel to update.
      */
-    where: HSCompanyModelWhereUniqueInput
+    where: HSProviderModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyModel updateMany
+   * HSProviderModel updateMany
    */
-  export type HSCompanyModelUpdateManyArgs = {
+  export type HSProviderModelUpdateManyArgs = {
     /**
-     * The data used to update HSCompanyModels.
+     * The data used to update HSProviderModels.
      */
-    data: XOR<HSCompanyModelUpdateManyMutationInput, HSCompanyModelUncheckedUpdateManyInput>
+    data: XOR<HSProviderModelUpdateManyMutationInput, HSProviderModelUncheckedUpdateManyInput>
     /**
-     * Filter which HSCompanyModels to update
+     * Filter which HSProviderModels to update
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
   }
 
 
   /**
-   * HSCompanyModel upsert
+   * HSProviderModel upsert
    */
-  export type HSCompanyModelUpsertArgs = {
+  export type HSProviderModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * The filter to search for the HSCompanyModel to update in case it exists.
+     * The filter to search for the HSProviderModel to update in case it exists.
      */
-    where: HSCompanyModelWhereUniqueInput
+    where: HSProviderModelWhereUniqueInput
     /**
-     * In case the HSCompanyModel found by the `where` argument doesn't exist, create a new HSCompanyModel with this data.
+     * In case the HSProviderModel found by the `where` argument doesn't exist, create a new HSProviderModel with this data.
      */
-    create: XOR<HSCompanyModelCreateInput, HSCompanyModelUncheckedCreateInput>
+    create: XOR<HSProviderModelCreateInput, HSProviderModelUncheckedCreateInput>
     /**
-     * In case the HSCompanyModel was found with the provided `where` argument, update it with this data.
+     * In case the HSProviderModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<HSCompanyModelUpdateInput, HSCompanyModelUncheckedUpdateInput>
+    update: XOR<HSProviderModelUpdateInput, HSProviderModelUncheckedUpdateInput>
   }
 
 
   /**
-   * HSCompanyModel delete
+   * HSProviderModel delete
    */
-  export type HSCompanyModelDeleteArgs = {
+  export type HSProviderModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
     /**
-     * Filter which HSCompanyModel to delete.
+     * Filter which HSProviderModel to delete.
      */
-    where: HSCompanyModelWhereUniqueInput
+    where: HSProviderModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyModel deleteMany
+   * HSProviderModel deleteMany
    */
-  export type HSCompanyModelDeleteManyArgs = {
+  export type HSProviderModelDeleteManyArgs = {
     /**
-     * Filter which HSCompanyModels to delete
+     * Filter which HSProviderModels to delete
      */
-    where?: HSCompanyModelWhereInput
+    where?: HSProviderModelWhereInput
   }
 
 
   /**
-   * HSCompanyModel.introduction_images
+   * HSProviderModel.introduction_images
    */
-  export type HSCompanyModel$introduction_imagesArgs = {
+  export type HSProviderModel$introduction_imagesArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the HSIntroductionImageModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: HSIntroductionImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
-    where?: HSCompanyIntroductionImageModelWhereInput
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
-    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    include?: HSIntroductionImageModelInclude | null
+    where?: HSIntroductionImageModelWhereInput
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    cursor?: HSIntroductionImageModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
   }
 
 
   /**
-   * HSCompanyModel without action
+   * HSProviderModel without action
    */
-  export type HSCompanyModelArgs = {
+  export type HSProviderModelArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyModel
+     * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSCompanyModelSelect | null
+    select?: HSProviderModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyModelInclude | null
+    include?: HSProviderModelInclude | null
   }
 
 
 
   /**
-   * Model HSCompanyIntroductionImageModel
+   * Model BusinessCertificationModel
    */
 
 
-  export type AggregateHSCompanyIntroductionImageModel = {
-    _count: HSCompanyIntroductionImageModelCountAggregateOutputType | null
-    _min: HSCompanyIntroductionImageModelMinAggregateOutputType | null
-    _max: HSCompanyIntroductionImageModelMaxAggregateOutputType | null
+  export type AggregateBusinessCertificationModel = {
+    _count: BusinessCertificationModelCountAggregateOutputType | null
+    _min: BusinessCertificationModelMinAggregateOutputType | null
+    _max: BusinessCertificationModelMaxAggregateOutputType | null
   }
 
-  export type HSCompanyIntroductionImageModelMinAggregateOutputType = {
+  export type BusinessCertificationModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
-    url: string | null
-    company_id: string | null
+    business_user_id: string | null
+    image_url: string | null
   }
 
-  export type HSCompanyIntroductionImageModelMaxAggregateOutputType = {
+  export type BusinessCertificationModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
-    url: string | null
-    company_id: string | null
+    business_user_id: string | null
+    image_url: string | null
   }
 
-  export type HSCompanyIntroductionImageModelCountAggregateOutputType = {
+  export type BusinessCertificationModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
     id: number
-    url: number
-    company_id: number
+    business_user_id: number
+    image_url: number
     _all: number
   }
 
 
-  export type HSCompanyIntroductionImageModelMinAggregateInputType = {
+  export type BusinessCertificationModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    url?: true
-    company_id?: true
+    business_user_id?: true
+    image_url?: true
   }
 
-  export type HSCompanyIntroductionImageModelMaxAggregateInputType = {
+  export type BusinessCertificationModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    url?: true
-    company_id?: true
+    business_user_id?: true
+    image_url?: true
   }
 
-  export type HSCompanyIntroductionImageModelCountAggregateInputType = {
+  export type BusinessCertificationModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
-    url?: true
-    company_id?: true
+    business_user_id?: true
+    image_url?: true
     _all?: true
   }
 
-  export type HSCompanyIntroductionImageModelAggregateArgs = {
+  export type BusinessCertificationModelAggregateArgs = {
     /**
-     * Filter which HSCompanyIntroductionImageModel to aggregate.
+     * Filter which BusinessCertificationModel to aggregate.
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     * Determine the order of BusinessCertificationModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    cursor?: BusinessCertificationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     * Take `±n` BusinessCertificationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyIntroductionImageModels.
+     * Skip the first `n` BusinessCertificationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned HSCompanyIntroductionImageModels
+     * Count returned BusinessCertificationModels
     **/
-    _count?: true | HSCompanyIntroductionImageModelCountAggregateInputType
+    _count?: true | BusinessCertificationModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: HSCompanyIntroductionImageModelMinAggregateInputType
+    _min?: BusinessCertificationModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: HSCompanyIntroductionImageModelMaxAggregateInputType
+    _max?: BusinessCertificationModelMaxAggregateInputType
   }
 
-  export type GetHSCompanyIntroductionImageModelAggregateType<T extends HSCompanyIntroductionImageModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateHSCompanyIntroductionImageModel]: P extends '_count' | 'count'
+  export type GetBusinessCertificationModelAggregateType<T extends BusinessCertificationModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessCertificationModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateHSCompanyIntroductionImageModel[P]>
-      : GetScalarType<T[P], AggregateHSCompanyIntroductionImageModel[P]>
+        : GetScalarType<T[P], AggregateBusinessCertificationModel[P]>
+      : GetScalarType<T[P], AggregateBusinessCertificationModel[P]>
   }
 
 
 
 
-  export type HSCompanyIntroductionImageModelGroupByArgs = {
-    where?: HSCompanyIntroductionImageModelWhereInput
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithAggregationInput>
-    by: HSCompanyIntroductionImageModelScalarFieldEnum[]
-    having?: HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput
+  export type BusinessCertificationModelGroupByArgs = {
+    where?: BusinessCertificationModelWhereInput
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithAggregationInput>
+    by: BusinessCertificationModelScalarFieldEnum[]
+    having?: BusinessCertificationModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: HSCompanyIntroductionImageModelCountAggregateInputType | true
-    _min?: HSCompanyIntroductionImageModelMinAggregateInputType
-    _max?: HSCompanyIntroductionImageModelMaxAggregateInputType
+    _count?: BusinessCertificationModelCountAggregateInputType | true
+    _min?: BusinessCertificationModelMinAggregateInputType
+    _max?: BusinessCertificationModelMaxAggregateInputType
   }
 
 
-  export type HSCompanyIntroductionImageModelGroupByOutputType = {
+  export type BusinessCertificationModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
     id: string
-    url: string
-    company_id: string
-    _count: HSCompanyIntroductionImageModelCountAggregateOutputType | null
-    _min: HSCompanyIntroductionImageModelMinAggregateOutputType | null
-    _max: HSCompanyIntroductionImageModelMaxAggregateOutputType | null
+    business_user_id: string
+    image_url: string
+    _count: BusinessCertificationModelCountAggregateOutputType | null
+    _min: BusinessCertificationModelMinAggregateOutputType | null
+    _max: BusinessCertificationModelMaxAggregateOutputType | null
   }
 
-  type GetHSCompanyIntroductionImageModelGroupByPayload<T extends HSCompanyIntroductionImageModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetBusinessCertificationModelGroupByPayload<T extends BusinessCertificationModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<HSCompanyIntroductionImageModelGroupByOutputType, T['by']> &
+      PickArray<BusinessCertificationModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof HSCompanyIntroductionImageModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof BusinessCertificationModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], HSCompanyIntroductionImageModelGroupByOutputType[P]>
-            : GetScalarType<T[P], HSCompanyIntroductionImageModelGroupByOutputType[P]>
+              : GetScalarType<T[P], BusinessCertificationModelGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessCertificationModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type HSCompanyIntroductionImageModelSelect = {
+  export type BusinessCertificationModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
     id?: boolean
-    url?: boolean
-    company_id?: boolean
-    company?: boolean | HSCompanyModelArgs
+    business_user_id?: boolean
+    image_url?: boolean
+    business_user?: boolean | BusinessUserArgs
   }
 
 
-  export type HSCompanyIntroductionImageModelInclude = {
-    company?: boolean | HSCompanyModelArgs
+  export type BusinessCertificationModelInclude = {
+    business_user?: boolean | BusinessUserArgs
   }
 
-  export type HSCompanyIntroductionImageModelGetPayload<S extends boolean | null | undefined | HSCompanyIntroductionImageModelArgs> =
+  export type BusinessCertificationModelGetPayload<S extends boolean | null | undefined | BusinessCertificationModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSCompanyIntroductionImageModel :
+    S extends true ? BusinessCertificationModel :
     S extends undefined ? never :
-    S extends { include: any } & (HSCompanyIntroductionImageModelArgs | HSCompanyIntroductionImageModelFindManyArgs)
-    ? HSCompanyIntroductionImageModel  & {
+    S extends { include: any } & (BusinessCertificationModelArgs | BusinessCertificationModelFindManyArgs)
+    ? BusinessCertificationModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'company' ? HSCompanyModelGetPayload<S['include'][P]> :  never
+        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (HSCompanyIntroductionImageModelArgs | HSCompanyIntroductionImageModelFindManyArgs)
+    : S extends { select: any } & (BusinessCertificationModelArgs | BusinessCertificationModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'company' ? HSCompanyModelGetPayload<S['select'][P]> :  P extends keyof HSCompanyIntroductionImageModel ? HSCompanyIntroductionImageModel[P] : never
+        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof BusinessCertificationModel ? BusinessCertificationModel[P] : never
   } 
-      : HSCompanyIntroductionImageModel
+      : BusinessCertificationModel
 
 
-  type HSCompanyIntroductionImageModelCountArgs = 
-    Omit<HSCompanyIntroductionImageModelFindManyArgs, 'select' | 'include'> & {
-      select?: HSCompanyIntroductionImageModelCountAggregateInputType | true
+  type BusinessCertificationModelCountArgs = 
+    Omit<BusinessCertificationModelFindManyArgs, 'select' | 'include'> & {
+      select?: BusinessCertificationModelCountAggregateInputType | true
     }
 
-  export interface HSCompanyIntroductionImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface BusinessCertificationModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one HSCompanyIntroductionImageModel that matches the filter.
-     * @param {HSCompanyIntroductionImageModelFindUniqueArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * Find zero or one BusinessCertificationModel that matches the filter.
+     * @param {BusinessCertificationModelFindUniqueArgs} args - Arguments to find a BusinessCertificationModel
      * @example
-     * // Get one HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findUnique({
+     * // Get one BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends HSCompanyIntroductionImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSCompanyIntroductionImageModel'> extends True ? Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>> : Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T> | null, null>
+    findUnique<T extends BusinessCertificationModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessCertificationModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessCertificationModel'> extends True ? Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>> : Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T> | null, null>
 
     /**
-     * Find one HSCompanyIntroductionImageModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one BusinessCertificationModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {HSCompanyIntroductionImageModelFindUniqueOrThrowArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @param {BusinessCertificationModelFindUniqueOrThrowArgs} args - Arguments to find a BusinessCertificationModel
      * @example
-     * // Get one HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findUniqueOrThrow({
+     * // Get one BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HSCompanyIntroductionImageModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindUniqueOrThrowArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    findUniqueOrThrow<T extends BusinessCertificationModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BusinessCertificationModelFindUniqueOrThrowArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Find the first HSCompanyIntroductionImageModel that matches the filter.
+     * Find the first BusinessCertificationModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelFindFirstArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @param {BusinessCertificationModelFindFirstArgs} args - Arguments to find a BusinessCertificationModel
      * @example
-     * // Get one HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findFirst({
+     * // Get one BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends HSCompanyIntroductionImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSCompanyIntroductionImageModel'> extends True ? Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>> : Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T> | null, null>
+    findFirst<T extends BusinessCertificationModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessCertificationModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessCertificationModel'> extends True ? Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>> : Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T> | null, null>
 
     /**
-     * Find the first HSCompanyIntroductionImageModel that matches the filter or
+     * Find the first BusinessCertificationModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelFindFirstOrThrowArgs} args - Arguments to find a HSCompanyIntroductionImageModel
+     * @param {BusinessCertificationModelFindFirstOrThrowArgs} args - Arguments to find a BusinessCertificationModel
      * @example
-     * // Get one HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.findFirstOrThrow({
+     * // Get one BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HSCompanyIntroductionImageModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindFirstOrThrowArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    findFirstOrThrow<T extends BusinessCertificationModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BusinessCertificationModelFindFirstOrThrowArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Find zero or more HSCompanyIntroductionImageModels that matches the filter.
+     * Find zero or more BusinessCertificationModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {BusinessCertificationModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all HSCompanyIntroductionImageModels
-     * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany()
+     * // Get all BusinessCertificationModels
+     * const businessCertificationModels = await prisma.businessCertificationModel.findMany()
      * 
-     * // Get first 10 HSCompanyIntroductionImageModels
-     * const hSCompanyIntroductionImageModels = await prisma.hSCompanyIntroductionImageModel.findMany({ take: 10 })
+     * // Get first 10 BusinessCertificationModels
+     * const businessCertificationModels = await prisma.businessCertificationModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const hSCompanyIntroductionImageModelWithIdOnly = await prisma.hSCompanyIntroductionImageModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const businessCertificationModelWithCreated_atOnly = await prisma.businessCertificationModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends HSCompanyIntroductionImageModelFindManyArgs>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<HSCompanyIntroductionImageModelGetPayload<T>>>
+    findMany<T extends BusinessCertificationModelFindManyArgs>(
+      args?: SelectSubset<T, BusinessCertificationModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<BusinessCertificationModelGetPayload<T>>>
 
     /**
-     * Create a HSCompanyIntroductionImageModel.
-     * @param {HSCompanyIntroductionImageModelCreateArgs} args - Arguments to create a HSCompanyIntroductionImageModel.
+     * Create a BusinessCertificationModel.
+     * @param {BusinessCertificationModelCreateArgs} args - Arguments to create a BusinessCertificationModel.
      * @example
-     * // Create one HSCompanyIntroductionImageModel
-     * const HSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.create({
+     * // Create one BusinessCertificationModel
+     * const BusinessCertificationModel = await prisma.businessCertificationModel.create({
      *   data: {
-     *     // ... data to create a HSCompanyIntroductionImageModel
+     *     // ... data to create a BusinessCertificationModel
      *   }
      * })
      * 
     **/
-    create<T extends HSCompanyIntroductionImageModelCreateArgs>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelCreateArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    create<T extends BusinessCertificationModelCreateArgs>(
+      args: SelectSubset<T, BusinessCertificationModelCreateArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Create many HSCompanyIntroductionImageModels.
-     *     @param {HSCompanyIntroductionImageModelCreateManyArgs} args - Arguments to create many HSCompanyIntroductionImageModels.
+     * Create many BusinessCertificationModels.
+     *     @param {BusinessCertificationModelCreateManyArgs} args - Arguments to create many BusinessCertificationModels.
      *     @example
-     *     // Create many HSCompanyIntroductionImageModels
-     *     const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.createMany({
+     *     // Create many BusinessCertificationModels
+     *     const businessCertificationModel = await prisma.businessCertificationModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends HSCompanyIntroductionImageModelCreateManyArgs>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelCreateManyArgs>
+    createMany<T extends BusinessCertificationModelCreateManyArgs>(
+      args?: SelectSubset<T, BusinessCertificationModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a HSCompanyIntroductionImageModel.
-     * @param {HSCompanyIntroductionImageModelDeleteArgs} args - Arguments to delete one HSCompanyIntroductionImageModel.
+     * Delete a BusinessCertificationModel.
+     * @param {BusinessCertificationModelDeleteArgs} args - Arguments to delete one BusinessCertificationModel.
      * @example
-     * // Delete one HSCompanyIntroductionImageModel
-     * const HSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.delete({
+     * // Delete one BusinessCertificationModel
+     * const BusinessCertificationModel = await prisma.businessCertificationModel.delete({
      *   where: {
-     *     // ... filter to delete one HSCompanyIntroductionImageModel
+     *     // ... filter to delete one BusinessCertificationModel
      *   }
      * })
      * 
     **/
-    delete<T extends HSCompanyIntroductionImageModelDeleteArgs>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelDeleteArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    delete<T extends BusinessCertificationModelDeleteArgs>(
+      args: SelectSubset<T, BusinessCertificationModelDeleteArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Update one HSCompanyIntroductionImageModel.
-     * @param {HSCompanyIntroductionImageModelUpdateArgs} args - Arguments to update one HSCompanyIntroductionImageModel.
+     * Update one BusinessCertificationModel.
+     * @param {BusinessCertificationModelUpdateArgs} args - Arguments to update one BusinessCertificationModel.
      * @example
-     * // Update one HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.update({
+     * // Update one BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -7220,34 +7728,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends HSCompanyIntroductionImageModelUpdateArgs>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelUpdateArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    update<T extends BusinessCertificationModelUpdateArgs>(
+      args: SelectSubset<T, BusinessCertificationModelUpdateArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Delete zero or more HSCompanyIntroductionImageModels.
-     * @param {HSCompanyIntroductionImageModelDeleteManyArgs} args - Arguments to filter HSCompanyIntroductionImageModels to delete.
+     * Delete zero or more BusinessCertificationModels.
+     * @param {BusinessCertificationModelDeleteManyArgs} args - Arguments to filter BusinessCertificationModels to delete.
      * @example
-     * // Delete a few HSCompanyIntroductionImageModels
-     * const { count } = await prisma.hSCompanyIntroductionImageModel.deleteMany({
+     * // Delete a few BusinessCertificationModels
+     * const { count } = await prisma.businessCertificationModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends HSCompanyIntroductionImageModelDeleteManyArgs>(
-      args?: SelectSubset<T, HSCompanyIntroductionImageModelDeleteManyArgs>
+    deleteMany<T extends BusinessCertificationModelDeleteManyArgs>(
+      args?: SelectSubset<T, BusinessCertificationModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more HSCompanyIntroductionImageModels.
+     * Update zero or more BusinessCertificationModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {BusinessCertificationModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many HSCompanyIntroductionImageModels
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.updateMany({
+     * // Update many BusinessCertificationModels
+     * const businessCertificationModel = await prisma.businessCertificationModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -7257,59 +7765,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends HSCompanyIntroductionImageModelUpdateManyArgs>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelUpdateManyArgs>
+    updateMany<T extends BusinessCertificationModelUpdateManyArgs>(
+      args: SelectSubset<T, BusinessCertificationModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one HSCompanyIntroductionImageModel.
-     * @param {HSCompanyIntroductionImageModelUpsertArgs} args - Arguments to update or create a HSCompanyIntroductionImageModel.
+     * Create or update one BusinessCertificationModel.
+     * @param {BusinessCertificationModelUpsertArgs} args - Arguments to update or create a BusinessCertificationModel.
      * @example
-     * // Update or create a HSCompanyIntroductionImageModel
-     * const hSCompanyIntroductionImageModel = await prisma.hSCompanyIntroductionImageModel.upsert({
+     * // Update or create a BusinessCertificationModel
+     * const businessCertificationModel = await prisma.businessCertificationModel.upsert({
      *   create: {
-     *     // ... data to create a HSCompanyIntroductionImageModel
+     *     // ... data to create a BusinessCertificationModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the HSCompanyIntroductionImageModel we want to update
+     *     // ... the filter for the BusinessCertificationModel we want to update
      *   }
      * })
     **/
-    upsert<T extends HSCompanyIntroductionImageModelUpsertArgs>(
-      args: SelectSubset<T, HSCompanyIntroductionImageModelUpsertArgs>
-    ): Prisma__HSCompanyIntroductionImageModelClient<HSCompanyIntroductionImageModelGetPayload<T>>
+    upsert<T extends BusinessCertificationModelUpsertArgs>(
+      args: SelectSubset<T, BusinessCertificationModelUpsertArgs>
+    ): Prisma__BusinessCertificationModelClient<BusinessCertificationModelGetPayload<T>>
 
     /**
-     * Count the number of HSCompanyIntroductionImageModels.
+     * Count the number of BusinessCertificationModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelCountArgs} args - Arguments to filter HSCompanyIntroductionImageModels to count.
+     * @param {BusinessCertificationModelCountArgs} args - Arguments to filter BusinessCertificationModels to count.
      * @example
-     * // Count the number of HSCompanyIntroductionImageModels
-     * const count = await prisma.hSCompanyIntroductionImageModel.count({
+     * // Count the number of BusinessCertificationModels
+     * const count = await prisma.businessCertificationModel.count({
      *   where: {
-     *     // ... the filter for the HSCompanyIntroductionImageModels we want to count
+     *     // ... the filter for the BusinessCertificationModels we want to count
      *   }
      * })
     **/
-    count<T extends HSCompanyIntroductionImageModelCountArgs>(
-      args?: Subset<T, HSCompanyIntroductionImageModelCountArgs>,
+    count<T extends BusinessCertificationModelCountArgs>(
+      args?: Subset<T, BusinessCertificationModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], HSCompanyIntroductionImageModelCountAggregateOutputType>
+          : GetScalarType<T['select'], BusinessCertificationModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a HSCompanyIntroductionImageModel.
+     * Allows you to perform aggregations operations on a BusinessCertificationModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {BusinessCertificationModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -7329,13 +7837,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends HSCompanyIntroductionImageModelAggregateArgs>(args: Subset<T, HSCompanyIntroductionImageModelAggregateArgs>): Prisma.PrismaPromise<GetHSCompanyIntroductionImageModelAggregateType<T>>
+    aggregate<T extends BusinessCertificationModelAggregateArgs>(args: Subset<T, BusinessCertificationModelAggregateArgs>): Prisma.PrismaPromise<GetBusinessCertificationModelAggregateType<T>>
 
     /**
-     * Group by HSCompanyIntroductionImageModel.
+     * Group by BusinessCertificationModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSCompanyIntroductionImageModelGroupByArgs} args - Group by arguments.
+     * @param {BusinessCertificationModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -7350,14 +7858,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends HSCompanyIntroductionImageModelGroupByArgs,
+      T extends BusinessCertificationModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: HSCompanyIntroductionImageModelGroupByArgs['orderBy'] }
-        : { orderBy?: HSCompanyIntroductionImageModelGroupByArgs['orderBy'] },
+        ? { orderBy: BusinessCertificationModelGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessCertificationModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -7406,17 +7914,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, HSCompanyIntroductionImageModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSCompanyIntroductionImageModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BusinessCertificationModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessCertificationModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for HSCompanyIntroductionImageModel.
+   * The delegate class that acts as a "Promise-like" for BusinessCertificationModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HSCompanyIntroductionImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__BusinessCertificationModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -7431,7 +7939,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    company<T extends HSCompanyModelArgs= {}>(args?: Subset<T, HSCompanyModelArgs>): Prisma__HSCompanyModelClient<HSCompanyModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -7461,27 +7969,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * HSCompanyIntroductionImageModel base type for findUnique actions
+   * BusinessCertificationModel base type for findUnique actions
    */
-  export type HSCompanyIntroductionImageModelFindUniqueArgsBase = {
+  export type BusinessCertificationModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     * Filter, which BusinessCertificationModel to fetch.
      */
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    where: BusinessCertificationModelWhereUniqueInput
   }
 
   /**
-   * HSCompanyIntroductionImageModel findUnique
+   * BusinessCertificationModel findUnique
    */
-  export interface HSCompanyIntroductionImageModelFindUniqueArgs extends HSCompanyIntroductionImageModelFindUniqueArgsBase {
+  export interface BusinessCertificationModelFindUniqueArgs extends BusinessCertificationModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -7491,76 +7999,76 @@ export namespace Prisma {
       
 
   /**
-   * HSCompanyIntroductionImageModel findUniqueOrThrow
+   * BusinessCertificationModel findUniqueOrThrow
    */
-  export type HSCompanyIntroductionImageModelFindUniqueOrThrowArgs = {
+  export type BusinessCertificationModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     * Filter, which BusinessCertificationModel to fetch.
      */
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    where: BusinessCertificationModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel base type for findFirst actions
+   * BusinessCertificationModel base type for findFirst actions
    */
-  export type HSCompanyIntroductionImageModelFindFirstArgsBase = {
+  export type BusinessCertificationModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     * Filter, which BusinessCertificationModel to fetch.
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     * Determine the order of BusinessCertificationModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSCompanyIntroductionImageModels.
+     * Sets the position for searching for BusinessCertificationModels.
      */
-    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    cursor?: BusinessCertificationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     * Take `±n` BusinessCertificationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyIntroductionImageModels.
+     * Skip the first `n` BusinessCertificationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSCompanyIntroductionImageModels.
+     * Filter by unique combinations of BusinessCertificationModels.
      */
-    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessCertificationModelScalarFieldEnum>
   }
 
   /**
-   * HSCompanyIntroductionImageModel findFirst
+   * BusinessCertificationModel findFirst
    */
-  export interface HSCompanyIntroductionImageModelFindFirstArgs extends HSCompanyIntroductionImageModelFindFirstArgsBase {
+  export interface BusinessCertificationModelFindFirstArgs extends BusinessCertificationModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -7570,666 +8078,2502 @@ export namespace Prisma {
       
 
   /**
-   * HSCompanyIntroductionImageModel findFirstOrThrow
+   * BusinessCertificationModel findFirstOrThrow
    */
-  export type HSCompanyIntroductionImageModelFindFirstOrThrowArgs = {
+  export type BusinessCertificationModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter, which HSCompanyIntroductionImageModel to fetch.
+     * Filter, which BusinessCertificationModel to fetch.
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     * Determine the order of BusinessCertificationModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSCompanyIntroductionImageModels.
+     * Sets the position for searching for BusinessCertificationModels.
      */
-    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    cursor?: BusinessCertificationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     * Take `±n` BusinessCertificationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyIntroductionImageModels.
+     * Skip the first `n` BusinessCertificationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSCompanyIntroductionImageModels.
+     * Filter by unique combinations of BusinessCertificationModels.
      */
-    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessCertificationModelScalarFieldEnum>
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel findMany
+   * BusinessCertificationModel findMany
    */
-  export type HSCompanyIntroductionImageModelFindManyArgs = {
+  export type BusinessCertificationModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter, which HSCompanyIntroductionImageModels to fetch.
+     * Filter, which BusinessCertificationModels to fetch.
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSCompanyIntroductionImageModels to fetch.
+     * Determine the order of BusinessCertificationModels to fetch.
      */
-    orderBy?: Enumerable<HSCompanyIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessCertificationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing HSCompanyIntroductionImageModels.
+     * Sets the position for listing BusinessCertificationModels.
      */
-    cursor?: HSCompanyIntroductionImageModelWhereUniqueInput
+    cursor?: BusinessCertificationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSCompanyIntroductionImageModels from the position of the cursor.
+     * Take `±n` BusinessCertificationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSCompanyIntroductionImageModels.
+     * Skip the first `n` BusinessCertificationModels.
      */
     skip?: number
-    distinct?: Enumerable<HSCompanyIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<BusinessCertificationModelScalarFieldEnum>
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel create
+   * BusinessCertificationModel create
    */
-  export type HSCompanyIntroductionImageModelCreateArgs = {
+  export type BusinessCertificationModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * The data needed to create a HSCompanyIntroductionImageModel.
+     * The data needed to create a BusinessCertificationModel.
      */
-    data: XOR<HSCompanyIntroductionImageModelCreateInput, HSCompanyIntroductionImageModelUncheckedCreateInput>
+    data: XOR<BusinessCertificationModelCreateInput, BusinessCertificationModelUncheckedCreateInput>
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel createMany
+   * BusinessCertificationModel createMany
    */
-  export type HSCompanyIntroductionImageModelCreateManyArgs = {
+  export type BusinessCertificationModelCreateManyArgs = {
     /**
-     * The data used to create many HSCompanyIntroductionImageModels.
+     * The data used to create many BusinessCertificationModels.
      */
-    data: Enumerable<HSCompanyIntroductionImageModelCreateManyInput>
+    data: Enumerable<BusinessCertificationModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel update
+   * BusinessCertificationModel update
    */
-  export type HSCompanyIntroductionImageModelUpdateArgs = {
+  export type BusinessCertificationModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * The data needed to update a HSCompanyIntroductionImageModel.
+     * The data needed to update a BusinessCertificationModel.
      */
-    data: XOR<HSCompanyIntroductionImageModelUpdateInput, HSCompanyIntroductionImageModelUncheckedUpdateInput>
+    data: XOR<BusinessCertificationModelUpdateInput, BusinessCertificationModelUncheckedUpdateInput>
     /**
-     * Choose, which HSCompanyIntroductionImageModel to update.
+     * Choose, which BusinessCertificationModel to update.
      */
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    where: BusinessCertificationModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel updateMany
+   * BusinessCertificationModel updateMany
    */
-  export type HSCompanyIntroductionImageModelUpdateManyArgs = {
+  export type BusinessCertificationModelUpdateManyArgs = {
     /**
-     * The data used to update HSCompanyIntroductionImageModels.
+     * The data used to update BusinessCertificationModels.
      */
-    data: XOR<HSCompanyIntroductionImageModelUpdateManyMutationInput, HSCompanyIntroductionImageModelUncheckedUpdateManyInput>
+    data: XOR<BusinessCertificationModelUpdateManyMutationInput, BusinessCertificationModelUncheckedUpdateManyInput>
     /**
-     * Filter which HSCompanyIntroductionImageModels to update
+     * Filter which BusinessCertificationModels to update
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel upsert
+   * BusinessCertificationModel upsert
    */
-  export type HSCompanyIntroductionImageModelUpsertArgs = {
+  export type BusinessCertificationModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * The filter to search for the HSCompanyIntroductionImageModel to update in case it exists.
+     * The filter to search for the BusinessCertificationModel to update in case it exists.
      */
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    where: BusinessCertificationModelWhereUniqueInput
     /**
-     * In case the HSCompanyIntroductionImageModel found by the `where` argument doesn't exist, create a new HSCompanyIntroductionImageModel with this data.
+     * In case the BusinessCertificationModel found by the `where` argument doesn't exist, create a new BusinessCertificationModel with this data.
      */
-    create: XOR<HSCompanyIntroductionImageModelCreateInput, HSCompanyIntroductionImageModelUncheckedCreateInput>
+    create: XOR<BusinessCertificationModelCreateInput, BusinessCertificationModelUncheckedCreateInput>
     /**
-     * In case the HSCompanyIntroductionImageModel was found with the provided `where` argument, update it with this data.
+     * In case the BusinessCertificationModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<HSCompanyIntroductionImageModelUpdateInput, HSCompanyIntroductionImageModelUncheckedUpdateInput>
+    update: XOR<BusinessCertificationModelUpdateInput, BusinessCertificationModelUncheckedUpdateInput>
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel delete
+   * BusinessCertificationModel delete
    */
-  export type HSCompanyIntroductionImageModelDeleteArgs = {
+  export type BusinessCertificationModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
     /**
-     * Filter which HSCompanyIntroductionImageModel to delete.
+     * Filter which BusinessCertificationModel to delete.
      */
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
+    where: BusinessCertificationModelWhereUniqueInput
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel deleteMany
+   * BusinessCertificationModel deleteMany
    */
-  export type HSCompanyIntroductionImageModelDeleteManyArgs = {
+  export type BusinessCertificationModelDeleteManyArgs = {
     /**
-     * Filter which HSCompanyIntroductionImageModels to delete
+     * Filter which BusinessCertificationModels to delete
      */
-    where?: HSCompanyIntroductionImageModelWhereInput
+    where?: BusinessCertificationModelWhereInput
   }
 
 
   /**
-   * HSCompanyIntroductionImageModel without action
+   * BusinessCertificationModel without action
    */
-  export type HSCompanyIntroductionImageModelArgs = {
+  export type BusinessCertificationModelArgs = {
     /**
-     * Select specific fields to fetch from the HSCompanyIntroductionImageModel
+     * Select specific fields to fetch from the BusinessCertificationModel
      */
-    select?: HSCompanyIntroductionImageModelSelect | null
+    select?: BusinessCertificationModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSCompanyIntroductionImageModelInclude | null
+    include?: BusinessCertificationModelInclude | null
   }
 
 
 
   /**
-   * Model TempREAgentModel
+   * Model HSIntroductionImageModel
    */
 
 
-  export type AggregateTempREAgentModel = {
-    _count: TempREAgentModelCountAggregateOutputType | null
-    _min: TempREAgentModelMinAggregateOutputType | null
-    _max: TempREAgentModelMaxAggregateOutputType | null
+  export type AggregateHSIntroductionImageModel = {
+    _count: HSIntroductionImageModelCountAggregateOutputType | null
+    _min: HSIntroductionImageModelMinAggregateOutputType | null
+    _max: HSIntroductionImageModelMaxAggregateOutputType | null
   }
 
-  export type TempREAgentModelMinAggregateOutputType = {
+  export type HSIntroductionImageModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    hs_provider_id: string | null
+    image_url: string | null
+  }
+
+  export type HSIntroductionImageModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    hs_provider_id: string | null
+    image_url: string | null
+  }
+
+  export type HSIntroductionImageModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    id: number
+    hs_provider_id: number
+    image_url: number
+    _all: number
+  }
+
+
+  export type HSIntroductionImageModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    hs_provider_id?: true
+    image_url?: true
+  }
+
+  export type HSIntroductionImageModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    hs_provider_id?: true
+    image_url?: true
+  }
+
+  export type HSIntroductionImageModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    hs_provider_id?: true
+    image_url?: true
+    _all?: true
+  }
+
+  export type HSIntroductionImageModelAggregateArgs = {
+    /**
+     * Filter which HSIntroductionImageModel to aggregate.
+     */
+    where?: HSIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HSIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HSIntroductionImageModels
+    **/
+    _count?: true | HSIntroductionImageModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HSIntroductionImageModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HSIntroductionImageModelMaxAggregateInputType
+  }
+
+  export type GetHSIntroductionImageModelAggregateType<T extends HSIntroductionImageModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateHSIntroductionImageModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHSIntroductionImageModel[P]>
+      : GetScalarType<T[P], AggregateHSIntroductionImageModel[P]>
+  }
+
+
+
+
+  export type HSIntroductionImageModelGroupByArgs = {
+    where?: HSIntroductionImageModelWhereInput
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithAggregationInput>
+    by: HSIntroductionImageModelScalarFieldEnum[]
+    having?: HSIntroductionImageModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HSIntroductionImageModelCountAggregateInputType | true
+    _min?: HSIntroductionImageModelMinAggregateInputType
+    _max?: HSIntroductionImageModelMaxAggregateInputType
+  }
+
+
+  export type HSIntroductionImageModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    id: string
+    hs_provider_id: string
+    image_url: string
+    _count: HSIntroductionImageModelCountAggregateOutputType | null
+    _min: HSIntroductionImageModelMinAggregateOutputType | null
+    _max: HSIntroductionImageModelMaxAggregateOutputType | null
+  }
+
+  type GetHSIntroductionImageModelGroupByPayload<T extends HSIntroductionImageModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<HSIntroductionImageModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HSIntroductionImageModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HSIntroductionImageModelGroupByOutputType[P]>
+            : GetScalarType<T[P], HSIntroductionImageModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HSIntroductionImageModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    id?: boolean
+    hs_provider_id?: boolean
+    image_url?: boolean
+    hs_provider?: boolean | HSProviderModelArgs
+  }
+
+
+  export type HSIntroductionImageModelInclude = {
+    hs_provider?: boolean | HSProviderModelArgs
+  }
+
+  export type HSIntroductionImageModelGetPayload<S extends boolean | null | undefined | HSIntroductionImageModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? HSIntroductionImageModel :
+    S extends undefined ? never :
+    S extends { include: any } & (HSIntroductionImageModelArgs | HSIntroductionImageModelFindManyArgs)
+    ? HSIntroductionImageModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (HSIntroductionImageModelArgs | HSIntroductionImageModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> :  P extends keyof HSIntroductionImageModel ? HSIntroductionImageModel[P] : never
+  } 
+      : HSIntroductionImageModel
+
+
+  type HSIntroductionImageModelCountArgs = 
+    Omit<HSIntroductionImageModelFindManyArgs, 'select' | 'include'> & {
+      select?: HSIntroductionImageModelCountAggregateInputType | true
+    }
+
+  export interface HSIntroductionImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one HSIntroductionImageModel that matches the filter.
+     * @param {HSIntroductionImageModelFindUniqueArgs} args - Arguments to find a HSIntroductionImageModel
+     * @example
+     * // Get one HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends HSIntroductionImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSIntroductionImageModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSIntroductionImageModel'> extends True ? Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>> : Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T> | null, null>
+
+    /**
+     * Find one HSIntroductionImageModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {HSIntroductionImageModelFindUniqueOrThrowArgs} args - Arguments to find a HSIntroductionImageModel
+     * @example
+     * // Get one HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends HSIntroductionImageModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, HSIntroductionImageModelFindUniqueOrThrowArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Find the first HSIntroductionImageModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelFindFirstArgs} args - Arguments to find a HSIntroductionImageModel
+     * @example
+     * // Get one HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends HSIntroductionImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSIntroductionImageModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSIntroductionImageModel'> extends True ? Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>> : Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first HSIntroductionImageModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelFindFirstOrThrowArgs} args - Arguments to find a HSIntroductionImageModel
+     * @example
+     * // Get one HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends HSIntroductionImageModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, HSIntroductionImageModelFindFirstOrThrowArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Find zero or more HSIntroductionImageModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HSIntroductionImageModels
+     * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany()
+     * 
+     * // Get first 10 HSIntroductionImageModels
+     * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany({ take: 10 })
+     * 
+     * // Only select the `created_at`
+     * const hSIntroductionImageModelWithCreated_atOnly = await prisma.hSIntroductionImageModel.findMany({ select: { created_at: true } })
+     * 
+    **/
+    findMany<T extends HSIntroductionImageModelFindManyArgs>(
+      args?: SelectSubset<T, HSIntroductionImageModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<HSIntroductionImageModelGetPayload<T>>>
+
+    /**
+     * Create a HSIntroductionImageModel.
+     * @param {HSIntroductionImageModelCreateArgs} args - Arguments to create a HSIntroductionImageModel.
+     * @example
+     * // Create one HSIntroductionImageModel
+     * const HSIntroductionImageModel = await prisma.hSIntroductionImageModel.create({
+     *   data: {
+     *     // ... data to create a HSIntroductionImageModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends HSIntroductionImageModelCreateArgs>(
+      args: SelectSubset<T, HSIntroductionImageModelCreateArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Create many HSIntroductionImageModels.
+     *     @param {HSIntroductionImageModelCreateManyArgs} args - Arguments to create many HSIntroductionImageModels.
+     *     @example
+     *     // Create many HSIntroductionImageModels
+     *     const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends HSIntroductionImageModelCreateManyArgs>(
+      args?: SelectSubset<T, HSIntroductionImageModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a HSIntroductionImageModel.
+     * @param {HSIntroductionImageModelDeleteArgs} args - Arguments to delete one HSIntroductionImageModel.
+     * @example
+     * // Delete one HSIntroductionImageModel
+     * const HSIntroductionImageModel = await prisma.hSIntroductionImageModel.delete({
+     *   where: {
+     *     // ... filter to delete one HSIntroductionImageModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends HSIntroductionImageModelDeleteArgs>(
+      args: SelectSubset<T, HSIntroductionImageModelDeleteArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Update one HSIntroductionImageModel.
+     * @param {HSIntroductionImageModelUpdateArgs} args - Arguments to update one HSIntroductionImageModel.
+     * @example
+     * // Update one HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends HSIntroductionImageModelUpdateArgs>(
+      args: SelectSubset<T, HSIntroductionImageModelUpdateArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Delete zero or more HSIntroductionImageModels.
+     * @param {HSIntroductionImageModelDeleteManyArgs} args - Arguments to filter HSIntroductionImageModels to delete.
+     * @example
+     * // Delete a few HSIntroductionImageModels
+     * const { count } = await prisma.hSIntroductionImageModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends HSIntroductionImageModelDeleteManyArgs>(
+      args?: SelectSubset<T, HSIntroductionImageModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HSIntroductionImageModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HSIntroductionImageModels
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends HSIntroductionImageModelUpdateManyArgs>(
+      args: SelectSubset<T, HSIntroductionImageModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one HSIntroductionImageModel.
+     * @param {HSIntroductionImageModelUpsertArgs} args - Arguments to update or create a HSIntroductionImageModel.
+     * @example
+     * // Update or create a HSIntroductionImageModel
+     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.upsert({
+     *   create: {
+     *     // ... data to create a HSIntroductionImageModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HSIntroductionImageModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends HSIntroductionImageModelUpsertArgs>(
+      args: SelectSubset<T, HSIntroductionImageModelUpsertArgs>
+    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+
+    /**
+     * Count the number of HSIntroductionImageModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelCountArgs} args - Arguments to filter HSIntroductionImageModels to count.
+     * @example
+     * // Count the number of HSIntroductionImageModels
+     * const count = await prisma.hSIntroductionImageModel.count({
+     *   where: {
+     *     // ... the filter for the HSIntroductionImageModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends HSIntroductionImageModelCountArgs>(
+      args?: Subset<T, HSIntroductionImageModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HSIntroductionImageModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HSIntroductionImageModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HSIntroductionImageModelAggregateArgs>(args: Subset<T, HSIntroductionImageModelAggregateArgs>): Prisma.PrismaPromise<GetHSIntroductionImageModelAggregateType<T>>
+
+    /**
+     * Group by HSIntroductionImageModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HSIntroductionImageModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HSIntroductionImageModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HSIntroductionImageModelGroupByArgs['orderBy'] }
+        : { orderBy?: HSIntroductionImageModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HSIntroductionImageModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSIntroductionImageModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HSIntroductionImageModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__HSIntroductionImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    hs_provider<T extends HSProviderModelArgs= {}>(args?: Subset<T, HSProviderModelArgs>): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * HSIntroductionImageModel base type for findUnique actions
+   */
+  export type HSIntroductionImageModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSIntroductionImageModel to fetch.
+     */
+    where: HSIntroductionImageModelWhereUniqueInput
+  }
+
+  /**
+   * HSIntroductionImageModel findUnique
+   */
+  export interface HSIntroductionImageModelFindUniqueArgs extends HSIntroductionImageModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * HSIntroductionImageModel findUniqueOrThrow
+   */
+  export type HSIntroductionImageModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSIntroductionImageModel to fetch.
+     */
+    where: HSIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSIntroductionImageModel base type for findFirst actions
+   */
+  export type HSIntroductionImageModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSIntroductionImageModel to fetch.
+     */
+    where?: HSIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HSIntroductionImageModels.
+     */
+    cursor?: HSIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HSIntroductionImageModels.
+     */
+    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+  }
+
+  /**
+   * HSIntroductionImageModel findFirst
+   */
+  export interface HSIntroductionImageModelFindFirstArgs extends HSIntroductionImageModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * HSIntroductionImageModel findFirstOrThrow
+   */
+  export type HSIntroductionImageModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSIntroductionImageModel to fetch.
+     */
+    where?: HSIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HSIntroductionImageModels.
+     */
+    cursor?: HSIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSIntroductionImageModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HSIntroductionImageModels.
+     */
+    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+  }
+
+
+  /**
+   * HSIntroductionImageModel findMany
+   */
+  export type HSIntroductionImageModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter, which HSIntroductionImageModels to fetch.
+     */
+    where?: HSIntroductionImageModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HSIntroductionImageModels to fetch.
+     */
+    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HSIntroductionImageModels.
+     */
+    cursor?: HSIntroductionImageModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HSIntroductionImageModels.
+     */
+    skip?: number
+    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+  }
+
+
+  /**
+   * HSIntroductionImageModel create
+   */
+  export type HSIntroductionImageModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * The data needed to create a HSIntroductionImageModel.
+     */
+    data: XOR<HSIntroductionImageModelCreateInput, HSIntroductionImageModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * HSIntroductionImageModel createMany
+   */
+  export type HSIntroductionImageModelCreateManyArgs = {
+    /**
+     * The data used to create many HSIntroductionImageModels.
+     */
+    data: Enumerable<HSIntroductionImageModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * HSIntroductionImageModel update
+   */
+  export type HSIntroductionImageModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * The data needed to update a HSIntroductionImageModel.
+     */
+    data: XOR<HSIntroductionImageModelUpdateInput, HSIntroductionImageModelUncheckedUpdateInput>
+    /**
+     * Choose, which HSIntroductionImageModel to update.
+     */
+    where: HSIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSIntroductionImageModel updateMany
+   */
+  export type HSIntroductionImageModelUpdateManyArgs = {
+    /**
+     * The data used to update HSIntroductionImageModels.
+     */
+    data: XOR<HSIntroductionImageModelUpdateManyMutationInput, HSIntroductionImageModelUncheckedUpdateManyInput>
+    /**
+     * Filter which HSIntroductionImageModels to update
+     */
+    where?: HSIntroductionImageModelWhereInput
+  }
+
+
+  /**
+   * HSIntroductionImageModel upsert
+   */
+  export type HSIntroductionImageModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * The filter to search for the HSIntroductionImageModel to update in case it exists.
+     */
+    where: HSIntroductionImageModelWhereUniqueInput
+    /**
+     * In case the HSIntroductionImageModel found by the `where` argument doesn't exist, create a new HSIntroductionImageModel with this data.
+     */
+    create: XOR<HSIntroductionImageModelCreateInput, HSIntroductionImageModelUncheckedCreateInput>
+    /**
+     * In case the HSIntroductionImageModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HSIntroductionImageModelUpdateInput, HSIntroductionImageModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * HSIntroductionImageModel delete
+   */
+  export type HSIntroductionImageModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+    /**
+     * Filter which HSIntroductionImageModel to delete.
+     */
+    where: HSIntroductionImageModelWhereUniqueInput
+  }
+
+
+  /**
+   * HSIntroductionImageModel deleteMany
+   */
+  export type HSIntroductionImageModelDeleteManyArgs = {
+    /**
+     * Filter which HSIntroductionImageModels to delete
+     */
+    where?: HSIntroductionImageModelWhereInput
+  }
+
+
+  /**
+   * HSIntroductionImageModel without action
+   */
+  export type HSIntroductionImageModelArgs = {
+    /**
+     * Select specific fields to fetch from the HSIntroductionImageModel
+     */
+    select?: HSIntroductionImageModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: HSIntroductionImageModelInclude | null
+  }
+
+
+
+  /**
+   * Model UserExpertiseModel
+   */
+
+
+  export type AggregateUserExpertiseModel = {
+    _count: UserExpertiseModelCountAggregateOutputType | null
+    _min: UserExpertiseModelMinAggregateOutputType | null
+    _max: UserExpertiseModelMaxAggregateOutputType | null
+  }
+
+  export type UserExpertiseModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type UserExpertiseModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type UserExpertiseModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    id: number
+    category_id: number
+    business_user_id: number
+    _all: number
+  }
+
+
+  export type UserExpertiseModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    category_id?: true
+    business_user_id?: true
+  }
+
+  export type UserExpertiseModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    category_id?: true
+    business_user_id?: true
+  }
+
+  export type UserExpertiseModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    category_id?: true
+    business_user_id?: true
+    _all?: true
+  }
+
+  export type UserExpertiseModelAggregateArgs = {
+    /**
+     * Filter which UserExpertiseModel to aggregate.
+     */
+    where?: UserExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserExpertiseModels
+    **/
+    _count?: true | UserExpertiseModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserExpertiseModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserExpertiseModelMaxAggregateInputType
+  }
+
+  export type GetUserExpertiseModelAggregateType<T extends UserExpertiseModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserExpertiseModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserExpertiseModel[P]>
+      : GetScalarType<T[P], AggregateUserExpertiseModel[P]>
+  }
+
+
+
+
+  export type UserExpertiseModelGroupByArgs = {
+    where?: UserExpertiseModelWhereInput
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithAggregationInput>
+    by: UserExpertiseModelScalarFieldEnum[]
+    having?: UserExpertiseModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserExpertiseModelCountAggregateInputType | true
+    _min?: UserExpertiseModelMinAggregateInputType
+    _max?: UserExpertiseModelMaxAggregateInputType
+  }
+
+
+  export type UserExpertiseModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    id: string
+    category_id: string
+    business_user_id: string
+    _count: UserExpertiseModelCountAggregateOutputType | null
+    _min: UserExpertiseModelMinAggregateOutputType | null
+    _max: UserExpertiseModelMaxAggregateOutputType | null
+  }
+
+  type GetUserExpertiseModelGroupByPayload<T extends UserExpertiseModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserExpertiseModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserExpertiseModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserExpertiseModelGroupByOutputType[P]>
+            : GetScalarType<T[P], UserExpertiseModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserExpertiseModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    id?: boolean
+    category_id?: boolean
+    business_user_id?: boolean
+    category?: boolean | ExpertSubCategoryModelArgs
+    business_user?: boolean | BusinessUserArgs
+  }
+
+
+  export type UserExpertiseModelInclude = {
+    category?: boolean | ExpertSubCategoryModelArgs
+    business_user?: boolean | BusinessUserArgs
+  }
+
+  export type UserExpertiseModelGetPayload<S extends boolean | null | undefined | UserExpertiseModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserExpertiseModel :
+    S extends undefined ? never :
+    S extends { include: any } & (UserExpertiseModelArgs | UserExpertiseModelFindManyArgs)
+    ? UserExpertiseModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'category' ? ExpertSubCategoryModelGetPayload<S['include'][P]> :
+        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserExpertiseModelArgs | UserExpertiseModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'category' ? ExpertSubCategoryModelGetPayload<S['select'][P]> :
+        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof UserExpertiseModel ? UserExpertiseModel[P] : never
+  } 
+      : UserExpertiseModel
+
+
+  type UserExpertiseModelCountArgs = 
+    Omit<UserExpertiseModelFindManyArgs, 'select' | 'include'> & {
+      select?: UserExpertiseModelCountAggregateInputType | true
+    }
+
+  export interface UserExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one UserExpertiseModel that matches the filter.
+     * @param {UserExpertiseModelFindUniqueArgs} args - Arguments to find a UserExpertiseModel
+     * @example
+     * // Get one UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserExpertiseModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserExpertiseModel'> extends True ? Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>> : Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T> | null, null>
+
+    /**
+     * Find one UserExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserExpertiseModelFindUniqueOrThrowArgs} args - Arguments to find a UserExpertiseModel
+     * @example
+     * // Get one UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserExpertiseModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserExpertiseModelFindUniqueOrThrowArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Find the first UserExpertiseModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelFindFirstArgs} args - Arguments to find a UserExpertiseModel
+     * @example
+     * // Get one UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserExpertiseModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserExpertiseModel'> extends True ? Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>> : Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first UserExpertiseModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelFindFirstOrThrowArgs} args - Arguments to find a UserExpertiseModel
+     * @example
+     * // Get one UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserExpertiseModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserExpertiseModelFindFirstOrThrowArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Find zero or more UserExpertiseModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserExpertiseModels
+     * const userExpertiseModels = await prisma.userExpertiseModel.findMany()
+     * 
+     * // Get first 10 UserExpertiseModels
+     * const userExpertiseModels = await prisma.userExpertiseModel.findMany({ take: 10 })
+     * 
+     * // Only select the `created_at`
+     * const userExpertiseModelWithCreated_atOnly = await prisma.userExpertiseModel.findMany({ select: { created_at: true } })
+     * 
+    **/
+    findMany<T extends UserExpertiseModelFindManyArgs>(
+      args?: SelectSubset<T, UserExpertiseModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>>
+
+    /**
+     * Create a UserExpertiseModel.
+     * @param {UserExpertiseModelCreateArgs} args - Arguments to create a UserExpertiseModel.
+     * @example
+     * // Create one UserExpertiseModel
+     * const UserExpertiseModel = await prisma.userExpertiseModel.create({
+     *   data: {
+     *     // ... data to create a UserExpertiseModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserExpertiseModelCreateArgs>(
+      args: SelectSubset<T, UserExpertiseModelCreateArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Create many UserExpertiseModels.
+     *     @param {UserExpertiseModelCreateManyArgs} args - Arguments to create many UserExpertiseModels.
+     *     @example
+     *     // Create many UserExpertiseModels
+     *     const userExpertiseModel = await prisma.userExpertiseModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserExpertiseModelCreateManyArgs>(
+      args?: SelectSubset<T, UserExpertiseModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserExpertiseModel.
+     * @param {UserExpertiseModelDeleteArgs} args - Arguments to delete one UserExpertiseModel.
+     * @example
+     * // Delete one UserExpertiseModel
+     * const UserExpertiseModel = await prisma.userExpertiseModel.delete({
+     *   where: {
+     *     // ... filter to delete one UserExpertiseModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserExpertiseModelDeleteArgs>(
+      args: SelectSubset<T, UserExpertiseModelDeleteArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Update one UserExpertiseModel.
+     * @param {UserExpertiseModelUpdateArgs} args - Arguments to update one UserExpertiseModel.
+     * @example
+     * // Update one UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserExpertiseModelUpdateArgs>(
+      args: SelectSubset<T, UserExpertiseModelUpdateArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Delete zero or more UserExpertiseModels.
+     * @param {UserExpertiseModelDeleteManyArgs} args - Arguments to filter UserExpertiseModels to delete.
+     * @example
+     * // Delete a few UserExpertiseModels
+     * const { count } = await prisma.userExpertiseModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserExpertiseModelDeleteManyArgs>(
+      args?: SelectSubset<T, UserExpertiseModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserExpertiseModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserExpertiseModels
+     * const userExpertiseModel = await prisma.userExpertiseModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserExpertiseModelUpdateManyArgs>(
+      args: SelectSubset<T, UserExpertiseModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserExpertiseModel.
+     * @param {UserExpertiseModelUpsertArgs} args - Arguments to update or create a UserExpertiseModel.
+     * @example
+     * // Update or create a UserExpertiseModel
+     * const userExpertiseModel = await prisma.userExpertiseModel.upsert({
+     *   create: {
+     *     // ... data to create a UserExpertiseModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserExpertiseModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserExpertiseModelUpsertArgs>(
+      args: SelectSubset<T, UserExpertiseModelUpsertArgs>
+    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+
+    /**
+     * Count the number of UserExpertiseModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelCountArgs} args - Arguments to filter UserExpertiseModels to count.
+     * @example
+     * // Count the number of UserExpertiseModels
+     * const count = await prisma.userExpertiseModel.count({
+     *   where: {
+     *     // ... the filter for the UserExpertiseModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserExpertiseModelCountArgs>(
+      args?: Subset<T, UserExpertiseModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserExpertiseModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserExpertiseModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserExpertiseModelAggregateArgs>(args: Subset<T, UserExpertiseModelAggregateArgs>): Prisma.PrismaPromise<GetUserExpertiseModelAggregateType<T>>
+
+    /**
+     * Group by UserExpertiseModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserExpertiseModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserExpertiseModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserExpertiseModelGroupByArgs['orderBy'] }
+        : { orderBy?: UserExpertiseModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserExpertiseModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserExpertiseModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserExpertiseModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    category<T extends ExpertSubCategoryModelArgs= {}>(args?: Subset<T, ExpertSubCategoryModelArgs>): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | Null>;
+
+    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserExpertiseModel base type for findUnique actions
+   */
+  export type UserExpertiseModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter, which UserExpertiseModel to fetch.
+     */
+    where: UserExpertiseModelWhereUniqueInput
+  }
+
+  /**
+   * UserExpertiseModel findUnique
+   */
+  export interface UserExpertiseModelFindUniqueArgs extends UserExpertiseModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserExpertiseModel findUniqueOrThrow
+   */
+  export type UserExpertiseModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter, which UserExpertiseModel to fetch.
+     */
+    where: UserExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * UserExpertiseModel base type for findFirst actions
+   */
+  export type UserExpertiseModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter, which UserExpertiseModel to fetch.
+     */
+    where?: UserExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserExpertiseModels.
+     */
+    cursor?: UserExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserExpertiseModels.
+     */
+    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+  }
+
+  /**
+   * UserExpertiseModel findFirst
+   */
+  export interface UserExpertiseModelFindFirstArgs extends UserExpertiseModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserExpertiseModel findFirstOrThrow
+   */
+  export type UserExpertiseModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter, which UserExpertiseModel to fetch.
+     */
+    where?: UserExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserExpertiseModels.
+     */
+    cursor?: UserExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserExpertiseModels.
+     */
+    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * UserExpertiseModel findMany
+   */
+  export type UserExpertiseModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter, which UserExpertiseModels to fetch.
+     */
+    where?: UserExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserExpertiseModels.
+     */
+    cursor?: UserExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserExpertiseModels.
+     */
+    skip?: number
+    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * UserExpertiseModel create
+   */
+  export type UserExpertiseModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * The data needed to create a UserExpertiseModel.
+     */
+    data: XOR<UserExpertiseModelCreateInput, UserExpertiseModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserExpertiseModel createMany
+   */
+  export type UserExpertiseModelCreateManyArgs = {
+    /**
+     * The data used to create many UserExpertiseModels.
+     */
+    data: Enumerable<UserExpertiseModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserExpertiseModel update
+   */
+  export type UserExpertiseModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * The data needed to update a UserExpertiseModel.
+     */
+    data: XOR<UserExpertiseModelUpdateInput, UserExpertiseModelUncheckedUpdateInput>
+    /**
+     * Choose, which UserExpertiseModel to update.
+     */
+    where: UserExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * UserExpertiseModel updateMany
+   */
+  export type UserExpertiseModelUpdateManyArgs = {
+    /**
+     * The data used to update UserExpertiseModels.
+     */
+    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyInput>
+    /**
+     * Filter which UserExpertiseModels to update
+     */
+    where?: UserExpertiseModelWhereInput
+  }
+
+
+  /**
+   * UserExpertiseModel upsert
+   */
+  export type UserExpertiseModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * The filter to search for the UserExpertiseModel to update in case it exists.
+     */
+    where: UserExpertiseModelWhereUniqueInput
+    /**
+     * In case the UserExpertiseModel found by the `where` argument doesn't exist, create a new UserExpertiseModel with this data.
+     */
+    create: XOR<UserExpertiseModelCreateInput, UserExpertiseModelUncheckedCreateInput>
+    /**
+     * In case the UserExpertiseModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserExpertiseModelUpdateInput, UserExpertiseModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserExpertiseModel delete
+   */
+  export type UserExpertiseModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+    /**
+     * Filter which UserExpertiseModel to delete.
+     */
+    where: UserExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * UserExpertiseModel deleteMany
+   */
+  export type UserExpertiseModelDeleteManyArgs = {
+    /**
+     * Filter which UserExpertiseModels to delete
+     */
+    where?: UserExpertiseModelWhereInput
+  }
+
+
+  /**
+   * UserExpertiseModel without action
+   */
+  export type UserExpertiseModelArgs = {
+    /**
+     * Select specific fields to fetch from the UserExpertiseModel
+     */
+    select?: UserExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserExpertiseModelInclude | null
+  }
+
+
+
+  /**
+   * Model ExpertSubCategoryModel
+   */
+
+
+  export type AggregateExpertSubCategoryModel = {
+    _count: ExpertSubCategoryModelCountAggregateOutputType | null
+    _min: ExpertSubCategoryModelMinAggregateOutputType | null
+    _max: ExpertSubCategoryModelMaxAggregateOutputType | null
+  }
+
+  export type ExpertSubCategoryModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    email: string | null
-    email_verified: boolean | null
-    phone: string | null
-    phone_verified: boolean | null
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    is_licensed: boolean | null
-    re_num: string | null
-    re_name: string | null
-    re_phone: string | null
-    re_licensed_agent_name: string | null
+    super_id: string | null
   }
 
-  export type TempREAgentModelMaxAggregateOutputType = {
+  export type ExpertSubCategoryModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    email: string | null
-    email_verified: boolean | null
-    phone: string | null
-    phone_verified: boolean | null
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    is_licensed: boolean | null
-    re_num: string | null
-    re_name: string | null
-    re_phone: string | null
-    re_licensed_agent_name: string | null
+    super_id: string | null
   }
 
-  export type TempREAgentModelCountAggregateOutputType = {
+  export type ExpertSubCategoryModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
     id: number
     name: number
-    email: number
-    email_verified: number
-    phone: number
-    phone_verified: number
-    profile_image_url: number
-    address_first: number
-    address_second: number
-    introduction_title: number
-    introduction_content: number
-    is_licensed: number
-    re_num: number
-    re_name: number
-    re_phone: number
-    re_licensed_agent_name: number
+    super_id: number
     _all: number
   }
 
 
-  export type TempREAgentModelMinAggregateInputType = {
+  export type ExpertSubCategoryModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    is_licensed?: true
-    re_num?: true
-    re_name?: true
-    re_phone?: true
-    re_licensed_agent_name?: true
+    super_id?: true
   }
 
-  export type TempREAgentModelMaxAggregateInputType = {
+  export type ExpertSubCategoryModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    is_licensed?: true
-    re_num?: true
-    re_name?: true
-    re_phone?: true
-    re_licensed_agent_name?: true
+    super_id?: true
   }
 
-  export type TempREAgentModelCountAggregateInputType = {
+  export type ExpertSubCategoryModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    is_licensed?: true
-    re_num?: true
-    re_name?: true
-    re_phone?: true
-    re_licensed_agent_name?: true
+    super_id?: true
     _all?: true
   }
 
-  export type TempREAgentModelAggregateArgs = {
+  export type ExpertSubCategoryModelAggregateArgs = {
     /**
-     * Filter which TempREAgentModel to aggregate.
+     * Filter which ExpertSubCategoryModel to aggregate.
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempREAgentModels to fetch.
+     * Determine the order of ExpertSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempREAgentModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: TempREAgentModelWhereUniqueInput
+    cursor?: ExpertSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempREAgentModels from the position of the cursor.
+     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempREAgentModels.
+     * Skip the first `n` ExpertSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned TempREAgentModels
+     * Count returned ExpertSubCategoryModels
     **/
-    _count?: true | TempREAgentModelCountAggregateInputType
+    _count?: true | ExpertSubCategoryModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: TempREAgentModelMinAggregateInputType
+    _min?: ExpertSubCategoryModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: TempREAgentModelMaxAggregateInputType
+    _max?: ExpertSubCategoryModelMaxAggregateInputType
   }
 
-  export type GetTempREAgentModelAggregateType<T extends TempREAgentModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateTempREAgentModel]: P extends '_count' | 'count'
+  export type GetExpertSubCategoryModelAggregateType<T extends ExpertSubCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateExpertSubCategoryModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateTempREAgentModel[P]>
-      : GetScalarType<T[P], AggregateTempREAgentModel[P]>
+        : GetScalarType<T[P], AggregateExpertSubCategoryModel[P]>
+      : GetScalarType<T[P], AggregateExpertSubCategoryModel[P]>
   }
 
 
 
 
-  export type TempREAgentModelGroupByArgs = {
-    where?: TempREAgentModelWhereInput
-    orderBy?: Enumerable<TempREAgentModelOrderByWithAggregationInput>
-    by: TempREAgentModelScalarFieldEnum[]
-    having?: TempREAgentModelScalarWhereWithAggregatesInput
+  export type ExpertSubCategoryModelGroupByArgs = {
+    where?: ExpertSubCategoryModelWhereInput
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithAggregationInput>
+    by: ExpertSubCategoryModelScalarFieldEnum[]
+    having?: ExpertSubCategoryModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: TempREAgentModelCountAggregateInputType | true
-    _min?: TempREAgentModelMinAggregateInputType
-    _max?: TempREAgentModelMaxAggregateInputType
+    _count?: ExpertSubCategoryModelCountAggregateInputType | true
+    _min?: ExpertSubCategoryModelMinAggregateInputType
+    _max?: ExpertSubCategoryModelMaxAggregateInputType
   }
 
 
-  export type TempREAgentModelGroupByOutputType = {
+  export type ExpertSubCategoryModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
     id: string
-    name: string | null
-    email: string | null
-    email_verified: boolean
-    phone: string | null
-    phone_verified: boolean
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    is_licensed: boolean | null
-    re_num: string | null
-    re_name: string | null
-    re_phone: string | null
-    re_licensed_agent_name: string | null
-    _count: TempREAgentModelCountAggregateOutputType | null
-    _min: TempREAgentModelMinAggregateOutputType | null
-    _max: TempREAgentModelMaxAggregateOutputType | null
+    name: string
+    super_id: string
+    _count: ExpertSubCategoryModelCountAggregateOutputType | null
+    _min: ExpertSubCategoryModelMinAggregateOutputType | null
+    _max: ExpertSubCategoryModelMaxAggregateOutputType | null
   }
 
-  type GetTempREAgentModelGroupByPayload<T extends TempREAgentModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetExpertSubCategoryModelGroupByPayload<T extends ExpertSubCategoryModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<TempREAgentModelGroupByOutputType, T['by']> &
+      PickArray<ExpertSubCategoryModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof TempREAgentModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ExpertSubCategoryModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], TempREAgentModelGroupByOutputType[P]>
-            : GetScalarType<T[P], TempREAgentModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ExpertSubCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ExpertSubCategoryModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type TempREAgentModelSelect = {
+  export type ExpertSubCategoryModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
     id?: boolean
     name?: boolean
-    email?: boolean
-    email_verified?: boolean
-    phone?: boolean
-    phone_verified?: boolean
-    profile_image_url?: boolean
-    address_first?: boolean
-    address_second?: boolean
-    introduction_title?: boolean
-    introduction_content?: boolean
-    is_licensed?: boolean
-    re_num?: boolean
-    re_name?: boolean
-    re_phone?: boolean
-    re_licensed_agent_name?: boolean
-    oauth_accessor?: boolean | AccessorModelArgs
+    super_id?: boolean
+    super?: boolean | ExpertSuperCategoryModelArgs
+    expertises?: boolean | ExpertSubCategoryModel$expertisesArgs
+    _count?: boolean | ExpertSubCategoryModelCountOutputTypeArgs
   }
 
 
-  export type TempREAgentModelInclude = {
-    oauth_accessor?: boolean | AccessorModelArgs
+  export type ExpertSubCategoryModelInclude = {
+    super?: boolean | ExpertSuperCategoryModelArgs
+    expertises?: boolean | ExpertSubCategoryModel$expertisesArgs
+    _count?: boolean | ExpertSubCategoryModelCountOutputTypeArgs
   }
 
-  export type TempREAgentModelGetPayload<S extends boolean | null | undefined | TempREAgentModelArgs> =
+  export type ExpertSubCategoryModelGetPayload<S extends boolean | null | undefined | ExpertSubCategoryModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? TempREAgentModel :
+    S extends true ? ExpertSubCategoryModel :
     S extends undefined ? never :
-    S extends { include: any } & (TempREAgentModelArgs | TempREAgentModelFindManyArgs)
-    ? TempREAgentModel  & {
+    S extends { include: any } & (ExpertSubCategoryModelArgs | ExpertSubCategoryModelFindManyArgs)
+    ? ExpertSubCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'oauth_accessor' ? AccessorModelGetPayload<S['include'][P]> :  never
+        P extends 'super' ? ExpertSuperCategoryModelGetPayload<S['include'][P]> :
+        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (TempREAgentModelArgs | TempREAgentModelFindManyArgs)
+    : S extends { select: any } & (ExpertSubCategoryModelArgs | ExpertSubCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'oauth_accessor' ? AccessorModelGetPayload<S['select'][P]> :  P extends keyof TempREAgentModel ? TempREAgentModel[P] : never
+        P extends 'super' ? ExpertSuperCategoryModelGetPayload<S['select'][P]> :
+        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSubCategoryModel ? ExpertSubCategoryModel[P] : never
   } 
-      : TempREAgentModel
+      : ExpertSubCategoryModel
 
 
-  type TempREAgentModelCountArgs = 
-    Omit<TempREAgentModelFindManyArgs, 'select' | 'include'> & {
-      select?: TempREAgentModelCountAggregateInputType | true
+  type ExpertSubCategoryModelCountArgs = 
+    Omit<ExpertSubCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: ExpertSubCategoryModelCountAggregateInputType | true
     }
 
-  export interface TempREAgentModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ExpertSubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one TempREAgentModel that matches the filter.
-     * @param {TempREAgentModelFindUniqueArgs} args - Arguments to find a TempREAgentModel
+     * Find zero or one ExpertSubCategoryModel that matches the filter.
+     * @param {ExpertSubCategoryModelFindUniqueArgs} args - Arguments to find a ExpertSubCategoryModel
      * @example
-     * // Get one TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.findUnique({
+     * // Get one ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends TempREAgentModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, TempREAgentModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'TempREAgentModel'> extends True ? Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>> : Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T> | null, null>
+    findUnique<T extends ExpertSubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ExpertSubCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ExpertSubCategoryModel'> extends True ? Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>> : Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find one TempREAgentModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ExpertSubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {TempREAgentModelFindUniqueOrThrowArgs} args - Arguments to find a TempREAgentModel
+     * @param {ExpertSubCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ExpertSubCategoryModel
      * @example
-     * // Get one TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.findUniqueOrThrow({
+     * // Get one ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends TempREAgentModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, TempREAgentModelFindUniqueOrThrowArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    findUniqueOrThrow<T extends ExpertSubCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ExpertSubCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Find the first TempREAgentModel that matches the filter.
+     * Find the first ExpertSubCategoryModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelFindFirstArgs} args - Arguments to find a TempREAgentModel
+     * @param {ExpertSubCategoryModelFindFirstArgs} args - Arguments to find a ExpertSubCategoryModel
      * @example
-     * // Get one TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.findFirst({
+     * // Get one ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends TempREAgentModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, TempREAgentModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'TempREAgentModel'> extends True ? Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>> : Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T> | null, null>
+    findFirst<T extends ExpertSubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ExpertSubCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ExpertSubCategoryModel'> extends True ? Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>> : Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find the first TempREAgentModel that matches the filter or
+     * Find the first ExpertSubCategoryModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelFindFirstOrThrowArgs} args - Arguments to find a TempREAgentModel
+     * @param {ExpertSubCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ExpertSubCategoryModel
      * @example
-     * // Get one TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.findFirstOrThrow({
+     * // Get one ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends TempREAgentModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, TempREAgentModelFindFirstOrThrowArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    findFirstOrThrow<T extends ExpertSubCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ExpertSubCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Find zero or more TempREAgentModels that matches the filter.
+     * Find zero or more ExpertSubCategoryModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ExpertSubCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all TempREAgentModels
-     * const tempREAgentModels = await prisma.tempREAgentModel.findMany()
+     * // Get all ExpertSubCategoryModels
+     * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany()
      * 
-     * // Get first 10 TempREAgentModels
-     * const tempREAgentModels = await prisma.tempREAgentModel.findMany({ take: 10 })
+     * // Get first 10 ExpertSubCategoryModels
+     * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const tempREAgentModelWithIdOnly = await prisma.tempREAgentModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const expertSubCategoryModelWithCreated_atOnly = await prisma.expertSubCategoryModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends TempREAgentModelFindManyArgs>(
-      args?: SelectSubset<T, TempREAgentModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<TempREAgentModelGetPayload<T>>>
+    findMany<T extends ExpertSubCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, ExpertSubCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ExpertSubCategoryModelGetPayload<T>>>
 
     /**
-     * Create a TempREAgentModel.
-     * @param {TempREAgentModelCreateArgs} args - Arguments to create a TempREAgentModel.
+     * Create a ExpertSubCategoryModel.
+     * @param {ExpertSubCategoryModelCreateArgs} args - Arguments to create a ExpertSubCategoryModel.
      * @example
-     * // Create one TempREAgentModel
-     * const TempREAgentModel = await prisma.tempREAgentModel.create({
+     * // Create one ExpertSubCategoryModel
+     * const ExpertSubCategoryModel = await prisma.expertSubCategoryModel.create({
      *   data: {
-     *     // ... data to create a TempREAgentModel
+     *     // ... data to create a ExpertSubCategoryModel
      *   }
      * })
      * 
     **/
-    create<T extends TempREAgentModelCreateArgs>(
-      args: SelectSubset<T, TempREAgentModelCreateArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    create<T extends ExpertSubCategoryModelCreateArgs>(
+      args: SelectSubset<T, ExpertSubCategoryModelCreateArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Create many TempREAgentModels.
-     *     @param {TempREAgentModelCreateManyArgs} args - Arguments to create many TempREAgentModels.
+     * Create many ExpertSubCategoryModels.
+     *     @param {ExpertSubCategoryModelCreateManyArgs} args - Arguments to create many ExpertSubCategoryModels.
      *     @example
-     *     // Create many TempREAgentModels
-     *     const tempREAgentModel = await prisma.tempREAgentModel.createMany({
+     *     // Create many ExpertSubCategoryModels
+     *     const expertSubCategoryModel = await prisma.expertSubCategoryModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends TempREAgentModelCreateManyArgs>(
-      args?: SelectSubset<T, TempREAgentModelCreateManyArgs>
+    createMany<T extends ExpertSubCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, ExpertSubCategoryModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a TempREAgentModel.
-     * @param {TempREAgentModelDeleteArgs} args - Arguments to delete one TempREAgentModel.
+     * Delete a ExpertSubCategoryModel.
+     * @param {ExpertSubCategoryModelDeleteArgs} args - Arguments to delete one ExpertSubCategoryModel.
      * @example
-     * // Delete one TempREAgentModel
-     * const TempREAgentModel = await prisma.tempREAgentModel.delete({
+     * // Delete one ExpertSubCategoryModel
+     * const ExpertSubCategoryModel = await prisma.expertSubCategoryModel.delete({
      *   where: {
-     *     // ... filter to delete one TempREAgentModel
+     *     // ... filter to delete one ExpertSubCategoryModel
      *   }
      * })
      * 
     **/
-    delete<T extends TempREAgentModelDeleteArgs>(
-      args: SelectSubset<T, TempREAgentModelDeleteArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    delete<T extends ExpertSubCategoryModelDeleteArgs>(
+      args: SelectSubset<T, ExpertSubCategoryModelDeleteArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Update one TempREAgentModel.
-     * @param {TempREAgentModelUpdateArgs} args - Arguments to update one TempREAgentModel.
+     * Update one ExpertSubCategoryModel.
+     * @param {ExpertSubCategoryModelUpdateArgs} args - Arguments to update one ExpertSubCategoryModel.
      * @example
-     * // Update one TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.update({
+     * // Update one ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8239,34 +10583,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends TempREAgentModelUpdateArgs>(
-      args: SelectSubset<T, TempREAgentModelUpdateArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    update<T extends ExpertSubCategoryModelUpdateArgs>(
+      args: SelectSubset<T, ExpertSubCategoryModelUpdateArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Delete zero or more TempREAgentModels.
-     * @param {TempREAgentModelDeleteManyArgs} args - Arguments to filter TempREAgentModels to delete.
+     * Delete zero or more ExpertSubCategoryModels.
+     * @param {ExpertSubCategoryModelDeleteManyArgs} args - Arguments to filter ExpertSubCategoryModels to delete.
      * @example
-     * // Delete a few TempREAgentModels
-     * const { count } = await prisma.tempREAgentModel.deleteMany({
+     * // Delete a few ExpertSubCategoryModels
+     * const { count } = await prisma.expertSubCategoryModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends TempREAgentModelDeleteManyArgs>(
-      args?: SelectSubset<T, TempREAgentModelDeleteManyArgs>
+    deleteMany<T extends ExpertSubCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, ExpertSubCategoryModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TempREAgentModels.
+     * Update zero or more ExpertSubCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ExpertSubCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many TempREAgentModels
-     * const tempREAgentModel = await prisma.tempREAgentModel.updateMany({
+     * // Update many ExpertSubCategoryModels
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8276,59 +10620,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends TempREAgentModelUpdateManyArgs>(
-      args: SelectSubset<T, TempREAgentModelUpdateManyArgs>
+    updateMany<T extends ExpertSubCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, ExpertSubCategoryModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one TempREAgentModel.
-     * @param {TempREAgentModelUpsertArgs} args - Arguments to update or create a TempREAgentModel.
+     * Create or update one ExpertSubCategoryModel.
+     * @param {ExpertSubCategoryModelUpsertArgs} args - Arguments to update or create a ExpertSubCategoryModel.
      * @example
-     * // Update or create a TempREAgentModel
-     * const tempREAgentModel = await prisma.tempREAgentModel.upsert({
+     * // Update or create a ExpertSubCategoryModel
+     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.upsert({
      *   create: {
-     *     // ... data to create a TempREAgentModel
+     *     // ... data to create a ExpertSubCategoryModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the TempREAgentModel we want to update
+     *     // ... the filter for the ExpertSubCategoryModel we want to update
      *   }
      * })
     **/
-    upsert<T extends TempREAgentModelUpsertArgs>(
-      args: SelectSubset<T, TempREAgentModelUpsertArgs>
-    ): Prisma__TempREAgentModelClient<TempREAgentModelGetPayload<T>>
+    upsert<T extends ExpertSubCategoryModelUpsertArgs>(
+      args: SelectSubset<T, ExpertSubCategoryModelUpsertArgs>
+    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
 
     /**
-     * Count the number of TempREAgentModels.
+     * Count the number of ExpertSubCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelCountArgs} args - Arguments to filter TempREAgentModels to count.
+     * @param {ExpertSubCategoryModelCountArgs} args - Arguments to filter ExpertSubCategoryModels to count.
      * @example
-     * // Count the number of TempREAgentModels
-     * const count = await prisma.tempREAgentModel.count({
+     * // Count the number of ExpertSubCategoryModels
+     * const count = await prisma.expertSubCategoryModel.count({
      *   where: {
-     *     // ... the filter for the TempREAgentModels we want to count
+     *     // ... the filter for the ExpertSubCategoryModels we want to count
      *   }
      * })
     **/
-    count<T extends TempREAgentModelCountArgs>(
-      args?: Subset<T, TempREAgentModelCountArgs>,
+    count<T extends ExpertSubCategoryModelCountArgs>(
+      args?: Subset<T, ExpertSubCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], TempREAgentModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ExpertSubCategoryModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a TempREAgentModel.
+     * Allows you to perform aggregations operations on a ExpertSubCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ExpertSubCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -8348,13 +10692,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends TempREAgentModelAggregateArgs>(args: Subset<T, TempREAgentModelAggregateArgs>): Prisma.PrismaPromise<GetTempREAgentModelAggregateType<T>>
+    aggregate<T extends ExpertSubCategoryModelAggregateArgs>(args: Subset<T, ExpertSubCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetExpertSubCategoryModelAggregateType<T>>
 
     /**
-     * Group by TempREAgentModel.
+     * Group by ExpertSubCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempREAgentModelGroupByArgs} args - Group by arguments.
+     * @param {ExpertSubCategoryModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -8369,14 +10713,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends TempREAgentModelGroupByArgs,
+      T extends ExpertSubCategoryModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TempREAgentModelGroupByArgs['orderBy'] }
-        : { orderBy?: TempREAgentModelGroupByArgs['orderBy'] },
+        ? { orderBy: ExpertSubCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: ExpertSubCategoryModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -8425,17 +10769,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, TempREAgentModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTempREAgentModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ExpertSubCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertSubCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for TempREAgentModel.
+   * The delegate class that acts as a "Promise-like" for ExpertSubCategoryModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__TempREAgentModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ExpertSubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -8450,7 +10794,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    oauth_accessor<T extends AccessorModelArgs= {}>(args?: Subset<T, AccessorModelArgs>): Prisma__AccessorModelClient<AccessorModelGetPayload<T> | Null>;
+    super<T extends ExpertSuperCategoryModelArgs= {}>(args?: Subset<T, ExpertSuperCategoryModelArgs>): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | Null>;
+
+    expertises<T extends ExpertSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ExpertSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -8480,27 +10826,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * TempREAgentModel base type for findUnique actions
+   * ExpertSubCategoryModel base type for findUnique actions
    */
-  export type TempREAgentModelFindUniqueArgsBase = {
+  export type ExpertSubCategoryModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter, which TempREAgentModel to fetch.
+     * Filter, which ExpertSubCategoryModel to fetch.
      */
-    where: TempREAgentModelWhereUniqueInput
+    where: ExpertSubCategoryModelWhereUniqueInput
   }
 
   /**
-   * TempREAgentModel findUnique
+   * ExpertSubCategoryModel findUnique
    */
-  export interface TempREAgentModelFindUniqueArgs extends TempREAgentModelFindUniqueArgsBase {
+  export interface ExpertSubCategoryModelFindUniqueArgs extends ExpertSubCategoryModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -8510,76 +10856,76 @@ export namespace Prisma {
       
 
   /**
-   * TempREAgentModel findUniqueOrThrow
+   * ExpertSubCategoryModel findUniqueOrThrow
    */
-  export type TempREAgentModelFindUniqueOrThrowArgs = {
+  export type ExpertSubCategoryModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter, which TempREAgentModel to fetch.
+     * Filter, which ExpertSubCategoryModel to fetch.
      */
-    where: TempREAgentModelWhereUniqueInput
+    where: ExpertSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempREAgentModel base type for findFirst actions
+   * ExpertSubCategoryModel base type for findFirst actions
    */
-  export type TempREAgentModelFindFirstArgsBase = {
+  export type ExpertSubCategoryModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter, which TempREAgentModel to fetch.
+     * Filter, which ExpertSubCategoryModel to fetch.
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempREAgentModels to fetch.
+     * Determine the order of ExpertSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempREAgentModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TempREAgentModels.
+     * Sets the position for searching for ExpertSubCategoryModels.
      */
-    cursor?: TempREAgentModelWhereUniqueInput
+    cursor?: ExpertSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempREAgentModels from the position of the cursor.
+     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempREAgentModels.
+     * Skip the first `n` ExpertSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TempREAgentModels.
+     * Filter by unique combinations of ExpertSubCategoryModels.
      */
-    distinct?: Enumerable<TempREAgentModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
   }
 
   /**
-   * TempREAgentModel findFirst
+   * ExpertSubCategoryModel findFirst
    */
-  export interface TempREAgentModelFindFirstArgs extends TempREAgentModelFindFirstArgsBase {
+  export interface ExpertSubCategoryModelFindFirstArgs extends ExpertSubCategoryModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -8589,634 +10935,619 @@ export namespace Prisma {
       
 
   /**
-   * TempREAgentModel findFirstOrThrow
+   * ExpertSubCategoryModel findFirstOrThrow
    */
-  export type TempREAgentModelFindFirstOrThrowArgs = {
+  export type ExpertSubCategoryModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter, which TempREAgentModel to fetch.
+     * Filter, which ExpertSubCategoryModel to fetch.
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempREAgentModels to fetch.
+     * Determine the order of ExpertSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempREAgentModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TempREAgentModels.
+     * Sets the position for searching for ExpertSubCategoryModels.
      */
-    cursor?: TempREAgentModelWhereUniqueInput
+    cursor?: ExpertSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempREAgentModels from the position of the cursor.
+     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempREAgentModels.
+     * Skip the first `n` ExpertSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TempREAgentModels.
+     * Filter by unique combinations of ExpertSubCategoryModels.
      */
-    distinct?: Enumerable<TempREAgentModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * TempREAgentModel findMany
+   * ExpertSubCategoryModel findMany
    */
-  export type TempREAgentModelFindManyArgs = {
+  export type ExpertSubCategoryModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter, which TempREAgentModels to fetch.
+     * Filter, which ExpertSubCategoryModels to fetch.
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempREAgentModels to fetch.
+     * Determine the order of ExpertSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempREAgentModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing TempREAgentModels.
+     * Sets the position for listing ExpertSubCategoryModels.
      */
-    cursor?: TempREAgentModelWhereUniqueInput
+    cursor?: ExpertSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempREAgentModels from the position of the cursor.
+     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempREAgentModels.
+     * Skip the first `n` ExpertSubCategoryModels.
      */
     skip?: number
-    distinct?: Enumerable<TempREAgentModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * TempREAgentModel create
+   * ExpertSubCategoryModel create
    */
-  export type TempREAgentModelCreateArgs = {
+  export type ExpertSubCategoryModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * The data needed to create a TempREAgentModel.
+     * The data needed to create a ExpertSubCategoryModel.
      */
-    data: XOR<TempREAgentModelCreateInput, TempREAgentModelUncheckedCreateInput>
+    data: XOR<ExpertSubCategoryModelCreateInput, ExpertSubCategoryModelUncheckedCreateInput>
   }
 
 
   /**
-   * TempREAgentModel createMany
+   * ExpertSubCategoryModel createMany
    */
-  export type TempREAgentModelCreateManyArgs = {
+  export type ExpertSubCategoryModelCreateManyArgs = {
     /**
-     * The data used to create many TempREAgentModels.
+     * The data used to create many ExpertSubCategoryModels.
      */
-    data: Enumerable<TempREAgentModelCreateManyInput>
+    data: Enumerable<ExpertSubCategoryModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * TempREAgentModel update
+   * ExpertSubCategoryModel update
    */
-  export type TempREAgentModelUpdateArgs = {
+  export type ExpertSubCategoryModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * The data needed to update a TempREAgentModel.
+     * The data needed to update a ExpertSubCategoryModel.
      */
-    data: XOR<TempREAgentModelUpdateInput, TempREAgentModelUncheckedUpdateInput>
+    data: XOR<ExpertSubCategoryModelUpdateInput, ExpertSubCategoryModelUncheckedUpdateInput>
     /**
-     * Choose, which TempREAgentModel to update.
+     * Choose, which ExpertSubCategoryModel to update.
      */
-    where: TempREAgentModelWhereUniqueInput
+    where: ExpertSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempREAgentModel updateMany
+   * ExpertSubCategoryModel updateMany
    */
-  export type TempREAgentModelUpdateManyArgs = {
+  export type ExpertSubCategoryModelUpdateManyArgs = {
     /**
-     * The data used to update TempREAgentModels.
+     * The data used to update ExpertSubCategoryModels.
      */
-    data: XOR<TempREAgentModelUpdateManyMutationInput, TempREAgentModelUncheckedUpdateManyInput>
+    data: XOR<ExpertSubCategoryModelUpdateManyMutationInput, ExpertSubCategoryModelUncheckedUpdateManyInput>
     /**
-     * Filter which TempREAgentModels to update
+     * Filter which ExpertSubCategoryModels to update
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
   }
 
 
   /**
-   * TempREAgentModel upsert
+   * ExpertSubCategoryModel upsert
    */
-  export type TempREAgentModelUpsertArgs = {
+  export type ExpertSubCategoryModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * The filter to search for the TempREAgentModel to update in case it exists.
+     * The filter to search for the ExpertSubCategoryModel to update in case it exists.
      */
-    where: TempREAgentModelWhereUniqueInput
+    where: ExpertSubCategoryModelWhereUniqueInput
     /**
-     * In case the TempREAgentModel found by the `where` argument doesn't exist, create a new TempREAgentModel with this data.
+     * In case the ExpertSubCategoryModel found by the `where` argument doesn't exist, create a new ExpertSubCategoryModel with this data.
      */
-    create: XOR<TempREAgentModelCreateInput, TempREAgentModelUncheckedCreateInput>
+    create: XOR<ExpertSubCategoryModelCreateInput, ExpertSubCategoryModelUncheckedCreateInput>
     /**
-     * In case the TempREAgentModel was found with the provided `where` argument, update it with this data.
+     * In case the ExpertSubCategoryModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<TempREAgentModelUpdateInput, TempREAgentModelUncheckedUpdateInput>
+    update: XOR<ExpertSubCategoryModelUpdateInput, ExpertSubCategoryModelUncheckedUpdateInput>
   }
 
 
   /**
-   * TempREAgentModel delete
+   * ExpertSubCategoryModel delete
    */
-  export type TempREAgentModelDeleteArgs = {
+  export type ExpertSubCategoryModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
     /**
-     * Filter which TempREAgentModel to delete.
+     * Filter which ExpertSubCategoryModel to delete.
      */
-    where: TempREAgentModelWhereUniqueInput
+    where: ExpertSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempREAgentModel deleteMany
+   * ExpertSubCategoryModel deleteMany
    */
-  export type TempREAgentModelDeleteManyArgs = {
+  export type ExpertSubCategoryModelDeleteManyArgs = {
     /**
-     * Filter which TempREAgentModels to delete
+     * Filter which ExpertSubCategoryModels to delete
      */
-    where?: TempREAgentModelWhereInput
+    where?: ExpertSubCategoryModelWhereInput
   }
 
 
   /**
-   * TempREAgentModel without action
+   * ExpertSubCategoryModel.expertises
    */
-  export type TempREAgentModelArgs = {
+  export type ExpertSubCategoryModel$expertisesArgs = {
     /**
-     * Select specific fields to fetch from the TempREAgentModel
+     * Select specific fields to fetch from the UserExpertiseModel
      */
-    select?: TempREAgentModelSelect | null
+    select?: UserExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempREAgentModelInclude | null
+    include?: UserExpertiseModelInclude | null
+    where?: UserExpertiseModelWhereInput
+    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    cursor?: UserExpertiseModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ExpertSubCategoryModel without action
+   */
+  export type ExpertSubCategoryModelArgs = {
+    /**
+     * Select specific fields to fetch from the ExpertSubCategoryModel
+     */
+    select?: ExpertSubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ExpertSubCategoryModelInclude | null
   }
 
 
 
   /**
-   * Model TempHSCompanyModel
+   * Model ExpertSuperCategoryModel
    */
 
 
-  export type AggregateTempHSCompanyModel = {
-    _count: TempHSCompanyModelCountAggregateOutputType | null
-    _min: TempHSCompanyModelMinAggregateOutputType | null
-    _max: TempHSCompanyModelMaxAggregateOutputType | null
+  export type AggregateExpertSuperCategoryModel = {
+    _count: ExpertSuperCategoryModelCountAggregateOutputType | null
+    _min: ExpertSuperCategoryModelMinAggregateOutputType | null
+    _max: ExpertSuperCategoryModelMaxAggregateOutputType | null
   }
 
-  export type TempHSCompanyModelMinAggregateOutputType = {
+  export type ExpertSuperCategoryModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    email: string | null
-    email_verified: boolean | null
-    phone: string | null
-    phone_verified: boolean | null
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    business_num: string | null
+    business_type: ExpertBusinessType | null
   }
 
-  export type TempHSCompanyModelMaxAggregateOutputType = {
+  export type ExpertSuperCategoryModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
     id: string | null
     name: string | null
-    email: string | null
-    email_verified: boolean | null
-    phone: string | null
-    phone_verified: boolean | null
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    business_num: string | null
+    business_type: ExpertBusinessType | null
   }
 
-  export type TempHSCompanyModelCountAggregateOutputType = {
+  export type ExpertSuperCategoryModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
     id: number
     name: number
-    email: number
-    email_verified: number
-    phone: number
-    phone_verified: number
-    profile_image_url: number
-    address_first: number
-    address_second: number
-    introduction_title: number
-    introduction_content: number
-    business_num: number
+    business_type: number
     _all: number
   }
 
 
-  export type TempHSCompanyModelMinAggregateInputType = {
+  export type ExpertSuperCategoryModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    business_num?: true
+    business_type?: true
   }
 
-  export type TempHSCompanyModelMaxAggregateInputType = {
+  export type ExpertSuperCategoryModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    business_num?: true
+    business_type?: true
   }
 
-  export type TempHSCompanyModelCountAggregateInputType = {
+  export type ExpertSuperCategoryModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
     id?: true
     name?: true
-    email?: true
-    email_verified?: true
-    phone?: true
-    phone_verified?: true
-    profile_image_url?: true
-    address_first?: true
-    address_second?: true
-    introduction_title?: true
-    introduction_content?: true
-    business_num?: true
+    business_type?: true
     _all?: true
   }
 
-  export type TempHSCompanyModelAggregateArgs = {
+  export type ExpertSuperCategoryModelAggregateArgs = {
     /**
-     * Filter which TempHSCompanyModel to aggregate.
+     * Filter which ExpertSuperCategoryModel to aggregate.
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempHSCompanyModels to fetch.
+     * Determine the order of ExpertSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempHSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: TempHSCompanyModelWhereUniqueInput
+    cursor?: ExpertSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempHSCompanyModels from the position of the cursor.
+     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempHSCompanyModels.
+     * Skip the first `n` ExpertSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned TempHSCompanyModels
+     * Count returned ExpertSuperCategoryModels
     **/
-    _count?: true | TempHSCompanyModelCountAggregateInputType
+    _count?: true | ExpertSuperCategoryModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: TempHSCompanyModelMinAggregateInputType
+    _min?: ExpertSuperCategoryModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: TempHSCompanyModelMaxAggregateInputType
+    _max?: ExpertSuperCategoryModelMaxAggregateInputType
   }
 
-  export type GetTempHSCompanyModelAggregateType<T extends TempHSCompanyModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateTempHSCompanyModel]: P extends '_count' | 'count'
+  export type GetExpertSuperCategoryModelAggregateType<T extends ExpertSuperCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateExpertSuperCategoryModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateTempHSCompanyModel[P]>
-      : GetScalarType<T[P], AggregateTempHSCompanyModel[P]>
+        : GetScalarType<T[P], AggregateExpertSuperCategoryModel[P]>
+      : GetScalarType<T[P], AggregateExpertSuperCategoryModel[P]>
   }
 
 
 
 
-  export type TempHSCompanyModelGroupByArgs = {
-    where?: TempHSCompanyModelWhereInput
-    orderBy?: Enumerable<TempHSCompanyModelOrderByWithAggregationInput>
-    by: TempHSCompanyModelScalarFieldEnum[]
-    having?: TempHSCompanyModelScalarWhereWithAggregatesInput
+  export type ExpertSuperCategoryModelGroupByArgs = {
+    where?: ExpertSuperCategoryModelWhereInput
+    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithAggregationInput>
+    by: ExpertSuperCategoryModelScalarFieldEnum[]
+    having?: ExpertSuperCategoryModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: TempHSCompanyModelCountAggregateInputType | true
-    _min?: TempHSCompanyModelMinAggregateInputType
-    _max?: TempHSCompanyModelMaxAggregateInputType
+    _count?: ExpertSuperCategoryModelCountAggregateInputType | true
+    _min?: ExpertSuperCategoryModelMinAggregateInputType
+    _max?: ExpertSuperCategoryModelMaxAggregateInputType
   }
 
 
-  export type TempHSCompanyModelGroupByOutputType = {
+  export type ExpertSuperCategoryModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
     id: string
-    name: string | null
-    email: string | null
-    email_verified: boolean
-    phone: string | null
-    phone_verified: boolean
-    profile_image_url: string | null
-    address_first: string | null
-    address_second: string | null
-    introduction_title: string | null
-    introduction_content: string | null
-    business_num: string | null
-    _count: TempHSCompanyModelCountAggregateOutputType | null
-    _min: TempHSCompanyModelMinAggregateOutputType | null
-    _max: TempHSCompanyModelMaxAggregateOutputType | null
+    name: string
+    business_type: ExpertBusinessType
+    _count: ExpertSuperCategoryModelCountAggregateOutputType | null
+    _min: ExpertSuperCategoryModelMinAggregateOutputType | null
+    _max: ExpertSuperCategoryModelMaxAggregateOutputType | null
   }
 
-  type GetTempHSCompanyModelGroupByPayload<T extends TempHSCompanyModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetExpertSuperCategoryModelGroupByPayload<T extends ExpertSuperCategoryModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<TempHSCompanyModelGroupByOutputType, T['by']> &
+      PickArray<ExpertSuperCategoryModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof TempHSCompanyModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ExpertSuperCategoryModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], TempHSCompanyModelGroupByOutputType[P]>
-            : GetScalarType<T[P], TempHSCompanyModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ExpertSuperCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ExpertSuperCategoryModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type TempHSCompanyModelSelect = {
+  export type ExpertSuperCategoryModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
     id?: boolean
     name?: boolean
-    email?: boolean
-    email_verified?: boolean
-    phone?: boolean
-    phone_verified?: boolean
-    profile_image_url?: boolean
-    address_first?: boolean
-    address_second?: boolean
-    introduction_title?: boolean
-    introduction_content?: boolean
-    business_num?: boolean
-    oauth_accessor?: boolean | AccessorModelArgs
+    business_type?: boolean
+    subs?: boolean | ExpertSuperCategoryModel$subsArgs
+    _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
   }
 
 
-  export type TempHSCompanyModelInclude = {
-    oauth_accessor?: boolean | AccessorModelArgs
+  export type ExpertSuperCategoryModelInclude = {
+    subs?: boolean | ExpertSuperCategoryModel$subsArgs
+    _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
   }
 
-  export type TempHSCompanyModelGetPayload<S extends boolean | null | undefined | TempHSCompanyModelArgs> =
+  export type ExpertSuperCategoryModelGetPayload<S extends boolean | null | undefined | ExpertSuperCategoryModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? TempHSCompanyModel :
+    S extends true ? ExpertSuperCategoryModel :
     S extends undefined ? never :
-    S extends { include: any } & (TempHSCompanyModelArgs | TempHSCompanyModelFindManyArgs)
-    ? TempHSCompanyModel  & {
+    S extends { include: any } & (ExpertSuperCategoryModelArgs | ExpertSuperCategoryModelFindManyArgs)
+    ? ExpertSuperCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'oauth_accessor' ? AccessorModelGetPayload<S['include'][P]> :  never
+        P extends 'subs' ? Array < ExpertSubCategoryModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (TempHSCompanyModelArgs | TempHSCompanyModelFindManyArgs)
+    : S extends { select: any } & (ExpertSuperCategoryModelArgs | ExpertSuperCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'oauth_accessor' ? AccessorModelGetPayload<S['select'][P]> :  P extends keyof TempHSCompanyModel ? TempHSCompanyModel[P] : never
+        P extends 'subs' ? Array < ExpertSubCategoryModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSuperCategoryModel ? ExpertSuperCategoryModel[P] : never
   } 
-      : TempHSCompanyModel
+      : ExpertSuperCategoryModel
 
 
-  type TempHSCompanyModelCountArgs = 
-    Omit<TempHSCompanyModelFindManyArgs, 'select' | 'include'> & {
-      select?: TempHSCompanyModelCountAggregateInputType | true
+  type ExpertSuperCategoryModelCountArgs = 
+    Omit<ExpertSuperCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: ExpertSuperCategoryModelCountAggregateInputType | true
     }
 
-  export interface TempHSCompanyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ExpertSuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one TempHSCompanyModel that matches the filter.
-     * @param {TempHSCompanyModelFindUniqueArgs} args - Arguments to find a TempHSCompanyModel
+     * Find zero or one ExpertSuperCategoryModel that matches the filter.
+     * @param {ExpertSuperCategoryModelFindUniqueArgs} args - Arguments to find a ExpertSuperCategoryModel
      * @example
-     * // Get one TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.findUnique({
+     * // Get one ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends TempHSCompanyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, TempHSCompanyModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'TempHSCompanyModel'> extends True ? Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>> : Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T> | null, null>
+    findUnique<T extends ExpertSuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ExpertSuperCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ExpertSuperCategoryModel'> extends True ? Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>> : Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find one TempHSCompanyModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ExpertSuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {TempHSCompanyModelFindUniqueOrThrowArgs} args - Arguments to find a TempHSCompanyModel
+     * @param {ExpertSuperCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ExpertSuperCategoryModel
      * @example
-     * // Get one TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.findUniqueOrThrow({
+     * // Get one ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends TempHSCompanyModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, TempHSCompanyModelFindUniqueOrThrowArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    findUniqueOrThrow<T extends ExpertSuperCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Find the first TempHSCompanyModel that matches the filter.
+     * Find the first ExpertSuperCategoryModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelFindFirstArgs} args - Arguments to find a TempHSCompanyModel
+     * @param {ExpertSuperCategoryModelFindFirstArgs} args - Arguments to find a ExpertSuperCategoryModel
      * @example
-     * // Get one TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.findFirst({
+     * // Get one ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends TempHSCompanyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, TempHSCompanyModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'TempHSCompanyModel'> extends True ? Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>> : Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T> | null, null>
+    findFirst<T extends ExpertSuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ExpertSuperCategoryModel'> extends True ? Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>> : Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find the first TempHSCompanyModel that matches the filter or
+     * Find the first ExpertSuperCategoryModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelFindFirstOrThrowArgs} args - Arguments to find a TempHSCompanyModel
+     * @param {ExpertSuperCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ExpertSuperCategoryModel
      * @example
-     * // Get one TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.findFirstOrThrow({
+     * // Get one ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends TempHSCompanyModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, TempHSCompanyModelFindFirstOrThrowArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    findFirstOrThrow<T extends ExpertSuperCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Find zero or more TempHSCompanyModels that matches the filter.
+     * Find zero or more ExpertSuperCategoryModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ExpertSuperCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all TempHSCompanyModels
-     * const tempHSCompanyModels = await prisma.tempHSCompanyModel.findMany()
+     * // Get all ExpertSuperCategoryModels
+     * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany()
      * 
-     * // Get first 10 TempHSCompanyModels
-     * const tempHSCompanyModels = await prisma.tempHSCompanyModel.findMany({ take: 10 })
+     * // Get first 10 ExpertSuperCategoryModels
+     * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const tempHSCompanyModelWithIdOnly = await prisma.tempHSCompanyModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const expertSuperCategoryModelWithCreated_atOnly = await prisma.expertSuperCategoryModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends TempHSCompanyModelFindManyArgs>(
-      args?: SelectSubset<T, TempHSCompanyModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<TempHSCompanyModelGetPayload<T>>>
+    findMany<T extends ExpertSuperCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ExpertSuperCategoryModelGetPayload<T>>>
 
     /**
-     * Create a TempHSCompanyModel.
-     * @param {TempHSCompanyModelCreateArgs} args - Arguments to create a TempHSCompanyModel.
+     * Create a ExpertSuperCategoryModel.
+     * @param {ExpertSuperCategoryModelCreateArgs} args - Arguments to create a ExpertSuperCategoryModel.
      * @example
-     * // Create one TempHSCompanyModel
-     * const TempHSCompanyModel = await prisma.tempHSCompanyModel.create({
+     * // Create one ExpertSuperCategoryModel
+     * const ExpertSuperCategoryModel = await prisma.expertSuperCategoryModel.create({
      *   data: {
-     *     // ... data to create a TempHSCompanyModel
+     *     // ... data to create a ExpertSuperCategoryModel
      *   }
      * })
      * 
     **/
-    create<T extends TempHSCompanyModelCreateArgs>(
-      args: SelectSubset<T, TempHSCompanyModelCreateArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    create<T extends ExpertSuperCategoryModelCreateArgs>(
+      args: SelectSubset<T, ExpertSuperCategoryModelCreateArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Create many TempHSCompanyModels.
-     *     @param {TempHSCompanyModelCreateManyArgs} args - Arguments to create many TempHSCompanyModels.
+     * Create many ExpertSuperCategoryModels.
+     *     @param {ExpertSuperCategoryModelCreateManyArgs} args - Arguments to create many ExpertSuperCategoryModels.
      *     @example
-     *     // Create many TempHSCompanyModels
-     *     const tempHSCompanyModel = await prisma.tempHSCompanyModel.createMany({
+     *     // Create many ExpertSuperCategoryModels
+     *     const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends TempHSCompanyModelCreateManyArgs>(
-      args?: SelectSubset<T, TempHSCompanyModelCreateManyArgs>
+    createMany<T extends ExpertSuperCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a TempHSCompanyModel.
-     * @param {TempHSCompanyModelDeleteArgs} args - Arguments to delete one TempHSCompanyModel.
+     * Delete a ExpertSuperCategoryModel.
+     * @param {ExpertSuperCategoryModelDeleteArgs} args - Arguments to delete one ExpertSuperCategoryModel.
      * @example
-     * // Delete one TempHSCompanyModel
-     * const TempHSCompanyModel = await prisma.tempHSCompanyModel.delete({
+     * // Delete one ExpertSuperCategoryModel
+     * const ExpertSuperCategoryModel = await prisma.expertSuperCategoryModel.delete({
      *   where: {
-     *     // ... filter to delete one TempHSCompanyModel
+     *     // ... filter to delete one ExpertSuperCategoryModel
      *   }
      * })
      * 
     **/
-    delete<T extends TempHSCompanyModelDeleteArgs>(
-      args: SelectSubset<T, TempHSCompanyModelDeleteArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    delete<T extends ExpertSuperCategoryModelDeleteArgs>(
+      args: SelectSubset<T, ExpertSuperCategoryModelDeleteArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Update one TempHSCompanyModel.
-     * @param {TempHSCompanyModelUpdateArgs} args - Arguments to update one TempHSCompanyModel.
+     * Update one ExpertSuperCategoryModel.
+     * @param {ExpertSuperCategoryModelUpdateArgs} args - Arguments to update one ExpertSuperCategoryModel.
      * @example
-     * // Update one TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.update({
+     * // Update one ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9226,34 +11557,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends TempHSCompanyModelUpdateArgs>(
-      args: SelectSubset<T, TempHSCompanyModelUpdateArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    update<T extends ExpertSuperCategoryModelUpdateArgs>(
+      args: SelectSubset<T, ExpertSuperCategoryModelUpdateArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Delete zero or more TempHSCompanyModels.
-     * @param {TempHSCompanyModelDeleteManyArgs} args - Arguments to filter TempHSCompanyModels to delete.
+     * Delete zero or more ExpertSuperCategoryModels.
+     * @param {ExpertSuperCategoryModelDeleteManyArgs} args - Arguments to filter ExpertSuperCategoryModels to delete.
      * @example
-     * // Delete a few TempHSCompanyModels
-     * const { count } = await prisma.tempHSCompanyModel.deleteMany({
+     * // Delete a few ExpertSuperCategoryModels
+     * const { count } = await prisma.expertSuperCategoryModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends TempHSCompanyModelDeleteManyArgs>(
-      args?: SelectSubset<T, TempHSCompanyModelDeleteManyArgs>
+    deleteMany<T extends ExpertSuperCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, ExpertSuperCategoryModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TempHSCompanyModels.
+     * Update zero or more ExpertSuperCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ExpertSuperCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many TempHSCompanyModels
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.updateMany({
+     * // Update many ExpertSuperCategoryModels
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9263,59 +11594,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends TempHSCompanyModelUpdateManyArgs>(
-      args: SelectSubset<T, TempHSCompanyModelUpdateManyArgs>
+    updateMany<T extends ExpertSuperCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, ExpertSuperCategoryModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one TempHSCompanyModel.
-     * @param {TempHSCompanyModelUpsertArgs} args - Arguments to update or create a TempHSCompanyModel.
+     * Create or update one ExpertSuperCategoryModel.
+     * @param {ExpertSuperCategoryModelUpsertArgs} args - Arguments to update or create a ExpertSuperCategoryModel.
      * @example
-     * // Update or create a TempHSCompanyModel
-     * const tempHSCompanyModel = await prisma.tempHSCompanyModel.upsert({
+     * // Update or create a ExpertSuperCategoryModel
+     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.upsert({
      *   create: {
-     *     // ... data to create a TempHSCompanyModel
+     *     // ... data to create a ExpertSuperCategoryModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the TempHSCompanyModel we want to update
+     *     // ... the filter for the ExpertSuperCategoryModel we want to update
      *   }
      * })
     **/
-    upsert<T extends TempHSCompanyModelUpsertArgs>(
-      args: SelectSubset<T, TempHSCompanyModelUpsertArgs>
-    ): Prisma__TempHSCompanyModelClient<TempHSCompanyModelGetPayload<T>>
+    upsert<T extends ExpertSuperCategoryModelUpsertArgs>(
+      args: SelectSubset<T, ExpertSuperCategoryModelUpsertArgs>
+    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
 
     /**
-     * Count the number of TempHSCompanyModels.
+     * Count the number of ExpertSuperCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelCountArgs} args - Arguments to filter TempHSCompanyModels to count.
+     * @param {ExpertSuperCategoryModelCountArgs} args - Arguments to filter ExpertSuperCategoryModels to count.
      * @example
-     * // Count the number of TempHSCompanyModels
-     * const count = await prisma.tempHSCompanyModel.count({
+     * // Count the number of ExpertSuperCategoryModels
+     * const count = await prisma.expertSuperCategoryModel.count({
      *   where: {
-     *     // ... the filter for the TempHSCompanyModels we want to count
+     *     // ... the filter for the ExpertSuperCategoryModels we want to count
      *   }
      * })
     **/
-    count<T extends TempHSCompanyModelCountArgs>(
-      args?: Subset<T, TempHSCompanyModelCountArgs>,
+    count<T extends ExpertSuperCategoryModelCountArgs>(
+      args?: Subset<T, ExpertSuperCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], TempHSCompanyModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ExpertSuperCategoryModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a TempHSCompanyModel.
+     * Allows you to perform aggregations operations on a ExpertSuperCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ExpertSuperCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9335,13 +11666,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends TempHSCompanyModelAggregateArgs>(args: Subset<T, TempHSCompanyModelAggregateArgs>): Prisma.PrismaPromise<GetTempHSCompanyModelAggregateType<T>>
+    aggregate<T extends ExpertSuperCategoryModelAggregateArgs>(args: Subset<T, ExpertSuperCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetExpertSuperCategoryModelAggregateType<T>>
 
     /**
-     * Group by TempHSCompanyModel.
+     * Group by ExpertSuperCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TempHSCompanyModelGroupByArgs} args - Group by arguments.
+     * @param {ExpertSuperCategoryModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9356,14 +11687,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends TempHSCompanyModelGroupByArgs,
+      T extends ExpertSuperCategoryModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TempHSCompanyModelGroupByArgs['orderBy'] }
-        : { orderBy?: TempHSCompanyModelGroupByArgs['orderBy'] },
+        ? { orderBy: ExpertSuperCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: ExpertSuperCategoryModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9412,17 +11743,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, TempHSCompanyModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTempHSCompanyModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ExpertSuperCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertSuperCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for TempHSCompanyModel.
+   * The delegate class that acts as a "Promise-like" for ExpertSuperCategoryModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__TempHSCompanyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ExpertSuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -9437,7 +11768,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    oauth_accessor<T extends AccessorModelArgs= {}>(args?: Subset<T, AccessorModelArgs>): Prisma__AccessorModelClient<AccessorModelGetPayload<T> | Null>;
+    subs<T extends ExpertSuperCategoryModel$subsArgs= {}>(args?: Subset<T, ExpertSuperCategoryModel$subsArgs>): Prisma.PrismaPromise<Array<ExpertSubCategoryModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -9467,27 +11798,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * TempHSCompanyModel base type for findUnique actions
+   * ExpertSuperCategoryModel base type for findUnique actions
    */
-  export type TempHSCompanyModelFindUniqueArgsBase = {
+  export type ExpertSuperCategoryModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter, which TempHSCompanyModel to fetch.
+     * Filter, which ExpertSuperCategoryModel to fetch.
      */
-    where: TempHSCompanyModelWhereUniqueInput
+    where: ExpertSuperCategoryModelWhereUniqueInput
   }
 
   /**
-   * TempHSCompanyModel findUnique
+   * ExpertSuperCategoryModel findUnique
    */
-  export interface TempHSCompanyModelFindUniqueArgs extends TempHSCompanyModelFindUniqueArgsBase {
+  export interface ExpertSuperCategoryModelFindUniqueArgs extends ExpertSuperCategoryModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -9497,76 +11828,76 @@ export namespace Prisma {
       
 
   /**
-   * TempHSCompanyModel findUniqueOrThrow
+   * ExpertSuperCategoryModel findUniqueOrThrow
    */
-  export type TempHSCompanyModelFindUniqueOrThrowArgs = {
+  export type ExpertSuperCategoryModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter, which TempHSCompanyModel to fetch.
+     * Filter, which ExpertSuperCategoryModel to fetch.
      */
-    where: TempHSCompanyModelWhereUniqueInput
+    where: ExpertSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempHSCompanyModel base type for findFirst actions
+   * ExpertSuperCategoryModel base type for findFirst actions
    */
-  export type TempHSCompanyModelFindFirstArgsBase = {
+  export type ExpertSuperCategoryModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter, which TempHSCompanyModel to fetch.
+     * Filter, which ExpertSuperCategoryModel to fetch.
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempHSCompanyModels to fetch.
+     * Determine the order of ExpertSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempHSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TempHSCompanyModels.
+     * Sets the position for searching for ExpertSuperCategoryModels.
      */
-    cursor?: TempHSCompanyModelWhereUniqueInput
+    cursor?: ExpertSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempHSCompanyModels from the position of the cursor.
+     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempHSCompanyModels.
+     * Skip the first `n` ExpertSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TempHSCompanyModels.
+     * Filter by unique combinations of ExpertSuperCategoryModels.
      */
-    distinct?: Enumerable<TempHSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
   }
 
   /**
-   * TempHSCompanyModel findFirst
+   * ExpertSuperCategoryModel findFirst
    */
-  export interface TempHSCompanyModelFindFirstArgs extends TempHSCompanyModelFindFirstArgsBase {
+  export interface ExpertSuperCategoryModelFindFirstArgs extends ExpertSuperCategoryModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -9576,236 +11907,2190 @@ export namespace Prisma {
       
 
   /**
-   * TempHSCompanyModel findFirstOrThrow
+   * ExpertSuperCategoryModel findFirstOrThrow
    */
-  export type TempHSCompanyModelFindFirstOrThrowArgs = {
+  export type ExpertSuperCategoryModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter, which TempHSCompanyModel to fetch.
+     * Filter, which ExpertSuperCategoryModel to fetch.
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempHSCompanyModels to fetch.
+     * Determine the order of ExpertSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempHSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for TempHSCompanyModels.
+     * Sets the position for searching for ExpertSuperCategoryModels.
      */
-    cursor?: TempHSCompanyModelWhereUniqueInput
+    cursor?: ExpertSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempHSCompanyModels from the position of the cursor.
+     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempHSCompanyModels.
+     * Skip the first `n` ExpertSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of TempHSCompanyModels.
+     * Filter by unique combinations of ExpertSuperCategoryModels.
      */
-    distinct?: Enumerable<TempHSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * TempHSCompanyModel findMany
+   * ExpertSuperCategoryModel findMany
    */
-  export type TempHSCompanyModelFindManyArgs = {
+  export type ExpertSuperCategoryModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter, which TempHSCompanyModels to fetch.
+     * Filter, which ExpertSuperCategoryModels to fetch.
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of TempHSCompanyModels to fetch.
+     * Determine the order of ExpertSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<TempHSCompanyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing TempHSCompanyModels.
+     * Sets the position for listing ExpertSuperCategoryModels.
      */
-    cursor?: TempHSCompanyModelWhereUniqueInput
+    cursor?: ExpertSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` TempHSCompanyModels from the position of the cursor.
+     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` TempHSCompanyModels.
+     * Skip the first `n` ExpertSuperCategoryModels.
      */
     skip?: number
-    distinct?: Enumerable<TempHSCompanyModelScalarFieldEnum>
+    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * TempHSCompanyModel create
+   * ExpertSuperCategoryModel create
    */
-  export type TempHSCompanyModelCreateArgs = {
+  export type ExpertSuperCategoryModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * The data needed to create a TempHSCompanyModel.
+     * The data needed to create a ExpertSuperCategoryModel.
      */
-    data: XOR<TempHSCompanyModelCreateInput, TempHSCompanyModelUncheckedCreateInput>
+    data: XOR<ExpertSuperCategoryModelCreateInput, ExpertSuperCategoryModelUncheckedCreateInput>
   }
 
 
   /**
-   * TempHSCompanyModel createMany
+   * ExpertSuperCategoryModel createMany
    */
-  export type TempHSCompanyModelCreateManyArgs = {
+  export type ExpertSuperCategoryModelCreateManyArgs = {
     /**
-     * The data used to create many TempHSCompanyModels.
+     * The data used to create many ExpertSuperCategoryModels.
      */
-    data: Enumerable<TempHSCompanyModelCreateManyInput>
+    data: Enumerable<ExpertSuperCategoryModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * TempHSCompanyModel update
+   * ExpertSuperCategoryModel update
    */
-  export type TempHSCompanyModelUpdateArgs = {
+  export type ExpertSuperCategoryModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * The data needed to update a TempHSCompanyModel.
+     * The data needed to update a ExpertSuperCategoryModel.
      */
-    data: XOR<TempHSCompanyModelUpdateInput, TempHSCompanyModelUncheckedUpdateInput>
+    data: XOR<ExpertSuperCategoryModelUpdateInput, ExpertSuperCategoryModelUncheckedUpdateInput>
     /**
-     * Choose, which TempHSCompanyModel to update.
+     * Choose, which ExpertSuperCategoryModel to update.
      */
-    where: TempHSCompanyModelWhereUniqueInput
+    where: ExpertSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempHSCompanyModel updateMany
+   * ExpertSuperCategoryModel updateMany
    */
-  export type TempHSCompanyModelUpdateManyArgs = {
+  export type ExpertSuperCategoryModelUpdateManyArgs = {
     /**
-     * The data used to update TempHSCompanyModels.
+     * The data used to update ExpertSuperCategoryModels.
      */
-    data: XOR<TempHSCompanyModelUpdateManyMutationInput, TempHSCompanyModelUncheckedUpdateManyInput>
+    data: XOR<ExpertSuperCategoryModelUpdateManyMutationInput, ExpertSuperCategoryModelUncheckedUpdateManyInput>
     /**
-     * Filter which TempHSCompanyModels to update
+     * Filter which ExpertSuperCategoryModels to update
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
   }
 
 
   /**
-   * TempHSCompanyModel upsert
+   * ExpertSuperCategoryModel upsert
    */
-  export type TempHSCompanyModelUpsertArgs = {
+  export type ExpertSuperCategoryModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * The filter to search for the TempHSCompanyModel to update in case it exists.
+     * The filter to search for the ExpertSuperCategoryModel to update in case it exists.
      */
-    where: TempHSCompanyModelWhereUniqueInput
+    where: ExpertSuperCategoryModelWhereUniqueInput
     /**
-     * In case the TempHSCompanyModel found by the `where` argument doesn't exist, create a new TempHSCompanyModel with this data.
+     * In case the ExpertSuperCategoryModel found by the `where` argument doesn't exist, create a new ExpertSuperCategoryModel with this data.
      */
-    create: XOR<TempHSCompanyModelCreateInput, TempHSCompanyModelUncheckedCreateInput>
+    create: XOR<ExpertSuperCategoryModelCreateInput, ExpertSuperCategoryModelUncheckedCreateInput>
     /**
-     * In case the TempHSCompanyModel was found with the provided `where` argument, update it with this data.
+     * In case the ExpertSuperCategoryModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<TempHSCompanyModelUpdateInput, TempHSCompanyModelUncheckedUpdateInput>
+    update: XOR<ExpertSuperCategoryModelUpdateInput, ExpertSuperCategoryModelUncheckedUpdateInput>
   }
 
 
   /**
-   * TempHSCompanyModel delete
+   * ExpertSuperCategoryModel delete
    */
-  export type TempHSCompanyModelDeleteArgs = {
+  export type ExpertSuperCategoryModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSuperCategoryModelInclude | null
     /**
-     * Filter which TempHSCompanyModel to delete.
+     * Filter which ExpertSuperCategoryModel to delete.
      */
-    where: TempHSCompanyModelWhereUniqueInput
+    where: ExpertSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * TempHSCompanyModel deleteMany
+   * ExpertSuperCategoryModel deleteMany
    */
-  export type TempHSCompanyModelDeleteManyArgs = {
+  export type ExpertSuperCategoryModelDeleteManyArgs = {
     /**
-     * Filter which TempHSCompanyModels to delete
+     * Filter which ExpertSuperCategoryModels to delete
      */
-    where?: TempHSCompanyModelWhereInput
+    where?: ExpertSuperCategoryModelWhereInput
   }
 
 
   /**
-   * TempHSCompanyModel without action
+   * ExpertSuperCategoryModel.subs
    */
-  export type TempHSCompanyModelArgs = {
+  export type ExpertSuperCategoryModel$subsArgs = {
     /**
-     * Select specific fields to fetch from the TempHSCompanyModel
+     * Select specific fields to fetch from the ExpertSubCategoryModel
      */
-    select?: TempHSCompanyModelSelect | null
+    select?: ExpertSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: TempHSCompanyModelInclude | null
+    include?: ExpertSubCategoryModelInclude | null
+    where?: ExpertSubCategoryModelWhereInput
+    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
+    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ExpertSuperCategoryModel without action
+   */
+  export type ExpertSuperCategoryModelArgs = {
+    /**
+     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     */
+    select?: ExpertSuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ExpertSuperCategoryModelInclude | null
+  }
+
+
+
+  /**
+   * Model AgreementModel
+   */
+
+
+  export type AggregateAgreementModel = {
+    _count: AgreementModelCountAggregateOutputType | null
+    _min: AgreementModelMinAggregateOutputType | null
+    _max: AgreementModelMaxAggregateOutputType | null
+  }
+
+  export type AgreementModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    title: string | null
+    content: string | null
+    user_type: AgreementUserType | null
+  }
+
+  export type AgreementModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    title: string | null
+    content: string | null
+    user_type: AgreementUserType | null
+  }
+
+  export type AgreementModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    id: number
+    title: number
+    content: number
+    user_type: number
+    _all: number
+  }
+
+
+  export type AgreementModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    title?: true
+    content?: true
+    user_type?: true
+  }
+
+  export type AgreementModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    title?: true
+    content?: true
+    user_type?: true
+  }
+
+  export type AgreementModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    title?: true
+    content?: true
+    user_type?: true
+    _all?: true
+  }
+
+  export type AgreementModelAggregateArgs = {
+    /**
+     * Filter which AgreementModel to aggregate.
+     */
+    where?: AgreementModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgreementModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgreementModels
+    **/
+    _count?: true | AgreementModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgreementModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgreementModelMaxAggregateInputType
+  }
+
+  export type GetAgreementModelAggregateType<T extends AgreementModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgreementModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgreementModel[P]>
+      : GetScalarType<T[P], AggregateAgreementModel[P]>
+  }
+
+
+
+
+  export type AgreementModelGroupByArgs = {
+    where?: AgreementModelWhereInput
+    orderBy?: Enumerable<AgreementModelOrderByWithAggregationInput>
+    by: AgreementModelScalarFieldEnum[]
+    having?: AgreementModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgreementModelCountAggregateInputType | true
+    _min?: AgreementModelMinAggregateInputType
+    _max?: AgreementModelMaxAggregateInputType
+  }
+
+
+  export type AgreementModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+    _count: AgreementModelCountAggregateOutputType | null
+    _min: AgreementModelMinAggregateOutputType | null
+    _max: AgreementModelMaxAggregateOutputType | null
+  }
+
+  type GetAgreementModelGroupByPayload<T extends AgreementModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AgreementModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgreementModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgreementModelGroupByOutputType[P]>
+            : GetScalarType<T[P], AgreementModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgreementModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    user_type?: boolean
+    acceptances?: boolean | AgreementModel$acceptancesArgs
+    _count?: boolean | AgreementModelCountOutputTypeArgs
+  }
+
+
+  export type AgreementModelInclude = {
+    acceptances?: boolean | AgreementModel$acceptancesArgs
+    _count?: boolean | AgreementModelCountOutputTypeArgs
+  }
+
+  export type AgreementModelGetPayload<S extends boolean | null | undefined | AgreementModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AgreementModel :
+    S extends undefined ? never :
+    S extends { include: any } & (AgreementModelArgs | AgreementModelFindManyArgs)
+    ? AgreementModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? AgreementModelCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AgreementModelArgs | AgreementModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? AgreementModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AgreementModel ? AgreementModel[P] : never
+  } 
+      : AgreementModel
+
+
+  type AgreementModelCountArgs = 
+    Omit<AgreementModelFindManyArgs, 'select' | 'include'> & {
+      select?: AgreementModelCountAggregateInputType | true
+    }
+
+  export interface AgreementModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one AgreementModel that matches the filter.
+     * @param {AgreementModelFindUniqueArgs} args - Arguments to find a AgreementModel
+     * @example
+     * // Get one AgreementModel
+     * const agreementModel = await prisma.agreementModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AgreementModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AgreementModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<AgreementModelGetPayload<T>> : Prisma__AgreementModelClient<AgreementModelGetPayload<T> | null, null>
+
+    /**
+     * Find one AgreementModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AgreementModelFindUniqueOrThrowArgs} args - Arguments to find a AgreementModel
+     * @example
+     * // Get one AgreementModel
+     * const agreementModel = await prisma.agreementModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AgreementModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AgreementModelFindUniqueOrThrowArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Find the first AgreementModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelFindFirstArgs} args - Arguments to find a AgreementModel
+     * @example
+     * // Get one AgreementModel
+     * const agreementModel = await prisma.agreementModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AgreementModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AgreementModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<AgreementModelGetPayload<T>> : Prisma__AgreementModelClient<AgreementModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first AgreementModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelFindFirstOrThrowArgs} args - Arguments to find a AgreementModel
+     * @example
+     * // Get one AgreementModel
+     * const agreementModel = await prisma.agreementModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AgreementModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AgreementModelFindFirstOrThrowArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Find zero or more AgreementModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgreementModels
+     * const agreementModels = await prisma.agreementModel.findMany()
+     * 
+     * // Get first 10 AgreementModels
+     * const agreementModels = await prisma.agreementModel.findMany({ take: 10 })
+     * 
+     * // Only select the `created_at`
+     * const agreementModelWithCreated_atOnly = await prisma.agreementModel.findMany({ select: { created_at: true } })
+     * 
+    **/
+    findMany<T extends AgreementModelFindManyArgs>(
+      args?: SelectSubset<T, AgreementModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AgreementModelGetPayload<T>>>
+
+    /**
+     * Create a AgreementModel.
+     * @param {AgreementModelCreateArgs} args - Arguments to create a AgreementModel.
+     * @example
+     * // Create one AgreementModel
+     * const AgreementModel = await prisma.agreementModel.create({
+     *   data: {
+     *     // ... data to create a AgreementModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AgreementModelCreateArgs>(
+      args: SelectSubset<T, AgreementModelCreateArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Create many AgreementModels.
+     *     @param {AgreementModelCreateManyArgs} args - Arguments to create many AgreementModels.
+     *     @example
+     *     // Create many AgreementModels
+     *     const agreementModel = await prisma.agreementModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AgreementModelCreateManyArgs>(
+      args?: SelectSubset<T, AgreementModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgreementModel.
+     * @param {AgreementModelDeleteArgs} args - Arguments to delete one AgreementModel.
+     * @example
+     * // Delete one AgreementModel
+     * const AgreementModel = await prisma.agreementModel.delete({
+     *   where: {
+     *     // ... filter to delete one AgreementModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AgreementModelDeleteArgs>(
+      args: SelectSubset<T, AgreementModelDeleteArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Update one AgreementModel.
+     * @param {AgreementModelUpdateArgs} args - Arguments to update one AgreementModel.
+     * @example
+     * // Update one AgreementModel
+     * const agreementModel = await prisma.agreementModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AgreementModelUpdateArgs>(
+      args: SelectSubset<T, AgreementModelUpdateArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Delete zero or more AgreementModels.
+     * @param {AgreementModelDeleteManyArgs} args - Arguments to filter AgreementModels to delete.
+     * @example
+     * // Delete a few AgreementModels
+     * const { count } = await prisma.agreementModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AgreementModelDeleteManyArgs>(
+      args?: SelectSubset<T, AgreementModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgreementModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgreementModels
+     * const agreementModel = await prisma.agreementModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AgreementModelUpdateManyArgs>(
+      args: SelectSubset<T, AgreementModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgreementModel.
+     * @param {AgreementModelUpsertArgs} args - Arguments to update or create a AgreementModel.
+     * @example
+     * // Update or create a AgreementModel
+     * const agreementModel = await prisma.agreementModel.upsert({
+     *   create: {
+     *     // ... data to create a AgreementModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgreementModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AgreementModelUpsertArgs>(
+      args: SelectSubset<T, AgreementModelUpsertArgs>
+    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+
+    /**
+     * Count the number of AgreementModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelCountArgs} args - Arguments to filter AgreementModels to count.
+     * @example
+     * // Count the number of AgreementModels
+     * const count = await prisma.agreementModel.count({
+     *   where: {
+     *     // ... the filter for the AgreementModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgreementModelCountArgs>(
+      args?: Subset<T, AgreementModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgreementModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgreementModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgreementModelAggregateArgs>(args: Subset<T, AgreementModelAggregateArgs>): Prisma.PrismaPromise<GetAgreementModelAggregateType<T>>
+
+    /**
+     * Group by AgreementModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgreementModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgreementModelGroupByArgs['orderBy'] }
+        : { orderBy?: AgreementModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgreementModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgreementModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgreementModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AgreementModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    acceptances<T extends AgreementModel$acceptancesArgs= {}>(args?: Subset<T, AgreementModel$acceptancesArgs>): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AgreementModel base type for findUnique actions
+   */
+  export type AgreementModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter, which AgreementModel to fetch.
+     */
+    where: AgreementModelWhereUniqueInput
+  }
+
+  /**
+   * AgreementModel findUnique
+   */
+  export interface AgreementModelFindUniqueArgs extends AgreementModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AgreementModel findUniqueOrThrow
+   */
+  export type AgreementModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter, which AgreementModel to fetch.
+     */
+    where: AgreementModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementModel base type for findFirst actions
+   */
+  export type AgreementModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter, which AgreementModel to fetch.
+     */
+    where?: AgreementModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgreementModels.
+     */
+    cursor?: AgreementModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgreementModels.
+     */
+    distinct?: Enumerable<AgreementModelScalarFieldEnum>
+  }
+
+  /**
+   * AgreementModel findFirst
+   */
+  export interface AgreementModelFindFirstArgs extends AgreementModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AgreementModel findFirstOrThrow
+   */
+  export type AgreementModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter, which AgreementModel to fetch.
+     */
+    where?: AgreementModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgreementModels.
+     */
+    cursor?: AgreementModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgreementModels.
+     */
+    distinct?: Enumerable<AgreementModelScalarFieldEnum>
+  }
+
+
+  /**
+   * AgreementModel findMany
+   */
+  export type AgreementModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter, which AgreementModels to fetch.
+     */
+    where?: AgreementModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgreementModels.
+     */
+    cursor?: AgreementModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementModels.
+     */
+    skip?: number
+    distinct?: Enumerable<AgreementModelScalarFieldEnum>
+  }
+
+
+  /**
+   * AgreementModel create
+   */
+  export type AgreementModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * The data needed to create a AgreementModel.
+     */
+    data: XOR<AgreementModelCreateInput, AgreementModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * AgreementModel createMany
+   */
+  export type AgreementModelCreateManyArgs = {
+    /**
+     * The data used to create many AgreementModels.
+     */
+    data: Enumerable<AgreementModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * AgreementModel update
+   */
+  export type AgreementModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * The data needed to update a AgreementModel.
+     */
+    data: XOR<AgreementModelUpdateInput, AgreementModelUncheckedUpdateInput>
+    /**
+     * Choose, which AgreementModel to update.
+     */
+    where: AgreementModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementModel updateMany
+   */
+  export type AgreementModelUpdateManyArgs = {
+    /**
+     * The data used to update AgreementModels.
+     */
+    data: XOR<AgreementModelUpdateManyMutationInput, AgreementModelUncheckedUpdateManyInput>
+    /**
+     * Filter which AgreementModels to update
+     */
+    where?: AgreementModelWhereInput
+  }
+
+
+  /**
+   * AgreementModel upsert
+   */
+  export type AgreementModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * The filter to search for the AgreementModel to update in case it exists.
+     */
+    where: AgreementModelWhereUniqueInput
+    /**
+     * In case the AgreementModel found by the `where` argument doesn't exist, create a new AgreementModel with this data.
+     */
+    create: XOR<AgreementModelCreateInput, AgreementModelUncheckedCreateInput>
+    /**
+     * In case the AgreementModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgreementModelUpdateInput, AgreementModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * AgreementModel delete
+   */
+  export type AgreementModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+    /**
+     * Filter which AgreementModel to delete.
+     */
+    where: AgreementModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementModel deleteMany
+   */
+  export type AgreementModelDeleteManyArgs = {
+    /**
+     * Filter which AgreementModels to delete
+     */
+    where?: AgreementModelWhereInput
+  }
+
+
+  /**
+   * AgreementModel.acceptances
+   */
+  export type AgreementModel$acceptancesArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    where?: AgreementAcceptanceModelWhereInput
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AgreementAcceptanceModelScalarFieldEnum>
+  }
+
+
+  /**
+   * AgreementModel without action
+   */
+  export type AgreementModelArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementModel
+     */
+    select?: AgreementModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementModelInclude | null
+  }
+
+
+
+  /**
+   * Model AgreementAcceptanceModel
+   */
+
+
+  export type AggregateAgreementAcceptanceModel = {
+    _count: AgreementAcceptanceModelCountAggregateOutputType | null
+    _min: AgreementAcceptanceModelMinAggregateOutputType | null
+    _max: AgreementAcceptanceModelMaxAggregateOutputType | null
+  }
+
+  export type AgreementAcceptanceModelMinAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    user_id: string | null
+    agreement_id: string | null
+  }
+
+  export type AgreementAcceptanceModelMaxAggregateOutputType = {
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    id: string | null
+    user_id: string | null
+    agreement_id: string | null
+  }
+
+  export type AgreementAcceptanceModelCountAggregateOutputType = {
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    id: number
+    user_id: number
+    agreement_id: number
+    _all: number
+  }
+
+
+  export type AgreementAcceptanceModelMinAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    user_id?: true
+    agreement_id?: true
+  }
+
+  export type AgreementAcceptanceModelMaxAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    user_id?: true
+    agreement_id?: true
+  }
+
+  export type AgreementAcceptanceModelCountAggregateInputType = {
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    id?: true
+    user_id?: true
+    agreement_id?: true
+    _all?: true
+  }
+
+  export type AgreementAcceptanceModelAggregateArgs = {
+    /**
+     * Filter which AgreementAcceptanceModel to aggregate.
+     */
+    where?: AgreementAcceptanceModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementAcceptanceModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementAcceptanceModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementAcceptanceModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgreementAcceptanceModels
+    **/
+    _count?: true | AgreementAcceptanceModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgreementAcceptanceModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgreementAcceptanceModelMaxAggregateInputType
+  }
+
+  export type GetAgreementAcceptanceModelAggregateType<T extends AgreementAcceptanceModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgreementAcceptanceModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgreementAcceptanceModel[P]>
+      : GetScalarType<T[P], AggregateAgreementAcceptanceModel[P]>
+  }
+
+
+
+
+  export type AgreementAcceptanceModelGroupByArgs = {
+    where?: AgreementAcceptanceModelWhereInput
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithAggregationInput>
+    by: AgreementAcceptanceModelScalarFieldEnum[]
+    having?: AgreementAcceptanceModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgreementAcceptanceModelCountAggregateInputType | true
+    _min?: AgreementAcceptanceModelMinAggregateInputType
+    _max?: AgreementAcceptanceModelMaxAggregateInputType
+  }
+
+
+  export type AgreementAcceptanceModelGroupByOutputType = {
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    id: string
+    user_id: string
+    agreement_id: string
+    _count: AgreementAcceptanceModelCountAggregateOutputType | null
+    _min: AgreementAcceptanceModelMinAggregateOutputType | null
+    _max: AgreementAcceptanceModelMaxAggregateOutputType | null
+  }
+
+  type GetAgreementAcceptanceModelGroupByPayload<T extends AgreementAcceptanceModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<AgreementAcceptanceModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgreementAcceptanceModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgreementAcceptanceModelGroupByOutputType[P]>
+            : GetScalarType<T[P], AgreementAcceptanceModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgreementAcceptanceModelSelect = {
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    id?: boolean
+    user_id?: boolean
+    agreement_id?: boolean
+    user?: boolean | UserModelArgs
+    agreement?: boolean | AgreementModelArgs
+  }
+
+
+  export type AgreementAcceptanceModelInclude = {
+    user?: boolean | UserModelArgs
+    agreement?: boolean | AgreementModelArgs
+  }
+
+  export type AgreementAcceptanceModelGetPayload<S extends boolean | null | undefined | AgreementAcceptanceModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AgreementAcceptanceModel :
+    S extends undefined ? never :
+    S extends { include: any } & (AgreementAcceptanceModelArgs | AgreementAcceptanceModelFindManyArgs)
+    ? AgreementAcceptanceModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserModelGetPayload<S['include'][P]> :
+        P extends 'agreement' ? AgreementModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AgreementAcceptanceModelArgs | AgreementAcceptanceModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserModelGetPayload<S['select'][P]> :
+        P extends 'agreement' ? AgreementModelGetPayload<S['select'][P]> :  P extends keyof AgreementAcceptanceModel ? AgreementAcceptanceModel[P] : never
+  } 
+      : AgreementAcceptanceModel
+
+
+  type AgreementAcceptanceModelCountArgs = 
+    Omit<AgreementAcceptanceModelFindManyArgs, 'select' | 'include'> & {
+      select?: AgreementAcceptanceModelCountAggregateInputType | true
+    }
+
+  export interface AgreementAcceptanceModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one AgreementAcceptanceModel that matches the filter.
+     * @param {AgreementAcceptanceModelFindUniqueArgs} args - Arguments to find a AgreementAcceptanceModel
+     * @example
+     * // Get one AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AgreementAcceptanceModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AgreementAcceptanceModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>> : Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T> | null, null>
+
+    /**
+     * Find one AgreementAcceptanceModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AgreementAcceptanceModelFindUniqueOrThrowArgs} args - Arguments to find a AgreementAcceptanceModel
+     * @example
+     * // Get one AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AgreementAcceptanceModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindUniqueOrThrowArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Find the first AgreementAcceptanceModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelFindFirstArgs} args - Arguments to find a AgreementAcceptanceModel
+     * @example
+     * // Get one AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AgreementAcceptanceModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>> : Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first AgreementAcceptanceModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelFindFirstOrThrowArgs} args - Arguments to find a AgreementAcceptanceModel
+     * @example
+     * // Get one AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AgreementAcceptanceModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstOrThrowArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Find zero or more AgreementAcceptanceModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgreementAcceptanceModels
+     * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany()
+     * 
+     * // Get first 10 AgreementAcceptanceModels
+     * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany({ take: 10 })
+     * 
+     * // Only select the `created_at`
+     * const agreementAcceptanceModelWithCreated_atOnly = await prisma.agreementAcceptanceModel.findMany({ select: { created_at: true } })
+     * 
+    **/
+    findMany<T extends AgreementAcceptanceModelFindManyArgs>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>>
+
+    /**
+     * Create a AgreementAcceptanceModel.
+     * @param {AgreementAcceptanceModelCreateArgs} args - Arguments to create a AgreementAcceptanceModel.
+     * @example
+     * // Create one AgreementAcceptanceModel
+     * const AgreementAcceptanceModel = await prisma.agreementAcceptanceModel.create({
+     *   data: {
+     *     // ... data to create a AgreementAcceptanceModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AgreementAcceptanceModelCreateArgs>(
+      args: SelectSubset<T, AgreementAcceptanceModelCreateArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Create many AgreementAcceptanceModels.
+     *     @param {AgreementAcceptanceModelCreateManyArgs} args - Arguments to create many AgreementAcceptanceModels.
+     *     @example
+     *     // Create many AgreementAcceptanceModels
+     *     const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AgreementAcceptanceModelCreateManyArgs>(
+      args?: SelectSubset<T, AgreementAcceptanceModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgreementAcceptanceModel.
+     * @param {AgreementAcceptanceModelDeleteArgs} args - Arguments to delete one AgreementAcceptanceModel.
+     * @example
+     * // Delete one AgreementAcceptanceModel
+     * const AgreementAcceptanceModel = await prisma.agreementAcceptanceModel.delete({
+     *   where: {
+     *     // ... filter to delete one AgreementAcceptanceModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AgreementAcceptanceModelDeleteArgs>(
+      args: SelectSubset<T, AgreementAcceptanceModelDeleteArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Update one AgreementAcceptanceModel.
+     * @param {AgreementAcceptanceModelUpdateArgs} args - Arguments to update one AgreementAcceptanceModel.
+     * @example
+     * // Update one AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AgreementAcceptanceModelUpdateArgs>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpdateArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Delete zero or more AgreementAcceptanceModels.
+     * @param {AgreementAcceptanceModelDeleteManyArgs} args - Arguments to filter AgreementAcceptanceModels to delete.
+     * @example
+     * // Delete a few AgreementAcceptanceModels
+     * const { count } = await prisma.agreementAcceptanceModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AgreementAcceptanceModelDeleteManyArgs>(
+      args?: SelectSubset<T, AgreementAcceptanceModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgreementAcceptanceModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgreementAcceptanceModels
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AgreementAcceptanceModelUpdateManyArgs>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgreementAcceptanceModel.
+     * @param {AgreementAcceptanceModelUpsertArgs} args - Arguments to update or create a AgreementAcceptanceModel.
+     * @example
+     * // Update or create a AgreementAcceptanceModel
+     * const agreementAcceptanceModel = await prisma.agreementAcceptanceModel.upsert({
+     *   create: {
+     *     // ... data to create a AgreementAcceptanceModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgreementAcceptanceModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AgreementAcceptanceModelUpsertArgs>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpsertArgs>
+    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+
+    /**
+     * Count the number of AgreementAcceptanceModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelCountArgs} args - Arguments to filter AgreementAcceptanceModels to count.
+     * @example
+     * // Count the number of AgreementAcceptanceModels
+     * const count = await prisma.agreementAcceptanceModel.count({
+     *   where: {
+     *     // ... the filter for the AgreementAcceptanceModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgreementAcceptanceModelCountArgs>(
+      args?: Subset<T, AgreementAcceptanceModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgreementAcceptanceModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgreementAcceptanceModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgreementAcceptanceModelAggregateArgs>(args: Subset<T, AgreementAcceptanceModelAggregateArgs>): Prisma.PrismaPromise<GetAgreementAcceptanceModelAggregateType<T>>
+
+    /**
+     * Group by AgreementAcceptanceModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgreementAcceptanceModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgreementAcceptanceModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgreementAcceptanceModelGroupByArgs['orderBy'] }
+        : { orderBy?: AgreementAcceptanceModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgreementAcceptanceModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgreementAcceptanceModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgreementAcceptanceModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AgreementAcceptanceModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
+
+    agreement<T extends AgreementModelArgs= {}>(args?: Subset<T, AgreementModelArgs>): Prisma__AgreementModelClient<AgreementModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AgreementAcceptanceModel base type for findUnique actions
+   */
+  export type AgreementAcceptanceModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter, which AgreementAcceptanceModel to fetch.
+     */
+    where: AgreementAcceptanceModelWhereUniqueInput
+  }
+
+  /**
+   * AgreementAcceptanceModel findUnique
+   */
+  export interface AgreementAcceptanceModelFindUniqueArgs extends AgreementAcceptanceModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AgreementAcceptanceModel findUniqueOrThrow
+   */
+  export type AgreementAcceptanceModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter, which AgreementAcceptanceModel to fetch.
+     */
+    where: AgreementAcceptanceModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementAcceptanceModel base type for findFirst actions
+   */
+  export type AgreementAcceptanceModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter, which AgreementAcceptanceModel to fetch.
+     */
+    where?: AgreementAcceptanceModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementAcceptanceModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgreementAcceptanceModels.
+     */
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementAcceptanceModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementAcceptanceModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgreementAcceptanceModels.
+     */
+    distinct?: Enumerable<AgreementAcceptanceModelScalarFieldEnum>
+  }
+
+  /**
+   * AgreementAcceptanceModel findFirst
+   */
+  export interface AgreementAcceptanceModelFindFirstArgs extends AgreementAcceptanceModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * AgreementAcceptanceModel findFirstOrThrow
+   */
+  export type AgreementAcceptanceModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter, which AgreementAcceptanceModel to fetch.
+     */
+    where?: AgreementAcceptanceModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementAcceptanceModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgreementAcceptanceModels.
+     */
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementAcceptanceModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementAcceptanceModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgreementAcceptanceModels.
+     */
+    distinct?: Enumerable<AgreementAcceptanceModelScalarFieldEnum>
+  }
+
+
+  /**
+   * AgreementAcceptanceModel findMany
+   */
+  export type AgreementAcceptanceModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter, which AgreementAcceptanceModels to fetch.
+     */
+    where?: AgreementAcceptanceModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgreementAcceptanceModels to fetch.
+     */
+    orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgreementAcceptanceModels.
+     */
+    cursor?: AgreementAcceptanceModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgreementAcceptanceModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgreementAcceptanceModels.
+     */
+    skip?: number
+    distinct?: Enumerable<AgreementAcceptanceModelScalarFieldEnum>
+  }
+
+
+  /**
+   * AgreementAcceptanceModel create
+   */
+  export type AgreementAcceptanceModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * The data needed to create a AgreementAcceptanceModel.
+     */
+    data: XOR<AgreementAcceptanceModelCreateInput, AgreementAcceptanceModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * AgreementAcceptanceModel createMany
+   */
+  export type AgreementAcceptanceModelCreateManyArgs = {
+    /**
+     * The data used to create many AgreementAcceptanceModels.
+     */
+    data: Enumerable<AgreementAcceptanceModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * AgreementAcceptanceModel update
+   */
+  export type AgreementAcceptanceModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * The data needed to update a AgreementAcceptanceModel.
+     */
+    data: XOR<AgreementAcceptanceModelUpdateInput, AgreementAcceptanceModelUncheckedUpdateInput>
+    /**
+     * Choose, which AgreementAcceptanceModel to update.
+     */
+    where: AgreementAcceptanceModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementAcceptanceModel updateMany
+   */
+  export type AgreementAcceptanceModelUpdateManyArgs = {
+    /**
+     * The data used to update AgreementAcceptanceModels.
+     */
+    data: XOR<AgreementAcceptanceModelUpdateManyMutationInput, AgreementAcceptanceModelUncheckedUpdateManyInput>
+    /**
+     * Filter which AgreementAcceptanceModels to update
+     */
+    where?: AgreementAcceptanceModelWhereInput
+  }
+
+
+  /**
+   * AgreementAcceptanceModel upsert
+   */
+  export type AgreementAcceptanceModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * The filter to search for the AgreementAcceptanceModel to update in case it exists.
+     */
+    where: AgreementAcceptanceModelWhereUniqueInput
+    /**
+     * In case the AgreementAcceptanceModel found by the `where` argument doesn't exist, create a new AgreementAcceptanceModel with this data.
+     */
+    create: XOR<AgreementAcceptanceModelCreateInput, AgreementAcceptanceModelUncheckedCreateInput>
+    /**
+     * In case the AgreementAcceptanceModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgreementAcceptanceModelUpdateInput, AgreementAcceptanceModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * AgreementAcceptanceModel delete
+   */
+  export type AgreementAcceptanceModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
+    /**
+     * Filter which AgreementAcceptanceModel to delete.
+     */
+    where: AgreementAcceptanceModelWhereUniqueInput
+  }
+
+
+  /**
+   * AgreementAcceptanceModel deleteMany
+   */
+  export type AgreementAcceptanceModelDeleteManyArgs = {
+    /**
+     * Filter which AgreementAcceptanceModels to delete
+     */
+    where?: AgreementAcceptanceModelWhereInput
+  }
+
+
+  /**
+   * AgreementAcceptanceModel without action
+   */
+  export type AgreementAcceptanceModelArgs = {
+    /**
+     * Select specific fields to fetch from the AgreementAcceptanceModel
+     */
+    select?: AgreementAcceptanceModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AgreementAcceptanceModelInclude | null
   }
 
 
@@ -9817,56 +14102,141 @@ export namespace Prisma {
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-  export const AccessorModelScalarFieldEnum: {
+  export const AgreementAcceptanceModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
     id: 'id',
-    oauth_sub: 'oauth_sub',
-    oauth_type: 'oauth_type',
-    customer_id: 'customer_id',
-    business_user_id: 'business_user_id'
+    user_id: 'user_id',
+    agreement_id: 'agreement_id'
   };
 
-  export type AccessorModelScalarFieldEnum = (typeof AccessorModelScalarFieldEnum)[keyof typeof AccessorModelScalarFieldEnum]
+  export type AgreementAcceptanceModelScalarFieldEnum = (typeof AgreementAcceptanceModelScalarFieldEnum)[keyof typeof AgreementAcceptanceModelScalarFieldEnum]
 
 
-  export const BusinessUserModelScalarFieldEnum: {
+  export const AgreementModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
     id: 'id',
-    profile_image_url: 'profile_image_url',
+    title: 'title',
+    content: 'content',
+    user_type: 'user_type'
+  };
+
+  export type AgreementModelScalarFieldEnum = (typeof AgreementModelScalarFieldEnum)[keyof typeof AgreementModelScalarFieldEnum]
+
+
+  export const BusinessCertificationModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    id: 'id',
+    business_user_id: 'business_user_id',
+    image_url: 'image_url'
+  };
+
+  export type BusinessCertificationModelScalarFieldEnum = (typeof BusinessCertificationModelScalarFieldEnum)[keyof typeof BusinessCertificationModelScalarFieldEnum]
+
+
+  export const BusinessUserScalarFieldEnum: {
+    id: 'id',
+    is_verified: 'is_verified',
     introduction_title: 'introduction_title',
-    introduction_content: 'introduction_content'
+    introduction_content: 'introduction_content',
+    phone: 'phone',
+    address_first: 'address_first',
+    address_second: 'address_second',
+    profile_image_url: 'profile_image_url'
   };
 
-  export type BusinessUserModelScalarFieldEnum = (typeof BusinessUserModelScalarFieldEnum)[keyof typeof BusinessUserModelScalarFieldEnum]
+  export type BusinessUserScalarFieldEnum = (typeof BusinessUserScalarFieldEnum)[keyof typeof BusinessUserScalarFieldEnum]
 
 
   export const CustomerModelScalarFieldEnum: {
     id: 'id',
-    profile_image_url: 'profile_image_url',
-    gender: 'gender',
     birth: 'birth',
+    gender: 'gender',
+    phone: 'phone',
     address_first: 'address_first',
-    address_second: 'address_second'
+    address_second: 'address_second',
+    profile_image_url: 'profile_image_url'
   };
 
   export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
 
 
-  export const HSCompanyIntroductionImageModelScalarFieldEnum: {
+  export const ExpertSubCategoryModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
     id: 'id',
-    url: 'url',
-    company_id: 'company_id'
+    name: 'name',
+    super_id: 'super_id'
   };
 
-  export type HSCompanyIntroductionImageModelScalarFieldEnum = (typeof HSCompanyIntroductionImageModelScalarFieldEnum)[keyof typeof HSCompanyIntroductionImageModelScalarFieldEnum]
+  export type ExpertSubCategoryModelScalarFieldEnum = (typeof ExpertSubCategoryModelScalarFieldEnum)[keyof typeof ExpertSubCategoryModelScalarFieldEnum]
 
 
-  export const HSCompanyModelScalarFieldEnum: {
+  export const ExpertSuperCategoryModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
     id: 'id',
-    business_num: 'business_num',
+    name: 'name',
+    business_type: 'business_type'
+  };
+
+  export type ExpertSuperCategoryModelScalarFieldEnum = (typeof ExpertSuperCategoryModelScalarFieldEnum)[keyof typeof ExpertSuperCategoryModelScalarFieldEnum]
+
+
+  export const HSIntroductionImageModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    id: 'id',
+    hs_provider_id: 'hs_provider_id',
+    image_url: 'image_url'
+  };
+
+  export type HSIntroductionImageModelScalarFieldEnum = (typeof HSIntroductionImageModelScalarFieldEnum)[keyof typeof HSIntroductionImageModelScalarFieldEnum]
+
+
+  export const HSProviderModelScalarFieldEnum: {
+    id: 'id',
+    business_registration_num: 'business_registration_num'
+  };
+
+  export type HSProviderModelScalarFieldEnum = (typeof HSProviderModelScalarFieldEnum)[keyof typeof HSProviderModelScalarFieldEnum]
+
+
+  export const OauthAccessorModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    id: 'id',
+    oauth_type: 'oauth_type',
+    oauth_sub: 'oauth_sub',
+    business_user_id: 'business_user_id',
+    customer_id: 'customer_id',
+    name: 'name',
+    email: 'email',
+    phone: 'phone',
+    profile_image_url: 'profile_image_url',
+    birth: 'birth',
+    gender: 'gender',
     address_first: 'address_first',
     address_second: 'address_second'
   };
 
-  export type HSCompanyModelScalarFieldEnum = (typeof HSCompanyModelScalarFieldEnum)[keyof typeof HSCompanyModelScalarFieldEnum]
+  export type OauthAccessorModelScalarFieldEnum = (typeof OauthAccessorModelScalarFieldEnum)[keyof typeof OauthAccessorModelScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -9883,9 +14253,7 @@ export namespace Prisma {
     re_num: 're_num',
     re_name: 're_name',
     re_phone: 're_phone',
-    re_licensed_agent_name: 're_licensed_agent_name',
-    re_address_first: 're_address_first',
-    re_address_second: 're_address_second'
+    re_licensed_agent_name: 're_licensed_agent_name'
   };
 
   export type REAgentModelScalarFieldEnum = (typeof REAgentModelScalarFieldEnum)[keyof typeof REAgentModelScalarFieldEnum]
@@ -9899,46 +14267,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const TempHSCompanyModelScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    email_verified: 'email_verified',
-    phone: 'phone',
-    phone_verified: 'phone_verified',
-    profile_image_url: 'profile_image_url',
-    address_first: 'address_first',
-    address_second: 'address_second',
-    introduction_title: 'introduction_title',
-    introduction_content: 'introduction_content',
-    business_num: 'business_num'
-  };
-
-  export type TempHSCompanyModelScalarFieldEnum = (typeof TempHSCompanyModelScalarFieldEnum)[keyof typeof TempHSCompanyModelScalarFieldEnum]
-
-
-  export const TempREAgentModelScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    email_verified: 'email_verified',
-    phone: 'phone',
-    phone_verified: 'phone_verified',
-    profile_image_url: 'profile_image_url',
-    address_first: 'address_first',
-    address_second: 'address_second',
-    introduction_title: 'introduction_title',
-    introduction_content: 'introduction_content',
-    is_licensed: 'is_licensed',
-    re_num: 're_num',
-    re_name: 're_name',
-    re_phone: 're_phone',
-    re_licensed_agent_name: 're_licensed_agent_name'
-  };
-
-  export type TempREAgentModelScalarFieldEnum = (typeof TempREAgentModelScalarFieldEnum)[keyof typeof TempREAgentModelScalarFieldEnum]
-
-
   export const TransactionIsolationLevel: {
     ReadUncommitted: 'ReadUncommitted',
     ReadCommitted: 'ReadCommitted',
@@ -9949,14 +14277,27 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const UserExpertiseModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    id: 'id',
+    category_id: 'category_id',
+    business_user_id: 'business_user_id'
+  };
+
+  export type UserExpertiseModelScalarFieldEnum = (typeof UserExpertiseModelScalarFieldEnum)[keyof typeof UserExpertiseModelScalarFieldEnum]
+
+
   export const UserModelScalarFieldEnum: {
     created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
     id: 'id',
     name: 'name',
-    phone: 'phone',
-    phone_verified: 'phone_verified',
-    email: 'email',
-    email_verified: 'email_verified'
+    email: 'email'
   };
 
   export type UserModelScalarFieldEnum = (typeof UserModelScalarFieldEnum)[keyof typeof UserModelScalarFieldEnum]
@@ -9967,58 +14308,101 @@ export namespace Prisma {
    */
 
 
-  export type AccessorModelWhereInput = {
-    AND?: Enumerable<AccessorModelWhereInput>
-    OR?: Enumerable<AccessorModelWhereInput>
-    NOT?: Enumerable<AccessorModelWhereInput>
+  export type OauthAccessorModelWhereInput = {
+    AND?: Enumerable<OauthAccessorModelWhereInput>
+    OR?: Enumerable<OauthAccessorModelWhereInput>
+    NOT?: Enumerable<OauthAccessorModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    oauth_sub?: StringFilter | string
     oauth_type?: EnumOauthTypeFilter | OauthType
-    customer_id?: StringNullableFilter | string | null
-    business_user_id?: StringNullableFilter | string | null
-    customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput> | null
-    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput> | null
-    temp_re_agents?: XOR<TempREAgentModelRelationFilter, TempREAgentModelWhereInput> | null
-    temp_hs_company?: XOR<TempHSCompanyModelRelationFilter, TempHSCompanyModelWhereInput> | null
+    oauth_sub?: StringFilter | string
+    business_user_id?: StringFilter | string
+    customer_id?: StringFilter | string
+    name?: StringNullableFilter | string | null
+    email?: StringNullableFilter | string | null
+    phone?: StringNullableFilter | string | null
+    profile_image_url?: StringNullableFilter | string | null
+    birth?: StringNullableFilter | string | null
+    gender?: EnumGenderTypeNullableFilter | GenderType | null
+    address_first?: StringNullableFilter | string | null
+    address_second?: StringNullableFilter | string | null
+    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
   }
 
-  export type AccessorModelOrderByWithRelationInput = {
+  export type OauthAccessorModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    oauth_sub?: SortOrder
     oauth_type?: SortOrder
-    customer_id?: SortOrder
+    oauth_sub?: SortOrder
     business_user_id?: SortOrder
+    customer_id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    profile_image_url?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    business_user?: BusinessUserOrderByWithRelationInput
     customer?: CustomerModelOrderByWithRelationInput
-    business_user?: BusinessUserModelOrderByWithRelationInput
-    temp_re_agents?: TempREAgentModelOrderByWithRelationInput
-    temp_hs_company?: TempHSCompanyModelOrderByWithRelationInput
   }
 
-  export type AccessorModelWhereUniqueInput = {
+  export type OauthAccessorModelWhereUniqueInput = {
     id?: string
-    oauth_type_oauth_sub?: AccessorModelOauth_typeOauth_subCompoundUniqueInput
   }
 
-  export type AccessorModelOrderByWithAggregationInput = {
+  export type OauthAccessorModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    oauth_sub?: SortOrder
     oauth_type?: SortOrder
-    customer_id?: SortOrder
+    oauth_sub?: SortOrder
     business_user_id?: SortOrder
-    _count?: AccessorModelCountOrderByAggregateInput
-    _max?: AccessorModelMaxOrderByAggregateInput
-    _min?: AccessorModelMinOrderByAggregateInput
+    customer_id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    profile_image_url?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    _count?: OauthAccessorModelCountOrderByAggregateInput
+    _max?: OauthAccessorModelMaxOrderByAggregateInput
+    _min?: OauthAccessorModelMinOrderByAggregateInput
   }
 
-  export type AccessorModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<AccessorModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<AccessorModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<AccessorModelScalarWhereWithAggregatesInput>
+  export type OauthAccessorModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<OauthAccessorModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<OauthAccessorModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<OauthAccessorModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     id?: StringWithAggregatesFilter | string
-    oauth_sub?: StringWithAggregatesFilter | string
     oauth_type?: EnumOauthTypeWithAggregatesFilter | OauthType
-    customer_id?: StringNullableWithAggregatesFilter | string | null
-    business_user_id?: StringNullableWithAggregatesFilter | string | null
+    oauth_sub?: StringWithAggregatesFilter | string
+    business_user_id?: StringWithAggregatesFilter | string
+    customer_id?: StringWithAggregatesFilter | string
+    name?: StringNullableWithAggregatesFilter | string | null
+    email?: StringNullableWithAggregatesFilter | string | null
+    phone?: StringNullableWithAggregatesFilter | string | null
+    profile_image_url?: StringNullableWithAggregatesFilter | string | null
+    birth?: StringNullableWithAggregatesFilter | string | null
+    gender?: EnumGenderTypeNullableWithAggregatesFilter | GenderType | null
+    address_first?: StringNullableWithAggregatesFilter | string | null
+    address_second?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type UserModelWhereInput = {
@@ -10026,26 +14410,28 @@ export namespace Prisma {
     OR?: Enumerable<UserModelWhereInput>
     NOT?: Enumerable<UserModelWhereInput>
     created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
     name?: StringFilter | string
-    phone?: StringFilter | string
-    phone_verified?: BoolFilter | boolean
     email?: StringNullableFilter | string | null
-    email_verified?: BoolFilter | boolean
     customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput> | null
-    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput> | null
+    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput> | null
+    agreement_acceptances?: AgreementAcceptanceModelListRelationFilter
   }
 
   export type UserModelOrderByWithRelationInput = {
     created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
     name?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
     email?: SortOrder
-    email_verified?: SortOrder
     customer?: CustomerModelOrderByWithRelationInput
-    business_user?: BusinessUserModelOrderByWithRelationInput
+    business_user?: BusinessUserOrderByWithRelationInput
+    agreement_acceptances?: AgreementAcceptanceModelOrderByRelationAggregateInput
   }
 
   export type UserModelWhereUniqueInput = {
@@ -10054,12 +14440,12 @@ export namespace Prisma {
 
   export type UserModelOrderByWithAggregationInput = {
     created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
     name?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
     email?: SortOrder
-    email_verified?: SortOrder
     _count?: UserModelCountOrderByAggregateInput
     _max?: UserModelMaxOrderByAggregateInput
     _min?: UserModelMinOrderByAggregateInput
@@ -10070,12 +14456,12 @@ export namespace Prisma {
     OR?: Enumerable<UserModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<UserModelScalarWhereWithAggregatesInput>
     created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
-    phone?: StringWithAggregatesFilter | string
-    phone_verified?: BoolWithAggregatesFilter | boolean
     email?: StringNullableWithAggregatesFilter | string | null
-    email_verified?: BoolWithAggregatesFilter | boolean
   }
 
   export type CustomerModelWhereInput = {
@@ -10083,24 +14469,26 @@ export namespace Prisma {
     OR?: Enumerable<CustomerModelWhereInput>
     NOT?: Enumerable<CustomerModelWhereInput>
     id?: StringFilter | string
-    profile_image_url?: StringNullableFilter | string | null
-    gender?: EnumGenderTypeNullableFilter | GenderType | null
     birth?: StringNullableFilter | string | null
+    gender?: EnumGenderTypeNullableFilter | GenderType | null
+    phone?: StringNullableFilter | string | null
     address_first?: StringNullableFilter | string | null
     address_second?: StringNullableFilter | string | null
+    profile_image_url?: StringNullableFilter | string | null
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
-    oauth_accessors?: AccessorModelListRelationFilter
+    oauth_accessor?: OauthAccessorModelListRelationFilter
   }
 
   export type CustomerModelOrderByWithRelationInput = {
     id?: SortOrder
-    profile_image_url?: SortOrder
-    gender?: SortOrder
     birth?: SortOrder
+    gender?: SortOrder
+    phone?: SortOrder
     address_first?: SortOrder
     address_second?: SortOrder
+    profile_image_url?: SortOrder
     base?: UserModelOrderByWithRelationInput
-    oauth_accessors?: AccessorModelOrderByRelationAggregateInput
+    oauth_accessor?: OauthAccessorModelOrderByRelationAggregateInput
   }
 
   export type CustomerModelWhereUniqueInput = {
@@ -10109,11 +14497,12 @@ export namespace Prisma {
 
   export type CustomerModelOrderByWithAggregationInput = {
     id?: SortOrder
-    profile_image_url?: SortOrder
-    gender?: SortOrder
     birth?: SortOrder
+    gender?: SortOrder
+    phone?: SortOrder
     address_first?: SortOrder
     address_second?: SortOrder
+    profile_image_url?: SortOrder
     _count?: CustomerModelCountOrderByAggregateInput
     _max?: CustomerModelMaxOrderByAggregateInput
     _min?: CustomerModelMinOrderByAggregateInput
@@ -10124,60 +14513,81 @@ export namespace Prisma {
     OR?: Enumerable<CustomerModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<CustomerModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    profile_image_url?: StringNullableWithAggregatesFilter | string | null
-    gender?: EnumGenderTypeNullableWithAggregatesFilter | GenderType | null
     birth?: StringNullableWithAggregatesFilter | string | null
+    gender?: EnumGenderTypeNullableWithAggregatesFilter | GenderType | null
+    phone?: StringNullableWithAggregatesFilter | string | null
     address_first?: StringNullableWithAggregatesFilter | string | null
     address_second?: StringNullableWithAggregatesFilter | string | null
+    profile_image_url?: StringNullableWithAggregatesFilter | string | null
   }
 
-  export type BusinessUserModelWhereInput = {
-    AND?: Enumerable<BusinessUserModelWhereInput>
-    OR?: Enumerable<BusinessUserModelWhereInput>
-    NOT?: Enumerable<BusinessUserModelWhereInput>
+  export type BusinessUserWhereInput = {
+    AND?: Enumerable<BusinessUserWhereInput>
+    OR?: Enumerable<BusinessUserWhereInput>
+    NOT?: Enumerable<BusinessUserWhereInput>
     id?: StringFilter | string
-    profile_image_url?: StringFilter | string
+    is_verified?: BoolFilter | boolean
     introduction_title?: StringFilter | string
     introduction_content?: StringFilter | string
+    phone?: StringFilter | string
+    address_first?: StringFilter | string
+    address_second?: StringFilter | string
+    profile_image_url?: StringFilter | string
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     re_agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput> | null
-    hs_company?: XOR<HSCompanyModelRelationFilter, HSCompanyModelWhereInput> | null
-    oauth_accessors?: AccessorModelListRelationFilter
+    hs_provider?: XOR<HSProviderModelRelationFilter, HSProviderModelWhereInput> | null
+    certifications?: BusinessCertificationModelListRelationFilter
+    expertises?: UserExpertiseModelListRelationFilter
+    oauth_accessor?: OauthAccessorModelListRelationFilter
   }
 
-  export type BusinessUserModelOrderByWithRelationInput = {
+  export type BusinessUserOrderByWithRelationInput = {
     id?: SortOrder
-    profile_image_url?: SortOrder
+    is_verified?: SortOrder
     introduction_title?: SortOrder
     introduction_content?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
     base?: UserModelOrderByWithRelationInput
     re_agent?: REAgentModelOrderByWithRelationInput
-    hs_company?: HSCompanyModelOrderByWithRelationInput
-    oauth_accessors?: AccessorModelOrderByRelationAggregateInput
+    hs_provider?: HSProviderModelOrderByWithRelationInput
+    certifications?: BusinessCertificationModelOrderByRelationAggregateInput
+    expertises?: UserExpertiseModelOrderByRelationAggregateInput
+    oauth_accessor?: OauthAccessorModelOrderByRelationAggregateInput
   }
 
-  export type BusinessUserModelWhereUniqueInput = {
+  export type BusinessUserWhereUniqueInput = {
     id?: string
   }
 
-  export type BusinessUserModelOrderByWithAggregationInput = {
+  export type BusinessUserOrderByWithAggregationInput = {
     id?: SortOrder
-    profile_image_url?: SortOrder
+    is_verified?: SortOrder
     introduction_title?: SortOrder
     introduction_content?: SortOrder
-    _count?: BusinessUserModelCountOrderByAggregateInput
-    _max?: BusinessUserModelMaxOrderByAggregateInput
-    _min?: BusinessUserModelMinOrderByAggregateInput
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+    _count?: BusinessUserCountOrderByAggregateInput
+    _max?: BusinessUserMaxOrderByAggregateInput
+    _min?: BusinessUserMinOrderByAggregateInput
   }
 
-  export type BusinessUserModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
+  export type BusinessUserScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
+    OR?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    profile_image_url?: StringWithAggregatesFilter | string
+    is_verified?: BoolWithAggregatesFilter | boolean
     introduction_title?: StringWithAggregatesFilter | string
     introduction_content?: StringWithAggregatesFilter | string
+    phone?: StringWithAggregatesFilter | string
+    address_first?: StringWithAggregatesFilter | string
+    address_second?: StringWithAggregatesFilter | string
+    profile_image_url?: StringWithAggregatesFilter | string
   }
 
   export type REAgentModelWhereInput = {
@@ -10190,9 +14600,7 @@ export namespace Prisma {
     re_name?: StringFilter | string
     re_phone?: StringFilter | string
     re_licensed_agent_name?: StringFilter | string
-    re_address_first?: StringFilter | string
-    re_address_second?: StringNullableFilter | string | null
-    base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
+    base?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
   }
 
   export type REAgentModelOrderByWithRelationInput = {
@@ -10202,9 +14610,7 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    re_address_first?: SortOrder
-    re_address_second?: SortOrder
-    base?: BusinessUserModelOrderByWithRelationInput
+    base?: BusinessUserOrderByWithRelationInput
   }
 
   export type REAgentModelWhereUniqueInput = {
@@ -10218,8 +14624,6 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    re_address_first?: SortOrder
-    re_address_second?: SortOrder
     _count?: REAgentModelCountOrderByAggregateInput
     _max?: REAgentModelMaxOrderByAggregateInput
     _min?: REAgentModelMinOrderByAggregateInput
@@ -10235,524 +14639,829 @@ export namespace Prisma {
     re_name?: StringWithAggregatesFilter | string
     re_phone?: StringWithAggregatesFilter | string
     re_licensed_agent_name?: StringWithAggregatesFilter | string
-    re_address_first?: StringWithAggregatesFilter | string
-    re_address_second?: StringNullableWithAggregatesFilter | string | null
   }
 
-  export type HSCompanyModelWhereInput = {
-    AND?: Enumerable<HSCompanyModelWhereInput>
-    OR?: Enumerable<HSCompanyModelWhereInput>
-    NOT?: Enumerable<HSCompanyModelWhereInput>
+  export type HSProviderModelWhereInput = {
+    AND?: Enumerable<HSProviderModelWhereInput>
+    OR?: Enumerable<HSProviderModelWhereInput>
+    NOT?: Enumerable<HSProviderModelWhereInput>
     id?: StringFilter | string
-    business_num?: StringFilter | string
-    address_first?: StringFilter | string
-    address_second?: StringNullableFilter | string | null
-    base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-    introduction_images?: HSCompanyIntroductionImageModelListRelationFilter
+    business_registration_num?: StringFilter | string
+    base?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    introduction_images?: HSIntroductionImageModelListRelationFilter
   }
 
-  export type HSCompanyModelOrderByWithRelationInput = {
+  export type HSProviderModelOrderByWithRelationInput = {
     id?: SortOrder
-    business_num?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    base?: BusinessUserModelOrderByWithRelationInput
-    introduction_images?: HSCompanyIntroductionImageModelOrderByRelationAggregateInput
+    business_registration_num?: SortOrder
+    base?: BusinessUserOrderByWithRelationInput
+    introduction_images?: HSIntroductionImageModelOrderByRelationAggregateInput
   }
 
-  export type HSCompanyModelWhereUniqueInput = {
+  export type HSProviderModelWhereUniqueInput = {
     id?: string
   }
 
-  export type HSCompanyModelOrderByWithAggregationInput = {
+  export type HSProviderModelOrderByWithAggregationInput = {
     id?: SortOrder
-    business_num?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    _count?: HSCompanyModelCountOrderByAggregateInput
-    _max?: HSCompanyModelMaxOrderByAggregateInput
-    _min?: HSCompanyModelMinOrderByAggregateInput
+    business_registration_num?: SortOrder
+    _count?: HSProviderModelCountOrderByAggregateInput
+    _max?: HSProviderModelMaxOrderByAggregateInput
+    _min?: HSProviderModelMinOrderByAggregateInput
   }
 
-  export type HSCompanyModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<HSCompanyModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<HSCompanyModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<HSCompanyModelScalarWhereWithAggregatesInput>
+  export type HSProviderModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<HSProviderModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<HSProviderModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<HSProviderModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    business_num?: StringWithAggregatesFilter | string
-    address_first?: StringWithAggregatesFilter | string
-    address_second?: StringNullableWithAggregatesFilter | string | null
+    business_registration_num?: StringWithAggregatesFilter | string
   }
 
-  export type HSCompanyIntroductionImageModelWhereInput = {
-    AND?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
-    OR?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
-    NOT?: Enumerable<HSCompanyIntroductionImageModelWhereInput>
+  export type BusinessCertificationModelWhereInput = {
+    AND?: Enumerable<BusinessCertificationModelWhereInput>
+    OR?: Enumerable<BusinessCertificationModelWhereInput>
+    NOT?: Enumerable<BusinessCertificationModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    url?: StringFilter | string
-    company_id?: StringFilter | string
-    company?: XOR<HSCompanyModelRelationFilter, HSCompanyModelWhereInput>
+    business_user_id?: StringFilter | string
+    image_url?: StringFilter | string
+    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
   }
 
-  export type HSCompanyIntroductionImageModelOrderByWithRelationInput = {
+  export type BusinessCertificationModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    url?: SortOrder
-    company_id?: SortOrder
-    company?: HSCompanyModelOrderByWithRelationInput
+    business_user_id?: SortOrder
+    image_url?: SortOrder
+    business_user?: BusinessUserOrderByWithRelationInput
   }
 
-  export type HSCompanyIntroductionImageModelWhereUniqueInput = {
+  export type BusinessCertificationModelWhereUniqueInput = {
     id?: string
   }
 
-  export type HSCompanyIntroductionImageModelOrderByWithAggregationInput = {
+  export type BusinessCertificationModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    url?: SortOrder
-    company_id?: SortOrder
-    _count?: HSCompanyIntroductionImageModelCountOrderByAggregateInput
-    _max?: HSCompanyIntroductionImageModelMaxOrderByAggregateInput
-    _min?: HSCompanyIntroductionImageModelMinOrderByAggregateInput
+    business_user_id?: SortOrder
+    image_url?: SortOrder
+    _count?: BusinessCertificationModelCountOrderByAggregateInput
+    _max?: BusinessCertificationModelMaxOrderByAggregateInput
+    _min?: BusinessCertificationModelMinOrderByAggregateInput
   }
 
-  export type HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<HSCompanyIntroductionImageModelScalarWhereWithAggregatesInput>
+  export type BusinessCertificationModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<BusinessCertificationModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<BusinessCertificationModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<BusinessCertificationModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     id?: StringWithAggregatesFilter | string
-    url?: StringWithAggregatesFilter | string
-    company_id?: StringWithAggregatesFilter | string
+    business_user_id?: StringWithAggregatesFilter | string
+    image_url?: StringWithAggregatesFilter | string
   }
 
-  export type TempREAgentModelWhereInput = {
-    AND?: Enumerable<TempREAgentModelWhereInput>
-    OR?: Enumerable<TempREAgentModelWhereInput>
-    NOT?: Enumerable<TempREAgentModelWhereInput>
+  export type HSIntroductionImageModelWhereInput = {
+    AND?: Enumerable<HSIntroductionImageModelWhereInput>
+    OR?: Enumerable<HSIntroductionImageModelWhereInput>
+    NOT?: Enumerable<HSIntroductionImageModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    name?: StringNullableFilter | string | null
-    email?: StringNullableFilter | string | null
-    email_verified?: BoolFilter | boolean
-    phone?: StringNullableFilter | string | null
-    phone_verified?: BoolFilter | boolean
-    profile_image_url?: StringNullableFilter | string | null
-    address_first?: StringNullableFilter | string | null
-    address_second?: StringNullableFilter | string | null
-    introduction_title?: StringNullableFilter | string | null
-    introduction_content?: StringNullableFilter | string | null
-    is_licensed?: BoolNullableFilter | boolean | null
-    re_num?: StringNullableFilter | string | null
-    re_name?: StringNullableFilter | string | null
-    re_phone?: StringNullableFilter | string | null
-    re_licensed_agent_name?: StringNullableFilter | string | null
-    oauth_accessor?: XOR<AccessorModelRelationFilter, AccessorModelWhereInput>
+    hs_provider_id?: StringFilter | string
+    image_url?: StringFilter | string
+    hs_provider?: XOR<HSProviderModelRelationFilter, HSProviderModelWhereInput>
   }
 
-  export type TempREAgentModelOrderByWithRelationInput = {
+  export type HSIntroductionImageModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    is_licensed?: SortOrder
-    re_num?: SortOrder
-    re_name?: SortOrder
-    re_phone?: SortOrder
-    re_licensed_agent_name?: SortOrder
-    oauth_accessor?: AccessorModelOrderByWithRelationInput
+    hs_provider_id?: SortOrder
+    image_url?: SortOrder
+    hs_provider?: HSProviderModelOrderByWithRelationInput
   }
 
-  export type TempREAgentModelWhereUniqueInput = {
+  export type HSIntroductionImageModelWhereUniqueInput = {
     id?: string
   }
 
-  export type TempREAgentModelOrderByWithAggregationInput = {
+  export type HSIntroductionImageModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    is_licensed?: SortOrder
-    re_num?: SortOrder
-    re_name?: SortOrder
-    re_phone?: SortOrder
-    re_licensed_agent_name?: SortOrder
-    _count?: TempREAgentModelCountOrderByAggregateInput
-    _max?: TempREAgentModelMaxOrderByAggregateInput
-    _min?: TempREAgentModelMinOrderByAggregateInput
+    hs_provider_id?: SortOrder
+    image_url?: SortOrder
+    _count?: HSIntroductionImageModelCountOrderByAggregateInput
+    _max?: HSIntroductionImageModelMaxOrderByAggregateInput
+    _min?: HSIntroductionImageModelMinOrderByAggregateInput
   }
 
-  export type TempREAgentModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<TempREAgentModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<TempREAgentModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<TempREAgentModelScalarWhereWithAggregatesInput>
+  export type HSIntroductionImageModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     id?: StringWithAggregatesFilter | string
-    name?: StringNullableWithAggregatesFilter | string | null
-    email?: StringNullableWithAggregatesFilter | string | null
-    email_verified?: BoolWithAggregatesFilter | boolean
-    phone?: StringNullableWithAggregatesFilter | string | null
-    phone_verified?: BoolWithAggregatesFilter | boolean
-    profile_image_url?: StringNullableWithAggregatesFilter | string | null
-    address_first?: StringNullableWithAggregatesFilter | string | null
-    address_second?: StringNullableWithAggregatesFilter | string | null
-    introduction_title?: StringNullableWithAggregatesFilter | string | null
-    introduction_content?: StringNullableWithAggregatesFilter | string | null
-    is_licensed?: BoolNullableWithAggregatesFilter | boolean | null
-    re_num?: StringNullableWithAggregatesFilter | string | null
-    re_name?: StringNullableWithAggregatesFilter | string | null
-    re_phone?: StringNullableWithAggregatesFilter | string | null
-    re_licensed_agent_name?: StringNullableWithAggregatesFilter | string | null
+    hs_provider_id?: StringWithAggregatesFilter | string
+    image_url?: StringWithAggregatesFilter | string
   }
 
-  export type TempHSCompanyModelWhereInput = {
-    AND?: Enumerable<TempHSCompanyModelWhereInput>
-    OR?: Enumerable<TempHSCompanyModelWhereInput>
-    NOT?: Enumerable<TempHSCompanyModelWhereInput>
+  export type UserExpertiseModelWhereInput = {
+    AND?: Enumerable<UserExpertiseModelWhereInput>
+    OR?: Enumerable<UserExpertiseModelWhereInput>
+    NOT?: Enumerable<UserExpertiseModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    name?: StringNullableFilter | string | null
-    email?: StringNullableFilter | string | null
-    email_verified?: BoolFilter | boolean
-    phone?: StringNullableFilter | string | null
-    phone_verified?: BoolFilter | boolean
-    profile_image_url?: StringNullableFilter | string | null
-    address_first?: StringNullableFilter | string | null
-    address_second?: StringNullableFilter | string | null
-    introduction_title?: StringNullableFilter | string | null
-    introduction_content?: StringNullableFilter | string | null
-    business_num?: StringNullableFilter | string | null
-    oauth_accessor?: XOR<AccessorModelRelationFilter, AccessorModelWhereInput>
+    category_id?: StringFilter | string
+    business_user_id?: StringFilter | string
+    category?: XOR<ExpertSubCategoryModelRelationFilter, ExpertSubCategoryModelWhereInput>
+    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
   }
 
-  export type TempHSCompanyModelOrderByWithRelationInput = {
+  export type UserExpertiseModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    business_num?: SortOrder
-    oauth_accessor?: AccessorModelOrderByWithRelationInput
+    category_id?: SortOrder
+    business_user_id?: SortOrder
+    category?: ExpertSubCategoryModelOrderByWithRelationInput
+    business_user?: BusinessUserOrderByWithRelationInput
   }
 
-  export type TempHSCompanyModelWhereUniqueInput = {
+  export type UserExpertiseModelWhereUniqueInput = {
     id?: string
   }
 
-  export type TempHSCompanyModelOrderByWithAggregationInput = {
+  export type UserExpertiseModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    category_id?: SortOrder
+    business_user_id?: SortOrder
+    _count?: UserExpertiseModelCountOrderByAggregateInput
+    _max?: UserExpertiseModelMaxOrderByAggregateInput
+    _min?: UserExpertiseModelMinOrderByAggregateInput
+  }
+
+  export type UserExpertiseModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    id?: StringWithAggregatesFilter | string
+    category_id?: StringWithAggregatesFilter | string
+    business_user_id?: StringWithAggregatesFilter | string
+  }
+
+  export type ExpertSubCategoryModelWhereInput = {
+    AND?: Enumerable<ExpertSubCategoryModelWhereInput>
+    OR?: Enumerable<ExpertSubCategoryModelWhereInput>
+    NOT?: Enumerable<ExpertSubCategoryModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    name?: StringFilter | string
+    super_id?: StringFilter | string
+    super?: XOR<ExpertSuperCategoryModelRelationFilter, ExpertSuperCategoryModelWhereInput>
+    expertises?: UserExpertiseModelListRelationFilter
+  }
+
+  export type ExpertSubCategoryModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    business_num?: SortOrder
-    _count?: TempHSCompanyModelCountOrderByAggregateInput
-    _max?: TempHSCompanyModelMaxOrderByAggregateInput
-    _min?: TempHSCompanyModelMinOrderByAggregateInput
+    super_id?: SortOrder
+    super?: ExpertSuperCategoryModelOrderByWithRelationInput
+    expertises?: UserExpertiseModelOrderByRelationAggregateInput
   }
 
-  export type TempHSCompanyModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<TempHSCompanyModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<TempHSCompanyModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<TempHSCompanyModelScalarWhereWithAggregatesInput>
+  export type ExpertSubCategoryModelWhereUniqueInput = {
+    id?: string
+    name?: string
+  }
+
+  export type ExpertSubCategoryModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    super_id?: SortOrder
+    _count?: ExpertSubCategoryModelCountOrderByAggregateInput
+    _max?: ExpertSubCategoryModelMaxOrderByAggregateInput
+    _min?: ExpertSubCategoryModelMinOrderByAggregateInput
+  }
+
+  export type ExpertSubCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     id?: StringWithAggregatesFilter | string
-    name?: StringNullableWithAggregatesFilter | string | null
-    email?: StringNullableWithAggregatesFilter | string | null
-    email_verified?: BoolWithAggregatesFilter | boolean
-    phone?: StringNullableWithAggregatesFilter | string | null
-    phone_verified?: BoolWithAggregatesFilter | boolean
-    profile_image_url?: StringNullableWithAggregatesFilter | string | null
-    address_first?: StringNullableWithAggregatesFilter | string | null
-    address_second?: StringNullableWithAggregatesFilter | string | null
-    introduction_title?: StringNullableWithAggregatesFilter | string | null
-    introduction_content?: StringNullableWithAggregatesFilter | string | null
-    business_num?: StringNullableWithAggregatesFilter | string | null
+    name?: StringWithAggregatesFilter | string
+    super_id?: StringWithAggregatesFilter | string
   }
 
-  export type AccessorModelCreateInput = {
+  export type ExpertSuperCategoryModelWhereInput = {
+    AND?: Enumerable<ExpertSuperCategoryModelWhereInput>
+    OR?: Enumerable<ExpertSuperCategoryModelWhereInput>
+    NOT?: Enumerable<ExpertSuperCategoryModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    name?: StringFilter | string
+    business_type?: EnumExpertBusinessTypeFilter | ExpertBusinessType
+    subs?: ExpertSubCategoryModelListRelationFilter
+  }
+
+  export type ExpertSuperCategoryModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    business_type?: SortOrder
+    subs?: ExpertSubCategoryModelOrderByRelationAggregateInput
+  }
+
+  export type ExpertSuperCategoryModelWhereUniqueInput = {
+    id?: string
+    name?: string
+  }
+
+  export type ExpertSuperCategoryModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    business_type?: SortOrder
+    _count?: ExpertSuperCategoryModelCountOrderByAggregateInput
+    _max?: ExpertSuperCategoryModelMaxOrderByAggregateInput
+    _min?: ExpertSuperCategoryModelMinOrderByAggregateInput
+  }
+
+  export type ExpertSuperCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    id?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    business_type?: EnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+  }
+
+  export type AgreementModelWhereInput = {
+    AND?: Enumerable<AgreementModelWhereInput>
+    OR?: Enumerable<AgreementModelWhereInput>
+    NOT?: Enumerable<AgreementModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    title?: StringFilter | string
+    content?: StringFilter | string
+    user_type?: EnumAgreementUserTypeFilter | AgreementUserType
+    acceptances?: AgreementAcceptanceModelListRelationFilter
+  }
+
+  export type AgreementModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    user_type?: SortOrder
+    acceptances?: AgreementAcceptanceModelOrderByRelationAggregateInput
+  }
+
+  export type AgreementModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type AgreementModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    user_type?: SortOrder
+    _count?: AgreementModelCountOrderByAggregateInput
+    _max?: AgreementModelMaxOrderByAggregateInput
+    _min?: AgreementModelMinOrderByAggregateInput
+  }
+
+  export type AgreementModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AgreementModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AgreementModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AgreementModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    content?: StringWithAggregatesFilter | string
+    user_type?: EnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+  }
+
+  export type AgreementAcceptanceModelWhereInput = {
+    AND?: Enumerable<AgreementAcceptanceModelWhereInput>
+    OR?: Enumerable<AgreementAcceptanceModelWhereInput>
+    NOT?: Enumerable<AgreementAcceptanceModelWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    agreement_id?: StringFilter | string
+    user?: XOR<UserModelRelationFilter, UserModelWhereInput>
+    agreement?: XOR<AgreementModelRelationFilter, AgreementModelWhereInput>
+  }
+
+  export type AgreementAcceptanceModelOrderByWithRelationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    user_id?: SortOrder
+    agreement_id?: SortOrder
+    user?: UserModelOrderByWithRelationInput
+    agreement?: AgreementModelOrderByWithRelationInput
+  }
+
+  export type AgreementAcceptanceModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type AgreementAcceptanceModelOrderByWithAggregationInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    user_id?: SortOrder
+    agreement_id?: SortOrder
+    _count?: AgreementAcceptanceModelCountOrderByAggregateInput
+    _max?: AgreementAcceptanceModelMaxOrderByAggregateInput
+    _min?: AgreementAcceptanceModelMinOrderByAggregateInput
+  }
+
+  export type AgreementAcceptanceModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    id?: StringWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
+    agreement_id?: StringWithAggregatesFilter | string
+  }
+
+  export type OauthAccessorModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorsInput
-    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorsInput
-    temp_re_agents?: TempREAgentModelCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelCreateNestedOneWithoutOauth_accessorInput
+    oauth_sub: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
+    business_user: BusinessUserCreateNestedOneWithoutOauth_accessorInput
+    customer: CustomerModelCreateNestedOneWithoutOauth_accessorInput
   }
 
-  export type AccessorModelUncheckedCreateInput = {
+  export type OauthAccessorModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    customer_id?: string | null
-    business_user_id?: string | null
-    temp_re_agents?: TempREAgentModelUncheckedCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelUncheckedCreateNestedOneWithoutOauth_accessorInput
+    oauth_sub: string
+    business_user_id: string
+    customer_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
   }
 
-  export type AccessorModelUpdateInput = {
+  export type OauthAccessorModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer?: CustomerModelUpdateOneWithoutOauth_accessorsNestedInput
-    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorsNestedInput
-    temp_re_agents?: TempREAgentModelUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUpdateOneWithoutOauth_accessorNestedInput
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    business_user?: BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput
+    customer?: CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput
   }
 
-  export type AccessorModelUncheckedUpdateInput = {
+  export type OauthAccessorModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    temp_re_agents?: TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AccessorModelCreateManyInput = {
+  export type OauthAccessorModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    customer_id?: string | null
-    business_user_id?: string | null
+    oauth_sub: string
+    business_user_id: string
+    customer_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
   }
 
-  export type AccessorModelUpdateManyMutationInput = {
+  export type OauthAccessorModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AccessorModelUncheckedUpdateManyInput = {
+  export type OauthAccessorModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserModelCreateInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutUserInput
   }
 
   export type UserModelUncheckedCreateInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserModelUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUpdateManyWithoutUserNestedInput
   }
 
   export type UserModelUncheckedUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserModelCreateManyInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
   }
 
   export type UserModelUpdateManyMutationInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserModelUncheckedUpdateManyInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CustomerModelCreateInput = {
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
+    profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutCustomerInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerModelUncheckedCreateInput = {
     id: string
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutCustomerInput
+    profile_image_url?: string | null
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerModelUpdateInput = {
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
-    oauth_accessors?: AccessorModelUpdateManyWithoutCustomerNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutCustomerNestedInput
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerModelCreateManyInput = {
     id: string
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
+    profile_image_url?: string | null
   }
 
   export type CustomerModelUpdateManyMutationInput = {
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CustomerModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type BusinessUserModelCreateInput = {
-    profile_image_url: string
+  export type BusinessUserCreateInput = {
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutBusiness_userInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUncheckedCreateInput = {
+  export type BusinessUserUncheckedCreateInput = {
     id: string
-    profile_image_url: string
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelUncheckedCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUpdateInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUpdateInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUpdateManyWithoutBusiness_userNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelUncheckedUpdateInput = {
+  export type BusinessUserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUncheckedUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelCreateManyInput = {
+  export type BusinessUserCreateManyInput = {
     id: string
-    profile_image_url: string
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
   }
 
-  export type BusinessUserModelUpdateManyMutationInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUpdateManyMutationInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type BusinessUserModelUncheckedUpdateManyInput = {
+  export type BusinessUserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
   export type REAgentModelCreateInput = {
@@ -10761,9 +15470,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second?: string | null
-    base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
+    base: BusinessUserCreateNestedOneWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateInput = {
@@ -10773,8 +15480,6 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second?: string | null
   }
 
   export type REAgentModelUpdateInput = {
@@ -10783,9 +15488,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
+    base?: BusinessUserUpdateOneRequiredWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateInput = {
@@ -10795,8 +15498,6 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type REAgentModelCreateManyInput = {
@@ -10806,8 +15507,6 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second?: string | null
   }
 
   export type REAgentModelUpdateManyMutationInput = {
@@ -10816,8 +15515,6 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type REAgentModelUncheckedUpdateManyInput = {
@@ -10827,337 +15524,573 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type HSCompanyModelCreateInput = {
-    business_num: string
-    address_first: string
-    address_second?: string | null
-    base: BusinessUserModelCreateNestedOneWithoutHs_companyInput
-    introduction_images?: HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput
+  export type HSProviderModelCreateInput = {
+    business_registration_num: string
+    base: BusinessUserCreateNestedOneWithoutHs_providerInput
+    introduction_images?: HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput
   }
 
-  export type HSCompanyModelUncheckedCreateInput = {
+  export type HSProviderModelUncheckedCreateInput = {
     id: string
-    business_num: string
-    address_first: string
-    address_second?: string | null
-    introduction_images?: HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput
+    business_registration_num: string
+    introduction_images?: HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput
   }
 
-  export type HSCompanyModelUpdateInput = {
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    base?: BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput
-    introduction_images?: HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput
+  export type HSProviderModelUpdateInput = {
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+    base?: BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput
+    introduction_images?: HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput
   }
 
-  export type HSCompanyModelUncheckedUpdateInput = {
+  export type HSProviderModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_images?: HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+    introduction_images?: HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
   }
 
-  export type HSCompanyModelCreateManyInput = {
+  export type HSProviderModelCreateManyInput = {
     id: string
-    business_num: string
-    address_first: string
-    address_second?: string | null
+    business_registration_num: string
   }
 
-  export type HSCompanyModelUpdateManyMutationInput = {
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+  export type HSProviderModelUpdateManyMutationInput = {
+    business_registration_num?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSCompanyModelUncheckedUpdateManyInput = {
+  export type HSProviderModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    business_registration_num?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSCompanyIntroductionImageModelCreateInput = {
+  export type BusinessCertificationModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    url: string
-    company: HSCompanyModelCreateNestedOneWithoutIntroduction_imagesInput
+    image_url: string
+    business_user: BusinessUserCreateNestedOneWithoutCertificationsInput
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedCreateInput = {
+  export type BusinessCertificationModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    url: string
-    company_id: string
+    business_user_id: string
+    image_url: string
   }
 
-  export type HSCompanyIntroductionImageModelUpdateInput = {
+  export type BusinessCertificationModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    company?: HSCompanyModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput
+    image_url?: StringFieldUpdateOperationsInput | string
+    business_user?: BusinessUserUpdateOneRequiredWithoutCertificationsNestedInput
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedUpdateInput = {
+  export type BusinessCertificationModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    company_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSCompanyIntroductionImageModelCreateManyInput = {
+  export type BusinessCertificationModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    url: string
-    company_id: string
+    business_user_id: string
+    image_url: string
   }
 
-  export type HSCompanyIntroductionImageModelUpdateManyMutationInput = {
+  export type BusinessCertificationModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedUpdateManyInput = {
+  export type BusinessCertificationModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    company_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TempREAgentModelCreateInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    is_licensed?: boolean | null
-    re_num?: string | null
-    re_name?: string | null
-    re_phone?: string | null
-    re_licensed_agent_name?: string | null
-    oauth_accessor: AccessorModelCreateNestedOneWithoutTemp_re_agentsInput
-  }
-
-  export type TempREAgentModelUncheckedCreateInput = {
+  export type HSIntroductionImageModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    is_licensed?: boolean | null
-    re_num?: string | null
-    re_name?: string | null
-    re_phone?: string | null
-    re_licensed_agent_name?: string | null
+    image_url: string
+    hs_provider: HSProviderModelCreateNestedOneWithoutIntroduction_imagesInput
   }
 
-  export type TempREAgentModelUpdateInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accessor?: AccessorModelUpdateOneRequiredWithoutTemp_re_agentsNestedInput
-  }
-
-  export type TempREAgentModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TempREAgentModelCreateManyInput = {
+  export type HSIntroductionImageModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    is_licensed?: boolean | null
-    re_num?: string | null
-    re_name?: string | null
-    re_phone?: string | null
-    re_licensed_agent_name?: string | null
+    hs_provider_id: string
+    image_url: string
   }
 
-  export type TempREAgentModelUpdateManyMutationInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TempREAgentModelUncheckedUpdateManyInput = {
+  export type HSIntroductionImageModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    image_url?: StringFieldUpdateOperationsInput | string
+    hs_provider?: HSProviderModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput
   }
 
-  export type TempHSCompanyModelCreateInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    business_num?: string | null
-    oauth_accessor: AccessorModelCreateNestedOneWithoutTemp_hs_companyInput
+  export type HSIntroductionImageModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    hs_provider_id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TempHSCompanyModelUncheckedCreateInput = {
+  export type HSIntroductionImageModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    business_num?: string | null
+    hs_provider_id: string
+    image_url: string
   }
 
-  export type TempHSCompanyModelUpdateInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accessor?: AccessorModelUpdateOneRequiredWithoutTemp_hs_companyNestedInput
-  }
-
-  export type TempHSCompanyModelUncheckedUpdateInput = {
+  export type HSIntroductionImageModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TempHSCompanyModelCreateManyInput = {
+  export type HSIntroductionImageModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    hs_provider_id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    business_num?: string | null
+    category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserCreateNestedOneWithoutExpertisesInput
   }
 
-  export type TempHSCompanyModelUpdateManyMutationInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
+  export type UserExpertiseModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    category_id: string
+    business_user_id: string
   }
 
-  export type TempHSCompanyModelUncheckedUpdateManyInput = {
+  export type UserExpertiseModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput
+  }
+
+  export type UserExpertiseModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    category_id: string
+    business_user_id: string
+  }
+
+  export type UserExpertiseModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExpertSubCategoryModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    super: ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ExpertSubCategoryModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    super_id: string
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ExpertSubCategoryModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    super?: ExpertSuperCategoryModelUpdateOneRequiredWithoutSubsNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type ExpertSubCategoryModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    super_id?: StringFieldUpdateOperationsInput | string
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type ExpertSubCategoryModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    super_id: string
+  }
+
+  export type ExpertSubCategoryModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExpertSubCategoryModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    super_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExpertSuperCategoryModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    business_type: ExpertBusinessType
+    subs?: ExpertSubCategoryModelCreateNestedManyWithoutSuperInput
+  }
+
+  export type ExpertSuperCategoryModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    business_type: ExpertBusinessType
+    subs?: ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuperInput
+  }
+
+  export type ExpertSuperCategoryModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    subs?: ExpertSubCategoryModelUpdateManyWithoutSuperNestedInput
+  }
+
+  export type ExpertSuperCategoryModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    subs?: ExpertSubCategoryModelUncheckedUpdateManyWithoutSuperNestedInput
+  }
+
+  export type ExpertSuperCategoryModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    business_type: ExpertBusinessType
+  }
+
+  export type ExpertSuperCategoryModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+  }
+
+  export type ExpertSuperCategoryModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+  }
+
+  export type AgreementModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+    acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+    acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutAgreementInput
+  }
+
+  export type AgreementModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    acceptances?: AgreementAcceptanceModelUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreementNestedInput
+  }
+
+  export type AgreementModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+  }
+
+  export type AgreementModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+  }
+
+  export type AgreementModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+  }
+
+  export type AgreementAcceptanceModelCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    user: UserModelCreateNestedOneWithoutAgreement_acceptancesInput
+    agreement: AgreementModelCreateNestedOneWithoutAcceptancesInput
+  }
+
+  export type AgreementAcceptanceModelUncheckedCreateInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    user_id: string
+    agreement_id: string
+  }
+
+  export type AgreementAcceptanceModelUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    user?: UserModelUpdateOneRequiredWithoutAgreement_acceptancesNestedInput
+    agreement?: AgreementModelUpdateOneRequiredWithoutAcceptancesNestedInput
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    agreement_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AgreementAcceptanceModelCreateManyInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    user_id: string
+    agreement_id: string
+  }
+
+  export type AgreementAcceptanceModelUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateManyInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    agreement_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type StringFilter = {
@@ -11197,53 +16130,117 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type EnumGenderTypeNullableFilter = {
+    equals?: GenderType | null
+    in?: Enumerable<GenderType> | null
+    notIn?: Enumerable<GenderType> | null
+    not?: NestedEnumGenderTypeNullableFilter | GenderType | null
+  }
+
+  export type BusinessUserRelationFilter = {
+    is?: BusinessUserWhereInput
+    isNot?: BusinessUserWhereInput
+  }
+
   export type CustomerModelRelationFilter = {
-    is?: CustomerModelWhereInput | null
-    isNot?: CustomerModelWhereInput | null
+    is?: CustomerModelWhereInput
+    isNot?: CustomerModelWhereInput
   }
 
-  export type BusinessUserModelRelationFilter = {
-    is?: BusinessUserModelWhereInput
-    isNot?: BusinessUserModelWhereInput
-  }
-
-  export type TempREAgentModelRelationFilter = {
-    is?: TempREAgentModelWhereInput | null
-    isNot?: TempREAgentModelWhereInput | null
-  }
-
-  export type TempHSCompanyModelRelationFilter = {
-    is?: TempHSCompanyModelWhereInput | null
-    isNot?: TempHSCompanyModelWhereInput | null
-  }
-
-  export type AccessorModelOauth_typeOauth_subCompoundUniqueInput = {
-    oauth_type: OauthType
-    oauth_sub: string
-  }
-
-  export type AccessorModelCountOrderByAggregateInput = {
+  export type OauthAccessorModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    oauth_sub?: SortOrder
     oauth_type?: SortOrder
-    customer_id?: SortOrder
+    oauth_sub?: SortOrder
     business_user_id?: SortOrder
+    customer_id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    profile_image_url?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
   }
 
-  export type AccessorModelMaxOrderByAggregateInput = {
+  export type OauthAccessorModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    oauth_sub?: SortOrder
     oauth_type?: SortOrder
-    customer_id?: SortOrder
+    oauth_sub?: SortOrder
     business_user_id?: SortOrder
+    customer_id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    profile_image_url?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
   }
 
-  export type AccessorModelMinOrderByAggregateInput = {
+  export type OauthAccessorModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    oauth_sub?: SortOrder
     oauth_type?: SortOrder
-    customer_id?: SortOrder
+    oauth_sub?: SortOrder
     business_user_id?: SortOrder
+    customer_id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    profile_image_url?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
   }
 
   export type StringWithAggregatesFilter = {
@@ -11292,123 +16289,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type DateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
-  }
-
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type UserModelCountOrderByAggregateInput = {
-    created_at?: SortOrder
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-  }
-
-  export type UserModelMaxOrderByAggregateInput = {
-    created_at?: SortOrder
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-  }
-
-  export type UserModelMinOrderByAggregateInput = {
-    created_at?: SortOrder
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-  }
-
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
-  }
-
-  export type EnumGenderTypeNullableFilter = {
-    equals?: GenderType | null
-    in?: Enumerable<GenderType> | null
-    notIn?: Enumerable<GenderType> | null
-    not?: NestedEnumGenderTypeNullableFilter | GenderType | null
-  }
-
-  export type UserModelRelationFilter = {
-    is?: UserModelWhereInput
-    isNot?: UserModelWhereInput
-  }
-
-  export type AccessorModelListRelationFilter = {
-    every?: AccessorModelWhereInput
-    some?: AccessorModelWhereInput
-    none?: AccessorModelWhereInput
-  }
-
-  export type AccessorModelOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CustomerModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    profile_image_url?: SortOrder
-    gender?: SortOrder
-    birth?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-  }
-
-  export type CustomerModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    profile_image_url?: SortOrder
-    gender?: SortOrder
-    birth?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-  }
-
-  export type CustomerModelMinOrderByAggregateInput = {
-    id?: SortOrder
-    profile_image_url?: SortOrder
-    gender?: SortOrder
-    birth?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-  }
-
   export type EnumGenderTypeNullableWithAggregatesFilter = {
     equals?: GenderType | null
     in?: Enumerable<GenderType> | null
@@ -11419,35 +16299,152 @@ export namespace Prisma {
     _max?: NestedEnumGenderTypeNullableFilter
   }
 
+  export type AgreementAcceptanceModelListRelationFilter = {
+    every?: AgreementAcceptanceModelWhereInput
+    some?: AgreementAcceptanceModelWhereInput
+    none?: AgreementAcceptanceModelWhereInput
+  }
+
+  export type AgreementAcceptanceModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+  }
+
+  export type UserModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+  }
+
+  export type UserModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+  }
+
+  export type UserModelRelationFilter = {
+    is?: UserModelWhereInput
+    isNot?: UserModelWhereInput
+  }
+
+  export type OauthAccessorModelListRelationFilter = {
+    every?: OauthAccessorModelWhereInput
+    some?: OauthAccessorModelWhereInput
+    none?: OauthAccessorModelWhereInput
+  }
+
+  export type OauthAccessorModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomerModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+  }
+
+  export type CustomerModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+  }
+
+  export type CustomerModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    birth?: SortOrder
+    gender?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+  }
+
   export type REAgentModelRelationFilter = {
     is?: REAgentModelWhereInput | null
     isNot?: REAgentModelWhereInput | null
   }
 
-  export type HSCompanyModelRelationFilter = {
-    is?: HSCompanyModelWhereInput
-    isNot?: HSCompanyModelWhereInput
+  export type HSProviderModelRelationFilter = {
+    is?: HSProviderModelWhereInput
+    isNot?: HSProviderModelWhereInput
   }
 
-  export type BusinessUserModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    profile_image_url?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
+  export type BusinessCertificationModelListRelationFilter = {
+    every?: BusinessCertificationModelWhereInput
+    some?: BusinessCertificationModelWhereInput
+    none?: BusinessCertificationModelWhereInput
   }
 
-  export type BusinessUserModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    profile_image_url?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
+  export type UserExpertiseModelListRelationFilter = {
+    every?: UserExpertiseModelWhereInput
+    some?: UserExpertiseModelWhereInput
+    none?: UserExpertiseModelWhereInput
   }
 
-  export type BusinessUserModelMinOrderByAggregateInput = {
+  export type BusinessCertificationModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserExpertiseModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BusinessUserCountOrderByAggregateInput = {
     id?: SortOrder
-    profile_image_url?: SortOrder
+    is_verified?: SortOrder
     introduction_title?: SortOrder
     introduction_content?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+  }
+
+  export type BusinessUserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    is_verified?: SortOrder
+    introduction_title?: SortOrder
+    introduction_content?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
+  }
+
+  export type BusinessUserMinOrderByAggregateInput = {
+    id?: SortOrder
+    is_verified?: SortOrder
+    introduction_title?: SortOrder
+    introduction_content?: SortOrder
+    phone?: SortOrder
+    address_first?: SortOrder
+    address_second?: SortOrder
+    profile_image_url?: SortOrder
   }
 
   export type REAgentModelCountOrderByAggregateInput = {
@@ -11457,8 +16454,6 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    re_address_first?: SortOrder
-    re_address_second?: SortOrder
   }
 
   export type REAgentModelMaxOrderByAggregateInput = {
@@ -11468,8 +16463,6 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    re_address_first?: SortOrder
-    re_address_second?: SortOrder
   }
 
   export type REAgentModelMinOrderByAggregateInput = {
@@ -11479,213 +16472,327 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    re_address_first?: SortOrder
-    re_address_second?: SortOrder
   }
 
-  export type HSCompanyIntroductionImageModelListRelationFilter = {
-    every?: HSCompanyIntroductionImageModelWhereInput
-    some?: HSCompanyIntroductionImageModelWhereInput
-    none?: HSCompanyIntroductionImageModelWhereInput
+  export type HSIntroductionImageModelListRelationFilter = {
+    every?: HSIntroductionImageModelWhereInput
+    some?: HSIntroductionImageModelWhereInput
+    none?: HSIntroductionImageModelWhereInput
   }
 
-  export type HSCompanyIntroductionImageModelOrderByRelationAggregateInput = {
+  export type HSIntroductionImageModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type HSCompanyModelCountOrderByAggregateInput = {
+  export type HSProviderModelCountOrderByAggregateInput = {
     id?: SortOrder
-    business_num?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
+    business_registration_num?: SortOrder
   }
 
-  export type HSCompanyModelMaxOrderByAggregateInput = {
+  export type HSProviderModelMaxOrderByAggregateInput = {
     id?: SortOrder
-    business_num?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
+    business_registration_num?: SortOrder
   }
 
-  export type HSCompanyModelMinOrderByAggregateInput = {
+  export type HSProviderModelMinOrderByAggregateInput = {
     id?: SortOrder
-    business_num?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
+    business_registration_num?: SortOrder
   }
 
-  export type HSCompanyIntroductionImageModelCountOrderByAggregateInput = {
+  export type BusinessCertificationModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    url?: SortOrder
-    company_id?: SortOrder
+    business_user_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type HSCompanyIntroductionImageModelMaxOrderByAggregateInput = {
+  export type BusinessCertificationModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    url?: SortOrder
-    company_id?: SortOrder
+    business_user_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type HSCompanyIntroductionImageModelMinOrderByAggregateInput = {
+  export type BusinessCertificationModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    url?: SortOrder
-    company_id?: SortOrder
+    business_user_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type BoolNullableFilter = {
-    equals?: boolean | null
-    not?: NestedBoolNullableFilter | boolean | null
-  }
-
-  export type AccessorModelRelationFilter = {
-    is?: AccessorModelWhereInput
-    isNot?: AccessorModelWhereInput
-  }
-
-  export type TempREAgentModelCountOrderByAggregateInput = {
+  export type HSIntroductionImageModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    is_licensed?: SortOrder
-    re_num?: SortOrder
-    re_name?: SortOrder
-    re_phone?: SortOrder
-    re_licensed_agent_name?: SortOrder
+    hs_provider_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type TempREAgentModelMaxOrderByAggregateInput = {
+  export type HSIntroductionImageModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    is_licensed?: SortOrder
-    re_num?: SortOrder
-    re_name?: SortOrder
-    re_phone?: SortOrder
-    re_licensed_agent_name?: SortOrder
+    hs_provider_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type TempREAgentModelMinOrderByAggregateInput = {
+  export type HSIntroductionImageModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    is_licensed?: SortOrder
-    re_num?: SortOrder
-    re_name?: SortOrder
-    re_phone?: SortOrder
-    re_licensed_agent_name?: SortOrder
+    hs_provider_id?: SortOrder
+    image_url?: SortOrder
   }
 
-  export type BoolNullableWithAggregatesFilter = {
-    equals?: boolean | null
-    not?: NestedBoolNullableWithAggregatesFilter | boolean | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedBoolNullableFilter
-    _max?: NestedBoolNullableFilter
+  export type ExpertSubCategoryModelRelationFilter = {
+    is?: ExpertSubCategoryModelWhereInput
+    isNot?: ExpertSubCategoryModelWhereInput
   }
 
-  export type TempHSCompanyModelCountOrderByAggregateInput = {
+  export type UserExpertiseModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    business_num?: SortOrder
+    category_id?: SortOrder
+    business_user_id?: SortOrder
   }
 
-  export type TempHSCompanyModelMaxOrderByAggregateInput = {
+  export type UserExpertiseModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type UserExpertiseModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type ExpertSuperCategoryModelRelationFilter = {
+    is?: ExpertSuperCategoryModelWhereInput
+    isNot?: ExpertSuperCategoryModelWhereInput
+  }
+
+  export type ExpertSubCategoryModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    business_num?: SortOrder
+    super_id?: SortOrder
   }
 
-  export type TempHSCompanyModelMinOrderByAggregateInput = {
+  export type ExpertSubCategoryModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
-    email_verified?: SortOrder
-    phone?: SortOrder
-    phone_verified?: SortOrder
-    profile_image_url?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    introduction_title?: SortOrder
-    introduction_content?: SortOrder
-    business_num?: SortOrder
+    super_id?: SortOrder
   }
 
-  export type CustomerModelCreateNestedOneWithoutOauth_accessorsInput = {
-    create?: XOR<CustomerModelCreateWithoutOauth_accessorsInput, CustomerModelUncheckedCreateWithoutOauth_accessorsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutOauth_accessorsInput
+  export type ExpertSubCategoryModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    super_id?: SortOrder
+  }
+
+  export type EnumExpertBusinessTypeFilter = {
+    equals?: ExpertBusinessType
+    in?: Enumerable<ExpertBusinessType>
+    notIn?: Enumerable<ExpertBusinessType>
+    not?: NestedEnumExpertBusinessTypeFilter | ExpertBusinessType
+  }
+
+  export type ExpertSubCategoryModelListRelationFilter = {
+    every?: ExpertSubCategoryModelWhereInput
+    some?: ExpertSubCategoryModelWhereInput
+    none?: ExpertSubCategoryModelWhereInput
+  }
+
+  export type ExpertSubCategoryModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExpertSuperCategoryModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    business_type?: SortOrder
+  }
+
+  export type ExpertSuperCategoryModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    business_type?: SortOrder
+  }
+
+  export type ExpertSuperCategoryModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    name?: SortOrder
+    business_type?: SortOrder
+  }
+
+  export type EnumExpertBusinessTypeWithAggregatesFilter = {
+    equals?: ExpertBusinessType
+    in?: Enumerable<ExpertBusinessType>
+    notIn?: Enumerable<ExpertBusinessType>
+    not?: NestedEnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+    _count?: NestedIntFilter
+    _min?: NestedEnumExpertBusinessTypeFilter
+    _max?: NestedEnumExpertBusinessTypeFilter
+  }
+
+  export type EnumAgreementUserTypeFilter = {
+    equals?: AgreementUserType
+    in?: Enumerable<AgreementUserType>
+    notIn?: Enumerable<AgreementUserType>
+    not?: NestedEnumAgreementUserTypeFilter | AgreementUserType
+  }
+
+  export type AgreementModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    user_type?: SortOrder
+  }
+
+  export type AgreementModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    user_type?: SortOrder
+  }
+
+  export type AgreementModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    user_type?: SortOrder
+  }
+
+  export type EnumAgreementUserTypeWithAggregatesFilter = {
+    equals?: AgreementUserType
+    in?: Enumerable<AgreementUserType>
+    notIn?: Enumerable<AgreementUserType>
+    not?: NestedEnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+    _count?: NestedIntFilter
+    _min?: NestedEnumAgreementUserTypeFilter
+    _max?: NestedEnumAgreementUserTypeFilter
+  }
+
+  export type AgreementModelRelationFilter = {
+    is?: AgreementModelWhereInput
+    isNot?: AgreementModelWhereInput
+  }
+
+  export type AgreementAcceptanceModelCountOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    user_id?: SortOrder
+    agreement_id?: SortOrder
+  }
+
+  export type AgreementAcceptanceModelMaxOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    user_id?: SortOrder
+    agreement_id?: SortOrder
+  }
+
+  export type AgreementAcceptanceModelMinOrderByAggregateInput = {
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    id?: SortOrder
+    user_id?: SortOrder
+    agreement_id?: SortOrder
+  }
+
+  export type BusinessUserCreateNestedOneWithoutOauth_accessorInput = {
+    create?: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutOauth_accessorInput
+    connect?: BusinessUserWhereUniqueInput
+  }
+
+  export type CustomerModelCreateNestedOneWithoutOauth_accessorInput = {
+    create?: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutOauth_accessorInput
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type BusinessUserModelCreateNestedOneWithoutOauth_accessorsInput = {
-    create?: XOR<BusinessUserModelCreateWithoutOauth_accessorsInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutOauth_accessorsInput
-    connect?: BusinessUserModelWhereUniqueInput
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
-  export type TempREAgentModelCreateNestedOneWithoutOauth_accessorInput = {
-    create?: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempREAgentModelCreateOrConnectWithoutOauth_accessorInput
-    connect?: TempREAgentModelWhereUniqueInput
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
-  export type TempHSCompanyModelCreateNestedOneWithoutOauth_accessorInput = {
-    create?: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempHSCompanyModelCreateOrConnectWithoutOauth_accessorInput
-    connect?: TempHSCompanyModelWhereUniqueInput
-  }
-
-  export type TempREAgentModelUncheckedCreateNestedOneWithoutOauth_accessorInput = {
-    create?: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempREAgentModelCreateOrConnectWithoutOauth_accessorInput
-    connect?: TempREAgentModelWhereUniqueInput
-  }
-
-  export type TempHSCompanyModelUncheckedCreateNestedOneWithoutOauth_accessorInput = {
-    create?: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempHSCompanyModelCreateOrConnectWithoutOauth_accessorInput
-    connect?: TempHSCompanyModelWhereUniqueInput
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11696,68 +16803,28 @@ export namespace Prisma {
     set?: OauthType
   }
 
-  export type CustomerModelUpdateOneWithoutOauth_accessorsNestedInput = {
-    create?: XOR<CustomerModelCreateWithoutOauth_accessorsInput, CustomerModelUncheckedCreateWithoutOauth_accessorsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutOauth_accessorsInput
-    upsert?: CustomerModelUpsertWithoutOauth_accessorsInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: CustomerModelWhereUniqueInput
-    update?: XOR<CustomerModelUpdateWithoutOauth_accessorsInput, CustomerModelUncheckedUpdateWithoutOauth_accessorsInput>
-  }
-
-  export type BusinessUserModelUpdateOneWithoutOauth_accessorsNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutOauth_accessorsInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutOauth_accessorsInput
-    upsert?: BusinessUserModelUpsertWithoutOauth_accessorsInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutOauth_accessorsInput, BusinessUserModelUncheckedUpdateWithoutOauth_accessorsInput>
-  }
-
-  export type TempREAgentModelUpdateOneWithoutOauth_accessorNestedInput = {
-    create?: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempREAgentModelCreateOrConnectWithoutOauth_accessorInput
-    upsert?: TempREAgentModelUpsertWithoutOauth_accessorInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: TempREAgentModelWhereUniqueInput
-    update?: XOR<TempREAgentModelUpdateWithoutOauth_accessorInput, TempREAgentModelUncheckedUpdateWithoutOauth_accessorInput>
-  }
-
-  export type TempHSCompanyModelUpdateOneWithoutOauth_accessorNestedInput = {
-    create?: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempHSCompanyModelCreateOrConnectWithoutOauth_accessorInput
-    upsert?: TempHSCompanyModelUpsertWithoutOauth_accessorInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: TempHSCompanyModelWhereUniqueInput
-    update?: XOR<TempHSCompanyModelUpdateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedUpdateWithoutOauth_accessorInput>
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput = {
-    create?: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempREAgentModelCreateOrConnectWithoutOauth_accessorInput
-    upsert?: TempREAgentModelUpsertWithoutOauth_accessorInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: TempREAgentModelWhereUniqueInput
-    update?: XOR<TempREAgentModelUpdateWithoutOauth_accessorInput, TempREAgentModelUncheckedUpdateWithoutOauth_accessorInput>
+  export type NullableEnumGenderTypeFieldUpdateOperationsInput = {
+    set?: GenderType | null
   }
 
-  export type TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput = {
-    create?: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: TempHSCompanyModelCreateOrConnectWithoutOauth_accessorInput
-    upsert?: TempHSCompanyModelUpsertWithoutOauth_accessorInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: TempHSCompanyModelWhereUniqueInput
-    update?: XOR<TempHSCompanyModelUpdateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedUpdateWithoutOauth_accessorInput>
+  export type BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutOauth_accessorInput
+    upsert?: BusinessUserUpsertWithoutOauth_accessorInput
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutOauth_accessorInput, BusinessUserUncheckedUpdateWithoutOauth_accessorInput>
+  }
+
+  export type CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput = {
+    create?: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutOauth_accessorInput
+    upsert?: CustomerModelUpsertWithoutOauth_accessorInput
+    connect?: CustomerModelWhereUniqueInput
+    update?: XOR<CustomerModelUpdateWithoutOauth_accessorInput, CustomerModelUncheckedUpdateWithoutOauth_accessorInput>
   }
 
   export type CustomerModelCreateNestedOneWithoutBaseInput = {
@@ -11766,10 +16833,17 @@ export namespace Prisma {
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type BusinessUserModelCreateNestedOneWithoutBaseInput = {
-    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
-    connect?: BusinessUserModelWhereUniqueInput
+  export type BusinessUserCreateNestedOneWithoutBaseInput = {
+    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
+    connect?: BusinessUserWhereUniqueInput
+  }
+
+  export type AgreementAcceptanceModelCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutUserInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutUserInput>
+    createMany?: AgreementAcceptanceModelCreateManyUserInputEnvelope
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
   }
 
   export type CustomerModelUncheckedCreateNestedOneWithoutBaseInput = {
@@ -11778,18 +16852,17 @@ export namespace Prisma {
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput = {
-    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
-    connect?: BusinessUserModelWhereUniqueInput
+  export type BusinessUserUncheckedCreateNestedOneWithoutBaseInput = {
+    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
+    connect?: BusinessUserWhereUniqueInput
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutUserInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutUserInput>
+    createMany?: AgreementAcceptanceModelCreateManyUserInputEnvelope
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
   }
 
   export type CustomerModelUpdateOneWithoutBaseNestedInput = {
@@ -11802,14 +16875,28 @@ export namespace Prisma {
     update?: XOR<CustomerModelUpdateWithoutBaseInput, CustomerModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type BusinessUserModelUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
-    upsert?: BusinessUserModelUpsertWithoutBaseInput
+  export type BusinessUserUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
+    upsert?: BusinessUserUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
+  }
+
+  export type AgreementAcceptanceModelUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutUserInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AgreementAcceptanceModelCreateManyUserInputEnvelope
+    set?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    disconnect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    delete?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    update?: Enumerable<AgreementAcceptanceModelUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AgreementAcceptanceModelUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
   }
 
   export type CustomerModelUncheckedUpdateOneWithoutBaseNestedInput = {
@@ -11822,14 +16909,28 @@ export namespace Prisma {
     update?: XOR<CustomerModelUpdateWithoutBaseInput, CustomerModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
-    upsert?: BusinessUserModelUpsertWithoutBaseInput
+  export type BusinessUserUncheckedUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
+    upsert?: BusinessUserUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutUserInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: AgreementAcceptanceModelCreateManyUserInputEnvelope
+    set?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    disconnect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    delete?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    update?: Enumerable<AgreementAcceptanceModelUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<AgreementAcceptanceModelUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
   }
 
   export type UserModelCreateNestedOneWithoutCustomerInput = {
@@ -11838,22 +16939,18 @@ export namespace Prisma {
     connect?: UserModelWhereUniqueInput
   }
 
-  export type AccessorModelCreateNestedManyWithoutCustomerInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutCustomerInput>, Enumerable<AccessorModelUncheckedCreateWithoutCustomerInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutCustomerInput>
-    createMany?: AccessorModelCreateManyCustomerInputEnvelope
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
+  export type OauthAccessorModelCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutCustomerInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutCustomerInput>
+    createMany?: OauthAccessorModelCreateManyCustomerInputEnvelope
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
   }
 
-  export type AccessorModelUncheckedCreateNestedManyWithoutCustomerInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutCustomerInput>, Enumerable<AccessorModelUncheckedCreateWithoutCustomerInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutCustomerInput>
-    createMany?: AccessorModelCreateManyCustomerInputEnvelope
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
-  }
-
-  export type NullableEnumGenderTypeFieldUpdateOperationsInput = {
-    set?: GenderType | null
+  export type OauthAccessorModelUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutCustomerInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutCustomerInput>
+    createMany?: OauthAccessorModelCreateManyCustomerInputEnvelope
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
   }
 
   export type UserModelUpdateOneRequiredWithoutCustomerNestedInput = {
@@ -11864,32 +16961,32 @@ export namespace Prisma {
     update?: XOR<UserModelUpdateWithoutCustomerInput, UserModelUncheckedUpdateWithoutCustomerInput>
   }
 
-  export type AccessorModelUpdateManyWithoutCustomerNestedInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutCustomerInput>, Enumerable<AccessorModelUncheckedCreateWithoutCustomerInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutCustomerInput>
-    upsert?: Enumerable<AccessorModelUpsertWithWhereUniqueWithoutCustomerInput>
-    createMany?: AccessorModelCreateManyCustomerInputEnvelope
-    set?: Enumerable<AccessorModelWhereUniqueInput>
-    disconnect?: Enumerable<AccessorModelWhereUniqueInput>
-    delete?: Enumerable<AccessorModelWhereUniqueInput>
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
-    update?: Enumerable<AccessorModelUpdateWithWhereUniqueWithoutCustomerInput>
-    updateMany?: Enumerable<AccessorModelUpdateManyWithWhereWithoutCustomerInput>
-    deleteMany?: Enumerable<AccessorModelScalarWhereInput>
+  export type OauthAccessorModelUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutCustomerInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutCustomerInput>
+    upsert?: Enumerable<OauthAccessorModelUpsertWithWhereUniqueWithoutCustomerInput>
+    createMany?: OauthAccessorModelCreateManyCustomerInputEnvelope
+    set?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    disconnect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    delete?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    update?: Enumerable<OauthAccessorModelUpdateWithWhereUniqueWithoutCustomerInput>
+    updateMany?: Enumerable<OauthAccessorModelUpdateManyWithWhereWithoutCustomerInput>
+    deleteMany?: Enumerable<OauthAccessorModelScalarWhereInput>
   }
 
-  export type AccessorModelUncheckedUpdateManyWithoutCustomerNestedInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutCustomerInput>, Enumerable<AccessorModelUncheckedCreateWithoutCustomerInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutCustomerInput>
-    upsert?: Enumerable<AccessorModelUpsertWithWhereUniqueWithoutCustomerInput>
-    createMany?: AccessorModelCreateManyCustomerInputEnvelope
-    set?: Enumerable<AccessorModelWhereUniqueInput>
-    disconnect?: Enumerable<AccessorModelWhereUniqueInput>
-    delete?: Enumerable<AccessorModelWhereUniqueInput>
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
-    update?: Enumerable<AccessorModelUpdateWithWhereUniqueWithoutCustomerInput>
-    updateMany?: Enumerable<AccessorModelUpdateManyWithWhereWithoutCustomerInput>
-    deleteMany?: Enumerable<AccessorModelScalarWhereInput>
+  export type OauthAccessorModelUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutCustomerInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutCustomerInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutCustomerInput>
+    upsert?: Enumerable<OauthAccessorModelUpsertWithWhereUniqueWithoutCustomerInput>
+    createMany?: OauthAccessorModelCreateManyCustomerInputEnvelope
+    set?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    disconnect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    delete?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    update?: Enumerable<OauthAccessorModelUpdateWithWhereUniqueWithoutCustomerInput>
+    updateMany?: Enumerable<OauthAccessorModelUpdateManyWithWhereWithoutCustomerInput>
+    deleteMany?: Enumerable<OauthAccessorModelScalarWhereInput>
   }
 
   export type UserModelCreateNestedOneWithoutBusiness_userInput = {
@@ -11904,17 +17001,31 @@ export namespace Prisma {
     connect?: REAgentModelWhereUniqueInput
   }
 
-  export type HSCompanyModelCreateNestedOneWithoutBaseInput = {
-    create?: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutBaseInput
-    connect?: HSCompanyModelWhereUniqueInput
+  export type HSProviderModelCreateNestedOneWithoutBaseInput = {
+    create?: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutBaseInput
+    connect?: HSProviderModelWhereUniqueInput
   }
 
-  export type AccessorModelCreateNestedManyWithoutBusiness_userInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutBusiness_userInput>, Enumerable<AccessorModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutBusiness_userInput>
-    createMany?: AccessorModelCreateManyBusiness_userInputEnvelope
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
+  export type BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<BusinessCertificationModelCreateWithoutBusiness_userInput>, Enumerable<BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessCertificationModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: BusinessCertificationModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+  }
+
+  export type UserExpertiseModelCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  }
+
+  export type OauthAccessorModelCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutBusiness_userInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: OauthAccessorModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
   }
 
   export type REAgentModelUncheckedCreateNestedOneWithoutBaseInput = {
@@ -11923,17 +17034,31 @@ export namespace Prisma {
     connect?: REAgentModelWhereUniqueInput
   }
 
-  export type HSCompanyModelUncheckedCreateNestedOneWithoutBaseInput = {
-    create?: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutBaseInput
-    connect?: HSCompanyModelWhereUniqueInput
+  export type HSProviderModelUncheckedCreateNestedOneWithoutBaseInput = {
+    create?: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutBaseInput
+    connect?: HSProviderModelWhereUniqueInput
   }
 
-  export type AccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutBusiness_userInput>, Enumerable<AccessorModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutBusiness_userInput>
-    createMany?: AccessorModelCreateManyBusiness_userInputEnvelope
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
+  export type BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<BusinessCertificationModelCreateWithoutBusiness_userInput>, Enumerable<BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessCertificationModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: BusinessCertificationModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+  }
+
+  export type UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  }
+
+  export type OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutBusiness_userInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: OauthAccessorModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
   }
 
   export type UserModelUpdateOneRequiredWithoutBusiness_userNestedInput = {
@@ -11954,28 +17079,56 @@ export namespace Prisma {
     update?: XOR<REAgentModelUpdateWithoutBaseInput, REAgentModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type HSCompanyModelUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutBaseInput
-    upsert?: HSCompanyModelUpsertWithoutBaseInput
+  export type HSProviderModelUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutBaseInput
+    upsert?: HSProviderModelUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: HSCompanyModelWhereUniqueInput
-    update?: XOR<HSCompanyModelUpdateWithoutBaseInput, HSCompanyModelUncheckedUpdateWithoutBaseInput>
+    connect?: HSProviderModelWhereUniqueInput
+    update?: XOR<HSProviderModelUpdateWithoutBaseInput, HSProviderModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type AccessorModelUpdateManyWithoutBusiness_userNestedInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutBusiness_userInput>, Enumerable<AccessorModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutBusiness_userInput>
-    upsert?: Enumerable<AccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput>
-    createMany?: AccessorModelCreateManyBusiness_userInputEnvelope
-    set?: Enumerable<AccessorModelWhereUniqueInput>
-    disconnect?: Enumerable<AccessorModelWhereUniqueInput>
-    delete?: Enumerable<AccessorModelWhereUniqueInput>
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
-    update?: Enumerable<AccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput>
-    updateMany?: Enumerable<AccessorModelUpdateManyWithWhereWithoutBusiness_userInput>
-    deleteMany?: Enumerable<AccessorModelScalarWhereInput>
+  export type BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<BusinessCertificationModelCreateWithoutBusiness_userInput>, Enumerable<BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessCertificationModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<BusinessCertificationModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: BusinessCertificationModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    delete?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    update?: Enumerable<BusinessCertificationModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<BusinessCertificationModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<BusinessCertificationModelScalarWhereInput>
+  }
+
+  export type UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  }
+
+  export type OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutBusiness_userInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<OauthAccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: OauthAccessorModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    disconnect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    delete?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    update?: Enumerable<OauthAccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<OauthAccessorModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<OauthAccessorModelScalarWhereInput>
   }
 
   export type REAgentModelUncheckedUpdateOneWithoutBaseNestedInput = {
@@ -11988,144 +17141,385 @@ export namespace Prisma {
     update?: XOR<REAgentModelUpdateWithoutBaseInput, REAgentModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type HSCompanyModelUncheckedUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutBaseInput
-    upsert?: HSCompanyModelUpsertWithoutBaseInput
+  export type HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutBaseInput
+    upsert?: HSProviderModelUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: HSCompanyModelWhereUniqueInput
-    update?: XOR<HSCompanyModelUpdateWithoutBaseInput, HSCompanyModelUncheckedUpdateWithoutBaseInput>
+    connect?: HSProviderModelWhereUniqueInput
+    update?: XOR<HSProviderModelUpdateWithoutBaseInput, HSProviderModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
-    create?: XOR<Enumerable<AccessorModelCreateWithoutBusiness_userInput>, Enumerable<AccessorModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<AccessorModelCreateOrConnectWithoutBusiness_userInput>
-    upsert?: Enumerable<AccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput>
-    createMany?: AccessorModelCreateManyBusiness_userInputEnvelope
-    set?: Enumerable<AccessorModelWhereUniqueInput>
-    disconnect?: Enumerable<AccessorModelWhereUniqueInput>
-    delete?: Enumerable<AccessorModelWhereUniqueInput>
-    connect?: Enumerable<AccessorModelWhereUniqueInput>
-    update?: Enumerable<AccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput>
-    updateMany?: Enumerable<AccessorModelUpdateManyWithWhereWithoutBusiness_userInput>
-    deleteMany?: Enumerable<AccessorModelScalarWhereInput>
+  export type BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<BusinessCertificationModelCreateWithoutBusiness_userInput>, Enumerable<BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessCertificationModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<BusinessCertificationModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: BusinessCertificationModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    delete?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
+    update?: Enumerable<BusinessCertificationModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<BusinessCertificationModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<BusinessCertificationModelScalarWhereInput>
   }
 
-  export type BusinessUserModelCreateNestedOneWithoutRe_agentInput = {
-    create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
-    connect?: BusinessUserModelWhereUniqueInput
+  export type UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
   }
 
-  export type BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
-    upsert?: BusinessUserModelUpsertWithoutRe_agentInput
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
+  export type OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<OauthAccessorModelCreateWithoutBusiness_userInput>, Enumerable<OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<OauthAccessorModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<OauthAccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: OauthAccessorModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    disconnect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    delete?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    connect?: Enumerable<OauthAccessorModelWhereUniqueInput>
+    update?: Enumerable<OauthAccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<OauthAccessorModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<OauthAccessorModelScalarWhereInput>
   }
 
-  export type BusinessUserModelCreateNestedOneWithoutHs_companyInput = {
-    create?: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutHs_companyInput
-    connect?: BusinessUserModelWhereUniqueInput
+  export type BusinessUserCreateNestedOneWithoutRe_agentInput = {
+    create?: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutRe_agentInput
+    connect?: BusinessUserWhereUniqueInput
   }
 
-  export type HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
-    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
-    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
-    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+  export type BusinessUserUpdateOneRequiredWithoutRe_agentNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutRe_agentInput
+    upsert?: BusinessUserUpsertWithoutRe_agentInput
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutRe_agentInput, BusinessUserUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
-    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
-    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
-    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
+  export type BusinessUserCreateNestedOneWithoutHs_providerInput = {
+    create?: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutHs_providerInput
+    connect?: BusinessUserWhereUniqueInput
   }
 
-  export type BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutHs_companyInput
-    upsert?: BusinessUserModelUpsertWithoutHs_companyInput
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutHs_companyInput, BusinessUserModelUncheckedUpdateWithoutHs_companyInput>
+  export type HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput = {
+    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
+    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
+    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
   }
 
-  export type HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
-    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
-    upsert?: Enumerable<HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput>
-    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
-    set?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    disconnect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    delete?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    update?: Enumerable<HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput>
-    updateMany?: Enumerable<HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput>
-    deleteMany?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+  export type HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput = {
+    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
+    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
+    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<Enumerable<HSCompanyIntroductionImageModelCreateWithoutCompanyInput>, Enumerable<HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>>
-    connectOrCreate?: Enumerable<HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput>
-    upsert?: Enumerable<HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput>
-    createMany?: HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope
-    set?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    disconnect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    delete?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    connect?: Enumerable<HSCompanyIntroductionImageModelWhereUniqueInput>
-    update?: Enumerable<HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput>
-    updateMany?: Enumerable<HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput>
-    deleteMany?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+  export type BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutHs_providerInput
+    upsert?: BusinessUserUpsertWithoutHs_providerInput
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutHs_providerInput, BusinessUserUncheckedUpdateWithoutHs_providerInput>
   }
 
-  export type HSCompanyModelCreateNestedOneWithoutIntroduction_imagesInput = {
-    create?: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput
-    connect?: HSCompanyModelWhereUniqueInput
+  export type HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput = {
+    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
+    upsert?: Enumerable<HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
+    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
+    set?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    delete?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    update?: Enumerable<HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
+    updateMany?: Enumerable<HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput>
+    deleteMany?: Enumerable<HSIntroductionImageModelScalarWhereInput>
   }
 
-  export type HSCompanyModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput = {
-    create?: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
-    connectOrCreate?: HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput
-    upsert?: HSCompanyModelUpsertWithoutIntroduction_imagesInput
-    connect?: HSCompanyModelWhereUniqueInput
-    update?: XOR<HSCompanyModelUpdateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput>
+  export type HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput = {
+    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
+    upsert?: Enumerable<HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
+    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
+    set?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    delete?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+    update?: Enumerable<HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
+    updateMany?: Enumerable<HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput>
+    deleteMany?: Enumerable<HSIntroductionImageModelScalarWhereInput>
   }
 
-  export type AccessorModelCreateNestedOneWithoutTemp_re_agentsInput = {
-    create?: XOR<AccessorModelCreateWithoutTemp_re_agentsInput, AccessorModelUncheckedCreateWithoutTemp_re_agentsInput>
-    connectOrCreate?: AccessorModelCreateOrConnectWithoutTemp_re_agentsInput
-    connect?: AccessorModelWhereUniqueInput
+  export type BusinessUserCreateNestedOneWithoutCertificationsInput = {
+    create?: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutCertificationsInput
+    connect?: BusinessUserWhereUniqueInput
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
+  export type BusinessUserUpdateOneRequiredWithoutCertificationsNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutCertificationsInput
+    upsert?: BusinessUserUpsertWithoutCertificationsInput
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutCertificationsInput, BusinessUserUncheckedUpdateWithoutCertificationsInput>
   }
 
-  export type AccessorModelUpdateOneRequiredWithoutTemp_re_agentsNestedInput = {
-    create?: XOR<AccessorModelCreateWithoutTemp_re_agentsInput, AccessorModelUncheckedCreateWithoutTemp_re_agentsInput>
-    connectOrCreate?: AccessorModelCreateOrConnectWithoutTemp_re_agentsInput
-    upsert?: AccessorModelUpsertWithoutTemp_re_agentsInput
-    connect?: AccessorModelWhereUniqueInput
-    update?: XOR<AccessorModelUpdateWithoutTemp_re_agentsInput, AccessorModelUncheckedUpdateWithoutTemp_re_agentsInput>
+  export type HSProviderModelCreateNestedOneWithoutIntroduction_imagesInput = {
+    create?: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput
+    connect?: HSProviderModelWhereUniqueInput
   }
 
-  export type AccessorModelCreateNestedOneWithoutTemp_hs_companyInput = {
-    create?: XOR<AccessorModelCreateWithoutTemp_hs_companyInput, AccessorModelUncheckedCreateWithoutTemp_hs_companyInput>
-    connectOrCreate?: AccessorModelCreateOrConnectWithoutTemp_hs_companyInput
-    connect?: AccessorModelWhereUniqueInput
+  export type HSProviderModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput = {
+    create?: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput
+    upsert?: HSProviderModelUpsertWithoutIntroduction_imagesInput
+    connect?: HSProviderModelWhereUniqueInput
+    update?: XOR<HSProviderModelUpdateWithoutIntroduction_imagesInput, HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput>
   }
 
-  export type AccessorModelUpdateOneRequiredWithoutTemp_hs_companyNestedInput = {
-    create?: XOR<AccessorModelCreateWithoutTemp_hs_companyInput, AccessorModelUncheckedCreateWithoutTemp_hs_companyInput>
-    connectOrCreate?: AccessorModelCreateOrConnectWithoutTemp_hs_companyInput
-    upsert?: AccessorModelUpsertWithoutTemp_hs_companyInput
-    connect?: AccessorModelWhereUniqueInput
-    update?: XOR<AccessorModelUpdateWithoutTemp_hs_companyInput, AccessorModelUncheckedUpdateWithoutTemp_hs_companyInput>
+  export type ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput = {
+    create?: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput
+    connect?: ExpertSubCategoryModelWhereUniqueInput
+  }
+
+  export type BusinessUserCreateNestedOneWithoutExpertisesInput = {
+    create?: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutExpertisesInput
+    connect?: BusinessUserWhereUniqueInput
+  }
+
+  export type ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput = {
+    create?: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput
+    upsert?: ExpertSubCategoryModelUpsertWithoutExpertisesInput
+    connect?: ExpertSubCategoryModelWhereUniqueInput
+    update?: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
+  }
+
+  export type BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput = {
+    create?: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: BusinessUserCreateOrConnectWithoutExpertisesInput
+    upsert?: BusinessUserUpsertWithoutExpertisesInput
+    connect?: BusinessUserWhereUniqueInput
+    update?: XOR<BusinessUserUpdateWithoutExpertisesInput, BusinessUserUncheckedUpdateWithoutExpertisesInput>
+  }
+
+  export type ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput = {
+    create?: XOR<ExpertSuperCategoryModelCreateWithoutSubsInput, ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput>
+    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutSubsInput
+    connect?: ExpertSuperCategoryModelWhereUniqueInput
+  }
+
+  export type UserExpertiseModelCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
+    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  }
+
+  export type UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
+    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  }
+
+  export type ExpertSuperCategoryModelUpdateOneRequiredWithoutSubsNestedInput = {
+    create?: XOR<ExpertSuperCategoryModelCreateWithoutSubsInput, ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput>
+    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutSubsInput
+    upsert?: ExpertSuperCategoryModelUpsertWithoutSubsInput
+    connect?: ExpertSuperCategoryModelWhereUniqueInput
+    update?: XOR<ExpertSuperCategoryModelUpdateWithoutSubsInput, ExpertSuperCategoryModelUncheckedUpdateWithoutSubsInput>
+  }
+
+  export type UserExpertiseModelUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
+    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
+    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
+    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
+    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
+    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  }
+
+  export type UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
+    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
+    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
+    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
+    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
+    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  }
+
+  export type ExpertSubCategoryModelCreateNestedManyWithoutSuperInput = {
+    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
+    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
+    createMany?: ExpertSubCategoryModelCreateManySuperInputEnvelope
+    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+  }
+
+  export type ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuperInput = {
+    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
+    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
+    createMany?: ExpertSubCategoryModelCreateManySuperInputEnvelope
+    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+  }
+
+  export type EnumExpertBusinessTypeFieldUpdateOperationsInput = {
+    set?: ExpertBusinessType
+  }
+
+  export type ExpertSubCategoryModelUpdateManyWithoutSuperNestedInput = {
+    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
+    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
+    upsert?: Enumerable<ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuperInput>
+    createMany?: ExpertSubCategoryModelCreateManySuperInputEnvelope
+    set?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    update?: Enumerable<ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuperInput>
+    updateMany?: Enumerable<ExpertSubCategoryModelUpdateManyWithWhereWithoutSuperInput>
+    deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  }
+
+  export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSuperNestedInput = {
+    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
+    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
+    upsert?: Enumerable<ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuperInput>
+    createMany?: ExpertSubCategoryModelCreateManySuperInputEnvelope
+    set?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+    update?: Enumerable<ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuperInput>
+    updateMany?: Enumerable<ExpertSubCategoryModelUpdateManyWithWhereWithoutSuperInput>
+    deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  }
+
+  export type AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutAgreementInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput>
+    createMany?: AgreementAcceptanceModelCreateManyAgreementInputEnvelope
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+  }
+
+  export type AgreementAcceptanceModelUncheckedCreateNestedManyWithoutAgreementInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutAgreementInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput>
+    createMany?: AgreementAcceptanceModelCreateManyAgreementInputEnvelope
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+  }
+
+  export type EnumAgreementUserTypeFieldUpdateOperationsInput = {
+    set?: AgreementUserType
+  }
+
+  export type AgreementAcceptanceModelUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutAgreementInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput>
+    upsert?: Enumerable<AgreementAcceptanceModelUpsertWithWhereUniqueWithoutAgreementInput>
+    createMany?: AgreementAcceptanceModelCreateManyAgreementInputEnvelope
+    set?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    disconnect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    delete?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    update?: Enumerable<AgreementAcceptanceModelUpdateWithWhereUniqueWithoutAgreementInput>
+    updateMany?: Enumerable<AgreementAcceptanceModelUpdateManyWithWhereWithoutAgreementInput>
+    deleteMany?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreementNestedInput = {
+    create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutAgreementInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>>
+    connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput>
+    upsert?: Enumerable<AgreementAcceptanceModelUpsertWithWhereUniqueWithoutAgreementInput>
+    createMany?: AgreementAcceptanceModelCreateManyAgreementInputEnvelope
+    set?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    disconnect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    delete?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
+    update?: Enumerable<AgreementAcceptanceModelUpdateWithWhereUniqueWithoutAgreementInput>
+    updateMany?: Enumerable<AgreementAcceptanceModelUpdateManyWithWhereWithoutAgreementInput>
+    deleteMany?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+  }
+
+  export type UserModelCreateNestedOneWithoutAgreement_acceptancesInput = {
+    create?: XOR<UserModelCreateWithoutAgreement_acceptancesInput, UserModelUncheckedCreateWithoutAgreement_acceptancesInput>
+    connectOrCreate?: UserModelCreateOrConnectWithoutAgreement_acceptancesInput
+    connect?: UserModelWhereUniqueInput
+  }
+
+  export type AgreementModelCreateNestedOneWithoutAcceptancesInput = {
+    create?: XOR<AgreementModelCreateWithoutAcceptancesInput, AgreementModelUncheckedCreateWithoutAcceptancesInput>
+    connectOrCreate?: AgreementModelCreateOrConnectWithoutAcceptancesInput
+    connect?: AgreementModelWhereUniqueInput
+  }
+
+  export type UserModelUpdateOneRequiredWithoutAgreement_acceptancesNestedInput = {
+    create?: XOR<UserModelCreateWithoutAgreement_acceptancesInput, UserModelUncheckedCreateWithoutAgreement_acceptancesInput>
+    connectOrCreate?: UserModelCreateOrConnectWithoutAgreement_acceptancesInput
+    upsert?: UserModelUpsertWithoutAgreement_acceptancesInput
+    connect?: UserModelWhereUniqueInput
+    update?: XOR<UserModelUpdateWithoutAgreement_acceptancesInput, UserModelUncheckedUpdateWithoutAgreement_acceptancesInput>
+  }
+
+  export type AgreementModelUpdateOneRequiredWithoutAcceptancesNestedInput = {
+    create?: XOR<AgreementModelCreateWithoutAcceptancesInput, AgreementModelUncheckedCreateWithoutAcceptancesInput>
+    connectOrCreate?: AgreementModelCreateOrConnectWithoutAcceptancesInput
+    upsert?: AgreementModelUpsertWithoutAcceptancesInput
+    connect?: AgreementModelWhereUniqueInput
+    update?: XOR<AgreementModelUpdateWithoutAcceptancesInput, AgreementModelUncheckedUpdateWithoutAcceptancesInput>
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type NestedStringFilter = {
@@ -12163,6 +17557,71 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type NestedEnumGenderTypeNullableFilter = {
+    equals?: GenderType | null
+    in?: Enumerable<GenderType> | null
+    notIn?: Enumerable<GenderType> | null
+    not?: NestedEnumGenderTypeNullableFilter | GenderType | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -12178,17 +17637,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedStringFilter
     _max?: NestedStringFilter
-  }
-
-  export type NestedIntFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
   }
 
   export type NestedEnumOauthTypeWithAggregatesFilter = {
@@ -12218,62 +17666,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | null
-    notIn?: Enumerable<number> | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
-  }
-
-  export type NestedDateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
-  }
-
-  export type NestedBoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
-  }
-
-  export type NestedEnumGenderTypeNullableFilter = {
-    equals?: GenderType | null
-    in?: Enumerable<GenderType> | null
-    notIn?: Enumerable<GenderType> | null
-    not?: NestedEnumGenderTypeNullableFilter | GenderType | null
-  }
-
   export type NestedEnumGenderTypeNullableWithAggregatesFilter = {
     equals?: GenderType | null
     in?: Enumerable<GenderType> | null
@@ -12284,275 +17676,178 @@ export namespace Prisma {
     _max?: NestedEnumGenderTypeNullableFilter
   }
 
-  export type NestedBoolNullableFilter = {
-    equals?: boolean | null
-    not?: NestedBoolNullableFilter | boolean | null
+  export type NestedEnumExpertBusinessTypeFilter = {
+    equals?: ExpertBusinessType
+    in?: Enumerable<ExpertBusinessType>
+    notIn?: Enumerable<ExpertBusinessType>
+    not?: NestedEnumExpertBusinessTypeFilter | ExpertBusinessType
   }
 
-  export type NestedBoolNullableWithAggregatesFilter = {
-    equals?: boolean | null
-    not?: NestedBoolNullableWithAggregatesFilter | boolean | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedBoolNullableFilter
-    _max?: NestedBoolNullableFilter
+  export type NestedEnumExpertBusinessTypeWithAggregatesFilter = {
+    equals?: ExpertBusinessType
+    in?: Enumerable<ExpertBusinessType>
+    notIn?: Enumerable<ExpertBusinessType>
+    not?: NestedEnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+    _count?: NestedIntFilter
+    _min?: NestedEnumExpertBusinessTypeFilter
+    _max?: NestedEnumExpertBusinessTypeFilter
   }
 
-  export type CustomerModelCreateWithoutOauth_accessorsInput = {
-    profile_image_url?: string | null
-    gender?: GenderType | null
+  export type NestedEnumAgreementUserTypeFilter = {
+    equals?: AgreementUserType
+    in?: Enumerable<AgreementUserType>
+    notIn?: Enumerable<AgreementUserType>
+    not?: NestedEnumAgreementUserTypeFilter | AgreementUserType
+  }
+
+  export type NestedEnumAgreementUserTypeWithAggregatesFilter = {
+    equals?: AgreementUserType
+    in?: Enumerable<AgreementUserType>
+    notIn?: Enumerable<AgreementUserType>
+    not?: NestedEnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+    _count?: NestedIntFilter
+    _min?: NestedEnumAgreementUserTypeFilter
+    _max?: NestedEnumAgreementUserTypeFilter
+  }
+
+  export type BusinessUserCreateWithoutOauth_accessorInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserUncheckedCreateWithoutOauth_accessorInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserCreateOrConnectWithoutOauth_accessorInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
+  }
+
+  export type CustomerModelCreateWithoutOauth_accessorInput = {
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
+    profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
   }
 
-  export type CustomerModelUncheckedCreateWithoutOauth_accessorsInput = {
+  export type CustomerModelUncheckedCreateWithoutOauth_accessorInput = {
     id: string
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
+    profile_image_url?: string | null
   }
 
-  export type CustomerModelCreateOrConnectWithoutOauth_accessorsInput = {
+  export type CustomerModelCreateOrConnectWithoutOauth_accessorInput = {
     where: CustomerModelWhereUniqueInput
-    create: XOR<CustomerModelCreateWithoutOauth_accessorsInput, CustomerModelUncheckedCreateWithoutOauth_accessorsInput>
+    create: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
   }
 
-  export type BusinessUserModelCreateWithoutOauth_accessorsInput = {
-    profile_image_url: string
-    introduction_title: string
-    introduction_content: string
-    base: UserModelCreateNestedOneWithoutBusiness_userInput
-    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelCreateNestedOneWithoutBaseInput
+  export type BusinessUserUpsertWithoutOauth_accessorInput = {
+    update: XOR<BusinessUserUpdateWithoutOauth_accessorInput, BusinessUserUncheckedUpdateWithoutOauth_accessorInput>
+    create: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
   }
 
-  export type BusinessUserModelUncheckedCreateWithoutOauth_accessorsInput = {
-    id: string
-    profile_image_url: string
-    introduction_title: string
-    introduction_content: string
-    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelUncheckedCreateNestedOneWithoutBaseInput
+  export type BusinessUserUpdateWithoutOauth_accessorInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelCreateOrConnectWithoutOauth_accessorsInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutOauth_accessorsInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorsInput>
+  export type BusinessUserUncheckedUpdateWithoutOauth_accessorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type TempREAgentModelCreateWithoutOauth_accessorInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    is_licensed?: boolean | null
-    re_num?: string | null
-    re_name?: string | null
-    re_phone?: string | null
-    re_licensed_agent_name?: string | null
+  export type CustomerModelUpsertWithoutOauth_accessorInput = {
+    update: XOR<CustomerModelUpdateWithoutOauth_accessorInput, CustomerModelUncheckedUpdateWithoutOauth_accessorInput>
+    create: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
   }
 
-  export type TempREAgentModelUncheckedCreateWithoutOauth_accessorInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    is_licensed?: boolean | null
-    re_num?: string | null
-    re_name?: string | null
-    re_phone?: string | null
-    re_licensed_agent_name?: string | null
-  }
-
-  export type TempREAgentModelCreateOrConnectWithoutOauth_accessorInput = {
-    where: TempREAgentModelWhereUniqueInput
-    create: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-  }
-
-  export type TempHSCompanyModelCreateWithoutOauth_accessorInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    business_num?: string | null
-  }
-
-  export type TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput = {
-    name?: string | null
-    email?: string | null
-    email_verified: boolean
-    phone?: string | null
-    phone_verified: boolean
-    profile_image_url?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    introduction_title?: string | null
-    introduction_content?: string | null
-    business_num?: string | null
-  }
-
-  export type TempHSCompanyModelCreateOrConnectWithoutOauth_accessorInput = {
-    where: TempHSCompanyModelWhereUniqueInput
-    create: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-  }
-
-  export type CustomerModelUpsertWithoutOauth_accessorsInput = {
-    update: XOR<CustomerModelUpdateWithoutOauth_accessorsInput, CustomerModelUncheckedUpdateWithoutOauth_accessorsInput>
-    create: XOR<CustomerModelCreateWithoutOauth_accessorsInput, CustomerModelUncheckedCreateWithoutOauth_accessorsInput>
-  }
-
-  export type CustomerModelUpdateWithoutOauth_accessorsInput = {
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+  export type CustomerModelUpdateWithoutOauth_accessorInput = {
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
   }
 
-  export type CustomerModelUncheckedUpdateWithoutOauth_accessorsInput = {
+  export type CustomerModelUncheckedUpdateWithoutOauth_accessorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type BusinessUserModelUpsertWithoutOauth_accessorsInput = {
-    update: XOR<BusinessUserModelUpdateWithoutOauth_accessorsInput, BusinessUserModelUncheckedUpdateWithoutOauth_accessorsInput>
-    create: XOR<BusinessUserModelCreateWithoutOauth_accessorsInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorsInput>
-  }
-
-  export type BusinessUserModelUpdateWithoutOauth_accessorsInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
-    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUpdateOneWithoutBaseNestedInput
-  }
-
-  export type BusinessUserModelUncheckedUpdateWithoutOauth_accessorsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUncheckedUpdateOneWithoutBaseNestedInput
-  }
-
-  export type TempREAgentModelUpsertWithoutOauth_accessorInput = {
-    update: XOR<TempREAgentModelUpdateWithoutOauth_accessorInput, TempREAgentModelUncheckedUpdateWithoutOauth_accessorInput>
-    create: XOR<TempREAgentModelCreateWithoutOauth_accessorInput, TempREAgentModelUncheckedCreateWithoutOauth_accessorInput>
-  }
-
-  export type TempREAgentModelUpdateWithoutOauth_accessorInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TempREAgentModelUncheckedUpdateWithoutOauth_accessorInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    is_licensed?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    re_num?: NullableStringFieldUpdateOperationsInput | string | null
-    re_name?: NullableStringFieldUpdateOperationsInput | string | null
-    re_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    re_licensed_agent_name?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TempHSCompanyModelUpsertWithoutOauth_accessorInput = {
-    update: XOR<TempHSCompanyModelUpdateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedUpdateWithoutOauth_accessorInput>
-    create: XOR<TempHSCompanyModelCreateWithoutOauth_accessorInput, TempHSCompanyModelUncheckedCreateWithoutOauth_accessorInput>
-  }
-
-  export type TempHSCompanyModelUpdateWithoutOauth_accessorInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TempHSCompanyModelUncheckedUpdateWithoutOauth_accessorInput = {
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_title?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_content?: NullableStringFieldUpdateOperationsInput | string | null
-    business_num?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CustomerModelCreateWithoutBaseInput = {
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutCustomerInput
+    profile_image_url?: string | null
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerModelUncheckedCreateWithoutBaseInput = {
-    profile_image_url?: string | null
-    gender?: GenderType | null
     birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
     address_first?: string | null
     address_second?: string | null
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutCustomerInput
+    profile_image_url?: string | null
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerModelCreateOrConnectWithoutBaseInput = {
@@ -12560,27 +17855,67 @@ export namespace Prisma {
     create: XOR<CustomerModelCreateWithoutBaseInput, CustomerModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type BusinessUserModelCreateWithoutBaseInput = {
-    profile_image_url: string
+  export type BusinessUserCreateWithoutBaseInput = {
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutBusiness_userInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUncheckedCreateWithoutBaseInput = {
-    profile_image_url: string
+  export type BusinessUserUncheckedCreateWithoutBaseInput = {
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_company?: HSCompanyModelUncheckedCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelCreateOrConnectWithoutBaseInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+  export type BusinessUserCreateOrConnectWithoutBaseInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+  }
+
+  export type AgreementAcceptanceModelCreateWithoutUserInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    agreement: AgreementModelCreateNestedOneWithoutAcceptancesInput
+  }
+
+  export type AgreementAcceptanceModelUncheckedCreateWithoutUserInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    agreement_id: string
+  }
+
+  export type AgreementAcceptanceModelCreateOrConnectWithoutUserInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    create: XOR<AgreementAcceptanceModelCreateWithoutUserInput, AgreementAcceptanceModelUncheckedCreateWithoutUserInput>
+  }
+
+  export type AgreementAcceptanceModelCreateManyUserInputEnvelope = {
+    data: Enumerable<AgreementAcceptanceModelCreateManyUserInput>
+    skipDuplicates?: boolean
   }
 
   export type CustomerModelUpsertWithoutBaseInput = {
@@ -12589,66 +17924,111 @@ export namespace Prisma {
   }
 
   export type CustomerModelUpdateWithoutBaseInput = {
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accessors?: AccessorModelUpdateManyWithoutCustomerNestedInput
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutBaseInput = {
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutCustomerNestedInput
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
-  export type BusinessUserModelUpsertWithoutBaseInput = {
-    update: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
-    create: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+  export type BusinessUserUpsertWithoutBaseInput = {
+    update: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
+    create: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
   }
 
-  export type BusinessUserModelUpdateWithoutBaseInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUpdateWithoutBaseInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUpdateManyWithoutBusiness_userNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelUncheckedUpdateWithoutBaseInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUncheckedUpdateWithoutBaseInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_company?: HSCompanyModelUncheckedUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    update: XOR<AgreementAcceptanceModelUpdateWithoutUserInput, AgreementAcceptanceModelUncheckedUpdateWithoutUserInput>
+    create: XOR<AgreementAcceptanceModelCreateWithoutUserInput, AgreementAcceptanceModelUncheckedCreateWithoutUserInput>
+  }
+
+  export type AgreementAcceptanceModelUpdateWithWhereUniqueWithoutUserInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    data: XOR<AgreementAcceptanceModelUpdateWithoutUserInput, AgreementAcceptanceModelUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AgreementAcceptanceModelUpdateManyWithWhereWithoutUserInput = {
+    where: AgreementAcceptanceModelScalarWhereInput
+    data: XOR<AgreementAcceptanceModelUpdateManyMutationInput, AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreement_acceptancesInput>
+  }
+
+  export type AgreementAcceptanceModelScalarWhereInput = {
+    AND?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+    OR?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+    NOT?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    agreement_id?: StringFilter | string
   }
 
   export type UserModelCreateWithoutCustomerInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
-    business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutUserInput
   }
 
   export type UserModelUncheckedCreateWithoutCustomerInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
-    business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserModelCreateOrConnectWithoutCustomerInput = {
@@ -12656,31 +18036,51 @@ export namespace Prisma {
     create: XOR<UserModelCreateWithoutCustomerInput, UserModelUncheckedCreateWithoutCustomerInput>
   }
 
-  export type AccessorModelCreateWithoutCustomerInput = {
+  export type OauthAccessorModelCreateWithoutCustomerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorsInput
-    temp_re_agents?: TempREAgentModelCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelCreateNestedOneWithoutOauth_accessorInput
+    oauth_sub: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
+    business_user: BusinessUserCreateNestedOneWithoutOauth_accessorInput
   }
 
-  export type AccessorModelUncheckedCreateWithoutCustomerInput = {
+  export type OauthAccessorModelUncheckedCreateWithoutCustomerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
     oauth_type: OauthType
-    business_user_id?: string | null
-    temp_re_agents?: TempREAgentModelUncheckedCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelUncheckedCreateNestedOneWithoutOauth_accessorInput
+    oauth_sub: string
+    business_user_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
   }
 
-  export type AccessorModelCreateOrConnectWithoutCustomerInput = {
-    where: AccessorModelWhereUniqueInput
-    create: XOR<AccessorModelCreateWithoutCustomerInput, AccessorModelUncheckedCreateWithoutCustomerInput>
+  export type OauthAccessorModelCreateOrConnectWithoutCustomerInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    create: XOR<OauthAccessorModelCreateWithoutCustomerInput, OauthAccessorModelUncheckedCreateWithoutCustomerInput>
   }
 
-  export type AccessorModelCreateManyCustomerInputEnvelope = {
-    data: Enumerable<AccessorModelCreateManyCustomerInput>
+  export type OauthAccessorModelCreateManyCustomerInputEnvelope = {
+    data: Enumerable<OauthAccessorModelCreateManyCustomerInput>
     skipDuplicates?: boolean
   }
 
@@ -12691,73 +18091,89 @@ export namespace Prisma {
 
   export type UserModelUpdateWithoutCustomerInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUpdateManyWithoutUserNestedInput
   }
 
   export type UserModelUncheckedUpdateWithoutCustomerInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
-    business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type AccessorModelUpsertWithWhereUniqueWithoutCustomerInput = {
-    where: AccessorModelWhereUniqueInput
-    update: XOR<AccessorModelUpdateWithoutCustomerInput, AccessorModelUncheckedUpdateWithoutCustomerInput>
-    create: XOR<AccessorModelCreateWithoutCustomerInput, AccessorModelUncheckedCreateWithoutCustomerInput>
+  export type OauthAccessorModelUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    update: XOR<OauthAccessorModelUpdateWithoutCustomerInput, OauthAccessorModelUncheckedUpdateWithoutCustomerInput>
+    create: XOR<OauthAccessorModelCreateWithoutCustomerInput, OauthAccessorModelUncheckedCreateWithoutCustomerInput>
   }
 
-  export type AccessorModelUpdateWithWhereUniqueWithoutCustomerInput = {
-    where: AccessorModelWhereUniqueInput
-    data: XOR<AccessorModelUpdateWithoutCustomerInput, AccessorModelUncheckedUpdateWithoutCustomerInput>
+  export type OauthAccessorModelUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    data: XOR<OauthAccessorModelUpdateWithoutCustomerInput, OauthAccessorModelUncheckedUpdateWithoutCustomerInput>
   }
 
-  export type AccessorModelUpdateManyWithWhereWithoutCustomerInput = {
-    where: AccessorModelScalarWhereInput
-    data: XOR<AccessorModelUpdateManyMutationInput, AccessorModelUncheckedUpdateManyWithoutOauth_accessorsInput>
+  export type OauthAccessorModelUpdateManyWithWhereWithoutCustomerInput = {
+    where: OauthAccessorModelScalarWhereInput
+    data: XOR<OauthAccessorModelUpdateManyMutationInput, OauthAccessorModelUncheckedUpdateManyWithoutOauth_accessorInput>
   }
 
-  export type AccessorModelScalarWhereInput = {
-    AND?: Enumerable<AccessorModelScalarWhereInput>
-    OR?: Enumerable<AccessorModelScalarWhereInput>
-    NOT?: Enumerable<AccessorModelScalarWhereInput>
+  export type OauthAccessorModelScalarWhereInput = {
+    AND?: Enumerable<OauthAccessorModelScalarWhereInput>
+    OR?: Enumerable<OauthAccessorModelScalarWhereInput>
+    NOT?: Enumerable<OauthAccessorModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    oauth_sub?: StringFilter | string
     oauth_type?: EnumOauthTypeFilter | OauthType
-    customer_id?: StringNullableFilter | string | null
-    business_user_id?: StringNullableFilter | string | null
+    oauth_sub?: StringFilter | string
+    business_user_id?: StringFilter | string
+    customer_id?: StringFilter | string
+    name?: StringNullableFilter | string | null
+    email?: StringNullableFilter | string | null
+    phone?: StringNullableFilter | string | null
+    profile_image_url?: StringNullableFilter | string | null
+    birth?: StringNullableFilter | string | null
+    gender?: EnumGenderTypeNullableFilter | GenderType | null
+    address_first?: StringNullableFilter | string | null
+    address_second?: StringNullableFilter | string | null
   }
 
   export type UserModelCreateWithoutBusiness_userInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutUserInput
   }
 
   export type UserModelUncheckedCreateWithoutBusiness_userInput = {
     created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
     name: string
-    phone: string
-    phone_verified: boolean
     email?: string | null
-    email_verified: boolean
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserModelCreateOrConnectWithoutBusiness_userInput = {
@@ -12771,8 +18187,6 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second?: string | null
   }
 
   export type REAgentModelUncheckedCreateWithoutBaseInput = {
@@ -12781,8 +18195,6 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    re_address_first: string
-    re_address_second?: string | null
   }
 
   export type REAgentModelCreateOrConnectWithoutBaseInput = {
@@ -12790,50 +18202,122 @@ export namespace Prisma {
     create: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type HSCompanyModelCreateWithoutBaseInput = {
-    business_num: string
-    address_first: string
-    address_second?: string | null
-    introduction_images?: HSCompanyIntroductionImageModelCreateNestedManyWithoutCompanyInput
+  export type HSProviderModelCreateWithoutBaseInput = {
+    business_registration_num: string
+    introduction_images?: HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput
   }
 
-  export type HSCompanyModelUncheckedCreateWithoutBaseInput = {
-    business_num: string
-    address_first: string
-    address_second?: string | null
-    introduction_images?: HSCompanyIntroductionImageModelUncheckedCreateNestedManyWithoutCompanyInput
+  export type HSProviderModelUncheckedCreateWithoutBaseInput = {
+    business_registration_num: string
+    introduction_images?: HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput
   }
 
-  export type HSCompanyModelCreateOrConnectWithoutBaseInput = {
-    where: HSCompanyModelWhereUniqueInput
-    create: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
+  export type HSProviderModelCreateOrConnectWithoutBaseInput = {
+    where: HSProviderModelWhereUniqueInput
+    create: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type AccessorModelCreateWithoutBusiness_userInput = {
+  export type BusinessCertificationModelCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
-    oauth_type: OauthType
-    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorsInput
-    temp_re_agents?: TempREAgentModelCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelCreateNestedOneWithoutOauth_accessorInput
+    image_url: string
   }
 
-  export type AccessorModelUncheckedCreateWithoutBusiness_userInput = {
+  export type BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
+    image_url: string
+  }
+
+  export type BusinessCertificationModelCreateOrConnectWithoutBusiness_userInput = {
+    where: BusinessCertificationModelWhereUniqueInput
+    create: XOR<BusinessCertificationModelCreateWithoutBusiness_userInput, BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type BusinessCertificationModelCreateManyBusiness_userInputEnvelope = {
+    data: Enumerable<BusinessCertificationModelCreateManyBusiness_userInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UserExpertiseModelCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
+  }
+
+  export type UserExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    category_id: string
+  }
+
+  export type UserExpertiseModelCreateOrConnectWithoutBusiness_userInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    create: XOR<UserExpertiseModelCreateWithoutBusiness_userInput, UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type UserExpertiseModelCreateManyBusiness_userInputEnvelope = {
+    data: Enumerable<UserExpertiseModelCreateManyBusiness_userInput>
+    skipDuplicates?: boolean
+  }
+
+  export type OauthAccessorModelCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
     oauth_type: OauthType
-    customer_id?: string | null
-    temp_re_agents?: TempREAgentModelUncheckedCreateNestedOneWithoutOauth_accessorInput
-    temp_hs_company?: TempHSCompanyModelUncheckedCreateNestedOneWithoutOauth_accessorInput
+    oauth_sub: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
+    customer: CustomerModelCreateNestedOneWithoutOauth_accessorInput
   }
 
-  export type AccessorModelCreateOrConnectWithoutBusiness_userInput = {
-    where: AccessorModelWhereUniqueInput
-    create: XOR<AccessorModelCreateWithoutBusiness_userInput, AccessorModelUncheckedCreateWithoutBusiness_userInput>
+  export type OauthAccessorModelUncheckedCreateWithoutBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    oauth_type: OauthType
+    oauth_sub: string
+    customer_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
   }
 
-  export type AccessorModelCreateManyBusiness_userInputEnvelope = {
-    data: Enumerable<AccessorModelCreateManyBusiness_userInput>
+  export type OauthAccessorModelCreateOrConnectWithoutBusiness_userInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    create: XOR<OauthAccessorModelCreateWithoutBusiness_userInput, OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type OauthAccessorModelCreateManyBusiness_userInputEnvelope = {
+    data: Enumerable<OauthAccessorModelCreateManyBusiness_userInput>
     skipDuplicates?: boolean
   }
 
@@ -12844,24 +18328,26 @@ export namespace Prisma {
 
   export type UserModelUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUpdateManyWithoutUserNestedInput
   }
 
   export type UserModelUncheckedUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    phone_verified?: BoolFieldUpdateOperationsInput | boolean
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    email_verified?: BoolFieldUpdateOperationsInput | boolean
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
+    agreement_acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type REAgentModelUpsertWithoutBaseInput = {
@@ -12875,8 +18361,6 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type REAgentModelUncheckedUpdateWithoutBaseInput = {
@@ -12885,387 +18369,1199 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    re_address_first?: StringFieldUpdateOperationsInput | string
-    re_address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type HSCompanyModelUpsertWithoutBaseInput = {
-    update: XOR<HSCompanyModelUpdateWithoutBaseInput, HSCompanyModelUncheckedUpdateWithoutBaseInput>
-    create: XOR<HSCompanyModelCreateWithoutBaseInput, HSCompanyModelUncheckedCreateWithoutBaseInput>
+  export type HSProviderModelUpsertWithoutBaseInput = {
+    update: XOR<HSProviderModelUpdateWithoutBaseInput, HSProviderModelUncheckedUpdateWithoutBaseInput>
+    create: XOR<HSProviderModelCreateWithoutBaseInput, HSProviderModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type HSCompanyModelUpdateWithoutBaseInput = {
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_images?: HSCompanyIntroductionImageModelUpdateManyWithoutCompanyNestedInput
+  export type HSProviderModelUpdateWithoutBaseInput = {
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+    introduction_images?: HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput
   }
 
-  export type HSCompanyModelUncheckedUpdateWithoutBaseInput = {
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    introduction_images?: HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutCompanyNestedInput
+  export type HSProviderModelUncheckedUpdateWithoutBaseInput = {
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+    introduction_images?: HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
   }
 
-  export type AccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
-    where: AccessorModelWhereUniqueInput
-    update: XOR<AccessorModelUpdateWithoutBusiness_userInput, AccessorModelUncheckedUpdateWithoutBusiness_userInput>
-    create: XOR<AccessorModelCreateWithoutBusiness_userInput, AccessorModelUncheckedCreateWithoutBusiness_userInput>
+  export type BusinessCertificationModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
+    where: BusinessCertificationModelWhereUniqueInput
+    update: XOR<BusinessCertificationModelUpdateWithoutBusiness_userInput, BusinessCertificationModelUncheckedUpdateWithoutBusiness_userInput>
+    create: XOR<BusinessCertificationModelCreateWithoutBusiness_userInput, BusinessCertificationModelUncheckedCreateWithoutBusiness_userInput>
   }
 
-  export type AccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
-    where: AccessorModelWhereUniqueInput
-    data: XOR<AccessorModelUpdateWithoutBusiness_userInput, AccessorModelUncheckedUpdateWithoutBusiness_userInput>
+  export type BusinessCertificationModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
+    where: BusinessCertificationModelWhereUniqueInput
+    data: XOR<BusinessCertificationModelUpdateWithoutBusiness_userInput, BusinessCertificationModelUncheckedUpdateWithoutBusiness_userInput>
   }
 
-  export type AccessorModelUpdateManyWithWhereWithoutBusiness_userInput = {
-    where: AccessorModelScalarWhereInput
-    data: XOR<AccessorModelUpdateManyMutationInput, AccessorModelUncheckedUpdateManyWithoutOauth_accessorsInput>
+  export type BusinessCertificationModelUpdateManyWithWhereWithoutBusiness_userInput = {
+    where: BusinessCertificationModelScalarWhereInput
+    data: XOR<BusinessCertificationModelUpdateManyMutationInput, BusinessCertificationModelUncheckedUpdateManyWithoutCertificationsInput>
   }
 
-  export type BusinessUserModelCreateWithoutRe_agentInput = {
-    profile_image_url: string
+  export type BusinessCertificationModelScalarWhereInput = {
+    AND?: Enumerable<BusinessCertificationModelScalarWhereInput>
+    OR?: Enumerable<BusinessCertificationModelScalarWhereInput>
+    NOT?: Enumerable<BusinessCertificationModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    business_user_id?: StringFilter | string
+    image_url?: StringFilter | string
+  }
+
+  export type UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    update: XOR<UserExpertiseModelUpdateWithoutBusiness_userInput, UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
+    create: XOR<UserExpertiseModelCreateWithoutBusiness_userInput, UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    data: XOR<UserExpertiseModelUpdateWithoutBusiness_userInput, UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
+  }
+
+  export type UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput = {
+    where: UserExpertiseModelScalarWhereInput
+    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput>
+  }
+
+  export type UserExpertiseModelScalarWhereInput = {
+    AND?: Enumerable<UserExpertiseModelScalarWhereInput>
+    OR?: Enumerable<UserExpertiseModelScalarWhereInput>
+    NOT?: Enumerable<UserExpertiseModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    category_id?: StringFilter | string
+    business_user_id?: StringFilter | string
+  }
+
+  export type OauthAccessorModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    update: XOR<OauthAccessorModelUpdateWithoutBusiness_userInput, OauthAccessorModelUncheckedUpdateWithoutBusiness_userInput>
+    create: XOR<OauthAccessorModelCreateWithoutBusiness_userInput, OauthAccessorModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type OauthAccessorModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
+    where: OauthAccessorModelWhereUniqueInput
+    data: XOR<OauthAccessorModelUpdateWithoutBusiness_userInput, OauthAccessorModelUncheckedUpdateWithoutBusiness_userInput>
+  }
+
+  export type OauthAccessorModelUpdateManyWithWhereWithoutBusiness_userInput = {
+    where: OauthAccessorModelScalarWhereInput
+    data: XOR<OauthAccessorModelUpdateManyMutationInput, OauthAccessorModelUncheckedUpdateManyWithoutOauth_accessorInput>
+  }
+
+  export type BusinessUserCreateWithoutRe_agentInput = {
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
-    hs_company?: HSCompanyModelCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutBusiness_userInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUncheckedCreateWithoutRe_agentInput = {
+  export type BusinessUserUncheckedCreateWithoutRe_agentInput = {
     id: string
-    profile_image_url: string
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
-    hs_company?: HSCompanyModelUncheckedCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelCreateOrConnectWithoutRe_agentInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
+  export type BusinessUserCreateOrConnectWithoutRe_agentInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type BusinessUserModelUpsertWithoutRe_agentInput = {
-    update: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
-    create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
+  export type BusinessUserUpsertWithoutRe_agentInput = {
+    update: XOR<BusinessUserUpdateWithoutRe_agentInput, BusinessUserUncheckedUpdateWithoutRe_agentInput>
+    create: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type BusinessUserModelUpdateWithoutRe_agentInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUpdateWithoutRe_agentInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
-    hs_company?: HSCompanyModelUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUpdateManyWithoutBusiness_userNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelUncheckedUpdateWithoutRe_agentInput = {
+  export type BusinessUserUncheckedUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
-    hs_company?: HSCompanyModelUncheckedUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelCreateWithoutHs_companyInput = {
-    profile_image_url: string
+  export type BusinessUserCreateWithoutHs_providerInput = {
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelCreateNestedManyWithoutBusiness_userInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUncheckedCreateWithoutHs_companyInput = {
+  export type BusinessUserUncheckedCreateWithoutHs_providerInput = {
     id: string
-    profile_image_url: string
+    is_verified: boolean
     introduction_title: string
     introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    oauth_accessors?: AccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelCreateOrConnectWithoutHs_companyInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
+  export type BusinessUserCreateOrConnectWithoutHs_providerInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSCompanyIntroductionImageModelCreateWithoutCompanyInput = {
+  export type HSIntroductionImageModelCreateWithoutHs_providerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    url: string
+    image_url: string
   }
 
-  export type HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput = {
+  export type HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    url: string
+    image_url: string
   }
 
-  export type HSCompanyIntroductionImageModelCreateOrConnectWithoutCompanyInput = {
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
-    create: XOR<HSCompanyIntroductionImageModelCreateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>
+  export type HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput = {
+    where: HSIntroductionImageModelWhereUniqueInput
+    create: XOR<HSIntroductionImageModelCreateWithoutHs_providerInput, HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSCompanyIntroductionImageModelCreateManyCompanyInputEnvelope = {
-    data: Enumerable<HSCompanyIntroductionImageModelCreateManyCompanyInput>
+  export type HSIntroductionImageModelCreateManyHs_providerInputEnvelope = {
+    data: Enumerable<HSIntroductionImageModelCreateManyHs_providerInput>
     skipDuplicates?: boolean
   }
 
-  export type BusinessUserModelUpsertWithoutHs_companyInput = {
-    update: XOR<BusinessUserModelUpdateWithoutHs_companyInput, BusinessUserModelUncheckedUpdateWithoutHs_companyInput>
-    create: XOR<BusinessUserModelCreateWithoutHs_companyInput, BusinessUserModelUncheckedCreateWithoutHs_companyInput>
+  export type BusinessUserUpsertWithoutHs_providerInput = {
+    update: XOR<BusinessUserUpdateWithoutHs_providerInput, BusinessUserUncheckedUpdateWithoutHs_providerInput>
+    create: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type BusinessUserModelUpdateWithoutHs_companyInput = {
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+  export type BusinessUserUpdateWithoutHs_providerInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUpdateManyWithoutBusiness_userNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelUncheckedUpdateWithoutHs_companyInput = {
+  export type BusinessUserUncheckedUpdateWithoutHs_providerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    profile_image_url?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    oauth_accessors?: AccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type HSCompanyIntroductionImageModelUpsertWithWhereUniqueWithoutCompanyInput = {
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
-    update: XOR<HSCompanyIntroductionImageModelUpdateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput>
-    create: XOR<HSCompanyIntroductionImageModelCreateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedCreateWithoutCompanyInput>
+  export type HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput = {
+    where: HSIntroductionImageModelWhereUniqueInput
+    update: XOR<HSIntroductionImageModelUpdateWithoutHs_providerInput, HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput>
+    create: XOR<HSIntroductionImageModelCreateWithoutHs_providerInput, HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSCompanyIntroductionImageModelUpdateWithWhereUniqueWithoutCompanyInput = {
-    where: HSCompanyIntroductionImageModelWhereUniqueInput
-    data: XOR<HSCompanyIntroductionImageModelUpdateWithoutCompanyInput, HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput>
+  export type HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput = {
+    where: HSIntroductionImageModelWhereUniqueInput
+    data: XOR<HSIntroductionImageModelUpdateWithoutHs_providerInput, HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput>
   }
 
-  export type HSCompanyIntroductionImageModelUpdateManyWithWhereWithoutCompanyInput = {
-    where: HSCompanyIntroductionImageModelScalarWhereInput
-    data: XOR<HSCompanyIntroductionImageModelUpdateManyMutationInput, HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput>
+  export type HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput = {
+    where: HSIntroductionImageModelScalarWhereInput
+    data: XOR<HSIntroductionImageModelUpdateManyMutationInput, HSIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput>
   }
 
-  export type HSCompanyIntroductionImageModelScalarWhereInput = {
-    AND?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
-    OR?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
-    NOT?: Enumerable<HSCompanyIntroductionImageModelScalarWhereInput>
+  export type HSIntroductionImageModelScalarWhereInput = {
+    AND?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+    OR?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+    NOT?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
     id?: StringFilter | string
-    url?: StringFilter | string
-    company_id?: StringFilter | string
+    hs_provider_id?: StringFilter | string
+    image_url?: StringFilter | string
   }
 
-  export type HSCompanyModelCreateWithoutIntroduction_imagesInput = {
-    business_num: string
+  export type BusinessUserCreateWithoutCertificationsInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
     address_first: string
-    address_second?: string | null
-    base: BusinessUserModelCreateNestedOneWithoutHs_companyInput
+    address_second: string
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput = {
+  export type BusinessUserUncheckedCreateWithoutCertificationsInput = {
     id: string
-    business_num: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
     address_first: string
+    address_second: string
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserCreateOrConnectWithoutCertificationsInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+  }
+
+  export type BusinessUserUpsertWithoutCertificationsInput = {
+    update: XOR<BusinessUserUpdateWithoutCertificationsInput, BusinessUserUncheckedUpdateWithoutCertificationsInput>
+    create: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+  }
+
+  export type BusinessUserUpdateWithoutCertificationsInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type BusinessUserUncheckedUpdateWithoutCertificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type HSProviderModelCreateWithoutIntroduction_imagesInput = {
+    business_registration_num: string
+    base: BusinessUserCreateNestedOneWithoutHs_providerInput
+  }
+
+  export type HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput = {
+    id: string
+    business_registration_num: string
+  }
+
+  export type HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput = {
+    where: HSProviderModelWhereUniqueInput
+    create: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+  }
+
+  export type HSProviderModelUpsertWithoutIntroduction_imagesInput = {
+    update: XOR<HSProviderModelUpdateWithoutIntroduction_imagesInput, HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput>
+    create: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+  }
+
+  export type HSProviderModelUpdateWithoutIntroduction_imagesInput = {
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+    base?: BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput
+  }
+
+  export type HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_registration_num?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExpertSubCategoryModelCreateWithoutExpertisesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    super: ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput
+  }
+
+  export type ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    super_id: string
+  }
+
+  export type ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput = {
+    where: ExpertSubCategoryModelWhereUniqueInput
+    create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type BusinessUserCreateWithoutExpertisesInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserUncheckedCreateWithoutExpertisesInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserCreateOrConnectWithoutExpertisesInput = {
+    where: BusinessUserWhereUniqueInput
+    create: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type ExpertSubCategoryModelUpsertWithoutExpertisesInput = {
+    update: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
+    create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type ExpertSubCategoryModelUpdateWithoutExpertisesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    super?: ExpertSuperCategoryModelUpdateOneRequiredWithoutSubsNestedInput
+  }
+
+  export type ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    super_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessUserUpsertWithoutExpertisesInput = {
+    update: XOR<BusinessUserUpdateWithoutExpertisesInput, BusinessUserUncheckedUpdateWithoutExpertisesInput>
+    create: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type BusinessUserUpdateWithoutExpertisesInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type BusinessUserUncheckedUpdateWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type ExpertSuperCategoryModelCreateWithoutSubsInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    business_type: ExpertBusinessType
+  }
+
+  export type ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    business_type: ExpertBusinessType
+  }
+
+  export type ExpertSuperCategoryModelCreateOrConnectWithoutSubsInput = {
+    where: ExpertSuperCategoryModelWhereUniqueInput
+    create: XOR<ExpertSuperCategoryModelCreateWithoutSubsInput, ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput>
+  }
+
+  export type UserExpertiseModelCreateWithoutCategoryInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    business_user: BusinessUserCreateNestedOneWithoutExpertisesInput
+  }
+
+  export type UserExpertiseModelUncheckedCreateWithoutCategoryInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    business_user_id: string
+  }
+
+  export type UserExpertiseModelCreateOrConnectWithoutCategoryInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    create: XOR<UserExpertiseModelCreateWithoutCategoryInput, UserExpertiseModelUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type UserExpertiseModelCreateManyCategoryInputEnvelope = {
+    data: Enumerable<UserExpertiseModelCreateManyCategoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ExpertSuperCategoryModelUpsertWithoutSubsInput = {
+    update: XOR<ExpertSuperCategoryModelUpdateWithoutSubsInput, ExpertSuperCategoryModelUncheckedUpdateWithoutSubsInput>
+    create: XOR<ExpertSuperCategoryModelCreateWithoutSubsInput, ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput>
+  }
+
+  export type ExpertSuperCategoryModelUpdateWithoutSubsInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+  }
+
+  export type ExpertSuperCategoryModelUncheckedUpdateWithoutSubsInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+  }
+
+  export type UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    update: XOR<UserExpertiseModelUpdateWithoutCategoryInput, UserExpertiseModelUncheckedUpdateWithoutCategoryInput>
+    create: XOR<UserExpertiseModelCreateWithoutCategoryInput, UserExpertiseModelUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: UserExpertiseModelWhereUniqueInput
+    data: XOR<UserExpertiseModelUpdateWithoutCategoryInput, UserExpertiseModelUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput = {
+    where: UserExpertiseModelScalarWhereInput
+    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput>
+  }
+
+  export type ExpertSubCategoryModelCreateWithoutSuperInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    expertises?: UserExpertiseModelCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ExpertSubCategoryModelUncheckedCreateWithoutSuperInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ExpertSubCategoryModelCreateOrConnectWithoutSuperInput = {
+    where: ExpertSubCategoryModelWhereUniqueInput
+    create: XOR<ExpertSubCategoryModelCreateWithoutSuperInput, ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>
+  }
+
+  export type ExpertSubCategoryModelCreateManySuperInputEnvelope = {
+    data: Enumerable<ExpertSubCategoryModelCreateManySuperInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuperInput = {
+    where: ExpertSubCategoryModelWhereUniqueInput
+    update: XOR<ExpertSubCategoryModelUpdateWithoutSuperInput, ExpertSubCategoryModelUncheckedUpdateWithoutSuperInput>
+    create: XOR<ExpertSubCategoryModelCreateWithoutSuperInput, ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>
+  }
+
+  export type ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuperInput = {
+    where: ExpertSubCategoryModelWhereUniqueInput
+    data: XOR<ExpertSubCategoryModelUpdateWithoutSuperInput, ExpertSubCategoryModelUncheckedUpdateWithoutSuperInput>
+  }
+
+  export type ExpertSubCategoryModelUpdateManyWithWhereWithoutSuperInput = {
+    where: ExpertSubCategoryModelScalarWhereInput
+    data: XOR<ExpertSubCategoryModelUpdateManyMutationInput, ExpertSubCategoryModelUncheckedUpdateManyWithoutSubsInput>
+  }
+
+  export type ExpertSubCategoryModelScalarWhereInput = {
+    AND?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+    OR?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+    NOT?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    id?: StringFilter | string
+    name?: StringFilter | string
+    super_id?: StringFilter | string
+  }
+
+  export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    user: UserModelCreateNestedOneWithoutAgreement_acceptancesInput
+  }
+
+  export type AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    user_id: string
+  }
+
+  export type AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    create: XOR<AgreementAcceptanceModelCreateWithoutAgreementInput, AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type AgreementAcceptanceModelCreateManyAgreementInputEnvelope = {
+    data: Enumerable<AgreementAcceptanceModelCreateManyAgreementInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AgreementAcceptanceModelUpsertWithWhereUniqueWithoutAgreementInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    update: XOR<AgreementAcceptanceModelUpdateWithoutAgreementInput, AgreementAcceptanceModelUncheckedUpdateWithoutAgreementInput>
+    create: XOR<AgreementAcceptanceModelCreateWithoutAgreementInput, AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>
+  }
+
+  export type AgreementAcceptanceModelUpdateWithWhereUniqueWithoutAgreementInput = {
+    where: AgreementAcceptanceModelWhereUniqueInput
+    data: XOR<AgreementAcceptanceModelUpdateWithoutAgreementInput, AgreementAcceptanceModelUncheckedUpdateWithoutAgreementInput>
+  }
+
+  export type AgreementAcceptanceModelUpdateManyWithWhereWithoutAgreementInput = {
+    where: AgreementAcceptanceModelScalarWhereInput
+    data: XOR<AgreementAcceptanceModelUpdateManyMutationInput, AgreementAcceptanceModelUncheckedUpdateManyWithoutAcceptancesInput>
+  }
+
+  export type UserModelCreateWithoutAgreement_acceptancesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    email?: string | null
+    customer?: CustomerModelCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+  }
+
+  export type UserModelUncheckedCreateWithoutAgreement_acceptancesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    name: string
+    email?: string | null
+    customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+  }
+
+  export type UserModelCreateOrConnectWithoutAgreement_acceptancesInput = {
+    where: UserModelWhereUniqueInput
+    create: XOR<UserModelCreateWithoutAgreement_acceptancesInput, UserModelUncheckedCreateWithoutAgreement_acceptancesInput>
+  }
+
+  export type AgreementModelCreateWithoutAcceptancesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+  }
+
+  export type AgreementModelUncheckedCreateWithoutAcceptancesInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    title: string
+    content: string
+    user_type: AgreementUserType
+  }
+
+  export type AgreementModelCreateOrConnectWithoutAcceptancesInput = {
+    where: AgreementModelWhereUniqueInput
+    create: XOR<AgreementModelCreateWithoutAcceptancesInput, AgreementModelUncheckedCreateWithoutAcceptancesInput>
+  }
+
+  export type UserModelUpsertWithoutAgreement_acceptancesInput = {
+    update: XOR<UserModelUpdateWithoutAgreement_acceptancesInput, UserModelUncheckedUpdateWithoutAgreement_acceptancesInput>
+    create: XOR<UserModelCreateWithoutAgreement_acceptancesInput, UserModelUncheckedCreateWithoutAgreement_acceptancesInput>
+  }
+
+  export type UserModelUpdateWithoutAgreement_acceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: CustomerModelUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+  }
+
+  export type UserModelUncheckedUpdateWithoutAgreement_acceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+  }
+
+  export type AgreementModelUpsertWithoutAcceptancesInput = {
+    update: XOR<AgreementModelUpdateWithoutAcceptancesInput, AgreementModelUncheckedUpdateWithoutAcceptancesInput>
+    create: XOR<AgreementModelCreateWithoutAcceptancesInput, AgreementModelUncheckedCreateWithoutAcceptancesInput>
+  }
+
+  export type AgreementModelUpdateWithoutAcceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+  }
+
+  export type AgreementModelUncheckedUpdateWithoutAcceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+  }
+
+  export type AgreementAcceptanceModelCreateManyUserInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    agreement_id: string
+  }
+
+  export type AgreementAcceptanceModelUpdateWithoutUserInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    agreement?: AgreementModelUpdateOneRequiredWithoutAcceptancesNestedInput
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateWithoutUserInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    agreement_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreement_acceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    agreement_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OauthAccessorModelCreateManyCustomerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    oauth_type: OauthType
+    oauth_sub: string
+    business_user_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
     address_second?: string | null
   }
 
-  export type HSCompanyModelCreateOrConnectWithoutIntroduction_imagesInput = {
-    where: HSCompanyModelWhereUniqueInput
-    create: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
-  }
-
-  export type HSCompanyModelUpsertWithoutIntroduction_imagesInput = {
-    update: XOR<HSCompanyModelUpdateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput>
-    create: XOR<HSCompanyModelCreateWithoutIntroduction_imagesInput, HSCompanyModelUncheckedCreateWithoutIntroduction_imagesInput>
-  }
-
-  export type HSCompanyModelUpdateWithoutIntroduction_imagesInput = {
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
+  export type OauthAccessorModelUpdateWithoutCustomerInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    base?: BusinessUserModelUpdateOneRequiredWithoutHs_companyNestedInput
+    business_user?: BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput
   }
 
-  export type HSCompanyModelUncheckedUpdateWithoutIntroduction_imagesInput = {
+  export type OauthAccessorModelUncheckedUpdateWithoutCustomerInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    business_num?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
+    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AccessorModelCreateWithoutTemp_re_agentsInput = {
+  export type OauthAccessorModelUncheckedUpdateManyWithoutOauth_accessorInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BusinessCertificationModelCreateManyBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
+    image_url: string
+  }
+
+  export type UserExpertiseModelCreateManyBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
+    category_id: string
+  }
+
+  export type OauthAccessorModelCreateManyBusiness_userInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    id: string
     oauth_type: OauthType
-    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorsInput
-    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorsInput
-    temp_hs_company?: TempHSCompanyModelCreateNestedOneWithoutOauth_accessorInput
-  }
-
-  export type AccessorModelUncheckedCreateWithoutTemp_re_agentsInput = {
-    id: string
     oauth_sub: string
-    oauth_type: OauthType
-    customer_id?: string | null
-    business_user_id?: string | null
-    temp_hs_company?: TempHSCompanyModelUncheckedCreateNestedOneWithoutOauth_accessorInput
+    customer_id: string
+    name?: string | null
+    email?: string | null
+    phone?: string | null
+    profile_image_url?: string | null
+    birth?: string | null
+    gender?: GenderType | null
+    address_first?: string | null
+    address_second?: string | null
   }
 
-  export type AccessorModelCreateOrConnectWithoutTemp_re_agentsInput = {
-    where: AccessorModelWhereUniqueInput
-    create: XOR<AccessorModelCreateWithoutTemp_re_agentsInput, AccessorModelUncheckedCreateWithoutTemp_re_agentsInput>
-  }
-
-  export type AccessorModelUpsertWithoutTemp_re_agentsInput = {
-    update: XOR<AccessorModelUpdateWithoutTemp_re_agentsInput, AccessorModelUncheckedUpdateWithoutTemp_re_agentsInput>
-    create: XOR<AccessorModelCreateWithoutTemp_re_agentsInput, AccessorModelUncheckedCreateWithoutTemp_re_agentsInput>
-  }
-
-  export type AccessorModelUpdateWithoutTemp_re_agentsInput = {
+  export type BusinessCertificationModelUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer?: CustomerModelUpdateOneWithoutOauth_accessorsNestedInput
-    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorsNestedInput
-    temp_hs_company?: TempHSCompanyModelUpdateOneWithoutOauth_accessorNestedInput
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AccessorModelUncheckedUpdateWithoutTemp_re_agentsInput = {
+  export type BusinessCertificationModelUncheckedUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    temp_hs_company?: TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+    image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AccessorModelCreateWithoutTemp_hs_companyInput = {
+  export type BusinessCertificationModelUncheckedUpdateManyWithoutCertificationsInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
+  }
+
+  export type UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OauthAccessorModelUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput
+  }
+
+  export type OauthAccessorModelUncheckedUpdateWithoutBusiness_userInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
+    oauth_sub?: StringFieldUpdateOperationsInput | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type HSIntroductionImageModelCreateManyHs_providerInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
-    oauth_type: OauthType
-    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorsInput
-    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorsInput
-    temp_re_agents?: TempREAgentModelCreateNestedOneWithoutOauth_accessorInput
+    image_url: string
   }
 
-  export type AccessorModelUncheckedCreateWithoutTemp_hs_companyInput = {
+  export type HSIntroductionImageModelUpdateWithoutHs_providerInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HSIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserExpertiseModelCreateManyCategoryInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
-    oauth_type: OauthType
-    customer_id?: string | null
-    business_user_id?: string | null
-    temp_re_agents?: TempREAgentModelUncheckedCreateNestedOneWithoutOauth_accessorInput
+    business_user_id: string
   }
 
-  export type AccessorModelCreateOrConnectWithoutTemp_hs_companyInput = {
-    where: AccessorModelWhereUniqueInput
-    create: XOR<AccessorModelCreateWithoutTemp_hs_companyInput, AccessorModelUncheckedCreateWithoutTemp_hs_companyInput>
-  }
-
-  export type AccessorModelUpsertWithoutTemp_hs_companyInput = {
-    update: XOR<AccessorModelUpdateWithoutTemp_hs_companyInput, AccessorModelUncheckedUpdateWithoutTemp_hs_companyInput>
-    create: XOR<AccessorModelCreateWithoutTemp_hs_companyInput, AccessorModelUncheckedCreateWithoutTemp_hs_companyInput>
-  }
-
-  export type AccessorModelUpdateWithoutTemp_hs_companyInput = {
+  export type UserExpertiseModelUpdateWithoutCategoryInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer?: CustomerModelUpdateOneWithoutOauth_accessorsNestedInput
-    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorsNestedInput
-    temp_re_agents?: TempREAgentModelUpdateOneWithoutOauth_accessorNestedInput
+    business_user?: BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
-  export type AccessorModelUncheckedUpdateWithoutTemp_hs_companyInput = {
+  export type UserExpertiseModelUncheckedUpdateWithoutCategoryInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    temp_re_agents?: TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+    business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AccessorModelCreateManyCustomerInput = {
+  export type ExpertSubCategoryModelCreateManySuperInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
-    oauth_type: OauthType
-    business_user_id?: string | null
+    name: string
   }
 
-  export type AccessorModelUpdateWithoutCustomerInput = {
+  export type ExpertSubCategoryModelUpdateWithoutSuperInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorsNestedInput
-    temp_re_agents?: TempREAgentModelUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUpdateOneWithoutOauth_accessorNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    expertises?: UserExpertiseModelUpdateManyWithoutCategoryNestedInput
   }
 
-  export type AccessorModelUncheckedUpdateWithoutCustomerInput = {
+  export type ExpertSubCategoryModelUncheckedUpdateWithoutSuperInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    temp_re_agents?: TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
-  export type AccessorModelUncheckedUpdateManyWithoutOauth_accessorsInput = {
+  export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSubsInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AccessorModelCreateManyBusiness_userInput = {
+  export type AgreementAcceptanceModelCreateManyAgreementInput = {
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
     id: string
-    oauth_sub: string
-    oauth_type: OauthType
-    customer_id?: string | null
+    user_id: string
   }
 
-  export type AccessorModelUpdateWithoutBusiness_userInput = {
+  export type AgreementAcceptanceModelUpdateWithoutAgreementInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer?: CustomerModelUpdateOneWithoutOauth_accessorsNestedInput
-    temp_re_agents?: TempREAgentModelUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUpdateOneWithoutOauth_accessorNestedInput
+    user?: UserModelUpdateOneRequiredWithoutAgreement_acceptancesNestedInput
   }
 
-  export type AccessorModelUncheckedUpdateWithoutBusiness_userInput = {
+  export type AgreementAcceptanceModelUncheckedUpdateWithoutAgreementInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    oauth_sub?: StringFieldUpdateOperationsInput | string
-    oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
-    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
-    temp_re_agents?: TempREAgentModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
-    temp_hs_company?: TempHSCompanyModelUncheckedUpdateOneWithoutOauth_accessorNestedInput
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSCompanyIntroductionImageModelCreateManyCompanyInput = {
-    id: string
-    url: string
-  }
-
-  export type HSCompanyIntroductionImageModelUpdateWithoutCompanyInput = {
+  export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAcceptancesInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type HSCompanyIntroductionImageModelUncheckedUpdateWithoutCompanyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type HSCompanyIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
 

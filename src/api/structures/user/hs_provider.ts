@@ -1,11 +1,9 @@
 import { Omit } from "@TYPE";
-import { IBusiness } from "./business";
+import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
 
-export interface IHSProvider extends IBusiness.IBase<"home service provider"> {
-  readonly phone: string;
-  readonly profile_image_url: string;
-  readonly is_verified: boolean;
+export interface IHSProvider
+  extends IBusinessUser.IBase<"home service provider"> {
   readonly introduction: IHSProvider.IIntroduction;
   readonly address: IUser.IAddress;
   readonly business_registration_num: string;
@@ -16,7 +14,7 @@ export namespace IHSProvider {
     readonly id: string;
     readonly image_url: string;
   }
-  export interface IIntroduction extends IBusiness.IIntroduction {
+  export interface IIntroduction extends IBusinessUser.IIntroduction {
     readonly images: IIntroductionImage[];
   }
 
@@ -43,7 +41,7 @@ export namespace IHSProvider {
      */
     phone_access_code?: string;
 
-    introduction: IBusiness.IIntroduction;
+    introduction: IBusinessUser.IIntroduction;
 
     introduction_images: string[];
   }
