@@ -24,14 +24,17 @@ export namespace IREAgent {
     real_estate: IREAgent.IRealEstate;
   }
 
-  export interface ICreateRequest
-    extends Partial<Omit<ICreate, "email" | "phone">> {
+  export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {
     /**
      * 이메일 인증 코드
+     *
+     * 포함하지 않으면 oauth profile email 정보가 email 기본값으로 사용된다.
      */
     email_access_code?: string;
     /**
      * 휴대폰 인증 코드
+     *
+     * 포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.
      */
     phone_access_code?: string;
   }

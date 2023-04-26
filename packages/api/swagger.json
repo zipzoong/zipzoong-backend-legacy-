@@ -225,7 +225,7 @@
           }
         },
         "summary": "OauthProfile 요청 API",
-        "description": "",
+        "description": "새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.",
         "x-nestia-namespace": "auth.oauth-profile.getOauthProfile",
         "x-nestia-jsDocTags": [
           {
@@ -287,7 +287,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Authentication.ICreateUser"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ICustomer.ICreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/IREAgent.ICreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/IHSProvider.ICreateRequest"
+                  }
+                ]
               }
             }
           },
@@ -299,6 +309,9 @@
             "description": "void",
             "x-nestia-encrypted": false
           },
+          "400": {
+            "description": "BadRequest"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -307,7 +320,7 @@
           }
         },
         "summary": "사용자 생성 API",
-        "description": "",
+        "description": "type 속성을 통해 사용자 분류를 구분한다.\n\n사용자 분류에 따라 포함하는 속성이 달라진다.\n\n다른 속성값은 null, \"\" 등의 속성 기본값이 사용되지만 email, phone은 OauthProfile 정보가 기본값으로 사용된다.\n\n사업자의 경우, phone 정보가 필수다.\n\nOauthProfile phone 정보가 없고, 인증코드도 요청에 포함하지 않았다면 요청은 실패한다.",
         "x-nestia-namespace": "auth.user.create",
         "x-nestia-jsDocTags": [
           {
@@ -350,6 +363,15 @@
             "text": [
               {
                 "text": "void",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "400 BadRequest",
                 "kind": "text"
               }
             ]
@@ -549,58 +571,25 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.ICreateUser": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ICustomer.ICreateRequest",
-                "x-typia-required": true
-              },
-              {
-                "$ref": "#/components/schemas/IREAgent.ICreateRequest",
-                "x-typia-required": true
-              },
-              {
-                "$ref": "#/components/schemas/IHSProvider.ICreateRequest",
-                "x-typia-required": true
-              }
-            ],
-            "x-typia-required": true
-          },
-          "default": {
-            "$ref": "#/components/schemas/Partial_lt_Record_lt_keyof_space_IOauthProfile_comma__space_boolean_gt__gt_",
-            "description": "기본값으로 OauthProfile 값을 사용할지에 대한 설정\n\n해당 설정의 기본값 true",
-            "x-typia-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "user",
-          "default"
-        ],
-        "x-typia-jsDocTags": []
-      },
       "ICustomer.ICreateRequest": {
         "type": "object",
         "properties": {
           "email_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "이메일 인증 코드",
+            "description": "이메일 인증 코드\n\n포함하지 않으면 oauth profile email 정보가 email 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "휴대폰 인증 코드",
+            "description": "휴대폰 인증 코드\n\n포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "birth": {
             "type": "string",
             "nullable": false,
-            "description": "기본값 null\n\nYYYY-MM-DD",
+            "description": "YYYY-MM-DD",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -691,19 +680,19 @@
           "email_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "이메일 인증 코드",
+            "description": "이메일 인증 코드\n\n포함하지 않으면 oauth profile email 정보가 email 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "휴대폰 인증 코드",
+            "description": "휴대폰 인증 코드\n\n포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "type": {
             "type": "string",
@@ -711,7 +700,7 @@
               "real estate agent"
             ],
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "name": {
             "type": "string",
@@ -721,19 +710,26 @@
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusiness.IIntroduction",
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "is_licensed": {
             "type": "boolean",
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
-            "x-typia-required": false
+            "x-typia-required": true
           }
         },
         "nullable": false,
+        "required": [
+          "profile_image_url",
+          "type",
+          "introduction",
+          "is_licensed",
+          "real_estate"
+        ],
         "x-typia-jsDocTags": []
       },
       "IBusiness.IIntroduction": {
@@ -801,37 +797,37 @@
           "email_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "이메일 인증 코드",
+            "description": "이메일 인증 코드\n\n포함하지 않으면 oauth profile email 정보가 email 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
-            "description": "휴대폰 인증 코드",
+            "description": "휴대폰 인증 코드\n\n포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.",
             "x-typia-required": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusiness.IIntroduction",
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "introduction_images": {
             "type": "array",
             "items": {
               "type": "string",
               "nullable": false,
-              "x-typia-required": false
+              "x-typia-required": true
             },
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "address": {
             "$ref": "#/components/schemas/IUser.IAddress",
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "type": {
             "type": "string",
@@ -839,7 +835,7 @@
               "home service provider"
             ],
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           },
           "name": {
             "type": "string",
@@ -850,52 +846,18 @@
           "business_registration_num": {
             "type": "string",
             "nullable": false,
-            "x-typia-required": false
+            "x-typia-required": true
           }
         },
         "nullable": false,
-        "x-typia-jsDocTags": []
-      },
-      "Partial_lt_Record_lt_keyof_space_IOauthProfile_comma__space_boolean_gt__gt_": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "phone": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "birth": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "gender": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "address": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "profile_image_url": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          },
-          "name": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": false
-          }
-        },
-        "nullable": false,
+        "required": [
+          "introduction",
+          "introduction_images",
+          "address",
+          "profile_image_url",
+          "type",
+          "business_registration_num"
+        ],
         "x-typia-jsDocTags": []
       }
     },

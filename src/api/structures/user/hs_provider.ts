@@ -29,18 +29,22 @@ export namespace IHSProvider {
   }
 
   export interface ICreateRequest
-    extends Partial<Omit<ICreate, "email" | "phone" | "introduction">> {
+    extends Omit<ICreate, "email" | "phone" | "introduction"> {
     /**
      * 이메일 인증 코드
+     *
+     * 포함하지 않으면 oauth profile email 정보가 email 기본값으로 사용된다.
      */
     email_access_code?: string;
     /**
      * 휴대폰 인증 코드
+     *
+     * 포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.
      */
     phone_access_code?: string;
 
-    introduction?: IBusiness.IIntroduction;
+    introduction: IBusiness.IIntroduction;
 
-    introduction_images?: string[];
+    introduction_images: string[];
   }
 }
