@@ -1,35 +1,55 @@
-import { AuthService } from "src/providers/user/auth";
-import { IAccessor } from "@DTO/user";
+import { Authentication, IOauthProfile, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
-import { Controller, Post } from "@nestjs/common";
+import { Controller, Get, Post } from "@nestjs/common";
 
-@Controller()
-export class AuthController {
+@Controller("auth")
+export class AuthenticationController {
   /**
-   * Oauth2.0 로그인 요청
+   * 전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.
    *
-   * @summary Oauth 로그인 API
-   * @tag oauth
+   * @summary 로그인 API
    * @tag authentication
-   * @param body oauth 로그인 요청 정보
-   * @returns 로그인 토큰 정보
+   * @param body oauth code, oauth type, user_type
+   * @returns tokens
    */
-  @Post("sign-in/oauth")
-  findAccessor(@TypedBody() body: IAccessor.ISignInBody): Promise<IAccessor> {
-    return AuthService.signIn(body);
+  @Post("sign-in")
+  signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
+    throw Error("");
   }
 
   /**
-   * Oauth2.0 회원가입 요청
+   * 회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.
    *
-   * @summary Oauth 회원가입 API
-   * @tag oauth
+   * accessor에 포함된 정보는 회원 정보에 기본값으로 사용할 수 있다.
+   *
+   * @summary 회원가입 API
    * @tag authentication
-   * @param body oauth 회원가입 요청 정보
-   * @returns 응답 데이터 없음
+   * @param body oauth code, oauth type
+   * @returns tokens
    */
-  @Post("sign-up/oauth/customer")
-  createCustomer(@TypedBody() body: IAccessor.ISignUpBody): Promise<void> {
-    return AuthService.signUp(body);
+  @Post("sign-up")
+  signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
+    throw Error("");
+  }
+
+  /**
+   * @summary OauthProfile 요청 API
+   * @tag authentication
+   * @returns OauthProfile
+   */
+  @Get("oauth-profile")
+  getOauthProfile(): Promise<IOauthProfile> {
+    throw Error();
+  }
+
+  /**
+   * @summary 사용자 생성 API
+   * @tag authentication
+   * @param body 사용자 생성 정보
+   * @returns void
+   */
+  @Post("user")
+  createUser(@TypedBody() body: Authentication.ICreateUser): Promise<void> {
+    throw Error();
   }
 }
