@@ -211,7 +211,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IOauthProfile"
+                  "$ref": "#/components/schemas/Authentication.IOauthProfile"
                 }
               }
             },
@@ -476,7 +476,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IOauthProfile": {
+      "Authentication.IOauthProfile": {
         "type": "object",
         "properties": {
           "name": {

@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IOauthProfile } from "./../../../structures/auth/oauth-profile";
+import type { Authentication } from "./../../../structures/auth/auth";
 
 /**
  * 새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.
@@ -37,7 +37,7 @@ export function getOauthProfile
 }
 export namespace getOauthProfile
 {
-    export type Output = IOauthProfile;
+    export type Output = Authentication.IOauthProfile;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/auth/oauth-profile";

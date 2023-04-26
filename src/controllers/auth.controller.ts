@@ -1,4 +1,4 @@
-import { Authentication, IOauthProfile, ITokens } from "@DTO/auth";
+import { Authentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";
 
@@ -44,7 +44,7 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Get("oauth-profile")
-  getOauthProfile(): Promise<IOauthProfile> {
+  getOauthProfile(): Promise<Authentication.IOauthProfile> {
     throw Error();
   }
 
