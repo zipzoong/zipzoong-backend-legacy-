@@ -45,7 +45,7 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Get("profile")
-  getOauthProfile(): Promise<Authentication.IOauthProfile> {
+  getProfile(): Promise<Authentication.IOauthProfile> {
     throw Error();
   }
 

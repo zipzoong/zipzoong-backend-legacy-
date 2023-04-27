@@ -7,8 +7,8 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IPage, PaginatedResponse } from "./../../structures/common/pagination.interface";
-import type { IHSProvider } from "./../../structures/user/hs_provider";
+import type { IPage, IPaginatedResponse } from "./../../structures/common/pagination.interface";
+import type { IHSProvider } from "./../../structures/user/hs_provider.interface";
 
 /**
  * @controller HSProvidersController.findMany()
@@ -32,7 +32,7 @@ export function findMany
 export namespace findMany
 {
     export type Query = IPage;
-    export type Output = PaginatedResponse<IHSProvider>;
+    export type Output = IPaginatedResponse<IHSProvider.IResponse>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/hs-providers";

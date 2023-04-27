@@ -226,7 +226,7 @@
         },
         "summary": "OauthProfile 요청 API",
         "description": "새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.",
-        "x-nestia-namespace": "auth.profile.getOauthProfile",
+        "x-nestia-namespace": "auth.profile.getProfile",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
@@ -417,7 +417,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse_lt_IHSProvider_gt_"
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IHSProvider.IResponse_gt_"
                 }
               }
             },
@@ -449,7 +449,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse_lt_IREAgent_gt_"
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREAgent.IResponse_gt_"
                 }
               }
             },
@@ -1055,22 +1055,53 @@
         "nullable": false,
         "x-typia-jsDocTags": []
       },
-      "PaginatedResponse_lt_IHSProvider_gt_": {
+      "IPaginatedResponse_lt_IHSProvider.IResponse_gt_": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IHSProvider",
+              "$ref": "#/components/schemas/IHSProvider.IResponse",
               "x-typia-required": true
             },
             "nullable": false,
             "x-typia-required": true
           },
           "page": {
-            "type": "number",
+            "type": "integer",
             "nullable": false,
-            "x-typia-required": true
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minimum": 1
           }
         },
         "nullable": false,
@@ -1080,61 +1111,15 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IHSProvider": {
+      "IHSProvider.IResponse": {
         "type": "object",
         "properties": {
-          "introduction": {
-            "$ref": "#/components/schemas/IHSProvider.IIntroduction",
-            "x-typia-required": true
-          },
-          "address": {
-            "$ref": "#/components/schemas/IUser.IAddress",
-            "x-typia-required": true
-          },
-          "business_registration_num": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "profile_image_url": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "is_verified": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": true
-          },
           "expertises": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.IExpertise",
               "x-typia-required": true
             },
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "home service provider"
-            ],
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "name": {
-            "type": "string",
             "nullable": false,
             "x-typia-required": true
           },
@@ -1160,21 +1145,88 @@
             ],
             "x-typia-required": true,
             "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/IUser.IAddress",
+            "x-typia-required": true
+          },
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "home service provider"
+            ],
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IHSProvider.IIntroduction",
+            "x-typia-required": true
+          },
+          "business_registration_num": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "is_verified": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
-          "introduction",
-          "address",
-          "business_registration_num",
-          "phone",
-          "profile_image_url",
-          "is_verified",
           "expertises",
+          "email",
+          "phone",
+          "address",
+          "profile_image_url",
           "type",
-          "id",
           "name",
-          "email"
+          "introduction",
+          "business_registration_num",
+          "is_verified",
+          "id"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IExpertise": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1230,43 +1282,53 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IBusinessUser.IExpertise": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "PaginatedResponse_lt_IREAgent_gt_": {
+      "IPaginatedResponse_lt_IREAgent.IResponse_gt_": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IREAgent",
+              "$ref": "#/components/schemas/IREAgent.IResponse",
               "x-typia-required": true
             },
             "nullable": false,
             "x-typia-required": true
           },
           "page": {
-            "type": "number",
+            "type": "integer",
             "nullable": false,
-            "x-typia-required": true
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minimum": 1
           }
         },
         "nullable": false,
@@ -1276,61 +1338,15 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IREAgent": {
+      "IREAgent.IResponse": {
         "type": "object",
         "properties": {
-          "is_licensed": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "real_estate": {
-            "$ref": "#/components/schemas/IREAgent.IRealEstate",
-            "x-typia-required": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "profile_image_url": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "is_verified": {
-            "type": "boolean",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "introduction": {
-            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "x-typia-required": true
-          },
           "expertises": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.IExpertise",
               "x-typia-required": true
             },
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "real estate agent"
-            ],
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true
-          },
-          "name": {
-            "type": "string",
             "nullable": false,
             "x-typia-required": true
           },
@@ -1356,21 +1372,67 @@
             ],
             "x-typia-required": true,
             "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "real estate agent"
+            ],
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "x-typia-required": true
+          },
+          "is_licensed": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "real_estate": {
+            "$ref": "#/components/schemas/IREAgent.IRealEstate",
+            "x-typia-required": true
+          },
+          "is_verified": {
+            "type": "boolean",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
-          "is_licensed",
-          "real_estate",
+          "expertises",
+          "email",
           "phone",
           "profile_image_url",
-          "is_verified",
-          "introduction",
-          "expertises",
           "type",
-          "id",
           "name",
-          "email"
+          "introduction",
+          "is_licensed",
+          "real_estate",
+          "is_verified",
+          "id"
         ],
         "x-typia-jsDocTags": []
       }

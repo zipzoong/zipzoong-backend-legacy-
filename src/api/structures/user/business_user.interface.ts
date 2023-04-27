@@ -1,6 +1,6 @@
-import { IHSProvider } from "./hs_provider";
-import { IREAgent } from "./re_agent";
-import { IUser } from "./user";
+import { IHSProvider } from "./hs_provider.interface";
+import { IREAgent } from "./re_agent.interface";
+import { IUser } from "./user.interface";
 
 export type IBusinessUser = IREAgent | IHSProvider;
 
@@ -12,7 +12,7 @@ export namespace IBusinessUser {
     readonly profile_image_url: string;
     readonly is_verified: boolean;
     readonly introduction: IBusinessUser.IIntroduction;
-    readonly expertises: IExpertise[];
+    readonly expertise_ids: string[];
   }
 
   export interface IExpertise {
@@ -24,4 +24,6 @@ export namespace IBusinessUser {
     readonly title: string;
     readonly content: string;
   }
+
+  export type IResponse = IREAgent.IResponse | IHSProvider.IResponse;
 }

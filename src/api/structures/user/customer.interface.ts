@@ -1,5 +1,5 @@
 import { Omit } from "@TYPE";
-import { IUser } from "./user";
+import { IUser } from "./user.interface";
 
 export interface ICustomer extends IUser.IBase<"customer"> {
   /**

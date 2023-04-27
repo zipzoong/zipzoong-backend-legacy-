@@ -7,8 +7,8 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IPage, PaginatedResponse } from "./../../structures/common/pagination.interface";
-import type { IREAgent } from "./../../structures/user/re_agent";
+import type { IPage, IPaginatedResponse } from "./../../structures/common/pagination.interface";
+import type { IREAgent } from "./../../structures/user/re_agent.interface";
 
 /**
  * @controller REAgentsController.findMany()
@@ -32,7 +32,7 @@ export function findMany
 export namespace findMany
 {
     export type Query = IPage;
-    export type Output = PaginatedResponse<IREAgent>;
+    export type Output = IPaginatedResponse<IREAgent.IResponse>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/re-agents";

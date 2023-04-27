@@ -1,5 +1,9 @@
-export interface PaginatedResponse<T> {
+export interface IPaginatedResponse<T> {
   data: T[];
+  /**
+   * @type uint
+   * @minimum 1
+   */
   page: number;
 }
 

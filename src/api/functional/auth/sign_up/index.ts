@@ -8,8 +8,8 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/auth";
-import type { ITokens } from "./../../../structures/auth/token";
+import type { Authentication } from "./../../../structures/auth/auth.interface";
+import type { ITokens } from "./../../../structures/auth/token.interface";
 
 /**
  * 회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.

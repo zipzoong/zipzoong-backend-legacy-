@@ -1,2 +1,2 @@
-export * from "./auth";
-export * from "./token";
+export * from "./auth.interface";
+export * from "./token.interface";

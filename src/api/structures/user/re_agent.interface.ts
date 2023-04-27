@@ -1,6 +1,6 @@
 import { Omit } from "@TYPE";
-import { IBusinessUser } from "./business_user";
-import { IUser } from "./user";
+import { IBusinessUser } from "./business_user.interface";
+import { IUser } from "./user.interface";
 
 export interface IREAgent extends IBusinessUser.IBase<"real estate agent"> {
   readonly is_licensed: boolean;
@@ -46,5 +46,9 @@ export namespace IREAgent {
      * 약관 동의 id 리스트
      */
     agreement_acceptances: string[];
+  }
+
+  export interface IResponse extends Omit<IREAgent, "expertise_ids"> {
+    readonly expertises: IBusinessUser.IExpertise[];
   }
 }

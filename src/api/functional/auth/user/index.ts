@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/auth";
+import type { Authentication } from "./../../../structures/auth/auth.interface";
 
 /**
  * type 속성을 통해 사용자 분류를 구분한다.

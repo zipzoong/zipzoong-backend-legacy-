@@ -1,2 +1,2 @@
-export * from "./omit";
-export * from "./mutable";
+export * from "./omit.interface";
+export * from "./mutable.interface";

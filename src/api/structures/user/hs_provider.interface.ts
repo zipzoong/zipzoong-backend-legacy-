@@ -1,6 +1,6 @@
 import { Omit } from "@TYPE";
-import { IBusinessUser } from "./business_user";
-import { IUser } from "./user";
+import { IBusinessUser } from "./business_user.interface";
+import { IUser } from "./user.interface";
 
 export interface IHSProvider
   extends IBusinessUser.IBase<"home service provider"> {
@@ -53,5 +53,9 @@ export namespace IHSProvider {
      * 약관 동의 id 리스트
      */
     agreement_acceptances: string[];
+  }
+
+  export interface IResponse extends Omit<IHSProvider, "expertise_ids"> {
+    readonly expertises: IBusinessUser.IExpertise[];
   }
 }

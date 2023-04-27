@@ -1,5 +1,5 @@
-import { IBusinessUser } from "./business_user";
-import { ICustomer } from "./customer";
+import { IBusinessUser } from "./business_user.interface";
+import { ICustomer } from "./customer.interface";
 
 export type IUser = ICustomer | IBusinessUser;
 
