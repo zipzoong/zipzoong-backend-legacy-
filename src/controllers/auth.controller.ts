@@ -30,7 +30,6 @@ export class AuthenticationController {
    * @param body oauth code, oauth type
    * @returns tokens
    */
-  @HttpCode(HttpStatus.OK)
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
     throw Error("");

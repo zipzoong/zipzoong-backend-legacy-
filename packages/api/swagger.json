@@ -136,7 +136,7 @@
           "x-nestia-encrypted": false
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "tokens",
             "content": {
               "application/json": {
