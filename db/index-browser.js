@@ -87,32 +87,32 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.AgreementAcceptanceModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   user_id: 'user_id',
   agreement_id: 'agreement_id'
 };
 
 exports.Prisma.AgreementModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   title: 'title',
   content: 'content',
   user_type: 'user_type'
 };
 
 exports.Prisma.BusinessCertificationModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   business_user_id: 'business_user_id',
   image_url: 'image_url'
 };
@@ -139,31 +139,31 @@ exports.Prisma.CustomerModelScalarFieldEnum = {
 };
 
 exports.Prisma.ExpertSubCategoryModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   name: 'name',
   super_id: 'super_id'
 };
 
 exports.Prisma.ExpertSuperCategoryModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   name: 'name',
   business_type: 'business_type'
 };
 
 exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   hs_provider_id: 'hs_provider_id',
   image_url: 'image_url'
 };
@@ -174,11 +174,11 @@ exports.Prisma.HSProviderModelScalarFieldEnum = {
 };
 
 exports.Prisma.OauthAccessorModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   oauth_type: 'oauth_type',
   oauth_sub: 'oauth_sub',
   business_user_id: 'business_user_id',
@@ -220,21 +220,21 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.UserExpertiseModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   category_id: 'category_id',
   business_user_id: 'business_user_id'
 };
 
 exports.Prisma.UserModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  id: 'id',
   name: 'name',
   email: 'email'
 };

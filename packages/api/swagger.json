@@ -600,6 +600,52 @@
           "address": {
             "$ref": "#/components/schemas/IUser.IAddress.Nullable",
             "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
           }
         },
         "nullable": false,
@@ -610,7 +656,9 @@
           "profile_image_url",
           "birth",
           "gender",
-          "address"
+          "address",
+          "created_at",
+          "updated_at"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1191,6 +1239,81 @@
             "type": "string",
             "nullable": false,
             "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "is_deleted": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "삭제 여부",
+            "x-typia-required": true
+          },
+          "deleted_at": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
           }
         },
         "nullable": false,
@@ -1205,28 +1328,111 @@
           "introduction",
           "business_registration_num",
           "is_verified",
-          "id"
+          "id",
+          "created_at",
+          "updated_at",
+          "is_deleted",
+          "deleted_at"
         ],
         "x-typia-jsDocTags": []
       },
       "IBusinessUser.IExpertise": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
           "id": {
             "type": "string",
             "nullable": false,
             "x-typia-required": true
           },
-          "name": {
+          "created_at": {
             "type": "string",
             "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "is_deleted": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "삭제 여부",
             "x-typia-required": true
+          },
+          "deleted_at": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
           }
         },
         "nullable": false,
         "required": [
+          "name",
           "id",
-          "name"
+          "created_at",
+          "updated_at",
+          "is_deleted",
+          "deleted_at"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1264,21 +1470,100 @@
       "IHSProvider.IIntroductionImage": {
         "type": "object",
         "properties": {
+          "image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
           "id": {
             "type": "string",
             "nullable": false,
             "x-typia-required": true
           },
-          "image_url": {
+          "created_at": {
             "type": "string",
             "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "is_deleted": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "삭제 여부",
             "x-typia-required": true
+          },
+          "deleted_at": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
           }
         },
         "nullable": false,
         "required": [
+          "image_url",
           "id",
-          "image_url"
+          "created_at",
+          "updated_at",
+          "is_deleted",
+          "deleted_at"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1418,6 +1703,81 @@
             "type": "string",
             "nullable": false,
             "x-typia-required": true
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
+          },
+          "is_deleted": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "삭제 여부",
+            "x-typia-required": true
+          },
+          "deleted_at": {
+            "type": "string",
+            "nullable": true,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "date-time"
           }
         },
         "nullable": false,
@@ -1432,7 +1792,11 @@
           "is_licensed",
           "real_estate",
           "is_verified",
-          "id"
+          "id",
+          "created_at",
+          "updated_at",
+          "is_deleted",
+          "deleted_at"
         ],
         "x-typia-jsDocTags": []
       }

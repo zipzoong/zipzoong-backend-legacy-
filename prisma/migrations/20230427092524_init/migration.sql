@@ -12,11 +12,11 @@ CREATE TYPE "AgreementUserType" AS ENUM ('all', 'customer', 'business', 'HS', 'R
 
 -- CreateTable
 CREATE TABLE "oauth_accessors" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "oauth_type" "OauthType" NOT NULL,
     "oauth_sub" TEXT NOT NULL,
     "business_user_id" TEXT NOT NULL,
@@ -35,11 +35,11 @@ CREATE TABLE "oauth_accessors" (
 
 -- CreateTable
 CREATE TABLE "users" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT,
 
@@ -95,11 +95,11 @@ CREATE TABLE "hs_providers" (
 
 -- CreateTable
 CREATE TABLE "business_certifications" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "business_user_id" TEXT NOT NULL,
     "image_url" TEXT NOT NULL,
 
@@ -108,11 +108,11 @@ CREATE TABLE "business_certifications" (
 
 -- CreateTable
 CREATE TABLE "hs_introduction_images" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "hs_provider_id" TEXT NOT NULL,
     "image_url" TEXT NOT NULL,
 
@@ -121,11 +121,11 @@ CREATE TABLE "hs_introduction_images" (
 
 -- CreateTable
 CREATE TABLE "user_expertises" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
     "business_user_id" TEXT NOT NULL,
 
@@ -134,11 +134,11 @@ CREATE TABLE "user_expertises" (
 
 -- CreateTable
 CREATE TABLE "expert_sub_categories" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "super_id" TEXT NOT NULL,
 
@@ -147,11 +147,11 @@ CREATE TABLE "expert_sub_categories" (
 
 -- CreateTable
 CREATE TABLE "expert_super_categories" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "business_type" "ExpertBusinessType" NOT NULL,
 
@@ -160,11 +160,11 @@ CREATE TABLE "expert_super_categories" (
 
 -- CreateTable
 CREATE TABLE "agreements" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "user_type" "AgreementUserType" NOT NULL,
@@ -174,11 +174,11 @@ CREATE TABLE "agreements" (
 
 -- CreateTable
 CREATE TABLE "agreement_acceptances" (
+    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "agreement_id" TEXT NOT NULL,
 

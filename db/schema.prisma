@@ -33,11 +33,11 @@ enum AgreementUserType {
 }
 
 model OauthAccessorModel {
+  id                String        @id
   created_at        DateTime      @database.Timestamptz
   updated_at        DateTime      @database.Timestamptz
   is_deleted        Boolean
   deleted_at        DateTime?     @database.Timestamptz
-  id                String        @id
   oauth_type        OauthType
   oauth_sub         String
   business_user_id  String
@@ -57,11 +57,11 @@ model OauthAccessorModel {
 }
 
 model UserModel {
+  id                    String                     @id
   created_at            DateTime                   @database.Timestamptz
   updated_at            DateTime                   @database.Timestamptz
   is_deleted            Boolean
   deleted_at            DateTime?                  @database.Timestamptz
-  id                    String                     @id
   name                  String
   email                 String?
   customer              CustomerModel?
@@ -126,11 +126,11 @@ model HSProviderModel {
 }
 
 model BusinessCertificationModel {
+  id               String       @id
   created_at       DateTime     @database.Timestamptz
   updated_at       DateTime     @database.Timestamptz
   is_deleted       Boolean
   deleted_at       DateTime?    @database.Timestamptz
-  id               String       @id
   business_user_id String
   image_url        String
   business_user    BusinessUser @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
@@ -139,11 +139,11 @@ model BusinessCertificationModel {
 }
 
 model HSIntroductionImageModel {
+  id             String          @id
   created_at     DateTime        @database.Timestamptz
   updated_at     DateTime        @database.Timestamptz
   is_deleted     Boolean
   deleted_at     DateTime?       @database.Timestamptz
-  id             String          @id
   hs_provider_id String
   image_url      String
   hs_provider    HSProviderModel @relation(fields: [hs_provider_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
@@ -152,11 +152,11 @@ model HSIntroductionImageModel {
 }
 
 model UserExpertiseModel {
+  id               String                 @id
   created_at       DateTime               @database.Timestamptz
   updated_at       DateTime               @database.Timestamptz
   is_deleted       Boolean
   deleted_at       DateTime?              @database.Timestamptz
-  id               String                 @id
   category_id      String
   business_user_id String
   category         ExpertSubCategoryModel @relation(fields: [category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
@@ -166,11 +166,11 @@ model UserExpertiseModel {
 }
 
 model ExpertSubCategoryModel {
+  id         String                   @id
   created_at DateTime                 @database.Timestamptz
   updated_at DateTime                 @database.Timestamptz
   is_deleted Boolean
   deleted_at DateTime?                @database.Timestamptz
-  id         String                   @id
   name       String                   @unique
   super_id   String
   super      ExpertSuperCategoryModel @relation(fields: [super_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
@@ -180,11 +180,11 @@ model ExpertSubCategoryModel {
 }
 
 model ExpertSuperCategoryModel {
+  id            String                   @id
   created_at    DateTime                 @database.Timestamptz
   updated_at    DateTime                 @database.Timestamptz
   is_deleted    Boolean
   deleted_at    DateTime?                @database.Timestamptz
-  id            String                   @id
   name          String                   @unique
   business_type ExpertBusinessType
   subs          ExpertSubCategoryModel[]
@@ -193,11 +193,11 @@ model ExpertSuperCategoryModel {
 }
 
 model AgreementModel {
+  id          String                     @id
   created_at  DateTime                   @database.Timestamptz
   updated_at  DateTime                   @database.Timestamptz
   is_deleted  Boolean
   deleted_at  DateTime?                  @database.Timestamptz
-  id          String                     @id
   title       String
   content     String
   user_type   AgreementUserType
@@ -207,11 +207,11 @@ model AgreementModel {
 }
 
 model AgreementAcceptanceModel {
+  id           String         @id
   created_at   DateTime       @database.Timestamptz
   updated_at   DateTime       @database.Timestamptz
   is_deleted   Boolean
   deleted_at   DateTime?      @database.Timestamptz
-  id           String         @id
   user_id      String
   agreement_id String
   user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

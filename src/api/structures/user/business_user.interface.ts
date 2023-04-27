@@ -1,3 +1,4 @@
+import { IEntity } from "@DTO/common";
 import { IHSProvider } from "./hs_provider.interface";
 import { IREAgent } from "./re_agent.interface";
 import { IUser } from "./user.interface";
@@ -15,8 +16,7 @@ export namespace IBusinessUser {
     readonly expertise_ids: string[];
   }
 
-  export interface IExpertise {
-    readonly id: string;
+  export interface IExpertise extends IEntity {
     readonly name: string;
   }
 

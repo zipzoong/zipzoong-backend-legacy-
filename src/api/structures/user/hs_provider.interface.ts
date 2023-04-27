@@ -1,3 +1,4 @@
+import { IEntity } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user.interface";
 import { IUser } from "./user.interface";
@@ -10,10 +11,10 @@ export interface IHSProvider
 }
 
 export namespace IHSProvider {
-  export interface IIntroductionImage {
-    readonly id: string;
+  export interface IIntroductionImage extends IEntity {
     readonly image_url: string;
   }
+
   export interface IIntroduction extends IBusinessUser.IIntroduction {
     readonly images: IIntroductionImage[];
   }

@@ -1,4 +1,4 @@
-import { CreatedAt, DeletedAt } from "../mixins";
+import { Entity } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import {
@@ -17,9 +17,7 @@ const one_to_one: RelationalFieldOptions = {
 
 export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
   model
-    .mixin(CreatedAt)
-    .mixin(DeletedAt)
-    .string("id", { id: true })
+    .mixin(Entity)
     .enum("oauth_type", OauthType)
     .string("oauth_sub")
     .string("business_user_id")
@@ -49,9 +47,7 @@ export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
 
 export const User = createModel("UserModel", (model) => {
   model
-    .mixin(CreatedAt)
-    .mixin(DeletedAt)
-    .string("id", { id: true })
+    .mixin(Entity)
     .string("name")
     .string("email", { optional: true })
     .relation("customer", Customer, { optional: true })
@@ -120,9 +116,7 @@ export const BusinessCertification = createModel(
   "BusinessCertificationModel",
   (model) => {
     model
-      .mixin(CreatedAt)
-      .mixin(DeletedAt)
-      .string("id", { id: true })
+      .mixin(Entity)
       .string("business_user_id")
       .string("image_url")
       .relation("business_user", BusinessUser, {
@@ -139,9 +133,7 @@ export const HSIntroductionImage = createModel(
   "HSIntroductionImageModel",
   (model) => {
     model
-      .mixin(CreatedAt)
-      .mixin(DeletedAt)
-      .string("id", { id: true })
+      .mixin(Entity)
       .string("hs_provider_id")
       .string("image_url")
       .relation("hs_provider", HSProvider, {
@@ -156,9 +148,7 @@ export const HSIntroductionImage = createModel(
 
 export const UserExpertise = createModel("UserExpertiseModel", (model) => {
   model
-    .mixin(CreatedAt)
-    .mixin(DeletedAt)
-    .string("id", { id: true })
+    .mixin(Entity)
     .string("category_id")
     .string("business_user_id")
     .relation("category", ExpertSubCategory, {
@@ -180,9 +170,7 @@ export const ExpertSubCategory = createModel(
   "ExpertSubCategoryModel",
   (model) => {
     model
-      .mixin(CreatedAt)
-      .mixin(DeletedAt)
-      .string("id", { id: true })
+      .mixin(Entity)
       .string("name", { unique: true })
       .string("super_id")
       .relation("super", ExpertSuperCategory, {
@@ -200,9 +188,7 @@ export const ExpertSuperCategory = createModel(
   "ExpertSuperCategoryModel",
   (model) => {
     model
-      .mixin(CreatedAt)
-      .mixin(DeletedAt)
-      .string("id", { id: true })
+      .mixin(Entity)
       .string("name", { unique: true })
       .enum("business_type", ExpertBusinessType)
       .relation("subs", ExpertSubCategory, { list: true })
@@ -212,9 +198,7 @@ export const ExpertSuperCategory = createModel(
 
 export const Agreement = createModel("AgreementModel", (model) => {
   model
-    .mixin(CreatedAt)
-    .mixin(DeletedAt)
-    .string("id", { id: true })
+    .mixin(Entity)
     .string("title")
     .string("content")
     .enum("user_type", AgreementUserType)
@@ -226,9 +210,7 @@ export const AgreementAcceptance = createModel(
   "AgreementAcceptanceModel",
   (model) => {
     model
-      .mixin(CreatedAt)
-      .mixin(DeletedAt)
-      .string("id", { id: true })
+      .mixin(Entity)
       .string("user_id")
       .string("agreement_id")
       .relation("user", User, {
