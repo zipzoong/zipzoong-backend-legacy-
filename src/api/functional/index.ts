@@ -5,3 +5,5 @@
  */
 //================================================================
 export * as auth from "./auth";
+export * as hs_providers from "./hs_providers";
+export * as re_agents from "./re_agents";

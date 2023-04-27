@@ -12,7 +12,12 @@ export namespace IBusinessUser {
     readonly profile_image_url: string;
     readonly is_verified: boolean;
     readonly introduction: IBusinessUser.IIntroduction;
-    readonly expertise_ids: string[];
+    readonly expertises: IExpertise[];
+  }
+
+  export interface IExpertise {
+    readonly id: string;
+    readonly name: string;
   }
 
   export interface IIntroduction {
