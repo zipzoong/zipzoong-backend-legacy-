@@ -1,5 +1,8 @@
 export interface IEntity {
   readonly id: string;
+}
+
+export interface IAggregate extends IEntity {
   /**
    * @format date-time
    */

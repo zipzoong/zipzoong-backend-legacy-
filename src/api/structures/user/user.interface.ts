@@ -1,4 +1,4 @@
-import { IEntity } from "@DTO/common";
+import { IAggregate } from "@DTO/common";
 import { IBusinessUser } from "./business_user.interface";
 import { ICustomer } from "./customer.interface";
 
@@ -14,7 +14,7 @@ export namespace IUser {
     readonly second: string | null;
   }
 
-  export interface IBase<T extends Type> extends IEntity {
+  export interface IBase<T extends Type> extends IAggregate {
     readonly type: T;
     readonly name: string;
     /**
