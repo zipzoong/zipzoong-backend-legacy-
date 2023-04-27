@@ -24,6 +24,7 @@ export namespace IHSProvider {
     introduction: IIntroduction;
     address: IUser.IAddress;
     business_registration_num: string;
+    expertise_ids: string[];
   }
 
   export interface ICreateRequest
@@ -44,5 +45,13 @@ export namespace IHSProvider {
     introduction: IBusinessUser.IIntroduction;
 
     introduction_images: string[];
+    /**
+     * 증명 서류 사진 url 리스트
+     */
+    business_certifications: string[];
+    /**
+     * 약관 동의 id 리스트
+     */
+    agreement_acceptances: string[];
   }
 }

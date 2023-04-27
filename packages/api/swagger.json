@@ -30,7 +30,7 @@
           "x-nestia-encrypted": false
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "tokens",
             "content": {
               "application/json": {
@@ -136,7 +136,7 @@
           "x-nestia-encrypted": false
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "tokens",
             "content": {
               "application/json": {
@@ -199,7 +199,7 @@
         ]
       }
     },
-    "/auth/oauth-profile": {
+    "/auth/profile": {
       "get": {
         "tags": [
           "authentication"
@@ -226,7 +226,7 @@
         },
         "summary": "OauthProfile 요청 API",
         "description": "새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.",
-        "x-nestia-namespace": "auth.oauth-profile.getOauthProfile",
+        "x-nestia-namespace": "auth.profile.getOauthProfile",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
@@ -586,6 +586,18 @@
             "description": "휴대폰 인증 코드\n\n포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.",
             "x-typia-required": false
           },
+          "agreement_acceptances": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "약관 동의 id 리스트",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "약관 동의 id 리스트",
+            "x-typia-required": true
+          },
           "birth": {
             "type": "string",
             "nullable": false,
@@ -649,6 +661,7 @@
         },
         "nullable": false,
         "required": [
+          "agreement_acceptances",
           "type"
         ],
         "x-typia-jsDocTags": []
@@ -689,6 +702,30 @@
             "description": "휴대폰 인증 코드\n\n포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.",
             "x-typia-required": false
           },
+          "business_certifications": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "증명 서류 사진 url 리스트",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "증명 서류 사진 url 리스트",
+            "x-typia-required": true
+          },
+          "agreement_acceptances": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "약관 동의 id 리스트",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "약관 동의 id 리스트",
+            "x-typia-required": true
+          },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
@@ -720,15 +757,28 @@
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "x-typia-required": true
+          },
+          "expertise_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
+          "business_certifications",
+          "agreement_acceptances",
           "profile_image_url",
           "type",
           "introduction",
           "is_licensed",
-          "real_estate"
+          "real_estate",
+          "expertise_ids"
         ],
         "x-typia-jsDocTags": []
       },
@@ -820,6 +870,30 @@
             "nullable": false,
             "x-typia-required": true
           },
+          "business_certifications": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "증명 서류 사진 url 리스트",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "증명 서류 사진 url 리스트",
+            "x-typia-required": true
+          },
+          "agreement_acceptances": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "약관 동의 id 리스트",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "약관 동의 id 리스트",
+            "x-typia-required": true
+          },
           "address": {
             "$ref": "#/components/schemas/IUser.IAddress",
             "x-typia-required": true
@@ -843,6 +917,16 @@
             "description": "기본값 \"\"",
             "x-typia-required": false
           },
+          "expertise_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "x-typia-required": true
+          },
           "business_registration_num": {
             "type": "string",
             "nullable": false,
@@ -853,9 +937,12 @@
         "required": [
           "introduction",
           "introduction_images",
+          "business_certifications",
+          "agreement_acceptances",
           "address",
           "profile_image_url",
           "type",
+          "expertise_ids",
           "business_registration_num"
         ],
         "x-typia-jsDocTags": []

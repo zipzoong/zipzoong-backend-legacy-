@@ -6,5 +6,5 @@
 //================================================================
 export * as sign_in from "./sign_in";
 export * as sign_up from "./sign_up";
-export * as oauth_profile from "./oauth_profile";
+export * as profile from "./profile";
 export * as user from "./user";

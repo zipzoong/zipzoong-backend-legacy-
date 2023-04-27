@@ -51,5 +51,9 @@ export namespace ICustomer {
      * 포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.
      */
     phone_access_code?: string;
+    /**
+     * 약관 동의 id 리스트
+     */
+    agreement_acceptances: string[];
   }
 }

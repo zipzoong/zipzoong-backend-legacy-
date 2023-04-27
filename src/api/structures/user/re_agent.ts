@@ -22,6 +22,7 @@ export namespace IREAgent {
     introduction: IBusinessUser.IIntroduction;
     is_licensed: boolean;
     real_estate: IREAgent.IRealEstate;
+    expertise_ids: string[];
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {
@@ -37,5 +38,13 @@ export namespace IREAgent {
      * 포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.
      */
     phone_access_code?: string;
+    /**
+     * 증명 서류 사진 url 리스트
+     */
+    business_certifications: string[];
+    /**
+     * 약관 동의 id 리스트
+     */
+    agreement_acceptances: string[];
   }
 }

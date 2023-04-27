@@ -52,6 +52,7 @@ export namespace signUp
     export const ENCRYPTED: Fetcher.IEncrypted = {
         request: false,
         response: false,
+        status: 200,
     };
 
     export function path(): string

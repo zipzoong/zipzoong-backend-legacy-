@@ -1,6 +1,6 @@
 import { Authentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
-import { Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
 
 @Controller("auth")
 export class AuthenticationController {
@@ -14,6 +14,7 @@ export class AuthenticationController {
    * @throw 401 Unauthorized
    * @throw 404 Not Found
    */
+  @HttpCode(HttpStatus.OK)
   @Post("sign-in")
   signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
     throw Error("");
@@ -29,6 +30,7 @@ export class AuthenticationController {
    * @param body oauth code, oauth type
    * @returns tokens
    */
+  @HttpCode(HttpStatus.OK)
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
     throw Error("");
@@ -43,7 +45,7 @@ export class AuthenticationController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get("oauth-profile")
+  @Get("profile")
   getOauthProfile(): Promise<Authentication.IOauthProfile> {
     throw Error();
   }
