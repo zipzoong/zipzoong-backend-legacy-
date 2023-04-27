@@ -1,4 +1,4 @@
-import { Entity } from "../mixins";
+import { DeletedAt, Entity } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import {
@@ -70,7 +70,7 @@ export const Customer = createModel("CustomerModel", (model) => {
     .map("customers");
 });
 
-export const BusinessUser = createModel("BusinessUser", (model) => {
+export const BusinessUser = createModel("BusinessUserModel", (model) => {
   model
     .string("id", { id: true })
     .boolean("is_verified")
@@ -148,7 +148,7 @@ export const HSIntroductionImage = createModel(
 
 export const UserExpertise = createModel("UserExpertiseModel", (model) => {
   model
-    .mixin(Entity)
+    .mixin(DeletedAt)
     .string("category_id")
     .string("business_user_id")
     .relation("category", ExpertSubCategory, {
@@ -163,6 +163,7 @@ export const UserExpertise = createModel("UserExpertiseModel", (model) => {
       onUpdate: "NoAction",
       onDelete: "NoAction"
     })
+    .id({ fields: ["category_id", "business_user_id"] })
     .map("user_expertises");
 });
 
@@ -210,7 +211,7 @@ export const AgreementAcceptance = createModel(
   "AgreementAcceptanceModel",
   (model) => {
     model
-      .mixin(Entity)
+      .mixin(DeletedAt)
       .string("user_id")
       .string("agreement_id")
       .relation("user", User, {
@@ -225,6 +226,7 @@ export const AgreementAcceptance = createModel(
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
+      .id({ fields: ["user_id", "agreement_id"] })
       .map("agreement_acceptances");
   }
 );

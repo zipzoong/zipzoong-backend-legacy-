@@ -87,7 +87,6 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.AgreementAcceptanceModelScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
@@ -117,7 +116,7 @@ exports.Prisma.BusinessCertificationModelScalarFieldEnum = {
   image_url: 'image_url'
 };
 
-exports.Prisma.BusinessUserScalarFieldEnum = {
+exports.Prisma.BusinessUserModelScalarFieldEnum = {
   id: 'id',
   is_verified: 'is_verified',
   introduction_title: 'introduction_title',
@@ -220,7 +219,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.UserExpertiseModelScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
@@ -266,7 +264,7 @@ exports.Prisma.ModelName = {
   OauthAccessorModel: 'OauthAccessorModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
-  BusinessUser: 'BusinessUser',
+  BusinessUserModel: 'BusinessUserModel',
   REAgentModel: 'REAgentModel',
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationModel: 'BusinessCertificationModel',

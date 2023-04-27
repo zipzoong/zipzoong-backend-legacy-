@@ -121,7 +121,6 @@ CREATE TABLE "hs_introduction_images" (
 
 -- CreateTable
 CREATE TABLE "user_expertises" (
-    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
@@ -129,7 +128,7 @@ CREATE TABLE "user_expertises" (
     "category_id" TEXT NOT NULL,
     "business_user_id" TEXT NOT NULL,
 
-    CONSTRAINT "user_expertises_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "user_expertises_pkey" PRIMARY KEY ("category_id","business_user_id")
 );
 
 -- CreateTable
@@ -174,7 +173,6 @@ CREATE TABLE "agreements" (
 
 -- CreateTable
 CREATE TABLE "agreement_acceptances" (
-    "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
@@ -182,7 +180,7 @@ CREATE TABLE "agreement_acceptances" (
     "user_id" TEXT NOT NULL,
     "agreement_id" TEXT NOT NULL,
 
-    CONSTRAINT "agreement_acceptances_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "agreement_acceptances_pkey" PRIMARY KEY ("user_id","agreement_id")
 );
 
 -- CreateIndex

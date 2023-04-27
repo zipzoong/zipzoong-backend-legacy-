@@ -33,11 +33,11 @@ enum AgreementUserType {
 }
 
 model OauthAccessorModel {
-  id                String        @id
-  created_at        DateTime      @database.Timestamptz
-  updated_at        DateTime      @database.Timestamptz
+  id                String            @id
+  created_at        DateTime          @database.Timestamptz
+  updated_at        DateTime          @database.Timestamptz
   is_deleted        Boolean
-  deleted_at        DateTime?     @database.Timestamptz
+  deleted_at        DateTime?         @database.Timestamptz
   oauth_type        OauthType
   oauth_sub         String
   business_user_id  String
@@ -50,8 +50,8 @@ model OauthAccessorModel {
   gender            GenderType?
   address_first     String?
   address_second    String?
-  business_user     BusinessUser  @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer          CustomerModel @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  business_user     BusinessUserModel @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer          CustomerModel     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("oauth_accessors")
 }
@@ -65,7 +65,7 @@ model UserModel {
   name                  String
   email                 String?
   customer              CustomerModel?
-  business_user         BusinessUser?
+  business_user         BusinessUserModel?
   agreement_acceptances AgreementAcceptanceModel[]
 
   @@map("users")
@@ -85,7 +85,7 @@ model CustomerModel {
   @@map("customers")
 }
 
-model BusinessUser {
+model BusinessUserModel {
   id                   String                       @id
   is_verified          Boolean
   introduction_title   String
@@ -105,13 +105,13 @@ model BusinessUser {
 }
 
 model REAgentModel {
-  id                     String       @id
+  id                     String            @id
   is_licensed            Boolean
   re_num                 String
   re_name                String
   re_phone               String
   re_licensed_agent_name String
-  base                   BusinessUser @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  base                   BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
   @@map("re_agents")
 }
@@ -119,21 +119,21 @@ model REAgentModel {
 model HSProviderModel {
   id                        String                     @id
   business_registration_num String
-  base                      BusinessUser               @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  base                      BusinessUserModel          @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   introduction_images       HSIntroductionImageModel[]
 
   @@map("hs_providers")
 }
 
 model BusinessCertificationModel {
-  id               String       @id
-  created_at       DateTime     @database.Timestamptz
-  updated_at       DateTime     @database.Timestamptz
+  id               String            @id
+  created_at       DateTime          @database.Timestamptz
+  updated_at       DateTime          @database.Timestamptz
   is_deleted       Boolean
-  deleted_at       DateTime?    @database.Timestamptz
+  deleted_at       DateTime?         @database.Timestamptz
   business_user_id String
   image_url        String
-  business_user    BusinessUser @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  business_user    BusinessUserModel @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
   @@map("business_certifications")
 }
@@ -152,7 +152,6 @@ model HSIntroductionImageModel {
 }
 
 model UserExpertiseModel {
-  id               String                 @id
   created_at       DateTime               @database.Timestamptz
   updated_at       DateTime               @database.Timestamptz
   is_deleted       Boolean
@@ -160,8 +159,9 @@ model UserExpertiseModel {
   category_id      String
   business_user_id String
   category         ExpertSubCategoryModel @relation(fields: [category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  business_user    BusinessUser           @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  business_user    BusinessUserModel      @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
+  @@id([category_id, business_user_id])
   @@map("user_expertises")
 }
 
@@ -207,7 +207,6 @@ model AgreementModel {
 }
 
 model AgreementAcceptanceModel {
-  id           String         @id
   created_at   DateTime       @database.Timestamptz
   updated_at   DateTime       @database.Timestamptz
   is_deleted   Boolean
@@ -217,5 +216,6 @@ model AgreementAcceptanceModel {
   user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@id([user_id, agreement_id])
   @@map("agreement_acceptances")
 }

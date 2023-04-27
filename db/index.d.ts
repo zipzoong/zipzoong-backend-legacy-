@@ -65,10 +65,10 @@ export type CustomerModel = {
 }
 
 /**
- * Model BusinessUser
+ * Model BusinessUserModel
  * 
  */
-export type BusinessUser = {
+export type BusinessUserModel = {
   id: string
   is_verified: boolean
   introduction_title: string
@@ -134,7 +134,6 @@ export type HSIntroductionImageModel = {
  * 
  */
 export type UserExpertiseModel = {
-  id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
@@ -191,7 +190,6 @@ export type AgreementModel = {
  * 
  */
 export type AgreementAcceptanceModel = {
-  id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
@@ -392,14 +390,14 @@ export class PrismaClient<
   get customerModel(): Prisma.CustomerModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.businessUser`: Exposes CRUD operations for the **BusinessUser** model.
+   * `prisma.businessUserModel`: Exposes CRUD operations for the **BusinessUserModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more BusinessUsers
-    * const businessUsers = await prisma.businessUser.findMany()
+    * // Fetch zero or more BusinessUserModels
+    * const businessUserModels = await prisma.businessUserModel.findMany()
     * ```
     */
-  get businessUser(): Prisma.BusinessUserDelegate<GlobalReject>;
+  get businessUserModel(): Prisma.BusinessUserModelDelegate<GlobalReject>;
 
   /**
    * `prisma.rEAgentModel`: Exposes CRUD operations for the **REAgentModel** model.
@@ -962,7 +960,7 @@ export namespace Prisma {
     OauthAccessorModel: 'OauthAccessorModel',
     UserModel: 'UserModel',
     CustomerModel: 'CustomerModel',
-    BusinessUser: 'BusinessUser',
+    BusinessUserModel: 'BusinessUserModel',
     REAgentModel: 'REAgentModel',
     HSProviderModel: 'HSProviderModel',
     BusinessCertificationModel: 'BusinessCertificationModel',
@@ -1219,34 +1217,34 @@ export namespace Prisma {
 
 
   /**
-   * Count Type BusinessUserCountOutputType
+   * Count Type BusinessUserModelCountOutputType
    */
 
 
-  export type BusinessUserCountOutputType = {
+  export type BusinessUserModelCountOutputType = {
     certifications: number
     expertises: number
     oauth_accessor: number
   }
 
-  export type BusinessUserCountOutputTypeSelect = {
+  export type BusinessUserModelCountOutputTypeSelect = {
     certifications?: boolean
     expertises?: boolean
     oauth_accessor?: boolean
   }
 
-  export type BusinessUserCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserCountOutputTypeArgs> =
+  export type BusinessUserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUserCountOutputType :
+    S extends true ? BusinessUserModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (BusinessUserCountOutputTypeArgs)
-    ? BusinessUserCountOutputType 
-    : S extends { select: any } & (BusinessUserCountOutputTypeArgs)
+    S extends { include: any } & (BusinessUserModelCountOutputTypeArgs)
+    ? BusinessUserModelCountOutputType 
+    : S extends { select: any } & (BusinessUserModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof BusinessUserCountOutputType ? BusinessUserCountOutputType[P] : never
+    P extends keyof BusinessUserModelCountOutputType ? BusinessUserModelCountOutputType[P] : never
   } 
-      : BusinessUserCountOutputType
+      : BusinessUserModelCountOutputType
 
 
 
@@ -1254,13 +1252,13 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * BusinessUserCountOutputType without action
+   * BusinessUserModelCountOutputType without action
    */
-  export type BusinessUserCountOutputTypeArgs = {
+  export type BusinessUserModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUserCountOutputType
+     * Select specific fields to fetch from the BusinessUserModelCountOutputType
      */
-    select?: BusinessUserCountOutputTypeSelect | null
+    select?: BusinessUserModelCountOutputTypeSelect | null
   }
 
 
@@ -1703,13 +1701,13 @@ export namespace Prisma {
     gender?: boolean
     address_first?: boolean
     address_second?: boolean
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
     customer?: boolean | CustomerModelArgs
   }
 
 
   export type OauthAccessorModelInclude = {
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
     customer?: boolean | CustomerModelArgs
   }
 
@@ -1720,13 +1718,13 @@ export namespace Prisma {
     S extends { include: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
     ? OauthAccessorModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :
         P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :
         P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> :  P extends keyof OauthAccessorModel ? OauthAccessorModel[P] : never
   } 
       : OauthAccessorModel
@@ -2099,7 +2097,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
 
@@ -2657,7 +2655,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
     agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
     _count?: boolean | UserModelCountOutputTypeArgs
   }
@@ -2665,7 +2663,7 @@ export namespace Prisma {
 
   export type UserModelInclude = {
     customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
     agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
     _count?: boolean | UserModelCountOutputTypeArgs
   }
@@ -2678,7 +2676,7 @@ export namespace Prisma {
     ? UserModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :
-        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> | null :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :
         P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -2686,7 +2684,7 @@ export namespace Prisma {
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :
-        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> | null :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :
         P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserModel ? UserModel[P] : never
   } 
@@ -3062,7 +3060,7 @@ export namespace Prisma {
 
     customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
 
-    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     agreement_acceptances<T extends UserModel$agreement_acceptancesArgs= {}>(args?: Subset<T, UserModel$agreement_acceptancesArgs>): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>| Null>;
 
@@ -4437,17 +4435,17 @@ export namespace Prisma {
 
 
   /**
-   * Model BusinessUser
+   * Model BusinessUserModel
    */
 
 
-  export type AggregateBusinessUser = {
-    _count: BusinessUserCountAggregateOutputType | null
-    _min: BusinessUserMinAggregateOutputType | null
-    _max: BusinessUserMaxAggregateOutputType | null
+  export type AggregateBusinessUserModel = {
+    _count: BusinessUserModelCountAggregateOutputType | null
+    _min: BusinessUserModelMinAggregateOutputType | null
+    _max: BusinessUserModelMaxAggregateOutputType | null
   }
 
-  export type BusinessUserMinAggregateOutputType = {
+  export type BusinessUserModelMinAggregateOutputType = {
     id: string | null
     is_verified: boolean | null
     introduction_title: string | null
@@ -4458,7 +4456,7 @@ export namespace Prisma {
     profile_image_url: string | null
   }
 
-  export type BusinessUserMaxAggregateOutputType = {
+  export type BusinessUserModelMaxAggregateOutputType = {
     id: string | null
     is_verified: boolean | null
     introduction_title: string | null
@@ -4469,7 +4467,7 @@ export namespace Prisma {
     profile_image_url: string | null
   }
 
-  export type BusinessUserCountAggregateOutputType = {
+  export type BusinessUserModelCountAggregateOutputType = {
     id: number
     is_verified: number
     introduction_title: number
@@ -4482,7 +4480,7 @@ export namespace Prisma {
   }
 
 
-  export type BusinessUserMinAggregateInputType = {
+  export type BusinessUserModelMinAggregateInputType = {
     id?: true
     is_verified?: true
     introduction_title?: true
@@ -4493,7 +4491,7 @@ export namespace Prisma {
     profile_image_url?: true
   }
 
-  export type BusinessUserMaxAggregateInputType = {
+  export type BusinessUserModelMaxAggregateInputType = {
     id?: true
     is_verified?: true
     introduction_title?: true
@@ -4504,7 +4502,7 @@ export namespace Prisma {
     profile_image_url?: true
   }
 
-  export type BusinessUserCountAggregateInputType = {
+  export type BusinessUserModelCountAggregateInputType = {
     id?: true
     is_verified?: true
     introduction_title?: true
@@ -4516,80 +4514,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type BusinessUserAggregateArgs = {
+  export type BusinessUserModelAggregateArgs = {
     /**
-     * Filter which BusinessUser to aggregate.
+     * Filter which BusinessUserModel to aggregate.
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUsers to fetch.
+     * Determine the order of BusinessUserModels to fetch.
      */
-    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: BusinessUserWhereUniqueInput
+    cursor?: BusinessUserModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUsers from the position of the cursor.
+     * Take `±n` BusinessUserModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUsers.
+     * Skip the first `n` BusinessUserModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned BusinessUsers
+     * Count returned BusinessUserModels
     **/
-    _count?: true | BusinessUserCountAggregateInputType
+    _count?: true | BusinessUserModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: BusinessUserMinAggregateInputType
+    _min?: BusinessUserModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: BusinessUserMaxAggregateInputType
+    _max?: BusinessUserModelMaxAggregateInputType
   }
 
-  export type GetBusinessUserAggregateType<T extends BusinessUserAggregateArgs> = {
-        [P in keyof T & keyof AggregateBusinessUser]: P extends '_count' | 'count'
+  export type GetBusinessUserModelAggregateType<T extends BusinessUserModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessUserModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateBusinessUser[P]>
-      : GetScalarType<T[P], AggregateBusinessUser[P]>
+        : GetScalarType<T[P], AggregateBusinessUserModel[P]>
+      : GetScalarType<T[P], AggregateBusinessUserModel[P]>
   }
 
 
 
 
-  export type BusinessUserGroupByArgs = {
-    where?: BusinessUserWhereInput
-    orderBy?: Enumerable<BusinessUserOrderByWithAggregationInput>
-    by: BusinessUserScalarFieldEnum[]
-    having?: BusinessUserScalarWhereWithAggregatesInput
+  export type BusinessUserModelGroupByArgs = {
+    where?: BusinessUserModelWhereInput
+    orderBy?: Enumerable<BusinessUserModelOrderByWithAggregationInput>
+    by: BusinessUserModelScalarFieldEnum[]
+    having?: BusinessUserModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: BusinessUserCountAggregateInputType | true
-    _min?: BusinessUserMinAggregateInputType
-    _max?: BusinessUserMaxAggregateInputType
+    _count?: BusinessUserModelCountAggregateInputType | true
+    _min?: BusinessUserModelMinAggregateInputType
+    _max?: BusinessUserModelMaxAggregateInputType
   }
 
 
-  export type BusinessUserGroupByOutputType = {
+  export type BusinessUserModelGroupByOutputType = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -4598,26 +4596,26 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
-    _count: BusinessUserCountAggregateOutputType | null
-    _min: BusinessUserMinAggregateOutputType | null
-    _max: BusinessUserMaxAggregateOutputType | null
+    _count: BusinessUserModelCountAggregateOutputType | null
+    _min: BusinessUserModelMinAggregateOutputType | null
+    _max: BusinessUserModelMaxAggregateOutputType | null
   }
 
-  type GetBusinessUserGroupByPayload<T extends BusinessUserGroupByArgs> = Prisma.PrismaPromise<
+  type GetBusinessUserModelGroupByPayload<T extends BusinessUserModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<BusinessUserGroupByOutputType, T['by']> &
+      PickArray<BusinessUserModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof BusinessUserGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof BusinessUserModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], BusinessUserGroupByOutputType[P]>
-            : GetScalarType<T[P], BusinessUserGroupByOutputType[P]>
+              : GetScalarType<T[P], BusinessUserModelGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessUserModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type BusinessUserSelect = {
+  export type BusinessUserModelSelect = {
     id?: boolean
     is_verified?: boolean
     introduction_title?: boolean
@@ -4629,29 +4627,29 @@ export namespace Prisma {
     base?: boolean | UserModelArgs
     re_agent?: boolean | REAgentModelArgs
     hs_provider?: boolean | HSProviderModelArgs
-    certifications?: boolean | BusinessUser$certificationsArgs
-    expertises?: boolean | BusinessUser$expertisesArgs
-    oauth_accessor?: boolean | BusinessUser$oauth_accessorArgs
-    _count?: boolean | BusinessUserCountOutputTypeArgs
+    certifications?: boolean | BusinessUserModel$certificationsArgs
+    expertises?: boolean | BusinessUserModel$expertisesArgs
+    oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
+    _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
 
-  export type BusinessUserInclude = {
+  export type BusinessUserModelInclude = {
     base?: boolean | UserModelArgs
     re_agent?: boolean | REAgentModelArgs
     hs_provider?: boolean | HSProviderModelArgs
-    certifications?: boolean | BusinessUser$certificationsArgs
-    expertises?: boolean | BusinessUser$expertisesArgs
-    oauth_accessor?: boolean | BusinessUser$oauth_accessorArgs
-    _count?: boolean | BusinessUserCountOutputTypeArgs
+    certifications?: boolean | BusinessUserModel$certificationsArgs
+    expertises?: boolean | BusinessUserModel$expertisesArgs
+    oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
+    _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
-  export type BusinessUserGetPayload<S extends boolean | null | undefined | BusinessUserArgs> =
+  export type BusinessUserModelGetPayload<S extends boolean | null | undefined | BusinessUserModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUser :
+    S extends true ? BusinessUserModel :
     S extends undefined ? never :
-    S extends { include: any } & (BusinessUserArgs | BusinessUserFindManyArgs)
-    ? BusinessUser  & {
+    S extends { include: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
+    ? BusinessUserModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
         P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> | null :
@@ -4659,9 +4657,9 @@ export namespace Prisma {
         P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['include'][P]>>  :
         P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['include'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? BusinessUserCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (BusinessUserArgs | BusinessUserFindManyArgs)
+    : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
@@ -4670,158 +4668,158 @@ export namespace Prisma {
         P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['select'][P]>>  :
         P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['select'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? BusinessUserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUser ? BusinessUser[P] : never
+        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
   } 
-      : BusinessUser
+      : BusinessUserModel
 
 
-  type BusinessUserCountArgs = 
-    Omit<BusinessUserFindManyArgs, 'select' | 'include'> & {
-      select?: BusinessUserCountAggregateInputType | true
+  type BusinessUserModelCountArgs = 
+    Omit<BusinessUserModelFindManyArgs, 'select' | 'include'> & {
+      select?: BusinessUserModelCountAggregateInputType | true
     }
 
-  export interface BusinessUserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface BusinessUserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one BusinessUser that matches the filter.
-     * @param {BusinessUserFindUniqueArgs} args - Arguments to find a BusinessUser
+     * Find zero or one BusinessUserModel that matches the filter.
+     * @param {BusinessUserModelFindUniqueArgs} args - Arguments to find a BusinessUserModel
      * @example
-     * // Get one BusinessUser
-     * const businessUser = await prisma.businessUser.findUnique({
+     * // Get one BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends BusinessUserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, BusinessUserFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUser'> extends True ? Prisma__BusinessUserClient<BusinessUserGetPayload<T>> : Prisma__BusinessUserClient<BusinessUserGetPayload<T> | null, null>
+    findUnique<T extends BusinessUserModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessUserModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
 
     /**
-     * Find one BusinessUser that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one BusinessUserModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {BusinessUserFindUniqueOrThrowArgs} args - Arguments to find a BusinessUser
+     * @param {BusinessUserModelFindUniqueOrThrowArgs} args - Arguments to find a BusinessUserModel
      * @example
-     * // Get one BusinessUser
-     * const businessUser = await prisma.businessUser.findUniqueOrThrow({
+     * // Get one BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends BusinessUserFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserFindUniqueOrThrowArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    findUniqueOrThrow<T extends BusinessUserModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BusinessUserModelFindUniqueOrThrowArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Find the first BusinessUser that matches the filter.
+     * Find the first BusinessUserModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserFindFirstArgs} args - Arguments to find a BusinessUser
+     * @param {BusinessUserModelFindFirstArgs} args - Arguments to find a BusinessUserModel
      * @example
-     * // Get one BusinessUser
-     * const businessUser = await prisma.businessUser.findFirst({
+     * // Get one BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends BusinessUserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, BusinessUserFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUser'> extends True ? Prisma__BusinessUserClient<BusinessUserGetPayload<T>> : Prisma__BusinessUserClient<BusinessUserGetPayload<T> | null, null>
+    findFirst<T extends BusinessUserModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessUserModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
 
     /**
-     * Find the first BusinessUser that matches the filter or
+     * Find the first BusinessUserModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserFindFirstOrThrowArgs} args - Arguments to find a BusinessUser
+     * @param {BusinessUserModelFindFirstOrThrowArgs} args - Arguments to find a BusinessUserModel
      * @example
-     * // Get one BusinessUser
-     * const businessUser = await prisma.businessUser.findFirstOrThrow({
+     * // Get one BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends BusinessUserFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserFindFirstOrThrowArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    findFirstOrThrow<T extends BusinessUserModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BusinessUserModelFindFirstOrThrowArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Find zero or more BusinessUsers that matches the filter.
+     * Find zero or more BusinessUserModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {BusinessUserModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all BusinessUsers
-     * const businessUsers = await prisma.businessUser.findMany()
+     * // Get all BusinessUserModels
+     * const businessUserModels = await prisma.businessUserModel.findMany()
      * 
-     * // Get first 10 BusinessUsers
-     * const businessUsers = await prisma.businessUser.findMany({ take: 10 })
+     * // Get first 10 BusinessUserModels
+     * const businessUserModels = await prisma.businessUserModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const businessUserWithIdOnly = await prisma.businessUser.findMany({ select: { id: true } })
+     * const businessUserModelWithIdOnly = await prisma.businessUserModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends BusinessUserFindManyArgs>(
-      args?: SelectSubset<T, BusinessUserFindManyArgs>
-    ): Prisma.PrismaPromise<Array<BusinessUserGetPayload<T>>>
+    findMany<T extends BusinessUserModelFindManyArgs>(
+      args?: SelectSubset<T, BusinessUserModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<BusinessUserModelGetPayload<T>>>
 
     /**
-     * Create a BusinessUser.
-     * @param {BusinessUserCreateArgs} args - Arguments to create a BusinessUser.
+     * Create a BusinessUserModel.
+     * @param {BusinessUserModelCreateArgs} args - Arguments to create a BusinessUserModel.
      * @example
-     * // Create one BusinessUser
-     * const BusinessUser = await prisma.businessUser.create({
+     * // Create one BusinessUserModel
+     * const BusinessUserModel = await prisma.businessUserModel.create({
      *   data: {
-     *     // ... data to create a BusinessUser
+     *     // ... data to create a BusinessUserModel
      *   }
      * })
      * 
     **/
-    create<T extends BusinessUserCreateArgs>(
-      args: SelectSubset<T, BusinessUserCreateArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    create<T extends BusinessUserModelCreateArgs>(
+      args: SelectSubset<T, BusinessUserModelCreateArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Create many BusinessUsers.
-     *     @param {BusinessUserCreateManyArgs} args - Arguments to create many BusinessUsers.
+     * Create many BusinessUserModels.
+     *     @param {BusinessUserModelCreateManyArgs} args - Arguments to create many BusinessUserModels.
      *     @example
-     *     // Create many BusinessUsers
-     *     const businessUser = await prisma.businessUser.createMany({
+     *     // Create many BusinessUserModels
+     *     const businessUserModel = await prisma.businessUserModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends BusinessUserCreateManyArgs>(
-      args?: SelectSubset<T, BusinessUserCreateManyArgs>
+    createMany<T extends BusinessUserModelCreateManyArgs>(
+      args?: SelectSubset<T, BusinessUserModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a BusinessUser.
-     * @param {BusinessUserDeleteArgs} args - Arguments to delete one BusinessUser.
+     * Delete a BusinessUserModel.
+     * @param {BusinessUserModelDeleteArgs} args - Arguments to delete one BusinessUserModel.
      * @example
-     * // Delete one BusinessUser
-     * const BusinessUser = await prisma.businessUser.delete({
+     * // Delete one BusinessUserModel
+     * const BusinessUserModel = await prisma.businessUserModel.delete({
      *   where: {
-     *     // ... filter to delete one BusinessUser
+     *     // ... filter to delete one BusinessUserModel
      *   }
      * })
      * 
     **/
-    delete<T extends BusinessUserDeleteArgs>(
-      args: SelectSubset<T, BusinessUserDeleteArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    delete<T extends BusinessUserModelDeleteArgs>(
+      args: SelectSubset<T, BusinessUserModelDeleteArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Update one BusinessUser.
-     * @param {BusinessUserUpdateArgs} args - Arguments to update one BusinessUser.
+     * Update one BusinessUserModel.
+     * @param {BusinessUserModelUpdateArgs} args - Arguments to update one BusinessUserModel.
      * @example
-     * // Update one BusinessUser
-     * const businessUser = await prisma.businessUser.update({
+     * // Update one BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4831,34 +4829,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends BusinessUserUpdateArgs>(
-      args: SelectSubset<T, BusinessUserUpdateArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    update<T extends BusinessUserModelUpdateArgs>(
+      args: SelectSubset<T, BusinessUserModelUpdateArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Delete zero or more BusinessUsers.
-     * @param {BusinessUserDeleteManyArgs} args - Arguments to filter BusinessUsers to delete.
+     * Delete zero or more BusinessUserModels.
+     * @param {BusinessUserModelDeleteManyArgs} args - Arguments to filter BusinessUserModels to delete.
      * @example
-     * // Delete a few BusinessUsers
-     * const { count } = await prisma.businessUser.deleteMany({
+     * // Delete a few BusinessUserModels
+     * const { count } = await prisma.businessUserModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends BusinessUserDeleteManyArgs>(
-      args?: SelectSubset<T, BusinessUserDeleteManyArgs>
+    deleteMany<T extends BusinessUserModelDeleteManyArgs>(
+      args?: SelectSubset<T, BusinessUserModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more BusinessUsers.
+     * Update zero or more BusinessUserModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {BusinessUserModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many BusinessUsers
-     * const businessUser = await prisma.businessUser.updateMany({
+     * // Update many BusinessUserModels
+     * const businessUserModel = await prisma.businessUserModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4868,59 +4866,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends BusinessUserUpdateManyArgs>(
-      args: SelectSubset<T, BusinessUserUpdateManyArgs>
+    updateMany<T extends BusinessUserModelUpdateManyArgs>(
+      args: SelectSubset<T, BusinessUserModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one BusinessUser.
-     * @param {BusinessUserUpsertArgs} args - Arguments to update or create a BusinessUser.
+     * Create or update one BusinessUserModel.
+     * @param {BusinessUserModelUpsertArgs} args - Arguments to update or create a BusinessUserModel.
      * @example
-     * // Update or create a BusinessUser
-     * const businessUser = await prisma.businessUser.upsert({
+     * // Update or create a BusinessUserModel
+     * const businessUserModel = await prisma.businessUserModel.upsert({
      *   create: {
-     *     // ... data to create a BusinessUser
+     *     // ... data to create a BusinessUserModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the BusinessUser we want to update
+     *     // ... the filter for the BusinessUserModel we want to update
      *   }
      * })
     **/
-    upsert<T extends BusinessUserUpsertArgs>(
-      args: SelectSubset<T, BusinessUserUpsertArgs>
-    ): Prisma__BusinessUserClient<BusinessUserGetPayload<T>>
+    upsert<T extends BusinessUserModelUpsertArgs>(
+      args: SelectSubset<T, BusinessUserModelUpsertArgs>
+    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
 
     /**
-     * Count the number of BusinessUsers.
+     * Count the number of BusinessUserModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserCountArgs} args - Arguments to filter BusinessUsers to count.
+     * @param {BusinessUserModelCountArgs} args - Arguments to filter BusinessUserModels to count.
      * @example
-     * // Count the number of BusinessUsers
-     * const count = await prisma.businessUser.count({
+     * // Count the number of BusinessUserModels
+     * const count = await prisma.businessUserModel.count({
      *   where: {
-     *     // ... the filter for the BusinessUsers we want to count
+     *     // ... the filter for the BusinessUserModels we want to count
      *   }
      * })
     **/
-    count<T extends BusinessUserCountArgs>(
-      args?: Subset<T, BusinessUserCountArgs>,
+    count<T extends BusinessUserModelCountArgs>(
+      args?: Subset<T, BusinessUserModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], BusinessUserCountAggregateOutputType>
+          : GetScalarType<T['select'], BusinessUserModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a BusinessUser.
+     * Allows you to perform aggregations operations on a BusinessUserModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {BusinessUserModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4940,13 +4938,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BusinessUserAggregateArgs>(args: Subset<T, BusinessUserAggregateArgs>): Prisma.PrismaPromise<GetBusinessUserAggregateType<T>>
+    aggregate<T extends BusinessUserModelAggregateArgs>(args: Subset<T, BusinessUserModelAggregateArgs>): Prisma.PrismaPromise<GetBusinessUserModelAggregateType<T>>
 
     /**
-     * Group by BusinessUser.
+     * Group by BusinessUserModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BusinessUserGroupByArgs} args - Group by arguments.
+     * @param {BusinessUserModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4961,14 +4959,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends BusinessUserGroupByArgs,
+      T extends BusinessUserModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BusinessUserGroupByArgs['orderBy'] }
-        : { orderBy?: BusinessUserGroupByArgs['orderBy'] },
+        ? { orderBy: BusinessUserModelGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessUserModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5017,17 +5015,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BusinessUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, BusinessUserModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessUserModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for BusinessUser.
+   * The delegate class that acts as a "Promise-like" for BusinessUserModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BusinessUserClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__BusinessUserModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -5048,11 +5046,11 @@ export namespace Prisma {
 
     hs_provider<T extends HSProviderModelArgs= {}>(args?: Subset<T, HSProviderModelArgs>): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | Null>;
 
-    certifications<T extends BusinessUser$certificationsArgs= {}>(args?: Subset<T, BusinessUser$certificationsArgs>): Prisma.PrismaPromise<Array<BusinessCertificationModelGetPayload<T>>| Null>;
+    certifications<T extends BusinessUserModel$certificationsArgs= {}>(args?: Subset<T, BusinessUserModel$certificationsArgs>): Prisma.PrismaPromise<Array<BusinessCertificationModelGetPayload<T>>| Null>;
 
-    expertises<T extends BusinessUser$expertisesArgs= {}>(args?: Subset<T, BusinessUser$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
+    expertises<T extends BusinessUserModel$expertisesArgs= {}>(args?: Subset<T, BusinessUserModel$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
 
-    oauth_accessor<T extends BusinessUser$oauth_accessorArgs= {}>(args?: Subset<T, BusinessUser$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
+    oauth_accessor<T extends BusinessUserModel$oauth_accessorArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -5082,27 +5080,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * BusinessUser base type for findUnique actions
+   * BusinessUserModel base type for findUnique actions
    */
-  export type BusinessUserFindUniqueArgsBase = {
+  export type BusinessUserModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter, which BusinessUser to fetch.
+     * Filter, which BusinessUserModel to fetch.
      */
-    where: BusinessUserWhereUniqueInput
+    where: BusinessUserModelWhereUniqueInput
   }
 
   /**
-   * BusinessUser findUnique
+   * BusinessUserModel findUnique
    */
-  export interface BusinessUserFindUniqueArgs extends BusinessUserFindUniqueArgsBase {
+  export interface BusinessUserModelFindUniqueArgs extends BusinessUserModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -5112,76 +5110,76 @@ export namespace Prisma {
       
 
   /**
-   * BusinessUser findUniqueOrThrow
+   * BusinessUserModel findUniqueOrThrow
    */
-  export type BusinessUserFindUniqueOrThrowArgs = {
+  export type BusinessUserModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter, which BusinessUser to fetch.
+     * Filter, which BusinessUserModel to fetch.
      */
-    where: BusinessUserWhereUniqueInput
+    where: BusinessUserModelWhereUniqueInput
   }
 
 
   /**
-   * BusinessUser base type for findFirst actions
+   * BusinessUserModel base type for findFirst actions
    */
-  export type BusinessUserFindFirstArgsBase = {
+  export type BusinessUserModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter, which BusinessUser to fetch.
+     * Filter, which BusinessUserModel to fetch.
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUsers to fetch.
+     * Determine the order of BusinessUserModels to fetch.
      */
-    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BusinessUsers.
+     * Sets the position for searching for BusinessUserModels.
      */
-    cursor?: BusinessUserWhereUniqueInput
+    cursor?: BusinessUserModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUsers from the position of the cursor.
+     * Take `±n` BusinessUserModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUsers.
+     * Skip the first `n` BusinessUserModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BusinessUsers.
+     * Filter by unique combinations of BusinessUserModels.
      */
-    distinct?: Enumerable<BusinessUserScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
   }
 
   /**
-   * BusinessUser findFirst
+   * BusinessUserModel findFirst
    */
-  export interface BusinessUserFindFirstArgs extends BusinessUserFindFirstArgsBase {
+  export interface BusinessUserModelFindFirstArgs extends BusinessUserModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -5191,228 +5189,228 @@ export namespace Prisma {
       
 
   /**
-   * BusinessUser findFirstOrThrow
+   * BusinessUserModel findFirstOrThrow
    */
-  export type BusinessUserFindFirstOrThrowArgs = {
+  export type BusinessUserModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter, which BusinessUser to fetch.
+     * Filter, which BusinessUserModel to fetch.
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUsers to fetch.
+     * Determine the order of BusinessUserModels to fetch.
      */
-    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BusinessUsers.
+     * Sets the position for searching for BusinessUserModels.
      */
-    cursor?: BusinessUserWhereUniqueInput
+    cursor?: BusinessUserModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUsers from the position of the cursor.
+     * Take `±n` BusinessUserModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUsers.
+     * Skip the first `n` BusinessUserModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BusinessUsers.
+     * Filter by unique combinations of BusinessUserModels.
      */
-    distinct?: Enumerable<BusinessUserScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
   }
 
 
   /**
-   * BusinessUser findMany
+   * BusinessUserModel findMany
    */
-  export type BusinessUserFindManyArgs = {
+  export type BusinessUserModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter, which BusinessUsers to fetch.
+     * Filter, which BusinessUserModels to fetch.
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BusinessUsers to fetch.
+     * Determine the order of BusinessUserModels to fetch.
      */
-    orderBy?: Enumerable<BusinessUserOrderByWithRelationInput>
+    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing BusinessUsers.
+     * Sets the position for listing BusinessUserModels.
      */
-    cursor?: BusinessUserWhereUniqueInput
+    cursor?: BusinessUserModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BusinessUsers from the position of the cursor.
+     * Take `±n` BusinessUserModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BusinessUsers.
+     * Skip the first `n` BusinessUserModels.
      */
     skip?: number
-    distinct?: Enumerable<BusinessUserScalarFieldEnum>
+    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
   }
 
 
   /**
-   * BusinessUser create
+   * BusinessUserModel create
    */
-  export type BusinessUserCreateArgs = {
+  export type BusinessUserModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * The data needed to create a BusinessUser.
+     * The data needed to create a BusinessUserModel.
      */
-    data: XOR<BusinessUserCreateInput, BusinessUserUncheckedCreateInput>
+    data: XOR<BusinessUserModelCreateInput, BusinessUserModelUncheckedCreateInput>
   }
 
 
   /**
-   * BusinessUser createMany
+   * BusinessUserModel createMany
    */
-  export type BusinessUserCreateManyArgs = {
+  export type BusinessUserModelCreateManyArgs = {
     /**
-     * The data used to create many BusinessUsers.
+     * The data used to create many BusinessUserModels.
      */
-    data: Enumerable<BusinessUserCreateManyInput>
+    data: Enumerable<BusinessUserModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * BusinessUser update
+   * BusinessUserModel update
    */
-  export type BusinessUserUpdateArgs = {
+  export type BusinessUserModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * The data needed to update a BusinessUser.
+     * The data needed to update a BusinessUserModel.
      */
-    data: XOR<BusinessUserUpdateInput, BusinessUserUncheckedUpdateInput>
+    data: XOR<BusinessUserModelUpdateInput, BusinessUserModelUncheckedUpdateInput>
     /**
-     * Choose, which BusinessUser to update.
+     * Choose, which BusinessUserModel to update.
      */
-    where: BusinessUserWhereUniqueInput
+    where: BusinessUserModelWhereUniqueInput
   }
 
 
   /**
-   * BusinessUser updateMany
+   * BusinessUserModel updateMany
    */
-  export type BusinessUserUpdateManyArgs = {
+  export type BusinessUserModelUpdateManyArgs = {
     /**
-     * The data used to update BusinessUsers.
+     * The data used to update BusinessUserModels.
      */
-    data: XOR<BusinessUserUpdateManyMutationInput, BusinessUserUncheckedUpdateManyInput>
+    data: XOR<BusinessUserModelUpdateManyMutationInput, BusinessUserModelUncheckedUpdateManyInput>
     /**
-     * Filter which BusinessUsers to update
+     * Filter which BusinessUserModels to update
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
   }
 
 
   /**
-   * BusinessUser upsert
+   * BusinessUserModel upsert
    */
-  export type BusinessUserUpsertArgs = {
+  export type BusinessUserModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * The filter to search for the BusinessUser to update in case it exists.
+     * The filter to search for the BusinessUserModel to update in case it exists.
      */
-    where: BusinessUserWhereUniqueInput
+    where: BusinessUserModelWhereUniqueInput
     /**
-     * In case the BusinessUser found by the `where` argument doesn't exist, create a new BusinessUser with this data.
+     * In case the BusinessUserModel found by the `where` argument doesn't exist, create a new BusinessUserModel with this data.
      */
-    create: XOR<BusinessUserCreateInput, BusinessUserUncheckedCreateInput>
+    create: XOR<BusinessUserModelCreateInput, BusinessUserModelUncheckedCreateInput>
     /**
-     * In case the BusinessUser was found with the provided `where` argument, update it with this data.
+     * In case the BusinessUserModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<BusinessUserUpdateInput, BusinessUserUncheckedUpdateInput>
+    update: XOR<BusinessUserModelUpdateInput, BusinessUserModelUncheckedUpdateInput>
   }
 
 
   /**
-   * BusinessUser delete
+   * BusinessUserModel delete
    */
-  export type BusinessUserDeleteArgs = {
+  export type BusinessUserModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
     /**
-     * Filter which BusinessUser to delete.
+     * Filter which BusinessUserModel to delete.
      */
-    where: BusinessUserWhereUniqueInput
+    where: BusinessUserModelWhereUniqueInput
   }
 
 
   /**
-   * BusinessUser deleteMany
+   * BusinessUserModel deleteMany
    */
-  export type BusinessUserDeleteManyArgs = {
+  export type BusinessUserModelDeleteManyArgs = {
     /**
-     * Filter which BusinessUsers to delete
+     * Filter which BusinessUserModels to delete
      */
-    where?: BusinessUserWhereInput
+    where?: BusinessUserModelWhereInput
   }
 
 
   /**
-   * BusinessUser.certifications
+   * BusinessUserModel.certifications
    */
-  export type BusinessUser$certificationsArgs = {
+  export type BusinessUserModel$certificationsArgs = {
     /**
      * Select specific fields to fetch from the BusinessCertificationModel
      */
@@ -5431,9 +5429,9 @@ export namespace Prisma {
 
 
   /**
-   * BusinessUser.expertises
+   * BusinessUserModel.expertises
    */
-  export type BusinessUser$expertisesArgs = {
+  export type BusinessUserModel$expertisesArgs = {
     /**
      * Select specific fields to fetch from the UserExpertiseModel
      */
@@ -5452,9 +5450,9 @@ export namespace Prisma {
 
 
   /**
-   * BusinessUser.oauth_accessor
+   * BusinessUserModel.oauth_accessor
    */
-  export type BusinessUser$oauth_accessorArgs = {
+  export type BusinessUserModel$oauth_accessorArgs = {
     /**
      * Select specific fields to fetch from the OauthAccessorModel
      */
@@ -5473,17 +5471,17 @@ export namespace Prisma {
 
 
   /**
-   * BusinessUser without action
+   * BusinessUserModel without action
    */
-  export type BusinessUserArgs = {
+  export type BusinessUserModelArgs = {
     /**
-     * Select specific fields to fetch from the BusinessUser
+     * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserSelect | null
+    select?: BusinessUserModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserInclude | null
+    include?: BusinessUserModelInclude | null
   }
 
 
@@ -5662,12 +5660,12 @@ export namespace Prisma {
     re_name?: boolean
     re_phone?: boolean
     re_licensed_agent_name?: boolean
-    base?: boolean | BusinessUserArgs
+    base?: boolean | BusinessUserModelArgs
   }
 
 
   export type REAgentModelInclude = {
-    base?: boolean | BusinessUserArgs
+    base?: boolean | BusinessUserModelArgs
   }
 
   export type REAgentModelGetPayload<S extends boolean | null | undefined | REAgentModelArgs> =
@@ -5677,12 +5675,12 @@ export namespace Prisma {
     S extends { include: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
     ? REAgentModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserGetPayload<S['include'][P]> :  never
+        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
+        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
   } 
       : REAgentModel
 
@@ -6054,7 +6052,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -6569,14 +6567,14 @@ export namespace Prisma {
   export type HSProviderModelSelect = {
     id?: boolean
     business_registration_num?: boolean
-    base?: boolean | BusinessUserArgs
+    base?: boolean | BusinessUserModelArgs
     introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
     _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
 
 
   export type HSProviderModelInclude = {
-    base?: boolean | BusinessUserArgs
+    base?: boolean | BusinessUserModelArgs
     introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
     _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
@@ -6588,14 +6586,14 @@ export namespace Prisma {
     S extends { include: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
     ? HSProviderModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserGetPayload<S['include'][P]> :
+        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
         P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserGetPayload<S['select'][P]> :
+        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
         P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSProviderModel ? HSProviderModel[P] : never
   } 
@@ -6969,7 +6967,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     introduction_images<T extends HSProviderModel$introduction_imagesArgs= {}>(args?: Subset<T, HSProviderModel$introduction_imagesArgs>): Prisma.PrismaPromise<Array<HSIntroductionImageModelGetPayload<T>>| Null>;
 
@@ -7547,12 +7545,12 @@ export namespace Prisma {
     deleted_at?: boolean
     business_user_id?: boolean
     image_url?: boolean
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
   }
 
 
   export type BusinessCertificationModelInclude = {
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
   }
 
   export type BusinessCertificationModelGetPayload<S extends boolean | null | undefined | BusinessCertificationModelArgs> =
@@ -7562,12 +7560,12 @@ export namespace Prisma {
     S extends { include: any } & (BusinessCertificationModelArgs | BusinessCertificationModelFindManyArgs)
     ? BusinessCertificationModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :  never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (BusinessCertificationModelArgs | BusinessCertificationModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof BusinessCertificationModel ? BusinessCertificationModel[P] : never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof BusinessCertificationModel ? BusinessCertificationModel[P] : never
   } 
       : BusinessCertificationModel
 
@@ -7939,7 +7937,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -9271,7 +9269,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelMinAggregateOutputType = {
-    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -9281,7 +9278,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelMaxAggregateOutputType = {
-    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -9291,7 +9287,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCountAggregateOutputType = {
-    id: number
     created_at: number
     updated_at: number
     is_deleted: number
@@ -9303,7 +9298,6 @@ export namespace Prisma {
 
 
   export type UserExpertiseModelMinAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -9313,7 +9307,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelMaxAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -9323,7 +9316,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCountAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -9407,7 +9399,6 @@ export namespace Prisma {
 
 
   export type UserExpertiseModelGroupByOutputType = {
-    id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
@@ -9434,7 +9425,6 @@ export namespace Prisma {
 
 
   export type UserExpertiseModelSelect = {
-    id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
@@ -9442,13 +9432,13 @@ export namespace Prisma {
     category_id?: boolean
     business_user_id?: boolean
     category?: boolean | ExpertSubCategoryModelArgs
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
   }
 
 
   export type UserExpertiseModelInclude = {
     category?: boolean | ExpertSubCategoryModelArgs
-    business_user?: boolean | BusinessUserArgs
+    business_user?: boolean | BusinessUserModelArgs
   }
 
   export type UserExpertiseModelGetPayload<S extends boolean | null | undefined | UserExpertiseModelArgs> =
@@ -9459,13 +9449,13 @@ export namespace Prisma {
     ? UserExpertiseModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'category' ? ExpertSubCategoryModelGetPayload<S['include'][P]> :
-        P extends 'business_user' ? BusinessUserGetPayload<S['include'][P]> :  never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserExpertiseModelArgs | UserExpertiseModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'category' ? ExpertSubCategoryModelGetPayload<S['select'][P]> :
-        P extends 'business_user' ? BusinessUserGetPayload<S['select'][P]> :  P extends keyof UserExpertiseModel ? UserExpertiseModel[P] : never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof UserExpertiseModel ? UserExpertiseModel[P] : never
   } 
       : UserExpertiseModel
 
@@ -9555,8 +9545,8 @@ export namespace Prisma {
      * // Get first 10 UserExpertiseModels
      * const userExpertiseModels = await prisma.userExpertiseModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const userExpertiseModelWithIdOnly = await prisma.userExpertiseModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const userExpertiseModelWithCreated_atOnly = await prisma.userExpertiseModel.findMany({ select: { created_at: true } })
      * 
     **/
     findMany<T extends UserExpertiseModelFindManyArgs>(
@@ -9839,7 +9829,7 @@ export namespace Prisma {
 
     category<T extends ExpertSubCategoryModelArgs= {}>(args?: Subset<T, ExpertSubCategoryModelArgs>): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | Null>;
 
-    business_user<T extends BusinessUserArgs= {}>(args?: Subset<T, BusinessUserArgs>): Prisma__BusinessUserClient<BusinessUserGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -13154,7 +13144,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMinAggregateOutputType = {
-    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -13164,7 +13153,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxAggregateOutputType = {
-    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -13174,7 +13162,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCountAggregateOutputType = {
-    id: number
     created_at: number
     updated_at: number
     is_deleted: number
@@ -13186,7 +13173,6 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelMinAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -13196,7 +13182,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -13206,7 +13191,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCountAggregateInputType = {
-    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -13290,7 +13274,6 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelGroupByOutputType = {
-    id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
@@ -13317,7 +13300,6 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelSelect = {
-    id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
@@ -13438,8 +13420,8 @@ export namespace Prisma {
      * // Get first 10 AgreementAcceptanceModels
      * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const agreementAcceptanceModelWithIdOnly = await prisma.agreementAcceptanceModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const agreementAcceptanceModelWithCreated_atOnly = await prisma.agreementAcceptanceModel.findMany({ select: { created_at: true } })
      * 
     **/
     findMany<T extends AgreementAcceptanceModelFindManyArgs>(
@@ -14103,7 +14085,6 @@ export namespace Prisma {
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const AgreementAcceptanceModelScalarFieldEnum: {
-    id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
@@ -14142,7 +14123,7 @@ export namespace Prisma {
   export type BusinessCertificationModelScalarFieldEnum = (typeof BusinessCertificationModelScalarFieldEnum)[keyof typeof BusinessCertificationModelScalarFieldEnum]
 
 
-  export const BusinessUserScalarFieldEnum: {
+  export const BusinessUserModelScalarFieldEnum: {
     id: 'id',
     is_verified: 'is_verified',
     introduction_title: 'introduction_title',
@@ -14153,7 +14134,7 @@ export namespace Prisma {
     profile_image_url: 'profile_image_url'
   };
 
-  export type BusinessUserScalarFieldEnum = (typeof BusinessUserScalarFieldEnum)[keyof typeof BusinessUserScalarFieldEnum]
+  export type BusinessUserModelScalarFieldEnum = (typeof BusinessUserModelScalarFieldEnum)[keyof typeof BusinessUserModelScalarFieldEnum]
 
 
   export const CustomerModelScalarFieldEnum: {
@@ -14278,7 +14259,6 @@ export namespace Prisma {
 
 
   export const UserExpertiseModelScalarFieldEnum: {
-    id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
@@ -14329,7 +14309,7 @@ export namespace Prisma {
     gender?: EnumGenderTypeNullableFilter | GenderType | null
     address_first?: StringNullableFilter | string | null
     address_second?: StringNullableFilter | string | null
-    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
     customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
   }
 
@@ -14351,7 +14331,7 @@ export namespace Prisma {
     gender?: SortOrder
     address_first?: SortOrder
     address_second?: SortOrder
-    business_user?: BusinessUserOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
     customer?: CustomerModelOrderByWithRelationInput
   }
 
@@ -14417,7 +14397,7 @@ export namespace Prisma {
     name?: StringFilter | string
     email?: StringNullableFilter | string | null
     customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput> | null
-    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput> | null
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput> | null
     agreement_acceptances?: AgreementAcceptanceModelListRelationFilter
   }
 
@@ -14430,7 +14410,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     customer?: CustomerModelOrderByWithRelationInput
-    business_user?: BusinessUserOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
     agreement_acceptances?: AgreementAcceptanceModelOrderByRelationAggregateInput
   }
 
@@ -14521,10 +14501,10 @@ export namespace Prisma {
     profile_image_url?: StringNullableWithAggregatesFilter | string | null
   }
 
-  export type BusinessUserWhereInput = {
-    AND?: Enumerable<BusinessUserWhereInput>
-    OR?: Enumerable<BusinessUserWhereInput>
-    NOT?: Enumerable<BusinessUserWhereInput>
+  export type BusinessUserModelWhereInput = {
+    AND?: Enumerable<BusinessUserModelWhereInput>
+    OR?: Enumerable<BusinessUserModelWhereInput>
+    NOT?: Enumerable<BusinessUserModelWhereInput>
     id?: StringFilter | string
     is_verified?: BoolFilter | boolean
     introduction_title?: StringFilter | string
@@ -14541,7 +14521,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelListRelationFilter
   }
 
-  export type BusinessUserOrderByWithRelationInput = {
+  export type BusinessUserModelOrderByWithRelationInput = {
     id?: SortOrder
     is_verified?: SortOrder
     introduction_title?: SortOrder
@@ -14558,11 +14538,11 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelOrderByRelationAggregateInput
   }
 
-  export type BusinessUserWhereUniqueInput = {
+  export type BusinessUserModelWhereUniqueInput = {
     id?: string
   }
 
-  export type BusinessUserOrderByWithAggregationInput = {
+  export type BusinessUserModelOrderByWithAggregationInput = {
     id?: SortOrder
     is_verified?: SortOrder
     introduction_title?: SortOrder
@@ -14571,15 +14551,15 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
-    _count?: BusinessUserCountOrderByAggregateInput
-    _max?: BusinessUserMaxOrderByAggregateInput
-    _min?: BusinessUserMinOrderByAggregateInput
+    _count?: BusinessUserModelCountOrderByAggregateInput
+    _max?: BusinessUserModelMaxOrderByAggregateInput
+    _min?: BusinessUserModelMinOrderByAggregateInput
   }
 
-  export type BusinessUserScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
-    OR?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<BusinessUserScalarWhereWithAggregatesInput>
+  export type BusinessUserModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<BusinessUserModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     is_verified?: BoolWithAggregatesFilter | boolean
     introduction_title?: StringWithAggregatesFilter | string
@@ -14600,7 +14580,7 @@ export namespace Prisma {
     re_name?: StringFilter | string
     re_phone?: StringFilter | string
     re_licensed_agent_name?: StringFilter | string
-    base?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
   }
 
   export type REAgentModelOrderByWithRelationInput = {
@@ -14610,7 +14590,7 @@ export namespace Prisma {
     re_name?: SortOrder
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
-    base?: BusinessUserOrderByWithRelationInput
+    base?: BusinessUserModelOrderByWithRelationInput
   }
 
   export type REAgentModelWhereUniqueInput = {
@@ -14647,14 +14627,14 @@ export namespace Prisma {
     NOT?: Enumerable<HSProviderModelWhereInput>
     id?: StringFilter | string
     business_registration_num?: StringFilter | string
-    base?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
     introduction_images?: HSIntroductionImageModelListRelationFilter
   }
 
   export type HSProviderModelOrderByWithRelationInput = {
     id?: SortOrder
     business_registration_num?: SortOrder
-    base?: BusinessUserOrderByWithRelationInput
+    base?: BusinessUserModelOrderByWithRelationInput
     introduction_images?: HSIntroductionImageModelOrderByRelationAggregateInput
   }
 
@@ -14689,7 +14669,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     business_user_id?: StringFilter | string
     image_url?: StringFilter | string
-    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
   }
 
   export type BusinessCertificationModelOrderByWithRelationInput = {
@@ -14700,7 +14680,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     business_user_id?: SortOrder
     image_url?: SortOrder
-    business_user?: BusinessUserOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
   }
 
   export type BusinessCertificationModelWhereUniqueInput = {
@@ -14792,7 +14772,6 @@ export namespace Prisma {
     AND?: Enumerable<UserExpertiseModelWhereInput>
     OR?: Enumerable<UserExpertiseModelWhereInput>
     NOT?: Enumerable<UserExpertiseModelWhereInput>
-    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -14800,11 +14779,10 @@ export namespace Prisma {
     category_id?: StringFilter | string
     business_user_id?: StringFilter | string
     category?: XOR<ExpertSubCategoryModelRelationFilter, ExpertSubCategoryModelWhereInput>
-    business_user?: XOR<BusinessUserRelationFilter, BusinessUserWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
   }
 
   export type UserExpertiseModelOrderByWithRelationInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -14812,15 +14790,14 @@ export namespace Prisma {
     category_id?: SortOrder
     business_user_id?: SortOrder
     category?: ExpertSubCategoryModelOrderByWithRelationInput
-    business_user?: BusinessUserOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
   }
 
   export type UserExpertiseModelWhereUniqueInput = {
-    id?: string
+    category_id_business_user_id?: UserExpertiseModelCategory_idBusiness_user_idCompoundUniqueInput
   }
 
   export type UserExpertiseModelOrderByWithAggregationInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -14836,7 +14813,6 @@ export namespace Prisma {
     AND?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
     OR?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
@@ -15022,7 +14998,6 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelWhereInput>
     OR?: Enumerable<AgreementAcceptanceModelWhereInput>
     NOT?: Enumerable<AgreementAcceptanceModelWhereInput>
-    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -15034,7 +15009,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelOrderByWithRelationInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -15046,11 +15020,10 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelWhereUniqueInput = {
-    id?: string
+    user_id_agreement_id?: AgreementAcceptanceModelUser_idAgreement_idCompoundUniqueInput
   }
 
   export type AgreementAcceptanceModelOrderByWithAggregationInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -15066,7 +15039,6 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
     OR?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
@@ -15091,7 +15063,7 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-    business_user: BusinessUserCreateNestedOneWithoutOauth_accessorInput
+    business_user: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
     customer: CustomerModelCreateNestedOneWithoutOauth_accessorInput
   }
 
@@ -15131,7 +15103,7 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput
     customer?: CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput
   }
 
@@ -15222,7 +15194,7 @@ export namespace Prisma {
     name: string
     email?: string | null
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
     agreement_acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutUserInput
   }
 
@@ -15235,7 +15207,7 @@ export namespace Prisma {
     name: string
     email?: string | null
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
     agreement_acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -15248,7 +15220,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
     agreement_acceptances?: AgreementAcceptanceModelUpdateManyWithoutUserNestedInput
   }
 
@@ -15261,7 +15233,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
     agreement_acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -15368,7 +15340,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type BusinessUserCreateInput = {
+  export type BusinessUserModelCreateInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -15384,7 +15356,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateInput = {
+  export type BusinessUserModelUncheckedCreateInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -15400,7 +15372,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUpdateInput = {
+  export type BusinessUserModelUpdateInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -15416,7 +15388,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateInput = {
+  export type BusinessUserModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -15432,7 +15404,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserCreateManyInput = {
+  export type BusinessUserModelCreateManyInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -15443,7 +15415,7 @@ export namespace Prisma {
     profile_image_url: string
   }
 
-  export type BusinessUserUpdateManyMutationInput = {
+  export type BusinessUserModelUpdateManyMutationInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -15453,7 +15425,7 @@ export namespace Prisma {
     profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type BusinessUserUncheckedUpdateManyInput = {
+  export type BusinessUserModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -15470,7 +15442,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    base: BusinessUserCreateNestedOneWithoutRe_agentInput
+    base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateInput = {
@@ -15488,7 +15460,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    base?: BusinessUserUpdateOneRequiredWithoutRe_agentNestedInput
+    base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateInput = {
@@ -15528,7 +15500,7 @@ export namespace Prisma {
 
   export type HSProviderModelCreateInput = {
     business_registration_num: string
-    base: BusinessUserCreateNestedOneWithoutHs_providerInput
+    base: BusinessUserModelCreateNestedOneWithoutHs_providerInput
     introduction_images?: HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput
   }
 
@@ -15540,7 +15512,7 @@ export namespace Prisma {
 
   export type HSProviderModelUpdateInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
-    base?: BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput
+    base?: BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput
     introduction_images?: HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput
   }
 
@@ -15571,7 +15543,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     image_url: string
-    business_user: BusinessUserCreateNestedOneWithoutCertificationsInput
+    business_user: BusinessUserModelCreateNestedOneWithoutCertificationsInput
   }
 
   export type BusinessCertificationModelUncheckedCreateInput = {
@@ -15591,7 +15563,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image_url?: StringFieldUpdateOperationsInput | string
-    business_user?: BusinessUserUpdateOneRequiredWithoutCertificationsNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutCertificationsNestedInput
   }
 
   export type BusinessCertificationModelUncheckedUpdateInput = {
@@ -15703,17 +15675,15 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
-    business_user: BusinessUserCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserModelCreateNestedOneWithoutExpertisesInput
   }
 
   export type UserExpertiseModelUncheckedCreateInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -15723,17 +15693,15 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
-    business_user?: BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
   export type UserExpertiseModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -15743,7 +15711,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateManyInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -15753,7 +15720,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -15761,7 +15727,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -15999,7 +15964,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16009,7 +15973,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16019,7 +15982,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16029,7 +15991,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16039,7 +16000,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateManyInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16049,7 +16009,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16057,7 +16016,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16137,9 +16095,9 @@ export namespace Prisma {
     not?: NestedEnumGenderTypeNullableFilter | GenderType | null
   }
 
-  export type BusinessUserRelationFilter = {
-    is?: BusinessUserWhereInput
-    isNot?: BusinessUserWhereInput
+  export type BusinessUserModelRelationFilter = {
+    is?: BusinessUserModelWhereInput
+    isNot?: BusinessUserModelWhereInput
   }
 
   export type CustomerModelRelationFilter = {
@@ -16414,7 +16372,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type BusinessUserCountOrderByAggregateInput = {
+  export type BusinessUserModelCountOrderByAggregateInput = {
     id?: SortOrder
     is_verified?: SortOrder
     introduction_title?: SortOrder
@@ -16425,7 +16383,7 @@ export namespace Prisma {
     profile_image_url?: SortOrder
   }
 
-  export type BusinessUserMaxOrderByAggregateInput = {
+  export type BusinessUserModelMaxOrderByAggregateInput = {
     id?: SortOrder
     is_verified?: SortOrder
     introduction_title?: SortOrder
@@ -16436,7 +16394,7 @@ export namespace Prisma {
     profile_image_url?: SortOrder
   }
 
-  export type BusinessUserMinOrderByAggregateInput = {
+  export type BusinessUserModelMinOrderByAggregateInput = {
     id?: SortOrder
     is_verified?: SortOrder
     introduction_title?: SortOrder
@@ -16564,8 +16522,12 @@ export namespace Prisma {
     isNot?: ExpertSubCategoryModelWhereInput
   }
 
+  export type UserExpertiseModelCategory_idBusiness_user_idCompoundUniqueInput = {
+    category_id: string
+    business_user_id: string
+  }
+
   export type UserExpertiseModelCountOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16575,7 +16537,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelMaxOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16585,7 +16546,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelMinOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16741,8 +16701,12 @@ export namespace Prisma {
     isNot?: AgreementModelWhereInput
   }
 
+  export type AgreementAcceptanceModelUser_idAgreement_idCompoundUniqueInput = {
+    user_id: string
+    agreement_id: string
+  }
+
   export type AgreementAcceptanceModelCountOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16752,7 +16716,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16762,7 +16725,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMinOrderByAggregateInput = {
-    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16771,10 +16733,10 @@ export namespace Prisma {
     agreement_id?: SortOrder
   }
 
-  export type BusinessUserCreateNestedOneWithoutOauth_accessorInput = {
-    create?: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutOauth_accessorInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutOauth_accessorInput = {
+    create?: XOR<BusinessUserModelCreateWithoutOauth_accessorInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutOauth_accessorInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
   export type CustomerModelCreateNestedOneWithoutOauth_accessorInput = {
@@ -16811,12 +16773,12 @@ export namespace Prisma {
     set?: GenderType | null
   }
 
-  export type BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutOauth_accessorInput
-    upsert?: BusinessUserUpsertWithoutOauth_accessorInput
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutOauth_accessorInput, BusinessUserUncheckedUpdateWithoutOauth_accessorInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutOauth_accessorInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutOauth_accessorInput
+    upsert?: BusinessUserModelUpsertWithoutOauth_accessorInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutOauth_accessorInput, BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput>
   }
 
   export type CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput = {
@@ -16833,10 +16795,10 @@ export namespace Prisma {
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type BusinessUserCreateNestedOneWithoutBaseInput = {
-    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutBaseInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
   export type AgreementAcceptanceModelCreateNestedManyWithoutUserInput = {
@@ -16852,10 +16814,10 @@ export namespace Prisma {
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type BusinessUserUncheckedCreateNestedOneWithoutBaseInput = {
-    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
   export type AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput = {
@@ -16875,14 +16837,14 @@ export namespace Prisma {
     update?: XOR<CustomerModelUpdateWithoutBaseInput, CustomerModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type BusinessUserUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
-    upsert?: BusinessUserUpsertWithoutBaseInput
+  export type BusinessUserModelUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
+    upsert?: BusinessUserModelUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
   }
 
   export type AgreementAcceptanceModelUpdateManyWithoutUserNestedInput = {
@@ -16909,14 +16871,14 @@ export namespace Prisma {
     update?: XOR<CustomerModelUpdateWithoutBaseInput, CustomerModelUncheckedUpdateWithoutBaseInput>
   }
 
-  export type BusinessUserUncheckedUpdateOneWithoutBaseNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutBaseInput
-    upsert?: BusinessUserUpsertWithoutBaseInput
+  export type BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBaseInput
+    upsert?: BusinessUserModelUpsertWithoutBaseInput
     disconnect?: boolean
     delete?: boolean
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput = {
@@ -17193,24 +17155,24 @@ export namespace Prisma {
     deleteMany?: Enumerable<OauthAccessorModelScalarWhereInput>
   }
 
-  export type BusinessUserCreateNestedOneWithoutRe_agentInput = {
-    create?: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutRe_agentInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutRe_agentInput = {
+    create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type BusinessUserUpdateOneRequiredWithoutRe_agentNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutRe_agentInput
-    upsert?: BusinessUserUpsertWithoutRe_agentInput
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutRe_agentInput, BusinessUserUncheckedUpdateWithoutRe_agentInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
+    upsert?: BusinessUserModelUpsertWithoutRe_agentInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type BusinessUserCreateNestedOneWithoutHs_providerInput = {
-    create?: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutHs_providerInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutHs_providerInput = {
+    create?: XOR<BusinessUserModelCreateWithoutHs_providerInput, BusinessUserModelUncheckedCreateWithoutHs_providerInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutHs_providerInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
   export type HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput = {
@@ -17227,12 +17189,12 @@ export namespace Prisma {
     connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
   }
 
-  export type BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutHs_providerInput
-    upsert?: BusinessUserUpsertWithoutHs_providerInput
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutHs_providerInput, BusinessUserUncheckedUpdateWithoutHs_providerInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutHs_providerInput, BusinessUserModelUncheckedCreateWithoutHs_providerInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutHs_providerInput
+    upsert?: BusinessUserModelUpsertWithoutHs_providerInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutHs_providerInput, BusinessUserModelUncheckedUpdateWithoutHs_providerInput>
   }
 
   export type HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput = {
@@ -17263,18 +17225,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<HSIntroductionImageModelScalarWhereInput>
   }
 
-  export type BusinessUserCreateNestedOneWithoutCertificationsInput = {
-    create?: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutCertificationsInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutCertificationsInput = {
+    create?: XOR<BusinessUserModelCreateWithoutCertificationsInput, BusinessUserModelUncheckedCreateWithoutCertificationsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutCertificationsInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type BusinessUserUpdateOneRequiredWithoutCertificationsNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutCertificationsInput
-    upsert?: BusinessUserUpsertWithoutCertificationsInput
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutCertificationsInput, BusinessUserUncheckedUpdateWithoutCertificationsInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutCertificationsNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutCertificationsInput, BusinessUserModelUncheckedCreateWithoutCertificationsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutCertificationsInput
+    upsert?: BusinessUserModelUpsertWithoutCertificationsInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutCertificationsInput, BusinessUserModelUncheckedUpdateWithoutCertificationsInput>
   }
 
   export type HSProviderModelCreateNestedOneWithoutIntroduction_imagesInput = {
@@ -17297,10 +17259,10 @@ export namespace Prisma {
     connect?: ExpertSubCategoryModelWhereUniqueInput
   }
 
-  export type BusinessUserCreateNestedOneWithoutExpertisesInput = {
-    create?: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutExpertisesInput
-    connect?: BusinessUserWhereUniqueInput
+  export type BusinessUserModelCreateNestedOneWithoutExpertisesInput = {
+    create?: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutExpertisesInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
   export type ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput = {
@@ -17311,12 +17273,12 @@ export namespace Prisma {
     update?: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
   }
 
-  export type BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput = {
-    create?: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: BusinessUserCreateOrConnectWithoutExpertisesInput
-    upsert?: BusinessUserUpsertWithoutExpertisesInput
-    connect?: BusinessUserWhereUniqueInput
-    update?: XOR<BusinessUserUpdateWithoutExpertisesInput, BusinessUserUncheckedUpdateWithoutExpertisesInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutExpertisesInput
+    upsert?: BusinessUserModelUpsertWithoutExpertisesInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutExpertisesInput, BusinessUserModelUncheckedUpdateWithoutExpertisesInput>
   }
 
   export type ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput = {
@@ -17710,7 +17672,7 @@ export namespace Prisma {
     _max?: NestedEnumAgreementUserTypeFilter
   }
 
-  export type BusinessUserCreateWithoutOauth_accessorInput = {
+  export type BusinessUserModelCreateWithoutOauth_accessorInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -17725,7 +17687,7 @@ export namespace Prisma {
     expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutOauth_accessorInput = {
+  export type BusinessUserModelUncheckedCreateWithoutOauth_accessorInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -17740,9 +17702,9 @@ export namespace Prisma {
     expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutOauth_accessorInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
+  export type BusinessUserModelCreateOrConnectWithoutOauth_accessorInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutOauth_accessorInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorInput>
   }
 
   export type CustomerModelCreateWithoutOauth_accessorInput = {
@@ -17770,12 +17732,12 @@ export namespace Prisma {
     create: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
   }
 
-  export type BusinessUserUpsertWithoutOauth_accessorInput = {
-    update: XOR<BusinessUserUpdateWithoutOauth_accessorInput, BusinessUserUncheckedUpdateWithoutOauth_accessorInput>
-    create: XOR<BusinessUserCreateWithoutOauth_accessorInput, BusinessUserUncheckedCreateWithoutOauth_accessorInput>
+  export type BusinessUserModelUpsertWithoutOauth_accessorInput = {
+    update: XOR<BusinessUserModelUpdateWithoutOauth_accessorInput, BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput>
+    create: XOR<BusinessUserModelCreateWithoutOauth_accessorInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorInput>
   }
 
-  export type BusinessUserUpdateWithoutOauth_accessorInput = {
+  export type BusinessUserModelUpdateWithoutOauth_accessorInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -17790,7 +17752,7 @@ export namespace Prisma {
     expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutOauth_accessorInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -17855,7 +17817,7 @@ export namespace Prisma {
     create: XOR<CustomerModelCreateWithoutBaseInput, CustomerModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type BusinessUserCreateWithoutBaseInput = {
+  export type BusinessUserModelCreateWithoutBaseInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -17870,7 +17832,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutBaseInput = {
+  export type BusinessUserModelUncheckedCreateWithoutBaseInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -17885,13 +17847,12 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutBaseInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+  export type BusinessUserModelCreateOrConnectWithoutBaseInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
   }
 
   export type AgreementAcceptanceModelCreateWithoutUserInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -17900,7 +17861,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateWithoutUserInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -17943,12 +17903,12 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
-  export type BusinessUserUpsertWithoutBaseInput = {
-    update: XOR<BusinessUserUpdateWithoutBaseInput, BusinessUserUncheckedUpdateWithoutBaseInput>
-    create: XOR<BusinessUserCreateWithoutBaseInput, BusinessUserUncheckedCreateWithoutBaseInput>
+  export type BusinessUserModelUpsertWithoutBaseInput = {
+    update: XOR<BusinessUserModelUpdateWithoutBaseInput, BusinessUserModelUncheckedUpdateWithoutBaseInput>
+    create: XOR<BusinessUserModelCreateWithoutBaseInput, BusinessUserModelUncheckedCreateWithoutBaseInput>
   }
 
-  export type BusinessUserUpdateWithoutBaseInput = {
+  export type BusinessUserModelUpdateWithoutBaseInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -17963,7 +17923,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutBaseInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutBaseInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -17998,7 +17958,6 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
     OR?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
     NOT?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
-    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -18015,7 +17974,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     email?: string | null
-    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
     agreement_acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutUserInput
   }
 
@@ -18027,7 +17986,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     email?: string | null
-    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
     agreement_acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -18052,7 +18011,7 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-    business_user: BusinessUserCreateNestedOneWithoutOauth_accessorInput
+    business_user: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
   }
 
   export type OauthAccessorModelUncheckedCreateWithoutCustomerInput = {
@@ -18097,7 +18056,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
     agreement_acceptances?: AgreementAcceptanceModelUpdateManyWithoutUserNestedInput
   }
 
@@ -18109,7 +18068,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
     agreement_acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -18246,7 +18205,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateWithoutBusiness_userInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -18255,7 +18213,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -18435,7 +18392,6 @@ export namespace Prisma {
     AND?: Enumerable<UserExpertiseModelScalarWhereInput>
     OR?: Enumerable<UserExpertiseModelScalarWhereInput>
     NOT?: Enumerable<UserExpertiseModelScalarWhereInput>
-    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -18460,7 +18416,7 @@ export namespace Prisma {
     data: XOR<OauthAccessorModelUpdateManyMutationInput, OauthAccessorModelUncheckedUpdateManyWithoutOauth_accessorInput>
   }
 
-  export type BusinessUserCreateWithoutRe_agentInput = {
+  export type BusinessUserModelCreateWithoutRe_agentInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -18475,7 +18431,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutRe_agentInput = {
+  export type BusinessUserModelUncheckedCreateWithoutRe_agentInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -18490,17 +18446,17 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutRe_agentInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
+  export type BusinessUserModelCreateOrConnectWithoutRe_agentInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type BusinessUserUpsertWithoutRe_agentInput = {
-    update: XOR<BusinessUserUpdateWithoutRe_agentInput, BusinessUserUncheckedUpdateWithoutRe_agentInput>
-    create: XOR<BusinessUserCreateWithoutRe_agentInput, BusinessUserUncheckedCreateWithoutRe_agentInput>
+  export type BusinessUserModelUpsertWithoutRe_agentInput = {
+    update: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
+    create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type BusinessUserUpdateWithoutRe_agentInput = {
+  export type BusinessUserModelUpdateWithoutRe_agentInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -18515,7 +18471,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutRe_agentInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -18530,7 +18486,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserCreateWithoutHs_providerInput = {
+  export type BusinessUserModelCreateWithoutHs_providerInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -18545,7 +18501,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutHs_providerInput = {
+  export type BusinessUserModelUncheckedCreateWithoutHs_providerInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -18560,9 +18516,9 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutHs_providerInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
+  export type BusinessUserModelCreateOrConnectWithoutHs_providerInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutHs_providerInput, BusinessUserModelUncheckedCreateWithoutHs_providerInput>
   }
 
   export type HSIntroductionImageModelCreateWithoutHs_providerInput = {
@@ -18593,12 +18549,12 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type BusinessUserUpsertWithoutHs_providerInput = {
-    update: XOR<BusinessUserUpdateWithoutHs_providerInput, BusinessUserUncheckedUpdateWithoutHs_providerInput>
-    create: XOR<BusinessUserCreateWithoutHs_providerInput, BusinessUserUncheckedCreateWithoutHs_providerInput>
+  export type BusinessUserModelUpsertWithoutHs_providerInput = {
+    update: XOR<BusinessUserModelUpdateWithoutHs_providerInput, BusinessUserModelUncheckedUpdateWithoutHs_providerInput>
+    create: XOR<BusinessUserModelCreateWithoutHs_providerInput, BusinessUserModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type BusinessUserUpdateWithoutHs_providerInput = {
+  export type BusinessUserModelUpdateWithoutHs_providerInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -18613,7 +18569,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutHs_providerInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutHs_providerInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -18657,7 +18613,7 @@ export namespace Prisma {
     image_url?: StringFilter | string
   }
 
-  export type BusinessUserCreateWithoutCertificationsInput = {
+  export type BusinessUserModelCreateWithoutCertificationsInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -18672,7 +18628,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutCertificationsInput = {
+  export type BusinessUserModelUncheckedCreateWithoutCertificationsInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -18687,17 +18643,17 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutCertificationsInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+  export type BusinessUserModelCreateOrConnectWithoutCertificationsInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutCertificationsInput, BusinessUserModelUncheckedCreateWithoutCertificationsInput>
   }
 
-  export type BusinessUserUpsertWithoutCertificationsInput = {
-    update: XOR<BusinessUserUpdateWithoutCertificationsInput, BusinessUserUncheckedUpdateWithoutCertificationsInput>
-    create: XOR<BusinessUserCreateWithoutCertificationsInput, BusinessUserUncheckedCreateWithoutCertificationsInput>
+  export type BusinessUserModelUpsertWithoutCertificationsInput = {
+    update: XOR<BusinessUserModelUpdateWithoutCertificationsInput, BusinessUserModelUncheckedUpdateWithoutCertificationsInput>
+    create: XOR<BusinessUserModelCreateWithoutCertificationsInput, BusinessUserModelUncheckedCreateWithoutCertificationsInput>
   }
 
-  export type BusinessUserUpdateWithoutCertificationsInput = {
+  export type BusinessUserModelUpdateWithoutCertificationsInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -18712,7 +18668,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutCertificationsInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutCertificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -18729,7 +18685,7 @@ export namespace Prisma {
 
   export type HSProviderModelCreateWithoutIntroduction_imagesInput = {
     business_registration_num: string
-    base: BusinessUserCreateNestedOneWithoutHs_providerInput
+    base: BusinessUserModelCreateNestedOneWithoutHs_providerInput
   }
 
   export type HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput = {
@@ -18749,7 +18705,7 @@ export namespace Prisma {
 
   export type HSProviderModelUpdateWithoutIntroduction_imagesInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
-    base?: BusinessUserUpdateOneRequiredWithoutHs_providerNestedInput
+    base?: BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput
   }
 
   export type HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput = {
@@ -18782,7 +18738,7 @@ export namespace Prisma {
     create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
   }
 
-  export type BusinessUserCreateWithoutExpertisesInput = {
+  export type BusinessUserModelCreateWithoutExpertisesInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -18797,7 +18753,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserUncheckedCreateWithoutExpertisesInput = {
+  export type BusinessUserModelUncheckedCreateWithoutExpertisesInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -18812,9 +18768,9 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserCreateOrConnectWithoutExpertisesInput = {
-    where: BusinessUserWhereUniqueInput
-    create: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+  export type BusinessUserModelCreateOrConnectWithoutExpertisesInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
   }
 
   export type ExpertSubCategoryModelUpsertWithoutExpertisesInput = {
@@ -18842,12 +18798,12 @@ export namespace Prisma {
     super_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type BusinessUserUpsertWithoutExpertisesInput = {
-    update: XOR<BusinessUserUpdateWithoutExpertisesInput, BusinessUserUncheckedUpdateWithoutExpertisesInput>
-    create: XOR<BusinessUserCreateWithoutExpertisesInput, BusinessUserUncheckedCreateWithoutExpertisesInput>
+  export type BusinessUserModelUpsertWithoutExpertisesInput = {
+    update: XOR<BusinessUserModelUpdateWithoutExpertisesInput, BusinessUserModelUncheckedUpdateWithoutExpertisesInput>
+    create: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
   }
 
-  export type BusinessUserUpdateWithoutExpertisesInput = {
+  export type BusinessUserModelUpdateWithoutExpertisesInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -18862,7 +18818,7 @@ export namespace Prisma {
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserUncheckedUpdateWithoutExpertisesInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutExpertisesInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -18903,16 +18859,14 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateWithoutCategoryInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    business_user: BusinessUserCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserModelCreateNestedOneWithoutExpertisesInput
   }
 
   export type UserExpertiseModelUncheckedCreateWithoutCategoryInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19031,7 +18985,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19040,7 +18993,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19083,7 +19035,7 @@ export namespace Prisma {
     name: string
     email?: string | null
     customer?: CustomerModelCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelCreateNestedOneWithoutBaseInput
   }
 
   export type UserModelUncheckedCreateWithoutAgreement_acceptancesInput = {
@@ -19095,7 +19047,7 @@ export namespace Prisma {
     name: string
     email?: string | null
     customer?: CustomerModelUncheckedCreateNestedOneWithoutBaseInput
-    business_user?: BusinessUserUncheckedCreateNestedOneWithoutBaseInput
+    business_user?: BusinessUserModelUncheckedCreateNestedOneWithoutBaseInput
   }
 
   export type UserModelCreateOrConnectWithoutAgreement_acceptancesInput = {
@@ -19144,7 +19096,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: CustomerModelUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUpdateOneWithoutBaseNestedInput
   }
 
   export type UserModelUncheckedUpdateWithoutAgreement_acceptancesInput = {
@@ -19156,7 +19108,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: CustomerModelUncheckedUpdateOneWithoutBaseNestedInput
-    business_user?: BusinessUserUncheckedUpdateOneWithoutBaseNestedInput
+    business_user?: BusinessUserModelUncheckedUpdateOneWithoutBaseNestedInput
   }
 
   export type AgreementModelUpsertWithoutAcceptancesInput = {
@@ -19187,7 +19139,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateManyUserInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19196,7 +19147,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19205,7 +19155,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19214,7 +19163,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreement_acceptancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19257,7 +19205,7 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserUpdateOneRequiredWithoutOauth_accessorNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput
   }
 
   export type OauthAccessorModelUncheckedUpdateWithoutCustomerInput = {
@@ -19308,7 +19256,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateManyBusiness_userInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19363,7 +19310,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUpdateWithoutBusiness_userInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19372,7 +19318,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19381,7 +19326,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19464,7 +19408,6 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelCreateManyCategoryInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19473,16 +19416,14 @@ export namespace Prisma {
   }
 
   export type UserExpertiseModelUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    business_user?: BusinessUserUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
   export type UserExpertiseModelUncheckedUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19529,7 +19470,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateManyAgreementInput = {
-    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19538,7 +19478,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateWithoutAgreementInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19547,7 +19486,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateWithoutAgreementInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19556,7 +19494,6 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAcceptancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
