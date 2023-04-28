@@ -317,7 +317,8 @@ const config = {
     "database"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false
+  "dataProxy": false,
+  "postinstall": false
 }
 config.dirname = dirname
 config.document = dmmf

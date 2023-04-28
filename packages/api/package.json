@@ -16,6 +16,6 @@
   "homepage": "https://github.com/szipzoong/zipzoong-backend#readme",
   "dependencies": {
     "@nestia/fetcher": "^1.0.1",
-    "typia": "^3.7.4"
+    "typia": "^3.8.2"
   }
 }
