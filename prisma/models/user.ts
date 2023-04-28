@@ -150,7 +150,8 @@ export const HSIntroductionImage = createModel(
 export const SuperExpertise = createModel("SuperExpertiseModel", (model) => {
   model
     .mixin(UpdatedAt)
-    .string("business_user_id", { id: true })
+    .string("id", { id: true })
+    .string("business_user_id", { unique: true })
     .string("super_category_id")
     .relation("business_user", BusinessUser, {
       fields: ["business_user_id"],
@@ -169,7 +170,7 @@ export const SuperExpertise = createModel("SuperExpertiseModel", (model) => {
 
 export const SubExpertise = createModel("SubExpertiseModel", (model) => {
   model
-    .mixin(DeletedAt)
+    .mixin(Entity)
     .string("sub_category_id")
     .string("business_user_id")
     .relation("category", ExpertSubCategory, {
@@ -184,7 +185,7 @@ export const SubExpertise = createModel("SubExpertiseModel", (model) => {
       onUpdate: "NoAction",
       onDelete: "NoAction"
     })
-    .id({ fields: ["sub_category_id", "business_user_id"] })
+    .unique({ fields: ["sub_category_id", "business_user_id"] })
     .map("sub_expertises");
 });
 
@@ -233,7 +234,7 @@ export const AgreementAcceptance = createModel(
   "AgreementAcceptanceModel",
   (model) => {
     model
-      .mixin(DeletedAt)
+      .mixin(Entity)
       .string("user_id")
       .string("agreement_id")
       .relation("user", User, {
@@ -248,7 +249,7 @@ export const AgreementAcceptance = createModel(
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .id({ fields: ["user_id", "agreement_id"] })
+      .unique({ fields: ["user_id", "agreement_id"] })
       .map("agreement_acceptances");
   }
 );

@@ -155,7 +155,8 @@ model HSIntroductionImageModel {
 model SuperExpertiseModel {
   created_at        DateTime                 @database.Timestamptz
   updated_at        DateTime                 @database.Timestamptz
-  business_user_id  String                   @id
+  id                String                   @id
+  business_user_id  String                   @unique
   super_category_id String
   business_user     BusinessUserModel        @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   category          ExpertSuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -164,6 +165,7 @@ model SuperExpertiseModel {
 }
 
 model SubExpertiseModel {
+  id               String                 @id
   created_at       DateTime               @database.Timestamptz
   updated_at       DateTime               @database.Timestamptz
   is_deleted       Boolean
@@ -173,7 +175,7 @@ model SubExpertiseModel {
   category         ExpertSubCategoryModel @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   business_user    BusinessUserModel      @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
-  @@id([sub_category_id, business_user_id])
+  @@unique([sub_category_id, business_user_id])
   @@map("sub_expertises")
 }
 
@@ -220,6 +222,7 @@ model AgreementModel {
 }
 
 model AgreementAcceptanceModel {
+  id           String         @id
   created_at   DateTime       @database.Timestamptz
   updated_at   DateTime       @database.Timestamptz
   is_deleted   Boolean
@@ -229,6 +232,6 @@ model AgreementAcceptanceModel {
   user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([user_id, agreement_id])
+  @@unique([user_id, agreement_id])
   @@map("agreement_acceptances")
 }

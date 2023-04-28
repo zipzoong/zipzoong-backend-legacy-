@@ -136,6 +136,7 @@ export type HSIntroductionImageModel = {
 export type SuperExpertiseModel = {
   created_at: Date
   updated_at: Date
+  id: string
   business_user_id: string
   super_category_id: string
 }
@@ -145,6 +146,7 @@ export type SuperExpertiseModel = {
  * 
  */
 export type SubExpertiseModel = {
+  id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
@@ -201,6 +203,7 @@ export type AgreementModel = {
  * 
  */
 export type AgreementAcceptanceModel = {
+  id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
@@ -9301,6 +9304,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMinAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
+    id: string | null
     business_user_id: string | null
     super_category_id: string | null
   }
@@ -9308,6 +9312,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMaxAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
+    id: string | null
     business_user_id: string | null
     super_category_id: string | null
   }
@@ -9315,6 +9320,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCountAggregateOutputType = {
     created_at: number
     updated_at: number
+    id: number
     business_user_id: number
     super_category_id: number
     _all: number
@@ -9324,6 +9330,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMinAggregateInputType = {
     created_at?: true
     updated_at?: true
+    id?: true
     business_user_id?: true
     super_category_id?: true
   }
@@ -9331,6 +9338,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMaxAggregateInputType = {
     created_at?: true
     updated_at?: true
+    id?: true
     business_user_id?: true
     super_category_id?: true
   }
@@ -9338,6 +9346,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCountAggregateInputType = {
     created_at?: true
     updated_at?: true
+    id?: true
     business_user_id?: true
     super_category_id?: true
     _all?: true
@@ -9419,6 +9428,7 @@ export namespace Prisma {
   export type SuperExpertiseModelGroupByOutputType = {
     created_at: Date
     updated_at: Date
+    id: string
     business_user_id: string
     super_category_id: string
     _count: SuperExpertiseModelCountAggregateOutputType | null
@@ -9443,6 +9453,7 @@ export namespace Prisma {
   export type SuperExpertiseModelSelect = {
     created_at?: boolean
     updated_at?: boolean
+    id?: boolean
     business_user_id?: boolean
     super_category_id?: boolean
     business_user?: boolean | BusinessUserModelArgs
@@ -10228,6 +10239,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelMinAggregateOutputType = {
+    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -10237,6 +10249,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelMaxAggregateOutputType = {
+    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -10246,6 +10259,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCountAggregateOutputType = {
+    id: number
     created_at: number
     updated_at: number
     is_deleted: number
@@ -10257,6 +10271,7 @@ export namespace Prisma {
 
 
   export type SubExpertiseModelMinAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -10266,6 +10281,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelMaxAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -10275,6 +10291,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCountAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -10358,6 +10375,7 @@ export namespace Prisma {
 
 
   export type SubExpertiseModelGroupByOutputType = {
+    id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
@@ -10384,6 +10402,7 @@ export namespace Prisma {
 
 
   export type SubExpertiseModelSelect = {
+    id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
@@ -10504,8 +10523,8 @@ export namespace Prisma {
      * // Get first 10 SubExpertiseModels
      * const subExpertiseModels = await prisma.subExpertiseModel.findMany({ take: 10 })
      * 
-     * // Only select the `created_at`
-     * const subExpertiseModelWithCreated_atOnly = await prisma.subExpertiseModel.findMany({ select: { created_at: true } })
+     * // Only select the `id`
+     * const subExpertiseModelWithIdOnly = await prisma.subExpertiseModel.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends SubExpertiseModelFindManyArgs>(
@@ -14130,6 +14149,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMinAggregateOutputType = {
+    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -14139,6 +14159,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxAggregateOutputType = {
+    id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -14148,6 +14169,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCountAggregateOutputType = {
+    id: number
     created_at: number
     updated_at: number
     is_deleted: number
@@ -14159,6 +14181,7 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelMinAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -14168,6 +14191,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -14177,6 +14201,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCountAggregateInputType = {
+    id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -14260,6 +14285,7 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelGroupByOutputType = {
+    id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
@@ -14286,6 +14312,7 @@ export namespace Prisma {
 
 
   export type AgreementAcceptanceModelSelect = {
+    id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
@@ -14406,8 +14433,8 @@ export namespace Prisma {
      * // Get first 10 AgreementAcceptanceModels
      * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany({ take: 10 })
      * 
-     * // Only select the `created_at`
-     * const agreementAcceptanceModelWithCreated_atOnly = await prisma.agreementAcceptanceModel.findMany({ select: { created_at: true } })
+     * // Only select the `id`
+     * const agreementAcceptanceModelWithIdOnly = await prisma.agreementAcceptanceModel.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends AgreementAcceptanceModelFindManyArgs>(
@@ -15071,6 +15098,7 @@ export namespace Prisma {
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const AgreementAcceptanceModelScalarFieldEnum: {
+    id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
@@ -15235,6 +15263,7 @@ export namespace Prisma {
 
 
   export const SubExpertiseModelScalarFieldEnum: {
+    id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
@@ -15249,6 +15278,7 @@ export namespace Prisma {
   export const SuperExpertiseModelScalarFieldEnum: {
     created_at: 'created_at',
     updated_at: 'updated_at',
+    id: 'id',
     business_user_id: 'business_user_id',
     super_category_id: 'super_category_id'
   };
@@ -15772,6 +15802,7 @@ export namespace Prisma {
     NOT?: Enumerable<SuperExpertiseModelWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
+    id?: StringFilter | string
     business_user_id?: StringFilter | string
     super_category_id?: StringFilter | string
     business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
@@ -15781,6 +15812,7 @@ export namespace Prisma {
   export type SuperExpertiseModelOrderByWithRelationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
+    id?: SortOrder
     business_user_id?: SortOrder
     super_category_id?: SortOrder
     business_user?: BusinessUserModelOrderByWithRelationInput
@@ -15788,12 +15820,14 @@ export namespace Prisma {
   }
 
   export type SuperExpertiseModelWhereUniqueInput = {
+    id?: string
     business_user_id?: string
   }
 
   export type SuperExpertiseModelOrderByWithAggregationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
+    id?: SortOrder
     business_user_id?: SortOrder
     super_category_id?: SortOrder
     _count?: SuperExpertiseModelCountOrderByAggregateInput
@@ -15807,6 +15841,7 @@ export namespace Prisma {
     NOT?: Enumerable<SuperExpertiseModelScalarWhereWithAggregatesInput>
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
+    id?: StringWithAggregatesFilter | string
     business_user_id?: StringWithAggregatesFilter | string
     super_category_id?: StringWithAggregatesFilter | string
   }
@@ -15815,6 +15850,7 @@ export namespace Prisma {
     AND?: Enumerable<SubExpertiseModelWhereInput>
     OR?: Enumerable<SubExpertiseModelWhereInput>
     NOT?: Enumerable<SubExpertiseModelWhereInput>
+    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -15826,6 +15862,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelOrderByWithRelationInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -15837,10 +15874,12 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelWhereUniqueInput = {
+    id?: string
     sub_category_id_business_user_id?: SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput
   }
 
   export type SubExpertiseModelOrderByWithAggregationInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -15856,6 +15895,7 @@ export namespace Prisma {
     AND?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
     OR?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
@@ -16043,6 +16083,7 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelWhereInput>
     OR?: Enumerable<AgreementAcceptanceModelWhereInput>
     NOT?: Enumerable<AgreementAcceptanceModelWhereInput>
+    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -16054,6 +16095,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelOrderByWithRelationInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16065,10 +16107,12 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelWhereUniqueInput = {
+    id?: string
     user_id_agreement_id?: AgreementAcceptanceModelUser_idAgreement_idCompoundUniqueInput
   }
 
   export type AgreementAcceptanceModelOrderByWithAggregationInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -16084,6 +16128,7 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
     OR?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<AgreementAcceptanceModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
@@ -16726,6 +16771,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCreateInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user: BusinessUserModelCreateNestedOneWithoutSuper_expertiseInput
     category: ExpertSuperCategoryModelCreateNestedOneWithoutExpertisesInput
   }
@@ -16733,6 +16779,7 @@ export namespace Prisma {
   export type SuperExpertiseModelUncheckedCreateInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user_id: string
     super_category_id: string
   }
@@ -16740,6 +16787,7 @@ export namespace Prisma {
   export type SuperExpertiseModelUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user?: BusinessUserModelUpdateOneRequiredWithoutSuper_expertiseNestedInput
     category?: ExpertSuperCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
@@ -16747,6 +16795,7 @@ export namespace Prisma {
   export type SuperExpertiseModelUncheckedUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
     super_category_id?: StringFieldUpdateOperationsInput | string
   }
@@ -16754,6 +16803,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCreateManyInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user_id: string
     super_category_id: string
   }
@@ -16761,16 +16811,19 @@ export namespace Prisma {
   export type SuperExpertiseModelUpdateManyMutationInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
   }
 
   export type SuperExpertiseModelUncheckedUpdateManyInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
     super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubExpertiseModelCreateInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16780,6 +16833,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedCreateInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16789,6 +16843,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16798,6 +16853,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16807,6 +16863,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCreateManyInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -16816,6 +16873,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -16823,6 +16881,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -17064,6 +17123,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -17073,6 +17133,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -17082,6 +17143,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -17091,6 +17153,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -17100,6 +17163,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateManyInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -17109,6 +17173,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -17116,6 +17181,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -17630,6 +17696,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCountOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
+    id?: SortOrder
     business_user_id?: SortOrder
     super_category_id?: SortOrder
   }
@@ -17637,6 +17704,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMaxOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
+    id?: SortOrder
     business_user_id?: SortOrder
     super_category_id?: SortOrder
   }
@@ -17644,6 +17712,7 @@ export namespace Prisma {
   export type SuperExpertiseModelMinOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
+    id?: SortOrder
     business_user_id?: SortOrder
     super_category_id?: SortOrder
   }
@@ -17659,6 +17728,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCountOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -17668,6 +17738,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelMaxOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -17677,6 +17748,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelMinOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -17843,6 +17915,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCountOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -17852,6 +17925,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMaxOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -17861,6 +17935,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelMinOrderByAggregateInput = {
+    id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -19097,6 +19172,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateWithoutUserInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19105,6 +19181,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateWithoutUserInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19204,6 +19281,7 @@ export namespace Prisma {
     AND?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
     OR?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
     NOT?: Enumerable<AgreementAcceptanceModelScalarWhereInput>
+    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -19453,12 +19531,14 @@ export namespace Prisma {
   export type SuperExpertiseModelCreateWithoutBusiness_userInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     category: ExpertSuperCategoryModelCreateNestedOneWithoutExpertisesInput
   }
 
   export type SuperExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     super_category_id: string
   }
 
@@ -19468,6 +19548,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCreateWithoutBusiness_userInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19476,6 +19557,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19643,12 +19725,14 @@ export namespace Prisma {
   export type SuperExpertiseModelUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     category?: ExpertSuperCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
   export type SuperExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -19672,6 +19756,7 @@ export namespace Prisma {
     AND?: Enumerable<SubExpertiseModelScalarWhereInput>
     OR?: Enumerable<SubExpertiseModelScalarWhereInput>
     NOT?: Enumerable<SubExpertiseModelScalarWhereInput>
+    id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
@@ -20285,6 +20370,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCreateWithoutCategoryInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20293,6 +20379,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedCreateWithoutCategoryInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20386,12 +20473,14 @@ export namespace Prisma {
   export type SuperExpertiseModelCreateWithoutCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user: BusinessUserModelCreateNestedOneWithoutSuper_expertiseInput
   }
 
   export type SuperExpertiseModelUncheckedCreateWithoutCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user_id: string
   }
 
@@ -20456,11 +20545,13 @@ export namespace Prisma {
     NOT?: Enumerable<SuperExpertiseModelScalarWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
+    id?: StringFilter | string
     business_user_id?: StringFilter | string
     super_category_id?: StringFilter | string
   }
 
   export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20469,6 +20560,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20615,6 +20707,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelCreateManyUserInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20623,6 +20716,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20631,6 +20725,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20639,6 +20734,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreement_acceptancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20732,6 +20828,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCreateManyBusiness_userInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20786,6 +20883,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUpdateWithoutBusiness_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20794,6 +20892,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20802,6 +20901,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateManyWithoutSub_expertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20884,6 +20984,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelCreateManyCategoryInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20892,6 +20993,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20900,6 +21002,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20908,6 +21011,7 @@ export namespace Prisma {
   }
 
   export type SubExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20927,6 +21031,7 @@ export namespace Prisma {
   export type SuperExpertiseModelCreateManyCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
+    id: string
     business_user_id: string
   }
 
@@ -20962,22 +21067,26 @@ export namespace Prisma {
   export type SuperExpertiseModelUpdateWithoutCategoryInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user?: BusinessUserModelUpdateOneRequiredWithoutSuper_expertiseNestedInput
   }
 
   export type SuperExpertiseModelUncheckedUpdateWithoutCategoryInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type SuperExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementAcceptanceModelCreateManyAgreementInput = {
+    id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -20986,6 +21095,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -20994,6 +21104,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateWithoutAgreementInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -21002,6 +21113,7 @@ export namespace Prisma {
   }
 
   export type AgreementAcceptanceModelUncheckedUpdateManyWithoutAcceptancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean

@@ -87,6 +87,7 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.AgreementAcceptanceModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
@@ -212,6 +213,7 @@ exports.Prisma.SortOrder = {
 };
 
 exports.Prisma.SubExpertiseModelScalarFieldEnum = {
+  id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
@@ -223,6 +225,7 @@ exports.Prisma.SubExpertiseModelScalarFieldEnum = {
 exports.Prisma.SuperExpertiseModelScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
+  id: 'id',
   business_user_id: 'business_user_id',
   super_category_id: 'super_category_id'
 };
