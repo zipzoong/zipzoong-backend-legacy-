@@ -32,6 +32,8 @@ async function run(): Promise<void> {
     host: `http://localhost:${Configuration.PORT}`
   };
 
+  await internal.seed();
+
   const report = await DynamicExecutor.validate({
     prefix: "test",
     parameters: () => [connection]
