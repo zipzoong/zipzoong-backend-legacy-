@@ -124,8 +124,7 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   phone: 'phone',
   address_first: 'address_first',
   address_second: 'address_second',
-  profile_image_url: 'profile_image_url',
-  super_expertise_id: 'super_expertise_id'
+  profile_image_url: 'profile_image_url'
 };
 
 exports.Prisma.CustomerModelScalarFieldEnum = {
@@ -221,6 +220,13 @@ exports.Prisma.SubExpertiseModelScalarFieldEnum = {
   business_user_id: 'business_user_id'
 };
 
+exports.Prisma.SuperExpertiseModelScalarFieldEnum = {
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  business_user_id: 'business_user_id',
+  super_category_id: 'super_category_id'
+};
+
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -270,6 +276,7 @@ exports.Prisma.ModelName = {
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationModel: 'BusinessCertificationModel',
   HSIntroductionImageModel: 'HSIntroductionImageModel',
+  SuperExpertiseModel: 'SuperExpertiseModel',
   SubExpertiseModel: 'SubExpertiseModel',
   ExpertSubCategoryModel: 'ExpertSubCategoryModel',
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',

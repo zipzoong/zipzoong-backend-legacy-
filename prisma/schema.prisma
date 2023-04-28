@@ -94,12 +94,11 @@ model BusinessUserModel {
   address_first        String
   address_second       String
   profile_image_url    String
-  super_expertise_id   String
   base                 UserModel                    @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   re_agent             REAgentModel?
   hs_provider          HSProviderModel?
   certifications       BusinessCertificationModel[]
-  super_expertise      ExpertSuperCategoryModel     @relation(fields: [super_expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  super_expertise      SuperExpertiseModel?
   sub_expertises       SubExpertiseModel[]
   oauth_accessor       OauthAccessorModel[]
 
@@ -153,6 +152,17 @@ model HSIntroductionImageModel {
   @@map("hs_introduction_images")
 }
 
+model SuperExpertiseModel {
+  created_at        DateTime                 @database.Timestamptz
+  updated_at        DateTime                 @database.Timestamptz
+  business_user_id  String                   @id
+  super_category_id String
+  business_user     BusinessUserModel        @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category          ExpertSuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("super_expertises")
+}
+
 model SubExpertiseModel {
   created_at       DateTime               @database.Timestamptz
   updated_at       DateTime               @database.Timestamptz
@@ -182,15 +192,15 @@ model ExpertSubCategoryModel {
 }
 
 model ExpertSuperCategoryModel {
-  id             String                   @id
-  created_at     DateTime                 @database.Timestamptz
-  updated_at     DateTime                 @database.Timestamptz
-  is_deleted     Boolean
-  deleted_at     DateTime?                @database.Timestamptz
-  name           String                   @unique
-  business_type  ExpertBusinessType
-  subs           ExpertSubCategoryModel[]
-  business_users BusinessUserModel[]
+  id            String                   @id
+  created_at    DateTime                 @database.Timestamptz
+  updated_at    DateTime                 @database.Timestamptz
+  is_deleted    Boolean
+  deleted_at    DateTime?                @database.Timestamptz
+  name          String                   @unique
+  business_type ExpertBusinessType
+  subs          ExpertSubCategoryModel[]
+  expertises    SuperExpertiseModel[]
 
   @@map("expert_super_categories")
 }

@@ -1,4 +1,4 @@
-import { DeletedAt, Entity } from "../mixins";
+import { DeletedAt, Entity, UpdatedAt } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import {
@@ -80,19 +80,13 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .string("address_first")
     .string("address_second")
     .string("profile_image_url")
-    .string("super_expertise_id")
     .relation("base", User, one_to_one)
     .relation("re_agent", REAgent, { optional: true })
     .relation("hs_provider", HSProvider, { optional: true })
     .relation("certifications", BusinessCertification, {
       list: true
     })
-    .relation("super_expertise", ExpertSuperCategory, {
-      fields: ["super_expertise_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
+    .relation("super_expertise", SuperExpertise, { optional: true })
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accessor", OauthAccessor, { list: true })
     .map("business_users");
@@ -153,6 +147,26 @@ export const HSIntroductionImage = createModel(
   }
 );
 
+export const SuperExpertise = createModel("SuperExpertiseModel", (model) => {
+  model
+    .mixin(UpdatedAt)
+    .string("business_user_id", { id: true })
+    .string("super_category_id")
+    .relation("business_user", BusinessUser, {
+      fields: ["business_user_id"],
+      references: ["id"],
+      onDelete: "NoAction",
+      onUpdate: "NoAction"
+    })
+    .relation("category", ExpertSuperCategory, {
+      fields: ["super_category_id"],
+      references: ["id"],
+      onDelete: "NoAction",
+      onUpdate: "NoAction"
+    })
+    .map("super_expertises");
+});
+
 export const SubExpertise = createModel("SubExpertiseModel", (model) => {
   model
     .mixin(DeletedAt)
@@ -200,7 +214,7 @@ export const ExpertSuperCategory = createModel(
       .string("name", { unique: true })
       .enum("business_type", ExpertBusinessType)
       .relation("subs", ExpertSubCategory, { list: true })
-      .relation("business_users", BusinessUser, { list: true })
+      .relation("expertises", SuperExpertise, { list: true })
       .map("expert_super_categories");
   }
 );
