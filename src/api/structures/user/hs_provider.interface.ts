@@ -17,6 +17,9 @@ export namespace IHSProvider {
   }
 
   export interface IIntroduction extends IBusinessUser.IIntroduction {
+    /**
+     * 자체 리뷰 이미지 목록
+     */
     readonly images: IIntroductionImage[];
   }
 
@@ -24,8 +27,14 @@ export namespace IHSProvider {
     phone: string;
     profile_image_url: string;
     introduction: IBusinessUser.IIntroduction;
+    /**
+     * 자체 리뷰 이미지 주소 목록
+     */
     introduction_images: string[];
     address: IUser.IAddress;
+    /**
+     * 사업자등록번호
+     */
     business_registration_num: string;
     sub_expertise_ids: string[];
     super_expertise_id: string;
@@ -54,6 +63,11 @@ export namespace IHSProvider {
     agreement_acceptances: string[];
   }
 
+  /**
+   * 응답 형식
+   *
+   * 사업자 정보 조회 등에서 표시되는 형식
+   */
   export type IResponse = Omit<
     IHSProvider,
     "super_expertise_id" | "sub_expertise_ids"
@@ -61,5 +75,10 @@ export namespace IHSProvider {
     IDateTime &
     IBusinessUser.IExpertiseData;
 
+  /**
+   * 개인 정보를 포함한 응답 형식
+   *
+   * 본인 혹은 관리자 API에 의해 표시되는 형식
+   */
   export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }

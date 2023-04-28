@@ -58,6 +58,17 @@ export namespace ICustomer {
     agreement_acceptances: string[];
   }
 
+  /**
+   * 응답 형식
+   *
+   * 고객 정보 조회 등에서 표시되는 형식
+   */
   export type IResponse = ICustomer & IDateTime;
+
+  /**
+   * 개인 정보를 포함한 응답 형식
+   *
+   * 본인 혹은 관리자 API에 의해 표시되는 형식
+   */
   export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }

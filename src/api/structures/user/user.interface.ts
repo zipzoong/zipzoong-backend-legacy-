@@ -15,8 +15,18 @@ export namespace IUser {
   }
 
   export interface IBase<T extends Type> {
+    /**
+     * 사용자 분류
+     *
+     * - customer 일반 회원
+     * - real estate agent 공인중개사
+     * - home service provider 생활서비스 제공자
+     */
     readonly type: T;
     readonly id: string;
+    /**
+     * 고객 이름 혹은 상호명
+     */
     readonly name: string;
     /**
      * @format email
@@ -32,6 +42,13 @@ export namespace IUser {
   }
 
   export interface ICreate<T extends Type> {
+    /**
+     * 사용자 분류
+     *
+     * - customer 일반 회원
+     * - real estate agent 공인중개사
+     * - home service provider 생활서비스 제공자
+     */
     type: T;
     /**
      * 기본값 ""

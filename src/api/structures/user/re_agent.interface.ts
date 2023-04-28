@@ -4,16 +4,40 @@ import { IBusinessUser } from "./business_user.interface";
 import { IUser } from "./user.interface";
 
 export interface IREAgent extends IBusinessUser.IBase<"real estate agent"> {
+  /**
+   * 개업/소속 공인중개사 표시
+   *
+   * - true 개업 공인중개사
+   * - false 소속 공인중개사
+   */
   readonly is_licensed: boolean;
+  /**
+   * 본인이 속한 부동산 정보
+   */
   readonly real_estate: IREAgent.IRealEstate;
 }
 
 export namespace IREAgent {
   export interface IRealEstate {
+    /**
+     * 부동산 개설 등록번호
+     */
     readonly num: string;
+    /**
+     * 부동산 상호명
+     */
     readonly name: string;
+    /**
+     * 부동산 전화번호
+     */
     readonly phone: string;
+    /**
+     * 부동산 대표명
+     */
     readonly licensed_agent_name: string;
+    /**
+     * 부동산 주소
+     */
     readonly address: IUser.IAddress;
   }
 
@@ -21,7 +45,16 @@ export namespace IREAgent {
     phone: string;
     profile_image_url: string;
     introduction: IBusinessUser.IIntroduction;
+    /**
+     * 개업/소속 공인중개사 표시
+     *
+     * - true 개업 공인중개사
+     * - false 소속 공인중개사
+     */
     is_licensed: boolean;
+    /**
+     * 본인이 속한 부동산 정보
+     */
     real_estate: IREAgent.IRealEstate;
     expertise_ids: string[];
   }
@@ -49,6 +82,11 @@ export namespace IREAgent {
     agreement_acceptances: string[];
   }
 
+  /**
+   * 응답 형식
+   *
+   * 사업자 정보 조회 등에서 표시되는 형식
+   */
   export type IResponse = Omit<
     IREAgent,
     "super_expertise_id" | "sub_expertise_ids"
@@ -56,5 +94,10 @@ export namespace IREAgent {
     IDateTime &
     IBusinessUser.IExpertiseData;
 
+  /**
+   * 개인 정보를 포함한 응답 형식
+   *
+   * 본인 혹은 관리자 API에 의해 표시되는 형식
+   */
   export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }
