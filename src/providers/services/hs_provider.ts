@@ -2,6 +2,7 @@ import { IPaginatedResponse } from "@DTO/common";
 import { IHSProvider } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
 import { HSProvider } from "@PROVIDER/cores";
+import { randomUUID } from "crypto";
 
 export namespace HSProviderService {
   export const create = async (
@@ -23,6 +24,7 @@ export namespace HSProviderService {
 
     await prisma.agreementAcceptanceModel.createMany({
       data: input.agreement_acceptances.map((agreement_id) => ({
+        id: randomUUID(),
         user_id: provider.id,
         agreement_id,
         created_at: provider.created_at,

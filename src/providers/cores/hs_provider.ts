@@ -6,6 +6,7 @@ import {
   HSIntroductionImageModel,
   HSProviderModel,
   SubExpertiseModel,
+  SuperExpertiseModel,
   UserModel
 } from "@PRISMA";
 import { getISOString, isNull } from "@UTIL";
@@ -65,6 +66,7 @@ export namespace HSProvider {
     business: BusinessUserModel,
     provider: HSProviderModel,
     images: HSIntroductionImageModel[],
+    super_expertise: SuperExpertiseModel,
     sub_expertises: SubExpertiseModel[]
   ): IHSProvider & IDateTime & ISoftDeletable => {
     const hs_provider = {
@@ -93,7 +95,7 @@ export namespace HSProvider {
           .map(({ id, image_url }) => ({ id, image_url }))
       },
       business_registration_num: provider.business_registration_num,
-      super_expertise_id: business.super_expertise_id,
+      super_expertise_id: super_expertise.super_category_id,
       sub_expertise_ids: sub_expertises
         .filter((entity) => !entity.is_deleted)
         .map((entity) => entity.sub_category_id)
