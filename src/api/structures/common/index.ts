@@ -1,2 +1,2 @@
 export * from "./pagination.interface";
-export * from "./entity.interface";
+export * from "./datetime.interface";

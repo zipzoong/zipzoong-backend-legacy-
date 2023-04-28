@@ -69,6 +69,7 @@ CREATE TABLE "business_users" (
     "address_first" TEXT NOT NULL,
     "address_second" TEXT NOT NULL,
     "profile_image_url" TEXT NOT NULL,
+    "super_expertise_id" TEXT NOT NULL,
 
     CONSTRAINT "business_users_pkey" PRIMARY KEY ("id")
 );
@@ -120,15 +121,15 @@ CREATE TABLE "hs_introduction_images" (
 );
 
 -- CreateTable
-CREATE TABLE "user_expertises" (
+CREATE TABLE "sub_expertises" (
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "category_id" TEXT NOT NULL,
+    "sub_category_id" TEXT NOT NULL,
     "business_user_id" TEXT NOT NULL,
 
-    CONSTRAINT "user_expertises_pkey" PRIMARY KEY ("category_id","business_user_id")
+    CONSTRAINT "sub_expertises_pkey" PRIMARY KEY ("sub_category_id","business_user_id")
 );
 
 -- CreateTable
@@ -202,6 +203,9 @@ ALTER TABLE "customers" ADD CONSTRAINT "customers_id_fkey" FOREIGN KEY ("id") RE
 ALTER TABLE "business_users" ADD CONSTRAINT "business_users_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
+ALTER TABLE "business_users" ADD CONSTRAINT "business_users_super_expertise_id_fkey" FOREIGN KEY ("super_expertise_id") REFERENCES "expert_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
 ALTER TABLE "re_agents" ADD CONSTRAINT "re_agents_id_fkey" FOREIGN KEY ("id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
@@ -214,10 +218,10 @@ ALTER TABLE "business_certifications" ADD CONSTRAINT "business_certifications_bu
 ALTER TABLE "hs_introduction_images" ADD CONSTRAINT "hs_introduction_images_hs_provider_id_fkey" FOREIGN KEY ("hs_provider_id") REFERENCES "hs_providers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "user_expertises" ADD CONSTRAINT "user_expertises_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "expert_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "expert_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "user_expertises" ADD CONSTRAINT "user_expertises_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "expert_sub_categories" ADD CONSTRAINT "expert_sub_categories_super_id_fkey" FOREIGN KEY ("super_id") REFERENCES "expert_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -1,8 +1,4 @@
-export interface IEntity {
-  readonly id: string;
-}
-
-export interface IAggregate extends IEntity {
+export interface IDateTime {
   /**
    * @format date-time
    */
@@ -11,6 +7,9 @@ export interface IAggregate extends IEntity {
    * @format date-time
    */
   readonly updated_at: string;
+}
+
+export interface ISoftDeletable {
   /**
    * 삭제 여부
    */

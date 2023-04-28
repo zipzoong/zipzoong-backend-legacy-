@@ -1,4 +1,4 @@
-import { IAggregate } from "@DTO/common";
+import { IAgreement } from "@DTO/agreement";
 import { IBusinessUser } from "./business_user.interface";
 import { ICustomer } from "./customer.interface";
 
@@ -14,13 +14,21 @@ export namespace IUser {
     readonly second: string | null;
   }
 
-  export interface IBase<T extends Type> extends IAggregate {
+  export interface IBase<T extends Type> {
     readonly type: T;
+    readonly id: string;
     readonly name: string;
     /**
      * @format email
      */
     readonly email: string | null;
+  }
+
+  export interface IPrivateData {
+    /**
+     * 약관 동의 목록
+     */
+    readonly agreement_acceptances: IAgreement[];
   }
 
   export interface ICreate<T extends Type> {
@@ -37,5 +45,3 @@ export namespace IUser {
     email?: string;
   }
 }
-
-// 약관 동의, 전문 분야...

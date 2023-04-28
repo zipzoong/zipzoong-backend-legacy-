@@ -1,4 +1,3 @@
-import { IEntity } from "@DTO/common";
 import { IHSProvider } from "./hs_provider.interface";
 import { IREAgent } from "./re_agent.interface";
 import { IUser } from "./user.interface";
@@ -13,11 +12,18 @@ export namespace IBusinessUser {
     readonly profile_image_url: string;
     readonly is_verified: boolean;
     readonly introduction: IBusinessUser.IIntroduction;
-    readonly expertise_ids: string[];
+    readonly super_expertise_id: string;
+    readonly sub_expertise_ids: string[];
   }
 
-  export interface IExpertise extends IEntity {
+  export interface IExpertise {
+    readonly id: string;
     readonly name: string;
+  }
+
+  export interface ICertification {
+    readonly id: string;
+    readonly image_url: string;
   }
 
   export interface IIntroduction {
@@ -25,5 +31,15 @@ export namespace IBusinessUser {
     readonly content: string;
   }
 
-  export type IResponse = IREAgent.IResponse | IHSProvider.IResponse;
+  export interface IPrivateData extends IUser.IPrivateData {
+    /**
+     * 사업자 증명 서류 사진 목록
+     */
+    readonly business_certifications: ICertification[];
+  }
+
+  export interface IExpertiseData {
+    readonly super_expertise: IExpertise;
+    readonly sub_expertises: IExpertise[];
+  }
 }

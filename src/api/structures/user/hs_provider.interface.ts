@@ -1,4 +1,4 @@
-import { IEntity } from "@DTO/common";
+import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user.interface";
 import { IUser } from "./user.interface";
@@ -11,7 +11,8 @@ export interface IHSProvider
 }
 
 export namespace IHSProvider {
-  export interface IIntroductionImage extends IEntity {
+  export interface IIntroductionImage {
+    readonly id: string;
     readonly image_url: string;
   }
 
@@ -22,14 +23,15 @@ export namespace IHSProvider {
   export interface ICreate extends IUser.ICreate<"home service provider"> {
     phone: string;
     profile_image_url: string;
-    introduction: IIntroduction;
+    introduction: IBusinessUser.IIntroduction;
+    introduction_images: string[];
     address: IUser.IAddress;
     business_registration_num: string;
-    expertise_ids: string[];
+    sub_expertise_ids: string[];
+    super_expertise_id: string;
   }
 
-  export interface ICreateRequest
-    extends Omit<ICreate, "email" | "phone" | "introduction"> {
+  export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {
     /**
      * 이메일 인증 코드
      *
@@ -42,10 +44,6 @@ export namespace IHSProvider {
      * 포함하지 않으면 oauth profile phone 정보가 phone 기본값으로 사용된다.
      */
     phone_access_code?: string;
-
-    introduction: IBusinessUser.IIntroduction;
-
-    introduction_images: string[];
     /**
      * 증명 서류 사진 url 리스트
      */
@@ -56,7 +54,12 @@ export namespace IHSProvider {
     agreement_acceptances: string[];
   }
 
-  export interface IResponse extends Omit<IHSProvider, "expertise_ids"> {
-    readonly expertises: IBusinessUser.IExpertise[];
-  }
+  export type IResponse = Omit<
+    IHSProvider,
+    "super_expertise_id" | "sub_expertise_ids"
+  > &
+    IDateTime &
+    IBusinessUser.IExpertiseData;
+
+  export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }

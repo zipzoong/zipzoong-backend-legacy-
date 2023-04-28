@@ -77,6 +77,7 @@ export type BusinessUserModel = {
   address_first: string
   address_second: string
   profile_image_url: string
+  super_expertise_id: string
 }
 
 /**
@@ -130,15 +131,15 @@ export type HSIntroductionImageModel = {
 }
 
 /**
- * Model UserExpertiseModel
+ * Model SubExpertiseModel
  * 
  */
-export type UserExpertiseModel = {
+export type SubExpertiseModel = {
   created_at: Date
   updated_at: Date
   is_deleted: boolean
   deleted_at: Date | null
-  category_id: string
+  sub_category_id: string
   business_user_id: string
 }
 
@@ -440,14 +441,14 @@ export class PrismaClient<
   get hSIntroductionImageModel(): Prisma.HSIntroductionImageModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.userExpertiseModel`: Exposes CRUD operations for the **UserExpertiseModel** model.
+   * `prisma.subExpertiseModel`: Exposes CRUD operations for the **SubExpertiseModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more UserExpertiseModels
-    * const userExpertiseModels = await prisma.userExpertiseModel.findMany()
+    * // Fetch zero or more SubExpertiseModels
+    * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
     * ```
     */
-  get userExpertiseModel(): Prisma.UserExpertiseModelDelegate<GlobalReject>;
+  get subExpertiseModel(): Prisma.SubExpertiseModelDelegate<GlobalReject>;
 
   /**
    * `prisma.expertSubCategoryModel`: Exposes CRUD operations for the **ExpertSubCategoryModel** model.
@@ -965,7 +966,7 @@ export namespace Prisma {
     HSProviderModel: 'HSProviderModel',
     BusinessCertificationModel: 'BusinessCertificationModel',
     HSIntroductionImageModel: 'HSIntroductionImageModel',
-    UserExpertiseModel: 'UserExpertiseModel',
+    SubExpertiseModel: 'SubExpertiseModel',
     ExpertSubCategoryModel: 'ExpertSubCategoryModel',
     ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
     AgreementModel: 'AgreementModel',
@@ -1223,13 +1224,13 @@ export namespace Prisma {
 
   export type BusinessUserModelCountOutputType = {
     certifications: number
-    expertises: number
+    sub_expertises: number
     oauth_accessor: number
   }
 
   export type BusinessUserModelCountOutputTypeSelect = {
     certifications?: boolean
-    expertises?: boolean
+    sub_expertises?: boolean
     oauth_accessor?: boolean
   }
 
@@ -1356,10 +1357,12 @@ export namespace Prisma {
 
   export type ExpertSuperCategoryModelCountOutputType = {
     subs: number
+    business_users: number
   }
 
   export type ExpertSuperCategoryModelCountOutputTypeSelect = {
     subs?: boolean
+    business_users?: boolean
   }
 
   export type ExpertSuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ExpertSuperCategoryModelCountOutputTypeArgs> =
@@ -4454,6 +4457,7 @@ export namespace Prisma {
     address_first: string | null
     address_second: string | null
     profile_image_url: string | null
+    super_expertise_id: string | null
   }
 
   export type BusinessUserModelMaxAggregateOutputType = {
@@ -4465,6 +4469,7 @@ export namespace Prisma {
     address_first: string | null
     address_second: string | null
     profile_image_url: string | null
+    super_expertise_id: string | null
   }
 
   export type BusinessUserModelCountAggregateOutputType = {
@@ -4476,6 +4481,7 @@ export namespace Prisma {
     address_first: number
     address_second: number
     profile_image_url: number
+    super_expertise_id: number
     _all: number
   }
 
@@ -4489,6 +4495,7 @@ export namespace Prisma {
     address_first?: true
     address_second?: true
     profile_image_url?: true
+    super_expertise_id?: true
   }
 
   export type BusinessUserModelMaxAggregateInputType = {
@@ -4500,6 +4507,7 @@ export namespace Prisma {
     address_first?: true
     address_second?: true
     profile_image_url?: true
+    super_expertise_id?: true
   }
 
   export type BusinessUserModelCountAggregateInputType = {
@@ -4511,6 +4519,7 @@ export namespace Prisma {
     address_first?: true
     address_second?: true
     profile_image_url?: true
+    super_expertise_id?: true
     _all?: true
   }
 
@@ -4596,6 +4605,7 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     _count: BusinessUserModelCountAggregateOutputType | null
     _min: BusinessUserModelMinAggregateOutputType | null
     _max: BusinessUserModelMaxAggregateOutputType | null
@@ -4624,11 +4634,13 @@ export namespace Prisma {
     address_first?: boolean
     address_second?: boolean
     profile_image_url?: boolean
+    super_expertise_id?: boolean
     base?: boolean | UserModelArgs
     re_agent?: boolean | REAgentModelArgs
     hs_provider?: boolean | HSProviderModelArgs
     certifications?: boolean | BusinessUserModel$certificationsArgs
-    expertises?: boolean | BusinessUserModel$expertisesArgs
+    super_expertise?: boolean | ExpertSuperCategoryModelArgs
+    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
@@ -4639,7 +4651,8 @@ export namespace Prisma {
     re_agent?: boolean | REAgentModelArgs
     hs_provider?: boolean | HSProviderModelArgs
     certifications?: boolean | BusinessUserModel$certificationsArgs
-    expertises?: boolean | BusinessUserModel$expertisesArgs
+    super_expertise?: boolean | ExpertSuperCategoryModelArgs
+    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
@@ -4655,7 +4668,8 @@ export namespace Prisma {
         P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> | null :
         P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> | null :
         P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['include'][P]>>  :
-        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['include'][P]>>  :
+        P extends 'super_expertise' ? ExpertSuperCategoryModelGetPayload<S['include'][P]> :
+        P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -4666,7 +4680,8 @@ export namespace Prisma {
         P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> | null :
         P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> | null :
         P extends 'certifications' ? Array < BusinessCertificationModelGetPayload<S['select'][P]>>  :
-        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['select'][P]>>  :
+        P extends 'super_expertise' ? ExpertSuperCategoryModelGetPayload<S['select'][P]> :
+        P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
   } 
@@ -5048,7 +5063,9 @@ export namespace Prisma {
 
     certifications<T extends BusinessUserModel$certificationsArgs= {}>(args?: Subset<T, BusinessUserModel$certificationsArgs>): Prisma.PrismaPromise<Array<BusinessCertificationModelGetPayload<T>>| Null>;
 
-    expertises<T extends BusinessUserModel$expertisesArgs= {}>(args?: Subset<T, BusinessUserModel$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
+    super_expertise<T extends ExpertSuperCategoryModelArgs= {}>(args?: Subset<T, ExpertSuperCategoryModelArgs>): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | Null>;
+
+    sub_expertises<T extends BusinessUserModel$sub_expertisesArgs= {}>(args?: Subset<T, BusinessUserModel$sub_expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
 
     oauth_accessor<T extends BusinessUserModel$oauth_accessorArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
 
@@ -5429,23 +5446,23 @@ export namespace Prisma {
 
 
   /**
-   * BusinessUserModel.expertises
+   * BusinessUserModel.sub_expertises
    */
-  export type BusinessUserModel$expertisesArgs = {
+  export type BusinessUserModel$sub_expertisesArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
-    where?: UserExpertiseModelWhereInput
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
-    cursor?: UserExpertiseModelWhereUniqueInput
+    include?: SubExpertiseModelInclude | null
+    where?: SubExpertiseModelWhereInput
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    cursor?: SubExpertiseModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
   }
 
 
@@ -9258,355 +9275,355 @@ export namespace Prisma {
 
 
   /**
-   * Model UserExpertiseModel
+   * Model SubExpertiseModel
    */
 
 
-  export type AggregateUserExpertiseModel = {
-    _count: UserExpertiseModelCountAggregateOutputType | null
-    _min: UserExpertiseModelMinAggregateOutputType | null
-    _max: UserExpertiseModelMaxAggregateOutputType | null
+  export type AggregateSubExpertiseModel = {
+    _count: SubExpertiseModelCountAggregateOutputType | null
+    _min: SubExpertiseModelMinAggregateOutputType | null
+    _max: SubExpertiseModelMaxAggregateOutputType | null
   }
 
-  export type UserExpertiseModelMinAggregateOutputType = {
+  export type SubExpertiseModelMinAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
-    category_id: string | null
+    sub_category_id: string | null
     business_user_id: string | null
   }
 
-  export type UserExpertiseModelMaxAggregateOutputType = {
+  export type SubExpertiseModelMaxAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
-    category_id: string | null
+    sub_category_id: string | null
     business_user_id: string | null
   }
 
-  export type UserExpertiseModelCountAggregateOutputType = {
+  export type SubExpertiseModelCountAggregateOutputType = {
     created_at: number
     updated_at: number
     is_deleted: number
     deleted_at: number
-    category_id: number
+    sub_category_id: number
     business_user_id: number
     _all: number
   }
 
 
-  export type UserExpertiseModelMinAggregateInputType = {
+  export type SubExpertiseModelMinAggregateInputType = {
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    category_id?: true
+    sub_category_id?: true
     business_user_id?: true
   }
 
-  export type UserExpertiseModelMaxAggregateInputType = {
+  export type SubExpertiseModelMaxAggregateInputType = {
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    category_id?: true
+    sub_category_id?: true
     business_user_id?: true
   }
 
-  export type UserExpertiseModelCountAggregateInputType = {
+  export type SubExpertiseModelCountAggregateInputType = {
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    category_id?: true
+    sub_category_id?: true
     business_user_id?: true
     _all?: true
   }
 
-  export type UserExpertiseModelAggregateArgs = {
+  export type SubExpertiseModelAggregateArgs = {
     /**
-     * Filter which UserExpertiseModel to aggregate.
+     * Filter which SubExpertiseModel to aggregate.
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of UserExpertiseModels to fetch.
+     * Determine the order of SubExpertiseModels to fetch.
      */
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: UserExpertiseModelWhereUniqueInput
+    cursor?: SubExpertiseModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` UserExpertiseModels from the position of the cursor.
+     * Take `±n` SubExpertiseModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` UserExpertiseModels.
+     * Skip the first `n` SubExpertiseModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned UserExpertiseModels
+     * Count returned SubExpertiseModels
     **/
-    _count?: true | UserExpertiseModelCountAggregateInputType
+    _count?: true | SubExpertiseModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: UserExpertiseModelMinAggregateInputType
+    _min?: SubExpertiseModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: UserExpertiseModelMaxAggregateInputType
+    _max?: SubExpertiseModelMaxAggregateInputType
   }
 
-  export type GetUserExpertiseModelAggregateType<T extends UserExpertiseModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateUserExpertiseModel]: P extends '_count' | 'count'
+  export type GetSubExpertiseModelAggregateType<T extends SubExpertiseModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubExpertiseModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateUserExpertiseModel[P]>
-      : GetScalarType<T[P], AggregateUserExpertiseModel[P]>
+        : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
+      : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
   }
 
 
 
 
-  export type UserExpertiseModelGroupByArgs = {
-    where?: UserExpertiseModelWhereInput
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithAggregationInput>
-    by: UserExpertiseModelScalarFieldEnum[]
-    having?: UserExpertiseModelScalarWhereWithAggregatesInput
+  export type SubExpertiseModelGroupByArgs = {
+    where?: SubExpertiseModelWhereInput
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithAggregationInput>
+    by: SubExpertiseModelScalarFieldEnum[]
+    having?: SubExpertiseModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: UserExpertiseModelCountAggregateInputType | true
-    _min?: UserExpertiseModelMinAggregateInputType
-    _max?: UserExpertiseModelMaxAggregateInputType
+    _count?: SubExpertiseModelCountAggregateInputType | true
+    _min?: SubExpertiseModelMinAggregateInputType
+    _max?: SubExpertiseModelMaxAggregateInputType
   }
 
 
-  export type UserExpertiseModelGroupByOutputType = {
+  export type SubExpertiseModelGroupByOutputType = {
     created_at: Date
     updated_at: Date
     is_deleted: boolean
     deleted_at: Date | null
-    category_id: string
+    sub_category_id: string
     business_user_id: string
-    _count: UserExpertiseModelCountAggregateOutputType | null
-    _min: UserExpertiseModelMinAggregateOutputType | null
-    _max: UserExpertiseModelMaxAggregateOutputType | null
+    _count: SubExpertiseModelCountAggregateOutputType | null
+    _min: SubExpertiseModelMinAggregateOutputType | null
+    _max: SubExpertiseModelMaxAggregateOutputType | null
   }
 
-  type GetUserExpertiseModelGroupByPayload<T extends UserExpertiseModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetSubExpertiseModelGroupByPayload<T extends SubExpertiseModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<UserExpertiseModelGroupByOutputType, T['by']> &
+      PickArray<SubExpertiseModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof UserExpertiseModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof SubExpertiseModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], UserExpertiseModelGroupByOutputType[P]>
-            : GetScalarType<T[P], UserExpertiseModelGroupByOutputType[P]>
+              : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
+            : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type UserExpertiseModelSelect = {
+  export type SubExpertiseModelSelect = {
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
     deleted_at?: boolean
-    category_id?: boolean
+    sub_category_id?: boolean
     business_user_id?: boolean
     category?: boolean | ExpertSubCategoryModelArgs
     business_user?: boolean | BusinessUserModelArgs
   }
 
 
-  export type UserExpertiseModelInclude = {
+  export type SubExpertiseModelInclude = {
     category?: boolean | ExpertSubCategoryModelArgs
     business_user?: boolean | BusinessUserModelArgs
   }
 
-  export type UserExpertiseModelGetPayload<S extends boolean | null | undefined | UserExpertiseModelArgs> =
+  export type SubExpertiseModelGetPayload<S extends boolean | null | undefined | SubExpertiseModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? UserExpertiseModel :
+    S extends true ? SubExpertiseModel :
     S extends undefined ? never :
-    S extends { include: any } & (UserExpertiseModelArgs | UserExpertiseModelFindManyArgs)
-    ? UserExpertiseModel  & {
+    S extends { include: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
+    ? SubExpertiseModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'category' ? ExpertSubCategoryModelGetPayload<S['include'][P]> :
         P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (UserExpertiseModelArgs | UserExpertiseModelFindManyArgs)
+    : S extends { select: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'category' ? ExpertSubCategoryModelGetPayload<S['select'][P]> :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof UserExpertiseModel ? UserExpertiseModel[P] : never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof SubExpertiseModel ? SubExpertiseModel[P] : never
   } 
-      : UserExpertiseModel
+      : SubExpertiseModel
 
 
-  type UserExpertiseModelCountArgs = 
-    Omit<UserExpertiseModelFindManyArgs, 'select' | 'include'> & {
-      select?: UserExpertiseModelCountAggregateInputType | true
+  type SubExpertiseModelCountArgs = 
+    Omit<SubExpertiseModelFindManyArgs, 'select' | 'include'> & {
+      select?: SubExpertiseModelCountAggregateInputType | true
     }
 
-  export interface UserExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface SubExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one UserExpertiseModel that matches the filter.
-     * @param {UserExpertiseModelFindUniqueArgs} args - Arguments to find a UserExpertiseModel
+     * Find zero or one SubExpertiseModel that matches the filter.
+     * @param {SubExpertiseModelFindUniqueArgs} args - Arguments to find a SubExpertiseModel
      * @example
-     * // Get one UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.findUnique({
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends UserExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, UserExpertiseModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserExpertiseModel'> extends True ? Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>> : Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T> | null, null>
+    findUnique<T extends SubExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SubExpertiseModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
 
     /**
-     * Find one UserExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one SubExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {UserExpertiseModelFindUniqueOrThrowArgs} args - Arguments to find a UserExpertiseModel
+     * @param {SubExpertiseModelFindUniqueOrThrowArgs} args - Arguments to find a SubExpertiseModel
      * @example
-     * // Get one UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.findUniqueOrThrow({
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends UserExpertiseModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, UserExpertiseModelFindUniqueOrThrowArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    findUniqueOrThrow<T extends SubExpertiseModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindUniqueOrThrowArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Find the first UserExpertiseModel that matches the filter.
+     * Find the first SubExpertiseModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelFindFirstArgs} args - Arguments to find a UserExpertiseModel
+     * @param {SubExpertiseModelFindFirstArgs} args - Arguments to find a SubExpertiseModel
      * @example
-     * // Get one UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.findFirst({
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends UserExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, UserExpertiseModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserExpertiseModel'> extends True ? Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>> : Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T> | null, null>
+    findFirst<T extends SubExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
 
     /**
-     * Find the first UserExpertiseModel that matches the filter or
+     * Find the first SubExpertiseModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelFindFirstOrThrowArgs} args - Arguments to find a UserExpertiseModel
+     * @param {SubExpertiseModelFindFirstOrThrowArgs} args - Arguments to find a SubExpertiseModel
      * @example
-     * // Get one UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.findFirstOrThrow({
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends UserExpertiseModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserExpertiseModelFindFirstOrThrowArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    findFirstOrThrow<T extends SubExpertiseModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstOrThrowArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Find zero or more UserExpertiseModels that matches the filter.
+     * Find zero or more SubExpertiseModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {SubExpertiseModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all UserExpertiseModels
-     * const userExpertiseModels = await prisma.userExpertiseModel.findMany()
+     * // Get all SubExpertiseModels
+     * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
      * 
-     * // Get first 10 UserExpertiseModels
-     * const userExpertiseModels = await prisma.userExpertiseModel.findMany({ take: 10 })
+     * // Get first 10 SubExpertiseModels
+     * const subExpertiseModels = await prisma.subExpertiseModel.findMany({ take: 10 })
      * 
      * // Only select the `created_at`
-     * const userExpertiseModelWithCreated_atOnly = await prisma.userExpertiseModel.findMany({ select: { created_at: true } })
+     * const subExpertiseModelWithCreated_atOnly = await prisma.subExpertiseModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends UserExpertiseModelFindManyArgs>(
-      args?: SelectSubset<T, UserExpertiseModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>>
+    findMany<T extends SubExpertiseModelFindManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>>
 
     /**
-     * Create a UserExpertiseModel.
-     * @param {UserExpertiseModelCreateArgs} args - Arguments to create a UserExpertiseModel.
+     * Create a SubExpertiseModel.
+     * @param {SubExpertiseModelCreateArgs} args - Arguments to create a SubExpertiseModel.
      * @example
-     * // Create one UserExpertiseModel
-     * const UserExpertiseModel = await prisma.userExpertiseModel.create({
+     * // Create one SubExpertiseModel
+     * const SubExpertiseModel = await prisma.subExpertiseModel.create({
      *   data: {
-     *     // ... data to create a UserExpertiseModel
+     *     // ... data to create a SubExpertiseModel
      *   }
      * })
      * 
     **/
-    create<T extends UserExpertiseModelCreateArgs>(
-      args: SelectSubset<T, UserExpertiseModelCreateArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    create<T extends SubExpertiseModelCreateArgs>(
+      args: SelectSubset<T, SubExpertiseModelCreateArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Create many UserExpertiseModels.
-     *     @param {UserExpertiseModelCreateManyArgs} args - Arguments to create many UserExpertiseModels.
+     * Create many SubExpertiseModels.
+     *     @param {SubExpertiseModelCreateManyArgs} args - Arguments to create many SubExpertiseModels.
      *     @example
-     *     // Create many UserExpertiseModels
-     *     const userExpertiseModel = await prisma.userExpertiseModel.createMany({
+     *     // Create many SubExpertiseModels
+     *     const subExpertiseModel = await prisma.subExpertiseModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends UserExpertiseModelCreateManyArgs>(
-      args?: SelectSubset<T, UserExpertiseModelCreateManyArgs>
+    createMany<T extends SubExpertiseModelCreateManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a UserExpertiseModel.
-     * @param {UserExpertiseModelDeleteArgs} args - Arguments to delete one UserExpertiseModel.
+     * Delete a SubExpertiseModel.
+     * @param {SubExpertiseModelDeleteArgs} args - Arguments to delete one SubExpertiseModel.
      * @example
-     * // Delete one UserExpertiseModel
-     * const UserExpertiseModel = await prisma.userExpertiseModel.delete({
+     * // Delete one SubExpertiseModel
+     * const SubExpertiseModel = await prisma.subExpertiseModel.delete({
      *   where: {
-     *     // ... filter to delete one UserExpertiseModel
+     *     // ... filter to delete one SubExpertiseModel
      *   }
      * })
      * 
     **/
-    delete<T extends UserExpertiseModelDeleteArgs>(
-      args: SelectSubset<T, UserExpertiseModelDeleteArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    delete<T extends SubExpertiseModelDeleteArgs>(
+      args: SelectSubset<T, SubExpertiseModelDeleteArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Update one UserExpertiseModel.
-     * @param {UserExpertiseModelUpdateArgs} args - Arguments to update one UserExpertiseModel.
+     * Update one SubExpertiseModel.
+     * @param {SubExpertiseModelUpdateArgs} args - Arguments to update one SubExpertiseModel.
      * @example
-     * // Update one UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.update({
+     * // Update one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9616,34 +9633,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends UserExpertiseModelUpdateArgs>(
-      args: SelectSubset<T, UserExpertiseModelUpdateArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    update<T extends SubExpertiseModelUpdateArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpdateArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Delete zero or more UserExpertiseModels.
-     * @param {UserExpertiseModelDeleteManyArgs} args - Arguments to filter UserExpertiseModels to delete.
+     * Delete zero or more SubExpertiseModels.
+     * @param {SubExpertiseModelDeleteManyArgs} args - Arguments to filter SubExpertiseModels to delete.
      * @example
-     * // Delete a few UserExpertiseModels
-     * const { count } = await prisma.userExpertiseModel.deleteMany({
+     * // Delete a few SubExpertiseModels
+     * const { count } = await prisma.subExpertiseModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends UserExpertiseModelDeleteManyArgs>(
-      args?: SelectSubset<T, UserExpertiseModelDeleteManyArgs>
+    deleteMany<T extends SubExpertiseModelDeleteManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more UserExpertiseModels.
+     * Update zero or more SubExpertiseModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {SubExpertiseModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many UserExpertiseModels
-     * const userExpertiseModel = await prisma.userExpertiseModel.updateMany({
+     * // Update many SubExpertiseModels
+     * const subExpertiseModel = await prisma.subExpertiseModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9653,59 +9670,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends UserExpertiseModelUpdateManyArgs>(
-      args: SelectSubset<T, UserExpertiseModelUpdateManyArgs>
+    updateMany<T extends SubExpertiseModelUpdateManyArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one UserExpertiseModel.
-     * @param {UserExpertiseModelUpsertArgs} args - Arguments to update or create a UserExpertiseModel.
+     * Create or update one SubExpertiseModel.
+     * @param {SubExpertiseModelUpsertArgs} args - Arguments to update or create a SubExpertiseModel.
      * @example
-     * // Update or create a UserExpertiseModel
-     * const userExpertiseModel = await prisma.userExpertiseModel.upsert({
+     * // Update or create a SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.upsert({
      *   create: {
-     *     // ... data to create a UserExpertiseModel
+     *     // ... data to create a SubExpertiseModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the UserExpertiseModel we want to update
+     *     // ... the filter for the SubExpertiseModel we want to update
      *   }
      * })
     **/
-    upsert<T extends UserExpertiseModelUpsertArgs>(
-      args: SelectSubset<T, UserExpertiseModelUpsertArgs>
-    ): Prisma__UserExpertiseModelClient<UserExpertiseModelGetPayload<T>>
+    upsert<T extends SubExpertiseModelUpsertArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpsertArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
 
     /**
-     * Count the number of UserExpertiseModels.
+     * Count the number of SubExpertiseModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelCountArgs} args - Arguments to filter UserExpertiseModels to count.
+     * @param {SubExpertiseModelCountArgs} args - Arguments to filter SubExpertiseModels to count.
      * @example
-     * // Count the number of UserExpertiseModels
-     * const count = await prisma.userExpertiseModel.count({
+     * // Count the number of SubExpertiseModels
+     * const count = await prisma.subExpertiseModel.count({
      *   where: {
-     *     // ... the filter for the UserExpertiseModels we want to count
+     *     // ... the filter for the SubExpertiseModels we want to count
      *   }
      * })
     **/
-    count<T extends UserExpertiseModelCountArgs>(
-      args?: Subset<T, UserExpertiseModelCountArgs>,
+    count<T extends SubExpertiseModelCountArgs>(
+      args?: Subset<T, SubExpertiseModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], UserExpertiseModelCountAggregateOutputType>
+          : GetScalarType<T['select'], SubExpertiseModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a UserExpertiseModel.
+     * Allows you to perform aggregations operations on a SubExpertiseModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {SubExpertiseModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9725,13 +9742,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends UserExpertiseModelAggregateArgs>(args: Subset<T, UserExpertiseModelAggregateArgs>): Prisma.PrismaPromise<GetUserExpertiseModelAggregateType<T>>
+    aggregate<T extends SubExpertiseModelAggregateArgs>(args: Subset<T, SubExpertiseModelAggregateArgs>): Prisma.PrismaPromise<GetSubExpertiseModelAggregateType<T>>
 
     /**
-     * Group by UserExpertiseModel.
+     * Group by SubExpertiseModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserExpertiseModelGroupByArgs} args - Group by arguments.
+     * @param {SubExpertiseModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9746,14 +9763,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends UserExpertiseModelGroupByArgs,
+      T extends SubExpertiseModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserExpertiseModelGroupByArgs['orderBy'] }
-        : { orderBy?: UserExpertiseModelGroupByArgs['orderBy'] },
+        ? { orderBy: SubExpertiseModelGroupByArgs['orderBy'] }
+        : { orderBy?: SubExpertiseModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9802,17 +9819,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, UserExpertiseModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserExpertiseModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SubExpertiseModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubExpertiseModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for UserExpertiseModel.
+   * The delegate class that acts as a "Promise-like" for SubExpertiseModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__UserExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__SubExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -9859,27 +9876,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * UserExpertiseModel base type for findUnique actions
+   * SubExpertiseModel base type for findUnique actions
    */
-  export type UserExpertiseModelFindUniqueArgsBase = {
+  export type SubExpertiseModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter, which UserExpertiseModel to fetch.
+     * Filter, which SubExpertiseModel to fetch.
      */
-    where: UserExpertiseModelWhereUniqueInput
+    where: SubExpertiseModelWhereUniqueInput
   }
 
   /**
-   * UserExpertiseModel findUnique
+   * SubExpertiseModel findUnique
    */
-  export interface UserExpertiseModelFindUniqueArgs extends UserExpertiseModelFindUniqueArgsBase {
+  export interface SubExpertiseModelFindUniqueArgs extends SubExpertiseModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -9889,76 +9906,76 @@ export namespace Prisma {
       
 
   /**
-   * UserExpertiseModel findUniqueOrThrow
+   * SubExpertiseModel findUniqueOrThrow
    */
-  export type UserExpertiseModelFindUniqueOrThrowArgs = {
+  export type SubExpertiseModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter, which UserExpertiseModel to fetch.
+     * Filter, which SubExpertiseModel to fetch.
      */
-    where: UserExpertiseModelWhereUniqueInput
+    where: SubExpertiseModelWhereUniqueInput
   }
 
 
   /**
-   * UserExpertiseModel base type for findFirst actions
+   * SubExpertiseModel base type for findFirst actions
    */
-  export type UserExpertiseModelFindFirstArgsBase = {
+  export type SubExpertiseModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter, which UserExpertiseModel to fetch.
+     * Filter, which SubExpertiseModel to fetch.
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of UserExpertiseModels to fetch.
+     * Determine the order of SubExpertiseModels to fetch.
      */
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for UserExpertiseModels.
+     * Sets the position for searching for SubExpertiseModels.
      */
-    cursor?: UserExpertiseModelWhereUniqueInput
+    cursor?: SubExpertiseModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` UserExpertiseModels from the position of the cursor.
+     * Take `±n` SubExpertiseModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` UserExpertiseModels.
+     * Skip the first `n` SubExpertiseModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of UserExpertiseModels.
+     * Filter by unique combinations of SubExpertiseModels.
      */
-    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
   }
 
   /**
-   * UserExpertiseModel findFirst
+   * SubExpertiseModel findFirst
    */
-  export interface UserExpertiseModelFindFirstArgs extends UserExpertiseModelFindFirstArgsBase {
+  export interface SubExpertiseModelFindFirstArgs extends SubExpertiseModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -9968,236 +9985,236 @@ export namespace Prisma {
       
 
   /**
-   * UserExpertiseModel findFirstOrThrow
+   * SubExpertiseModel findFirstOrThrow
    */
-  export type UserExpertiseModelFindFirstOrThrowArgs = {
+  export type SubExpertiseModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter, which UserExpertiseModel to fetch.
+     * Filter, which SubExpertiseModel to fetch.
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of UserExpertiseModels to fetch.
+     * Determine the order of SubExpertiseModels to fetch.
      */
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for UserExpertiseModels.
+     * Sets the position for searching for SubExpertiseModels.
      */
-    cursor?: UserExpertiseModelWhereUniqueInput
+    cursor?: SubExpertiseModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` UserExpertiseModels from the position of the cursor.
+     * Take `±n` SubExpertiseModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` UserExpertiseModels.
+     * Skip the first `n` SubExpertiseModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of UserExpertiseModels.
+     * Filter by unique combinations of SubExpertiseModels.
      */
-    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
   }
 
 
   /**
-   * UserExpertiseModel findMany
+   * SubExpertiseModel findMany
    */
-  export type UserExpertiseModelFindManyArgs = {
+  export type SubExpertiseModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter, which UserExpertiseModels to fetch.
+     * Filter, which SubExpertiseModels to fetch.
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of UserExpertiseModels to fetch.
+     * Determine the order of SubExpertiseModels to fetch.
      */
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing UserExpertiseModels.
+     * Sets the position for listing SubExpertiseModels.
      */
-    cursor?: UserExpertiseModelWhereUniqueInput
+    cursor?: SubExpertiseModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` UserExpertiseModels from the position of the cursor.
+     * Take `±n` SubExpertiseModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` UserExpertiseModels.
+     * Skip the first `n` SubExpertiseModels.
      */
     skip?: number
-    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
   }
 
 
   /**
-   * UserExpertiseModel create
+   * SubExpertiseModel create
    */
-  export type UserExpertiseModelCreateArgs = {
+  export type SubExpertiseModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * The data needed to create a UserExpertiseModel.
+     * The data needed to create a SubExpertiseModel.
      */
-    data: XOR<UserExpertiseModelCreateInput, UserExpertiseModelUncheckedCreateInput>
+    data: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
   }
 
 
   /**
-   * UserExpertiseModel createMany
+   * SubExpertiseModel createMany
    */
-  export type UserExpertiseModelCreateManyArgs = {
+  export type SubExpertiseModelCreateManyArgs = {
     /**
-     * The data used to create many UserExpertiseModels.
+     * The data used to create many SubExpertiseModels.
      */
-    data: Enumerable<UserExpertiseModelCreateManyInput>
+    data: Enumerable<SubExpertiseModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * UserExpertiseModel update
+   * SubExpertiseModel update
    */
-  export type UserExpertiseModelUpdateArgs = {
+  export type SubExpertiseModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * The data needed to update a UserExpertiseModel.
+     * The data needed to update a SubExpertiseModel.
      */
-    data: XOR<UserExpertiseModelUpdateInput, UserExpertiseModelUncheckedUpdateInput>
+    data: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
     /**
-     * Choose, which UserExpertiseModel to update.
+     * Choose, which SubExpertiseModel to update.
      */
-    where: UserExpertiseModelWhereUniqueInput
+    where: SubExpertiseModelWhereUniqueInput
   }
 
 
   /**
-   * UserExpertiseModel updateMany
+   * SubExpertiseModel updateMany
    */
-  export type UserExpertiseModelUpdateManyArgs = {
+  export type SubExpertiseModelUpdateManyArgs = {
     /**
-     * The data used to update UserExpertiseModels.
+     * The data used to update SubExpertiseModels.
      */
-    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyInput>
+    data: XOR<SubExpertiseModelUpdateManyMutationInput, SubExpertiseModelUncheckedUpdateManyInput>
     /**
-     * Filter which UserExpertiseModels to update
+     * Filter which SubExpertiseModels to update
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
   }
 
 
   /**
-   * UserExpertiseModel upsert
+   * SubExpertiseModel upsert
    */
-  export type UserExpertiseModelUpsertArgs = {
+  export type SubExpertiseModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * The filter to search for the UserExpertiseModel to update in case it exists.
+     * The filter to search for the SubExpertiseModel to update in case it exists.
      */
-    where: UserExpertiseModelWhereUniqueInput
+    where: SubExpertiseModelWhereUniqueInput
     /**
-     * In case the UserExpertiseModel found by the `where` argument doesn't exist, create a new UserExpertiseModel with this data.
+     * In case the SubExpertiseModel found by the `where` argument doesn't exist, create a new SubExpertiseModel with this data.
      */
-    create: XOR<UserExpertiseModelCreateInput, UserExpertiseModelUncheckedCreateInput>
+    create: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
     /**
-     * In case the UserExpertiseModel was found with the provided `where` argument, update it with this data.
+     * In case the SubExpertiseModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<UserExpertiseModelUpdateInput, UserExpertiseModelUncheckedUpdateInput>
+    update: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
   }
 
 
   /**
-   * UserExpertiseModel delete
+   * SubExpertiseModel delete
    */
-  export type UserExpertiseModelDeleteArgs = {
+  export type SubExpertiseModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
     /**
-     * Filter which UserExpertiseModel to delete.
+     * Filter which SubExpertiseModel to delete.
      */
-    where: UserExpertiseModelWhereUniqueInput
+    where: SubExpertiseModelWhereUniqueInput
   }
 
 
   /**
-   * UserExpertiseModel deleteMany
+   * SubExpertiseModel deleteMany
    */
-  export type UserExpertiseModelDeleteManyArgs = {
+  export type SubExpertiseModelDeleteManyArgs = {
     /**
-     * Filter which UserExpertiseModels to delete
+     * Filter which SubExpertiseModels to delete
      */
-    where?: UserExpertiseModelWhereInput
+    where?: SubExpertiseModelWhereInput
   }
 
 
   /**
-   * UserExpertiseModel without action
+   * SubExpertiseModel without action
    */
-  export type UserExpertiseModelArgs = {
+  export type SubExpertiseModelArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude | null
   }
 
 
@@ -10404,14 +10421,14 @@ export namespace Prisma {
     ? ExpertSubCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'super' ? ExpertSuperCategoryModelGetPayload<S['include'][P]> :
-        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['include'][P]>>  :
+        P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ExpertSubCategoryModelArgs | ExpertSubCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'super' ? ExpertSuperCategoryModelGetPayload<S['select'][P]> :
-        P extends 'expertises' ? Array < UserExpertiseModelGetPayload<S['select'][P]>>  :
+        P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSubCategoryModel ? ExpertSubCategoryModel[P] : never
   } 
       : ExpertSubCategoryModel
@@ -10786,7 +10803,7 @@ export namespace Prisma {
 
     super<T extends ExpertSuperCategoryModelArgs= {}>(args?: Subset<T, ExpertSuperCategoryModelArgs>): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | Null>;
 
-    expertises<T extends ExpertSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ExpertSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<UserExpertiseModelGetPayload<T>>| Null>;
+    expertises<T extends ExpertSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ExpertSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -11148,19 +11165,19 @@ export namespace Prisma {
    */
   export type ExpertSubCategoryModel$expertisesArgs = {
     /**
-     * Select specific fields to fetch from the UserExpertiseModel
+     * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: UserExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserExpertiseModelInclude | null
-    where?: UserExpertiseModelWhereInput
-    orderBy?: Enumerable<UserExpertiseModelOrderByWithRelationInput>
-    cursor?: UserExpertiseModelWhereUniqueInput
+    include?: SubExpertiseModelInclude | null
+    where?: SubExpertiseModelWhereInput
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    cursor?: SubExpertiseModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<UserExpertiseModelScalarFieldEnum>
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
   }
 
 
@@ -11363,12 +11380,14 @@ export namespace Prisma {
     name?: boolean
     business_type?: boolean
     subs?: boolean | ExpertSuperCategoryModel$subsArgs
+    business_users?: boolean | ExpertSuperCategoryModel$business_usersArgs
     _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
   }
 
 
   export type ExpertSuperCategoryModelInclude = {
     subs?: boolean | ExpertSuperCategoryModel$subsArgs
+    business_users?: boolean | ExpertSuperCategoryModel$business_usersArgs
     _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
   }
 
@@ -11380,12 +11399,14 @@ export namespace Prisma {
     ? ExpertSuperCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'subs' ? Array < ExpertSubCategoryModelGetPayload<S['include'][P]>>  :
+        P extends 'business_users' ? Array < BusinessUserModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ExpertSuperCategoryModelArgs | ExpertSuperCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'subs' ? Array < ExpertSubCategoryModelGetPayload<S['select'][P]>>  :
+        P extends 'business_users' ? Array < BusinessUserModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSuperCategoryModel ? ExpertSuperCategoryModel[P] : never
   } 
       : ExpertSuperCategoryModel
@@ -11760,6 +11781,8 @@ export namespace Prisma {
 
     subs<T extends ExpertSuperCategoryModel$subsArgs= {}>(args?: Subset<T, ExpertSuperCategoryModel$subsArgs>): Prisma.PrismaPromise<Array<ExpertSubCategoryModelGetPayload<T>>| Null>;
 
+    business_users<T extends ExpertSuperCategoryModel$business_usersArgs= {}>(args?: Subset<T, ExpertSuperCategoryModel$business_usersArgs>): Prisma.PrismaPromise<Array<BusinessUserModelGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -12133,6 +12156,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ExpertSuperCategoryModel.business_users
+   */
+  export type ExpertSuperCategoryModel$business_usersArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessUserModel
+     */
+    select?: BusinessUserModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessUserModelInclude | null
+    where?: BusinessUserModelWhereInput
+    orderBy?: Enumerable<BusinessUserModelOrderByWithRelationInput>
+    cursor?: BusinessUserModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BusinessUserModelScalarFieldEnum>
   }
 
 
@@ -14131,7 +14175,8 @@ export namespace Prisma {
     phone: 'phone',
     address_first: 'address_first',
     address_second: 'address_second',
-    profile_image_url: 'profile_image_url'
+    profile_image_url: 'profile_image_url',
+    super_expertise_id: 'super_expertise_id'
   };
 
   export type BusinessUserModelScalarFieldEnum = (typeof BusinessUserModelScalarFieldEnum)[keyof typeof BusinessUserModelScalarFieldEnum]
@@ -14248,6 +14293,18 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const SubExpertiseModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    sub_category_id: 'sub_category_id',
+    business_user_id: 'business_user_id'
+  };
+
+  export type SubExpertiseModelScalarFieldEnum = (typeof SubExpertiseModelScalarFieldEnum)[keyof typeof SubExpertiseModelScalarFieldEnum]
+
+
   export const TransactionIsolationLevel: {
     ReadUncommitted: 'ReadUncommitted',
     ReadCommitted: 'ReadCommitted',
@@ -14256,18 +14313,6 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-  export const UserExpertiseModelScalarFieldEnum: {
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    category_id: 'category_id',
-    business_user_id: 'business_user_id'
-  };
-
-  export type UserExpertiseModelScalarFieldEnum = (typeof UserExpertiseModelScalarFieldEnum)[keyof typeof UserExpertiseModelScalarFieldEnum]
 
 
   export const UserModelScalarFieldEnum: {
@@ -14513,11 +14558,13 @@ export namespace Prisma {
     address_first?: StringFilter | string
     address_second?: StringFilter | string
     profile_image_url?: StringFilter | string
+    super_expertise_id?: StringFilter | string
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     re_agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput> | null
     hs_provider?: XOR<HSProviderModelRelationFilter, HSProviderModelWhereInput> | null
     certifications?: BusinessCertificationModelListRelationFilter
-    expertises?: UserExpertiseModelListRelationFilter
+    super_expertise?: XOR<ExpertSuperCategoryModelRelationFilter, ExpertSuperCategoryModelWhereInput>
+    sub_expertises?: SubExpertiseModelListRelationFilter
     oauth_accessor?: OauthAccessorModelListRelationFilter
   }
 
@@ -14530,11 +14577,13 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+    super_expertise_id?: SortOrder
     base?: UserModelOrderByWithRelationInput
     re_agent?: REAgentModelOrderByWithRelationInput
     hs_provider?: HSProviderModelOrderByWithRelationInput
     certifications?: BusinessCertificationModelOrderByRelationAggregateInput
-    expertises?: UserExpertiseModelOrderByRelationAggregateInput
+    super_expertise?: ExpertSuperCategoryModelOrderByWithRelationInput
+    sub_expertises?: SubExpertiseModelOrderByRelationAggregateInput
     oauth_accessor?: OauthAccessorModelOrderByRelationAggregateInput
   }
 
@@ -14551,6 +14600,7 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+    super_expertise_id?: SortOrder
     _count?: BusinessUserModelCountOrderByAggregateInput
     _max?: BusinessUserModelMaxOrderByAggregateInput
     _min?: BusinessUserModelMinOrderByAggregateInput
@@ -14568,6 +14618,7 @@ export namespace Prisma {
     address_first?: StringWithAggregatesFilter | string
     address_second?: StringWithAggregatesFilter | string
     profile_image_url?: StringWithAggregatesFilter | string
+    super_expertise_id?: StringWithAggregatesFilter | string
   }
 
   export type REAgentModelWhereInput = {
@@ -14768,56 +14819,56 @@ export namespace Prisma {
     image_url?: StringWithAggregatesFilter | string
   }
 
-  export type UserExpertiseModelWhereInput = {
-    AND?: Enumerable<UserExpertiseModelWhereInput>
-    OR?: Enumerable<UserExpertiseModelWhereInput>
-    NOT?: Enumerable<UserExpertiseModelWhereInput>
+  export type SubExpertiseModelWhereInput = {
+    AND?: Enumerable<SubExpertiseModelWhereInput>
+    OR?: Enumerable<SubExpertiseModelWhereInput>
+    NOT?: Enumerable<SubExpertiseModelWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
     deleted_at?: DateTimeNullableFilter | Date | string | null
-    category_id?: StringFilter | string
+    sub_category_id?: StringFilter | string
     business_user_id?: StringFilter | string
     category?: XOR<ExpertSubCategoryModelRelationFilter, ExpertSubCategoryModelWhereInput>
     business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
   }
 
-  export type UserExpertiseModelOrderByWithRelationInput = {
+  export type SubExpertiseModelOrderByWithRelationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    category_id?: SortOrder
+    sub_category_id?: SortOrder
     business_user_id?: SortOrder
     category?: ExpertSubCategoryModelOrderByWithRelationInput
     business_user?: BusinessUserModelOrderByWithRelationInput
   }
 
-  export type UserExpertiseModelWhereUniqueInput = {
-    category_id_business_user_id?: UserExpertiseModelCategory_idBusiness_user_idCompoundUniqueInput
+  export type SubExpertiseModelWhereUniqueInput = {
+    sub_category_id_business_user_id?: SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput
   }
 
-  export type UserExpertiseModelOrderByWithAggregationInput = {
+  export type SubExpertiseModelOrderByWithAggregationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    category_id?: SortOrder
+    sub_category_id?: SortOrder
     business_user_id?: SortOrder
-    _count?: UserExpertiseModelCountOrderByAggregateInput
-    _max?: UserExpertiseModelMaxOrderByAggregateInput
-    _min?: UserExpertiseModelMinOrderByAggregateInput
+    _count?: SubExpertiseModelCountOrderByAggregateInput
+    _max?: SubExpertiseModelMaxOrderByAggregateInput
+    _min?: SubExpertiseModelMinOrderByAggregateInput
   }
 
-  export type UserExpertiseModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<UserExpertiseModelScalarWhereWithAggregatesInput>
+  export type SubExpertiseModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    category_id?: StringWithAggregatesFilter | string
+    sub_category_id?: StringWithAggregatesFilter | string
     business_user_id?: StringWithAggregatesFilter | string
   }
 
@@ -14833,7 +14884,7 @@ export namespace Prisma {
     name?: StringFilter | string
     super_id?: StringFilter | string
     super?: XOR<ExpertSuperCategoryModelRelationFilter, ExpertSuperCategoryModelWhereInput>
-    expertises?: UserExpertiseModelListRelationFilter
+    expertises?: SubExpertiseModelListRelationFilter
   }
 
   export type ExpertSubCategoryModelOrderByWithRelationInput = {
@@ -14845,7 +14896,7 @@ export namespace Prisma {
     name?: SortOrder
     super_id?: SortOrder
     super?: ExpertSuperCategoryModelOrderByWithRelationInput
-    expertises?: UserExpertiseModelOrderByRelationAggregateInput
+    expertises?: SubExpertiseModelOrderByRelationAggregateInput
   }
 
   export type ExpertSubCategoryModelWhereUniqueInput = {
@@ -14891,6 +14942,7 @@ export namespace Prisma {
     name?: StringFilter | string
     business_type?: EnumExpertBusinessTypeFilter | ExpertBusinessType
     subs?: ExpertSubCategoryModelListRelationFilter
+    business_users?: BusinessUserModelListRelationFilter
   }
 
   export type ExpertSuperCategoryModelOrderByWithRelationInput = {
@@ -14902,6 +14954,7 @@ export namespace Prisma {
     name?: SortOrder
     business_type?: SortOrder
     subs?: ExpertSubCategoryModelOrderByRelationAggregateInput
+    business_users?: BusinessUserModelOrderByRelationAggregateInput
   }
 
   export type ExpertSuperCategoryModelWhereUniqueInput = {
@@ -15352,7 +15405,8 @@ export namespace Prisma {
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -15365,10 +15419,11 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -15384,7 +15439,8 @@ export namespace Prisma {
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -15397,10 +15453,11 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -15413,6 +15470,7 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
   }
 
   export type BusinessUserModelUpdateManyMutationInput = {
@@ -15434,6 +15492,7 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REAgentModelCreateInput = {
@@ -15674,64 +15733,64 @@ export namespace Prisma {
     image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserExpertiseModelCreateInput = {
+  export type SubExpertiseModelCreateInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
-    business_user: BusinessUserModelCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserModelCreateNestedOneWithoutSub_expertisesInput
   }
 
-  export type UserExpertiseModelUncheckedCreateInput = {
+  export type SubExpertiseModelUncheckedCreateInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    category_id: string
+    sub_category_id: string
     business_user_id: string
   }
 
-  export type UserExpertiseModelUpdateInput = {
+  export type SubExpertiseModelUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
-    business_user?: BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput
   }
 
-  export type UserExpertiseModelUncheckedUpdateInput = {
+  export type SubExpertiseModelUncheckedUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserExpertiseModelCreateManyInput = {
+  export type SubExpertiseModelCreateManyInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    category_id: string
+    sub_category_id: string
     business_user_id: string
   }
 
-  export type UserExpertiseModelUpdateManyMutationInput = {
+  export type SubExpertiseModelUpdateManyMutationInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserExpertiseModelUncheckedUpdateManyInput = {
+  export type SubExpertiseModelUncheckedUpdateManyInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
     business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -15743,7 +15802,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     super: ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutCategoryInput
+    expertises?: SubExpertiseModelCreateNestedManyWithoutCategoryInput
   }
 
   export type ExpertSubCategoryModelUncheckedCreateInput = {
@@ -15754,7 +15813,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     super_id: string
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
+    expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type ExpertSubCategoryModelUpdateInput = {
@@ -15765,7 +15824,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     super?: ExpertSuperCategoryModelUpdateOneRequiredWithoutSubsNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutCategoryNestedInput
+    expertises?: SubExpertiseModelUpdateManyWithoutCategoryNestedInput
   }
 
   export type ExpertSubCategoryModelUncheckedUpdateInput = {
@@ -15776,7 +15835,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     super_id?: StringFieldUpdateOperationsInput | string
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
+    expertises?: SubExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type ExpertSubCategoryModelCreateManyInput = {
@@ -15817,6 +15876,7 @@ export namespace Prisma {
     name: string
     business_type: ExpertBusinessType
     subs?: ExpertSubCategoryModelCreateNestedManyWithoutSuperInput
+    business_users?: BusinessUserModelCreateNestedManyWithoutSuper_expertiseInput
   }
 
   export type ExpertSuperCategoryModelUncheckedCreateInput = {
@@ -15828,6 +15888,7 @@ export namespace Prisma {
     name: string
     business_type: ExpertBusinessType
     subs?: ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuperInput
+    business_users?: BusinessUserModelUncheckedCreateNestedManyWithoutSuper_expertiseInput
   }
 
   export type ExpertSuperCategoryModelUpdateInput = {
@@ -15839,6 +15900,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
     subs?: ExpertSubCategoryModelUpdateManyWithoutSuperNestedInput
+    business_users?: BusinessUserModelUpdateManyWithoutSuper_expertiseNestedInput
   }
 
   export type ExpertSuperCategoryModelUncheckedUpdateInput = {
@@ -15850,6 +15912,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
     subs?: ExpertSubCategoryModelUncheckedUpdateManyWithoutSuperNestedInput
+    business_users?: BusinessUserModelUncheckedUpdateManyWithoutSuper_expertiseNestedInput
   }
 
   export type ExpertSuperCategoryModelCreateManyInput = {
@@ -16358,17 +16421,22 @@ export namespace Prisma {
     none?: BusinessCertificationModelWhereInput
   }
 
-  export type UserExpertiseModelListRelationFilter = {
-    every?: UserExpertiseModelWhereInput
-    some?: UserExpertiseModelWhereInput
-    none?: UserExpertiseModelWhereInput
+  export type ExpertSuperCategoryModelRelationFilter = {
+    is?: ExpertSuperCategoryModelWhereInput
+    isNot?: ExpertSuperCategoryModelWhereInput
+  }
+
+  export type SubExpertiseModelListRelationFilter = {
+    every?: SubExpertiseModelWhereInput
+    some?: SubExpertiseModelWhereInput
+    none?: SubExpertiseModelWhereInput
   }
 
   export type BusinessCertificationModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type UserExpertiseModelOrderByRelationAggregateInput = {
+  export type SubExpertiseModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16381,6 +16449,7 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+    super_expertise_id?: SortOrder
   }
 
   export type BusinessUserModelMaxOrderByAggregateInput = {
@@ -16392,6 +16461,7 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+    super_expertise_id?: SortOrder
   }
 
   export type BusinessUserModelMinOrderByAggregateInput = {
@@ -16403,6 +16473,7 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+    super_expertise_id?: SortOrder
   }
 
   export type REAgentModelCountOrderByAggregateInput = {
@@ -16522,41 +16593,36 @@ export namespace Prisma {
     isNot?: ExpertSubCategoryModelWhereInput
   }
 
-  export type UserExpertiseModelCategory_idBusiness_user_idCompoundUniqueInput = {
-    category_id: string
+  export type SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput = {
+    sub_category_id: string
     business_user_id: string
   }
 
-  export type UserExpertiseModelCountOrderByAggregateInput = {
+  export type SubExpertiseModelCountOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    category_id?: SortOrder
+    sub_category_id?: SortOrder
     business_user_id?: SortOrder
   }
 
-  export type UserExpertiseModelMaxOrderByAggregateInput = {
+  export type SubExpertiseModelMaxOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    category_id?: SortOrder
+    sub_category_id?: SortOrder
     business_user_id?: SortOrder
   }
 
-  export type UserExpertiseModelMinOrderByAggregateInput = {
+  export type SubExpertiseModelMinOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    category_id?: SortOrder
+    sub_category_id?: SortOrder
     business_user_id?: SortOrder
-  }
-
-  export type ExpertSuperCategoryModelRelationFilter = {
-    is?: ExpertSuperCategoryModelWhereInput
-    isNot?: ExpertSuperCategoryModelWhereInput
   }
 
   export type ExpertSubCategoryModelCountOrderByAggregateInput = {
@@ -16602,7 +16668,17 @@ export namespace Prisma {
     none?: ExpertSubCategoryModelWhereInput
   }
 
+  export type BusinessUserModelListRelationFilter = {
+    every?: BusinessUserModelWhereInput
+    some?: BusinessUserModelWhereInput
+    none?: BusinessUserModelWhereInput
+  }
+
   export type ExpertSubCategoryModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BusinessUserModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16976,11 +17052,17 @@ export namespace Prisma {
     connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
   }
 
-  export type UserExpertiseModelCreateNestedManyWithoutBusiness_userInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
-    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  export type ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput = {
+    create?: XOR<ExpertSuperCategoryModelCreateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedCreateWithoutBusiness_usersInput>
+    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutBusiness_usersInput
+    connect?: ExpertSuperCategoryModelWhereUniqueInput
+  }
+
+  export type SubExpertiseModelCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: SubExpertiseModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
   }
 
   export type OauthAccessorModelCreateNestedManyWithoutBusiness_userInput = {
@@ -17009,11 +17091,11 @@ export namespace Prisma {
     connect?: Enumerable<BusinessCertificationModelWhereUniqueInput>
   }
 
-  export type UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
-    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  export type SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: SubExpertiseModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
   }
 
   export type OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
@@ -17065,18 +17147,26 @@ export namespace Prisma {
     deleteMany?: Enumerable<BusinessCertificationModelScalarWhereInput>
   }
 
-  export type UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
-    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
-    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
-    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
-    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
-    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  export type ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput = {
+    create?: XOR<ExpertSuperCategoryModelCreateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedCreateWithoutBusiness_usersInput>
+    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutBusiness_usersInput
+    upsert?: ExpertSuperCategoryModelUpsertWithoutBusiness_usersInput
+    connect?: ExpertSuperCategoryModelWhereUniqueInput
+    update?: XOR<ExpertSuperCategoryModelUpdateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedUpdateWithoutBusiness_usersInput>
+  }
+
+  export type SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<SubExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: SubExpertiseModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    update?: Enumerable<SubExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<SubExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<SubExpertiseModelScalarWhereInput>
   }
 
   export type OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput = {
@@ -17127,18 +17217,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<BusinessCertificationModelScalarWhereInput>
   }
 
-  export type UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutBusiness_userInput>
-    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
-    createMany?: UserExpertiseModelCreateManyBusiness_userInputEnvelope
-    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
-    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
-    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  export type SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutBusiness_userInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<SubExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: SubExpertiseModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    update?: Enumerable<SubExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<SubExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<SubExpertiseModelScalarWhereInput>
   }
 
   export type OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
@@ -17259,9 +17349,9 @@ export namespace Prisma {
     connect?: ExpertSubCategoryModelWhereUniqueInput
   }
 
-  export type BusinessUserModelCreateNestedOneWithoutExpertisesInput = {
-    create?: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutExpertisesInput
+  export type BusinessUserModelCreateNestedOneWithoutSub_expertisesInput = {
+    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
     connect?: BusinessUserModelWhereUniqueInput
   }
 
@@ -17273,12 +17363,12 @@ export namespace Prisma {
     update?: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
   }
 
-  export type BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutExpertisesInput
-    upsert?: BusinessUserModelUpsertWithoutExpertisesInput
+  export type BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
+    upsert?: BusinessUserModelUpsertWithoutSub_expertisesInput
     connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutExpertisesInput, BusinessUserModelUncheckedUpdateWithoutExpertisesInput>
+    update?: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
   }
 
   export type ExpertSuperCategoryModelCreateNestedOneWithoutSubsInput = {
@@ -17287,18 +17377,18 @@ export namespace Prisma {
     connect?: ExpertSuperCategoryModelWhereUniqueInput
   }
 
-  export type UserExpertiseModelCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
-    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  export type SubExpertiseModelCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutCategoryInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutCategoryInput>
+    createMany?: SubExpertiseModelCreateManyCategoryInputEnvelope
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
   }
 
-  export type UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
-    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
+  export type SubExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutCategoryInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutCategoryInput>
+    createMany?: SubExpertiseModelCreateManyCategoryInputEnvelope
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
   }
 
   export type ExpertSuperCategoryModelUpdateOneRequiredWithoutSubsNestedInput = {
@@ -17309,32 +17399,32 @@ export namespace Prisma {
     update?: XOR<ExpertSuperCategoryModelUpdateWithoutSubsInput, ExpertSuperCategoryModelUncheckedUpdateWithoutSubsInput>
   }
 
-  export type UserExpertiseModelUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
-    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
-    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
-    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
-    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
-    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  export type SubExpertiseModelUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutCategoryInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutCategoryInput>
+    upsert?: Enumerable<SubExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
+    createMany?: SubExpertiseModelCreateManyCategoryInputEnvelope
+    set?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    update?: Enumerable<SubExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
+    updateMany?: Enumerable<SubExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
+    deleteMany?: Enumerable<SubExpertiseModelScalarWhereInput>
   }
 
-  export type UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<Enumerable<UserExpertiseModelCreateWithoutCategoryInput>, Enumerable<UserExpertiseModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<UserExpertiseModelCreateOrConnectWithoutCategoryInput>
-    upsert?: Enumerable<UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
-    createMany?: UserExpertiseModelCreateManyCategoryInputEnvelope
-    set?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    disconnect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    delete?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    connect?: Enumerable<UserExpertiseModelWhereUniqueInput>
-    update?: Enumerable<UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
-    updateMany?: Enumerable<UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
-    deleteMany?: Enumerable<UserExpertiseModelScalarWhereInput>
+  export type SubExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<Enumerable<SubExpertiseModelCreateWithoutCategoryInput>, Enumerable<SubExpertiseModelUncheckedCreateWithoutCategoryInput>>
+    connectOrCreate?: Enumerable<SubExpertiseModelCreateOrConnectWithoutCategoryInput>
+    upsert?: Enumerable<SubExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput>
+    createMany?: SubExpertiseModelCreateManyCategoryInputEnvelope
+    set?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    disconnect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    delete?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
+    update?: Enumerable<SubExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput>
+    updateMany?: Enumerable<SubExpertiseModelUpdateManyWithWhereWithoutCategoryInput>
+    deleteMany?: Enumerable<SubExpertiseModelScalarWhereInput>
   }
 
   export type ExpertSubCategoryModelCreateNestedManyWithoutSuperInput = {
@@ -17344,11 +17434,25 @@ export namespace Prisma {
     connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
   }
 
+  export type BusinessUserModelCreateNestedManyWithoutSuper_expertiseInput = {
+    create?: XOR<Enumerable<BusinessUserModelCreateWithoutSuper_expertiseInput>, Enumerable<BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>>
+    connectOrCreate?: Enumerable<BusinessUserModelCreateOrConnectWithoutSuper_expertiseInput>
+    createMany?: BusinessUserModelCreateManySuper_expertiseInputEnvelope
+    connect?: Enumerable<BusinessUserModelWhereUniqueInput>
+  }
+
   export type ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuperInput = {
     create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
     connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
     createMany?: ExpertSubCategoryModelCreateManySuperInputEnvelope
     connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+  }
+
+  export type BusinessUserModelUncheckedCreateNestedManyWithoutSuper_expertiseInput = {
+    create?: XOR<Enumerable<BusinessUserModelCreateWithoutSuper_expertiseInput>, Enumerable<BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>>
+    connectOrCreate?: Enumerable<BusinessUserModelCreateOrConnectWithoutSuper_expertiseInput>
+    createMany?: BusinessUserModelCreateManySuper_expertiseInputEnvelope
+    connect?: Enumerable<BusinessUserModelWhereUniqueInput>
   }
 
   export type EnumExpertBusinessTypeFieldUpdateOperationsInput = {
@@ -17369,6 +17473,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
   }
 
+  export type BusinessUserModelUpdateManyWithoutSuper_expertiseNestedInput = {
+    create?: XOR<Enumerable<BusinessUserModelCreateWithoutSuper_expertiseInput>, Enumerable<BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>>
+    connectOrCreate?: Enumerable<BusinessUserModelCreateOrConnectWithoutSuper_expertiseInput>
+    upsert?: Enumerable<BusinessUserModelUpsertWithWhereUniqueWithoutSuper_expertiseInput>
+    createMany?: BusinessUserModelCreateManySuper_expertiseInputEnvelope
+    set?: Enumerable<BusinessUserModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessUserModelWhereUniqueInput>
+    delete?: Enumerable<BusinessUserModelWhereUniqueInput>
+    connect?: Enumerable<BusinessUserModelWhereUniqueInput>
+    update?: Enumerable<BusinessUserModelUpdateWithWhereUniqueWithoutSuper_expertiseInput>
+    updateMany?: Enumerable<BusinessUserModelUpdateManyWithWhereWithoutSuper_expertiseInput>
+    deleteMany?: Enumerable<BusinessUserModelScalarWhereInput>
+  }
+
   export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSuperNestedInput = {
     create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuperInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuperInput>>
     connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuperInput>
@@ -17381,6 +17499,20 @@ export namespace Prisma {
     update?: Enumerable<ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuperInput>
     updateMany?: Enumerable<ExpertSubCategoryModelUpdateManyWithWhereWithoutSuperInput>
     deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  }
+
+  export type BusinessUserModelUncheckedUpdateManyWithoutSuper_expertiseNestedInput = {
+    create?: XOR<Enumerable<BusinessUserModelCreateWithoutSuper_expertiseInput>, Enumerable<BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>>
+    connectOrCreate?: Enumerable<BusinessUserModelCreateOrConnectWithoutSuper_expertiseInput>
+    upsert?: Enumerable<BusinessUserModelUpsertWithWhereUniqueWithoutSuper_expertiseInput>
+    createMany?: BusinessUserModelCreateManySuper_expertiseInputEnvelope
+    set?: Enumerable<BusinessUserModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessUserModelWhereUniqueInput>
+    delete?: Enumerable<BusinessUserModelWhereUniqueInput>
+    connect?: Enumerable<BusinessUserModelWhereUniqueInput>
+    update?: Enumerable<BusinessUserModelUpdateWithWhereUniqueWithoutSuper_expertiseInput>
+    updateMany?: Enumerable<BusinessUserModelUpdateManyWithWhereWithoutSuper_expertiseInput>
+    deleteMany?: Enumerable<BusinessUserModelScalarWhereInput>
   }
 
   export type AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput = {
@@ -17684,7 +17816,8 @@ export namespace Prisma {
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutOauth_accessorInput = {
@@ -17696,10 +17829,11 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutOauth_accessorInput = {
@@ -17749,7 +17883,8 @@ export namespace Prisma {
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput = {
@@ -17761,10 +17896,11 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type CustomerModelUpsertWithoutOauth_accessorInput = {
@@ -17828,7 +17964,8 @@ export namespace Prisma {
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -17840,10 +17977,11 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -17919,7 +18057,8 @@ export namespace Prisma {
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -17931,10 +18070,11 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18204,7 +18344,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserExpertiseModelCreateWithoutBusiness_userInput = {
+  export type ExpertSuperCategoryModelCreateWithoutBusiness_usersInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    business_type: ExpertBusinessType
+    subs?: ExpertSubCategoryModelCreateNestedManyWithoutSuperInput
+  }
+
+  export type ExpertSuperCategoryModelUncheckedCreateWithoutBusiness_usersInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    business_type: ExpertBusinessType
+    subs?: ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuperInput
+  }
+
+  export type ExpertSuperCategoryModelCreateOrConnectWithoutBusiness_usersInput = {
+    where: ExpertSuperCategoryModelWhereUniqueInput
+    create: XOR<ExpertSuperCategoryModelCreateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedCreateWithoutBusiness_usersInput>
+  }
+
+  export type SubExpertiseModelCreateWithoutBusiness_userInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -18212,21 +18379,21 @@ export namespace Prisma {
     category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
   }
 
-  export type UserExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
+  export type SubExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    category_id: string
+    sub_category_id: string
   }
 
-  export type UserExpertiseModelCreateOrConnectWithoutBusiness_userInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    create: XOR<UserExpertiseModelCreateWithoutBusiness_userInput, UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>
+  export type SubExpertiseModelCreateOrConnectWithoutBusiness_userInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    create: XOR<SubExpertiseModelCreateWithoutBusiness_userInput, SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>
   }
 
-  export type UserExpertiseModelCreateManyBusiness_userInputEnvelope = {
-    data: Enumerable<UserExpertiseModelCreateManyBusiness_userInput>
+  export type SubExpertiseModelCreateManyBusiness_userInputEnvelope = {
+    data: Enumerable<SubExpertiseModelCreateManyBusiness_userInput>
     skipDuplicates?: boolean
   }
 
@@ -18372,31 +18539,58 @@ export namespace Prisma {
     image_url?: StringFilter | string
   }
 
-  export type UserExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    update: XOR<UserExpertiseModelUpdateWithoutBusiness_userInput, UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
-    create: XOR<UserExpertiseModelCreateWithoutBusiness_userInput, UserExpertiseModelUncheckedCreateWithoutBusiness_userInput>
+  export type ExpertSuperCategoryModelUpsertWithoutBusiness_usersInput = {
+    update: XOR<ExpertSuperCategoryModelUpdateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedUpdateWithoutBusiness_usersInput>
+    create: XOR<ExpertSuperCategoryModelCreateWithoutBusiness_usersInput, ExpertSuperCategoryModelUncheckedCreateWithoutBusiness_usersInput>
   }
 
-  export type UserExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    data: XOR<UserExpertiseModelUpdateWithoutBusiness_userInput, UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
+  export type ExpertSuperCategoryModelUpdateWithoutBusiness_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    subs?: ExpertSubCategoryModelUpdateManyWithoutSuperNestedInput
   }
 
-  export type UserExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput = {
-    where: UserExpertiseModelScalarWhereInput
-    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput>
+  export type ExpertSuperCategoryModelUncheckedUpdateWithoutBusiness_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    subs?: ExpertSubCategoryModelUncheckedUpdateManyWithoutSuperNestedInput
   }
 
-  export type UserExpertiseModelScalarWhereInput = {
-    AND?: Enumerable<UserExpertiseModelScalarWhereInput>
-    OR?: Enumerable<UserExpertiseModelScalarWhereInput>
-    NOT?: Enumerable<UserExpertiseModelScalarWhereInput>
+  export type SubExpertiseModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    update: XOR<SubExpertiseModelUpdateWithoutBusiness_userInput, SubExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
+    create: XOR<SubExpertiseModelCreateWithoutBusiness_userInput, SubExpertiseModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type SubExpertiseModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    data: XOR<SubExpertiseModelUpdateWithoutBusiness_userInput, SubExpertiseModelUncheckedUpdateWithoutBusiness_userInput>
+  }
+
+  export type SubExpertiseModelUpdateManyWithWhereWithoutBusiness_userInput = {
+    where: SubExpertiseModelScalarWhereInput
+    data: XOR<SubExpertiseModelUpdateManyMutationInput, SubExpertiseModelUncheckedUpdateManyWithoutSub_expertisesInput>
+  }
+
+  export type SubExpertiseModelScalarWhereInput = {
+    AND?: Enumerable<SubExpertiseModelScalarWhereInput>
+    OR?: Enumerable<SubExpertiseModelScalarWhereInput>
+    NOT?: Enumerable<SubExpertiseModelScalarWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
     deleted_at?: DateTimeNullableFilter | Date | string | null
-    category_id?: StringFilter | string
+    sub_category_id?: StringFilter | string
     business_user_id?: StringFilter | string
   }
 
@@ -18427,7 +18621,8 @@ export namespace Prisma {
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18440,9 +18635,10 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18467,7 +18663,8 @@ export namespace Prisma {
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18480,9 +18677,10 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18497,7 +18695,8 @@ export namespace Prisma {
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18510,9 +18709,10 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18565,7 +18765,8 @@ export namespace Prisma {
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18578,9 +18779,10 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18624,7 +18826,8 @@ export namespace Prisma {
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
-    expertises?: UserExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18637,9 +18840,10 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
@@ -18664,7 +18868,8 @@ export namespace Prisma {
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
-    expertises?: UserExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18677,9 +18882,10 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
@@ -18738,7 +18944,7 @@ export namespace Prisma {
     create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
   }
 
-  export type BusinessUserModelCreateWithoutExpertisesInput = {
+  export type BusinessUserModelCreateWithoutSub_expertisesInput = {
     is_verified: boolean
     introduction_title: string
     introduction_content: string
@@ -18750,10 +18956,11 @@ export namespace Prisma {
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    super_expertise: ExpertSuperCategoryModelCreateNestedOneWithoutBusiness_usersInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelUncheckedCreateWithoutExpertisesInput = {
+  export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
     id: string
     is_verified: boolean
     introduction_title: string
@@ -18762,15 +18969,16 @@ export namespace Prisma {
     address_first: string
     address_second: string
     profile_image_url: string
+    super_expertise_id: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
-  export type BusinessUserModelCreateOrConnectWithoutExpertisesInput = {
+  export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
     where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
+    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
   }
 
   export type ExpertSubCategoryModelUpsertWithoutExpertisesInput = {
@@ -18798,12 +19006,12 @@ export namespace Prisma {
     super_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type BusinessUserModelUpsertWithoutExpertisesInput = {
-    update: XOR<BusinessUserModelUpdateWithoutExpertisesInput, BusinessUserModelUncheckedUpdateWithoutExpertisesInput>
-    create: XOR<BusinessUserModelCreateWithoutExpertisesInput, BusinessUserModelUncheckedCreateWithoutExpertisesInput>
+  export type BusinessUserModelUpsertWithoutSub_expertisesInput = {
+    update: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
+    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
   }
 
-  export type BusinessUserModelUpdateWithoutExpertisesInput = {
+  export type BusinessUserModelUpdateWithoutSub_expertisesInput = {
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
     introduction_content?: StringFieldUpdateOperationsInput | string
@@ -18815,10 +19023,11 @@ export namespace Prisma {
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    super_expertise?: ExpertSuperCategoryModelUpdateOneRequiredWithoutBusiness_usersNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
   }
 
-  export type BusinessUserModelUncheckedUpdateWithoutExpertisesInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
     id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
     introduction_title?: StringFieldUpdateOperationsInput | string
@@ -18827,6 +19036,7 @@ export namespace Prisma {
     address_first?: StringFieldUpdateOperationsInput | string
     address_second?: StringFieldUpdateOperationsInput | string
     profile_image_url?: StringFieldUpdateOperationsInput | string
+    super_expertise_id?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
@@ -18841,6 +19051,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     business_type: ExpertBusinessType
+    business_users?: BusinessUserModelCreateNestedManyWithoutSuper_expertiseInput
   }
 
   export type ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput = {
@@ -18851,6 +19062,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     business_type: ExpertBusinessType
+    business_users?: BusinessUserModelUncheckedCreateNestedManyWithoutSuper_expertiseInput
   }
 
   export type ExpertSuperCategoryModelCreateOrConnectWithoutSubsInput = {
@@ -18858,15 +19070,15 @@ export namespace Prisma {
     create: XOR<ExpertSuperCategoryModelCreateWithoutSubsInput, ExpertSuperCategoryModelUncheckedCreateWithoutSubsInput>
   }
 
-  export type UserExpertiseModelCreateWithoutCategoryInput = {
+  export type SubExpertiseModelCreateWithoutCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    business_user: BusinessUserModelCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserModelCreateNestedOneWithoutSub_expertisesInput
   }
 
-  export type UserExpertiseModelUncheckedCreateWithoutCategoryInput = {
+  export type SubExpertiseModelUncheckedCreateWithoutCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -18874,13 +19086,13 @@ export namespace Prisma {
     business_user_id: string
   }
 
-  export type UserExpertiseModelCreateOrConnectWithoutCategoryInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    create: XOR<UserExpertiseModelCreateWithoutCategoryInput, UserExpertiseModelUncheckedCreateWithoutCategoryInput>
+  export type SubExpertiseModelCreateOrConnectWithoutCategoryInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    create: XOR<SubExpertiseModelCreateWithoutCategoryInput, SubExpertiseModelUncheckedCreateWithoutCategoryInput>
   }
 
-  export type UserExpertiseModelCreateManyCategoryInputEnvelope = {
-    data: Enumerable<UserExpertiseModelCreateManyCategoryInput>
+  export type SubExpertiseModelCreateManyCategoryInputEnvelope = {
+    data: Enumerable<SubExpertiseModelCreateManyCategoryInput>
     skipDuplicates?: boolean
   }
 
@@ -18897,6 +19109,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    business_users?: BusinessUserModelUpdateManyWithoutSuper_expertiseNestedInput
   }
 
   export type ExpertSuperCategoryModelUncheckedUpdateWithoutSubsInput = {
@@ -18907,22 +19120,23 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    business_users?: BusinessUserModelUncheckedUpdateManyWithoutSuper_expertiseNestedInput
   }
 
-  export type UserExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    update: XOR<UserExpertiseModelUpdateWithoutCategoryInput, UserExpertiseModelUncheckedUpdateWithoutCategoryInput>
-    create: XOR<UserExpertiseModelCreateWithoutCategoryInput, UserExpertiseModelUncheckedCreateWithoutCategoryInput>
+  export type SubExpertiseModelUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    update: XOR<SubExpertiseModelUpdateWithoutCategoryInput, SubExpertiseModelUncheckedUpdateWithoutCategoryInput>
+    create: XOR<SubExpertiseModelCreateWithoutCategoryInput, SubExpertiseModelUncheckedCreateWithoutCategoryInput>
   }
 
-  export type UserExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput = {
-    where: UserExpertiseModelWhereUniqueInput
-    data: XOR<UserExpertiseModelUpdateWithoutCategoryInput, UserExpertiseModelUncheckedUpdateWithoutCategoryInput>
+  export type SubExpertiseModelUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: SubExpertiseModelWhereUniqueInput
+    data: XOR<SubExpertiseModelUpdateWithoutCategoryInput, SubExpertiseModelUncheckedUpdateWithoutCategoryInput>
   }
 
-  export type UserExpertiseModelUpdateManyWithWhereWithoutCategoryInput = {
-    where: UserExpertiseModelScalarWhereInput
-    data: XOR<UserExpertiseModelUpdateManyMutationInput, UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput>
+  export type SubExpertiseModelUpdateManyWithWhereWithoutCategoryInput = {
+    where: SubExpertiseModelScalarWhereInput
+    data: XOR<SubExpertiseModelUpdateManyMutationInput, SubExpertiseModelUncheckedUpdateManyWithoutExpertisesInput>
   }
 
   export type ExpertSubCategoryModelCreateWithoutSuperInput = {
@@ -18932,7 +19146,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    expertises?: UserExpertiseModelCreateNestedManyWithoutCategoryInput
+    expertises?: SubExpertiseModelCreateNestedManyWithoutCategoryInput
   }
 
   export type ExpertSubCategoryModelUncheckedCreateWithoutSuperInput = {
@@ -18942,7 +19156,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    expertises?: UserExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
+    expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type ExpertSubCategoryModelCreateOrConnectWithoutSuperInput = {
@@ -18952,6 +19166,48 @@ export namespace Prisma {
 
   export type ExpertSubCategoryModelCreateManySuperInputEnvelope = {
     data: Enumerable<ExpertSubCategoryModelCreateManySuperInput>
+    skipDuplicates?: boolean
+  }
+
+  export type BusinessUserModelCreateWithoutSuper_expertiseInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserModelCreateOrConnectWithoutSuper_expertiseInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutSuper_expertiseInput, BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>
+  }
+
+  export type BusinessUserModelCreateManySuper_expertiseInputEnvelope = {
+    data: Enumerable<BusinessUserModelCreateManySuper_expertiseInput>
     skipDuplicates?: boolean
   }
 
@@ -18982,6 +19238,37 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
     super_id?: StringFilter | string
+  }
+
+  export type BusinessUserModelUpsertWithWhereUniqueWithoutSuper_expertiseInput = {
+    where: BusinessUserModelWhereUniqueInput
+    update: XOR<BusinessUserModelUpdateWithoutSuper_expertiseInput, BusinessUserModelUncheckedUpdateWithoutSuper_expertiseInput>
+    create: XOR<BusinessUserModelCreateWithoutSuper_expertiseInput, BusinessUserModelUncheckedCreateWithoutSuper_expertiseInput>
+  }
+
+  export type BusinessUserModelUpdateWithWhereUniqueWithoutSuper_expertiseInput = {
+    where: BusinessUserModelWhereUniqueInput
+    data: XOR<BusinessUserModelUpdateWithoutSuper_expertiseInput, BusinessUserModelUncheckedUpdateWithoutSuper_expertiseInput>
+  }
+
+  export type BusinessUserModelUpdateManyWithWhereWithoutSuper_expertiseInput = {
+    where: BusinessUserModelScalarWhereInput
+    data: XOR<BusinessUserModelUpdateManyMutationInput, BusinessUserModelUncheckedUpdateManyWithoutBusiness_usersInput>
+  }
+
+  export type BusinessUserModelScalarWhereInput = {
+    AND?: Enumerable<BusinessUserModelScalarWhereInput>
+    OR?: Enumerable<BusinessUserModelScalarWhereInput>
+    NOT?: Enumerable<BusinessUserModelScalarWhereInput>
+    id?: StringFilter | string
+    is_verified?: BoolFilter | boolean
+    introduction_title?: StringFilter | string
+    introduction_content?: StringFilter | string
+    phone?: StringFilter | string
+    address_first?: StringFilter | string
+    address_second?: StringFilter | string
+    profile_image_url?: StringFilter | string
+    super_expertise_id?: StringFilter | string
   }
 
   export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
@@ -19255,12 +19542,12 @@ export namespace Prisma {
     image_url: string
   }
 
-  export type UserExpertiseModelCreateManyBusiness_userInput = {
+  export type SubExpertiseModelCreateManyBusiness_userInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    category_id: string
+    sub_category_id: string
   }
 
   export type OauthAccessorModelCreateManyBusiness_userInput = {
@@ -19309,7 +19596,7 @@ export namespace Prisma {
     image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserExpertiseModelUpdateWithoutBusiness_userInput = {
+  export type SubExpertiseModelUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19317,20 +19604,20 @@ export namespace Prisma {
     category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
-  export type UserExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
+  export type SubExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
+  export type SubExpertiseModelUncheckedUpdateManyWithoutSub_expertisesInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type OauthAccessorModelUpdateWithoutBusiness_userInput = {
@@ -19407,7 +19694,7 @@ export namespace Prisma {
     image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserExpertiseModelCreateManyCategoryInput = {
+  export type SubExpertiseModelCreateManyCategoryInput = {
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
@@ -19415,15 +19702,23 @@ export namespace Prisma {
     business_user_id: string
   }
 
-  export type UserExpertiseModelUpdateWithoutCategoryInput = {
+  export type SubExpertiseModelUpdateWithoutCategoryInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    business_user?: BusinessUserModelUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput
   }
 
-  export type UserExpertiseModelUncheckedUpdateWithoutCategoryInput = {
+  export type SubExpertiseModelUncheckedUpdateWithoutCategoryInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubExpertiseModelUncheckedUpdateManyWithoutExpertisesInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -19440,6 +19735,17 @@ export namespace Prisma {
     name: string
   }
 
+  export type BusinessUserModelCreateManySuper_expertiseInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string
+    profile_image_url: string
+  }
+
   export type ExpertSubCategoryModelUpdateWithoutSuperInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19447,7 +19753,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    expertises?: UserExpertiseModelUpdateManyWithoutCategoryNestedInput
+    expertises?: SubExpertiseModelUpdateManyWithoutCategoryNestedInput
   }
 
   export type ExpertSubCategoryModelUncheckedUpdateWithoutSuperInput = {
@@ -19457,7 +19763,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    expertises?: UserExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
+    expertises?: SubExpertiseModelUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSubsInput = {
@@ -19467,6 +19773,49 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessUserModelUpdateWithoutSuper_expertiseInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type BusinessUserModelUncheckedUpdateWithoutSuper_expertiseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type BusinessUserModelUncheckedUpdateManyWithoutBusiness_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: StringFieldUpdateOperationsInput | string
+    profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementAcceptanceModelCreateManyAgreementInput = {

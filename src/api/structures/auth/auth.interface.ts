@@ -24,14 +24,6 @@ export namespace Authentication {
     readonly birth: string | null;
     readonly gender: IUser.GenderType | null;
     readonly address: IUser.IAddress | null;
-    /**
-     * @format date-time
-     */
-    readonly created_at: string;
-    /**
-     * @format date-time
-     */
-    readonly updated_at: string;
   }
 
   export type ICreateRequest =

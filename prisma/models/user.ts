@@ -80,13 +80,20 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .string("address_first")
     .string("address_second")
     .string("profile_image_url")
+    .string("super_expertise_id")
     .relation("base", User, one_to_one)
     .relation("re_agent", REAgent, { optional: true })
     .relation("hs_provider", HSProvider, { optional: true })
     .relation("certifications", BusinessCertification, {
       list: true
     })
-    .relation("expertises", UserExpertise, { list: true })
+    .relation("super_expertise", ExpertSuperCategory, {
+      fields: ["super_expertise_id"],
+      references: ["id"],
+      onDelete: "NoAction",
+      onUpdate: "NoAction"
+    })
+    .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accessor", OauthAccessor, { list: true })
     .map("business_users");
 });
@@ -146,13 +153,13 @@ export const HSIntroductionImage = createModel(
   }
 );
 
-export const UserExpertise = createModel("UserExpertiseModel", (model) => {
+export const SubExpertise = createModel("SubExpertiseModel", (model) => {
   model
     .mixin(DeletedAt)
-    .string("category_id")
+    .string("sub_category_id")
     .string("business_user_id")
     .relation("category", ExpertSubCategory, {
-      fields: ["category_id"],
+      fields: ["sub_category_id"],
       references: ["id"],
       onUpdate: "NoAction",
       onDelete: "NoAction"
@@ -163,8 +170,8 @@ export const UserExpertise = createModel("UserExpertiseModel", (model) => {
       onUpdate: "NoAction",
       onDelete: "NoAction"
     })
-    .id({ fields: ["category_id", "business_user_id"] })
-    .map("user_expertises");
+    .id({ fields: ["sub_category_id", "business_user_id"] })
+    .map("sub_expertises");
 });
 
 export const ExpertSubCategory = createModel(
@@ -180,7 +187,7 @@ export const ExpertSubCategory = createModel(
         onUpdate: "NoAction",
         onDelete: "NoAction"
       })
-      .relation("expertises", UserExpertise, { list: true })
+      .relation("expertises", SubExpertise, { list: true })
       .map("expert_sub_categories");
   }
 );
@@ -193,6 +200,7 @@ export const ExpertSuperCategory = createModel(
       .string("name", { unique: true })
       .enum("business_type", ExpertBusinessType)
       .relation("subs", ExpertSubCategory, { list: true })
+      .relation("business_users", BusinessUser, { list: true })
       .map("expert_super_categories");
   }
 );

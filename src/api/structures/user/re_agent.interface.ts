@@ -1,3 +1,4 @@
+import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user.interface";
 import { IUser } from "./user.interface";
@@ -48,7 +49,12 @@ export namespace IREAgent {
     agreement_acceptances: string[];
   }
 
-  export interface IResponse extends Omit<IREAgent, "expertise_ids"> {
-    readonly expertises: IBusinessUser.IExpertise[];
-  }
+  export type IResponse = Omit<
+    IREAgent,
+    "super_expertise_id" | "sub_expertise_ids"
+  > &
+    IDateTime &
+    IBusinessUser.IExpertiseData;
+
+  export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }

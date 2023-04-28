@@ -1,3 +1,4 @@
+import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IUser } from "./user.interface";
 
@@ -56,4 +57,7 @@ export namespace ICustomer {
      */
     agreement_acceptances: string[];
   }
+
+  export type IResponse = ICustomer & IDateTime;
+  export type IPrivateResponse = IResponse & IUser.IPrivateData;
 }
