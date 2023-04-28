@@ -1,2 +1,2 @@
-export * from "./pagination.interface";
-export * from "./datetime.interface";
+export * from "./pagination";
+export * from "./datetime";

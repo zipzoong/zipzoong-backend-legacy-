@@ -12,7 +12,7 @@ export namespace Authentication {
     user_type: IUser.Type;
   }
 
-  export interface IOauthProfile {
+  export interface IProfile {
     readonly name: string | null;
     readonly email: string | null;
     readonly phone: string | null;

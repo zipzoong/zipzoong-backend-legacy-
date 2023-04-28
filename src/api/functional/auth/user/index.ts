@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/auth.interface";
+import type { Authentication } from "./../../../structures/auth/authentication";
 
 /**
  * type 속성을 통해 사용자 분류를 구분한다.
@@ -25,7 +25,7 @@ import type { Authentication } from "./../../../structures/auth/auth.interface";
  * @tag authentication
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 사용자 생성 정보
- * @returns void
+ * @return void
  * @throw 400 BadRequest
  * @throw 401 Unauthorized
  * @throw 403 Forbidden

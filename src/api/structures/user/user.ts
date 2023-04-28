@@ -1,6 +1,6 @@
 import { IAgreement } from "@DTO/agreement";
-import { IBusinessUser } from "./business_user.interface";
-import { ICustomer } from "./customer.interface";
+import { IBusinessUser } from "./business_user";
+import { ICustomer } from "./customer";
 
 export type IUser = ICustomer | IBusinessUser;
 

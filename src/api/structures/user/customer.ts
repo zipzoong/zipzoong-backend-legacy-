@@ -1,6 +1,6 @@
 import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
-import { IUser } from "./user.interface";
+import { IUser } from "./user";
 
 export interface ICustomer extends IUser.IBase<"customer"> {
   /**

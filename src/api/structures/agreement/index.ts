@@ -1,1 +1,1 @@
-export * from "./agreement.interface";
+export * from "./agreement";

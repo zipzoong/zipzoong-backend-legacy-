@@ -1,6 +1,6 @@
-import { IHSProvider } from "./hs_provider.interface";
-import { IREAgent } from "./re_agent.interface";
-import { IUser } from "./user.interface";
+import { IHSProvider } from "./hs_provider";
+import { IREAgent } from "./re_agent";
+import { IUser } from "./user";
 
 export type IBusinessUser = IREAgent | IHSProvider;
 

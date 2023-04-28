@@ -8,8 +8,8 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/auth.interface";
-import type { ITokens } from "./../../../structures/auth/token.interface";
+import type { Authentication } from "./../../../structures/auth/authentication";
+import type { ITokens } from "./../../../structures/auth/token";
 
 /**
  * 회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.
@@ -20,7 +20,7 @@ import type { ITokens } from "./../../../structures/auth/token.interface";
  * @tag authentication
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type
- * @returns tokens
+ * @return tokens
  * 
  * @controller AuthenticationController.signUp()
  * @path POST /auth/sign-up

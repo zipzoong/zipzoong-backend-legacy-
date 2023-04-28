@@ -10,7 +10,7 @@ export class AuthenticationController {
    * @summary 로그인 API
    * @tag authentication
    * @param body oauth code, oauth type, user_type
-   * @returns tokens
+   * @return tokens
    * @throw 401 Unauthorized
    * @throw 404 Not Found
    */
@@ -28,7 +28,7 @@ export class AuthenticationController {
    * @summary 회원가입 API
    * @tag authentication
    * @param body oauth code, oauth type
-   * @returns tokens
+   * @return tokens
    */
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
@@ -40,12 +40,12 @@ export class AuthenticationController {
    *
    * @summary OauthProfile 요청 API
    * @tag authentication
-   * @returns OauthProfile
+   * @return OauthProfile
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
   @Get("profile")
-  getProfile(): Promise<Authentication.IOauthProfile> {
+  getProfile(): Promise<Authentication.IProfile> {
     throw Error();
   }
 
@@ -63,7 +63,7 @@ export class AuthenticationController {
    * @summary 사용자 생성 API
    * @tag authentication
    * @param body 사용자 생성 정보
-   * @returns void
+   * @return void
    * @throw 400 BadRequest
    * @throw 401 Unauthorized
    * @throw 403 Forbidden

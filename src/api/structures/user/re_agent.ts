@@ -1,43 +1,62 @@
 import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
-import { IBusinessUser } from "./business_user.interface";
-import { IUser } from "./user.interface";
+import { IBusinessUser } from "./business_user";
+import { IUser } from "./user";
 
-export interface IHSProvider
-  extends IBusinessUser.IBase<"home service provider"> {
-  readonly introduction: IHSProvider.IIntroduction;
-  readonly address: IUser.IAddress;
-  readonly business_registration_num: string;
+export interface IREAgent extends IBusinessUser.IBase<"real estate agent"> {
+  /**
+   * 개업/소속 공인중개사 표시
+   *
+   * - true 개업 공인중개사
+   * - false 소속 공인중개사
+   */
+  readonly is_licensed: boolean;
+  /**
+   * 본인이 속한 부동산 정보
+   */
+  readonly real_estate: IREAgent.IRealEstate;
 }
 
-export namespace IHSProvider {
-  export interface IIntroductionImage {
-    readonly id: string;
-    readonly image_url: string;
-  }
-
-  export interface IIntroduction extends IBusinessUser.IIntroduction {
+export namespace IREAgent {
+  export interface IRealEstate {
     /**
-     * 자체 리뷰 이미지 목록
+     * 부동산 개설 등록번호
      */
-    readonly images: IIntroductionImage[];
+    readonly num: string;
+    /**
+     * 부동산 상호명
+     */
+    readonly name: string;
+    /**
+     * 부동산 전화번호
+     */
+    readonly phone: string;
+    /**
+     * 부동산 대표명
+     */
+    readonly licensed_agent_name: string;
+    /**
+     * 부동산 주소
+     */
+    readonly address: IUser.IAddress;
   }
 
-  export interface ICreate extends IUser.ICreate<"home service provider"> {
+  export interface ICreate extends IUser.ICreate<"real estate agent"> {
     phone: string;
     profile_image_url: string;
     introduction: IBusinessUser.IIntroduction;
     /**
-     * 자체 리뷰 이미지 주소 목록
+     * 개업/소속 공인중개사 표시
+     *
+     * - true 개업 공인중개사
+     * - false 소속 공인중개사
      */
-    introduction_images: string[];
-    address: IUser.IAddress;
+    is_licensed: boolean;
     /**
-     * 사업자등록번호
+     * 본인이 속한 부동산 정보
      */
-    business_registration_num: string;
-    sub_expertise_ids: string[];
-    super_expertise_id: string;
+    real_estate: IREAgent.IRealEstate;
+    expertise_ids: string[];
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {
@@ -69,7 +88,7 @@ export namespace IHSProvider {
    * 사업자 정보 조회 등에서 표시되는 형식
    */
   export type IResponse = Omit<
-    IHSProvider,
+    IREAgent,
     "super_expertise_id" | "sub_expertise_ids"
   > &
     IDateTime &
