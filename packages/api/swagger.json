@@ -1622,8 +1622,7 @@
           "oauth_type": {
             "type": "string",
             "enum": [
-              "kakao",
-              "naver"
+              "kakao"
             ],
             "nullable": false,
             "x-typia-required": true
@@ -1663,8 +1662,7 @@
           "oauth_type": {
             "type": "string",
             "enum": [
-              "kakao",
-              "naver"
+              "kakao"
             ],
             "nullable": false,
             "x-typia-required": true
@@ -1928,6 +1926,21 @@
             "description": "약관 동의 id 리스트",
             "x-typia-required": true
           },
+          "super_expertise_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "sub_expertise_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "x-typia-required": true
+          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true
@@ -1962,28 +1975,19 @@
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "description": "본인이 속한 부동산 정보",
             "x-typia-required": true
-          },
-          "expertise_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "x-typia-required": true
-            },
-            "nullable": false,
-            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
           "business_certifications",
           "agreement_acceptances",
+          "super_expertise_id",
+          "sub_expertise_ids",
           "introduction",
           "profile_image_url",
           "type",
           "is_licensed",
-          "real_estate",
-          "expertise_ids"
+          "real_estate"
         ],
         "x-typia-jsDocTags": []
       },

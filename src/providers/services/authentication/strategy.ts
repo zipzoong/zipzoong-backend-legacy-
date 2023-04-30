@@ -1,5 +1,8 @@
 import { Kakao } from "@devts/nestjs-auth";
 import { Configuration } from "@INFRA/config";
+import { UnauthorizedException } from "@nestjs/common";
+
+const KakaoException = new UnauthorizedException("Fail to Kakao Authorization");
 
 export class KakaoStrategy extends Kakao.AbstractStrategy<"oauth"> {
   constructor() {
@@ -21,6 +24,9 @@ export class KakaoStrategy extends Kakao.AbstractStrategy<"oauth"> {
       service_terms: [],
       prompt: "login"
     });
+  }
+  protected override throw(): never {
+    throw KakaoException;
   }
   validate(
     identity: Kakao.MeResponse,

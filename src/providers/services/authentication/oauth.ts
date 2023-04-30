@@ -2,6 +2,7 @@ import { Authentication } from "@DTO/auth";
 import typia from "typia";
 import { KakaoStrategy } from "./strategy";
 
+const kakao = new KakaoStrategy();
 export const Oauth: Record<
   Authentication.OauthType,
   (code: string) => Promise<{
@@ -10,7 +11,6 @@ export const Oauth: Record<
   }>
 > = {
   async kakao(code) {
-    const kakao = new KakaoStrategy();
     const response = await kakao.getIdentity(await kakao.authorize(code));
     if (!typia.is(response)) throw Error();
     const oauth_sub = response.id + "";
@@ -37,8 +37,5 @@ export const Oauth: Record<
       address: null
     };
     return { oauth_sub, profile };
-  },
-  async naver(code) {
-    throw new Error("Method not implemented.");
   }
 };

@@ -2,7 +2,11 @@ import { Authentication, ITokens } from "@DTO/auth";
 import { ICustomer, IHSProvider, IREAgent } from "@DTO/user";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { BadRequestException, ForbiddenException } from "@nestjs/common";
+import {
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException
+} from "@nestjs/common";
 import { Prisma } from "@PRISMA";
 import { Customer } from "@PROVIDER/cores/customer";
 import { HSProvider } from "@PROVIDER/cores/hs_provider";
@@ -17,6 +21,7 @@ export namespace AuthenticationService {
   const AccessorInactive = new ForbiddenException("Inactive Accessor");
   const AlreadyCreated = new ForbiddenException("Already Created");
   const PhoneRequired = new BadRequestException("Phone is Required");
+  const UserNotFound = new NotFoundException("User Not Found");
 
   export const signIn = ({
     user_type,
@@ -47,11 +52,11 @@ export namespace AuthenticationService {
       (accessor) => {
         switch (user_type) {
           case "customer":
-            if (isNull(accessor.customer_id)) throw PermissionDenied;
+            if (isNull(accessor.customer_id)) throw UserNotFound;
             return accessor.customer_id;
           case "home service provider":
           case "real estate agent":
-            if (isNull(accessor.business_user_id)) throw PermissionDenied;
+            if (isNull(accessor.business_user_id)) throw UserNotFound;
             return accessor.business_user_id;
           default:
             throw Error("unreachable case");
