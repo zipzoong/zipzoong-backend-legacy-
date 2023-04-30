@@ -1,4 +1,4 @@
-import { DeletedAt, Entity, UpdatedAt } from "../mixins";
+import { Entity, UpdatedAt } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import {
@@ -80,7 +80,7 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .string("introduction_content")
     .string("phone")
     .string("address_first")
-    .string("address_second")
+    .string("address_second", { optional: true })
     .string("profile_image_url")
     .relation("base", User, one_to_one)
     .relation("re_agent", REAgent, { optional: true })

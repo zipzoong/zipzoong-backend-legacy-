@@ -92,7 +92,7 @@ model BusinessUserModel {
   introduction_content String
   phone                String
   address_first        String
-  address_second       String
+  address_second       String?
   profile_image_url    String
   base                 UserModel                    @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   re_agent             REAgentModel?

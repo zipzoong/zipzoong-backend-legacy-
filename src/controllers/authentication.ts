@@ -77,7 +77,11 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Post("user")
-  create(@TypedBody() body: Authentication.ICreateRequest): Promise<void> {
-    throw Error();
+  create(
+    @Authorization("bearer") token: string,
+    @TypedBody() body: Authentication.ICreateRequest
+  ): Promise<void> {
+    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
+    return AuthenticationService.createUser(accessor_id, body);
   }
 }

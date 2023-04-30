@@ -75,7 +75,7 @@ export type BusinessUserModel = {
   introduction_content: string
   phone: string
   address_first: string
-  address_second: string
+  address_second: string | null
   profile_image_url: string
 }
 
@@ -4621,7 +4621,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second: string | null
     profile_image_url: string
     _count: BusinessUserModelCountAggregateOutputType | null
     _min: BusinessUserModelMinAggregateOutputType | null
@@ -15537,7 +15537,7 @@ export namespace Prisma {
     introduction_content?: StringFilter | string
     phone?: StringFilter | string
     address_first?: StringFilter | string
-    address_second?: StringFilter | string
+    address_second?: StringNullableFilter | string | null
     profile_image_url?: StringFilter | string
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     re_agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput> | null
@@ -15594,7 +15594,7 @@ export namespace Prisma {
     introduction_content?: StringWithAggregatesFilter | string
     phone?: StringWithAggregatesFilter | string
     address_first?: StringWithAggregatesFilter | string
-    address_second?: StringWithAggregatesFilter | string
+    address_second?: StringNullableWithAggregatesFilter | string | null
     profile_image_url?: StringWithAggregatesFilter | string
   }
 
@@ -16436,7 +16436,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -16454,7 +16454,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -16470,7 +16470,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -16488,7 +16488,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -16505,7 +16505,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
   }
 
@@ -16515,7 +16515,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
@@ -16526,7 +16526,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
@@ -18995,7 +18995,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -19012,7 +19012,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -19062,7 +19062,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -19079,7 +19079,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -19144,7 +19144,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
@@ -19160,7 +19160,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -19239,7 +19239,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
@@ -19255,7 +19255,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -19791,7 +19791,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
@@ -19808,7 +19808,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
@@ -19833,7 +19833,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
@@ -19850,7 +19850,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
@@ -19865,7 +19865,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -19882,7 +19882,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     certifications?: BusinessCertificationModelUncheckedCreateNestedManyWithoutBusiness_userInput
@@ -19935,7 +19935,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -19952,7 +19952,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     certifications?: BusinessCertificationModelUncheckedUpdateManyWithoutBusiness_userNestedInput
@@ -19996,7 +19996,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -20013,7 +20013,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -20038,7 +20038,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -20055,7 +20055,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -20100,7 +20100,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -20117,7 +20117,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -20169,7 +20169,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -20186,7 +20186,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
@@ -20253,7 +20253,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     base: UserModelCreateNestedOneWithoutBusiness_userInput
     re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
@@ -20270,7 +20270,7 @@ export namespace Prisma {
     introduction_content: string
     phone: string
     address_first: string
-    address_second: string
+    address_second?: string | null
     profile_image_url: string
     re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
@@ -20320,7 +20320,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
     re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
@@ -20337,7 +20337,7 @@ export namespace Prisma {
     introduction_content?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: StringFieldUpdateOperationsInput | string
     re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
