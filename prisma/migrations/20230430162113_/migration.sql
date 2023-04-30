@@ -67,7 +67,7 @@ CREATE TABLE "business_users" (
     "introduction_content" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "address_first" TEXT NOT NULL,
-    "address_second" TEXT NOT NULL,
+    "address_second" TEXT,
     "profile_image_url" TEXT NOT NULL,
 
     CONSTRAINT "business_users_pkey" PRIMARY KEY ("id")
