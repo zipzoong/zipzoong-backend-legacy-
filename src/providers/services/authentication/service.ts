@@ -7,7 +7,7 @@ import { Prisma } from "@PRISMA";
 import { Customer } from "@PROVIDER/cores/customer";
 import { HSProvider } from "@PROVIDER/cores/hs_provider";
 import { REAgent } from "@PROVIDER/cores/re_agent";
-import { getISOString, isNull, isUndefined, throwIfNull } from "@UTIL";
+import { getISOString, isNull, isUndefined, throwIfNull, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
 import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
@@ -18,17 +18,60 @@ export namespace AuthenticationService {
   const AlreadyCreated = new ForbiddenException("Already Created");
   const PhoneRequired = new BadRequestException("Phone is Required");
 
-  export const signIn = (input: Authentication.ISignIn): Promise<ITokens> => {
-    throw Error();
-  };
-
-  export const signUp = (input: Authentication.ISignUp): Promise<ITokens> =>
+  export const signIn = ({
+    user_type,
+    code,
+    oauth_type
+  }: Authentication.ISignIn): Promise<ITokens> =>
     pipe(
-      input,
+      code,
 
-      ({ code, oauth_type }) => Oauth[oauth_type](code),
+      (_code) => Oauth[oauth_type](_code),
 
-      async ({ oauth_sub, oauth_type, profile }) =>
+      ({ oauth_sub }) =>
+        prisma.oauthAccessorModel.findFirst({
+          where: { oauth_sub, oauth_type },
+          select: {
+            business_user_id: true,
+            customer_id: true,
+            is_deleted: true,
+            deleted_at: true
+          }
+        }),
+
+      throwIfNull(PermissionDenied),
+
+      (accessor) =>
+        accessor.is_deleted ? toThrow(AccessorInactive) : accessor,
+
+      (accessor) => {
+        switch (user_type) {
+          case "customer":
+            if (isNull(accessor.customer_id)) throw PermissionDenied;
+            return accessor.customer_id;
+          case "home service provider":
+          case "real estate agent":
+            if (isNull(accessor.business_user_id)) throw PermissionDenied;
+            return accessor.business_user_id;
+          default:
+            throw Error("unreachable case");
+        }
+      },
+      (user_id) => Crypto.getUserToken({ type: "user", user_id, user_type }),
+
+      (access_token) => ({ access_token })
+    );
+
+  export const signUp = ({
+    code,
+    oauth_type
+  }: Authentication.ISignUp): Promise<ITokens> =>
+    pipe(
+      code,
+
+      (_code) => Oauth[oauth_type](_code),
+
+      async ({ oauth_sub, profile }) =>
         (await prisma.oauthAccessorModel.findFirst({
           where: { oauth_sub, oauth_type }
         })) ??
@@ -98,11 +141,11 @@ export namespace AuthenticationService {
     );
 
   const getEmail = async (code: string): Promise<string> => {
-    return "test@test.com";
+    return `${code}@test.com`;
   };
 
   const getPhone = async (code: string): Promise<string> => {
-    return "phone";
+    return code;
   };
 
   const getAccessor = (accessor_id: string) =>

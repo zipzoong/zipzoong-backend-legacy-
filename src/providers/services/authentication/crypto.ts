@@ -6,7 +6,7 @@ import typia from "typia";
 
 export namespace Crypto {
   const AuthenticationFail = new UnauthorizedException("Authentication Fail");
-  export const encrypt =
+  const encrypt =
     <T extends object>(
       secret: string,
       algorithm: jwt.Algorithm,

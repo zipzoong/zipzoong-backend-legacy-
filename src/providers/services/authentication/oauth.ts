@@ -6,7 +6,6 @@ export const Oauth: Record<
   Authentication.OauthType,
   (code: string) => Promise<{
     oauth_sub: string;
-    oauth_type: Authentication.OauthType;
     profile: Authentication.IProfile;
   }>
 > = {
@@ -37,7 +36,7 @@ export const Oauth: Record<
       gender: response.kakao_account?.gender ?? null,
       address: null
     };
-    return { oauth_sub, oauth_type: "kakao", profile };
+    return { oauth_sub, profile };
   },
   async naver(code) {
     throw new Error("Method not implemented.");
