@@ -1,13 +1,14 @@
 import { Authentication, ITokens } from "@DTO/auth";
-import { IDateTime, ISoftDeletable } from "@DTO/common";
 import { ICustomer, IHSProvider, IREAgent } from "@DTO/user";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { ForbiddenException } from "@nestjs/common";
+import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { Prisma } from "@PRISMA";
-import { getISOString, isNull, throwIfNull } from "@UTIL";
+import { Customer } from "@PROVIDER/cores/customer";
+import { HSProvider } from "@PROVIDER/cores/hs_provider";
+import { REAgent } from "@PROVIDER/cores/re_agent";
+import { getISOString, isNull, isUndefined, throwIfNull } from "@UTIL";
 import { randomUUID } from "crypto";
-import { Customer } from "../user/customer";
 import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
 
@@ -15,6 +16,7 @@ export namespace AuthenticationService {
   const PermissionDenied = new ForbiddenException("Permission Denied");
   const AccessorInactive = new ForbiddenException("Inactive Accessor");
   const AlreadyCreated = new ForbiddenException("Already Created");
+  const PhoneRequired = new BadRequestException("Phone is Required");
 
   export const signIn = (input: Authentication.ISignIn): Promise<ITokens> => {
     throw Error();
@@ -96,14 +98,14 @@ export namespace AuthenticationService {
     );
 
   const getEmail = async (code: string): Promise<string> => {
-    return "email";
+    return "test@test.com";
   };
 
   const getPhone = async (code: string): Promise<string> => {
     return "phone";
   };
 
-  const getAccessor = async (accessor_id: string) =>
+  const getAccessor = (accessor_id: string) =>
     pipe(
       accessor_id,
       (id) =>
@@ -146,7 +148,7 @@ export namespace AuthenticationService {
   export const createUser = async (
     accessor_id: string,
     input: Authentication.ICreateRequest
-  ) => {
+  ): Promise<void> => {
     const accessor = await getAccessor(accessor_id);
 
     const email = input.email_access_code
@@ -157,41 +159,54 @@ export namespace AuthenticationService {
       ? await getPhone(input.phone_access_code)
       : accessor.phone ?? undefined;
 
-    if (input.type === "customer") {
-      if (!isNull(accessor.customer_id)) throw AlreadyCreated;
+    const isCustomer = input.type === "customer";
+    const isREAgent = input.type === "real estate agent";
+    const isHSProvider = input.type === "home service provider";
 
-      const [customer_id, ...query] = createCustomer(input, { email, phone });
-      await prisma.$transaction([
-        ...query,
-        prisma.oauthAccessorModel.update({
-          where: { id: accessor_id },
-          data: { customer_id, updated_at: getISOString() }
-        })
-      ]);
-      return;
-    }
+    const isBusinessUser = isREAgent || isHSProvider;
 
-    if (!isNull(accessor.business_user_id)) throw AlreadyCreated;
+    const CustomerExisted = !isNull(accessor.customer_id);
+    const BusinessUserExisted = !isNull(accessor.business_user_id);
 
-    const [business_user_id, ...query] =
-      input.type === "real estate agent"
-        ? createREAgent(input, { email, phone })
-        : createHSProvider(input, { email, phone });
+    if (
+      (isCustomer && CustomerExisted) ||
+      (isBusinessUser && BusinessUserExisted)
+    )
+      throw AlreadyCreated;
+
+    const [user_id, ...queries] = ((_input: Authentication.ICreateRequest) => {
+      switch (_input.type) {
+        case "customer":
+          return createCustomer({ ..._input, email, phone });
+        case "real estate agent":
+          if (isUndefined(phone)) throw PhoneRequired;
+          return createREAgent({ ..._input, email, phone });
+        case "home service provider":
+          if (isUndefined(phone)) throw PhoneRequired;
+          return createHSProvider({ ..._input, email, phone });
+        default:
+          throw Error("unreachable case");
+      }
+    })(input);
 
     await prisma.$transaction<Prisma.PrismaPromise<unknown>[]>([
-      ...query,
+      ...queries,
       prisma.oauthAccessorModel.update({
         where: { id: accessor_id },
-        data: { business_user_id, updated_at: getISOString() }
+        data: {
+          ...(isCustomer ? { customer_id: user_id } : {}),
+          ...(isBusinessUser ? { business_user_id: user_id } : {}),
+          updated_at: getISOString()
+        }
       })
     ]);
+    return;
   };
 
   const createCustomer = (
-    input: ICustomer.ICreateRequest,
-    { email, phone }: { email?: string; phone?: string }
+    input: ICustomer.ICreateRequest & { email?: string; phone?: string }
   ) => {
-    const customer = Customer.create({ ...input, email, phone });
+    const customer = Customer.create(input);
 
     return [
       customer.id,
@@ -237,10 +252,9 @@ export namespace AuthenticationService {
   };
 
   const createREAgent = (
-    input: IREAgent.ICreateRequest,
-    { email, phone }: { email?: string; phone?: string }
+    input: IREAgent.ICreateRequest & { email?: string; phone: string }
   ) => {
-    const agent = {} as IREAgent & IDateTime & ISoftDeletable;
+    const agent = REAgent.create(input);
 
     return [
       agent.id,
@@ -283,10 +297,9 @@ export namespace AuthenticationService {
   };
 
   const createHSProvider = (
-    input: IHSProvider.ICreateRequest,
-    { email, phone }: { email?: string; phone?: string }
+    input: IHSProvider.ICreateRequest & { email?: string; phone: string }
   ) => {
-    const provider = {} as IHSProvider & IDateTime & ISoftDeletable;
+    const provider = HSProvider.create(input);
     const now = getISOString();
     return [
       provider.id,

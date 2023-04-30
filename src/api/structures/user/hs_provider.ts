@@ -23,10 +23,8 @@ export namespace IHSProvider {
     readonly images: IIntroductionImage[];
   }
 
-  export interface ICreate extends IUser.ICreate<"home service provider"> {
-    phone: string;
-    profile_image_url: string;
-    introduction: IBusinessUser.IIntroduction;
+  export interface ICreate
+    extends IBusinessUser.ICreate<"home service provider"> {
     /**
      * 자체 리뷰 이미지 주소 목록
      */
@@ -36,8 +34,6 @@ export namespace IHSProvider {
      * 사업자등록번호
      */
     business_registration_num: string;
-    sub_expertise_ids: string[];
-    super_expertise_id: string;
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {

@@ -41,10 +41,7 @@ export namespace IREAgent {
     readonly address: IUser.IAddress;
   }
 
-  export interface ICreate extends IUser.ICreate<"real estate agent"> {
-    phone: string;
-    profile_image_url: string;
-    introduction: IBusinessUser.IIntroduction;
+  export interface ICreate extends IBusinessUser.ICreate<"real estate agent"> {
     /**
      * 개업/소속 공인중개사 표시
      *
@@ -56,7 +53,6 @@ export namespace IREAgent {
      * 본인이 속한 부동산 정보
      */
     real_estate: IREAgent.IRealEstate;
-    expertise_ids: string[];
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {
