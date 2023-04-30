@@ -1,10 +1,10 @@
 import { Authentication, ITokens } from "@DTO/auth";
 import { prisma } from "@INFRA/DB";
-import { OauthAccessorModel } from "@PRISMA";
 import { getISOString } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
-import { KakaoStrategy } from "./internal/strategy";
+import { Crypto } from "./crypto";
+import { KakaoStrategy } from "./strategy";
 
 export namespace AuthenticationService {
   const Oauth: Record<
@@ -63,8 +63,10 @@ export namespace AuthenticationService {
           deleted_at: null
         }
       }));
-    const payload = { accessor_id: accessorModel.id };
-    const access_token = JSON.stringify(payload);
+    const access_token = Crypto.getAccessorToken({
+      type: "accessor",
+      accessor_id: accessorModel.id
+    });
     return { access_token };
   };
 }
