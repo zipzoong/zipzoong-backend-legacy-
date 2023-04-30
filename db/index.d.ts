@@ -24,8 +24,8 @@ export type OauthAccessorModel = {
   deleted_at: Date | null
   oauth_type: OauthType
   oauth_sub: string
-  business_user_id: string
-  customer_id: string
+  business_user_id: string | null
+  customer_id: string | null
   name: string | null
   email: string | null
   phone: string | null
@@ -1681,8 +1681,8 @@ export namespace Prisma {
     deleted_at: Date | null
     oauth_type: OauthType
     oauth_sub: string
-    business_user_id: string
-    customer_id: string
+    business_user_id: string | null
+    customer_id: string | null
     name: string | null
     email: string | null
     phone: string | null
@@ -1745,14 +1745,14 @@ export namespace Prisma {
     S extends { include: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
     ? OauthAccessorModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> :  never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :
+        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :  never
   } 
     : S extends { select: any } & (OauthAccessorModelArgs | OauthAccessorModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> :  P extends keyof OauthAccessorModel ? OauthAccessorModel[P] : never
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :
+        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :  P extends keyof OauthAccessorModel ? OauthAccessorModel[P] : never
   } 
       : OauthAccessorModel
 
@@ -15325,8 +15325,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     oauth_type?: EnumOauthTypeFilter | OauthType
     oauth_sub?: StringFilter | string
-    business_user_id?: StringFilter | string
-    customer_id?: StringFilter | string
+    business_user_id?: StringNullableFilter | string | null
+    customer_id?: StringNullableFilter | string | null
     name?: StringNullableFilter | string | null
     email?: StringNullableFilter | string | null
     phone?: StringNullableFilter | string | null
@@ -15335,8 +15335,8 @@ export namespace Prisma {
     gender?: EnumGenderTypeNullableFilter | GenderType | null
     address_first?: StringNullableFilter | string | null
     address_second?: StringNullableFilter | string | null
-    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-    customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput> | null
+    customer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput> | null
   }
 
   export type OauthAccessorModelOrderByWithRelationInput = {
@@ -15399,8 +15399,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     oauth_type?: EnumOauthTypeWithAggregatesFilter | OauthType
     oauth_sub?: StringWithAggregatesFilter | string
-    business_user_id?: StringWithAggregatesFilter | string
-    customer_id?: StringWithAggregatesFilter | string
+    business_user_id?: StringNullableWithAggregatesFilter | string | null
+    customer_id?: StringNullableWithAggregatesFilter | string | null
     name?: StringNullableWithAggregatesFilter | string | null
     email?: StringNullableWithAggregatesFilter | string | null
     phone?: StringNullableWithAggregatesFilter | string | null
@@ -16153,8 +16153,8 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-    business_user: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
-    customer: CustomerModelCreateNestedOneWithoutOauth_accessorInput
+    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
+    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorInput
   }
 
   export type OauthAccessorModelUncheckedCreateInput = {
@@ -16165,8 +16165,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    business_user_id: string
-    customer_id: string
+    business_user_id?: string | null
+    customer_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -16193,8 +16193,8 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput
-    customer?: CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput
+    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorNestedInput
+    customer?: CustomerModelUpdateOneWithoutOauth_accessorNestedInput
   }
 
   export type OauthAccessorModelUncheckedUpdateInput = {
@@ -16205,8 +16205,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
     oauth_sub?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
-    customer_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16225,8 +16225,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    business_user_id: string
-    customer_id: string
+    business_user_id?: string | null
+    customer_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -16263,8 +16263,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
     oauth_sub?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
-    customer_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17267,8 +17267,8 @@ export namespace Prisma {
   }
 
   export type CustomerModelRelationFilter = {
-    is?: CustomerModelWhereInput
-    isNot?: CustomerModelWhereInput
+    is?: CustomerModelWhereInput | null
+    isNot?: CustomerModelWhereInput | null
   }
 
   export type OauthAccessorModelCountOrderByAggregateInput = {
@@ -17984,18 +17984,22 @@ export namespace Prisma {
     set?: GenderType | null
   }
 
-  export type BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput = {
+  export type BusinessUserModelUpdateOneWithoutOauth_accessorNestedInput = {
     create?: XOR<BusinessUserModelCreateWithoutOauth_accessorInput, BusinessUserModelUncheckedCreateWithoutOauth_accessorInput>
     connectOrCreate?: BusinessUserModelCreateOrConnectWithoutOauth_accessorInput
     upsert?: BusinessUserModelUpsertWithoutOauth_accessorInput
+    disconnect?: boolean
+    delete?: boolean
     connect?: BusinessUserModelWhereUniqueInput
     update?: XOR<BusinessUserModelUpdateWithoutOauth_accessorInput, BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput>
   }
 
-  export type CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput = {
+  export type CustomerModelUpdateOneWithoutOauth_accessorNestedInput = {
     create?: XOR<CustomerModelCreateWithoutOauth_accessorInput, CustomerModelUncheckedCreateWithoutOauth_accessorInput>
     connectOrCreate?: CustomerModelCreateOrConnectWithoutOauth_accessorInput
     upsert?: CustomerModelUpsertWithoutOauth_accessorInput
+    disconnect?: boolean
+    delete?: boolean
     connect?: CustomerModelWhereUniqueInput
     update?: XOR<CustomerModelUpdateWithoutOauth_accessorInput, CustomerModelUncheckedUpdateWithoutOauth_accessorInput>
   }
@@ -19335,7 +19339,7 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-    business_user: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
+    business_user?: BusinessUserModelCreateNestedOneWithoutOauth_accessorInput
   }
 
   export type OauthAccessorModelUncheckedCreateWithoutCustomerInput = {
@@ -19346,7 +19350,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    business_user_id: string
+    business_user_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -19423,8 +19427,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     oauth_type?: EnumOauthTypeFilter | OauthType
     oauth_sub?: StringFilter | string
-    business_user_id?: StringFilter | string
-    customer_id?: StringFilter | string
+    business_user_id?: StringNullableFilter | string | null
+    customer_id?: StringNullableFilter | string | null
     name?: StringNullableFilter | string | null
     email?: StringNullableFilter | string | null
     phone?: StringNullableFilter | string | null
@@ -19591,7 +19595,7 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-    customer: CustomerModelCreateNestedOneWithoutOauth_accessorInput
+    customer?: CustomerModelCreateNestedOneWithoutOauth_accessorInput
   }
 
   export type OauthAccessorModelUncheckedCreateWithoutBusiness_userInput = {
@@ -19602,7 +19606,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    customer_id: string
+    customer_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -20750,7 +20754,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    business_user_id: string
+    business_user_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -20777,7 +20781,7 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    business_user?: BusinessUserModelUpdateOneRequiredWithoutOauth_accessorNestedInput
+    business_user?: BusinessUserModelUpdateOneWithoutOauth_accessorNestedInput
   }
 
   export type OauthAccessorModelUncheckedUpdateWithoutCustomerInput = {
@@ -20788,7 +20792,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
     oauth_sub?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20807,7 +20811,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
     oauth_sub?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20844,7 +20848,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     oauth_type: OauthType
     oauth_sub: string
-    customer_id: string
+    customer_id?: string | null
     name?: string | null
     email?: string | null
     phone?: string | null
@@ -20925,7 +20929,7 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    customer?: CustomerModelUpdateOneRequiredWithoutOauth_accessorNestedInput
+    customer?: CustomerModelUpdateOneWithoutOauth_accessorNestedInput
   }
 
   export type OauthAccessorModelUncheckedUpdateWithoutBusiness_userInput = {
@@ -20936,7 +20940,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     oauth_type?: EnumOauthTypeFieldUpdateOperationsInput | OauthType
     oauth_sub?: StringFieldUpdateOperationsInput | string
-    customer_id?: StringFieldUpdateOperationsInput | string
+    customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null

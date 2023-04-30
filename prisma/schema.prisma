@@ -33,15 +33,15 @@ enum AgreementUserType {
 }
 
 model OauthAccessorModel {
-  id                String            @id
-  created_at        DateTime          @database.Timestamptz
-  updated_at        DateTime          @database.Timestamptz
+  id                String             @id
+  created_at        DateTime           @database.Timestamptz
+  updated_at        DateTime           @database.Timestamptz
   is_deleted        Boolean
-  deleted_at        DateTime?         @database.Timestamptz
+  deleted_at        DateTime?          @database.Timestamptz
   oauth_type        OauthType
   oauth_sub         String
-  business_user_id  String
-  customer_id       String
+  business_user_id  String?
+  customer_id       String?
   name              String?
   email             String?
   phone             String?
@@ -50,8 +50,8 @@ model OauthAccessorModel {
   gender            GenderType?
   address_first     String?
   address_second    String?
-  business_user     BusinessUserModel @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer          CustomerModel     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  business_user     BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer          CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("oauth_accessors")
 }

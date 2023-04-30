@@ -4,8 +4,8 @@
   "description": "backend for zipzoong service",
   "main": "build/main",
   "scripts": {
-    "check":"ts-patch check",
-    "prepare":"ts-patch install",
+    "check": "ts-patch check",
+    "prepare": "ts-patch install",
     "build": "rimraf build && tsc -p ./tsconfig.build.json",
     "build:api": "rimraf packages/api/lib && npm run sdk && tsc -p ./tsconfig.api.json",
     "dev": "npm run build && NODE_ENV=development node build/main",

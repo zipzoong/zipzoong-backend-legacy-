@@ -1,6 +1,7 @@
 import { Authentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
 import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { AuthenticationService } from "@PROVIDER/services";
 
 @Controller("auth")
 export class AuthenticationController {
@@ -32,7 +33,7 @@ export class AuthenticationController {
    */
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
-    throw Error("");
+    return AuthenticationService.signUp(body);
   }
 
   /**

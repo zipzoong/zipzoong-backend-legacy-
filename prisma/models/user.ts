@@ -20,8 +20,8 @@ export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
     .mixin(Entity)
     .enum("oauth_type", OauthType)
     .string("oauth_sub")
-    .string("business_user_id")
-    .string("customer_id")
+    .string("business_user_id", { optional: true })
+    .string("customer_id", { optional: true })
     .string("name", { optional: true })
     .string("email", { optional: true })
     .string("phone", { optional: true })
@@ -31,12 +31,14 @@ export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
     .string("address_first", { optional: true })
     .string("address_second", { optional: true })
     .relation("business_user", BusinessUser, {
+      optional: true,
       fields: ["business_user_id"],
       references: ["id"],
       onDelete: "NoAction",
       onUpdate: "NoAction"
     })
     .relation("customer", Customer, {
+      optional: true,
       fields: ["customer_id"],
       references: ["id"],
       onDelete: "NoAction",
