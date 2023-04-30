@@ -51,7 +51,7 @@ export class AuthenticationController {
    */
   @Get("profile")
   getProfile(
-    @Authorization("bearer") token: string
+    @Authorization("basic") token: string
   ): Promise<Authentication.IProfile> {
     const { accessor_id } = Crypto.getAccessorTokenPayload(token);
     return AuthenticationService.getProfile(accessor_id);
@@ -78,7 +78,7 @@ export class AuthenticationController {
    */
   @Post("user")
   create(
-    @Authorization("bearer") token: string,
+    @Authorization("basic") token: string,
     @TypedBody() body: Authentication.ICreateRequest
   ): Promise<void> {
     const { accessor_id } = Crypto.getAccessorTokenPayload(token);

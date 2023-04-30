@@ -5,6 +5,7 @@ export interface ITokens {
 }
 
 export namespace ITokens {
+  export type AuthorizationHeaderTokenType = "basic" | "bearer";
   export type AccessTokenType = "accessor" | "user";
 
   interface AccessTokenPayloadBase<T extends AccessTokenType> {
