@@ -1,7 +1,11 @@
 import { Authentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
 import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { AuthenticationService } from "@PROVIDER/services";
+import {
+  AuthenticationService,
+  Crypto
+} from "@PROVIDER/services/authentication";
+import { Authorization } from "./decorators";
 
 @Controller("auth")
 export class AuthenticationController {
@@ -18,7 +22,7 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   @Post("sign-in")
   signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
-    throw Error("");
+    return AuthenticationService.signIn(body);
   }
 
   /**
@@ -46,8 +50,11 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Get("profile")
-  getProfile(): Promise<Authentication.IProfile> {
-    throw Error();
+  getProfile(
+    @Authorization("bearer") token: string
+  ): Promise<Authentication.IProfile> {
+    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
+    return AuthenticationService.getProfile(accessor_id);
   }
 
   /**

@@ -22,7 +22,7 @@ const AuthorizationRequired = new UnauthorizedException(
 );
 
 const RequestUnauthorized = new UnauthorizedException(
-  "Request is unauthorized."
+  "The format of the Authorization header is invalid"
 );
 
 export const Authorization = (token_type: TOKEN_TYPE = "bearer") =>

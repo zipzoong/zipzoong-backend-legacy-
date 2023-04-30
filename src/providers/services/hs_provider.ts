@@ -1,7 +1,8 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IHSProvider } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
-import { HSProvider } from "@PROVIDER/cores";
+import { HSProvider } from "@PROVIDER/cores/hs_provider";
+
 import { randomUUID } from "crypto";
 
 export namespace HSProviderService {
