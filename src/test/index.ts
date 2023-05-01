@@ -33,6 +33,7 @@ async function run(): Promise<void> {
   };
 
   await internal.seed();
+  internal.mock();
 
   const report = await DynamicExecutor.validate({
     prefix: "test",

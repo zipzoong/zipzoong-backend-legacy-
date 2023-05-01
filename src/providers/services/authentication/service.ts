@@ -1,13 +1,14 @@
 import { Authentication, ITokens } from "@DTO/auth";
-import { ICustomer, IHSProvider, IREAgent } from "@DTO/user";
+import { ICustomer, IHSProvider, IREAgent, IUser } from "@DTO/user";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import {
   BadRequestException,
   ForbiddenException,
-  NotFoundException
+  NotFoundException,
+  UnauthorizedException
 } from "@nestjs/common";
-import { Prisma } from "@PRISMA";
+import { AgreementUserType, ExpertBusinessType, Prisma } from "@PRISMA";
 import { Customer } from "@PROVIDER/cores/customer";
 import { HSProvider } from "@PROVIDER/cores/hs_provider";
 import { REAgent } from "@PROVIDER/cores/re_agent";
@@ -17,11 +18,15 @@ import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
 
 export namespace AuthenticationService {
-  const PermissionDenied = new ForbiddenException("Permission Denied");
+  const AuthenticationFail = new UnauthorizedException("Authentication Fail");
   const AccessorInactive = new ForbiddenException("Inactive Accessor");
   const AlreadyCreated = new ForbiddenException("Already Created");
+  const AgreementAcceptanceRequired = new ForbiddenException(
+    "Agreement Acceptance Required"
+  );
   const PhoneRequired = new BadRequestException("Phone is Required");
   const UserNotFound = new NotFoundException("User Not Found");
+  const InvalidExpertise = new BadRequestException("Invalid Expertise");
 
   export const signIn = ({
     user_type,
@@ -33,8 +38,8 @@ export namespace AuthenticationService {
 
       (_code) => Oauth[oauth_type](_code),
 
-      ({ oauth_sub }) =>
-        prisma.oauthAccessorModel.findFirst({
+      async ({ oauth_sub }) =>
+        await prisma.oauthAccessorModel.findFirst({
           where: { oauth_sub, oauth_type },
           select: {
             business_user_id: true,
@@ -44,7 +49,7 @@ export namespace AuthenticationService {
           }
         }),
 
-      throwIfNull(PermissionDenied),
+      throwIfNull(AuthenticationFail),
 
       (accessor) =>
         accessor.is_deleted ? toThrow(AccessorInactive) : accessor,
@@ -100,6 +105,8 @@ export namespace AuthenticationService {
           }
         })),
 
+      (model) => (model.is_deleted ? toThrow(AccessorInactive) : model),
+
       (model) =>
         Crypto.getAccessorToken({ type: "accessor", accessor_id: model.id }),
 
@@ -111,9 +118,11 @@ export namespace AuthenticationService {
   ): Promise<Authentication.IProfile> =>
     pipe(
       accessor_id,
-      (id) => prisma.oauthAccessorModel.findFirst({ where: { id } }),
 
-      throwIfNull(PermissionDenied),
+      async (id) =>
+        await prisma.oauthAccessorModel.findFirst({ where: { id } }),
+
+      throwIfNull(AuthenticationFail),
 
       (model) => {
         if (model.is_deleted) throw AccessorInactive;
@@ -156,8 +165,8 @@ export namespace AuthenticationService {
   const getAccessor = (accessor_id: string) =>
     pipe(
       accessor_id,
-      (id) =>
-        prisma.oauthAccessorModel.findFirst({
+      async (id) =>
+        await prisma.oauthAccessorModel.findFirst({
           where: { id },
           select: {
             id: true,
@@ -170,13 +179,33 @@ export namespace AuthenticationService {
           }
         }),
 
-      throwIfNull(PermissionDenied),
+      throwIfNull(AuthenticationFail),
 
       ({ id, email, phone, customer_id, business_user_id, is_deleted }) => {
         if (is_deleted) throw AccessorInactive;
         return { id, email, phone, customer_id, business_user_id };
       }
     );
+
+  const checkAgreement = async (
+    user_type: IUser.Type,
+    agreement_ids: string[]
+  ) => {
+    const or: AgreementUserType[] = ["all"];
+    if (user_type === "customer") or.push("customer");
+    else if (user_type === "real estate agent") or.push("business", "RE");
+    else if (user_type === "home service provider") or.push("business", "HS");
+    const unchecked_agreements = (
+      await prisma.agreementModel.findMany({
+        select: { id: true, is_deleted: true },
+        where: { user_type: { in: or } }
+      })
+    )
+      .filter(({ is_deleted }) => !is_deleted)
+      .filter(({ id }) => !!agreement_ids.find((_id) => _id === id));
+    if (unchecked_agreements.length > 0) throw AgreementAcceptanceRequired;
+    return;
+  };
 
   const acceptAgreement = (user_id: string, ids: string[]) => {
     const now = getISOString();
@@ -197,6 +226,17 @@ export namespace AuthenticationService {
     accessor_id: string,
     input: Authentication.ICreateRequest
   ): Promise<void> => {
+    await checkAgreement(input.type, input.agreement_acceptances);
+
+    const isCustomer = input.type === "customer";
+    const isREAgent = input.type === "real estate agent";
+    const isHSProvider = input.type === "home service provider";
+
+    const isBusinessUser = isREAgent || isHSProvider;
+
+    if (isREAgent) await checkSuperExpertise("RE", input.super_expertise_id);
+    if (isHSProvider) await checkSuperExpertise("HS", input.super_expertise_id);
+
     const accessor = await getAccessor(accessor_id);
 
     const email = input.email_access_code
@@ -206,12 +246,6 @@ export namespace AuthenticationService {
     const phone = input.phone_access_code
       ? await getPhone(input.phone_access_code)
       : accessor.phone ?? undefined;
-
-    const isCustomer = input.type === "customer";
-    const isREAgent = input.type === "real estate agent";
-    const isHSProvider = input.type === "home service provider";
-
-    const isBusinessUser = isREAgent || isHSProvider;
 
     const CustomerExisted = !isNull(accessor.customer_id);
     const BusinessUserExisted = !isNull(accessor.business_user_id);
@@ -299,6 +333,39 @@ export namespace AuthenticationService {
     });
   };
 
+  const checkSuperExpertise = async (
+    business_type: ExpertBusinessType,
+    id: string
+  ) => {
+    const category = await prisma.expertSuperCategoryModel.findFirst({
+      where: { id }
+    });
+    if (
+      isNull(category) ||
+      category.is_deleted ||
+      category.business_type !== business_type
+    )
+      throw InvalidExpertise;
+  };
+
+  const checkSubExpertise = async () => {};
+
+  const saveSuperExpertise = (
+    business_user_id: string,
+    expertise_id: string
+  ) => {
+    const now = getISOString();
+    return prisma.superExpertiseModel.create({
+      data: {
+        id: randomUUID(),
+        super_category_id: expertise_id,
+        business_user_id,
+        created_at: now,
+        updated_at: now
+      }
+    });
+  };
+
   const createREAgent = (
     input: IREAgent.ICreateRequest & { email?: string; phone: string }
   ) => {
@@ -340,6 +407,7 @@ export namespace AuthenticationService {
         }
       }),
       saveCertification(agent.id, input.business_certifications),
+      saveSuperExpertise(agent.id, input.super_expertise_id),
       acceptAgreement(agent.id, input.agreement_acceptances)
     ] as const;
   };
@@ -391,6 +459,7 @@ export namespace AuthenticationService {
           deleted_at: null
         }))
       }),
+      saveSuperExpertise(provider.id, input.super_expertise_id),
       acceptAgreement(provider.id, input.agreement_acceptances)
     ] as const;
   };

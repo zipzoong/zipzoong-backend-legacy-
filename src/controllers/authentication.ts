@@ -34,6 +34,7 @@ export class AuthenticationController {
    * @tag authentication
    * @param body oauth code, oauth type
    * @return tokens
+   * @throw 403 Forbidden
    */
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {

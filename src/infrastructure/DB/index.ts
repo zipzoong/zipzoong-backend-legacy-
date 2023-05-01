@@ -1,5 +1,5 @@
 import { Configuration } from "@INFRA/config";
-import { PrismaClient } from "@PRISMA";
+import { Prisma, PrismaClient } from "@PRISMA";
 
 export const prisma = new PrismaClient({
   log:
@@ -7,3 +7,14 @@ export const prisma = new PrismaClient({
       ? ["query", "info", "warn", "error"]
       : []
 });
+
+export const Transaction = ({
+  tx = prisma
+}: {
+  a: string;
+  b?: string;
+  c?: string;
+  tx?: Prisma.TransactionClient;
+}) => {
+  return;
+};
