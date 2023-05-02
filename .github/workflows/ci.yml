@@ -23,6 +23,7 @@ permissions:
 jobs:
   Test_Report:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'hotfix/') == true
 
     services:
       postgres:
@@ -46,13 +47,6 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@main
-
-      - name: Exit If Hotfix
-        run: |
-          if [[ ${{ github.head_ref }} =~ ^hotfix/.* ]]; then
-            echo "Hotfix branch detected, skipping action"
-            exit 0
-          fi
 
       - name: Install
         run: npm ci
