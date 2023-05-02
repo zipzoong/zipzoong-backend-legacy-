@@ -29,7 +29,6 @@ jobs:
         image: postgres:14
         env:
           POSTGRES_USER: test
-          POSTGRES_ROOT_PASSWORD: test
           POSTGRES_PASSWORD: test
           POSTGRES_DB: test
         options: >-
