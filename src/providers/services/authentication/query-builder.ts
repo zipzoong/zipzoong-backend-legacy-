@@ -285,6 +285,6 @@ export namespace QueryBuilder {
         ? toThrow(PhoneRequired)
         : createREAgent({ ...input, phone });
 
-    throw Error("unreachable case");
+    throw Error("[QueryBuild.createUser] unreachable case");
   };
 }

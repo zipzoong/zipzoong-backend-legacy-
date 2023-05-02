@@ -1,6 +1,11 @@
 import { ICustomer } from "@DTO/user";
 import { TypedParam } from "@nestia/core";
-import { Controller, Get } from "@nestjs/common";
+import { Controller, ForbiddenException, Get } from "@nestjs/common";
+import { Crypto } from "@PROVIDER/services/authentication";
+import { CustomerService } from "@PROVIDER/services/user/customer";
+import { Authorization } from "../decorators";
+
+const InvalidUserType = new ForbiddenException("Invalid User Type");
 
 @Controller("users/customers")
 export class CustomersController {
@@ -11,10 +16,15 @@ export class CustomersController {
    * @return 일반 고객 내 정보
    * @throw 401 Unauthorized
    * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(): Promise<ICustomer.IPrivateResponse> {
-    throw Error();
+  getMe(
+    @Authorization("bearer") token: string
+  ): Promise<ICustomer.IPrivateResponse> {
+    const { user_id, user_type } = Crypto.getUserTokenPayload(token);
+    if (user_type !== "customer") throw InvalidUserType;
+    return CustomerService.getMe(user_id);
   }
 
   /**

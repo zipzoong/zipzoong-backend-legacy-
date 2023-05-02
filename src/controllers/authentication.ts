@@ -17,7 +17,7 @@ export class AuthenticationController {
    * @param body oauth code, oauth type, user_type
    * @return tokens
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @HttpCode(HttpStatus.OK)
   @Post("sign-in")

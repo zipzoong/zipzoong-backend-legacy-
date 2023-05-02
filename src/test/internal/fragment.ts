@@ -19,8 +19,13 @@ export const test_error =
       if (!(error instanceof HttpError)) {
         throw error;
       }
-      assert.strictEqual(error.status, statusCode);
-      assert.strictEqual(error.message, message);
+      assert.deepStrictEqual(
+        { status: error.status, message: error.message },
+        {
+          status: statusCode,
+          message
+        }
+      );
     }
   };
 
@@ -51,10 +56,9 @@ export const test_inactive_accessor = async <T>(
     code: "inactive_accessor",
     oauth_type: "kakao"
   });
-  const { accessor_id } = Crypto.getAccessorTokenPayload(access_token);
 
-  await prisma.oauthAccessorModel.update({
-    where: { id: accessor_id },
+  await prisma.oauthAccessorModel.updateMany({
+    where: { oauth_sub: "inactive_accessor", oauth_type: "kakao" },
     data: { is_deleted: true, deleted_at: getISOString() }
   });
 

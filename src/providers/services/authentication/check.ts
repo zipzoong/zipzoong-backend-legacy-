@@ -5,7 +5,6 @@ import { prisma } from "@INFRA/DB";
 import {
   BadRequestException,
   ForbiddenException,
-  NotFoundException,
   UnauthorizedException
 } from "@nestjs/common";
 import { AgreementUserType, OauthAccessorModel } from "@PRISMA";
@@ -14,7 +13,7 @@ import { isNull, toThrow } from "@UTIL";
 export namespace Check {
   const AuthenticationFail = new UnauthorizedException("Authentication Fail");
   const AccessorInactive = new ForbiddenException("Inactive Accessor");
-  const UserNotFound = new NotFoundException("User Not Found");
+  const UserNotFound = new ForbiddenException("User Not Found");
   const InvalidAgreement = new BadRequestException("Invalid Agreement");
   const AcceptanceInSufficient = new ForbiddenException(
     "Agreement Acceptance InSufficient"
@@ -50,17 +49,21 @@ export namespace Check {
     (user_type: IUser.Type) =>
     (model: OauthAccessorModel): string => {
       if (user_type === "customer")
-        isNull(model.customer_id) ? toThrow(UserNotFound) : model.customer_id;
-      if (user_type === "home service provider")
-        isNull(model.business_user_id)
+        return isNull(model.customer_id)
           ? toThrow(UserNotFound)
-          : model.business_user_id;
-      if (user_type === "real estate agent")
-        isNull(model.business_user_id)
+          : model.customer_id;
+
+      if (user_type === "home service provider")
+        return isNull(model.business_user_id)
           ? toThrow(UserNotFound)
           : model.business_user_id;
 
-      throw Error("unreachable case");
+      if (user_type === "real estate agent")
+        return isNull(model.business_user_id)
+          ? toThrow(UserNotFound)
+          : model.business_user_id;
+
+      throw Error("[Check.ExistUserId] unreachable case");
     };
 
   /**

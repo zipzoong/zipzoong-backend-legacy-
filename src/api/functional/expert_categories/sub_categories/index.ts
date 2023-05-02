@@ -15,6 +15,7 @@ import type { IExpertCategory } from "./../../../structures/expert-category/expe
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param super_id 상위 전문 분야 id
  * @return 하위 전문 분야 목록
+ * @throw 404 NotFound
  * 
  * @controller ExpertCategoriesController.getSubCategoryList()
  * @path GET /expert-categories/:super_id/sub-categories
