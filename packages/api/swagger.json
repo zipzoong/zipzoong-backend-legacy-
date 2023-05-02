@@ -230,6 +230,9 @@
               }
             },
             "x-nestia-encrypted": false
+          },
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "회원가입 API",
@@ -276,6 +279,15 @@
             "text": [
               {
                 "text": "tokens",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]

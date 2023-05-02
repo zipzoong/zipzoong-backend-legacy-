@@ -21,6 +21,7 @@ import type { ITokens } from "./../../../structures/auth/token";
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type
  * @return tokens
+ * @throw 403 Forbidden
  * 
  * @controller AuthenticationController.signUp()
  * @path POST /auth/sign-up

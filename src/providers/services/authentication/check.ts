@@ -15,8 +15,9 @@ export namespace Check {
   const AuthenticationFail = new UnauthorizedException("Authentication Fail");
   const AccessorInactive = new ForbiddenException("Inactive Accessor");
   const UserNotFound = new NotFoundException("User Not Found");
-  const InvalidAgreement = new ForbiddenException(
-    "Invalid Agreement Acceptance"
+  const InvalidAgreement = new BadRequestException("Invalid Agreement");
+  const AcceptanceInSufficient = new ForbiddenException(
+    "Agreement Acceptance InSufficient"
   );
   const InvalidExpertise = new BadRequestException("Invalid Expertise");
   const AlreadyCreated = new ForbiddenException("Already Created");
@@ -110,22 +111,27 @@ export namespace Check {
     else if (type === "real estate agent") or.push("business", "RE");
     else if (type === "home service provider") or.push("business", "HS");
 
-    const agreements = await prisma.agreementModel.findMany({
-      select: { id: true, is_deleted: true },
-      where: {
-        OR: [{ id: { in: agreement_acceptances } }, { user_type: { in: or } }]
-      }
+    const acceptances = await prisma.agreementModel.findMany({
+      where: { id: { in: agreement_acceptances } }
     });
 
-    // 1. agreement에는 있고 agreement_ids에는 없으면 동의안한 필수 항목
-    // 2. agreement_ids에는 있고 agreements에는 없으면 존재하지 않은 약관
-    // -> 선택 약관은 생기면 고려하고, 지금의 경우에는 두 리스트가 동일해야 한다.
+    if (acceptances.length !== agreement_acceptances.length)
+      throw InvalidAgreement;
 
-    const setA = new Set(agreement_acceptances);
-    const setB = new Set(agreements.map(({ id }) => id));
-    const rest = Array.from(new Set([...setA].filter((x) => !setB.has(x))));
+    const agreements = await prisma.agreementModel.findMany({
+      select: { id: true, is_deleted: true },
+      where: { user_type: { in: or } }
+    });
 
-    if (rest.length > 0) throw InvalidAgreement;
+    const setA = new Set(
+      acceptances.filter(({ is_deleted }) => !is_deleted).map(({ id }) => id)
+    );
+    const setB = new Set(
+      agreements.filter(({ is_deleted }) => !is_deleted).map(({ id }) => id)
+    );
+    const rest = Array.from(new Set([...setB].filter((x) => !setA.has(x))));
+
+    if (rest.length > 0) throw AcceptanceInSufficient;
   };
 
   /** @throw BadRequest */
