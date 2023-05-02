@@ -5,7 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches:
-      - "*"
+      - "main"
+      - "feature/*"
 
 env:
   PORT: 4000
@@ -26,9 +27,10 @@ jobs:
       postgres:
         image: postgres:14
         env:
-            POSTGRES_DB: test
-            POSTGRES_USER: test
-            POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_ROOT_PASSWORD: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DATABASE: test
         options: >-
           --health-cmd="pg_isready"
           --health-interval 10s
