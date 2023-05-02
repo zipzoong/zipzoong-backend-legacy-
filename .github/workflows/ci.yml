@@ -5,8 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches:
-      - "main"
-      - "feature/*"
+      - main
+      - devlop
 
 env:
   PORT: 4000
@@ -44,6 +44,13 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@main
+
+      - name: Exit If Hotfix
+        run: |
+          if [[ ${{ github.head_ref }} =~ ^hotfix/.* ]]; then
+            echo "Hotfix branch detected, skipping action"
+            exit 0
+          fi
 
       - name: Install
         run: npm ci
