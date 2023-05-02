@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IDateTime, IPaginatedResponse, ISoftDeletable } from "@DTO/common";
-import { IREAgent } from "@DTO/user";
+import { IHSProvider } from "@DTO/user";
 import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import {
   BusinessUserModel,
   ExpertSuperCategoryModel,
-  REAgentModel,
+  HSIntroductionImageModel,
+  HSProviderModel,
   SubExpertiseModel,
   SuperExpertiseModel,
   UserModel
 } from "@PRISMA";
 import { BusinessUser } from "@PROVIDER/cores/user/business";
-import { REAgent } from "@PROVIDER/cores/user/re_agent";
+import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
 import { isNull, isUndefined, throwIf } from "@UTIL";
 import { UserCommonService } from "./common";
 import { UserCommonException } from "./exception";
 
-export namespace REAgentService {
+export namespace HSProviderService {
   export const getList = async (
-    input: IREAgent.ISearch
-  ): Promise<IPaginatedResponse<IREAgent.IResponse>> => {
+    input: IHSProvider.ISearch
+  ): Promise<IPaginatedResponse<IHSProvider.IResponse>> => {
     const super_ids = (
       await prisma.expertSuperCategoryModel.findMany({
         where: { name: { in: input.super_expert_name } }
@@ -50,9 +51,9 @@ export namespace REAgentService {
       ).map(({ business_user_id }) => business_user_id)
     ].slice(start, end);
 
-    const data: IREAgent.IResponse[] = await pipe(
+    const data: IHSProvider.IResponse[] = await pipe(
       Promise.all([
-        prisma.rEAgentModel.findMany({
+        prisma.hSProviderModel.findMany({
           where: { id: { in: provider_ids } },
           include: { base: { include: { base: true } } }
         }),
@@ -61,14 +62,23 @@ export namespace REAgentService {
         }),
         prisma.subExpertiseModel.findMany({
           where: { business_user_id: { in: provider_ids } }
+        }),
+        prisma.hSIntroductionImageModel.findMany({
+          where: { hs_provider_id: { in: provider_ids } }
         })
       ]),
 
-      async ([agentModels, superExpertiseModels, subExpertiseModels]) => {
+      async ([
+        providerModels,
+        superExpertiseModels,
+        subExpertiseModels,
+        introductionImageModels
+      ]) => {
         return {
-          agentModels,
+          providerModels,
           superExpertiseModels,
           subExpertiseModels,
+          introductionImageModels,
           superExpertiseCategories:
             await prisma.expertSuperCategoryModel.findMany({
               where: {
@@ -92,32 +102,37 @@ export namespace REAgentService {
       },
 
       ({
-        agentModels,
+        providerModels,
         superExpertiseModels,
         subExpertiseModels,
+        introductionImageModels,
         superExpertiseCategories,
         subExpertiseCategories
       }) => ({
-        user_list: agentModels
-          .map((agentModel) => ({
-            agentModel: agentModel,
-            businessModel: agentModel.base,
-            userModel: agentModel.base.base,
+        user_list: providerModels
+          .map((providerModel) => ({
+            providerModel: providerModel,
+            businessModel: providerModel.base,
+            userModel: providerModel.base.base,
             superExpertiseModel: superExpertiseModels.find(
-              ({ business_user_id }) => business_user_id === agentModel.id
+              ({ business_user_id }) => business_user_id === providerModel.id
             ),
             subExpertiseModels: subExpertiseModels.filter(
-              (models) => models.business_user_id === agentModel.id
+              (models) => models.business_user_id === providerModel.id
+            ),
+            introductionImageModels: introductionImageModels.filter(
+              (models) => models.hs_provider_id === providerModel.id
             )
           }))
           .filter(
             ({ superExpertiseModel }) => !isUndefined(superExpertiseModel)
           ) as {
-          agentModel: REAgentModel;
+          providerModel: HSProviderModel;
           businessModel: BusinessUserModel;
           userModel: UserModel;
           superExpertiseModel: SuperExpertiseModel;
           subExpertiseModels: SubExpertiseModel[];
+          introductionImageModels: HSIntroductionImageModel[];
         }[],
         superExpertiseCategories,
         subExpertiseCategories
@@ -125,7 +140,7 @@ export namespace REAgentService {
 
       ({ user_list, superExpertiseCategories, subExpertiseCategories }) => ({
         user_list: user_list
-          .map(REAgent.map)
+          .map(HSProvider.map)
           .filter((model) => !model.is_deleted)
           .filter(BusinessUser.isVerified),
         superExpertiseCategories,
@@ -175,42 +190,50 @@ export namespace REAgentService {
     return { page, data };
   };
 
-  export const getOne = async (user_id: string): Promise<IREAgent.IResponse> =>
+  export const getOne = async (
+    user_id: string
+  ): Promise<IHSProvider.IResponse> =>
     pipe(
       Promise.all([
         prisma.userModel.findFirst({ where: { id: user_id } }),
         prisma.businessUserModel.findFirst({ where: { id: user_id } }),
-        prisma.rEAgentModel.findFirst({ where: { id: user_id } }),
+        prisma.hSProviderModel.findFirst({ where: { id: user_id } }),
         prisma.superExpertiseModel.findFirst({
           where: { business_user_id: user_id }
         }),
         prisma.subExpertiseModel.findMany({
           where: { business_user_id: user_id }
+        }),
+        prisma.hSIntroductionImageModel.findMany({
+          where: { hs_provider_id: user_id }
         })
       ]),
 
       ([
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       ]) => ({
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       }),
 
       ({
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       }) => {
-        if (isNull(userModel) || isNull(businessModel) || isNull(agentModel))
+        if (isNull(userModel) || isNull(businessModel) || isNull(providerModel))
           throw UserCommonException.UserNotFound;
         if (isNull(superExpertiseModel))
           throw Error(`REAgent super expertise missing, agent id: ${user_id}`);
@@ -218,15 +241,16 @@ export namespace REAgentService {
         return {
           userModel,
           businessModel,
-          agentModel,
+          providerModel,
           superExpertiseModel,
-          subExpertiseModels
+          subExpertiseModels,
+          introductionImageModels
         };
       },
 
-      REAgent.map,
+      HSProvider.map,
 
-      throwIf<IREAgent & IDateTime & ISoftDeletable>(
+      throwIf<IHSProvider & IDateTime & ISoftDeletable>(
         BusinessUser.isUnVerified,
         UserCommonException.UserNotFound
       ),
@@ -237,7 +261,7 @@ export namespace REAgentService {
         is_deleted,
         deleted_at,
         ...response
-      }): Promise<IREAgent.IResponse> => {
+      }): Promise<IHSProvider.IResponse> => {
         const super_expertise = await prisma.expertSuperCategoryModel.findFirst(
           {
             where: { id: super_expertise_id }
@@ -245,7 +269,7 @@ export namespace REAgentService {
         );
         if (isNull(super_expertise))
           throw Error(
-            `REAgent super expertise missing, category id: ${super_expertise_id}`
+            `HSProvider super expertise missing, category id: ${super_expertise_id}`
           );
 
         const sub_expertises = await prisma.expertSubCategoryModel.findMany({
@@ -268,42 +292,48 @@ export namespace REAgentService {
 
   export const getMe = async (
     user_id: string
-  ): Promise<IREAgent.IPrivateResponse> =>
+  ): Promise<IHSProvider.IPrivateResponse> =>
     pipe(
       Promise.all([
         prisma.userModel.findFirst({ where: { id: user_id } }),
         prisma.businessUserModel.findFirst({ where: { id: user_id } }),
-        prisma.rEAgentModel.findFirst({ where: { id: user_id } }),
+        prisma.hSProviderModel.findFirst({ where: { id: user_id } }),
         prisma.superExpertiseModel.findFirst({
           where: { business_user_id: user_id }
         }),
         prisma.subExpertiseModel.findMany({
           where: { business_user_id: user_id }
+        }),
+        prisma.hSIntroductionImageModel.findMany({
+          where: { hs_provider_id: user_id }
         })
       ]),
 
       ([
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       ]) => ({
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       }),
 
       ({
         userModel,
         businessModel,
-        agentModel,
+        providerModel,
         superExpertiseModel,
-        subExpertiseModels
+        subExpertiseModels,
+        introductionImageModels
       }) => {
-        if (isNull(userModel) || isNull(businessModel) || isNull(agentModel))
+        if (isNull(userModel) || isNull(businessModel) || isNull(providerModel))
           throw UserCommonException.MeNotFound;
         if (isNull(superExpertiseModel))
           throw Error(`REAgent super expertise missing, agent id: ${user_id}`);
@@ -311,13 +341,14 @@ export namespace REAgentService {
         return {
           userModel,
           businessModel,
-          agentModel,
+          providerModel,
           superExpertiseModel,
-          subExpertiseModels
+          subExpertiseModels,
+          introductionImageModels
         };
       },
 
-      REAgent.map,
+      HSProvider.map,
 
       async ({
         is_deleted,
@@ -325,7 +356,7 @@ export namespace REAgentService {
         super_expertise_id,
         sub_expertise_ids,
         ...response
-      }): Promise<IREAgent.IPrivateResponse> => {
+      }): Promise<IHSProvider.IPrivateResponse> => {
         const super_expertise = await prisma.expertSuperCategoryModel.findFirst(
           {
             where: { id: super_expertise_id }
@@ -334,7 +365,7 @@ export namespace REAgentService {
 
         if (isNull(super_expertise))
           throw Error(
-            `REAgent super expertise missing, category id: ${super_expertise_id}`
+            `HSProvider super expertise missing, category id: ${super_expertise_id}`
           );
 
         const sub_expertises = await prisma.expertSubCategoryModel.findMany({

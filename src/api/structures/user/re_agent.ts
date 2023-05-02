@@ -1,4 +1,4 @@
-import { IDateTime } from "@DTO/common";
+import { IDateTime, IPage } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -39,6 +39,17 @@ export namespace IREAgent {
      * 부동산 주소
      */
     readonly address: IUser.IAddress;
+  }
+
+  export interface ISearch extends IPage {
+    /**
+     * 검색 기준으로 사용할 상위 전문 분야 이름 목록
+     */
+    super_expert_name: string[];
+    /**
+     * 검색 기준으로 사용할 하위 전문 분야 이름 목록
+     */
+    sub_expert_name: string[];
   }
 
   export interface ICreate extends IBusinessUser.ICreate<"real estate agent"> {

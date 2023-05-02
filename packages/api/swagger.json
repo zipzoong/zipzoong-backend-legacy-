@@ -949,7 +949,7 @@
             "in": "query",
             "description": "필터링 기준",
             "schema": {
-              "$ref": "#/components/schemas/IPage"
+              "$ref": "#/components/schemas/IHSProvider.ISearch"
             },
             "required": true
           }
@@ -1229,7 +1229,7 @@
             "in": "query",
             "description": "필터링 기준",
             "schema": {
-              "$ref": "#/components/schemas/IPage"
+              "$ref": "#/components/schemas/IREAgent.ISearch"
             },
             "required": true
           }
@@ -2747,9 +2747,33 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IPage": {
+      "IHSProvider.ISearch": {
         "type": "object",
         "properties": {
+          "super_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "sub_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
           "page": {
             "type": "integer",
             "nullable": false,
@@ -2789,6 +2813,10 @@
           }
         },
         "nullable": false,
+        "required": [
+          "super_expert_name",
+          "sub_expert_name"
+        ],
         "x-typia-jsDocTags": []
       },
       "IPaginatedResponse_lt_IHSProvider.IResponse_gt_": {
@@ -3241,6 +3269,78 @@
           "super_expertise",
           "sub_expertises",
           "agreement_acceptances"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "sub_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_expert_name",
+          "sub_expert_name"
         ],
         "x-typia-jsDocTags": []
       },

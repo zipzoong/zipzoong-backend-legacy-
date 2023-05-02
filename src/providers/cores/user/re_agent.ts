@@ -9,6 +9,7 @@ import {
 } from "@PRISMA";
 import { getISOString, isNull } from "@UTIL";
 import { randomUUID } from "crypto";
+import typia from "typia";
 
 export namespace REAgent {
   export const create = (
@@ -59,7 +60,7 @@ export namespace REAgent {
     superExpertiseModel: SuperExpertiseModel;
     subExpertiseModels: SubExpertiseModel[];
   }): IREAgent & IDateTime & ISoftDeletable => {
-    return {
+    const agent: IREAgent & IDateTime & ISoftDeletable = {
       type: "real estate agent",
       id: userModel.id,
       name: userModel.name,
@@ -78,7 +79,6 @@ export namespace REAgent {
       },
       is_verified: businessModel.is_verified,
       profile_image_url: businessModel.profile_image_url,
-
       is_licensed: agentModel.is_licensed,
       real_estate: {
         num: agentModel.re_num,
@@ -95,5 +95,7 @@ export namespace REAgent {
         ({ sub_category_id }) => sub_category_id
       )
     };
+    if (!typia.equals(agent)) throw Error("Fail to REAgent.map");
+    return agent;
   };
 }

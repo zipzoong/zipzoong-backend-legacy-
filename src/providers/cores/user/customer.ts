@@ -3,6 +3,7 @@ import { ICustomer } from "@DTO/user";
 import { CustomerModel, UserModel } from "@PRISMA";
 import { getISOString, isNull } from "@UTIL";
 import { randomUUID } from "crypto";
+import typia from "typia";
 
 export namespace Customer {
   export const create = (
@@ -42,7 +43,7 @@ export namespace Customer {
     userModel: UserModel;
     customerModel: CustomerModel;
   }): ICustomer & IDateTime & ISoftDeletable => {
-    return {
+    const customer: ICustomer & IDateTime & ISoftDeletable = {
       type: "customer",
       id: userModel.id,
       name: userModel.name,
@@ -64,5 +65,8 @@ export namespace Customer {
             second: customerModel.address_second
           }
     };
+
+    if (!typia.equals(customer)) throw Error("Fail: Customer.map");
+    return customer;
   };
 }

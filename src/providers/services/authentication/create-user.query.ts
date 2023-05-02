@@ -269,6 +269,7 @@ const createHSProvider = (
 /** @throw BadRequest */
 export const createUserQuery = (
   input: Authentication.ICreateRequest & {
+    /** @format email */
     email?: string;
     phone?: string;
   }

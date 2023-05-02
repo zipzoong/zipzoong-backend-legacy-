@@ -1,5 +1,5 @@
 import { IREAgent } from "@DTO/user";
-import { IPage, IPaginatedResponse } from "@DTO/common";
+import { IPaginatedResponse } from "@DTO/common";
 import { Controller, Get } from "@nestjs/common";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { REAgentService } from "@PROVIDER/services/user/re-agent";
@@ -17,9 +17,9 @@ export class REAgentsController {
    */
   @Get()
   getList(
-    @TypedQuery() query: IPage
+    @TypedQuery() query: IREAgent.ISearch
   ): Promise<IPaginatedResponse<IREAgent.IResponse>> {
-    throw Error();
+    return REAgentService.getList(query);
   }
 
   /**

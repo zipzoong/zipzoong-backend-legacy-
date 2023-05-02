@@ -1,4 +1,4 @@
-import { IREAgent } from "@DTO/user";
+import { IHSProvider } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
@@ -11,10 +11,10 @@ import assert from "assert";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
-console.log("\n- users.re_agents.getOne");
+console.log("\n- users.hs_providers.getOne");
 
 export const test_success = async (connection: IConnection) => {
-  const body = typia.random<IREAgent.ICreateRequest>();
+  const body = typia.random<IHSProvider.ICreateRequest>();
   body.agreement_acceptances = (
     await agreements.getList(connection, {
       filter: ["all", "business", "RE"]
@@ -22,7 +22,7 @@ export const test_success = async (connection: IConnection) => {
   ).map(({ id }) => id);
 
   const list = await expert_categories.getSuperCategoryList(connection, {
-    filter: ["RE"]
+    filter: ["HS"]
   });
 
   const super_expertise = list[0];
@@ -39,23 +39,26 @@ export const test_success = async (connection: IConnection) => {
   });
   await prisma.$transaction<Prisma.PrismaPromise<unknown>[]>(queries);
 
-  await users.re_agents.getOne(connection, user_id).catch((err: HttpError) => {
-    assert.deepStrictEqual(
-      { status: err.status, message: err.message },
-      { status: HttpStatus.NOT_FOUND, message: "User Not Found" }
-    );
-  });
+  await users.hs_providers
+    .getOne(connection, user_id)
+    .catch((err: HttpError) => {
+      assert.deepStrictEqual(
+        { status: err.status, message: err.message },
+        { status: HttpStatus.NOT_FOUND, message: "User Not Found" }
+      );
+    });
 
   await prisma.businessUserModel.updateMany({
     where: { id: user_id },
     data: { is_verified: true }
   });
 
-  const received = await users.re_agents.getOne(connection, user_id);
+  const received = await users.hs_providers.getOne(connection, user_id);
 
   typia.assertEquals(received);
 };
 
 export const test_user_not_found = internal.test_error(
-  (connection: IConnection) => users.re_agents.getOne(connection, randomUUID())
+  (connection: IConnection) =>
+    users.hs_providers.getOne(connection, randomUUID())
 )(HttpStatus.NOT_FOUND, "User Not Found");

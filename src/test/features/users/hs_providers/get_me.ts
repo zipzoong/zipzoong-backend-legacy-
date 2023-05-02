@@ -1,5 +1,5 @@
 import { ITokens } from "@DTO/auth";
-import { IREAgent } from "@DTO/user";
+import { IHSProvider } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
@@ -9,10 +9,10 @@ import { internal } from "@TEST/internal";
 import { isUndefined } from "@UTIL";
 import typia from "typia";
 
-console.log("\n- users.re_agents.me.getMe");
+console.log("\n- users.hs_providers.me.getMe");
 
 export const test_success = async (connection: IConnection) => {
-  const code = "test_re_agent_get_me";
+  const code = "test_hs_provider_get_me";
   const { access_token } = await auth.sign_up.signUp(connection, {
     code,
     oauth_type: "kakao"
@@ -23,11 +23,11 @@ export const test_success = async (connection: IConnection) => {
     data: { phone: "test_phone_number" }
   });
 
-  const create_input = typia.random<IREAgent.ICreateRequest>();
+  const create_input = typia.random<IHSProvider.ICreateRequest>();
 
   create_input.agreement_acceptances = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "RE"]
+      filter: ["all", "business", "HS"]
     })
   ).map(({ id }) => id);
 
@@ -36,8 +36,9 @@ export const test_success = async (connection: IConnection) => {
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
-    { filter: ["RE"] }
+    { filter: ["HS"] }
   );
+
   const super_expertise = super_expertise_list[0];
 
   if (isUndefined(super_expertise)) throw Error("have to seed expert category");
@@ -55,13 +56,13 @@ export const test_success = async (connection: IConnection) => {
 
   const tokens = await auth.sign_in.signIn(connection, {
     code,
-    user_type: "real estate agent",
+    user_type: "home service provider",
     oauth_type: "kakao"
   });
 
   // sign-in
 
-  const received = await users.re_agents.me.getMe(
+  const received = await users.hs_providers.me.getMe(
     internal.addAuthorizationHeader(connection)("bearer", tokens.access_token)
   );
 
@@ -71,19 +72,19 @@ export const test_success = async (connection: IConnection) => {
 };
 
 export const test_invalid_token = internal.test_invalid_user_token(
-  users.re_agents.me.getMe
+  users.hs_providers.me.getMe
 );
 
 export const test_user_token_mismatch = internal.test_user_token_mismatch(
-  "real estate agent"
-)(users.re_agents.me.getMe);
+  "home service provider"
+)(users.hs_providers.me.getMe);
 
 export const test_not_found_user = async (connection: IConnection) => {
-  const payload = typia.random<ITokens.IUserPayload<"real estate agent">>();
+  const payload = typia.random<ITokens.IUserPayload<"home service provider">>();
   const token = Crypto.getUserToken(payload);
 
   await internal.test_error<void>(() =>
-    users.re_agents.me.getMe(
+    users.hs_providers.me.getMe(
       internal.addAuthorizationHeader(connection)("bearer", token)
     )
   )(HttpStatus.FORBIDDEN, "User Not Found")();
