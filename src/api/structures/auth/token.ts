@@ -16,9 +16,10 @@ export namespace ITokens {
     readonly accessor_id: string;
   }
 
-  export interface IUserPayload extends AccessTokenPayloadBase<"user"> {
+  export interface IUserPayload<T extends IUser.Type = IUser.Type>
+    extends AccessTokenPayloadBase<"user"> {
     readonly user_id: string;
-    readonly user_type: IUser.Type;
+    readonly user_type: T;
   }
 
   export type IAccessTokenPayload = IOauthPayload | IUserPayload;

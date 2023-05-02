@@ -2,7 +2,6 @@ import { IConnection } from "@nestia/fetcher";
 import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
-import { deleteAccessor } from "./internal";
 
 console.log("\n- 소셜 프로필 조회 시나리오");
 
@@ -18,7 +17,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
   typia.assertEquals(received);
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_invalid_accessor = internal.test_invalid_accessor(

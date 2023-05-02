@@ -1,4 +1,5 @@
 import { ITokens } from "@DTO/auth";
+import { pipe } from "@fxts/core";
 import {
   createParamDecorator,
   ExecutionContext,
@@ -6,7 +7,6 @@ import {
 } from "@nestjs/common";
 import { isNull, isUndefined, throwIf } from "@UTIL";
 import { Request } from "express";
-import { pipe } from "rxjs";
 
 const extract_authorization_header = (context: ExecutionContext) =>
   context.switchToHttp().getRequest<Request>().headers["authorization"];
@@ -31,6 +31,8 @@ export const Authorization = (
   createParamDecorator(
     (type: ITokens.AuthorizationHeaderTokenType, ctx: ExecutionContext) =>
       pipe(
+        ctx,
+
         extract_authorization_header,
 
         throwIf(isUndefined, AuthorizationRequired),
@@ -39,6 +41,8 @@ export const Authorization = (
 
         throwIf(isNull, RequestUnauthorized),
 
-        extract_token
-      )(ctx)
+        extract_token,
+
+        throwIf(isUndefined, RequestUnauthorized)
+      )
   )(token_type);

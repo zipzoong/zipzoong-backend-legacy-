@@ -7,7 +7,6 @@ import { HttpStatus } from "@nestjs/common";
 import { agreements, auth, expert_categories } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
-import { deleteAccessor } from "./internal";
 
 console.log("\n- 사용자 정보 생성 시나리오");
 
@@ -37,7 +36,7 @@ const test_success = async (
     body
   );
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_success_customer_create = async (
@@ -133,7 +132,7 @@ export const test_forbidden_already_user_exist = async (
     "Already Created"
   )(create);
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_insufficient_agreement_acceptance = async (
@@ -155,7 +154,7 @@ export const test_insufficient_agreement_acceptance = async (
     "Agreement Acceptance InSufficient"
   )(create);
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_invalid_super_expertise = async (connection: IConnection) => {
@@ -188,7 +187,7 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
     HttpStatus.BAD_REQUEST,
     "Invalid Expertise"
   )(create);
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_invalid_sub_expertises = async (connection: IConnection) => {
@@ -227,7 +226,7 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
     HttpStatus.BAD_REQUEST,
     "Invalid Expertise"
   )(create);
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 // test if phone required

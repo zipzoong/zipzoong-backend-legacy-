@@ -6,6 +6,7 @@ import typia from "typia";
 
 export namespace Crypto {
   const AuthenticationFail = new UnauthorizedException("Authentication Fail");
+
   const encrypt =
     <T extends object>(
       secret: string,
@@ -15,6 +16,7 @@ export namespace Crypto {
     (payload: T) =>
       jwt.sign(payload, secret, { algorithm, expiresIn });
 
+  /** @throw unauthorized */
   const decrypt = (token: string, secret: string) => {
     try {
       return jwt.verify(token, secret);
@@ -29,6 +31,7 @@ export namespace Crypto {
     "1h"
   );
 
+  /** @throw unauthorized */
   export const getAccessorTokenPayload = (
     token: string
   ): ITokens.IOauthPayload => {
@@ -45,6 +48,7 @@ export namespace Crypto {
     "8h"
   );
 
+  /** @throw unauthorized */
   export const getUserTokenPayload = (token: string): ITokens.IUserPayload => {
     const payload = decrypt(token, Configuration.USER_TOKEN_PUBLIC_KEY);
     if (!typia.is<ITokens.IUserPayload>(payload)) {

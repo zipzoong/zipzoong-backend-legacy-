@@ -770,7 +770,6 @@
     "/users/customers/me": {
       "get": {
         "tags": [
-          "customers",
           "users"
         ],
         "parameters": [],
@@ -791,33 +790,11 @@
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         },
-        "summary": "일반 고객 내 정보 조회 API",
         "description": "",
         "x-nestia-namespace": "users.customers.me.getMe",
         "x-nestia-jsDocTags": [
-          {
-            "name": "summary",
-            "text": [
-              {
-                "text": "일반 고객 내 정보 조회 API",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "customers",
-                "kind": "text"
-              }
-            ]
-          },
           {
             "name": "tag",
             "text": [
@@ -841,15 +818,6 @@
             "text": [
               {
                 "text": "401 Unauthorized",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "throw",
-            "text": [
-              {
-                "text": "404 Not Found",
                 "kind": "text"
               }
             ]

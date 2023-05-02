@@ -2,13 +2,13 @@ import { Authentication } from "@DTO/auth";
 import { ICustomer, IHSProvider, IREAgent } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
 import { BadRequestException } from "@nestjs/common";
-import { Customer } from "@PROVIDER/cores/customer";
-import { HSProvider } from "@PROVIDER/cores/hs_provider";
-import { REAgent } from "@PROVIDER/cores/re_agent";
+import { Customer } from "@PROVIDER/cores/user/customer";
+import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
+import { REAgent } from "@PROVIDER/cores/user/re_agent";
 import { getISOString, isUndefined, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
 
-export namespace QueryBuilder {
+export namespace AuthenticationQueryBuilder {
   const PhoneRequired = new BadRequestException("Phone Required");
 
   const saveAgreementAcceptances = ({

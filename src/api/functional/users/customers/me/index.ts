@@ -10,12 +10,9 @@ import type { IConnection } from "@nestia/fetcher";
 import type { ICustomer } from "./../../../../structures/user/customer";
 
 /**
- * @summary 일반 고객 내 정보 조회 API
- * @tag customers
  * @tag users
  * @return 일반 고객 내 정보
  * @throw 401 Unauthorized
- * @throw 404 Not Found
  * @throw 403 Forbidden
  * 
  * @controller CustomersController.getMe()

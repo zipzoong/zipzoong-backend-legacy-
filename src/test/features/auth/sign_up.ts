@@ -8,7 +8,6 @@ import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import { getISOString } from "@UTIL";
 import typia from "typia";
-import { deleteAccessor } from "./internal";
 
 console.log("\n- 회원가입 시나리오");
 
@@ -20,7 +19,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
   typia.assertEquals(received);
 
-  await deleteAccessor(received.access_token);
+  await internal.deleteAccessor(received.access_token);
 };
 
 export const test_oauth_fail = (connection: IConnection) =>

@@ -5,7 +5,6 @@ import { Crypto } from "@PROVIDER/services/authentication";
 import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
-import { deleteAccessor } from "./internal";
 
 console.log("\n- 로그인 시나리오");
 
@@ -42,7 +41,7 @@ export const test_success = async (connection: IConnection) => {
 
   Crypto.getUserTokenPayload(received.access_token);
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
 
 export const test_invalid_accessor = internal.test_invalid_accessor(
@@ -72,5 +71,5 @@ export const test_not_found_user = async (connection: IConnection) => {
     })
   )(HttpStatus.FORBIDDEN, "User Not Found")();
 
-  await deleteAccessor(access_token);
+  await internal.deleteAccessor(access_token);
 };
