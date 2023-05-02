@@ -3,7 +3,7 @@ import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- 소셜 프로필 조회 시나리오");
+console.log("\n- auth.profile.getProfile");
 
 export const test_success = async (connection: IConnection): Promise<void> => {
   const { access_token } = await auth.sign_up.signUp(connection, {

@@ -6,7 +6,7 @@ import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- 로그인 시나리오");
+console.log("\n- auth.sign_in.signIn");
 
 export const test_success = async (connection: IConnection) => {
   const { access_token } = await auth.sign_up.signUp(connection, {

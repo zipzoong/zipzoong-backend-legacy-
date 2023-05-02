@@ -3,7 +3,7 @@ import { IConnection } from "@nestia/fetcher";
 import { agreements } from "@SDK";
 import typia from "typia";
 
-console.log("\n- 약관 조회 시나리오");
+console.log("\n- agreements.getList");
 
 export const test_success = async (connection: IConnection) => {
   const query = typia.random<IAgreement.ISearch>();

@@ -15,7 +15,7 @@ import type { IREAgent } from "./../../../../structures/user/re_agent";
  * @tag users
  * @return 공인중개사 내 정보
  * @throw 401 Unauthorized
- * @throw 404 Not Found
+ * @throw 403 Forbidden
  * 
  * @controller REAgentsController.getMe()
  * @path GET /users/re-agents/me

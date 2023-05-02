@@ -25,7 +25,7 @@ export class HSProvidersController {
    * @tag users
    * @return 생활서비스 제공자 내 정보
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @Get("me")
   getMe(): Promise<IHSProvider.IPrivateResponse> {

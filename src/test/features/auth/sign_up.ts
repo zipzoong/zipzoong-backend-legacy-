@@ -9,7 +9,7 @@ import { internal } from "@TEST/internal";
 import { getISOString } from "@UTIL";
 import typia from "typia";
 
-console.log("\n- 회원가입 시나리오");
+console.log("\n- auth.sign_up.signUp");
 
 export const test_success = async (connection: IConnection): Promise<void> => {
   const received = await auth.sign_up.signUp(connection, {

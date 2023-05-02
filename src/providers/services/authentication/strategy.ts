@@ -28,13 +28,10 @@ export class KakaoStrategy extends Kakao.AbstractStrategy<"oauth"> {
   protected override throw(): never {
     throw KakaoException;
   }
-  validate(
-    identity: Kakao.MeResponse,
-    credentials: Kakao.Credentials
-  ): boolean {
+  validate(): boolean {
     throw new Error("Method not implemented.");
   }
-  transform(identity: Kakao.MeResponse): Kakao.MeResponse {
+  transform(): Kakao.MeResponse {
     throw new Error("Method not implemented.");
   }
 }

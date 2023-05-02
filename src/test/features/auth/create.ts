@@ -8,7 +8,7 @@ import { agreements, auth, expert_categories } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- 사용자 정보 생성 시나리오");
+console.log("\n- auth.user.create");
 
 const getTokens = (connection: IConnection) =>
   auth.sign_up.signUp(connection, {

@@ -7,7 +7,7 @@ import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
-console.log("\n- 상위 전문 분야 카테고리 단일 조회 시나리오");
+console.log("\n- expert_categories.getSuperCategory");
 
 export const test_success = async (connection: IConnection) => {
   const query = typia.random<IExpertCategory.ISuperSearch>();

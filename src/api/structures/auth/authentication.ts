@@ -14,6 +14,7 @@ export namespace Authentication {
 
   export interface IProfile {
     readonly name: string | null;
+    /** @format email */
     readonly email: string | null;
     readonly phone: string | null;
     readonly profile_image_url: string | null;

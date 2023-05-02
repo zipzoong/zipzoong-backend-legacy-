@@ -7,7 +7,7 @@ import { agreements, auth, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- 일반 고객 개인 프로필 조회 시나리오");
+console.log("\n- users.customers.me.getMe");
 
 export const test_success = async (connection: IConnection) => {
   const code = "test_customer_get_me";

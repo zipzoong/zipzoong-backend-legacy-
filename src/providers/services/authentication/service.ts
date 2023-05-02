@@ -7,7 +7,7 @@ import { getISOString } from "@UTIL";
 import { randomUUID } from "crypto";
 import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
-import { AuthenticationQueryBuilder } from "./query-builder";
+import { createUserQuery } from "./create-user.query";
 
 export namespace AuthenticationService {
   export const signIn = ({
@@ -142,7 +142,7 @@ export namespace AuthenticationService {
       ? await getPhone(input.phone_access_code)
       : accessor.phone ?? undefined;
 
-    const [user_id, ...queries] = AuthenticationQueryBuilder.createUser({
+    const [user_id, ...queries] = createUserQuery({
       ...input,
       email,
       phone

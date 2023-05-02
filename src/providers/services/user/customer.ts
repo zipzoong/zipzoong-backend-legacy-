@@ -1,14 +1,11 @@
 import { ICustomer } from "@DTO/user";
 import { prisma } from "@INFRA/DB";
-import { ForbiddenException, NotFoundException } from "@nestjs/common";
 import { Customer } from "@PROVIDER/cores/user/customer";
 import { isNull } from "@UTIL";
 import { UserCommonService } from "./common";
+import { UserCommonException } from "./exception";
 
 export namespace CustomerService {
-  const UserNotFound = new NotFoundException("User Not Found");
-  const MeNotFound = new ForbiddenException("User Not Found");
-
   export const getOne = async (
     user_id: string
   ): Promise<ICustomer.IResponse> => {
@@ -17,7 +14,8 @@ export namespace CustomerService {
       prisma.customerModel.findFirst({ where: { id: user_id } })
     ] as const);
 
-    if (isNull(userModel) || isNull(customerModel)) throw UserNotFound;
+    if (isNull(userModel) || isNull(customerModel))
+      throw UserCommonException.UserNotFound;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { is_deleted, deleted_at, ...response } = Customer.map({
       userModel,
@@ -34,7 +32,8 @@ export namespace CustomerService {
       prisma.customerModel.findFirst({ where: { id: user_id } })
     ] as const);
 
-    if (isNull(userModel) || isNull(customerModel)) throw MeNotFound;
+    if (isNull(userModel) || isNull(customerModel))
+      throw UserCommonException.MeNotFound;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { is_deleted, deleted_at, ...response } = Customer.map({

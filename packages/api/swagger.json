@@ -1049,8 +1049,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "생활서비스 제공자 내 정보 조회 API",
@@ -1106,7 +1106,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -1329,8 +1329,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "공인중개사 내 정보 조회 API",
@@ -1386,7 +1386,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -1737,7 +1737,25 @@
           "email": {
             "type": "string",
             "nullable": true,
-            "x-typia-required": true
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "email"
           },
           "phone": {
             "type": "string",
