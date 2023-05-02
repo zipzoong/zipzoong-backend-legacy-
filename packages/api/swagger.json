@@ -1511,12 +1511,47 @@
                 "RE"
               ],
               "nullable": false,
-              "description": "약관 필터링 기준\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
               "x-typia-required": true
             },
             "nullable": false,
-            "description": "약관 필터링 기준\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
-            "x-typia-required": true
+            "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minItems": 1
           }
         },
         "nullable": false,
@@ -2195,10 +2230,47 @@
                 "RE"
               ],
               "nullable": false,
+              "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
               "x-typia-required": true
             },
             "nullable": false,
-            "x-typia-required": true
+            "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minItems": 1
           }
         },
         "nullable": false,
