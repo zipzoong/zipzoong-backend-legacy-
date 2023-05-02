@@ -1,4 +1,4 @@
-import { IDateTime } from "@DTO/common";
+import { IDateTime, IPage } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -41,10 +41,18 @@ export namespace IREAgent {
     readonly address: IUser.IAddress;
   }
 
-  export interface ICreate extends IUser.ICreate<"real estate agent"> {
-    phone: string;
-    profile_image_url: string;
-    introduction: IBusinessUser.IIntroduction;
+  export interface ISearch extends IPage {
+    /**
+     * 검색 기준으로 사용할 상위 전문 분야 이름 목록
+     */
+    super_expert_name: string[];
+    /**
+     * 검색 기준으로 사용할 하위 전문 분야 이름 목록
+     */
+    sub_expert_name: string[];
+  }
+
+  export interface ICreate extends IBusinessUser.ICreate<"real estate agent"> {
     /**
      * 개업/소속 공인중개사 표시
      *
@@ -56,7 +64,6 @@ export namespace IREAgent {
      * 본인이 속한 부동산 정보
      */
     real_estate: IREAgent.IRealEstate;
-    expertise_ids: string[];
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {

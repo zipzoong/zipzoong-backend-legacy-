@@ -1,7 +1,7 @@
 import { ICustomer, IHSProvider, IREAgent, IUser } from "../user";
 
 export namespace Authentication {
-  export type OauthType = "kakao" | "naver";
+  export type OauthType = "kakao";
 
   export interface ISignUp {
     code: string;
@@ -14,6 +14,7 @@ export namespace Authentication {
 
   export interface IProfile {
     readonly name: string | null;
+    /** @format email */
     readonly email: string | null;
     readonly phone: string | null;
     readonly profile_image_url: string | null;

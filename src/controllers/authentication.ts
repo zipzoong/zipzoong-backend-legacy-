@@ -1,7 +1,11 @@
 import { Authentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
 import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { AuthenticationService } from "@PROVIDER/services";
+import {
+  AuthenticationService,
+  Crypto
+} from "@PROVIDER/services/authentication";
+import { Authorization } from "./decorators";
 
 @Controller("auth")
 export class AuthenticationController {
@@ -13,12 +17,12 @@ export class AuthenticationController {
    * @param body oauth code, oauth type, user_type
    * @return tokens
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @HttpCode(HttpStatus.OK)
   @Post("sign-in")
   signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
-    throw Error("");
+    return AuthenticationService.signIn(body);
   }
 
   /**
@@ -30,6 +34,7 @@ export class AuthenticationController {
    * @tag authentication
    * @param body oauth code, oauth type
    * @return tokens
+   * @throw 403 Forbidden
    */
   @Post("sign-up")
   signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
@@ -46,8 +51,11 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Get("profile")
-  getProfile(): Promise<Authentication.IProfile> {
-    throw Error();
+  getProfile(
+    @Authorization("basic") token: string
+  ): Promise<Authentication.IProfile> {
+    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
+    return AuthenticationService.getProfile(accessor_id);
   }
 
   /**
@@ -70,7 +78,11 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @Post("user")
-  create(@TypedBody() body: Authentication.ICreateRequest): Promise<void> {
-    throw Error();
+  create(
+    @Authorization("basic") token: string,
+    @TypedBody() body: Authentication.ICreateRequest
+  ): Promise<void> {
+    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
+    return AuthenticationService.createUser(accessor_id, body);
   }
 }

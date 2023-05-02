@@ -18,6 +18,13 @@ export namespace IExpertCategory {
   }
 
   export interface ISuperSearch {
+    /**
+     * 전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)
+     * - RE 공인중개사 대상 약관
+     * - HS 생활서비스 대상 약관
+     *
+     * @minItems 1
+     */
     filter: BusinessType[];
   }
 }

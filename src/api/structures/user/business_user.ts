@@ -30,6 +30,14 @@ export namespace IBusinessUser {
     readonly sub_expertise_ids: string[];
   }
 
+  export interface ICreate<T extends Type> extends IUser.ICreate<T> {
+    phone: string;
+    profile_image_url: string;
+    introduction: IIntroduction;
+    super_expertise_id: string;
+    sub_expertise_ids: string[];
+  }
+
   export interface IExpertise {
     readonly id: string;
     readonly name: string;

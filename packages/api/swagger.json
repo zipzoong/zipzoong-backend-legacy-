@@ -128,8 +128,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "로그인 API",
@@ -193,7 +193,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -230,6 +230,9 @@
               }
             },
             "x-nestia-encrypted": false
+          },
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "회원가입 API",
@@ -276,6 +279,15 @@
             "text": [
               {
                 "text": "tokens",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -593,6 +605,9 @@
               }
             },
             "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "NotFound"
           }
         },
         "summary": "상위 전문 분야 조회 API",
@@ -642,6 +657,15 @@
                 "kind": "text"
               }
             ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 NotFound",
+                "kind": "text"
+              }
+            ]
           }
         ]
       }
@@ -678,6 +702,9 @@
               }
             },
             "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "NotFound"
           }
         },
         "summary": "하위 전문 분야 목록 조회 API",
@@ -727,6 +754,15 @@
                 "kind": "text"
               }
             ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 NotFound",
+                "kind": "text"
+              }
+            ]
           }
         ]
       }
@@ -734,7 +770,6 @@
     "/users/customers/me": {
       "get": {
         "tags": [
-          "customers",
           "users"
         ],
         "parameters": [],
@@ -753,32 +788,13 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
-        "summary": "일반 고객 내 정보 조회 API",
         "description": "",
         "x-nestia-namespace": "users.customers.me.getMe",
         "x-nestia-jsDocTags": [
-          {
-            "name": "summary",
-            "text": [
-              {
-                "text": "일반 고객 내 정보 조회 API",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "customers",
-                "kind": "text"
-              }
-            ]
-          },
           {
             "name": "tag",
             "text": [
@@ -810,7 +826,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -933,7 +949,7 @@
             "in": "query",
             "description": "필터링 기준",
             "schema": {
-              "$ref": "#/components/schemas/IPage"
+              "$ref": "#/components/schemas/IHSProvider.ISearch"
             },
             "required": true
           }
@@ -1033,8 +1049,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "생활서비스 제공자 내 정보 조회 API",
@@ -1090,7 +1106,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -1213,7 +1229,7 @@
             "in": "query",
             "description": "필터링 기준",
             "schema": {
-              "$ref": "#/components/schemas/IPage"
+              "$ref": "#/components/schemas/IREAgent.ISearch"
             },
             "required": true
           }
@@ -1313,8 +1329,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           }
         },
         "summary": "공인중개사 내 정보 조회 API",
@@ -1370,7 +1386,7 @@
             "name": "throw",
             "text": [
               {
-                "text": "404 Not Found",
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -1499,12 +1515,47 @@
                 "RE"
               ],
               "nullable": false,
-              "description": "약관 필터링 기준\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
               "x-typia-required": true
             },
             "nullable": false,
-            "description": "약관 필터링 기준\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
-            "x-typia-required": true
+            "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minItems": 1
           }
         },
         "nullable": false,
@@ -1622,8 +1673,7 @@
           "oauth_type": {
             "type": "string",
             "enum": [
-              "kakao",
-              "naver"
+              "kakao"
             ],
             "nullable": false,
             "x-typia-required": true
@@ -1663,8 +1713,7 @@
           "oauth_type": {
             "type": "string",
             "enum": [
-              "kakao",
-              "naver"
+              "kakao"
             ],
             "nullable": false,
             "x-typia-required": true
@@ -1688,7 +1737,25 @@
           "email": {
             "type": "string",
             "nullable": true,
-            "x-typia-required": true
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "email"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "email",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "format": "email"
           },
           "phone": {
             "type": "string",
@@ -1928,6 +1995,21 @@
             "description": "약관 동의 id 리스트",
             "x-typia-required": true
           },
+          "super_expertise_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true
+          },
+          "sub_expertise_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "x-typia-required": true
+          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true
@@ -1962,28 +2044,19 @@
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "description": "본인이 속한 부동산 정보",
             "x-typia-required": true
-          },
-          "expertise_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "x-typia-required": true
-            },
-            "nullable": false,
-            "x-typia-required": true
           }
         },
         "nullable": false,
         "required": [
           "business_certifications",
           "agreement_acceptances",
+          "super_expertise_id",
+          "sub_expertise_ids",
           "introduction",
           "profile_image_url",
           "type",
           "is_licensed",
-          "real_estate",
-          "expertise_ids"
+          "real_estate"
         ],
         "x-typia-jsDocTags": []
       },
@@ -2179,10 +2252,47 @@
                 "RE"
               ],
               "nullable": false,
+              "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
               "x-typia-required": true
             },
             "nullable": false,
-            "x-typia-required": true
+            "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "minItems": 1
           }
         },
         "nullable": false,
@@ -2637,9 +2747,33 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IPage": {
+      "IHSProvider.ISearch": {
         "type": "object",
         "properties": {
+          "super_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "sub_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
           "page": {
             "type": "integer",
             "nullable": false,
@@ -2679,6 +2813,10 @@
           }
         },
         "nullable": false,
+        "required": [
+          "super_expert_name",
+          "sub_expert_name"
+        ],
         "x-typia-jsDocTags": []
       },
       "IPaginatedResponse_lt_IHSProvider.IResponse_gt_": {
@@ -3131,6 +3269,78 @@
           "super_expertise",
           "sub_expertises",
           "agreement_acceptances"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 상위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "sub_expert_name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+              "x-typia-required": true
+            },
+            "nullable": false,
+            "description": "검색 기준으로 사용할 하위 전문 분야 이름 목록",
+            "x-typia-required": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_expert_name",
+          "sub_expert_name"
         ],
         "x-typia-jsDocTags": []
       },

@@ -7,8 +7,8 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IPage, IPaginatedResponse } from "./../../../structures/common/pagination";
 import type { IREAgent } from "./../../../structures/user/re_agent";
+import type { IPaginatedResponse } from "./../../../structures/common/pagination";
 
 export * as me from "./me";
 
@@ -27,7 +27,7 @@ export * as me from "./me";
 export function getList
     (
         connection: IConnection,
-        query: IPage
+        query: IREAgent.ISearch
     ): Promise<getList.Output>
 {
     return Fetcher.fetch
@@ -40,7 +40,7 @@ export function getList
 }
 export namespace getList
 {
-    export type Query = IPage;
+    export type Query = IREAgent.ISearch;
     export type Output = IPaginatedResponse<IREAgent.IResponse>;
 
     export const METHOD = "GET" as const;
@@ -50,7 +50,7 @@ export namespace getList
         response: false,
     };
 
-    export function path(query: IPage): string
+    export function path(query: IREAgent.ISearch): string
     {
         const variables: Record<any, any> = query as any;
         const search: URLSearchParams = new URLSearchParams();

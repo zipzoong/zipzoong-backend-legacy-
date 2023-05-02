@@ -20,7 +20,7 @@ import type { ITokens } from "./../../../structures/auth/token";
  * @param body oauth code, oauth type, user_type
  * @return tokens
  * @throw 401 Unauthorized
- * @throw 404 Not Found
+ * @throw 403 Forbidden
  * 
  * @controller AuthenticationController.signIn()
  * @path POST /auth/sign-in

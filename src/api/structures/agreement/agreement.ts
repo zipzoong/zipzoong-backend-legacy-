@@ -12,12 +12,14 @@ export namespace IAgreement {
 
   export interface ISearch {
     /**
-     * 약관 필터링 기준
+     * 약관 조회 필터링 기준(최소 1개 필요)
      * - all 전체 약관
      * - customer 일반 고객 대상 약관
      * - business 사업자 대상 약관
      * - RE 공인중개사 대상 약관
      * - HS 생활서비스 대상 약관
+     *
+     * @minItems 1
      */
     filter: UserType[];
   }

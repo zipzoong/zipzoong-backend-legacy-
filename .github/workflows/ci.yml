@@ -4,11 +4,16 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches:
+      - "!hotfix*"
 
 env:
   PORT: 4000
   DATABASE_URL: postgresql://test:test@postgres:5432/test
+  ACCESSOR_TOKEN_PRIVATE_KEY: ${{ vars.ACCESSOR_TOKEN_PRIVATE_KEY }}
+  ACCESSOR_TOKEN_PUBLIC_KEY: ${{ vars.ACCESSOR_TOKEN_PUBLIC_KEY }}
+  USER_TOKEN_PRIVATE_KEY: ${{ vars.USER_TOKEN_PRIVATE_KEY }}
+  USER_TOKEN_PUBLIC_KEY: ${{ vars.USER_TOKEN_PUBLIC_KEY }}
 
 permissions:
   pull-requests: write

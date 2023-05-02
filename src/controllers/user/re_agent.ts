@@ -1,7 +1,10 @@
 import { IREAgent } from "@DTO/user";
-import { IPage, IPaginatedResponse } from "@DTO/common";
+import { IPaginatedResponse } from "@DTO/common";
 import { Controller, Get } from "@nestjs/common";
 import { TypedParam, TypedQuery } from "@nestia/core";
+import { REAgentService } from "@PROVIDER/services/user/re-agent";
+import { REAgentToken } from "../decorators";
+import { ITokens } from "@DTO/auth";
 
 @Controller("users/re-agents")
 export class REAgentsController {
@@ -14,9 +17,9 @@ export class REAgentsController {
    */
   @Get()
   getList(
-    @TypedQuery() query: IPage
+    @TypedQuery() query: IREAgent.ISearch
   ): Promise<IPaginatedResponse<IREAgent.IResponse>> {
-    throw Error();
+    return REAgentService.getList(query);
   }
 
   /**
@@ -25,11 +28,13 @@ export class REAgentsController {
    * @tag users
    * @return 공인중개사 내 정보
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(): Promise<IREAgent.IPrivateResponse> {
-    throw Error();
+  getMe(
+    @REAgentToken() payload: ITokens.IUserPayload<"real estate agent">
+  ): Promise<IREAgent.IPrivateResponse> {
+    return REAgentService.getMe(payload.user_id);
   }
 
   /**
@@ -44,6 +49,6 @@ export class REAgentsController {
   getOne(
     @TypedParam("agent_id") agent_id: string
   ): Promise<IREAgent.IResponse> {
-    throw Error();
+    return REAgentService.getOne(agent_id);
   }
 }

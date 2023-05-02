@@ -15,7 +15,7 @@ import type { IHSProvider } from "./../../../../structures/user/hs_provider";
  * @tag users
  * @return 생활서비스 제공자 내 정보
  * @throw 401 Unauthorized
- * @throw 404 Not Found
+ * @throw 403 Forbidden
  * 
  * @controller HSProvidersController.getMe()
  * @path GET /users/hs-providers/me

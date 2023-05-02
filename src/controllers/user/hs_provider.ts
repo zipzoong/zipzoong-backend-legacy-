@@ -1,7 +1,10 @@
-import { IPage, IPaginatedResponse } from "@DTO/common";
+import { ITokens } from "@DTO/auth";
+import { IPaginatedResponse } from "@DTO/common";
 import { IHSProvider } from "@DTO/user";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
+import { HSProviderService } from "@PROVIDER/services/user/hs_provider";
+import { HSProviderToken } from "../decorators";
 
 @Controller("users/hs-providers")
 export class HSProvidersController {
@@ -14,9 +17,9 @@ export class HSProvidersController {
    */
   @Get()
   getList(
-    @TypedQuery() query: IPage
+    @TypedQuery() query: IHSProvider.ISearch
   ): Promise<IPaginatedResponse<IHSProvider.IResponse>> {
-    throw Error();
+    return HSProviderService.getList(query);
   }
 
   /**
@@ -25,11 +28,13 @@ export class HSProvidersController {
    * @tag users
    * @return 생활서비스 제공자 내 정보
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(): Promise<IHSProvider.IPrivateResponse> {
-    throw Error();
+  getMe(
+    @HSProviderToken() payload: ITokens.IUserPayload<"home service provider">
+  ): Promise<IHSProvider.IPrivateResponse> {
+    return HSProviderService.getMe(payload.user_id);
   }
 
   /**
@@ -44,6 +49,6 @@ export class HSProvidersController {
   getOne(
     @TypedParam("provider_id") provider_id: string
   ): Promise<IHSProvider.IResponse> {
-    throw Error();
+    return HSProviderService.getOne(provider_id);
   }
 }

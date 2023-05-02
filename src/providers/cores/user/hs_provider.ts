@@ -1,6 +1,5 @@
 import { IDateTime, ISoftDeletable } from "@DTO/common";
 import { IHSProvider } from "@DTO/user";
-import { InternalServerErrorException } from "@nestjs/common";
 import {
   BusinessUserModel,
   HSIntroductionImageModel,
@@ -61,49 +60,54 @@ export namespace HSProvider {
     };
   };
 
-  export const map = (
-    user: UserModel,
-    business: BusinessUserModel,
-    provider: HSProviderModel,
-    images: HSIntroductionImageModel[],
-    super_expertise: SuperExpertiseModel,
-    sub_expertises: SubExpertiseModel[]
-  ): IHSProvider & IDateTime & ISoftDeletable => {
-    const hs_provider = {
+  export const map = ({
+    userModel,
+    businessModel,
+    providerModel,
+    subExpertiseModels,
+    superExpertiseModel,
+    introductionImageModels
+  }: {
+    userModel: UserModel;
+    businessModel: BusinessUserModel;
+    providerModel: HSProviderModel;
+    superExpertiseModel: SuperExpertiseModel;
+    subExpertiseModels: SubExpertiseModel[];
+    introductionImageModels: HSIntroductionImageModel[];
+  }): IHSProvider & IDateTime & ISoftDeletable => {
+    const provider: IHSProvider & IDateTime & ISoftDeletable = {
       type: "home service provider",
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      created_at: getISOString(user.created_at),
-      updated_at: getISOString(user.updated_at),
-      is_deleted: user.is_deleted,
-      deleted_at: isNull(user.deleted_at)
+      id: userModel.id,
+      name: userModel.name,
+      email: userModel.email,
+      created_at: getISOString(userModel.created_at),
+      updated_at: getISOString(userModel.updated_at),
+      is_deleted: userModel.is_deleted,
+      deleted_at: isNull(userModel.deleted_at)
         ? null
-        : getISOString(user.deleted_at),
-      phone: business.phone,
-      profile_image_url: business.profile_image_url,
-      is_verified: business.is_verified,
+        : getISOString(userModel.deleted_at),
+      phone: businessModel.phone,
+      profile_image_url: businessModel.profile_image_url,
+      is_verified: businessModel.is_verified,
       address: {
-        first: business.address_first,
-        second: business.address_second
+        first: businessModel.address_first,
+        second: businessModel.address_second
       },
       introduction: {
-        title: business.introduction_title,
-        content: business.introduction_content,
-        images: images
+        title: businessModel.introduction_title,
+        content: businessModel.introduction_content,
+        images: introductionImageModels
           .filter((entity) => !entity.is_deleted)
           .map(({ id, image_url }) => ({ id, image_url }))
       },
-      business_registration_num: provider.business_registration_num,
-      super_expertise_id: super_expertise.super_category_id,
-      sub_expertise_ids: sub_expertises
+      business_registration_num: providerModel.business_registration_num,
+      super_expertise_id: superExpertiseModel.super_category_id,
+      sub_expertise_ids: subExpertiseModels
         .filter((entity) => !entity.is_deleted)
         .map((entity) => entity.sub_category_id)
     } satisfies IHSProvider & IDateTime & ISoftDeletable;
 
-    if (!typia.equals<IHSProvider & IDateTime & ISoftDeletable>(hs_provider)) {
-      throw new InternalServerErrorException();
-    }
-    return hs_provider;
+    if (!typia.equals(provider)) throw Error("Fail to HSProvider.map");
+    return provider;
   };
 }

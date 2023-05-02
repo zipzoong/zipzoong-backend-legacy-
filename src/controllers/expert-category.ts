@@ -1,6 +1,7 @@
 import { IExpertCategory } from "@DTO/expert-category";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
+import { ExpertCategory } from "@PROVIDER/services/expert-category";
 
 @Controller("expert-categories")
 export class ExpertCategoriesController {
@@ -14,7 +15,7 @@ export class ExpertCategoriesController {
   getSuperCategoryList(
     @TypedQuery() query: IExpertCategory.ISuperSearch
   ): Promise<IExpertCategory.Super[]> {
-    throw Error();
+    return ExpertCategory.getSuperCategoryList(query);
   }
 
   /**
@@ -22,12 +23,13 @@ export class ExpertCategoriesController {
    * @tag expert-categories
    * @param super_id 상위 전문 분야 id
    * @return 상위 전문 분야 정보
+   * @throw 404 NotFound
    */
   @Get(":super_id")
   getSuperCategory(
     @TypedParam("super_id") super_id: string
   ): Promise<IExpertCategory.Super> {
-    throw Error();
+    return ExpertCategory.getSuperCategory(super_id);
   }
 
   /**
@@ -35,11 +37,12 @@ export class ExpertCategoriesController {
    * @tag expert-categories
    * @param super_id 상위 전문 분야 id
    * @return 하위 전문 분야 목록
+   * @throw 404 NotFound
    */
   @Get(":super_id/sub-categories")
   getSubCategoryList(
     @TypedParam("super_id") super_id: string
   ): Promise<IExpertCategory.Sub[]> {
-    throw Error();
+    return ExpertCategory.getSubCategoryList(super_id);
   }
 }

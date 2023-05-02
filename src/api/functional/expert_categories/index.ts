@@ -69,6 +69,7 @@ export namespace getSuperCategoryList
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param super_id 상위 전문 분야 id
  * @return 상위 전문 분야 정보
+ * @throw 404 NotFound
  * 
  * @controller ExpertCategoriesController.getSuperCategory()
  * @path GET /expert-categories/:super_id

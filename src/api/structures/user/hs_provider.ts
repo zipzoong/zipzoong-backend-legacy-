@@ -1,4 +1,4 @@
-import { IDateTime } from "@DTO/common";
+import { IDateTime, IPage } from "@DTO/common";
 import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -23,10 +23,19 @@ export namespace IHSProvider {
     readonly images: IIntroductionImage[];
   }
 
-  export interface ICreate extends IUser.ICreate<"home service provider"> {
-    phone: string;
-    profile_image_url: string;
-    introduction: IBusinessUser.IIntroduction;
+  export interface ISearch extends IPage {
+    /**
+     * 검색 기준으로 사용할 상위 전문 분야 이름 목록
+     */
+    super_expert_name: string[];
+    /**
+     * 검색 기준으로 사용할 하위 전문 분야 이름 목록
+     */
+    sub_expert_name: string[];
+  }
+
+  export interface ICreate
+    extends IBusinessUser.ICreate<"home service provider"> {
     /**
      * 자체 리뷰 이미지 주소 목록
      */
@@ -36,8 +45,6 @@ export namespace IHSProvider {
      * 사업자등록번호
      */
     business_registration_num: string;
-    sub_expertise_ids: string[];
-    super_expertise_id: string;
   }
 
   export interface ICreateRequest extends Omit<ICreate, "email" | "phone"> {

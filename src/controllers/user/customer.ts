@@ -1,20 +1,23 @@
+import { ITokens } from "@DTO/auth";
 import { ICustomer } from "@DTO/user";
 import { TypedParam } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
+import { CustomerService } from "@PROVIDER/services/user/customer";
+import { CustomerToken } from "../decorators";
 
 @Controller("users/customers")
 export class CustomersController {
   /**
-   * @summary 일반 고객 내 정보 조회 API
-   * @tag customers
    * @tag users
    * @return 일반 고객 내 정보
    * @throw 401 Unauthorized
-   * @throw 404 Not Found
+   * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(): Promise<ICustomer.IPrivateResponse> {
-    throw Error();
+  getMe(
+    @CustomerToken() payload: ITokens.IUserPayload<"customer">
+  ): Promise<ICustomer.IPrivateResponse> {
+    return CustomerService.getMe(payload.user_id);
   }
 
   /**
@@ -29,6 +32,6 @@ export class CustomersController {
   getOne(
     @TypedParam("customer_id") customer_id: string
   ): Promise<ICustomer.IResponse> {
-    throw Error();
+    return CustomerService.getOne(customer_id);
   }
 }
