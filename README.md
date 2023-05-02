@@ -16,5 +16,3 @@
 ## API 문서
 
 - [View in the `Swagger Editor`](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/main/packages/api/swagger.json)
-
-//
