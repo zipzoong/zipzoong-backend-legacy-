@@ -5,11 +5,13 @@ on:
     branches: [ main ]
   pull_request:
     branches:
-      - "!hotfix*"
+      - main
+      - devlop
+      - user_system
 
 env:
   PORT: 4000
-  DATABASE_URL: postgresql://test:test@postgres:5432/test
+  DATABASE_URL: postgresql://test:test@localhost:5432/test
   ACCESSOR_TOKEN_PRIVATE_KEY: ${{ vars.ACCESSOR_TOKEN_PRIVATE_KEY }}
   ACCESSOR_TOKEN_PUBLIC_KEY: ${{ vars.ACCESSOR_TOKEN_PUBLIC_KEY }}
   USER_TOKEN_PRIVATE_KEY: ${{ vars.USER_TOKEN_PRIVATE_KEY }}
@@ -26,14 +28,16 @@ jobs:
       postgres:
         image: postgres:14
         env:
-            POSTGRES_DB: test
-            POSTGRES_USER: test
-            POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
         options: >-
           --health-cmd="pg_isready"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
 
     strategy:
       matrix:
@@ -42,6 +46,13 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@main
+
+      - name: Exit If Hotfix
+        run: |
+          if [[ ${{ github.head_ref }} =~ ^hotfix/.* ]]; then
+            echo "Hotfix branch detected, skipping action"
+            exit 0
+          fi
 
       - name: Install
         run: npm ci
