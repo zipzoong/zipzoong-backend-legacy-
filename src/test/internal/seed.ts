@@ -95,7 +95,7 @@ export const seedHSProviders = async (connection: IConnection) => {
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(100, () =>
+  await ArrayUtil.asyncRepeat(10, () =>
     ArrayUtil.asyncForEach(super_categories, async (category) => {
       const input = create();
       input.email_access_code = undefined;
@@ -135,7 +135,7 @@ export const seedREAgents = async (connection: IConnection) => {
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(100, () =>
+  await ArrayUtil.asyncRepeat(10, () =>
     ArrayUtil.asyncForEach(super_categories, async (category) => {
       const input = create();
       input.email_access_code = undefined;
