@@ -1,2 +1,2 @@
 export * from "./authorization";
-export * from "./typed-query";
+export * from "./user_token";

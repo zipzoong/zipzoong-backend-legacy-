@@ -1,19 +1,19 @@
+import { ITokens } from "@DTO/auth";
+import { isUndefined, pipe } from "@fxts/core";
 import {
   createParamDecorator,
   ExecutionContext,
   UnauthorizedException
 } from "@nestjs/common";
-import { isNull, isUndefined, throwIf } from "@UTIL";
+import { isNull, throwIf } from "@UTIL";
 import { Request } from "express";
-import { pipe } from "rxjs";
-
-type TOKEN_TYPE = "basic" | "bearer";
 
 const extract_authorization_header = (context: ExecutionContext) =>
   context.switchToHttp().getRequest<Request>().headers["authorization"];
 
-const validate_token_type = (type: TOKEN_TYPE) => (input: string) =>
-  input.match(new RegExp(`^${type}\\s+\\S+`, "i"));
+const validate_token_type =
+  (type: ITokens.AuthorizationHeaderTokenType) => (input: string) =>
+    input.match(new RegExp(`^${type}\\s+\\S+`, "i"));
 
 const extract_token = (input: RegExpMatchArray) => input[0].split(/\s+/)[1];
 
@@ -22,20 +22,27 @@ const AuthorizationRequired = new UnauthorizedException(
 );
 
 const RequestUnauthorized = new UnauthorizedException(
-  "Request is unauthorized."
+  "The format of the Authorization header is invalid"
 );
 
-export const Authorization = (token_type: TOKEN_TYPE = "bearer") =>
-  createParamDecorator((type: TOKEN_TYPE, ctx: ExecutionContext) =>
-    pipe(
-      extract_authorization_header,
+export const Authorization = (
+  token_type: ITokens.AuthorizationHeaderTokenType = "bearer"
+) =>
+  createParamDecorator(
+    (type: ITokens.AuthorizationHeaderTokenType, ctx: ExecutionContext) =>
+      pipe(
+        ctx,
 
-      throwIf(isUndefined, AuthorizationRequired),
+        extract_authorization_header,
 
-      validate_token_type(type),
+        throwIf(isUndefined, AuthorizationRequired),
 
-      throwIf(isNull, RequestUnauthorized),
+        validate_token_type(type),
 
-      extract_token
-    )(ctx)
+        throwIf(isNull, RequestUnauthorized),
+
+        extract_token,
+
+        throwIf(isUndefined, RequestUnauthorized)
+      )
   )(token_type);

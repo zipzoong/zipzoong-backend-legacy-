@@ -4,11 +4,18 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - devlop
+      - user_system
 
 env:
   PORT: 4000
-  DATABASE_URL: mysql://test:test@localhost:3306/test
+  DATABASE_URL: postgresql://test:test@localhost:5432/test
+  ACCESSOR_TOKEN_PRIVATE_KEY: ${{ vars.ACCESSOR_TOKEN_PRIVATE_KEY }}
+  ACCESSOR_TOKEN_PUBLIC_KEY: ${{ vars.ACCESSOR_TOKEN_PUBLIC_KEY }}
+  USER_TOKEN_PRIVATE_KEY: ${{ vars.USER_TOKEN_PRIVATE_KEY }}
+  USER_TOKEN_PUBLIC_KEY: ${{ vars.USER_TOKEN_PUBLIC_KEY }}
 
 permissions:
   pull-requests: write
@@ -16,21 +23,22 @@ permissions:
 jobs:
   Test_Report:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'hotfix/') == false
 
     services:
-      mysql:
-        image: mysql:8
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+      postgres:
+        image: postgres:14
         env:
-          MYSQL_USER: test
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_PASSWORD: test
-          MYSQL_DATABASE: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     strategy:
       matrix:

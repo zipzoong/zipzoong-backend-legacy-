@@ -1,216 +1,226 @@
+datasource database {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../db"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+enum GenderType {
+  female
+  male
+  other
 }
 
-model Board {
-  id       String         @id
-  name     String         @unique(map: "boards_unique_name")
-  articles BoardArticle[]
-
-  @@map("boards")
+enum OauthType {
+  kakao
+  naver
 }
 
-model BoardArticle {
-  id        String         @id
-  board_id  String
-  writer_id String
-  title     String
-  content   String
-  board     Board          @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "board_articles_board_fkey")
-  writer    User           @relation(fields: [writer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "board_articles_writer_fkey")
-  comments  BoardComment[]
-
-  @@map("board_articles")
+enum ExpertBusinessType {
+  HS
+  RE
 }
 
-model BoardComment {
-  id         String       @id
-  writer_id  String
-  article_id String
-  content    String
-  article    BoardArticle @relation(fields: [article_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "board_comments_article_fkey")
-  writer     User         @relation(fields: [writer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "board_comments_writer_fkey")
-
-  @@map("board_comments")
+enum AgreementUserType {
+  all
+  customer
+  business
+  HS
+  RE
 }
 
-model BusinessItem {
-  id         String       @id
-  manager_id String
-  name       String
-  main_image String
-  manager    BusinessUser @relation(fields: [manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_items_manager_fkey")
+model OauthAccessorModel {
+  id                String             @id
+  created_at        DateTime           @database.Timestamptz
+  updated_at        DateTime           @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?          @database.Timestamptz
+  oauth_type        OauthType
+  oauth_sub         String
+  business_user_id  String?
+  customer_id       String?
+  name              String?
+  email             String?
+  phone             String?
+  profile_image_url String?
+  birth             String?
+  gender            GenderType?
+  address_first     String?
+  address_second    String?
+  business_user     BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer          CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("business_items")
+  @@map("oauth_accessors")
 }
 
-model BusinessRateCategory {
-  id    String         @id
-  name  String         @unique(map: "business_rate_categories_unique_name")
-  rates BusinessRate[]
-
-  @@map("business_rate_categories")
-}
-
-model BusinessRate {
-  id          String               @id
-  category_id String
-  business_id String
-  rater_id    String
-  rate        Int                  @db.SmallInt
-  business    BusinessUser         @relation(fields: [business_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_business_fkey")
-  category    BusinessRateCategory @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_category_fkey")
-  rater       Customer             @relation(fields: [rater_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_rates_rater_fkey")
-
-  @@map("business_rate")
-}
-
-model BusinessReview {
-  id          String       @id
-  business_id String
-  reviewer_id String
-  content     String
-  business    BusinessUser @relation(fields: [business_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_reviews_business_fkey")
-  reviewer    Customer     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_reviews_reviewer_fkey")
-
-  @@map("business_reviews")
-}
-
-model HomeCareSpecializedField {
-  id              String              @id
-  sub_category_id String
-  company_id      String
-  sub_category    HomeCareSubCategory @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "home_care_specialized_fields_category_fkey")
-  company         HomeCareCompany     @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "home_care_specialized_fields_company_fkey")
-
-  @@unique([sub_category_id, company_id], map: "home_care_specialized_fields_unique")
-  @@map("home_care_specialized_fields")
-}
-
-model HomeCareSuperCategory {
-  id                       String                @id
-  name                     String                @unique(map: "home_care_super_categories_unique_name")
-  home_care_sub_categories HomeCareSubCategory[]
-
-  @@map("home_care_super_categories")
-}
-
-model HomeCareSubCategory {
-  id                 String                     @id
-  super_id           String
-  name               String                     @unique(map: "home_care_sub_categories_unique_name")
-  specialized_fields HomeCareSpecializedField[]
-  super              HomeCareSuperCategory      @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "home_care_sub_categories_fkey")
-
-  @@map("home_care_sub_categories")
-}
-
-model RealEstateSpecializedField {
-  id                       String                @id
-  sub_category_id          String
-  agent_id                 String
-  agent                    RealEstateAgent       @relation(fields: [agent_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "real_estate_specialized_fields_agent_fkey")
-  real_estate_sub_category RealEstateSubCategory @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "real_estate_specialized_fields_category_fkey")
-
-  @@unique([sub_category_id, agent_id], map: "real_estate_specialized_fields_unique")
-  @@map("real_estate_specialized_fields")
-}
-
-model RealEstateSuperCategory {
-  id                         String                  @id
-  name                       String                  @unique(map: "real_estate_super_categories_unique_name")
-  real_estate_sub_categories RealEstateSubCategory[]
-
-  @@map("real_estate_super_categories")
-}
-
-model RealEstateSubCategory {
-  id                             String                       @id
-  super_id                       String
-  name                           String                       @unique(map: "real_estate_sub_categories_unique_name")
-  real_estate_specialized_fields RealEstateSpecializedField[]
-  super                          RealEstateSuperCategory      @relation(fields: [super_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "real_estate_sub_categories_fkey")
-
-  @@map("real_estate_sub_categories")
-}
-
-model UserAuthentication {
-  id         String @id
-  oauth_sub  String
-  oauth_type String
-  users      User[]
-
-  @@map("user_authentications")
-}
-
-model User {
-  id             String             @id
-  auth_id        String
-  name           String
-  email          String
-  email_verified Boolean
-  phone          String
-  address_first  String
-  address_second String?
-  board_articles BoardArticle[]
-  board_comments BoardComment[]
-  business_user  BusinessUser?
-  customer       Customer?
-  auth           UserAuthentication @relation(fields: [auth_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_auth_fkey")
+model UserModel {
+  id                    String                     @id
+  created_at            DateTime                   @database.Timestamptz
+  updated_at            DateTime                   @database.Timestamptz
+  is_deleted            Boolean
+  deleted_at            DateTime?                  @database.Timestamptz
+  name                  String
+  email                 String?
+  customer              CustomerModel?
+  business_user         BusinessUserModel?
+  agreement_acceptances AgreementAcceptanceModel[]
 
   @@map("users")
 }
 
-model Customer {
-  id               String           @id
-  birth            String?
-  gender           String?
-  business_rates   BusinessRate[]
-  business_reviews BusinessReview[]
-  user             User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "customers_fkey")
+model CustomerModel {
+  id                String               @id
+  birth             String?
+  gender            GenderType?
+  phone             String?
+  address_first     String?
+  address_second    String?
+  profile_image_url String?
+  base              UserModel            @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  oauth_accessor    OauthAccessorModel[]
 
   @@map("customers")
 }
 
-model BusinessUser {
-  id                   String           @id
+model BusinessUserModel {
+  id                   String                            @id
   is_verified          Boolean
-  introduction_title   String?
-  introduction_content String?
-  business_items       BusinessItem[]
-  business_rates       BusinessRate[]
-  business_reviews     BusinessReview[]
-  user                 User             @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "business_users_fkey")
-  home_care_company    HomeCareCompany?
-  real_estate_agent    RealEstateAgent?
+  introduction_title   String
+  introduction_content String
+  phone                String
+  address_first        String
+  address_second       String?
+  profile_image_url    String
+  super_expertise_id   String
+  base                 UserModel                         @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  re_agent             REAgentModel?
+  hs_provider          HSProviderModel?
+  certifications       BusinessCertificationImageModel[]
+  super_expertise      ExpertSuperCategoryModel          @relation(fields: [super_expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_expertises       SubExpertiseModel[]
+  oauth_accessor       OauthAccessorModel[]
 
   @@map("business_users")
 }
 
-model RealEstateAgent {
-  id                  String                       @id
-  is_licensed         Boolean
-  real_estate_num     String
-  real_estate_name    String
-  licensed_agent_name String
-  real_estate_phone   String
-  business_user       BusinessUser                 @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "real_estate_agents_fkey")
-  specialized_fields  RealEstateSpecializedField[]
+model REAgentModel {
+  id                     String            @id
+  is_licensed            Boolean
+  re_num                 String
+  re_name                String
+  re_phone               String
+  re_licensed_agent_name String
+  base                   BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
-  @@map("real_estate_agents")
+  @@map("re_agents")
 }
 
-model HomeCareCompany {
+model HSProviderModel {
   id                        String                     @id
   business_registration_num String
-  business_user             BusinessUser               @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "home_care_companies_fkey")
-  specialized_fields        HomeCareSpecializedField[]
+  base                      BusinessUserModel          @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  introduction_images       HSIntroductionImageModel[]
 
-  @@map("home_care_companies")
+  @@map("hs_providers")
+}
+
+model BusinessCertificationImageModel {
+  id               String            @id
+  created_at       DateTime          @database.Timestamptz
+  updated_at       DateTime          @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?         @database.Timestamptz
+  business_user_id String
+  url              String
+  business_user    BusinessUserModel @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@map("business_certification_images")
+}
+
+model HSIntroductionImageModel {
+  id             String          @id
+  created_at     DateTime        @database.Timestamptz
+  updated_at     DateTime        @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?       @database.Timestamptz
+  hs_provider_id String
+  url            String
+  hs_provider    HSProviderModel @relation(fields: [hs_provider_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@map("hs_introduction_images")
+}
+
+model SubExpertiseModel {
+  id               String                 @id
+  created_at       DateTime               @database.Timestamptz
+  updated_at       DateTime               @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?              @database.Timestamptz
+  sub_category_id  String
+  business_user_id String
+  category         ExpertSubCategoryModel @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  business_user    BusinessUserModel      @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@unique([sub_category_id, business_user_id])
+  @@map("sub_expertises")
+}
+
+model ExpertSubCategoryModel {
+  id         String                   @id
+  created_at DateTime                 @database.Timestamptz
+  updated_at DateTime                 @database.Timestamptz
+  is_deleted Boolean
+  deleted_at DateTime?                @database.Timestamptz
+  name       String                   @unique
+  super_id   String
+  super      ExpertSuperCategoryModel @relation(fields: [super_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  expertises SubExpertiseModel[]
+
+  @@map("expert_sub_categories")
+}
+
+model ExpertSuperCategoryModel {
+  id             String                   @id
+  created_at     DateTime                 @database.Timestamptz
+  updated_at     DateTime                 @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                @database.Timestamptz
+  name           String                   @unique
+  business_type  ExpertBusinessType
+  subs           ExpertSubCategoryModel[]
+  business_users BusinessUserModel[]
+
+  @@map("expert_super_categories")
+}
+
+model AgreementModel {
+  id          String                     @id
+  created_at  DateTime                   @database.Timestamptz
+  updated_at  DateTime                   @database.Timestamptz
+  is_deleted  Boolean
+  deleted_at  DateTime?                  @database.Timestamptz
+  title       String
+  content     String
+  user_type   AgreementUserType
+  acceptances AgreementAcceptanceModel[]
+
+  @@map("agreements")
+}
+
+model AgreementAcceptanceModel {
+  id           String         @id
+  created_at   DateTime       @database.Timestamptz
+  updated_at   DateTime       @database.Timestamptz
+  is_deleted   Boolean
+  deleted_at   DateTime?      @database.Timestamptz
+  user_id      String
+  agreement_id String
+  user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, agreement_id])
+  @@map("agreement_acceptances")
 }
