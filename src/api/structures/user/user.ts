@@ -1,20 +1,15 @@
 import { IAgreement } from "@DTO/agreement";
-import { IBusinessUser } from "./business_user";
+import { IDateTime } from "@DTO/common";
 import { ICustomer } from "./customer";
+import { IHSProvider } from "./hs_provider";
+import { IREAgent } from "./re_agent";
 
-export type IUser = ICustomer | IBusinessUser;
+export type IUser = ICustomer | IREAgent | IHSProvider;
 
 export namespace IUser {
   export type Type = "customer" | "real estate agent" | "home service provider";
 
-  export type GenderType = "female" | "male" | "other";
-
-  export interface IAddress {
-    readonly first: string;
-    readonly second: string | null;
-  }
-
-  export interface IBase<T extends Type> {
+  export interface IBase<T extends Type> extends IDateTime {
     /**
      * 사용자 분류
      *
@@ -24,41 +19,19 @@ export namespace IUser {
      */
     readonly type: T;
     readonly id: string;
-    /**
-     * 고객 이름 혹은 상호명
-     */
     readonly name: string;
-    /**
-     * @format email
-     */
+    /** @format email */
     readonly email: string | null;
   }
 
-  export interface IPrivateData {
-    /**
-     * 약관 동의 목록
-     */
-    readonly agreement_acceptances: IAgreement[];
+  export interface IPrivateFragment {
+    /** 동의한 약관 목록 */
+    readonly acceptant_agreements: IAgreement[];
   }
 
-  export interface ICreate<T extends Type> {
-    /**
-     * 사용자 분류
-     *
-     * - customer 일반 회원
-     * - real estate agent 공인중개사
-     * - home service provider 생활서비스 제공자
-     */
+  export interface ICreateRequest<T extends Type> {
     type: T;
-    /**
-     * 기본값 ""
-     */
-    name?: string;
-    /**
-     * 기본값 null
-     *
-     * @format email
-     */
-    email?: string;
+    email_access_code?: string;
+    phone_access_code?: string;
   }
 }

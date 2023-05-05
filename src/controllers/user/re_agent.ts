@@ -1,10 +1,11 @@
-import { IREAgent } from "@DTO/user";
+import { IBusinessUser } from "@DTO/user/business_user";
+import { IREAgent } from "@DTO/user/re_agent";
 import { IPaginatedResponse } from "@DTO/common";
 import { Controller, Get } from "@nestjs/common";
 import { TypedParam, TypedQuery } from "@nestia/core";
-import { REAgentService } from "@PROVIDER/services/user/re-agent";
 import { REAgentToken } from "../decorators";
 import { ITokens } from "@DTO/auth";
+import { REAgentService } from "@PROVIDER/services/user/re_agent";
 
 @Controller("users/re-agents")
 export class REAgentsController {
@@ -17,8 +18,8 @@ export class REAgentsController {
    */
   @Get()
   getList(
-    @TypedQuery() query: IREAgent.ISearch
-  ): Promise<IPaginatedResponse<IREAgent.IResponse>> {
+    @TypedQuery() query: IBusinessUser.ISearch
+  ): Promise<IPaginatedResponse<IREAgent>> {
     return REAgentService.getList(query);
   }
 
@@ -32,9 +33,9 @@ export class REAgentsController {
    */
   @Get("me")
   getMe(
-    @REAgentToken() payload: ITokens.IUserPayload<"real estate agent">
-  ): Promise<IREAgent.IPrivateResponse> {
-    return REAgentService.getMe(payload.user_id);
+    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+  ): Promise<IREAgent.IPrivate> {
+    return REAgentService.getMe(user_id);
   }
 
   /**
@@ -46,9 +47,7 @@ export class REAgentsController {
    * @throw 404 Not Found
    */
   @Get(":agent_id")
-  getOne(
-    @TypedParam("agent_id") agent_id: string
-  ): Promise<IREAgent.IResponse> {
+  getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
     return REAgentService.getOne(agent_id);
   }
 }

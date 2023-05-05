@@ -1,5 +1,5 @@
 import { ITokens } from "@DTO/auth";
-import { ICustomer } from "@DTO/user";
+import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
@@ -18,14 +18,11 @@ export const test_success = async (connection: IConnection) => {
 
   const create_customer_input = typia.random<ICustomer.ICreateRequest>();
 
-  create_customer_input.agreement_acceptances = (
+  create_customer_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
       filter: ["all", "customer"]
     })
   ).map(({ id }) => id);
-
-  create_customer_input.email_access_code = undefined;
-  create_customer_input.phone_access_code = undefined;
 
   await auth.user.create(
     internal.addAuthorizationHeader(connection)("basic", access_token),
@@ -62,7 +59,7 @@ export const test_not_found_user = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"customer">>();
   const token = Crypto.getUserToken(payload);
 
-  await internal.test_error<void>(() =>
+  await internal.test_error(() =>
     users.customers.me.getMe(
       internal.addAuthorizationHeader(connection)("bearer", token)
     )

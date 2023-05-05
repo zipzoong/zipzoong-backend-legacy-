@@ -1,101 +1,184 @@
-import { IDateTime, ISoftDeletable } from "@DTO/common";
-import { IREAgent } from "@DTO/user";
-import {
-  BusinessUserModel,
-  REAgentModel,
-  SubExpertiseModel,
-  SuperExpertiseModel,
-  UserModel
-} from "@PRISMA";
-import { getISOString, isNull } from "@UTIL";
+import { IREAgent } from "@DTO/user/re_agent";
+import { prisma } from "@INFRA/DB";
+import { Prisma } from "@PRISMA";
+import { getISOString } from "@UTIL";
 import { randomUUID } from "crypto";
+import { IBusinessUser } from "@DTO/user/business_user";
 import typia from "typia";
 
 export namespace REAgent {
-  export const create = (
-    input: IREAgent.ICreate
-  ): IREAgent & IDateTime & ISoftDeletable => {
-    const now = getISOString();
-    const {
-      name = "",
-      email = null,
-      profile_image_url,
-      super_expertise_id,
-      sub_expertise_ids,
-      phone,
-      introduction,
-      is_licensed,
-      real_estate
-    } = input;
-    return {
-      type: "real estate agent",
-      id: randomUUID(),
-      name,
-      email,
-      phone,
-      introduction,
-      super_expertise_id,
-      sub_expertise_ids,
-      profile_image_url,
-      is_verified: false,
-      real_estate,
-      is_licensed,
-      is_deleted: false,
-      created_at: now,
-      updated_at: now,
-      deleted_at: null
+  export namespace json {
+    export const createData = (input: IREAgent.ICreate) => {
+      const now = getISOString();
+      return {
+        base: {
+          create: {
+            base: {
+              create: {
+                id: randomUUID(),
+                name: input.name,
+                email: input.email,
+                created_at: now,
+                updated_at: now,
+                is_deleted: false,
+                deleted_at: null,
+                agreement_acceptances: {
+                  createMany: {
+                    data: input.acceptant_agreement_ids.map((agreement_id) => ({
+                      id: randomUUID(),
+                      agreement_id,
+                      created_at: now,
+                      updated_at: now,
+                      is_deleted: false,
+                      deleted_at: null
+                    }))
+                  }
+                }
+              }
+            },
+            is_verified: false as boolean,
+            introduction_title: input.introduction.title,
+            introduction_content: input.introduction.content,
+            phone: input.phone,
+            address_first: input.real_estate.address.first,
+            address_second: input.real_estate.address.second,
+            profile_image_url: input.profile_image_url,
+            super_expertise: { connect: { id: input.super_expertise_id } },
+            sub_expertises: {
+              createMany: {
+                data: input.sub_expertise_ids.map((sub_category_id) => ({
+                  id: randomUUID(),
+                  sub_category_id,
+                  created_at: now,
+                  updated_at: now,
+                  is_deleted: false,
+                  deleted_at: null
+                }))
+              }
+            }
+          }
+        },
+        is_licensed: input.is_licensed,
+        re_num: input.real_estate.num,
+        re_name: input.real_estate.name,
+        re_phone: input.real_estate.phone,
+        re_licensed_agent_name: input.real_estate.licensed_agent_name
+      } satisfies Prisma.REAgentModelCreateArgs["data"];
     };
-  };
 
-  export const map = ({
-    userModel,
-    businessModel,
-    agentModel,
-    superExpertiseModel,
-    subExpertiseModels
-  }: {
-    userModel: UserModel;
-    businessModel: BusinessUserModel;
-    agentModel: REAgentModel;
-    superExpertiseModel: SuperExpertiseModel;
-    subExpertiseModels: SubExpertiseModel[];
-  }): IREAgent & IDateTime & ISoftDeletable => {
-    const agent: IREAgent & IDateTime & ISoftDeletable = {
+    export const findInclude = () =>
+      ({
+        base: {
+          include: {
+            base: true,
+            sub_expertises: { include: { category: true } },
+            super_expertise: true
+          }
+        }
+      } satisfies Prisma.REAgentModelInclude);
+
+    export const findPrivateInclude = () =>
+      ({
+        base: {
+          include: {
+            base: {
+              include: {
+                agreement_acceptances: { include: { agreement: true } }
+              }
+            },
+            sub_expertises: { include: { category: true } },
+            super_expertise: true,
+            certifications: true
+          }
+        }
+      } satisfies Prisma.REAgentModelInclude);
+  }
+
+  export const map = (
+    input: NonNullable<
+      Awaited<
+        ReturnType<
+          typeof prisma.rEAgentModel.findFirst<{
+            include: ReturnType<typeof json.findInclude>;
+          }>
+        >
+      >
+    >
+  ): IREAgent => {
+    const agent: IREAgent = {
       type: "real estate agent",
-      id: userModel.id,
-      name: userModel.name,
-      email: userModel.email,
-      is_deleted: userModel.is_deleted,
-      created_at: getISOString(userModel.created_at),
-      updated_at: getISOString(userModel.updated_at),
-      deleted_at: isNull(userModel.deleted_at)
-        ? null
-        : getISOString(userModel.deleted_at),
-
-      phone: businessModel.phone,
+      id: input.id,
+      name: input.base.base.name,
+      email: input.base.base.email,
+      phone: input.base.phone,
+      profile_image_url: input.base.profile_image_url,
       introduction: {
-        title: businessModel.introduction_title,
-        content: businessModel.introduction_content
+        title: input.base.introduction_title,
+        content: input.base.introduction_content
       },
-      is_verified: businessModel.is_verified,
-      profile_image_url: businessModel.profile_image_url,
-      is_licensed: agentModel.is_licensed,
+      super_expertise: {
+        super_category_id: input.base.super_expertise_id,
+        name: input.base.super_expertise.name
+      },
+      sub_expertises: input.base.sub_expertises
+        .filter(({ is_deleted }) => !is_deleted)
+        .map(({ sub_category_id, category: { name } }) => ({
+          sub_category_id,
+          name
+        })),
       real_estate: {
-        num: agentModel.re_num,
-        name: agentModel.re_name,
-        phone: agentModel.re_phone,
-        licensed_agent_name: agentModel.re_licensed_agent_name,
+        num: input.re_num,
+        name: input.re_name,
+        phone: input.base.phone,
+        licensed_agent_name: input.re_licensed_agent_name,
         address: {
-          first: businessModel.address_first,
-          second: businessModel.address_second
+          first: input.base.address_first,
+          second: input.base.address_second
         }
       },
-      super_expertise_id: superExpertiseModel.super_category_id,
-      sub_expertise_ids: subExpertiseModels.map(
-        ({ sub_category_id }) => sub_category_id
-      )
+      is_licensed: input.is_licensed,
+      created_at: getISOString(input.base.base.created_at),
+      updated_at: getISOString(input.base.base.updated_at)
     };
-    if (!typia.equals(agent)) throw Error("Fail to REAgent.map");
+    if (!typia.equals<IREAgent>(agent))
+      throw Error(`re agent: ${input.id} has invalid data`);
+    return agent;
+  };
+
+  export const mapPrivate = (
+    input: NonNullable<
+      Awaited<
+        ReturnType<
+          typeof prisma.rEAgentModel.findFirst<{
+            include: ReturnType<typeof json.findPrivateInclude>;
+          }>
+        >
+      >
+    >
+  ): IREAgent.IPrivate => {
+    const base = map(input);
+    const privateFragment: IBusinessUser.IPrivateFragment = {
+      is_verified: input.base.is_verified,
+      business_certifications: input.base.certifications
+        .filter(({ is_deleted }) => !is_deleted)
+        .map(({ id, url }) => ({
+          id,
+          url
+        })),
+      acceptant_agreements: input.base.base.agreement_acceptances
+        .filter(
+          ({ is_deleted, agreement }) => !is_deleted && !agreement.is_deleted
+        )
+        .map(({ agreement: { id, title, content, user_type } }) => ({
+          id,
+          title,
+          content,
+          user_type
+        }))
+    };
+    const agent = { ...base, ...privateFragment };
+    if (!typia.equals<IREAgent.IPrivate>(agent))
+      throw Error(`re agent: ${input.id} has invalid data`);
     return agent;
   };
 }

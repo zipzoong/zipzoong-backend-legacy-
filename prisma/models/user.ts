@@ -1,4 +1,4 @@
-import { Entity, UpdatedAt } from "../mixins";
+import { Entity } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import {
@@ -82,13 +82,19 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .string("address_first")
     .string("address_second", { optional: true })
     .string("profile_image_url")
+    .string("super_expertise_id")
     .relation("base", User, one_to_one)
     .relation("re_agent", REAgent, { optional: true })
     .relation("hs_provider", HSProvider, { optional: true })
-    .relation("certifications", BusinessCertification, {
+    .relation("certifications", BusinessCertificationImage, {
       list: true
     })
-    .relation("super_expertise", SuperExpertise, { optional: true })
+    .relation("super_expertise", ExpertSuperCategory, {
+      fields: ["super_expertise_id"],
+      references: ["id"],
+      onDelete: "NoAction",
+      onUpdate: "NoAction"
+    })
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accessor", OauthAccessor, { list: true })
     .map("business_users");
@@ -115,20 +121,20 @@ export const HSProvider = createModel("HSProviderModel", (model) => {
     .map("hs_providers");
 });
 
-export const BusinessCertification = createModel(
-  "BusinessCertificationModel",
+export const BusinessCertificationImage = createModel(
+  "BusinessCertificationImageModel",
   (model) => {
     model
       .mixin(Entity)
       .string("business_user_id")
-      .string("image_url")
+      .string("url")
       .relation("business_user", BusinessUser, {
         fields: ["business_user_id"],
         references: ["id"],
         onUpdate: "NoAction",
         onDelete: "NoAction"
       })
-      .map("business_certifications");
+      .map("business_certification_images");
   }
 );
 
@@ -138,7 +144,7 @@ export const HSIntroductionImage = createModel(
     model
       .mixin(Entity)
       .string("hs_provider_id")
-      .string("image_url")
+      .string("url")
       .relation("hs_provider", HSProvider, {
         fields: ["hs_provider_id"],
         references: ["id"],
@@ -148,27 +154,6 @@ export const HSIntroductionImage = createModel(
       .map("hs_introduction_images");
   }
 );
-
-export const SuperExpertise = createModel("SuperExpertiseModel", (model) => {
-  model
-    .mixin(UpdatedAt)
-    .string("id", { id: true })
-    .string("business_user_id", { unique: true })
-    .string("super_category_id")
-    .relation("business_user", BusinessUser, {
-      fields: ["business_user_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
-    .relation("category", ExpertSuperCategory, {
-      fields: ["super_category_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
-    .map("super_expertises");
-});
 
 export const SubExpertise = createModel("SubExpertiseModel", (model) => {
   model
@@ -217,7 +202,7 @@ export const ExpertSuperCategory = createModel(
       .string("name", { unique: true })
       .enum("business_type", ExpertBusinessType)
       .relation("subs", ExpertSubCategory, { list: true })
-      .relation("expertises", SuperExpertise, { list: true })
+      .relation("business_users", BusinessUser, { list: true })
       .map("expert_super_categories");
   }
 );

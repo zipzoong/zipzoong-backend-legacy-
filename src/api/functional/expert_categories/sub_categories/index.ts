@@ -48,6 +48,6 @@ export namespace getSubCategoryList
 
     export function path(super_id: string): string
     {
-        return `/expert-categories/${encodeURIComponent(super_id)}/sub-categories`;
+        return `/expert-categories/${encodeURIComponent(super_id ?? "null")}/sub-categories`;
     }
 }

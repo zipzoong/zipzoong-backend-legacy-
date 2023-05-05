@@ -1,25 +1,58 @@
-import { ArrayUtil } from "@nestia/e2e";
+import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { expert_categories, users } from "@SDK";
+import assert from "assert";
 import typia from "typia";
 
 console.log("\n- users.re_agents.getList");
 
-export const test_success = async (connection: IConnection) => {
+export const test_success_filter_super_category = async (
+  connection: IConnection
+) => {
   const super_categories = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["RE"] }
   );
 
-  const received = await ArrayUtil.asyncMap(
-    super_categories.map((category) => category.name),
-    (name) =>
-      users.re_agents.getList(connection, {
-        page: 1,
-        super_expert_name: [name],
-        sub_expert_name: []
-      })
-  );
+  const super_category = RandomGenerator.pick(super_categories);
+
+  const received = await users.re_agents.getList(connection, {
+    page: 1,
+    super_category_name: super_category.name
+  });
 
   typia.assertEquals(received);
+  received.data.forEach((agent) =>
+    assert.strictEqual(
+      agent.super_expertise.super_category_id,
+      super_category.id
+    )
+  );
+};
+
+export const test_success_filter_sub_category = async (
+  connection: IConnection
+) => {
+  const super_categories = await expert_categories.getSuperCategoryList(
+    connection,
+    { filter: ["RE"] }
+  );
+
+  const super_category = RandomGenerator.pick(super_categories);
+  const sub_category = RandomGenerator.pick(super_category.sub_categories);
+
+  const received = await users.re_agents.getList(connection, {
+    page: 1,
+    sub_category_name: sub_category.name
+  });
+
+  typia.assertEquals(received);
+  received.data.forEach((agent) =>
+    assert.strictEqual(
+      agent.sub_expertises.some(
+        (expertise) => expertise.sub_category_id === sub_category.id
+      ),
+      true
+    )
+  );
 };

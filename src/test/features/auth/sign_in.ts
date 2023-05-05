@@ -1,4 +1,4 @@
-import { ICustomer } from "@DTO/user";
+import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
@@ -20,14 +20,11 @@ export const test_success = async (connection: IConnection) => {
   );
 
   const input = typia.random<ICustomer.ICreateRequest>();
-  input.agreement_acceptances = (
+  input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
       filter: ["all", "customer"]
     })
   ).map(({ id }) => id);
-
-  input.email_access_code = undefined;
-  input.phone_access_code = undefined;
 
   await auth.user.create(_connection, input);
 
@@ -63,7 +60,7 @@ export const test_not_found_user = async (connection: IConnection) => {
     "basic",
     access_token
   );
-  await internal.test_error<void>(() =>
+  await internal.test_error(() =>
     auth.sign_in.signIn(_connection, {
       code: "test_sign_in",
       oauth_type: "kakao",

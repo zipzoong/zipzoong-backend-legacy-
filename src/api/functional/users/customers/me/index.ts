@@ -34,7 +34,7 @@ export function getMe
 }
 export namespace getMe
 {
-    export type Output = ICustomer.IPrivateResponse;
+    export type Output = ICustomer.IPrivate;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/customers/me";

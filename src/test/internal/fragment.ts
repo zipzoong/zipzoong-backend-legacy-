@@ -1,5 +1,5 @@
 import { ITokens } from "@DTO/auth";
-import { IUser } from "@DTO/user";
+import { IUser } from "@DTO/user/user";
 import { prisma } from "@INFRA/DB";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
@@ -12,7 +12,7 @@ import typia from "typia";
 import { addAuthorizationHeader } from "./utils";
 
 export const test_error =
-  <T>(api: (data: T) => Promise<unknown>) =>
+  <T = void>(api: (data: T) => Promise<unknown>) =>
   (statusCode: HttpStatus, message: string) =>
   async (data: T) => {
     try {

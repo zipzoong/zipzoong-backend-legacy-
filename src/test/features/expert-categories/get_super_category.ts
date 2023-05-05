@@ -15,7 +15,7 @@ export const test_success = async (connection: IConnection) => {
     connection,
     query
   );
-  const received = await ArrayUtil.asyncMap(super_categories, (category) =>
+  const received = await ArrayUtil.asyncMap(super_categories)((category) =>
     expert_categories.getSuperCategory(connection, category.id)
   );
 
@@ -23,9 +23,6 @@ export const test_success = async (connection: IConnection) => {
 };
 
 export const test_not_found = async (connection: IConnection) =>
-  internal.test_error((super_id: string) =>
-    expert_categories.getSuperCategory(connection, super_id)
-  )(
-    HttpStatus.NOT_FOUND,
-    "Expert Category Not Found"
-  )(randomUUID());
+  internal.test_error(() =>
+    expert_categories.getSuperCategory(connection, randomUUID())
+  )(HttpStatus.NOT_FOUND, "Expert Category Not Found")();

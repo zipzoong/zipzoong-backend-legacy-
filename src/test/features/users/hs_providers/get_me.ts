@@ -1,12 +1,11 @@
 import { ITokens } from "@DTO/auth";
-import { IHSProvider } from "@DTO/user";
-import { prisma } from "@INFRA/DB";
+import { IHSProvider } from "@DTO/user/hs_provider";
+import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
 import { agreements, auth, expert_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
-import { isUndefined } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- users.hs_providers.me.getMe");
@@ -18,35 +17,26 @@ export const test_success = async (connection: IConnection) => {
     oauth_type: "kakao"
   });
 
-  await prisma.oauthAccessorModel.updateMany({
-    where: { oauth_sub: code, oauth_type: "kakao" },
-    data: { phone: "test_phone_number" }
-  });
-
   const create_input = typia.random<IHSProvider.ICreateRequest>();
 
-  create_input.agreement_acceptances = (
+  create_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
       filter: ["all", "business", "HS"]
     })
   ).map(({ id }) => id);
-
-  create_input.email_access_code = undefined;
-  create_input.phone_access_code = undefined;
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["HS"] }
   );
 
-  const super_expertise = super_expertise_list[0];
-
-  if (isUndefined(super_expertise)) throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
 
   create_input.super_expertise_id = super_expertise.id;
   create_input.sub_expertise_ids = super_expertise.sub_categories.map(
     ({ id }) => id
   );
+  create_input.phone_access_code = "required";
 
   await auth.user.create(
     internal.addAuthorizationHeader(connection)("basic", access_token),
@@ -83,7 +73,7 @@ export const test_not_found_user = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"home service provider">>();
   const token = Crypto.getUserToken(payload);
 
-  await internal.test_error<void>(() =>
+  await internal.test_error(() =>
     users.hs_providers.me.getMe(
       internal.addAuthorizationHeader(connection)("bearer", token)
     )

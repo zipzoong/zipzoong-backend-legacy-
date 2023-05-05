@@ -1,8 +1,12 @@
 import type nestia from "@nestia/sdk";
 
 const NESTIA_CONFIG: nestia.INestiaConfig = {
-  input: "src/controllers",
+  input: {
+    include: ["src/controllers"],
+    exclude: ["src/**/*.internal.ts"]
+  },
   output: "src/api",
+  e2e: "test",
   json: true,
   primitive: false,
   swagger: {

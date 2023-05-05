@@ -23,8 +23,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 };
 
 export const test_oauth_fail = (connection: IConnection) =>
-  ArrayUtil.asyncForEach(
-    ["kakao"],
+  ArrayUtil.asyncForEach(["kakao"] as const)(
     internal.test_error((oauth_type: Authentication.OauthType) =>
       auth.sign_up.signUp(connection, { code: "invalid code", oauth_type })
     )(HttpStatus.UNAUTHORIZED, "Authentication Fail")
@@ -43,7 +42,7 @@ export const test_forbidden_inactive_accessor = async (
     data: { is_deleted: true, deleted_at: getISOString() }
   });
 
-  await internal.test_error<void>(() =>
+  await internal.test_error(() =>
     auth.sign_up.signUp(connection, {
       code: "test_sign_up",
       oauth_type: "kakao"

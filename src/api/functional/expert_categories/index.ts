@@ -102,6 +102,6 @@ export namespace getSuperCategory
 
     export function path(super_id: string): string
     {
-        return `/expert-categories/${encodeURIComponent(super_id)}`;
+        return `/expert-categories/${encodeURIComponent(super_id ?? "null")}`;
     }
 }

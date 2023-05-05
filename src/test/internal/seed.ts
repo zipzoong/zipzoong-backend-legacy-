@@ -1,9 +1,11 @@
-import { IHSProvider, IREAgent } from "@DTO/user";
+import { IHSProvider } from "@DTO/user/hs_provider";
+import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { AgreementUserType, ExpertBusinessType, Prisma } from "@PRISMA";
-import { createUserQuery } from "@PROVIDER/services/authentication/create-user.query";
+import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
+import { REAgent } from "@PROVIDER/cores/user/re_agent";
 import { agreements, expert_categories } from "@SDK";
 import { randomUUID } from "crypto";
 import typia from "typia";
@@ -75,14 +77,6 @@ export const seed = async (connection: IConnection) => {
 };
 
 export const seedHSProviders = async (connection: IConnection) => {
-  const create = typia.createRandom<
-    IHSProvider.ICreateRequest & {
-      /** @format email */
-      email?: string;
-      phone: string;
-    }
-  >();
-
   const agreement_list = (
     await agreements.getList(connection, {
       filter: ["all", "business", "HS"]
@@ -92,22 +86,22 @@ export const seedHSProviders = async (connection: IConnection) => {
     connection,
     { filter: ["HS"] }
   );
+  const createProviderData = typia.createRandom<IHSProvider.ICreate>();
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(10, () =>
-    ArrayUtil.asyncForEach(super_categories, async (category) => {
-      const input = create();
-      input.email_access_code = undefined;
-      input.phone_access_code = undefined;
-      input.agreement_acceptances = agreement_list;
+  ArrayUtil.asyncRepeat(10)(() =>
+    ArrayUtil.asyncForEach(super_categories)(async (category) => {
+      const input = createProviderData();
+      input.acceptant_agreement_ids = agreement_list;
       input.super_expertise_id = category.id;
       input.sub_expertise_ids = category.sub_categories
         .slice(0, 2)
         .map(({ id }) => id);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, ...list] = createUserQuery(input);
-      queries.push(...list);
+
+      const data = HSProvider.json.createData(input);
+
+      queries.push(prisma.hSProviderModel.create({ data }));
     })
   );
 
@@ -115,14 +109,6 @@ export const seedHSProviders = async (connection: IConnection) => {
 };
 
 export const seedREAgents = async (connection: IConnection) => {
-  const create = typia.createRandom<
-    IREAgent.ICreateRequest & {
-      /** @format email */
-      email?: string;
-      phone: string;
-    }
-  >();
-
   const agreement_list = (
     await agreements.getList(connection, {
       filter: ["all", "business", "RE"]
@@ -133,21 +119,23 @@ export const seedREAgents = async (connection: IConnection) => {
     { filter: ["RE"] }
   );
 
+  const createAgentData = typia.createRandom<IREAgent.ICreate>();
+
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(10, () =>
-    ArrayUtil.asyncForEach(super_categories, async (category) => {
-      const input = create();
-      input.email_access_code = undefined;
-      input.phone_access_code = undefined;
-      input.agreement_acceptances = agreement_list;
+  await ArrayUtil.asyncRepeat(10)(() =>
+    ArrayUtil.asyncForEach(super_categories)(async (category) => {
+      const input = createAgentData();
+
+      input.acceptant_agreement_ids = agreement_list;
       input.super_expertise_id = category.id;
       input.sub_expertise_ids = category.sub_categories
         .slice(0, 2)
         .map(({ id }) => id);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, ...list] = createUserQuery(input);
-      queries.push(...list);
+
+      const data = REAgent.json.createData(input);
+
+      queries.push(prisma.rEAgentModel.create({ data }));
     })
   );
 

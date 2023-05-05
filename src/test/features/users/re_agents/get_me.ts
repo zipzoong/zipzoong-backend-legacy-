@@ -1,12 +1,11 @@
 import { ITokens } from "@DTO/auth";
-import { IREAgent } from "@DTO/user";
-import { prisma } from "@INFRA/DB";
+import { IREAgent } from "@DTO/user/re_agent";
+import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
 import { agreements, auth, expert_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
-import { isUndefined } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- users.re_agents.me.getMe");
@@ -18,29 +17,21 @@ export const test_success = async (connection: IConnection) => {
     oauth_type: "kakao"
   });
 
-  await prisma.oauthAccessorModel.updateMany({
-    where: { oauth_sub: code, oauth_type: "kakao" },
-    data: { phone: "test_phone_number" }
-  });
-
   const create_input = typia.random<IREAgent.ICreateRequest>();
 
-  create_input.agreement_acceptances = (
+  create_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
       filter: ["all", "business", "RE"]
     })
   ).map(({ id }) => id);
 
-  create_input.email_access_code = undefined;
-  create_input.phone_access_code = undefined;
+  create_input.phone_access_code = "required";
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["RE"] }
   );
-  const super_expertise = super_expertise_list[0];
-
-  if (isUndefined(super_expertise)) throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
 
   create_input.super_expertise_id = super_expertise.id;
   create_input.sub_expertise_ids = super_expertise.sub_categories.map(
@@ -78,11 +69,11 @@ export const test_user_token_mismatch = internal.test_user_token_mismatch(
   "real estate agent"
 )(users.re_agents.me.getMe);
 
-export const test_not_found_user = async (connection: IConnection) => {
+export const test_not_found = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"real estate agent">>();
   const token = Crypto.getUserToken(payload);
 
-  await internal.test_error<void>(() =>
+  await internal.test_error(() =>
     users.re_agents.me.getMe(
       internal.addAuthorizationHeader(connection)("bearer", token)
     )

@@ -7,8 +7,9 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IHSProvider } from "./../../../structures/user/hs_provider";
+import type { IBusinessUser } from "./../../../structures/user/business_user";
 import type { IPaginatedResponse } from "./../../../structures/common/pagination";
+import type { IHSProvider } from "./../../../structures/user/hs_provider";
 
 export * as me from "./me";
 
@@ -27,7 +28,7 @@ export * as me from "./me";
 export function getList
     (
         connection: IConnection,
-        query: IHSProvider.ISearch
+        query: IBusinessUser.ISearch
     ): Promise<getList.Output>
 {
     return Fetcher.fetch
@@ -40,8 +41,8 @@ export function getList
 }
 export namespace getList
 {
-    export type Query = IHSProvider.ISearch;
-    export type Output = IPaginatedResponse<IHSProvider.IResponse>;
+    export type Query = IBusinessUser.ISearch;
+    export type Output = IPaginatedResponse<IHSProvider>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/hs-providers";
@@ -50,7 +51,7 @@ export namespace getList
         response: false,
     };
 
-    export function path(query: IHSProvider.ISearch): string
+    export function path(query: IBusinessUser.ISearch): string
     {
         const variables: Record<any, any> = query as any;
         const search: URLSearchParams = new URLSearchParams();
@@ -94,7 +95,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = IHSProvider.IResponse;
+    export type Output = IHSProvider;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/hs-providers/:provider_id";
@@ -105,6 +106,6 @@ export namespace getOne
 
     export function path(provider_id: string): string
     {
-        return `/users/hs-providers/${encodeURIComponent(provider_id)}`;
+        return `/users/hs-providers/${encodeURIComponent(provider_id ?? "null")}`;
     }
 }
