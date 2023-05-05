@@ -186,6 +186,20 @@ CREATE TABLE "agreement_acceptances" (
     CONSTRAINT "agreement_acceptances_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "re_properties" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "name" TEXT NOT NULL,
+    "main_image_url" TEXT NOT NULL,
+    "agent_id" TEXT NOT NULL,
+
+    CONSTRAINT "re_properties_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "sub_expertises_sub_category_id_business_user_id_key" ON "sub_expertises"("sub_category_id", "business_user_id");
 
@@ -239,3 +253,6 @@ ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_user_i
 
 -- AddForeignKey
 ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_agreement_id_fkey" FOREIGN KEY ("agreement_id") REFERENCES "agreements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_agent_id_fkey" FOREIGN KEY ("agent_id") REFERENCES "re_agents"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -7,6 +7,7 @@ import {
   GenderType,
   OauthType
 } from "../enums";
+import { REProperty } from "./real_estate";
 
 const one_to_one: RelationalFieldOptions = {
   fields: ["id"],
@@ -109,6 +110,7 @@ export const REAgent = createModel("REAgentModel", (model) => {
     .string("re_phone")
     .string("re_licensed_agent_name")
     .relation("base", BusinessUser, one_to_one)
+    .relation("properties", REProperty, { list: true })
     .map("re_agents");
 });
 

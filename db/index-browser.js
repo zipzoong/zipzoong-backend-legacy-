@@ -208,6 +208,17 @@ exports.Prisma.REAgentModelScalarFieldEnum = {
   re_licensed_agent_name: 're_licensed_agent_name'
 };
 
+exports.Prisma.REProertyModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  main_image_url: 'main_image_url',
+  agent_id: 'agent_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -276,7 +287,8 @@ exports.Prisma.ModelName = {
   ExpertSubCategoryModel: 'ExpertSubCategoryModel',
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   AgreementModel: 'AgreementModel',
-  AgreementAcceptanceModel: 'AgreementAcceptanceModel'
+  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
+  REProertyModel: 'REProertyModel'
 };
 
 /**

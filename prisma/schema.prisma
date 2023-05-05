@@ -114,6 +114,7 @@ model REAgentModel {
   re_phone               String
   re_licensed_agent_name String
   base                   BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  properties             REProertyModel[]
 
   @@map("re_agents")
 }
@@ -223,4 +224,18 @@ model AgreementAcceptanceModel {
 
   @@unique([user_id, agreement_id])
   @@map("agreement_acceptances")
+}
+
+model REProertyModel {
+  id             String       @id
+  created_at     DateTime     @database.Timestamptz
+  updated_at     DateTime     @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?    @database.Timestamptz
+  name           String
+  main_image_url String
+  agent_id       String
+  agent          REAgentModel @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("re_properties")
 }

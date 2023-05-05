@@ -1,7 +1,7 @@
 import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString } from "@UTIL";
+import { getISOString, isActive } from "@UTIL";
 import { randomUUID } from "crypto";
 import { IBusinessUser } from "@DTO/user/business_user";
 import typia from "typia";
@@ -74,7 +74,8 @@ export namespace REAgent {
             sub_expertises: { include: { category: true } },
             super_expertise: true
           }
-        }
+        },
+        properties: true
       } satisfies Prisma.REAgentModelInclude);
 
     export const findPrivateInclude = () =>
@@ -90,7 +91,8 @@ export namespace REAgent {
             super_expertise: true,
             certifications: true
           }
-        }
+        },
+        properties: true
       } satisfies Prisma.REAgentModelInclude);
   }
 
@@ -138,7 +140,16 @@ export namespace REAgent {
       },
       is_licensed: input.is_licensed,
       created_at: getISOString(input.base.base.created_at),
-      updated_at: getISOString(input.base.base.updated_at)
+      updated_at: getISOString(input.base.base.updated_at),
+      properties: input.properties
+        .filter(isActive)
+        .map(({ id, name, main_image_url, created_at, updated_at }) => ({
+          id,
+          name,
+          main_image_url,
+          created_at: getISOString(created_at),
+          updated_at: getISOString(updated_at)
+        }))
     };
     if (!typia.equals<IREAgent>(agent))
       throw Error(`re agent: ${input.id} has invalid data`);

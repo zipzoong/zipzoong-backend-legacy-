@@ -21,6 +21,8 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
    * 부동산 정보
    */
   readonly real_estate: IREAgent.IRealEstate;
+  /** 부동산 매물 목록 */
+  readonly properties: IREAgent.IREProperty[];
 }
 
 export namespace IREAgent {
@@ -35,6 +37,17 @@ export namespace IREAgent {
     readonly licensed_agent_name: string;
     /** 부동산 주소 */
     readonly address: IAddress;
+  }
+
+  /** 부동산 매물 정보 */
+  export interface IREProperty {
+    readonly id: string;
+    readonly name: string;
+    readonly main_image_url: string;
+    /** @format date-time */
+    readonly created_at: string;
+    /** @format date-time */
+    readonly updated_at: string;
   }
 
   export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;

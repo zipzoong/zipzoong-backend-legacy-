@@ -201,6 +201,21 @@ export type AgreementAcceptanceModel = {
   agreement_id: string
 }
 
+/**
+ * Model REProertyModel
+ * 
+ */
+export type REProertyModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  name: string
+  main_image_url: string
+  agent_id: string
+}
+
 
 /**
  * Enums
@@ -491,6 +506,16 @@ export class PrismaClient<
     * ```
     */
   get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.rEProertyModel`: Exposes CRUD operations for the **REProertyModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more REProertyModels
+    * const rEProertyModels = await prisma.rEProertyModel.findMany()
+    * ```
+    */
+  get rEProertyModel(): Prisma.REProertyModelDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -972,7 +997,8 @@ export namespace Prisma {
     ExpertSubCategoryModel: 'ExpertSubCategoryModel',
     ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
     AgreementModel: 'AgreementModel',
-    AgreementAcceptanceModel: 'AgreementAcceptanceModel'
+    AgreementAcceptanceModel: 'AgreementAcceptanceModel',
+    REProertyModel: 'REProertyModel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1262,6 +1288,49 @@ export namespace Prisma {
      * Select specific fields to fetch from the BusinessUserModelCountOutputType
      */
     select?: BusinessUserModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type REAgentModelCountOutputType
+   */
+
+
+  export type REAgentModelCountOutputType = {
+    properties: number
+  }
+
+  export type REAgentModelCountOutputTypeSelect = {
+    properties?: boolean
+  }
+
+  export type REAgentModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REAgentModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REAgentModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (REAgentModelCountOutputTypeArgs)
+    ? REAgentModelCountOutputType 
+    : S extends { select: any } & (REAgentModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof REAgentModelCountOutputType ? REAgentModelCountOutputType[P] : never
+  } 
+      : REAgentModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REAgentModelCountOutputType without action
+   */
+  export type REAgentModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the REAgentModelCountOutputType
+     */
+    select?: REAgentModelCountOutputTypeSelect | null
   }
 
 
@@ -5680,11 +5749,15 @@ export namespace Prisma {
     re_phone?: boolean
     re_licensed_agent_name?: boolean
     base?: boolean | BusinessUserModelArgs
+    properties?: boolean | REAgentModel$propertiesArgs
+    _count?: boolean | REAgentModelCountOutputTypeArgs
   }
 
 
   export type REAgentModelInclude = {
     base?: boolean | BusinessUserModelArgs
+    properties?: boolean | REAgentModel$propertiesArgs
+    _count?: boolean | REAgentModelCountOutputTypeArgs
   }
 
   export type REAgentModelGetPayload<S extends boolean | null | undefined | REAgentModelArgs> =
@@ -5694,12 +5767,16 @@ export namespace Prisma {
     S extends { include: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
     ? REAgentModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :  never
+        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
+        P extends 'properties' ? Array < REProertyModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
+        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
+        P extends 'properties' ? Array < REProertyModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
   } 
       : REAgentModel
 
@@ -6073,6 +6150,8 @@ export namespace Prisma {
 
     base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
+    properties<T extends REAgentModel$propertiesArgs= {}>(args?: Subset<T, REAgentModel$propertiesArgs>): Prisma.PrismaPromise<Array<REProertyModelGetPayload<T>>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6425,6 +6504,27 @@ export namespace Prisma {
      * Filter which REAgentModels to delete
      */
     where?: REAgentModelWhereInput
+  }
+
+
+  /**
+   * REAgentModel.properties
+   */
+  export type REAgentModel$propertiesArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    where?: REProertyModelWhereInput
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    cursor?: REProertyModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<REProertyModelScalarFieldEnum>
   }
 
 
@@ -14140,6 +14240,961 @@ export namespace Prisma {
 
 
   /**
+   * Model REProertyModel
+   */
+
+
+  export type AggregateREProertyModel = {
+    _count: REProertyModelCountAggregateOutputType | null
+    _min: REProertyModelMinAggregateOutputType | null
+    _max: REProertyModelMaxAggregateOutputType | null
+  }
+
+  export type REProertyModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+    main_image_url: string | null
+    agent_id: string | null
+  }
+
+  export type REProertyModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+    main_image_url: string | null
+    agent_id: string | null
+  }
+
+  export type REProertyModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    name: number
+    main_image_url: number
+    agent_id: number
+    _all: number
+  }
+
+
+  export type REProertyModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    main_image_url?: true
+    agent_id?: true
+  }
+
+  export type REProertyModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    main_image_url?: true
+    agent_id?: true
+  }
+
+  export type REProertyModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    main_image_url?: true
+    agent_id?: true
+    _all?: true
+  }
+
+  export type REProertyModelAggregateArgs = {
+    /**
+     * Filter which REProertyModel to aggregate.
+     */
+    where?: REProertyModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REProertyModels to fetch.
+     */
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: REProertyModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REProertyModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REProertyModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned REProertyModels
+    **/
+    _count?: true | REProertyModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: REProertyModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: REProertyModelMaxAggregateInputType
+  }
+
+  export type GetREProertyModelAggregateType<T extends REProertyModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateREProertyModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateREProertyModel[P]>
+      : GetScalarType<T[P], AggregateREProertyModel[P]>
+  }
+
+
+
+
+  export type REProertyModelGroupByArgs = {
+    where?: REProertyModelWhereInput
+    orderBy?: Enumerable<REProertyModelOrderByWithAggregationInput>
+    by: REProertyModelScalarFieldEnum[]
+    having?: REProertyModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: REProertyModelCountAggregateInputType | true
+    _min?: REProertyModelMinAggregateInputType
+    _max?: REProertyModelMaxAggregateInputType
+  }
+
+
+  export type REProertyModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    main_image_url: string
+    agent_id: string
+    _count: REProertyModelCountAggregateOutputType | null
+    _min: REProertyModelMinAggregateOutputType | null
+    _max: REProertyModelMaxAggregateOutputType | null
+  }
+
+  type GetREProertyModelGroupByPayload<T extends REProertyModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<REProertyModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof REProertyModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], REProertyModelGroupByOutputType[P]>
+            : GetScalarType<T[P], REProertyModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type REProertyModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    main_image_url?: boolean
+    agent_id?: boolean
+    agent?: boolean | REAgentModelArgs
+  }
+
+
+  export type REProertyModelInclude = {
+    agent?: boolean | REAgentModelArgs
+  }
+
+  export type REProertyModelGetPayload<S extends boolean | null | undefined | REProertyModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REProertyModel :
+    S extends undefined ? never :
+    S extends { include: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
+    ? REProertyModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'agent' ? REAgentModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'agent' ? REAgentModelGetPayload<S['select'][P]> :  P extends keyof REProertyModel ? REProertyModel[P] : never
+  } 
+      : REProertyModel
+
+
+  type REProertyModelCountArgs = 
+    Omit<REProertyModelFindManyArgs, 'select' | 'include'> & {
+      select?: REProertyModelCountAggregateInputType | true
+    }
+
+  export interface REProertyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one REProertyModel that matches the filter.
+     * @param {REProertyModelFindUniqueArgs} args - Arguments to find a REProertyModel
+     * @example
+     * // Get one REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends REProertyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REProertyModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REProertyModel'> extends True ? Prisma__REProertyModelClient<REProertyModelGetPayload<T>> : Prisma__REProertyModelClient<REProertyModelGetPayload<T> | null, null>
+
+    /**
+     * Find one REProertyModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {REProertyModelFindUniqueOrThrowArgs} args - Arguments to find a REProertyModel
+     * @example
+     * // Get one REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends REProertyModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, REProertyModelFindUniqueOrThrowArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Find the first REProertyModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelFindFirstArgs} args - Arguments to find a REProertyModel
+     * @example
+     * // Get one REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends REProertyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REProertyModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REProertyModel'> extends True ? Prisma__REProertyModelClient<REProertyModelGetPayload<T>> : Prisma__REProertyModelClient<REProertyModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first REProertyModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelFindFirstOrThrowArgs} args - Arguments to find a REProertyModel
+     * @example
+     * // Get one REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends REProertyModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, REProertyModelFindFirstOrThrowArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Find zero or more REProertyModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all REProertyModels
+     * const rEProertyModels = await prisma.rEProertyModel.findMany()
+     * 
+     * // Get first 10 REProertyModels
+     * const rEProertyModels = await prisma.rEProertyModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rEProertyModelWithIdOnly = await prisma.rEProertyModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends REProertyModelFindManyArgs>(
+      args?: SelectSubset<T, REProertyModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<REProertyModelGetPayload<T>>>
+
+    /**
+     * Create a REProertyModel.
+     * @param {REProertyModelCreateArgs} args - Arguments to create a REProertyModel.
+     * @example
+     * // Create one REProertyModel
+     * const REProertyModel = await prisma.rEProertyModel.create({
+     *   data: {
+     *     // ... data to create a REProertyModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends REProertyModelCreateArgs>(
+      args: SelectSubset<T, REProertyModelCreateArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Create many REProertyModels.
+     *     @param {REProertyModelCreateManyArgs} args - Arguments to create many REProertyModels.
+     *     @example
+     *     // Create many REProertyModels
+     *     const rEProertyModel = await prisma.rEProertyModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends REProertyModelCreateManyArgs>(
+      args?: SelectSubset<T, REProertyModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a REProertyModel.
+     * @param {REProertyModelDeleteArgs} args - Arguments to delete one REProertyModel.
+     * @example
+     * // Delete one REProertyModel
+     * const REProertyModel = await prisma.rEProertyModel.delete({
+     *   where: {
+     *     // ... filter to delete one REProertyModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends REProertyModelDeleteArgs>(
+      args: SelectSubset<T, REProertyModelDeleteArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Update one REProertyModel.
+     * @param {REProertyModelUpdateArgs} args - Arguments to update one REProertyModel.
+     * @example
+     * // Update one REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends REProertyModelUpdateArgs>(
+      args: SelectSubset<T, REProertyModelUpdateArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Delete zero or more REProertyModels.
+     * @param {REProertyModelDeleteManyArgs} args - Arguments to filter REProertyModels to delete.
+     * @example
+     * // Delete a few REProertyModels
+     * const { count } = await prisma.rEProertyModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends REProertyModelDeleteManyArgs>(
+      args?: SelectSubset<T, REProertyModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more REProertyModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many REProertyModels
+     * const rEProertyModel = await prisma.rEProertyModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends REProertyModelUpdateManyArgs>(
+      args: SelectSubset<T, REProertyModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one REProertyModel.
+     * @param {REProertyModelUpsertArgs} args - Arguments to update or create a REProertyModel.
+     * @example
+     * // Update or create a REProertyModel
+     * const rEProertyModel = await prisma.rEProertyModel.upsert({
+     *   create: {
+     *     // ... data to create a REProertyModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the REProertyModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends REProertyModelUpsertArgs>(
+      args: SelectSubset<T, REProertyModelUpsertArgs>
+    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+
+    /**
+     * Count the number of REProertyModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelCountArgs} args - Arguments to filter REProertyModels to count.
+     * @example
+     * // Count the number of REProertyModels
+     * const count = await prisma.rEProertyModel.count({
+     *   where: {
+     *     // ... the filter for the REProertyModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends REProertyModelCountArgs>(
+      args?: Subset<T, REProertyModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], REProertyModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a REProertyModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends REProertyModelAggregateArgs>(args: Subset<T, REProertyModelAggregateArgs>): Prisma.PrismaPromise<GetREProertyModelAggregateType<T>>
+
+    /**
+     * Group by REProertyModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REProertyModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends REProertyModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: REProertyModelGroupByArgs['orderBy'] }
+        : { orderBy?: REProertyModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, REProertyModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetREProertyModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for REProertyModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__REProertyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REProertyModel base type for findUnique actions
+   */
+  export type REProertyModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter, which REProertyModel to fetch.
+     */
+    where: REProertyModelWhereUniqueInput
+  }
+
+  /**
+   * REProertyModel findUnique
+   */
+  export interface REProertyModelFindUniqueArgs extends REProertyModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REProertyModel findUniqueOrThrow
+   */
+  export type REProertyModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter, which REProertyModel to fetch.
+     */
+    where: REProertyModelWhereUniqueInput
+  }
+
+
+  /**
+   * REProertyModel base type for findFirst actions
+   */
+  export type REProertyModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter, which REProertyModel to fetch.
+     */
+    where?: REProertyModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REProertyModels to fetch.
+     */
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REProertyModels.
+     */
+    cursor?: REProertyModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REProertyModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REProertyModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REProertyModels.
+     */
+    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+  }
+
+  /**
+   * REProertyModel findFirst
+   */
+  export interface REProertyModelFindFirstArgs extends REProertyModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REProertyModel findFirstOrThrow
+   */
+  export type REProertyModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter, which REProertyModel to fetch.
+     */
+    where?: REProertyModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REProertyModels to fetch.
+     */
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REProertyModels.
+     */
+    cursor?: REProertyModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REProertyModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REProertyModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REProertyModels.
+     */
+    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REProertyModel findMany
+   */
+  export type REProertyModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter, which REProertyModels to fetch.
+     */
+    where?: REProertyModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REProertyModels to fetch.
+     */
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing REProertyModels.
+     */
+    cursor?: REProertyModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REProertyModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REProertyModels.
+     */
+    skip?: number
+    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REProertyModel create
+   */
+  export type REProertyModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * The data needed to create a REProertyModel.
+     */
+    data: XOR<REProertyModelCreateInput, REProertyModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * REProertyModel createMany
+   */
+  export type REProertyModelCreateManyArgs = {
+    /**
+     * The data used to create many REProertyModels.
+     */
+    data: Enumerable<REProertyModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * REProertyModel update
+   */
+  export type REProertyModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * The data needed to update a REProertyModel.
+     */
+    data: XOR<REProertyModelUpdateInput, REProertyModelUncheckedUpdateInput>
+    /**
+     * Choose, which REProertyModel to update.
+     */
+    where: REProertyModelWhereUniqueInput
+  }
+
+
+  /**
+   * REProertyModel updateMany
+   */
+  export type REProertyModelUpdateManyArgs = {
+    /**
+     * The data used to update REProertyModels.
+     */
+    data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyInput>
+    /**
+     * Filter which REProertyModels to update
+     */
+    where?: REProertyModelWhereInput
+  }
+
+
+  /**
+   * REProertyModel upsert
+   */
+  export type REProertyModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * The filter to search for the REProertyModel to update in case it exists.
+     */
+    where: REProertyModelWhereUniqueInput
+    /**
+     * In case the REProertyModel found by the `where` argument doesn't exist, create a new REProertyModel with this data.
+     */
+    create: XOR<REProertyModelCreateInput, REProertyModelUncheckedCreateInput>
+    /**
+     * In case the REProertyModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<REProertyModelUpdateInput, REProertyModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * REProertyModel delete
+   */
+  export type REProertyModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    /**
+     * Filter which REProertyModel to delete.
+     */
+    where: REProertyModelWhereUniqueInput
+  }
+
+
+  /**
+   * REProertyModel deleteMany
+   */
+  export type REProertyModelDeleteManyArgs = {
+    /**
+     * Filter which REProertyModels to delete
+     */
+    where?: REProertyModelWhereInput
+  }
+
+
+  /**
+   * REProertyModel without action
+   */
+  export type REProertyModelArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -14302,6 +15357,20 @@ export namespace Prisma {
   };
 
   export type REAgentModelScalarFieldEnum = (typeof REAgentModelScalarFieldEnum)[keyof typeof REAgentModelScalarFieldEnum]
+
+
+  export const REProertyModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    main_image_url: 'main_image_url',
+    agent_id: 'agent_id'
+  };
+
+  export type REProertyModelScalarFieldEnum = (typeof REProertyModelScalarFieldEnum)[keyof typeof REProertyModelScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14652,6 +15721,7 @@ export namespace Prisma {
     re_phone?: StringFilter | string
     re_licensed_agent_name?: StringFilter | string
     base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
+    properties?: REProertyModelListRelationFilter
   }
 
   export type REAgentModelOrderByWithRelationInput = {
@@ -14662,6 +15732,7 @@ export namespace Prisma {
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
     base?: BusinessUserModelOrderByWithRelationInput
+    properties?: REProertyModelOrderByRelationAggregateInput
   }
 
   export type REAgentModelWhereUniqueInput = {
@@ -15130,6 +16201,65 @@ export namespace Prisma {
     agreement_id?: StringWithAggregatesFilter | string
   }
 
+  export type REProertyModelWhereInput = {
+    AND?: Enumerable<REProertyModelWhereInput>
+    OR?: Enumerable<REProertyModelWhereInput>
+    NOT?: Enumerable<REProertyModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    name?: StringFilter | string
+    main_image_url?: StringFilter | string
+    agent_id?: StringFilter | string
+    agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput>
+  }
+
+  export type REProertyModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    main_image_url?: SortOrder
+    agent_id?: SortOrder
+    agent?: REAgentModelOrderByWithRelationInput
+  }
+
+  export type REProertyModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type REProertyModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    main_image_url?: SortOrder
+    agent_id?: SortOrder
+    _count?: REProertyModelCountOrderByAggregateInput
+    _max?: REProertyModelMaxOrderByAggregateInput
+    _min?: REProertyModelMinOrderByAggregateInput
+  }
+
+  export type REProertyModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    name?: StringWithAggregatesFilter | string
+    main_image_url?: StringWithAggregatesFilter | string
+    agent_id?: StringWithAggregatesFilter | string
+  }
+
   export type OauthAccessorModelCreateInput = {
     id: string
     created_at: Date | string
@@ -15532,6 +16662,7 @@ export namespace Prisma {
     re_phone: string
     re_licensed_agent_name: string
     base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
+    properties?: REProertyModelCreateNestedManyWithoutAgentInput
   }
 
   export type REAgentModelUncheckedCreateInput = {
@@ -15541,6 +16672,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type REAgentModelUpdateInput = {
@@ -15550,6 +16682,7 @@ export namespace Prisma {
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
     base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
+    properties?: REProertyModelUpdateManyWithoutAgentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateInput = {
@@ -15559,6 +16692,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type REAgentModelCreateManyInput = {
@@ -16131,6 +17265,82 @@ export namespace Prisma {
     agreement_id?: StringFieldUpdateOperationsInput | string
   }
 
+  export type REProertyModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent: REAgentModelCreateNestedOneWithoutPropertiesInput
+  }
+
+  export type REProertyModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent_id: string
+  }
+
+  export type REProertyModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+    agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
+  }
+
+  export type REProertyModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+    agent_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent_id: string
+  }
+
+  export type REProertyModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+    agent_id?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -16450,8 +17660,8 @@ export namespace Prisma {
   }
 
   export type REAgentModelRelationFilter = {
-    is?: REAgentModelWhereInput | null
-    isNot?: REAgentModelWhereInput | null
+    is?: REAgentModelWhereInput
+    isNot?: REAgentModelWhereInput
   }
 
   export type HSProviderModelRelationFilter = {
@@ -16518,6 +17728,16 @@ export namespace Prisma {
     address_second?: SortOrder
     profile_image_url?: SortOrder
     super_expertise_id?: SortOrder
+  }
+
+  export type REProertyModelListRelationFilter = {
+    every?: REProertyModelWhereInput
+    some?: REProertyModelWhereInput
+    none?: REProertyModelWhereInput
+  }
+
+  export type REProertyModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type REAgentModelCountOrderByAggregateInput = {
@@ -16857,6 +18077,39 @@ export namespace Prisma {
     deleted_at?: SortOrder
     user_id?: SortOrder
     agreement_id?: SortOrder
+  }
+
+  export type REProertyModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    main_image_url?: SortOrder
+    agent_id?: SortOrder
+  }
+
+  export type REProertyModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    main_image_url?: SortOrder
+    agent_id?: SortOrder
+  }
+
+  export type REProertyModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    main_image_url?: SortOrder
+    agent_id?: SortOrder
   }
 
   export type BusinessUserModelCreateNestedOneWithoutOauth_accessorInput = {
@@ -17305,12 +18558,54 @@ export namespace Prisma {
     connect?: BusinessUserModelWhereUniqueInput
   }
 
+  export type REProertyModelCreateNestedManyWithoutAgentInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
+    createMany?: REProertyModelCreateManyAgentInputEnvelope
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  }
+
+  export type REProertyModelUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
+    createMany?: REProertyModelCreateManyAgentInputEnvelope
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  }
+
   export type BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput = {
     create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
     connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
     upsert?: BusinessUserModelUpsertWithoutRe_agentInput
     connect?: BusinessUserModelWhereUniqueInput
     update?: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
+  }
+
+  export type REProertyModelUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutAgentInput>
+    createMany?: REProertyModelCreateManyAgentInputEnvelope
+    set?: Enumerable<REProertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
+    delete?: Enumerable<REProertyModelWhereUniqueInput>
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutAgentInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutAgentInput>
+    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
+  }
+
+  export type REProertyModelUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutAgentInput>
+    createMany?: REProertyModelCreateManyAgentInputEnvelope
+    set?: Enumerable<REProertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
+    delete?: Enumerable<REProertyModelWhereUniqueInput>
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutAgentInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutAgentInput>
+    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
   }
 
   export type BusinessUserModelCreateNestedOneWithoutHs_providerInput = {
@@ -17641,6 +18936,20 @@ export namespace Prisma {
     upsert?: AgreementModelUpsertWithoutAcceptancesInput
     connect?: AgreementModelWhereUniqueInput
     update?: XOR<AgreementModelUpdateWithoutAcceptancesInput, AgreementModelUncheckedUpdateWithoutAcceptancesInput>
+  }
+
+  export type REAgentModelCreateNestedOneWithoutPropertiesInput = {
+    create?: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
+    connectOrCreate?: REAgentModelCreateOrConnectWithoutPropertiesInput
+    connect?: REAgentModelWhereUniqueInput
+  }
+
+  export type REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput = {
+    create?: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
+    connectOrCreate?: REAgentModelCreateOrConnectWithoutPropertiesInput
+    upsert?: REAgentModelUpsertWithoutPropertiesInput
+    connect?: REAgentModelWhereUniqueInput
+    update?: XOR<REAgentModelUpdateWithoutPropertiesInput, REAgentModelUncheckedUpdateWithoutPropertiesInput>
   }
 
   export type NestedStringFilter = {
@@ -18343,6 +19652,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
+    properties?: REProertyModelCreateNestedManyWithoutAgentInput
   }
 
   export type REAgentModelUncheckedCreateWithoutBaseInput = {
@@ -18351,6 +19661,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type REAgentModelCreateOrConnectWithoutBaseInput = {
@@ -18544,6 +19855,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUpdateManyWithoutAgentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateWithoutBaseInput = {
@@ -18552,6 +19864,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type HSProviderModelUpsertWithoutBaseInput = {
@@ -18707,6 +20020,36 @@ export namespace Prisma {
     create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
   }
 
+  export type REProertyModelCreateWithoutAgentInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+  }
+
+  export type REProertyModelUncheckedCreateWithoutAgentInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+  }
+
+  export type REProertyModelCreateOrConnectWithoutAgentInput = {
+    where: REProertyModelWhereUniqueInput
+    create: XOR<REProertyModelCreateWithoutAgentInput, REProertyModelUncheckedCreateWithoutAgentInput>
+  }
+
+  export type REProertyModelCreateManyAgentInputEnvelope = {
+    data: Enumerable<REProertyModelCreateManyAgentInput>
+    skipDuplicates?: boolean
+  }
+
   export type BusinessUserModelUpsertWithoutRe_agentInput = {
     update: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
     create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
@@ -18742,6 +20085,36 @@ export namespace Prisma {
     certifications?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type REProertyModelUpsertWithWhereUniqueWithoutAgentInput = {
+    where: REProertyModelWhereUniqueInput
+    update: XOR<REProertyModelUpdateWithoutAgentInput, REProertyModelUncheckedUpdateWithoutAgentInput>
+    create: XOR<REProertyModelCreateWithoutAgentInput, REProertyModelUncheckedCreateWithoutAgentInput>
+  }
+
+  export type REProertyModelUpdateWithWhereUniqueWithoutAgentInput = {
+    where: REProertyModelWhereUniqueInput
+    data: XOR<REProertyModelUpdateWithoutAgentInput, REProertyModelUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type REProertyModelUpdateManyWithWhereWithoutAgentInput = {
+    where: REProertyModelScalarWhereInput
+    data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyWithoutPropertiesInput>
+  }
+
+  export type REProertyModelScalarWhereInput = {
+    AND?: Enumerable<REProertyModelScalarWhereInput>
+    OR?: Enumerable<REProertyModelScalarWhereInput>
+    NOT?: Enumerable<REProertyModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    name?: StringFilter | string
+    main_image_url?: StringFilter | string
+    agent_id?: StringFilter | string
   }
 
   export type BusinessUserModelCreateWithoutHs_providerInput = {
@@ -19489,6 +20862,52 @@ export namespace Prisma {
     user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
   }
 
+  export type REAgentModelCreateWithoutPropertiesInput = {
+    is_licensed: boolean
+    re_num: string
+    re_name: string
+    re_phone: string
+    re_licensed_agent_name: string
+    base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
+  }
+
+  export type REAgentModelUncheckedCreateWithoutPropertiesInput = {
+    id: string
+    is_licensed: boolean
+    re_num: string
+    re_name: string
+    re_phone: string
+    re_licensed_agent_name: string
+  }
+
+  export type REAgentModelCreateOrConnectWithoutPropertiesInput = {
+    where: REAgentModelWhereUniqueInput
+    create: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
+  }
+
+  export type REAgentModelUpsertWithoutPropertiesInput = {
+    update: XOR<REAgentModelUpdateWithoutPropertiesInput, REAgentModelUncheckedUpdateWithoutPropertiesInput>
+    create: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
+  }
+
+  export type REAgentModelUpdateWithoutPropertiesInput = {
+    is_licensed?: BoolFieldUpdateOperationsInput | boolean
+    re_num?: StringFieldUpdateOperationsInput | string
+    re_name?: StringFieldUpdateOperationsInput | string
+    re_phone?: StringFieldUpdateOperationsInput | string
+    re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+    base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
+  }
+
+  export type REAgentModelUncheckedUpdateWithoutPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_licensed?: BoolFieldUpdateOperationsInput | boolean
+    re_num?: StringFieldUpdateOperationsInput | string
+    re_name?: StringFieldUpdateOperationsInput | string
+    re_phone?: StringFieldUpdateOperationsInput | string
+    re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type AgreementAcceptanceModelCreateManyUserInput = {
     id: string
     created_at: Date | string
@@ -19728,6 +21147,46 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type REProertyModelCreateManyAgentInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+  }
+
+  export type REProertyModelUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelUncheckedUpdateManyWithoutPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
   }
 
   export type HSIntroductionImageModelCreateManyHs_providerInput = {

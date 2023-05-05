@@ -33,7 +33,7 @@ export const test_success = async (connection: IConnection) => {
   const { id } = await prisma.rEAgentModel.create({ data });
 
   const received = await users.re_agents.getOne(connection, id);
-
+  console.log(received);
   typia.assertEquals(received);
 };
 
