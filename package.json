@@ -22,9 +22,10 @@
     "swagger": "NODE_ENV=development nestia swagger",
     "sdk": "rimraf ./src/api/functional && NODE_ENV=development nestia sdk && find ./src/api -type f -exec sed -i '' 's/\\r$//' {} \\;",
     "nestia": "npm run swagger ; npm run sdk",
+    "package:publish": "npm run build:api && cd ./packages/api && npm publish",
     "-------------------------------------------------":"",
     "db:sch": "ts-node prisma",
-    "db:update": "rimraf db && npm run db:sch && prisma generate",
+    "db:update": "rimraf db && npm run db:sch && prisma generate && find ./db/runtime -type f -exec sed -i '' 's/\\r$//' {} \\;",
     "db:sync": "npm run db:update && rimraf prisma/migrations && prisma migrate dev",
     "db:init":"prisma migrate reset",
     "db:deploy": "prisma migrate deploy"
