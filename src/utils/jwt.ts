@@ -1,4 +1,4 @@
-import { isUndefined } from "./is";
+import { isUndefined } from "@fxts/core";
 
 export const getJwtPayload = (token: string): string | null => {
   const payload = token.split(".")[1];

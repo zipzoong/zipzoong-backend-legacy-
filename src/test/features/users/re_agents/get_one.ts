@@ -1,21 +1,19 @@
-import { IREAgent } from "@DTO/user";
+import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
-import { HttpError, IConnection } from "@nestia/fetcher";
+import { RandomGenerator } from "@nestia/e2e";
+import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Prisma } from "@PRISMA";
-import { createUserQuery } from "@PROVIDER/services/authentication/create-user.query";
+import { REAgent } from "@PROVIDER/cores/user/re_agent";
 import { agreements, expert_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
-import { isUndefined } from "@UTIL";
-import assert from "assert";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
 console.log("\n- users.re_agents.getOne");
 
 export const test_success = async (connection: IConnection) => {
-  const body = typia.random<IREAgent.ICreateRequest>();
-  body.agreement_acceptances = (
+  const body = typia.random<IREAgent.ICreate>();
+  body.acceptant_agreement_ids = (
     await agreements.getList(connection, {
       filter: ["all", "business", "RE"]
     })
@@ -25,35 +23,43 @@ export const test_success = async (connection: IConnection) => {
     filter: ["RE"]
   });
 
-  const super_expertise = list[0];
-
-  if (isUndefined(super_expertise)) throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(list);
 
   body.super_expertise_id = super_expertise.id;
-
   body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  const [user_id, ...queries] = createUserQuery({
-    ...body,
-    phone: "test_phone_number"
-  });
-  await prisma.$transaction<Prisma.PrismaPromise<unknown>[]>(queries);
+  const data = REAgent.json.createData(body);
+  data.base.create.is_verified = true;
+  const { id } = await prisma.rEAgentModel.create({ data });
 
-  await users.re_agents.getOne(connection, user_id).catch((err: HttpError) => {
-    assert.deepStrictEqual(
-      { status: err.status, message: err.message },
-      { status: HttpStatus.NOT_FOUND, message: "User Not Found" }
-    );
-  });
-
-  await prisma.businessUserModel.updateMany({
-    where: { id: user_id },
-    data: { is_verified: true }
-  });
-
-  const received = await users.re_agents.getOne(connection, user_id);
+  const received = await users.re_agents.getOne(connection, id);
 
   typia.assertEquals(received);
+};
+
+export const test_not_found_if_unverified = async (connection: IConnection) => {
+  const body = typia.random<IREAgent.ICreate>();
+  body.acceptant_agreement_ids = (
+    await agreements.getList(connection, {
+      filter: ["all", "business", "RE"]
+    })
+  ).map(({ id }) => id);
+
+  const list = await expert_categories.getSuperCategoryList(connection, {
+    filter: ["RE"]
+  });
+
+  const super_expertise = RandomGenerator.pick(list);
+
+  body.super_expertise_id = super_expertise.id;
+  body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+
+  const data = REAgent.json.createData(body);
+  const { id } = await prisma.rEAgentModel.create({ data });
+  await internal.test_error(() => users.re_agents.getOne(connection, id))(
+    HttpStatus.NOT_FOUND,
+    "User Not Found"
+  );
 };
 
 export const test_user_not_found = internal.test_error(

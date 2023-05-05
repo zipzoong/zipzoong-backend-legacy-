@@ -1,6 +1,6 @@
 import { ITokens } from "@DTO/auth";
-import { IUser } from "@DTO/user";
-import { pipe } from "@fxts/core";
+import { IUser } from "@DTO/user/user";
+import { isUndefined, pipe } from "@fxts/core";
 import {
   createParamDecorator,
   ExecutionContext,
@@ -8,7 +8,7 @@ import {
   UnauthorizedException
 } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
-import { isNull, isUndefined, throwIf } from "@UTIL";
+import { isNull, throwIf } from "@UTIL";
 import { Request } from "express";
 
 const extract_authorization_header = (context: ExecutionContext) =>

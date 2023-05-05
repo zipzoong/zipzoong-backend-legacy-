@@ -1,5 +1,5 @@
 import { ISoftDeletable } from "@DTO/common";
-import { IUser } from "@DTO/user";
+import { IUser } from "@DTO/user/user";
 import { pipe, tap } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import {
@@ -21,93 +21,89 @@ export namespace Check {
   const InvalidExpertise = new BadRequestException("Invalid Expertise");
   const AlreadyCreated = new ForbiddenException("Already Created");
 
-  export const Exist =
+  export const exist =
     <E>(exception: E) =>
     <T>(model: T | null): T =>
       isNull(model) ? toThrow(exception) : model;
 
-  export const Active =
+  export const active =
     <E>(exception: E) =>
     <T extends Pick<ISoftDeletable, "is_deleted">>(model: T) =>
       model.is_deleted ? toThrow(exception) : model;
 
-  /**
-   * @throw Unauthorized
-   */
-  export const ExistAccessor = Exist(AuthenticationFail)<OauthAccessorModel>;
+  /** @throw Unauthorized */
+  export const existAccessor = exist(AuthenticationFail)<OauthAccessorModel>;
 
-  /**
-   * @throw Forbidden
-   */
-  export const ActiveAccessor = Active(AccessorInactive)<OauthAccessorModel>;
+  /** @throw Forbidden */
+  export const activeAccessor = active(AccessorInactive)<OauthAccessorModel>;
 
-  /**
-   *
-   * @throw NotFound
-   */
-  export const ExistUserId =
+  /** @throw NotFound */
+  export const existUserId =
     (user_type: IUser.Type) =>
     (model: OauthAccessorModel): string => {
-      if (user_type === "customer")
-        return isNull(model.customer_id)
-          ? toThrow(UserNotFound)
-          : model.customer_id;
+      switch (user_type) {
+        case "customer":
+          return isNull(model.customer_id)
+            ? toThrow(UserNotFound)
+            : model.customer_id;
 
-      if (user_type === "home service provider")
-        return isNull(model.business_user_id)
-          ? toThrow(UserNotFound)
-          : model.business_user_id;
+        case "home service provider":
+          return isNull(model.business_user_id)
+            ? toThrow(UserNotFound)
+            : model.business_user_id;
 
-      if (user_type === "real estate agent")
-        return isNull(model.business_user_id)
-          ? toThrow(UserNotFound)
-          : model.business_user_id;
+        case "real estate agent":
+          return isNull(model.business_user_id)
+            ? toThrow(UserNotFound)
+            : model.business_user_id;
 
-      throw Error("[Check.ExistUserId] unreachable case");
+        default:
+          throw Error("[Check.existUserId] unreachable case");
+      }
     };
 
-  /**
-   * @throw Forbidden
-   */
-  const throwIfUserExist =
+  /** @throw Forbidden */
+  const userNotExist =
     (user_type: IUser.Type) => (model: OauthAccessorModel) => {
-      if (user_type === "customer" && !isNull(model.customer_id))
-        throw AlreadyCreated;
+      switch (user_type) {
+        case "customer":
+          return !isNull(model.customer_id) ? toThrow(AlreadyCreated) : model;
 
-      if (
-        user_type === "home service provider" &&
-        !isNull(model.business_user_id)
-      )
-        throw AlreadyCreated;
+        case "home service provider":
+        case "real estate agent":
+          return !isNull(model.business_user_id)
+            ? toThrow(AlreadyCreated)
+            : model;
 
-      if (user_type === "real estate agent" && !isNull(model.business_user_id))
-        throw AlreadyCreated;
+        default:
+          throw Error("[Check.userNotExist] unreachable case");
+      }
     };
 
   /**
    * @throw Unauthorized
    * @throw Forbidden
    */
-  export const CanCreateUser =
+  export const canCreateUser =
     (user_type: IUser.Type) => (accessor_id: string) =>
       pipe(
         accessor_id,
         async (id) => prisma.oauthAccessorModel.findFirst({ where: { id } }),
 
-        ExistAccessor,
+        existAccessor,
 
-        ActiveAccessor,
+        activeAccessor,
 
-        tap(throwIfUserExist(user_type))
+        tap(userNotExist(user_type))
       );
 
   /** @throw Forbidden */
-  export const Agreement = async ({
+  export const acceptanceValid = async ({
     type,
-    agreement_acceptances
+    acceptant_agreement_ids
   }: {
     type: IUser.Type;
-    agreement_acceptances: string[];
+    acceptant_agreement_ids: string[];
   }) => {
     const or: AgreementUserType[] = ["all"];
     if (type === "customer") or.push("customer");
@@ -115,10 +111,10 @@ export namespace Check {
     else if (type === "home service provider") or.push("business", "HS");
 
     const acceptances = await prisma.agreementModel.findMany({
-      where: { id: { in: agreement_acceptances } }
+      where: { id: { in: acceptant_agreement_ids } }
     });
 
-    if (acceptances.length !== agreement_acceptances.length)
+    if (acceptances.length !== acceptant_agreement_ids.length)
       throw InvalidAgreement;
 
     const agreements = await prisma.agreementModel.findMany({
@@ -138,7 +134,7 @@ export namespace Check {
   };
 
   /** @throw BadRequest */
-  export const SuperExpertise = async ({
+  export const superExpertCategoryValid = async ({
     type,
     super_expertise_id
   }: {
@@ -160,7 +156,7 @@ export namespace Check {
   };
 
   /** @throw BadRequest */
-  export const SubExpertises = async ({
+  export const subExpertCategoriesValid = async ({
     super_expertise_id,
     sub_expertise_ids
   }: {

@@ -107,14 +107,14 @@ exports.Prisma.AgreementModelScalarFieldEnum = {
   user_type: 'user_type'
 };
 
-exports.Prisma.BusinessCertificationModelScalarFieldEnum = {
+exports.Prisma.BusinessCertificationImageModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   business_user_id: 'business_user_id',
-  image_url: 'image_url'
+  url: 'url'
 };
 
 exports.Prisma.BusinessUserModelScalarFieldEnum = {
@@ -125,7 +125,8 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   phone: 'phone',
   address_first: 'address_first',
   address_second: 'address_second',
-  profile_image_url: 'profile_image_url'
+  profile_image_url: 'profile_image_url',
+  super_expertise_id: 'super_expertise_id'
 };
 
 exports.Prisma.CustomerModelScalarFieldEnum = {
@@ -165,7 +166,7 @@ exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   hs_provider_id: 'hs_provider_id',
-  image_url: 'image_url'
+  url: 'url'
 };
 
 exports.Prisma.HSProviderModelScalarFieldEnum = {
@@ -222,14 +223,6 @@ exports.Prisma.SubExpertiseModelScalarFieldEnum = {
   business_user_id: 'business_user_id'
 };
 
-exports.Prisma.SuperExpertiseModelScalarFieldEnum = {
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  id: 'id',
-  business_user_id: 'business_user_id',
-  super_category_id: 'super_category_id'
-};
-
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -277,9 +270,8 @@ exports.Prisma.ModelName = {
   BusinessUserModel: 'BusinessUserModel',
   REAgentModel: 'REAgentModel',
   HSProviderModel: 'HSProviderModel',
-  BusinessCertificationModel: 'BusinessCertificationModel',
+  BusinessCertificationImageModel: 'BusinessCertificationImageModel',
   HSIntroductionImageModel: 'HSIntroductionImageModel',
-  SuperExpertiseModel: 'SuperExpertiseModel',
   SubExpertiseModel: 'SubExpertiseModel',
   ExpertSubCategoryModel: 'ExpertSubCategoryModel',
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',

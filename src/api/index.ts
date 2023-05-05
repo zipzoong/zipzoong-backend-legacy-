@@ -1,2 +1,4 @@
+import * as api from "./module";
 export * from "./module";
-export * as zipzoong from "./module";
+
+export default api;

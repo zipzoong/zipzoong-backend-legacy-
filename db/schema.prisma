@@ -86,7 +86,7 @@ model CustomerModel {
 }
 
 model BusinessUserModel {
-  id                   String                       @id
+  id                   String                            @id
   is_verified          Boolean
   introduction_title   String
   introduction_content String
@@ -94,11 +94,12 @@ model BusinessUserModel {
   address_first        String
   address_second       String?
   profile_image_url    String
-  base                 UserModel                    @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  super_expertise_id   String
+  base                 UserModel                         @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   re_agent             REAgentModel?
   hs_provider          HSProviderModel?
-  certifications       BusinessCertificationModel[]
-  super_expertise      SuperExpertiseModel?
+  certifications       BusinessCertificationImageModel[]
+  super_expertise      ExpertSuperCategoryModel          @relation(fields: [super_expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   sub_expertises       SubExpertiseModel[]
   oauth_accessor       OauthAccessorModel[]
 
@@ -126,17 +127,17 @@ model HSProviderModel {
   @@map("hs_providers")
 }
 
-model BusinessCertificationModel {
+model BusinessCertificationImageModel {
   id               String            @id
   created_at       DateTime          @database.Timestamptz
   updated_at       DateTime          @database.Timestamptz
   is_deleted       Boolean
   deleted_at       DateTime?         @database.Timestamptz
   business_user_id String
-  image_url        String
+  url              String
   business_user    BusinessUserModel @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
-  @@map("business_certifications")
+  @@map("business_certification_images")
 }
 
 model HSIntroductionImageModel {
@@ -146,22 +147,10 @@ model HSIntroductionImageModel {
   is_deleted     Boolean
   deleted_at     DateTime?       @database.Timestamptz
   hs_provider_id String
-  image_url      String
+  url            String
   hs_provider    HSProviderModel @relation(fields: [hs_provider_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
   @@map("hs_introduction_images")
-}
-
-model SuperExpertiseModel {
-  created_at        DateTime                 @database.Timestamptz
-  updated_at        DateTime                 @database.Timestamptz
-  id                String                   @id
-  business_user_id  String                   @unique
-  super_category_id String
-  business_user     BusinessUserModel        @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  category          ExpertSuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("super_expertises")
 }
 
 model SubExpertiseModel {
@@ -194,15 +183,15 @@ model ExpertSubCategoryModel {
 }
 
 model ExpertSuperCategoryModel {
-  id            String                   @id
-  created_at    DateTime                 @database.Timestamptz
-  updated_at    DateTime                 @database.Timestamptz
-  is_deleted    Boolean
-  deleted_at    DateTime?                @database.Timestamptz
-  name          String                   @unique
-  business_type ExpertBusinessType
-  subs          ExpertSubCategoryModel[]
-  expertises    SuperExpertiseModel[]
+  id             String                   @id
+  created_at     DateTime                 @database.Timestamptz
+  updated_at     DateTime                 @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                @database.Timestamptz
+  name           String                   @unique
+  business_type  ExpertBusinessType
+  subs           ExpertSubCategoryModel[]
+  business_users BusinessUserModel[]
 
   @@map("expert_super_categories")
 }

@@ -1,6 +1,7 @@
 import { ITokens } from "@DTO/auth";
 import { IPaginatedResponse } from "@DTO/common";
-import { IHSProvider } from "@DTO/user";
+import { IBusinessUser } from "@DTO/user/business_user";
+import { IHSProvider } from "@DTO/user/hs_provider";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
 import { HSProviderService } from "@PROVIDER/services/user/hs_provider";
@@ -17,8 +18,8 @@ export class HSProvidersController {
    */
   @Get()
   getList(
-    @TypedQuery() query: IHSProvider.ISearch
-  ): Promise<IPaginatedResponse<IHSProvider.IResponse>> {
+    @TypedQuery() query: IBusinessUser.ISearch
+  ): Promise<IPaginatedResponse<IHSProvider>> {
     return HSProviderService.getList(query);
   }
 
@@ -32,9 +33,10 @@ export class HSProvidersController {
    */
   @Get("me")
   getMe(
-    @HSProviderToken() payload: ITokens.IUserPayload<"home service provider">
-  ): Promise<IHSProvider.IPrivateResponse> {
-    return HSProviderService.getMe(payload.user_id);
+    @HSProviderToken()
+    { user_id }: ITokens.IUserPayload<"home service provider">
+  ): Promise<IHSProvider.IPrivate> {
+    return HSProviderService.getMe(user_id);
   }
 
   /**
@@ -46,9 +48,7 @@ export class HSProvidersController {
    * @throw 404 Not Found
    */
   @Get(":provider_id")
-  getOne(
-    @TypedParam("provider_id") provider_id: string
-  ): Promise<IHSProvider.IResponse> {
+  getOne(@TypedParam("provider_id") provider_id: string): Promise<IHSProvider> {
     return HSProviderService.getOne(provider_id);
   }
 }

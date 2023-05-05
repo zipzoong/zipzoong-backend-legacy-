@@ -1,4 +1,4 @@
-import { IUser } from "../user";
+import { IUser } from "../user/user";
 
 export interface ITokens {
   readonly access_token: string;

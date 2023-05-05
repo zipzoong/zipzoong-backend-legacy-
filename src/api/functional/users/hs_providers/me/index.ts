@@ -36,7 +36,7 @@ export function getMe
 }
 export namespace getMe
 {
-    export type Output = IHSProvider.IPrivateResponse;
+    export type Output = IHSProvider.IPrivate;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/hs-providers/me";

@@ -1,4 +1,8 @@
-import { ICustomer, IHSProvider, IREAgent, IUser } from "../user";
+import { IAddress } from "@DTO/common";
+import { ICustomer } from "@DTO/user/customer";
+import { IUser } from "@DTO/user/user";
+import { IREAgent } from "@DTO/user/re_agent";
+import { IHSProvider } from "@DTO/user/hs_provider";
 
 export namespace Authentication {
   export type OauthType = "kakao";
@@ -23,8 +27,8 @@ export namespace Authentication {
      * @format date
      */
     readonly birth: string | null;
-    readonly gender: IUser.GenderType | null;
-    readonly address: IUser.IAddress | null;
+    readonly gender: ICustomer["gender"];
+    readonly address: IAddress | null;
   }
 
   export type ICreateRequest =

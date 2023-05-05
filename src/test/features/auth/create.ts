@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Authentication } from "@DTO/auth";
-import { ICustomer, IHSProvider, IREAgent } from "@DTO/user";
+import { ICustomer } from "@DTO/user/customer";
+import { IHSProvider } from "@DTO/user/hs_provider";
+import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
+import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { agreements, auth, expert_categories } from "@SDK";
@@ -10,9 +12,10 @@ import typia from "typia";
 
 console.log("\n- auth.user.create");
 
+const code = "test_user_create";
 const getTokens = (connection: IConnection) =>
   auth.sign_up.signUp(connection, {
-    code: "test_user_create",
+    code,
     oauth_type: "kakao"
   });
 
@@ -27,7 +30,7 @@ const test_success = async (
     body.type === "real estate agent"
   )
     await prisma.oauthAccessorModel.updateMany({
-      where: { oauth_sub: "test_user_create", oauth_type: "kakao" },
+      where: { oauth_sub: code, oauth_type: "kakao" },
       data: { phone: "test_phone_number" }
     });
 
@@ -47,9 +50,7 @@ export const test_success_customer_create = async (
   const list = await agreements.getList(connection, {
     filter: ["all", "customer"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
 
   await test_success(connection, create);
 };
@@ -59,19 +60,17 @@ export const test_success_re_agent_create = async (connection: IConnection) => {
   const list = await agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["RE"] }
   );
-  if (super_expertise_list.length === 0)
-    throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
+  const sub_expertise = RandomGenerator.pick(super_expertise.sub_categories);
 
-  create.super_expertise_id = super_expertise_list[0]!.id;
-  create.sub_expertise_ids = [super_expertise_list[0]!.sub_categories[0]!.id];
+  create.super_expertise_id = super_expertise.id;
+  create.sub_expertise_ids = [sub_expertise.id];
   await test_success(connection, create);
 };
 
@@ -82,21 +81,16 @@ export const test_success_hs_provider_create = async (
   const list = await agreements.getList(connection, {
     filter: ["all", "business", "HS"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["HS"] }
   );
-  if (super_expertise_list.length === 0)
-    throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise_list[0]!.id;
-  create.sub_expertise_ids = super_expertise_list[0]!.sub_categories.map(
-    ({ id }) => id
-  );
+  create.super_expertise_id = super_expertise.id;
+  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   await test_success(connection, create);
 };
@@ -106,9 +100,7 @@ export const test_invalid_accessor = internal.test_invalid_accessor(
     auth.user.create(connection, typia.random<Authentication.ICreateRequest>())
 );
 
-export const test_forbidden_already_user_exist = async (
-  connection: IConnection
-) => {
+export const test_already_user_exist = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
 
@@ -120,17 +112,13 @@ export const test_forbidden_already_user_exist = async (
   const list = await agreements.getList(connection, {
     filter: ["all", "customer"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
   await auth.user.create(_connection, create);
 
-  await internal.test_error((body: ICustomer.ICreateRequest) =>
-    auth.user.create(_connection, body)
-  )(
+  await internal.test_error(() => auth.user.create(_connection, create))(
     HttpStatus.FORBIDDEN,
     "Already Created"
-  )(create);
+  )();
 
   await internal.deleteAccessor(access_token);
 };
@@ -140,19 +128,14 @@ export const test_insufficient_agreement_acceptance = async (
 ) => {
   const { access_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
+  create.acceptant_agreement_ids = [];
 
-  create.agreement_acceptances = [];
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
-  await internal.test_error((input: ICustomer.ICreateRequest) =>
+  await internal.test_error(() =>
     auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
-      input
+      create
     )
-  )(
-    HttpStatus.FORBIDDEN,
-    "Agreement Acceptance InSufficient"
-  )(create);
+  )(HttpStatus.FORBIDDEN, "Agreement Acceptance InSufficient")();
 
   await internal.deleteAccessor(access_token);
 };
@@ -164,29 +147,24 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
   const list = await agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.phone_access_code = "test_phone";
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["HS"] }
   );
-  if (super_expertise_list.length === 0)
-    throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise_list[0]!.id;
-  create.sub_expertise_ids = [super_expertise_list[0]!.sub_categories[0]!.id];
+  create.super_expertise_id = super_expertise.id;
+  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  await internal.test_error((input: IREAgent.ICreateRequest) =>
+  await internal.test_error(() =>
     auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
-      input
+      create
     )
-  )(
-    HttpStatus.BAD_REQUEST,
-    "Invalid Expertise"
-  )(create);
+  )(HttpStatus.BAD_REQUEST, "Invalid Expertise")();
   await internal.deleteAccessor(access_token);
 };
 
@@ -197,9 +175,8 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
   const list = await agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
-  create.phone_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.phone_access_code = "phone";
 
   const valid_super_list = await expert_categories.getSuperCategoryList(
     connection,
@@ -211,25 +188,20 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
     connection,
     { filter: ["HS"] }
   );
-  if (super_expertise_list.length === 0)
-    throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
+  const valid_expertise = RandomGenerator.pick(valid_super_list);
 
-  create.super_expertise_id = valid_super_list[0]!.id;
-  create.sub_expertise_ids = [super_expertise_list[0]!.sub_categories[0]!.id];
+  create.super_expertise_id = valid_expertise.id;
+  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  await internal.test_error((input: IREAgent.ICreateRequest) =>
+  await internal.test_error(() =>
     auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
-      input
+      create
     )
-  )(
-    HttpStatus.BAD_REQUEST,
-    "Invalid Expertise"
-  )(create);
+  )(HttpStatus.BAD_REQUEST, "Invalid Expertise")();
   await internal.deleteAccessor(access_token);
 };
-
-// test if phone required
 
 export const test_phone_required = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
@@ -248,26 +220,20 @@ export const test_phone_required = async (connection: IConnection) => {
   const list = await agreements.getList(connection, {
     filter: ["all", "business", "HS"]
   });
-  create.agreement_acceptances = list.map(({ id }) => id);
-  create.email_access_code = undefined;
+  create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = undefined;
 
   const super_expertise_list = await expert_categories.getSuperCategoryList(
     connection,
     { filter: ["HS"] }
   );
-  if (super_expertise_list.length === 0)
-    throw Error("have to seed expert category");
+  const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise_list[0]!.id;
-  create.sub_expertise_ids = super_expertise_list[0]!.sub_categories.map(
-    ({ id }) => id
-  );
+  create.super_expertise_id = super_expertise.id;
+  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  await internal.test_error((input: IHSProvider.ICreateRequest) =>
-    auth.user.create(_connection, input)
-  )(
+  await internal.test_error(() => auth.user.create(_connection, create))(
     HttpStatus.BAD_REQUEST,
     "Phone Required"
-  )(create);
+  )();
 };

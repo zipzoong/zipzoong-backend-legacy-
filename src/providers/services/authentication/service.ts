@@ -1,15 +1,20 @@
 import { Check } from "./check";
-import { Authentication, ITokens } from "@DTO/auth";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString } from "@UTIL";
+import { getISOString, isNull } from "@UTIL";
 import { randomUUID } from "crypto";
 import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
-import { createUserQuery } from "./create-user.query";
+import { Customer } from "@PROVIDER/cores/user/customer";
+import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
+import { REAgent } from "@PROVIDER/cores/user/re_agent";
+import { BadRequestException } from "@nestjs/common";
+import { Authentication, ITokens } from "@DTO/auth";
 
 export namespace AuthenticationService {
+  const PhoneRequired = new BadRequestException("Phone Required");
+
   export const signIn = ({
     user_type,
     code,
@@ -25,11 +30,11 @@ export namespace AuthenticationService {
           where: { oauth_sub, oauth_type }
         }),
 
-      Check.ExistAccessor,
+      Check.existAccessor,
 
-      Check.ActiveAccessor,
+      Check.activeAccessor,
 
-      Check.ExistUserId(user_type),
+      Check.existUserId(user_type),
 
       (user_id) => Crypto.getUserToken({ type: "user", user_id, user_type }),
 
@@ -69,7 +74,7 @@ export namespace AuthenticationService {
           }
         }),
 
-      Check.ActiveAccessor,
+      Check.activeAccessor,
 
       (model) =>
         Crypto.getAccessorToken({ type: "accessor", accessor_id: model.id }),
@@ -85,8 +90,8 @@ export namespace AuthenticationService {
 
       async (id) => prisma.oauthAccessorModel.findFirst({ where: { id } }),
 
-      Check.ExistAccessor,
-      Check.ActiveAccessor,
+      Check.existAccessor,
+      Check.activeAccessor,
 
       ({
         name,
@@ -125,31 +130,55 @@ export namespace AuthenticationService {
     accessor_id: string,
     input: Authentication.ICreateRequest
   ): Promise<void> => {
-    const accessor = await Check.CanCreateUser(input.type)(accessor_id);
-
-    await Check.Agreement(input);
-
-    if (input.type !== "customer") {
-      await Check.SuperExpertise(input);
-      await Check.SubExpertises(input);
-    }
+    const accessor = await Check.canCreateUser(input.type)(accessor_id);
 
     const email = input.email_access_code
       ? await getEmail(input.email_access_code)
-      : accessor.email ?? undefined;
+      : accessor.email ?? null;
 
     const phone = input.phone_access_code
       ? await getPhone(input.phone_access_code)
-      : accessor.phone ?? undefined;
+      : accessor.phone ?? null;
 
-    const [user_id, ...queries] = createUserQuery({
-      ...input,
-      email,
-      phone
-    });
+    const queries: Prisma.PrismaPromise<unknown>[] = [];
+    let user_id: string;
 
-    await prisma.$transaction<Prisma.PrismaPromise<unknown>[]>([
-      ...queries,
+    switch (input.type) {
+      case "customer":
+        {
+          await Check.acceptanceValid(input);
+          const data = Customer.json.createData({ ...input, email, phone });
+          user_id = data.base.create.id;
+          queries.push(prisma.customerModel.create({ data }));
+        }
+        break;
+      case "real estate agent":
+        if (isNull(phone)) throw PhoneRequired;
+        {
+          await Check.acceptanceValid(input);
+          await Check.superExpertCategoryValid(input);
+          await Check.subExpertCategoriesValid(input);
+          const data = REAgent.json.createData({ ...input, email, phone });
+          user_id = data.base.create.base.create.id;
+          queries.push(prisma.rEAgentModel.create({ data }));
+        }
+        break;
+      case "home service provider":
+        if (isNull(phone)) throw PhoneRequired;
+        {
+          await Check.acceptanceValid(input);
+          await Check.superExpertCategoryValid(input);
+          await Check.subExpertCategoriesValid(input);
+          const data = HSProvider.json.createData({ ...input, email, phone });
+          user_id = data.base.create.base.create.id;
+          queries.push(prisma.hSProviderModel.create({ data }));
+        }
+        break;
+      default:
+        throw Error("unreachable case");
+    }
+
+    queries.push(
       prisma.oauthAccessorModel.update({
         where: { id: accessor_id },
         data: {
@@ -161,7 +190,9 @@ export namespace AuthenticationService {
           updated_at: getISOString()
         }
       })
-    ]);
+    );
+
+    await prisma.$transaction(queries);
     return;
   };
 }

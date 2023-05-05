@@ -69,6 +69,7 @@ CREATE TABLE "business_users" (
     "address_first" TEXT NOT NULL,
     "address_second" TEXT,
     "profile_image_url" TEXT NOT NULL,
+    "super_expertise_id" TEXT NOT NULL,
 
     CONSTRAINT "business_users_pkey" PRIMARY KEY ("id")
 );
@@ -94,16 +95,16 @@ CREATE TABLE "hs_providers" (
 );
 
 -- CreateTable
-CREATE TABLE "business_certifications" (
+CREATE TABLE "business_certification_images" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
     "business_user_id" TEXT NOT NULL,
-    "image_url" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
 
-    CONSTRAINT "business_certifications_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "business_certification_images_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -114,20 +115,9 @@ CREATE TABLE "hs_introduction_images" (
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
     "hs_provider_id" TEXT NOT NULL,
-    "image_url" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
 
     CONSTRAINT "hs_introduction_images_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "super_expertises" (
-    "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL,
-    "id" TEXT NOT NULL,
-    "business_user_id" TEXT NOT NULL,
-    "super_category_id" TEXT NOT NULL,
-
-    CONSTRAINT "super_expertises_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -197,9 +187,6 @@ CREATE TABLE "agreement_acceptances" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "super_expertises_business_user_id_key" ON "super_expertises"("business_user_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "sub_expertises_sub_category_id_business_user_id_key" ON "sub_expertises"("sub_category_id", "business_user_id");
 
 -- CreateIndex
@@ -224,22 +211,19 @@ ALTER TABLE "customers" ADD CONSTRAINT "customers_id_fkey" FOREIGN KEY ("id") RE
 ALTER TABLE "business_users" ADD CONSTRAINT "business_users_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
+ALTER TABLE "business_users" ADD CONSTRAINT "business_users_super_expertise_id_fkey" FOREIGN KEY ("super_expertise_id") REFERENCES "expert_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
 ALTER TABLE "re_agents" ADD CONSTRAINT "re_agents_id_fkey" FOREIGN KEY ("id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "hs_providers" ADD CONSTRAINT "hs_providers_id_fkey" FOREIGN KEY ("id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "business_certifications" ADD CONSTRAINT "business_certifications_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "business_certification_images" ADD CONSTRAINT "business_certification_images_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "hs_introduction_images" ADD CONSTRAINT "hs_introduction_images_hs_provider_id_fkey" FOREIGN KEY ("hs_provider_id") REFERENCES "hs_providers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "super_expertises" ADD CONSTRAINT "super_expertises_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "super_expertises" ADD CONSTRAINT "super_expertises_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "expert_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "expert_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

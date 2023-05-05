@@ -36,7 +36,7 @@ export function getMe
 }
 export namespace getMe
 {
-    export type Output = IREAgent.IPrivateResponse;
+    export type Output = IREAgent.IPrivate;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents/me";

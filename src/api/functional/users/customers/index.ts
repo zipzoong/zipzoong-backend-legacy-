@@ -40,7 +40,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = ICustomer.IResponse;
+    export type Output = ICustomer;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/customers/:customer_id";
@@ -51,6 +51,6 @@ export namespace getOne
 
     export function path(customer_id: string): string
     {
-        return `/users/customers/${encodeURIComponent(customer_id)}`;
+        return `/users/customers/${encodeURIComponent(customer_id ?? "null")}`;
     }
 }

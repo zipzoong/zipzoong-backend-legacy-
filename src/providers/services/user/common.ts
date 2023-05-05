@@ -1,29 +1,23 @@
-import { IAgreement } from "@DTO/agreement";
-import { prisma } from "@INFRA/DB";
+import { pipe } from "@fxts/core";
+import { throwIfNull } from "@UTIL";
 
 export namespace UserCommonService {
-  export const getAcceptantAgreementList = async (
-    user_id: string
-  ): Promise<IAgreement[]> => {
-    const acceptances = await prisma.agreementAcceptanceModel.findMany({
-      where: { user_id }
-    });
-    const list = await prisma.agreementModel.findMany({
-      where: {
-        id: {
-          in: acceptances
-            .filter((agreement) => !agreement.is_deleted)
-            .map(({ agreement_id }) => agreement_id)
-        }
-      }
-    });
-    return list
-      .filter(({ is_deleted }) => !is_deleted)
-      .map((agreement) => ({
-        id: agreement.id,
-        title: agreement.title,
-        content: agreement.content,
-        user_type: agreement.user_type
-      }));
-  };
+  export const getOne = <T, R>(input: {
+    user_id: string;
+    findFirst: (id: string) => Promise<T | null>;
+    exception_for_notfound: unknown;
+    validator: (input: T) => T;
+    mapper: (arg: T) => R;
+  }) =>
+    pipe(
+      input.user_id,
+
+      input.findFirst,
+
+      throwIfNull(input.exception_for_notfound),
+
+      input.validator,
+
+      input.mapper
+    );
 }

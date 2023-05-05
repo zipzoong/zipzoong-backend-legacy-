@@ -7,8 +7,9 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IREAgent } from "./../../../structures/user/re_agent";
+import type { IBusinessUser } from "./../../../structures/user/business_user";
 import type { IPaginatedResponse } from "./../../../structures/common/pagination";
+import type { IREAgent } from "./../../../structures/user/re_agent";
 
 export * as me from "./me";
 
@@ -27,7 +28,7 @@ export * as me from "./me";
 export function getList
     (
         connection: IConnection,
-        query: IREAgent.ISearch
+        query: IBusinessUser.ISearch
     ): Promise<getList.Output>
 {
     return Fetcher.fetch
@@ -40,8 +41,8 @@ export function getList
 }
 export namespace getList
 {
-    export type Query = IREAgent.ISearch;
-    export type Output = IPaginatedResponse<IREAgent.IResponse>;
+    export type Query = IBusinessUser.ISearch;
+    export type Output = IPaginatedResponse<IREAgent>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents";
@@ -50,7 +51,7 @@ export namespace getList
         response: false,
     };
 
-    export function path(query: IREAgent.ISearch): string
+    export function path(query: IBusinessUser.ISearch): string
     {
         const variables: Record<any, any> = query as any;
         const search: URLSearchParams = new URLSearchParams();
@@ -94,7 +95,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = IREAgent.IResponse;
+    export type Output = IREAgent;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents/:agent_id";
@@ -105,6 +106,6 @@ export namespace getOne
 
     export function path(agent_id: string): string
     {
-        return `/users/re-agents/${encodeURIComponent(agent_id)}`;
+        return `/users/re-agents/${encodeURIComponent(agent_id ?? "null")}`;
     }
 }
