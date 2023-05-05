@@ -214,6 +214,34 @@ export type REProertyModel = {
   name: string
   main_image_url: string
   agent_id: string
+  sub_category_id: string
+}
+
+/**
+ * Model REPropertySuperCategoryModel
+ * 
+ */
+export type REPropertySuperCategoryModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  name: string
+}
+
+/**
+ * Model REPropertySubCategoryModel
+ * 
+ */
+export type REPropertySubCategoryModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  name: string
+  super_category_id: string
 }
 
 
@@ -516,6 +544,26 @@ export class PrismaClient<
     * ```
     */
   get rEProertyModel(): Prisma.REProertyModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.rEPropertySuperCategoryModel`: Exposes CRUD operations for the **REPropertySuperCategoryModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more REPropertySuperCategoryModels
+    * const rEPropertySuperCategoryModels = await prisma.rEPropertySuperCategoryModel.findMany()
+    * ```
+    */
+  get rEPropertySuperCategoryModel(): Prisma.REPropertySuperCategoryModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.rEPropertySubCategoryModel`: Exposes CRUD operations for the **REPropertySubCategoryModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more REPropertySubCategoryModels
+    * const rEPropertySubCategoryModels = await prisma.rEPropertySubCategoryModel.findMany()
+    * ```
+    */
+  get rEPropertySubCategoryModel(): Prisma.REPropertySubCategoryModelDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -998,7 +1046,9 @@ export namespace Prisma {
     ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-    REProertyModel: 'REProertyModel'
+    REProertyModel: 'REProertyModel',
+    REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
+    REPropertySubCategoryModel: 'REPropertySubCategoryModel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1505,6 +1555,92 @@ export namespace Prisma {
      * Select specific fields to fetch from the AgreementModelCountOutputType
      */
     select?: AgreementModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type REPropertySuperCategoryModelCountOutputType
+   */
+
+
+  export type REPropertySuperCategoryModelCountOutputType = {
+    sub_categories: number
+  }
+
+  export type REPropertySuperCategoryModelCountOutputTypeSelect = {
+    sub_categories?: boolean
+  }
+
+  export type REPropertySuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertySuperCategoryModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REPropertySuperCategoryModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (REPropertySuperCategoryModelCountOutputTypeArgs)
+    ? REPropertySuperCategoryModelCountOutputType 
+    : S extends { select: any } & (REPropertySuperCategoryModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof REPropertySuperCategoryModelCountOutputType ? REPropertySuperCategoryModelCountOutputType[P] : never
+  } 
+      : REPropertySuperCategoryModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REPropertySuperCategoryModelCountOutputType without action
+   */
+  export type REPropertySuperCategoryModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModelCountOutputType
+     */
+    select?: REPropertySuperCategoryModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type REPropertySubCategoryModelCountOutputType
+   */
+
+
+  export type REPropertySubCategoryModelCountOutputType = {
+    properties: number
+  }
+
+  export type REPropertySubCategoryModelCountOutputTypeSelect = {
+    properties?: boolean
+  }
+
+  export type REPropertySubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertySubCategoryModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REPropertySubCategoryModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (REPropertySubCategoryModelCountOutputTypeArgs)
+    ? REPropertySubCategoryModelCountOutputType 
+    : S extends { select: any } & (REPropertySubCategoryModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof REPropertySubCategoryModelCountOutputType ? REPropertySubCategoryModelCountOutputType[P] : never
+  } 
+      : REPropertySubCategoryModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REPropertySubCategoryModelCountOutputType without action
+   */
+  export type REPropertySubCategoryModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModelCountOutputType
+     */
+    select?: REPropertySubCategoryModelCountOutputTypeSelect | null
   }
 
 
@@ -14259,6 +14395,7 @@ export namespace Prisma {
     name: string | null
     main_image_url: string | null
     agent_id: string | null
+    sub_category_id: string | null
   }
 
   export type REProertyModelMaxAggregateOutputType = {
@@ -14270,6 +14407,7 @@ export namespace Prisma {
     name: string | null
     main_image_url: string | null
     agent_id: string | null
+    sub_category_id: string | null
   }
 
   export type REProertyModelCountAggregateOutputType = {
@@ -14281,6 +14419,7 @@ export namespace Prisma {
     name: number
     main_image_url: number
     agent_id: number
+    sub_category_id: number
     _all: number
   }
 
@@ -14294,6 +14433,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     agent_id?: true
+    sub_category_id?: true
   }
 
   export type REProertyModelMaxAggregateInputType = {
@@ -14305,6 +14445,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     agent_id?: true
+    sub_category_id?: true
   }
 
   export type REProertyModelCountAggregateInputType = {
@@ -14316,6 +14457,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     agent_id?: true
+    sub_category_id?: true
     _all?: true
   }
 
@@ -14401,6 +14543,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     agent_id: string
+    sub_category_id: string
     _count: REProertyModelCountAggregateOutputType | null
     _min: REProertyModelMinAggregateOutputType | null
     _max: REProertyModelMaxAggregateOutputType | null
@@ -14429,12 +14572,15 @@ export namespace Prisma {
     name?: boolean
     main_image_url?: boolean
     agent_id?: boolean
+    sub_category_id?: boolean
     agent?: boolean | REAgentModelArgs
+    sub_category?: boolean | REPropertySubCategoryModelArgs
   }
 
 
   export type REProertyModelInclude = {
     agent?: boolean | REAgentModelArgs
+    sub_category?: boolean | REPropertySubCategoryModelArgs
   }
 
   export type REProertyModelGetPayload<S extends boolean | null | undefined | REProertyModelArgs> =
@@ -14444,12 +14590,14 @@ export namespace Prisma {
     S extends { include: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
     ? REProertyModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'agent' ? REAgentModelGetPayload<S['include'][P]> :  never
+        P extends 'agent' ? REAgentModelGetPayload<S['include'][P]> :
+        P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'agent' ? REAgentModelGetPayload<S['select'][P]> :  P extends keyof REProertyModel ? REProertyModel[P] : never
+        P extends 'agent' ? REAgentModelGetPayload<S['select'][P]> :
+        P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['select'][P]> :  P extends keyof REProertyModel ? REProertyModel[P] : never
   } 
       : REProertyModel
 
@@ -14823,6 +14971,8 @@ export namespace Prisma {
 
     agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
 
+    sub_category<T extends REPropertySubCategoryModelArgs= {}>(args?: Subset<T, REPropertySubCategoryModelArgs>): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15195,6 +15345,1948 @@ export namespace Prisma {
 
 
   /**
+   * Model REPropertySuperCategoryModel
+   */
+
+
+  export type AggregateREPropertySuperCategoryModel = {
+    _count: REPropertySuperCategoryModelCountAggregateOutputType | null
+    _min: REPropertySuperCategoryModelMinAggregateOutputType | null
+    _max: REPropertySuperCategoryModelMaxAggregateOutputType | null
+  }
+
+  export type REPropertySuperCategoryModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+  }
+
+  export type REPropertySuperCategoryModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+  }
+
+  export type REPropertySuperCategoryModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    name: number
+    _all: number
+  }
+
+
+  export type REPropertySuperCategoryModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+  }
+
+  export type REPropertySuperCategoryModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+  }
+
+  export type REPropertySuperCategoryModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    _all?: true
+  }
+
+  export type REPropertySuperCategoryModelAggregateArgs = {
+    /**
+     * Filter which REPropertySuperCategoryModel to aggregate.
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySuperCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: REPropertySuperCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySuperCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySuperCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned REPropertySuperCategoryModels
+    **/
+    _count?: true | REPropertySuperCategoryModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: REPropertySuperCategoryModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: REPropertySuperCategoryModelMaxAggregateInputType
+  }
+
+  export type GetREPropertySuperCategoryModelAggregateType<T extends REPropertySuperCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateREPropertySuperCategoryModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateREPropertySuperCategoryModel[P]>
+      : GetScalarType<T[P], AggregateREPropertySuperCategoryModel[P]>
+  }
+
+
+
+
+  export type REPropertySuperCategoryModelGroupByArgs = {
+    where?: REPropertySuperCategoryModelWhereInput
+    orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithAggregationInput>
+    by: REPropertySuperCategoryModelScalarFieldEnum[]
+    having?: REPropertySuperCategoryModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: REPropertySuperCategoryModelCountAggregateInputType | true
+    _min?: REPropertySuperCategoryModelMinAggregateInputType
+    _max?: REPropertySuperCategoryModelMaxAggregateInputType
+  }
+
+
+  export type REPropertySuperCategoryModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    _count: REPropertySuperCategoryModelCountAggregateOutputType | null
+    _min: REPropertySuperCategoryModelMinAggregateOutputType | null
+    _max: REPropertySuperCategoryModelMaxAggregateOutputType | null
+  }
+
+  type GetREPropertySuperCategoryModelGroupByPayload<T extends REPropertySuperCategoryModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<REPropertySuperCategoryModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof REPropertySuperCategoryModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], REPropertySuperCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], REPropertySuperCategoryModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type REPropertySuperCategoryModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    sub_categories?: boolean | REPropertySuperCategoryModel$sub_categoriesArgs
+    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs
+  }
+
+
+  export type REPropertySuperCategoryModelInclude = {
+    sub_categories?: boolean | REPropertySuperCategoryModel$sub_categoriesArgs
+    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs
+  }
+
+  export type REPropertySuperCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySuperCategoryModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REPropertySuperCategoryModel :
+    S extends undefined ? never :
+    S extends { include: any } & (REPropertySuperCategoryModelArgs | REPropertySuperCategoryModelFindManyArgs)
+    ? REPropertySuperCategoryModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'sub_categories' ? Array < REPropertySubCategoryModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? REPropertySuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (REPropertySuperCategoryModelArgs | REPropertySuperCategoryModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'sub_categories' ? Array < REPropertySubCategoryModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? REPropertySuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertySuperCategoryModel ? REPropertySuperCategoryModel[P] : never
+  } 
+      : REPropertySuperCategoryModel
+
+
+  type REPropertySuperCategoryModelCountArgs = 
+    Omit<REPropertySuperCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: REPropertySuperCategoryModelCountAggregateInputType | true
+    }
+
+  export interface REPropertySuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one REPropertySuperCategoryModel that matches the filter.
+     * @param {REPropertySuperCategoryModelFindUniqueArgs} args - Arguments to find a REPropertySuperCategoryModel
+     * @example
+     * // Get one REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends REPropertySuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertySuperCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>> : Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | null, null>
+
+    /**
+     * Find one REPropertySuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {REPropertySuperCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a REPropertySuperCategoryModel
+     * @example
+     * // Get one REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends REPropertySuperCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Find the first REPropertySuperCategoryModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelFindFirstArgs} args - Arguments to find a REPropertySuperCategoryModel
+     * @example
+     * // Get one REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends REPropertySuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>> : Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first REPropertySuperCategoryModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelFindFirstOrThrowArgs} args - Arguments to find a REPropertySuperCategoryModel
+     * @example
+     * // Get one REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends REPropertySuperCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Find zero or more REPropertySuperCategoryModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all REPropertySuperCategoryModels
+     * const rEPropertySuperCategoryModels = await prisma.rEPropertySuperCategoryModel.findMany()
+     * 
+     * // Get first 10 REPropertySuperCategoryModels
+     * const rEPropertySuperCategoryModels = await prisma.rEPropertySuperCategoryModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rEPropertySuperCategoryModelWithIdOnly = await prisma.rEPropertySuperCategoryModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends REPropertySuperCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<REPropertySuperCategoryModelGetPayload<T>>>
+
+    /**
+     * Create a REPropertySuperCategoryModel.
+     * @param {REPropertySuperCategoryModelCreateArgs} args - Arguments to create a REPropertySuperCategoryModel.
+     * @example
+     * // Create one REPropertySuperCategoryModel
+     * const REPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.create({
+     *   data: {
+     *     // ... data to create a REPropertySuperCategoryModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends REPropertySuperCategoryModelCreateArgs>(
+      args: SelectSubset<T, REPropertySuperCategoryModelCreateArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Create many REPropertySuperCategoryModels.
+     *     @param {REPropertySuperCategoryModelCreateManyArgs} args - Arguments to create many REPropertySuperCategoryModels.
+     *     @example
+     *     // Create many REPropertySuperCategoryModels
+     *     const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends REPropertySuperCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a REPropertySuperCategoryModel.
+     * @param {REPropertySuperCategoryModelDeleteArgs} args - Arguments to delete one REPropertySuperCategoryModel.
+     * @example
+     * // Delete one REPropertySuperCategoryModel
+     * const REPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.delete({
+     *   where: {
+     *     // ... filter to delete one REPropertySuperCategoryModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends REPropertySuperCategoryModelDeleteArgs>(
+      args: SelectSubset<T, REPropertySuperCategoryModelDeleteArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Update one REPropertySuperCategoryModel.
+     * @param {REPropertySuperCategoryModelUpdateArgs} args - Arguments to update one REPropertySuperCategoryModel.
+     * @example
+     * // Update one REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends REPropertySuperCategoryModelUpdateArgs>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpdateArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Delete zero or more REPropertySuperCategoryModels.
+     * @param {REPropertySuperCategoryModelDeleteManyArgs} args - Arguments to filter REPropertySuperCategoryModels to delete.
+     * @example
+     * // Delete a few REPropertySuperCategoryModels
+     * const { count } = await prisma.rEPropertySuperCategoryModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends REPropertySuperCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more REPropertySuperCategoryModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many REPropertySuperCategoryModels
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends REPropertySuperCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one REPropertySuperCategoryModel.
+     * @param {REPropertySuperCategoryModelUpsertArgs} args - Arguments to update or create a REPropertySuperCategoryModel.
+     * @example
+     * // Update or create a REPropertySuperCategoryModel
+     * const rEPropertySuperCategoryModel = await prisma.rEPropertySuperCategoryModel.upsert({
+     *   create: {
+     *     // ... data to create a REPropertySuperCategoryModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the REPropertySuperCategoryModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends REPropertySuperCategoryModelUpsertArgs>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpsertArgs>
+    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+
+    /**
+     * Count the number of REPropertySuperCategoryModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelCountArgs} args - Arguments to filter REPropertySuperCategoryModels to count.
+     * @example
+     * // Count the number of REPropertySuperCategoryModels
+     * const count = await prisma.rEPropertySuperCategoryModel.count({
+     *   where: {
+     *     // ... the filter for the REPropertySuperCategoryModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends REPropertySuperCategoryModelCountArgs>(
+      args?: Subset<T, REPropertySuperCategoryModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], REPropertySuperCategoryModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a REPropertySuperCategoryModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends REPropertySuperCategoryModelAggregateArgs>(args: Subset<T, REPropertySuperCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetREPropertySuperCategoryModelAggregateType<T>>
+
+    /**
+     * Group by REPropertySuperCategoryModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySuperCategoryModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends REPropertySuperCategoryModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: REPropertySuperCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: REPropertySuperCategoryModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, REPropertySuperCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetREPropertySuperCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for REPropertySuperCategoryModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__REPropertySuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    sub_categories<T extends REPropertySuperCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, REPropertySuperCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<REPropertySubCategoryModelGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REPropertySuperCategoryModel base type for findUnique actions
+   */
+  export type REPropertySuperCategoryModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySuperCategoryModel to fetch.
+     */
+    where: REPropertySuperCategoryModelWhereUniqueInput
+  }
+
+  /**
+   * REPropertySuperCategoryModel findUnique
+   */
+  export interface REPropertySuperCategoryModelFindUniqueArgs extends REPropertySuperCategoryModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REPropertySuperCategoryModel findUniqueOrThrow
+   */
+  export type REPropertySuperCategoryModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySuperCategoryModel to fetch.
+     */
+    where: REPropertySuperCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel base type for findFirst actions
+   */
+  export type REPropertySuperCategoryModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySuperCategoryModel to fetch.
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySuperCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REPropertySuperCategoryModels.
+     */
+    cursor?: REPropertySuperCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySuperCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySuperCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REPropertySuperCategoryModels.
+     */
+    distinct?: Enumerable<REPropertySuperCategoryModelScalarFieldEnum>
+  }
+
+  /**
+   * REPropertySuperCategoryModel findFirst
+   */
+  export interface REPropertySuperCategoryModelFindFirstArgs extends REPropertySuperCategoryModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REPropertySuperCategoryModel findFirstOrThrow
+   */
+  export type REPropertySuperCategoryModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySuperCategoryModel to fetch.
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySuperCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REPropertySuperCategoryModels.
+     */
+    cursor?: REPropertySuperCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySuperCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySuperCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REPropertySuperCategoryModels.
+     */
+    distinct?: Enumerable<REPropertySuperCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel findMany
+   */
+  export type REPropertySuperCategoryModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySuperCategoryModels to fetch.
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySuperCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing REPropertySuperCategoryModels.
+     */
+    cursor?: REPropertySuperCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySuperCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySuperCategoryModels.
+     */
+    skip?: number
+    distinct?: Enumerable<REPropertySuperCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel create
+   */
+  export type REPropertySuperCategoryModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * The data needed to create a REPropertySuperCategoryModel.
+     */
+    data: XOR<REPropertySuperCategoryModelCreateInput, REPropertySuperCategoryModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel createMany
+   */
+  export type REPropertySuperCategoryModelCreateManyArgs = {
+    /**
+     * The data used to create many REPropertySuperCategoryModels.
+     */
+    data: Enumerable<REPropertySuperCategoryModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel update
+   */
+  export type REPropertySuperCategoryModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * The data needed to update a REPropertySuperCategoryModel.
+     */
+    data: XOR<REPropertySuperCategoryModelUpdateInput, REPropertySuperCategoryModelUncheckedUpdateInput>
+    /**
+     * Choose, which REPropertySuperCategoryModel to update.
+     */
+    where: REPropertySuperCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel updateMany
+   */
+  export type REPropertySuperCategoryModelUpdateManyArgs = {
+    /**
+     * The data used to update REPropertySuperCategoryModels.
+     */
+    data: XOR<REPropertySuperCategoryModelUpdateManyMutationInput, REPropertySuperCategoryModelUncheckedUpdateManyInput>
+    /**
+     * Filter which REPropertySuperCategoryModels to update
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel upsert
+   */
+  export type REPropertySuperCategoryModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * The filter to search for the REPropertySuperCategoryModel to update in case it exists.
+     */
+    where: REPropertySuperCategoryModelWhereUniqueInput
+    /**
+     * In case the REPropertySuperCategoryModel found by the `where` argument doesn't exist, create a new REPropertySuperCategoryModel with this data.
+     */
+    create: XOR<REPropertySuperCategoryModelCreateInput, REPropertySuperCategoryModelUncheckedCreateInput>
+    /**
+     * In case the REPropertySuperCategoryModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<REPropertySuperCategoryModelUpdateInput, REPropertySuperCategoryModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel delete
+   */
+  export type REPropertySuperCategoryModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+    /**
+     * Filter which REPropertySuperCategoryModel to delete.
+     */
+    where: REPropertySuperCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel deleteMany
+   */
+  export type REPropertySuperCategoryModelDeleteManyArgs = {
+    /**
+     * Filter which REPropertySuperCategoryModels to delete
+     */
+    where?: REPropertySuperCategoryModelWhereInput
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel.sub_categories
+   */
+  export type REPropertySuperCategoryModel$sub_categoriesArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    where?: REPropertySubCategoryModelWhereInput
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
+    cursor?: REPropertySubCategoryModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<REPropertySubCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySuperCategoryModel without action
+   */
+  export type REPropertySuperCategoryModelArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySuperCategoryModel
+     */
+    select?: REPropertySuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySuperCategoryModelInclude | null
+  }
+
+
+
+  /**
+   * Model REPropertySubCategoryModel
+   */
+
+
+  export type AggregateREPropertySubCategoryModel = {
+    _count: REPropertySubCategoryModelCountAggregateOutputType | null
+    _min: REPropertySubCategoryModelMinAggregateOutputType | null
+    _max: REPropertySubCategoryModelMaxAggregateOutputType | null
+  }
+
+  export type REPropertySubCategoryModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+    super_category_id: string | null
+  }
+
+  export type REPropertySubCategoryModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    name: string | null
+    super_category_id: string | null
+  }
+
+  export type REPropertySubCategoryModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    name: number
+    super_category_id: number
+    _all: number
+  }
+
+
+  export type REPropertySubCategoryModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    super_category_id?: true
+  }
+
+  export type REPropertySubCategoryModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    super_category_id?: true
+  }
+
+  export type REPropertySubCategoryModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    name?: true
+    super_category_id?: true
+    _all?: true
+  }
+
+  export type REPropertySubCategoryModelAggregateArgs = {
+    /**
+     * Filter which REPropertySubCategoryModel to aggregate.
+     */
+    where?: REPropertySubCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySubCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: REPropertySubCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySubCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySubCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned REPropertySubCategoryModels
+    **/
+    _count?: true | REPropertySubCategoryModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: REPropertySubCategoryModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: REPropertySubCategoryModelMaxAggregateInputType
+  }
+
+  export type GetREPropertySubCategoryModelAggregateType<T extends REPropertySubCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateREPropertySubCategoryModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateREPropertySubCategoryModel[P]>
+      : GetScalarType<T[P], AggregateREPropertySubCategoryModel[P]>
+  }
+
+
+
+
+  export type REPropertySubCategoryModelGroupByArgs = {
+    where?: REPropertySubCategoryModelWhereInput
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithAggregationInput>
+    by: REPropertySubCategoryModelScalarFieldEnum[]
+    having?: REPropertySubCategoryModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: REPropertySubCategoryModelCountAggregateInputType | true
+    _min?: REPropertySubCategoryModelMinAggregateInputType
+    _max?: REPropertySubCategoryModelMaxAggregateInputType
+  }
+
+
+  export type REPropertySubCategoryModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    super_category_id: string
+    _count: REPropertySubCategoryModelCountAggregateOutputType | null
+    _min: REPropertySubCategoryModelMinAggregateOutputType | null
+    _max: REPropertySubCategoryModelMaxAggregateOutputType | null
+  }
+
+  type GetREPropertySubCategoryModelGroupByPayload<T extends REPropertySubCategoryModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<REPropertySubCategoryModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof REPropertySubCategoryModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], REPropertySubCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], REPropertySubCategoryModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type REPropertySubCategoryModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    super_category_id?: boolean
+    super_category?: boolean | REPropertySuperCategoryModelArgs
+    properties?: boolean | REPropertySubCategoryModel$propertiesArgs
+    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs
+  }
+
+
+  export type REPropertySubCategoryModelInclude = {
+    super_category?: boolean | REPropertySuperCategoryModelArgs
+    properties?: boolean | REPropertySubCategoryModel$propertiesArgs
+    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs
+  }
+
+  export type REPropertySubCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySubCategoryModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? REPropertySubCategoryModel :
+    S extends undefined ? never :
+    S extends { include: any } & (REPropertySubCategoryModelArgs | REPropertySubCategoryModelFindManyArgs)
+    ? REPropertySubCategoryModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'super_category' ? REPropertySuperCategoryModelGetPayload<S['include'][P]> :
+        P extends 'properties' ? Array < REProertyModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? REPropertySubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (REPropertySubCategoryModelArgs | REPropertySubCategoryModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'super_category' ? REPropertySuperCategoryModelGetPayload<S['select'][P]> :
+        P extends 'properties' ? Array < REProertyModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? REPropertySubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertySubCategoryModel ? REPropertySubCategoryModel[P] : never
+  } 
+      : REPropertySubCategoryModel
+
+
+  type REPropertySubCategoryModelCountArgs = 
+    Omit<REPropertySubCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: REPropertySubCategoryModelCountAggregateInputType | true
+    }
+
+  export interface REPropertySubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one REPropertySubCategoryModel that matches the filter.
+     * @param {REPropertySubCategoryModelFindUniqueArgs} args - Arguments to find a REPropertySubCategoryModel
+     * @example
+     * // Get one REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends REPropertySubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertySubCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>> : Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | null, null>
+
+    /**
+     * Find one REPropertySubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {REPropertySubCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a REPropertySubCategoryModel
+     * @example
+     * // Get one REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends REPropertySubCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Find the first REPropertySubCategoryModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelFindFirstArgs} args - Arguments to find a REPropertySubCategoryModel
+     * @example
+     * // Get one REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends REPropertySubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>> : Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first REPropertySubCategoryModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelFindFirstOrThrowArgs} args - Arguments to find a REPropertySubCategoryModel
+     * @example
+     * // Get one REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends REPropertySubCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Find zero or more REPropertySubCategoryModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all REPropertySubCategoryModels
+     * const rEPropertySubCategoryModels = await prisma.rEPropertySubCategoryModel.findMany()
+     * 
+     * // Get first 10 REPropertySubCategoryModels
+     * const rEPropertySubCategoryModels = await prisma.rEPropertySubCategoryModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rEPropertySubCategoryModelWithIdOnly = await prisma.rEPropertySubCategoryModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends REPropertySubCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<REPropertySubCategoryModelGetPayload<T>>>
+
+    /**
+     * Create a REPropertySubCategoryModel.
+     * @param {REPropertySubCategoryModelCreateArgs} args - Arguments to create a REPropertySubCategoryModel.
+     * @example
+     * // Create one REPropertySubCategoryModel
+     * const REPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.create({
+     *   data: {
+     *     // ... data to create a REPropertySubCategoryModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends REPropertySubCategoryModelCreateArgs>(
+      args: SelectSubset<T, REPropertySubCategoryModelCreateArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Create many REPropertySubCategoryModels.
+     *     @param {REPropertySubCategoryModelCreateManyArgs} args - Arguments to create many REPropertySubCategoryModels.
+     *     @example
+     *     // Create many REPropertySubCategoryModels
+     *     const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends REPropertySubCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, REPropertySubCategoryModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a REPropertySubCategoryModel.
+     * @param {REPropertySubCategoryModelDeleteArgs} args - Arguments to delete one REPropertySubCategoryModel.
+     * @example
+     * // Delete one REPropertySubCategoryModel
+     * const REPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.delete({
+     *   where: {
+     *     // ... filter to delete one REPropertySubCategoryModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends REPropertySubCategoryModelDeleteArgs>(
+      args: SelectSubset<T, REPropertySubCategoryModelDeleteArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Update one REPropertySubCategoryModel.
+     * @param {REPropertySubCategoryModelUpdateArgs} args - Arguments to update one REPropertySubCategoryModel.
+     * @example
+     * // Update one REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends REPropertySubCategoryModelUpdateArgs>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpdateArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Delete zero or more REPropertySubCategoryModels.
+     * @param {REPropertySubCategoryModelDeleteManyArgs} args - Arguments to filter REPropertySubCategoryModels to delete.
+     * @example
+     * // Delete a few REPropertySubCategoryModels
+     * const { count } = await prisma.rEPropertySubCategoryModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends REPropertySubCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, REPropertySubCategoryModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more REPropertySubCategoryModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many REPropertySubCategoryModels
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends REPropertySubCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one REPropertySubCategoryModel.
+     * @param {REPropertySubCategoryModelUpsertArgs} args - Arguments to update or create a REPropertySubCategoryModel.
+     * @example
+     * // Update or create a REPropertySubCategoryModel
+     * const rEPropertySubCategoryModel = await prisma.rEPropertySubCategoryModel.upsert({
+     *   create: {
+     *     // ... data to create a REPropertySubCategoryModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the REPropertySubCategoryModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends REPropertySubCategoryModelUpsertArgs>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpsertArgs>
+    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+
+    /**
+     * Count the number of REPropertySubCategoryModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelCountArgs} args - Arguments to filter REPropertySubCategoryModels to count.
+     * @example
+     * // Count the number of REPropertySubCategoryModels
+     * const count = await prisma.rEPropertySubCategoryModel.count({
+     *   where: {
+     *     // ... the filter for the REPropertySubCategoryModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends REPropertySubCategoryModelCountArgs>(
+      args?: Subset<T, REPropertySubCategoryModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], REPropertySubCategoryModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a REPropertySubCategoryModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends REPropertySubCategoryModelAggregateArgs>(args: Subset<T, REPropertySubCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetREPropertySubCategoryModelAggregateType<T>>
+
+    /**
+     * Group by REPropertySubCategoryModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {REPropertySubCategoryModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends REPropertySubCategoryModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: REPropertySubCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: REPropertySubCategoryModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, REPropertySubCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetREPropertySubCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for REPropertySubCategoryModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__REPropertySubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    super_category<T extends REPropertySuperCategoryModelArgs= {}>(args?: Subset<T, REPropertySuperCategoryModelArgs>): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | Null>;
+
+    properties<T extends REPropertySubCategoryModel$propertiesArgs= {}>(args?: Subset<T, REPropertySubCategoryModel$propertiesArgs>): Prisma.PrismaPromise<Array<REProertyModelGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * REPropertySubCategoryModel base type for findUnique actions
+   */
+  export type REPropertySubCategoryModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySubCategoryModel to fetch.
+     */
+    where: REPropertySubCategoryModelWhereUniqueInput
+  }
+
+  /**
+   * REPropertySubCategoryModel findUnique
+   */
+  export interface REPropertySubCategoryModelFindUniqueArgs extends REPropertySubCategoryModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REPropertySubCategoryModel findUniqueOrThrow
+   */
+  export type REPropertySubCategoryModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySubCategoryModel to fetch.
+     */
+    where: REPropertySubCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySubCategoryModel base type for findFirst actions
+   */
+  export type REPropertySubCategoryModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySubCategoryModel to fetch.
+     */
+    where?: REPropertySubCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySubCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REPropertySubCategoryModels.
+     */
+    cursor?: REPropertySubCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySubCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySubCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REPropertySubCategoryModels.
+     */
+    distinct?: Enumerable<REPropertySubCategoryModelScalarFieldEnum>
+  }
+
+  /**
+   * REPropertySubCategoryModel findFirst
+   */
+  export interface REPropertySubCategoryModelFindFirstArgs extends REPropertySubCategoryModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * REPropertySubCategoryModel findFirstOrThrow
+   */
+  export type REPropertySubCategoryModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySubCategoryModel to fetch.
+     */
+    where?: REPropertySubCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySubCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for REPropertySubCategoryModels.
+     */
+    cursor?: REPropertySubCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySubCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySubCategoryModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of REPropertySubCategoryModels.
+     */
+    distinct?: Enumerable<REPropertySubCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySubCategoryModel findMany
+   */
+  export type REPropertySubCategoryModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter, which REPropertySubCategoryModels to fetch.
+     */
+    where?: REPropertySubCategoryModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of REPropertySubCategoryModels to fetch.
+     */
+    orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing REPropertySubCategoryModels.
+     */
+    cursor?: REPropertySubCategoryModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` REPropertySubCategoryModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` REPropertySubCategoryModels.
+     */
+    skip?: number
+    distinct?: Enumerable<REPropertySubCategoryModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySubCategoryModel create
+   */
+  export type REPropertySubCategoryModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * The data needed to create a REPropertySubCategoryModel.
+     */
+    data: XOR<REPropertySubCategoryModelCreateInput, REPropertySubCategoryModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * REPropertySubCategoryModel createMany
+   */
+  export type REPropertySubCategoryModelCreateManyArgs = {
+    /**
+     * The data used to create many REPropertySubCategoryModels.
+     */
+    data: Enumerable<REPropertySubCategoryModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * REPropertySubCategoryModel update
+   */
+  export type REPropertySubCategoryModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * The data needed to update a REPropertySubCategoryModel.
+     */
+    data: XOR<REPropertySubCategoryModelUpdateInput, REPropertySubCategoryModelUncheckedUpdateInput>
+    /**
+     * Choose, which REPropertySubCategoryModel to update.
+     */
+    where: REPropertySubCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySubCategoryModel updateMany
+   */
+  export type REPropertySubCategoryModelUpdateManyArgs = {
+    /**
+     * The data used to update REPropertySubCategoryModels.
+     */
+    data: XOR<REPropertySubCategoryModelUpdateManyMutationInput, REPropertySubCategoryModelUncheckedUpdateManyInput>
+    /**
+     * Filter which REPropertySubCategoryModels to update
+     */
+    where?: REPropertySubCategoryModelWhereInput
+  }
+
+
+  /**
+   * REPropertySubCategoryModel upsert
+   */
+  export type REPropertySubCategoryModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * The filter to search for the REPropertySubCategoryModel to update in case it exists.
+     */
+    where: REPropertySubCategoryModelWhereUniqueInput
+    /**
+     * In case the REPropertySubCategoryModel found by the `where` argument doesn't exist, create a new REPropertySubCategoryModel with this data.
+     */
+    create: XOR<REPropertySubCategoryModelCreateInput, REPropertySubCategoryModelUncheckedCreateInput>
+    /**
+     * In case the REPropertySubCategoryModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<REPropertySubCategoryModelUpdateInput, REPropertySubCategoryModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * REPropertySubCategoryModel delete
+   */
+  export type REPropertySubCategoryModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+    /**
+     * Filter which REPropertySubCategoryModel to delete.
+     */
+    where: REPropertySubCategoryModelWhereUniqueInput
+  }
+
+
+  /**
+   * REPropertySubCategoryModel deleteMany
+   */
+  export type REPropertySubCategoryModelDeleteManyArgs = {
+    /**
+     * Filter which REPropertySubCategoryModels to delete
+     */
+    where?: REPropertySubCategoryModelWhereInput
+  }
+
+
+  /**
+   * REPropertySubCategoryModel.properties
+   */
+  export type REPropertySubCategoryModel$propertiesArgs = {
+    /**
+     * Select specific fields to fetch from the REProertyModel
+     */
+    select?: REProertyModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REProertyModelInclude | null
+    where?: REProertyModelWhereInput
+    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    cursor?: REProertyModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+  }
+
+
+  /**
+   * REPropertySubCategoryModel without action
+   */
+  export type REPropertySubCategoryModelArgs = {
+    /**
+     * Select specific fields to fetch from the REPropertySubCategoryModel
+     */
+    select?: REPropertySubCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: REPropertySubCategoryModelInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -15367,10 +17459,36 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     name: 'name',
     main_image_url: 'main_image_url',
-    agent_id: 'agent_id'
+    agent_id: 'agent_id',
+    sub_category_id: 'sub_category_id'
   };
 
   export type REProertyModelScalarFieldEnum = (typeof REProertyModelScalarFieldEnum)[keyof typeof REProertyModelScalarFieldEnum]
+
+
+  export const REPropertySubCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    super_category_id: 'super_category_id'
+  };
+
+  export type REPropertySubCategoryModelScalarFieldEnum = (typeof REPropertySubCategoryModelScalarFieldEnum)[keyof typeof REPropertySubCategoryModelScalarFieldEnum]
+
+
+  export const REPropertySuperCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name'
+  };
+
+  export type REPropertySuperCategoryModelScalarFieldEnum = (typeof REPropertySuperCategoryModelScalarFieldEnum)[keyof typeof REPropertySuperCategoryModelScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -16213,7 +18331,9 @@ export namespace Prisma {
     name?: StringFilter | string
     main_image_url?: StringFilter | string
     agent_id?: StringFilter | string
+    sub_category_id?: StringFilter | string
     agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput>
+    sub_category?: XOR<REPropertySubCategoryModelRelationFilter, REPropertySubCategoryModelWhereInput>
   }
 
   export type REProertyModelOrderByWithRelationInput = {
@@ -16225,7 +18345,9 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     agent_id?: SortOrder
+    sub_category_id?: SortOrder
     agent?: REAgentModelOrderByWithRelationInput
+    sub_category?: REPropertySubCategoryModelOrderByWithRelationInput
   }
 
   export type REProertyModelWhereUniqueInput = {
@@ -16241,6 +18363,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     agent_id?: SortOrder
+    sub_category_id?: SortOrder
     _count?: REProertyModelCountOrderByAggregateInput
     _max?: REProertyModelMaxOrderByAggregateInput
     _min?: REProertyModelMinOrderByAggregateInput
@@ -16258,6 +18381,117 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter | string
     main_image_url?: StringWithAggregatesFilter | string
     agent_id?: StringWithAggregatesFilter | string
+    sub_category_id?: StringWithAggregatesFilter | string
+  }
+
+  export type REPropertySuperCategoryModelWhereInput = {
+    AND?: Enumerable<REPropertySuperCategoryModelWhereInput>
+    OR?: Enumerable<REPropertySuperCategoryModelWhereInput>
+    NOT?: Enumerable<REPropertySuperCategoryModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    name?: StringFilter | string
+    sub_categories?: REPropertySubCategoryModelListRelationFilter
+  }
+
+  export type REPropertySuperCategoryModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    sub_categories?: REPropertySubCategoryModelOrderByRelationAggregateInput
+  }
+
+  export type REPropertySuperCategoryModelWhereUniqueInput = {
+    id?: string
+    name?: string
+  }
+
+  export type REPropertySuperCategoryModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    _count?: REPropertySuperCategoryModelCountOrderByAggregateInput
+    _max?: REPropertySuperCategoryModelMaxOrderByAggregateInput
+    _min?: REPropertySuperCategoryModelMinOrderByAggregateInput
+  }
+
+  export type REPropertySuperCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<REPropertySuperCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<REPropertySuperCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<REPropertySuperCategoryModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    name?: StringWithAggregatesFilter | string
+  }
+
+  export type REPropertySubCategoryModelWhereInput = {
+    AND?: Enumerable<REPropertySubCategoryModelWhereInput>
+    OR?: Enumerable<REPropertySubCategoryModelWhereInput>
+    NOT?: Enumerable<REPropertySubCategoryModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    name?: StringFilter | string
+    super_category_id?: StringFilter | string
+    super_category?: XOR<REPropertySuperCategoryModelRelationFilter, REPropertySuperCategoryModelWhereInput>
+    properties?: REProertyModelListRelationFilter
+  }
+
+  export type REPropertySubCategoryModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    super_category_id?: SortOrder
+    super_category?: REPropertySuperCategoryModelOrderByWithRelationInput
+    properties?: REProertyModelOrderByRelationAggregateInput
+  }
+
+  export type REPropertySubCategoryModelWhereUniqueInput = {
+    id?: string
+    name?: string
+  }
+
+  export type REPropertySubCategoryModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    super_category_id?: SortOrder
+    _count?: REPropertySubCategoryModelCountOrderByAggregateInput
+    _max?: REPropertySubCategoryModelMaxOrderByAggregateInput
+    _min?: REPropertySubCategoryModelMinOrderByAggregateInput
+  }
+
+  export type REPropertySubCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<REPropertySubCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<REPropertySubCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<REPropertySubCategoryModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    name?: StringWithAggregatesFilter | string
+    super_category_id?: StringWithAggregatesFilter | string
   }
 
   export type OauthAccessorModelCreateInput = {
@@ -17274,6 +19508,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     agent: REAgentModelCreateNestedOneWithoutPropertiesInput
+    sub_category: REPropertySubCategoryModelCreateNestedOneWithoutPropertiesInput
   }
 
   export type REProertyModelUncheckedCreateInput = {
@@ -17285,6 +19520,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     agent_id: string
+    sub_category_id: string
   }
 
   export type REProertyModelUpdateInput = {
@@ -17296,6 +19532,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
+    sub_category?: REPropertySubCategoryModelUpdateOneRequiredWithoutPropertiesNestedInput
   }
 
   export type REProertyModelUncheckedUpdateInput = {
@@ -17307,6 +19544,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     agent_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REProertyModelCreateManyInput = {
@@ -17318,6 +19556,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     agent_id: string
+    sub_category_id: string
   }
 
   export type REProertyModelUpdateManyMutationInput = {
@@ -17339,6 +19578,147 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     agent_id?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySuperCategoryModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    sub_categories?: REPropertySubCategoryModelCreateNestedManyWithoutSuper_categoryInput
+  }
+
+  export type REPropertySuperCategoryModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    sub_categories?: REPropertySubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput
+  }
+
+  export type REPropertySuperCategoryModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    sub_categories?: REPropertySubCategoryModelUpdateManyWithoutSuper_categoryNestedInput
+  }
+
+  export type REPropertySuperCategoryModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    sub_categories?: REPropertySubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
+  }
+
+  export type REPropertySuperCategoryModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+  }
+
+  export type REPropertySuperCategoryModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySuperCategoryModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySubCategoryModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category: REPropertySuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
+    properties?: REProertyModelCreateNestedManyWithoutSub_categoryInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category_id: string
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutSub_categoryInput
+  }
+
+  export type REPropertySubCategoryModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category?: REPropertySuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
+    properties?: REProertyModelUpdateManyWithoutSub_categoryNestedInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category_id?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUncheckedUpdateManyWithoutSub_categoryNestedInput
+  }
+
+  export type REPropertySubCategoryModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category_id: string
+  }
+
+  export type REPropertySubCategoryModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter = {
@@ -18079,6 +20459,11 @@ export namespace Prisma {
     agreement_id?: SortOrder
   }
 
+  export type REPropertySubCategoryModelRelationFilter = {
+    is?: REPropertySubCategoryModelWhereInput
+    isNot?: REPropertySubCategoryModelWhereInput
+  }
+
   export type REProertyModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
@@ -18088,6 +20473,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     agent_id?: SortOrder
+    sub_category_id?: SortOrder
   }
 
   export type REProertyModelMaxOrderByAggregateInput = {
@@ -18099,6 +20485,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     agent_id?: SortOrder
+    sub_category_id?: SortOrder
   }
 
   export type REProertyModelMinOrderByAggregateInput = {
@@ -18110,6 +20497,79 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     agent_id?: SortOrder
+    sub_category_id?: SortOrder
+  }
+
+  export type REPropertySubCategoryModelListRelationFilter = {
+    every?: REPropertySubCategoryModelWhereInput
+    some?: REPropertySubCategoryModelWhereInput
+    none?: REPropertySubCategoryModelWhereInput
+  }
+
+  export type REPropertySubCategoryModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type REPropertySuperCategoryModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+  }
+
+  export type REPropertySuperCategoryModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+  }
+
+  export type REPropertySuperCategoryModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+  }
+
+  export type REPropertySuperCategoryModelRelationFilter = {
+    is?: REPropertySuperCategoryModelWhereInput
+    isNot?: REPropertySuperCategoryModelWhereInput
+  }
+
+  export type REPropertySubCategoryModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    super_category_id?: SortOrder
+  }
+
+  export type REPropertySubCategoryModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    super_category_id?: SortOrder
+  }
+
+  export type REPropertySubCategoryModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    name?: SortOrder
+    super_category_id?: SortOrder
   }
 
   export type BusinessUserModelCreateNestedOneWithoutOauth_accessorInput = {
@@ -18944,12 +21404,124 @@ export namespace Prisma {
     connect?: REAgentModelWhereUniqueInput
   }
 
+  export type REPropertySubCategoryModelCreateNestedOneWithoutPropertiesInput = {
+    create?: XOR<REPropertySubCategoryModelCreateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedCreateWithoutPropertiesInput>
+    connectOrCreate?: REPropertySubCategoryModelCreateOrConnectWithoutPropertiesInput
+    connect?: REPropertySubCategoryModelWhereUniqueInput
+  }
+
   export type REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput = {
     create?: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutPropertiesInput
     upsert?: REAgentModelUpsertWithoutPropertiesInput
     connect?: REAgentModelWhereUniqueInput
     update?: XOR<REAgentModelUpdateWithoutPropertiesInput, REAgentModelUncheckedUpdateWithoutPropertiesInput>
+  }
+
+  export type REPropertySubCategoryModelUpdateOneRequiredWithoutPropertiesNestedInput = {
+    create?: XOR<REPropertySubCategoryModelCreateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedCreateWithoutPropertiesInput>
+    connectOrCreate?: REPropertySubCategoryModelCreateOrConnectWithoutPropertiesInput
+    upsert?: REPropertySubCategoryModelUpsertWithoutPropertiesInput
+    connect?: REPropertySubCategoryModelWhereUniqueInput
+    update?: XOR<REPropertySubCategoryModelUpdateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedUpdateWithoutPropertiesInput>
+  }
+
+  export type REPropertySubCategoryModelCreateNestedManyWithoutSuper_categoryInput = {
+    create?: XOR<Enumerable<REPropertySubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<REPropertySubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    createMany?: REPropertySubCategoryModelCreateManySuper_categoryInputEnvelope
+    connect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+  }
+
+  export type REPropertySubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput = {
+    create?: XOR<Enumerable<REPropertySubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<REPropertySubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    createMany?: REPropertySubCategoryModelCreateManySuper_categoryInputEnvelope
+    connect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+  }
+
+  export type REPropertySubCategoryModelUpdateManyWithoutSuper_categoryNestedInput = {
+    create?: XOR<Enumerable<REPropertySubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<REPropertySubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    upsert?: Enumerable<REPropertySubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
+    createMany?: REPropertySubCategoryModelCreateManySuper_categoryInputEnvelope
+    set?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    update?: Enumerable<REPropertySubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
+    updateMany?: Enumerable<REPropertySubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
+    deleteMany?: Enumerable<REPropertySubCategoryModelScalarWhereInput>
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput = {
+    create?: XOR<Enumerable<REPropertySubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<REPropertySubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    upsert?: Enumerable<REPropertySubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
+    createMany?: REPropertySubCategoryModelCreateManySuper_categoryInputEnvelope
+    set?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<REPropertySubCategoryModelWhereUniqueInput>
+    update?: Enumerable<REPropertySubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
+    updateMany?: Enumerable<REPropertySubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
+    deleteMany?: Enumerable<REPropertySubCategoryModelScalarWhereInput>
+  }
+
+  export type REPropertySuperCategoryModelCreateNestedOneWithoutSub_categoriesInput = {
+    create?: XOR<REPropertySuperCategoryModelCreateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+    connectOrCreate?: REPropertySuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
+    connect?: REPropertySuperCategoryModelWhereUniqueInput
+  }
+
+  export type REProertyModelCreateNestedManyWithoutSub_categoryInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutSub_categoryInput>, Enumerable<REProertyModelUncheckedCreateWithoutSub_categoryInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutSub_categoryInput>
+    createMany?: REProertyModelCreateManySub_categoryInputEnvelope
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  }
+
+  export type REProertyModelUncheckedCreateNestedManyWithoutSub_categoryInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutSub_categoryInput>, Enumerable<REProertyModelUncheckedCreateWithoutSub_categoryInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutSub_categoryInput>
+    createMany?: REProertyModelCreateManySub_categoryInputEnvelope
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  }
+
+  export type REPropertySuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput = {
+    create?: XOR<REPropertySuperCategoryModelCreateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+    connectOrCreate?: REPropertySuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
+    upsert?: REPropertySuperCategoryModelUpsertWithoutSub_categoriesInput
+    connect?: REPropertySuperCategoryModelWhereUniqueInput
+    update?: XOR<REPropertySuperCategoryModelUpdateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
+  }
+
+  export type REProertyModelUpdateManyWithoutSub_categoryNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutSub_categoryInput>, Enumerable<REProertyModelUncheckedCreateWithoutSub_categoryInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutSub_categoryInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutSub_categoryInput>
+    createMany?: REProertyModelCreateManySub_categoryInputEnvelope
+    set?: Enumerable<REProertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
+    delete?: Enumerable<REProertyModelWhereUniqueInput>
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutSub_categoryInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutSub_categoryInput>
+    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
+  }
+
+  export type REProertyModelUncheckedUpdateManyWithoutSub_categoryNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutSub_categoryInput>, Enumerable<REProertyModelUncheckedCreateWithoutSub_categoryInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutSub_categoryInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutSub_categoryInput>
+    createMany?: REProertyModelCreateManySub_categoryInputEnvelope
+    set?: Enumerable<REProertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
+    delete?: Enumerable<REProertyModelWhereUniqueInput>
+    connect?: Enumerable<REProertyModelWhereUniqueInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutSub_categoryInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutSub_categoryInput>
+    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
   }
 
   export type NestedStringFilter = {
@@ -20028,6 +22600,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    sub_category: REPropertySubCategoryModelCreateNestedOneWithoutPropertiesInput
   }
 
   export type REProertyModelUncheckedCreateWithoutAgentInput = {
@@ -20038,6 +22611,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    sub_category_id: string
   }
 
   export type REProertyModelCreateOrConnectWithoutAgentInput = {
@@ -20115,6 +22689,7 @@ export namespace Prisma {
     name?: StringFilter | string
     main_image_url?: StringFilter | string
     agent_id?: StringFilter | string
+    sub_category_id?: StringFilter | string
   }
 
   export type BusinessUserModelCreateWithoutHs_providerInput = {
@@ -20885,6 +23460,31 @@ export namespace Prisma {
     create: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
   }
 
+  export type REPropertySubCategoryModelCreateWithoutPropertiesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category: REPropertySuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedCreateWithoutPropertiesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category_id: string
+  }
+
+  export type REPropertySubCategoryModelCreateOrConnectWithoutPropertiesInput = {
+    where: REPropertySubCategoryModelWhereUniqueInput
+    create: XOR<REPropertySubCategoryModelCreateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedCreateWithoutPropertiesInput>
+  }
+
   export type REAgentModelUpsertWithoutPropertiesInput = {
     update: XOR<REAgentModelUpdateWithoutPropertiesInput, REAgentModelUncheckedUpdateWithoutPropertiesInput>
     create: XOR<REAgentModelCreateWithoutPropertiesInput, REAgentModelUncheckedCreateWithoutPropertiesInput>
@@ -20906,6 +23506,184 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySubCategoryModelUpsertWithoutPropertiesInput = {
+    update: XOR<REPropertySubCategoryModelUpdateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedUpdateWithoutPropertiesInput>
+    create: XOR<REPropertySubCategoryModelCreateWithoutPropertiesInput, REPropertySubCategoryModelUncheckedCreateWithoutPropertiesInput>
+  }
+
+  export type REPropertySubCategoryModelUpdateWithoutPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category?: REPropertySuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateWithoutPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySubCategoryModelCreateWithoutSuper_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    properties?: REProertyModelCreateNestedManyWithoutSub_categoryInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutSub_categoryInput
+  }
+
+  export type REPropertySubCategoryModelCreateOrConnectWithoutSuper_categoryInput = {
+    where: REPropertySubCategoryModelWhereUniqueInput
+    create: XOR<REPropertySubCategoryModelCreateWithoutSuper_categoryInput, REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
+  }
+
+  export type REPropertySubCategoryModelCreateManySuper_categoryInputEnvelope = {
+    data: Enumerable<REPropertySubCategoryModelCreateManySuper_categoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type REPropertySubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput = {
+    where: REPropertySubCategoryModelWhereUniqueInput
+    update: XOR<REPropertySubCategoryModelUpdateWithoutSuper_categoryInput, REPropertySubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
+    create: XOR<REPropertySubCategoryModelCreateWithoutSuper_categoryInput, REPropertySubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
+  }
+
+  export type REPropertySubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput = {
+    where: REPropertySubCategoryModelWhereUniqueInput
+    data: XOR<REPropertySubCategoryModelUpdateWithoutSuper_categoryInput, REPropertySubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
+  }
+
+  export type REPropertySubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput = {
+    where: REPropertySubCategoryModelScalarWhereInput
+    data: XOR<REPropertySubCategoryModelUpdateManyMutationInput, REPropertySubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput>
+  }
+
+  export type REPropertySubCategoryModelScalarWhereInput = {
+    AND?: Enumerable<REPropertySubCategoryModelScalarWhereInput>
+    OR?: Enumerable<REPropertySubCategoryModelScalarWhereInput>
+    NOT?: Enumerable<REPropertySubCategoryModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    name?: StringFilter | string
+    super_category_id?: StringFilter | string
+  }
+
+  export type REPropertySuperCategoryModelCreateWithoutSub_categoriesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+  }
+
+  export type REPropertySuperCategoryModelUncheckedCreateWithoutSub_categoriesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+  }
+
+  export type REPropertySuperCategoryModelCreateOrConnectWithoutSub_categoriesInput = {
+    where: REPropertySuperCategoryModelWhereUniqueInput
+    create: XOR<REPropertySuperCategoryModelCreateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+  }
+
+  export type REProertyModelCreateWithoutSub_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent: REAgentModelCreateNestedOneWithoutPropertiesInput
+  }
+
+  export type REProertyModelUncheckedCreateWithoutSub_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent_id: string
+  }
+
+  export type REProertyModelCreateOrConnectWithoutSub_categoryInput = {
+    where: REProertyModelWhereUniqueInput
+    create: XOR<REProertyModelCreateWithoutSub_categoryInput, REProertyModelUncheckedCreateWithoutSub_categoryInput>
+  }
+
+  export type REProertyModelCreateManySub_categoryInputEnvelope = {
+    data: Enumerable<REProertyModelCreateManySub_categoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type REPropertySuperCategoryModelUpsertWithoutSub_categoriesInput = {
+    update: XOR<REPropertySuperCategoryModelUpdateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
+    create: XOR<REPropertySuperCategoryModelCreateWithoutSub_categoriesInput, REPropertySuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+  }
+
+  export type REPropertySuperCategoryModelUpdateWithoutSub_categoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelUpsertWithWhereUniqueWithoutSub_categoryInput = {
+    where: REProertyModelWhereUniqueInput
+    update: XOR<REProertyModelUpdateWithoutSub_categoryInput, REProertyModelUncheckedUpdateWithoutSub_categoryInput>
+    create: XOR<REProertyModelCreateWithoutSub_categoryInput, REProertyModelUncheckedCreateWithoutSub_categoryInput>
+  }
+
+  export type REProertyModelUpdateWithWhereUniqueWithoutSub_categoryInput = {
+    where: REProertyModelWhereUniqueInput
+    data: XOR<REProertyModelUpdateWithoutSub_categoryInput, REProertyModelUncheckedUpdateWithoutSub_categoryInput>
+  }
+
+  export type REProertyModelUpdateManyWithWhereWithoutSub_categoryInput = {
+    where: REProertyModelScalarWhereInput
+    data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyWithoutPropertiesInput>
   }
 
   export type AgreementAcceptanceModelCreateManyUserInput = {
@@ -21157,6 +23935,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    sub_category_id: string
   }
 
   export type REProertyModelUpdateWithoutAgentInput = {
@@ -21167,6 +23946,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    sub_category?: REPropertySubCategoryModelUpdateOneRequiredWithoutPropertiesNestedInput
   }
 
   export type REProertyModelUncheckedUpdateWithoutAgentInput = {
@@ -21177,6 +23957,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REProertyModelUncheckedUpdateManyWithoutPropertiesInput = {
@@ -21187,6 +23968,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    sub_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type HSIntroductionImageModelCreateManyHs_providerInput = {
@@ -21387,6 +24169,77 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REPropertySubCategoryModelCreateManySuper_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+  }
+
+  export type REPropertySubCategoryModelUpdateWithoutSuper_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUpdateManyWithoutSub_categoryNestedInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateWithoutSuper_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    properties?: REProertyModelUncheckedUpdateManyWithoutSub_categoryNestedInput
+  }
+
+  export type REPropertySubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type REProertyModelCreateManySub_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    main_image_url: string
+    agent_id: string
+  }
+
+  export type REProertyModelUpdateWithoutSub_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+    agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
+  }
+
+  export type REProertyModelUncheckedUpdateWithoutSub_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    main_image_url?: StringFieldUpdateOperationsInput | string
+    agent_id?: StringFieldUpdateOperationsInput | string
   }
 
 

@@ -1,4 +1,4 @@
-import { IExpertCategory } from "@DTO/expert-category";
+import { IExpertCategory } from "@DTO/expert_category";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
 import { ExpertCategory } from "@PROVIDER/services/expert-category";

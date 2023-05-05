@@ -12,6 +12,7 @@ import type { IPaginatedResponse } from "./../../../structures/common/pagination
 import type { IREAgent } from "./../../../structures/user/re_agent";
 
 export * as me from "./me";
+export * as properties from "./properties";
 
 /**
  * @summary 공인중개사 목록 조회 API

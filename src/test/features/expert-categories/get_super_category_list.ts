@@ -1,4 +1,4 @@
-import { IExpertCategory } from "@DTO/expert-category";
+import { IExpertCategory } from "@DTO/expert_category";
 import { IConnection } from "@nestia/fetcher";
 import { expert_categories } from "@SDK";
 import typia from "typia";

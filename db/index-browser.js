@@ -216,7 +216,27 @@ exports.Prisma.REProertyModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   main_image_url: 'main_image_url',
-  agent_id: 'agent_id'
+  agent_id: 'agent_id',
+  sub_category_id: 'sub_category_id'
+};
+
+exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  super_category_id: 'super_category_id'
+};
+
+exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name'
 };
 
 exports.Prisma.SortOrder = {
@@ -288,7 +308,9 @@ exports.Prisma.ModelName = {
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  REProertyModel: 'REProertyModel'
+  REProertyModel: 'REProertyModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel'
 };
 
 /**

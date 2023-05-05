@@ -1,4 +1,4 @@
-import { IExpertCategory } from "@DTO/expert-category";
+import { IExpertCategory } from "@DTO/expert_category";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";

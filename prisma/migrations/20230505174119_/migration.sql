@@ -196,8 +196,34 @@ CREATE TABLE "re_properties" (
     "name" TEXT NOT NULL,
     "main_image_url" TEXT NOT NULL,
     "agent_id" TEXT NOT NULL,
+    "sub_category_id" TEXT NOT NULL,
 
     CONSTRAINT "re_properties_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "re_property_super_categories" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "re_property_super_categories_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "re_property_sub_categories" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "name" TEXT NOT NULL,
+    "super_category_id" TEXT NOT NULL,
+
+    CONSTRAINT "re_property_sub_categories_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -211,6 +237,12 @@ CREATE UNIQUE INDEX "expert_super_categories_name_key" ON "expert_super_categori
 
 -- CreateIndex
 CREATE UNIQUE INDEX "agreement_acceptances_user_id_agreement_id_key" ON "agreement_acceptances"("user_id", "agreement_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "re_property_super_categories_name_key" ON "re_property_super_categories"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "re_property_sub_categories_name_key" ON "re_property_sub_categories"("name");
 
 -- AddForeignKey
 ALTER TABLE "oauth_accessors" ADD CONSTRAINT "oauth_accessors_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -256,3 +288,9 @@ ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_agreem
 
 -- AddForeignKey
 ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_agent_id_fkey" FOREIGN KEY ("agent_id") REFERENCES "re_agents"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "re_property_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "re_property_sub_categories" ADD CONSTRAINT "re_property_sub_categories_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "re_property_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -39,6 +39,24 @@ export class REAgentsController {
   }
 
   /**
+   * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
+   *
+   * @summary 내 매물 목록 조회 API
+   * @tag re-agents
+   * @param query 페이지 정보
+   * @return 부동산 매물 목록
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  @Get("me/properties")
+  getMyPropertyList(
+    @TypedQuery() query: IREAgent.IProperty.ISearch,
+    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
+    throw Error();
+  }
+
+  /**
    * @summary 공인중개사 조회 API
    * @tag re-agents
    * @tag users
@@ -49,5 +67,23 @@ export class REAgentsController {
   @Get(":agent_id")
   getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
     return REAgentService.getOne(agent_id);
+  }
+
+  /**
+   * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
+   *
+   * @summary 매물 목록 조회 API
+   * @tag re-agents
+   * @param query 페이지 정보
+   * @param agent_id 공인중개사 id
+   * @return 부동산 매물 목록
+   * @throw 404 Not Found
+   */
+  @Get(":agent_id/properties")
+  getPropertyList(
+    @TypedQuery() query: IREAgent.IProperty.ISearch,
+    @TypedParam("agent_id") agent_id: string
+  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
+    throw Error();
   }
 }

@@ -1,4 +1,4 @@
-import { IExpertCategory } from "@DTO/expert-category";
+import { IExpertCategory } from "@DTO/expert_category";
 import { prisma } from "@INFRA/DB";
 import { NotFoundException } from "@nestjs/common";
 import { isNull } from "@UTIL";

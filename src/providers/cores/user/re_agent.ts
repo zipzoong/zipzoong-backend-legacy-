@@ -75,7 +75,7 @@ export namespace REAgent {
             super_expertise: true
           }
         },
-        properties: true
+        properties: { include: { sub_category: true } }
       } satisfies Prisma.REAgentModelInclude);
 
     export const findPrivateInclude = () =>
@@ -92,7 +92,7 @@ export namespace REAgent {
             certifications: true
           }
         },
-        properties: true
+        properties: { include: { sub_category: true } }
       } satisfies Prisma.REAgentModelInclude);
   }
 
@@ -143,13 +143,23 @@ export namespace REAgent {
       updated_at: getISOString(input.base.base.updated_at),
       properties: input.properties
         .filter(isActive)
-        .map(({ id, name, main_image_url, created_at, updated_at }) => ({
-          id,
-          name,
-          main_image_url,
-          created_at: getISOString(created_at),
-          updated_at: getISOString(updated_at)
-        }))
+        .map(
+          ({
+            id,
+            name,
+            main_image_url,
+            sub_category,
+            created_at,
+            updated_at
+          }) => ({
+            id,
+            name,
+            main_image_url,
+            category: { id: sub_category.id, name: sub_category.name },
+            created_at: getISOString(created_at),
+            updated_at: getISOString(updated_at)
+          })
+        )
     };
     if (!typia.equals<IREAgent>(agent))
       throw Error(`re agent: ${input.id} has invalid data`);

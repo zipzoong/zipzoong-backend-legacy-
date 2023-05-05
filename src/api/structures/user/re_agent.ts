@@ -1,4 +1,5 @@
-import { IAddress } from "@DTO/common";
+import { IAddress, IPage } from "@DTO/common";
+import { IREProperty } from "@DTO/real_estate/re_property";
 import { Mutable, Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -21,8 +22,12 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
    * 부동산 정보
    */
   readonly real_estate: IREAgent.IRealEstate;
-  /** 부동산 매물 목록 */
-  readonly properties: IREAgent.IREProperty[];
+  /**
+   * 부동산 매물 목록
+   *
+   * 최대 30개만 포함한다.
+   */
+  readonly properties: IREAgent.IProperty[];
 }
 
 export namespace IREAgent {
@@ -40,14 +45,13 @@ export namespace IREAgent {
   }
 
   /** 부동산 매물 정보 */
-  export interface IREProperty {
-    readonly id: string;
-    readonly name: string;
-    readonly main_image_url: string;
-    /** @format date-time */
-    readonly created_at: string;
-    /** @format date-time */
-    readonly updated_at: string;
+  export type IProperty = Pick<
+    IREProperty,
+    "id" | "name" | "main_image_url" | "category" | "created_at" | "updated_at"
+  >;
+
+  export namespace IProperty {
+    export interface ISearch extends IPage {}
   }
 
   export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;

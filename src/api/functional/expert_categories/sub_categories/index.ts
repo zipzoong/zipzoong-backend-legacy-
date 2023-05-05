@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IExpertCategory } from "./../../../structures/expert-category/expert-category";
+import type { IExpertCategory } from "./../../../structures/expert_category/expert-category";
 
 /**
  * @summary 하위 전문 분야 목록 조회 API
