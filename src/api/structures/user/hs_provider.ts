@@ -23,6 +23,11 @@ export namespace IHSProvider {
     readonly images: IIntroductionImage[];
   }
 
+  export interface ICreateIntroduction
+    extends Mutable<IBusinessUser.IIntroduction> {
+    image_urls: string[];
+  }
+
   export interface ICreate
     extends Omit<
       Mutable<IHSProvider>,
@@ -35,7 +40,7 @@ export namespace IHSProvider {
       | "type"
     > {
     acceptant_agreement_ids: string[];
-    introduction: IBusinessUser.IIntroduction & { image_urls: string[] };
+    introduction: ICreateIntroduction;
     super_expertise_id: string;
     sub_expertise_ids: string[];
   }

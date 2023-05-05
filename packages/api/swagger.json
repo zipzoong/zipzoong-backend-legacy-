@@ -2191,7 +2191,7 @@
             "x-typia-optional": false
           },
           "introduction": {
-            "$ref": "#/components/schemas/IIntroduction_space__and__space__blt__space_image_urls:_space_string_alt__agt_;_space__bgt_",
+            "$ref": "#/components/schemas/IHSProvider.ICreateIntroduction",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2255,21 +2255,9 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IIntroduction_space__and__space__blt__space_image_urls:_space_string_alt__agt_;_space__bgt_": {
+      "IHSProvider.ICreateIntroduction": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "content": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "image_urls": {
             "type": "array",
             "items": {
@@ -2281,13 +2269,25 @@
             "nullable": false,
             "x-typia-required": true,
             "x-typia-optional": false
+          },
+          "title": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "content": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
           }
         },
         "nullable": false,
         "required": [
+          "image_urls",
           "title",
-          "content",
-          "image_urls"
+          "content"
         ],
         "x-typia-jsDocTags": []
       },
