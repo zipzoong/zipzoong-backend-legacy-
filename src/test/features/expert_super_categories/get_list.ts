@@ -1,17 +1,14 @@
 import { IExpertCategory } from "@DTO/expert_category";
 import { IConnection } from "@nestia/fetcher";
-import { expert_categories } from "@SDK";
+import { expert_super_categories } from "@SDK";
 import typia from "typia";
 
-console.log("\n- expert_categories.getSuperCategoryList");
+console.log("\n- expert_super_categories.getList");
 
 export const test_success = async (connection: IConnection) => {
   const query = typia.random<IExpertCategory.ISuperSearch>();
 
-  const received = await expert_categories.getSuperCategoryList(
-    connection,
-    query
-  );
+  const received = await expert_super_categories.getList(connection, query);
 
   typia.assertEquals(received);
 };

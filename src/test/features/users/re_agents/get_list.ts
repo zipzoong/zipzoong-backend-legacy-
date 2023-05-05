@@ -1,6 +1,6 @@
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
-import { expert_categories, users } from "@SDK";
+import { expert_super_categories, users } from "@SDK";
 import assert from "assert";
 import typia from "typia";
 
@@ -9,10 +9,9 @@ console.log("\n- users.re_agents.getList");
 export const test_success_filter_super_category = async (
   connection: IConnection
 ) => {
-  const super_categories = await expert_categories.getSuperCategoryList(
-    connection,
-    { filter: ["RE"] }
-  );
+  const super_categories = await expert_super_categories.getList(connection, {
+    filter: ["RE"]
+  });
 
   const super_category = RandomGenerator.pick(super_categories);
 
@@ -33,10 +32,9 @@ export const test_success_filter_super_category = async (
 export const test_success_filter_sub_category = async (
   connection: IConnection
 ) => {
-  const super_categories = await expert_categories.getSuperCategoryList(
-    connection,
-    { filter: ["RE"] }
-  );
+  const super_categories = await expert_super_categories.getList(connection, {
+    filter: ["RE"]
+  });
 
   const super_category = RandomGenerator.pick(super_categories);
   const sub_category = RandomGenerator.pick(super_category.sub_categories);

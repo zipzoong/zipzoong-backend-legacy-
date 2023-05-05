@@ -4,11 +4,11 @@ import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { Crypto } from "@PROVIDER/services/authentication";
-import { agreements, auth, expert_categories, users } from "@SDK";
+import { agreements, auth, expert_super_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- users.hs_providers.me.getMe");
+console.log("\n- users.hs_providers.me.get");
 
 export const test_success = async (connection: IConnection) => {
   const code = "test_hs_provider_get_me";
@@ -25,9 +25,11 @@ export const test_success = async (connection: IConnection) => {
     })
   ).map(({ id }) => id);
 
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await expert_super_categories.getList(
     connection,
-    { filter: ["HS"] }
+    {
+      filter: ["HS"]
+    }
   );
 
   const super_expertise = RandomGenerator.pick(super_expertise_list);
@@ -52,7 +54,7 @@ export const test_success = async (connection: IConnection) => {
 
   // sign-in
 
-  const received = await users.hs_providers.me.getMe(
+  const received = await users.hs_providers.me.get(
     internal.addAuthorizationHeader(connection)("bearer", tokens.access_token)
   );
 
@@ -62,19 +64,19 @@ export const test_success = async (connection: IConnection) => {
 };
 
 export const test_invalid_token = internal.test_invalid_user_token(
-  users.hs_providers.me.getMe
+  users.hs_providers.me.get
 );
 
 export const test_user_token_mismatch = internal.test_user_token_mismatch(
   "home service provider"
-)(users.hs_providers.me.getMe);
+)(users.hs_providers.me.get);
 
 export const test_not_found_user = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"home service provider">>();
   const token = Crypto.getUserToken(payload);
 
   await internal.test_error(() =>
-    users.hs_providers.me.getMe(
+    users.hs_providers.me.get(
       internal.addAuthorizationHeader(connection)("bearer", token)
     )
   )(HttpStatus.FORBIDDEN, "User Not Found")();

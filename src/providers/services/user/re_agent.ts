@@ -83,4 +83,58 @@ export namespace REAgentService {
 
       mapper: REAgent.mapPrivate
     });
+
+  export const getPropertyList = async ({
+    user_id,
+    page = 1
+  }: {
+    user_id: string;
+    page?: number;
+  }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+    pipe(
+      getOne(user_id),
+
+      async (agent) =>
+        prisma.rEProertyModel.findMany({
+          where: { agent_id: agent.id, is_deleted: false },
+          include: REAgent.json.findPropertyInclude(),
+          take: 30,
+          skip: 30 * (page - 1)
+        }),
+
+      // filter(isActive),
+
+      map(REAgent.mapProperty),
+
+      toArray,
+
+      (data) => ({ page, data })
+    );
+
+  export const getMyPropertyList = async ({
+    user_id,
+    page = 1
+  }: {
+    user_id: string;
+    page?: number;
+  }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+    pipe(
+      getMe(user_id),
+
+      async (agent) =>
+        prisma.rEProertyModel.findMany({
+          where: { agent_id: agent.id, is_deleted: false },
+          include: REAgent.json.findPropertyInclude(),
+          take: 30,
+          skip: 30 * (page - 1)
+        }),
+
+      // filter(isActive),
+
+      map(REAgent.mapProperty),
+
+      toArray,
+
+      (data) => ({ page, data })
+    );
 }

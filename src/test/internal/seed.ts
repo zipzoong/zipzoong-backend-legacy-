@@ -6,7 +6,7 @@ import { IConnection } from "@nestia/fetcher";
 import { AgreementUserType, ExpertBusinessType, Prisma } from "@PRISMA";
 import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
 import { REAgent } from "@PROVIDER/cores/user/re_agent";
-import { agreements, expert_categories } from "@SDK";
+import { agreements, expert_super_categories } from "@SDK";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -82,10 +82,9 @@ export const seedHSProviders = async (connection: IConnection) => {
       filter: ["all", "business", "HS"]
     })
   ).map(({ id }) => id);
-  const super_categories = await expert_categories.getSuperCategoryList(
-    connection,
-    { filter: ["HS"] }
-  );
+  const super_categories = await expert_super_categories.getList(connection, {
+    filter: ["HS"]
+  });
   const createProviderData = typia.createRandom<IHSProvider.ICreate>();
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
@@ -114,10 +113,9 @@ export const seedREAgents = async (connection: IConnection) => {
       filter: ["all", "business", "RE"]
     })
   ).map(({ id }) => id);
-  const super_categories = await expert_categories.getSuperCategoryList(
-    connection,
-    { filter: ["RE"] }
-  );
+  const super_categories = await expert_super_categories.getList(connection, {
+    filter: ["RE"]
+  });
 
   const createAgentData = typia.createRandom<IREAgent.ICreate>();
 

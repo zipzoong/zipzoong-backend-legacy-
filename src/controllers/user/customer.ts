@@ -14,7 +14,7 @@ export class CustomersController {
    * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(
+  get(
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
     return CustomerService.getMe(payload.user_id);

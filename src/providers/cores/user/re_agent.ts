@@ -75,7 +75,9 @@ export namespace REAgent {
             super_expertise: true
           }
         },
-        properties: { include: { sub_category: true } }
+        properties: {
+          include: { sub_category: true }
+        }
       } satisfies Prisma.REAgentModelInclude);
 
     export const findPrivateInclude = () =>
@@ -92,8 +94,13 @@ export namespace REAgent {
             certifications: true
           }
         },
-        properties: { include: { sub_category: true } }
+        properties: {
+          include: { sub_category: true }
+        }
       } satisfies Prisma.REAgentModelInclude);
+
+    export const findPropertyInclude = () =>
+      ({ sub_category: true } satisfies Prisma.REProertyModelInclude);
   }
 
   export const map = (
@@ -202,4 +209,23 @@ export namespace REAgent {
       throw Error(`re agent: ${input.id} has invalid data`);
     return agent;
   };
+
+  export const mapProperty = (
+    input: NonNullable<
+      Awaited<
+        ReturnType<
+          typeof prisma.rEProertyModel.findFirst<{
+            include: ReturnType<typeof json.findPropertyInclude>;
+          }>
+        >
+      >
+    >
+  ): IREAgent.IProperty => ({
+    id: input.id,
+    name: input.name,
+    main_image_url: input.main_image_url,
+    category: { id: input.sub_category.id, name: input.sub_category.name },
+    created_at: getISOString(input.created_at),
+    updated_at: getISOString(input.updated_at)
+  });
 }

@@ -32,7 +32,7 @@ export class HSProvidersController {
    * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(
+  get(
     @HSProviderToken()
     { user_id }: ITokens.IUserPayload<"home service provider">
   ): Promise<IHSProvider.IPrivate> {

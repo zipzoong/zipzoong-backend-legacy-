@@ -32,28 +32,10 @@ export class REAgentsController {
    * @throw 403 Forbidden
    */
   @Get("me")
-  getMe(
+  get(
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IREAgent.IPrivate> {
     return REAgentService.getMe(user_id);
-  }
-
-  /**
-   * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
-   *
-   * @summary 내 매물 목록 조회 API
-   * @tag re-agents
-   * @param query 페이지 정보
-   * @return 부동산 매물 목록
-   * @throw 401 Unauthorized
-   * @throw 403 Forbidden
-   */
-  @Get("me/properties")
-  getMyPropertyList(
-    @TypedQuery() query: IREAgent.IProperty.ISearch,
-    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
-  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    throw Error();
   }
 
   /**
@@ -68,7 +50,31 @@ export class REAgentsController {
   getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
     return REAgentService.getOne(agent_id);
   }
+}
 
+@Controller("users/re-agents/me/properties")
+export class REAgentsMyPropertiesController {
+  /**
+   * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
+   *
+   * @summary 내 매물 목록 조회 API
+   * @tag re-agents
+   * @param query 페이지 정보
+   * @return 부동산 매물 목록
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  @Get()
+  getList(
+    @TypedQuery() query: IREAgent.IProperty.ISearch,
+    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
+    return REAgentService.getMyPropertyList({ user_id, page: query.page });
+  }
+}
+
+@Controller("users/re-agents/:agent_id/properties")
+export class REAgentsPropertiesController {
   /**
    * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
    *
@@ -79,11 +85,14 @@ export class REAgentsController {
    * @return 부동산 매물 목록
    * @throw 404 Not Found
    */
-  @Get(":agent_id/properties")
-  getPropertyList(
+  @Get()
+  getList(
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @TypedParam("agent_id") agent_id: string
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    throw Error();
+    return REAgentService.getPropertyList({
+      user_id: agent_id,
+      page: query.page
+    });
   }
 }
