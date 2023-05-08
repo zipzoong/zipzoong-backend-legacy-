@@ -19,6 +19,10 @@ export namespace IREPropertyCategory {
     readonly sub_categories: Omit<ISub, "middle_category">[];
   }
 
+  export namespace ISuper {
+    export interface ISearch extends IPage {}
+  }
+
   export namespace IMiddle {
     export interface ISearch extends IPage {
       super_category_name?: string;

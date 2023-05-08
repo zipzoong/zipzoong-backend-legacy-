@@ -13,8 +13,8 @@ import type { IExpertCategory } from "./../../structures/expert_category";
  * @summary 상위 전문 분야 목록 조회 API
  * @tag expert-categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
- * @param query 상위 전문 분야 필터링 조건
- * @return 상위 전문 분야 목록
+ * @param query 전문 분야 상위 카테고리 필터링 조건
+ * @return 전문 분야 상위 카테고리 목록
  * 
  * @controller ExpertSuperCategoriesController.getList()
  * @path GET /expert-super-categories

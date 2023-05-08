@@ -29,6 +29,7 @@ export namespace IREProperty {
   export interface ISearch extends IPage {
     agent_id?: string;
     super_category_name?: string;
+    middle_category_name?: string;
     sub_category_name?: string;
   }
 }

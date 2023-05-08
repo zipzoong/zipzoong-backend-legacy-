@@ -8,8 +8,8 @@ export class ExpertSuperCategoriesController {
   /**
    * @summary 상위 전문 분야 목록 조회 API
    * @tag expert-categories
-   * @param query 상위 전문 분야 필터링 조건
-   * @return 상위 전문 분야 목록
+   * @param query 전문 분야 상위 카테고리 필터링 조건
+   * @return 전문 분야 상위 카테고리 목록
    */
   @Get()
   getList(
