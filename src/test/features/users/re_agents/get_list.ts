@@ -22,10 +22,7 @@ export const test_success_filter_super_category = async (
 
   typia.assertEquals(received);
   received.data.forEach((agent) =>
-    assert.strictEqual(
-      agent.super_expertise.super_category_id,
-      super_category.id
-    )
+    assert.strictEqual(agent.expertise.super_category_id, super_category.id)
   );
 };
 
@@ -47,7 +44,7 @@ export const test_success_filter_sub_category = async (
   typia.assertEquals(received);
   received.data.forEach((agent) =>
     assert.strictEqual(
-      agent.sub_expertises.some(
+      agent.expertise.sub_expertises.some(
         (expertise) => expertise.sub_category_id === sub_category.id
       ),
       true

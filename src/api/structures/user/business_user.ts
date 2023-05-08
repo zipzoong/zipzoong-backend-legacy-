@@ -6,7 +6,7 @@ export namespace IBusinessUser {
   export interface IExpertise {
     readonly super_category_id: string;
     readonly super_category_name: string;
-    readonly sub_categories: ISubExpertise[];
+    readonly sub_expertises: ISubExpertise[];
   }
   export interface ISubExpertise {
     readonly sub_category_id: string;

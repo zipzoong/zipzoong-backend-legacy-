@@ -7,7 +7,7 @@ import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
-console.log("\n- expert_super_categories.expert_sub_categories.getList");
+console.log("\n- expert_super_categories.sub_categories.getList");
 
 export const test_success = async (connection: IConnection) => {
   const query = typia.random<IExpertCategory.ISuperSearch>();
@@ -16,16 +16,12 @@ export const test_success = async (connection: IConnection) => {
     query
   );
   const received = await ArrayUtil.asyncMap(super_categories)((category) =>
-    expert_super_categories.expert_sub_categories.getList(
-      connection,
-      category.id
-    )
+    expert_super_categories.sub_categories.getList(connection, category.id)
   );
 
   typia.assertEquals(received);
 };
 
-export const test_not_found = async (connection: IConnection) =>
-  internal.test_error(() =>
-    expert_super_categories.getOne(connection, randomUUID())
-  )(HttpStatus.NOT_FOUND, "Expert Category Not Found")();
+export const test_not_found = internal.test_error((connection: IConnection) =>
+  expert_super_categories.sub_categories.getList(connection, randomUUID())
+)(HttpStatus.NOT_FOUND, "Expert Category Not Found");

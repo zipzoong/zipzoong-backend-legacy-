@@ -33,7 +33,6 @@ export const test_success = async (connection: IConnection) => {
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create_input.super_expertise_id = super_expertise.id;
   create_input.sub_expertise_ids = super_expertise.sub_categories.map(
     ({ id }) => id
   );

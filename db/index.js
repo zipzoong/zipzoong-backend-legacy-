@@ -363,8 +363,7 @@ const config = {
     "database"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false,
-  "postinstall": false
+  "dataProxy": false
 }
 config.dirname = dirname
 config.document = dmmf

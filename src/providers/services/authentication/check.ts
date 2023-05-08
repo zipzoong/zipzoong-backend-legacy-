@@ -1,4 +1,5 @@
 import { ISoftDeletable } from "@DTO/common";
+import { IBusinessUser } from "@DTO/user/business_user";
 import { IUser } from "@DTO/user/user";
 import { pipe, tap } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
@@ -7,7 +8,11 @@ import {
   ForbiddenException,
   UnauthorizedException
 } from "@nestjs/common";
-import { AgreementUserType, OauthAccessorModel } from "@PRISMA";
+import {
+  AgreementUserType,
+  ExpertBusinessType,
+  OauthAccessorModel
+} from "@PRISMA";
 import { isActive, isInActive, isNull, toThrow } from "@UTIL";
 
 export namespace Check {
@@ -129,18 +134,41 @@ export namespace Check {
     if (rest.length > 0) throw AcceptanceInSufficient;
   };
 
+  const mapper: Record<IBusinessUser.Type, ExpertBusinessType> = {
+    "home service provider": "HS",
+    "real estate agent": "RE"
+  };
+
   /** @throw BadRequest */
   export const subExpertCategoriesValid = async ({
+    type,
     sub_expertise_ids
   }: {
+    type: IBusinessUser.Type;
     sub_expertise_ids: string[];
   }) => {
     const categories = (
       await prisma.expertSubCategoryModel.findMany({
-        where: { id: { in: sub_expertise_ids } }
+        where: { id: { in: sub_expertise_ids } },
+        include: { super_category: true }
       })
     ).filter(isActive);
 
-    if (sub_expertise_ids.length !== categories.length) throw InvalidExpertise;
+    if (
+      categories.length === 0 ||
+      sub_expertise_ids.length !== categories.length
+    )
+      throw InvalidExpertise;
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const super_category = categories[0]!.super_category;
+
+    if (
+      super_category.business_type !== mapper[type] ||
+      !categories.every(
+        ({ super_category_id }) => super_category_id === super_category.id
+      )
+    )
+      throw InvalidExpertise;
   };
 }

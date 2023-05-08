@@ -9,7 +9,7 @@ import type { IConnection } from "@nestia/fetcher";
 
 import type { IExpertCategory } from "./../../structures/expert_category";
 
-export * as expert_sub_categories from "./expert_sub_categories";
+export * as sub_categories from "./sub_categories";
 
 /**
  * @summary 상위 전문 분야 목록 조회 API

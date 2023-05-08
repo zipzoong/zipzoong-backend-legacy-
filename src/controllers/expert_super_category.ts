@@ -33,7 +33,7 @@ export class ExpertSuperCategoriesController {
   }
 }
 
-@Controller("expert-super-categories/:super_id/expert-sub-categories")
+@Controller("expert-super-categories/:super_id/sub-categories")
 export class ExpertSubCategoriesController {
   /**
    * @summary 하위 전문 분야 목록 조회 API

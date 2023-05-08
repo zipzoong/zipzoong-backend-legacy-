@@ -125,7 +125,7 @@ export namespace REAgent {
     const expertise: IBusinessUser.IExpertise = {
       super_category_id: super_category.id,
       super_category_name: super_category.name,
-      sub_categories: input.base.sub_expertises
+      sub_expertises: input.base.sub_expertises
         .filter(isActive)
         .filter(
           ({ sub_category: { super_category_id } }) =>

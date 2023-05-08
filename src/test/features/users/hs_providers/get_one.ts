@@ -24,7 +24,6 @@ export const test_success = async (connection: IConnection) => {
   });
   const super_expertise = RandomGenerator.pick(list);
 
-  input.super_expertise_id = super_expertise.id;
   input.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   const data = HSProvider.json.createData(input);
@@ -49,7 +48,6 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
   });
   const super_expertise = RandomGenerator.pick(list);
 
-  input.super_expertise_id = super_expertise.id;
   input.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   const data = HSProvider.json.createData(input);

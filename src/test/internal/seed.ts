@@ -56,10 +56,10 @@ export const seed = async (connection: IConnection) => {
     }),
 
     prisma.expertSubCategoryModel.createMany({
-      data: super_list.flatMap(({ id: super_id }) => {
+      data: super_list.flatMap(({ id: super_category_id }) => {
         return createArray(5).map(() => ({
           id: randomUUID(),
-          super_id,
+          super_category_id,
           name: randomUUID(),
           created_at: "2023-05-02T07:27:30.128Z",
           updated_at: "2023-05-02T07:27:30.128Z",
@@ -93,7 +93,6 @@ export const seedHSProviders = async (connection: IConnection) => {
     ArrayUtil.asyncForEach(super_categories)(async (category) => {
       const input = createProviderData();
       input.acceptant_agreement_ids = agreement_list;
-      input.super_expertise_id = category.id;
       input.sub_expertise_ids = category.sub_categories
         .slice(0, 2)
         .map(({ id }) => id);
@@ -126,7 +125,6 @@ export const seedREAgents = async (connection: IConnection) => {
       const input = createAgentData();
 
       input.acceptant_agreement_ids = agreement_list;
-      input.super_expertise_id = category.id;
       input.sub_expertise_ids = category.sub_categories
         .slice(0, 2)
         .map(({ id }) => id);

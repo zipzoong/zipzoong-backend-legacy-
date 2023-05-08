@@ -25,7 +25,6 @@ export const test_success = async (connection: IConnection) => {
 
   const super_expertise = RandomGenerator.pick(list);
 
-  body.super_expertise_id = super_expertise.id;
   body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   const data = REAgent.json.createData(body);
@@ -33,7 +32,6 @@ export const test_success = async (connection: IConnection) => {
   const { id } = await prisma.rEAgentModel.create({ data });
 
   const received = await users.re_agents.getOne(connection, id);
-  console.log(received);
   typia.assertEquals(received);
 };
 
@@ -51,7 +49,6 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
 
   const super_expertise = RandomGenerator.pick(list);
 
-  body.super_expertise_id = super_expertise.id;
   body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   const data = REAgent.json.createData(body);
@@ -59,7 +56,7 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
   await internal.test_error(() => users.re_agents.getOne(connection, id))(
     HttpStatus.NOT_FOUND,
     "User Not Found"
-  );
+  )();
 };
 
 export const test_user_not_found = internal.test_error(

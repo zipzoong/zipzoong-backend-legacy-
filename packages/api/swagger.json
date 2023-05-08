@@ -670,7 +670,7 @@
         ]
       }
     },
-    "/expert-super-categories/{super_id}/expert-sub-categories": {
+    "/expert-super-categories/{super_id}/sub-categories": {
       "get": {
         "tags": [
           "expert-categories"
@@ -709,7 +709,7 @@
         },
         "summary": "하위 전문 분야 목록 조회 API",
         "description": "",
-        "x-nestia-namespace": "expert-super-categories.expert-sub-categories.getList",
+        "x-nestia-namespace": "expert-super-categories.sub-categories.getList",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
@@ -3042,7 +3042,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3052,7 +3053,65 @@
           "id",
           "profile_image_url",
           "name",
-          "super_expertise"
+          "expertise"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IExpertise": {
+        "type": "object",
+        "properties": {
+          "super_category_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category_id",
+          "super_category_name",
+          "sub_categories"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.ISubExpertise": {
+        "type": "object",
+        "properties": {
+          "sub_category_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "sub_category_id",
+          "sub_category_name"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3765,64 +3824,6 @@
         "required": [
           "id",
           "url"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.IExpertise": {
-        "type": "object",
-        "properties": {
-          "super_category_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "super_category_name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "super_category_id",
-          "super_category_name",
-          "sub_categories"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.ISubExpertise": {
-        "type": "object",
-        "properties": {
-          "sub_category_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_category_name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "sub_category_id",
-          "sub_category_name"
         ],
         "x-typia-jsDocTags": []
       },
