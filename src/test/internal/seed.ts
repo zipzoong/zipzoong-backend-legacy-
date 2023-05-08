@@ -1,7 +1,7 @@
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
-import { ArrayUtil } from "@nestia/e2e";
+import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { AgreementUserType, ExpertBusinessType, Prisma } from "@PRISMA";
 import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
@@ -46,6 +46,11 @@ export const seed = async (connection: IConnection) => {
     ...createArray(5).map(createHSSuperExpertCategory)
   ];
 
+  const property_super_category_ids = createArray(5).map(() => randomUUID());
+  const property_mid_category_ids = property_super_category_ids.map(() =>
+    createArray(3).map(() => randomUUID())
+  );
+
   await prisma.$transaction([
     prisma.agreementModel.createMany({
       data: createArray(5).map(createAllType)
@@ -67,6 +72,46 @@ export const seed = async (connection: IConnection) => {
           deleted_at: null
         }));
       })
+    }),
+
+    prisma.rEPropertySuperCategoryModel.createMany({
+      data: property_super_category_ids.map((id) => ({
+        id,
+        name: RandomGenerator.name(2),
+        created_at: "2023-05-02T07:27:30.128Z",
+        updated_at: "2023-05-02T07:27:30.128Z",
+        is_deleted: false,
+        deleted_at: null
+      }))
+    }),
+
+    prisma.rEPropertyMiddleCategoryModel.createMany({
+      data: property_mid_category_ids
+        .map((ids, idx) =>
+          ids.map((id) => ({
+            id,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            super_category_id: property_super_category_ids[idx]!,
+            name: RandomGenerator.name(2),
+            created_at: "2023-05-02T07:27:30.128Z",
+            updated_at: "2023-05-02T07:27:30.128Z",
+            is_deleted: false,
+            deleted_at: null
+          }))
+        )
+        .flat()
+    }),
+
+    prisma.rEPropertySubCategoryModel.createMany({
+      data: property_mid_category_ids.flat().map((middle_category_id) => ({
+        id: randomUUID(),
+        name: RandomGenerator.name(2),
+        middle_category_id,
+        created_at: "2023-05-02T07:27:30.128Z",
+        updated_at: "2023-05-02T07:27:30.128Z",
+        is_deleted: false,
+        deleted_at: null
+      }))
     })
   ]);
 
@@ -132,6 +177,41 @@ export const seedREAgents = async (connection: IConnection) => {
       const data = REAgent.json.createData(input);
 
       queries.push(prisma.rEAgentModel.create({ data }));
+
+      const agent_id = data.base.create.base.create.id;
+
+      const properties = new Array(10).fill(1).map(() => ({
+        id: randomUUID(),
+        name: RandomGenerator.name(3),
+        main_image_url: "",
+        agent_id,
+        created_at: "2023-05-02T07:27:30.128Z",
+        updated_at: "2023-05-02T07:27:30.128Z",
+        is_deleted: false,
+        deleted_at: null
+      }));
+
+      const sub_categories = await prisma.rEPropertySubCategoryModel.findMany();
+
+      queries.push(
+        prisma.rEProertyModel.createMany({
+          data: properties
+        })
+      );
+
+      queries.push(
+        prisma.rEPropertyCategoryModel.createMany({
+          data: properties.map(({ id: re_property_id }) => ({
+            id: randomUUID(),
+            re_property_id,
+            sub_category_id: RandomGenerator.pick(sub_categories).id,
+            created_at: "2023-05-02T07:27:30.128Z",
+            updated_at: "2023-05-02T07:27:30.128Z",
+            is_deleted: false,
+            deleted_at: null
+          }))
+        })
+      );
     })
   );
 

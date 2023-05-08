@@ -11,7 +11,7 @@ console.log("\n- users.customers.me.get");
 
 export const test_success = async (connection: IConnection) => {
   const code = "test_customer_get_me";
-  const { access_token } = await auth.sign_up.signUp(connection, {
+  const { access_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
@@ -30,7 +30,7 @@ export const test_success = async (connection: IConnection) => {
   );
   // sign-up & customer create
 
-  const tokens = await auth.sign_in.signIn(connection, {
+  const tokens = await auth.sign_in.execute(connection, {
     code,
     user_type: "customer",
     oauth_type: "kakao"

@@ -224,31 +224,44 @@ model AgreementAcceptanceModel {
 }
 
 model REProertyModel {
+  id             String                    @id
+  created_at     DateTime                  @database.Timestamptz
+  updated_at     DateTime                  @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                 @database.Timestamptz
+  name           String
+  main_image_url String
+  agent_id       String
+  agent          REAgentModel              @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categories     REPropertyCategoryModel[]
+
+  @@map("re_properties")
+}
+
+model REPropertyCategoryModel {
   id              String                     @id
   created_at      DateTime                   @database.Timestamptz
   updated_at      DateTime                   @database.Timestamptz
   is_deleted      Boolean
   deleted_at      DateTime?                  @database.Timestamptz
-  name            String
-  main_image_url  String
-  agent_id        String
+  re_property_id  String
   sub_category_id String
-  agent           REAgentModel               @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  re_property     REProertyModel             @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   sub_category    REPropertySubCategoryModel @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("re_properties")
+  @@map("re_property_categories")
 }
 
 model REPropertySubCategoryModel {
-  id                 String                        @id
-  created_at         DateTime                      @database.Timestamptz
-  updated_at         DateTime                      @database.Timestamptz
-  is_deleted         Boolean
-  deleted_at         DateTime?                     @database.Timestamptz
-  name               String                        @unique
-  middle_category_id String
-  middle_category    REPropertyMiddleCategoryModel @relation(fields: [middle_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  properties         REProertyModel[]
+  id                  String                        @id
+  created_at          DateTime                      @database.Timestamptz
+  updated_at          DateTime                      @database.Timestamptz
+  is_deleted          Boolean
+  deleted_at          DateTime?                     @database.Timestamptz
+  name                String                        @unique
+  middle_category_id  String
+  middle_category     REPropertyMiddleCategoryModel @relation(fields: [middle_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  property_categories REPropertyCategoryModel[]
 
   @@map("re_property_sub_categories")
 }

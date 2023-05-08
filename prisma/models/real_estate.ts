@@ -8,21 +8,38 @@ export const REProperty = createModel("REProertyModel", (model) => {
     .string("name")
     .string("main_image_url")
     .string("agent_id")
-    .string("sub_category_id")
     .relation("agent", REAgent, {
       fields: ["agent_id"],
       references: ["id"],
       onDelete: "NoAction",
       onUpdate: "NoAction"
     })
-    .relation("sub_category", REPropertySubCategory, {
-      fields: ["sub_category_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
+    .relation("categories", REPropertyCategory, { list: true })
     .map("re_properties");
 });
+
+export const REPropertyCategory = createModel(
+  "REPropertyCategoryModel",
+  (model) => {
+    model
+      .mixin(Entity)
+      .string("re_property_id")
+      .string("sub_category_id")
+      .relation("re_property", REProperty, {
+        fields: ["re_property_id"],
+        references: ["id"],
+        onDelete: "NoAction",
+        onUpdate: "NoAction"
+      })
+      .relation("sub_category", REPropertySubCategory, {
+        fields: ["sub_category_id"],
+        references: ["id"],
+        onDelete: "NoAction",
+        onUpdate: "NoAction"
+      })
+      .map("re_property_categories");
+  }
+);
 
 export const REPropertySubCategory = createModel(
   "REPropertySubCategoryModel",
@@ -37,7 +54,7 @@ export const REPropertySubCategory = createModel(
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .relation("properties", REProperty, { list: true })
+      .relation("property_categories", REPropertyCategory, { list: true })
       .map("re_property_sub_categories");
   }
 );

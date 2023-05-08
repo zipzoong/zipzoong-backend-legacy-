@@ -14,7 +14,7 @@ console.log("\n- auth.user.create");
 
 const code = "test_user_create";
 const getTokens = (connection: IConnection) =>
-  sdk.auth.sign_up.signUp(connection, {
+  sdk.auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });

@@ -16,8 +16,8 @@ import type { IPaginatedResponse } from "./../../../../structures/common/paginat
  * @summary 매물 목록 조회 API
  * @tag re-agents
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
- * @param query 페이지 정보
  * @param agent_id 공인중개사 id
+ * @param query 페이지 정보
  * @return 부동산 매물 목록
  * @throw 404 Not Found
  * 
@@ -28,8 +28,8 @@ import type { IPaginatedResponse } from "./../../../../structures/common/paginat
 export function getList
     (
         connection: IConnection,
-        query: IREAgent.IProperty.ISearch,
-        agent_id: string
+        agent_id: string,
+        query: IREAgent.IProperty.ISearch
     ): Promise<getList.Output>
 {
     return Fetcher.fetch

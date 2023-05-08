@@ -80,15 +80,15 @@ export class REAgentsPropertiesController {
    *
    * @summary 매물 목록 조회 API
    * @tag re-agents
-   * @param query 페이지 정보
    * @param agent_id 공인중개사 id
+   * @param query 페이지 정보
    * @return 부동산 매물 목록
    * @throw 404 Not Found
    */
   @Get()
   getList(
-    @TypedQuery() query: IREAgent.IProperty.ISearch,
-    @TypedParam("agent_id") agent_id: string
+    @TypedParam("agent_id") agent_id: string,
+    @TypedQuery() query: IREAgent.IProperty.ISearch
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
     return REAgentService.Property.getList({
       user_id: agent_id,

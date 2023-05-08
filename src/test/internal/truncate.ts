@@ -11,6 +11,7 @@ export const truncate = () =>
     prisma.$executeRaw`TRUNCATE TABLE hs_providers cascade;`,
 
     prisma.$executeRaw`TRUNCATE TABLE re_properties cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE re_property_categories cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE re_property_sub_categories cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE re_property_middle_categories cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE re_property_super_categories cascade;`,

@@ -7,8 +7,8 @@ import {
 } from "@PROVIDER/services/authentication";
 import { Authorization } from "./decorators";
 
-@Controller("auth")
-export class AuthenticationController {
+@Controller("auth/sign-in")
+export class SignInController {
   /**
    * 전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.
    *
@@ -20,11 +20,14 @@ export class AuthenticationController {
    * @throw 403 Forbidden
    */
   @HttpCode(HttpStatus.OK)
-  @Post("sign-in")
-  signIn(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
+  @Post()
+  execute(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
     return AuthenticationService.signIn(body);
   }
+}
 
+@Controller("auth/sign-up")
+export class SignUpController {
   /**
    * 회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.
    *
@@ -36,11 +39,14 @@ export class AuthenticationController {
    * @return tokens
    * @throw 403 Forbidden
    */
-  @Post("sign-up")
-  signUp(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
+  @Post()
+  execute(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
     return AuthenticationService.signUp(body);
   }
+}
 
+@Controller("auth/profile")
+export class ProfileController {
   /**
    * 새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.
    *
@@ -50,14 +56,15 @@ export class AuthenticationController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get("profile")
-  getProfile(
-    @Authorization("basic") token: string
-  ): Promise<Authentication.IProfile> {
+  @Get()
+  get(@Authorization("basic") token: string): Promise<Authentication.IProfile> {
     const { accessor_id } = Crypto.getAccessorTokenPayload(token);
     return AuthenticationService.getProfile(accessor_id);
   }
+}
 
+@Controller("auth/user")
+export class UserCreateController {
   /**
    * type 속성을 통해 사용자 분류를 구분한다.
    *
@@ -77,7 +84,7 @@ export class AuthenticationController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Post("user")
+  @Post()
   create(
     @Authorization("basic") token: string,
     @TypedBody() body: Authentication.ICreateRequest

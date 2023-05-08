@@ -23,8 +23,6 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
   readonly real_estate: IREAgent.IRealEstate;
   /**
    * 부동산 매물 목록
-   *
-   * 최대 30개만 포함한다.
    */
   readonly properties: IREAgent.IProperty[];
 }
@@ -46,7 +44,12 @@ export namespace IREAgent {
   /** 부동산 매물 정보 */
   export type IProperty = Pick<
     IREProperty,
-    "id" | "name" | "main_image_url" | "category" | "created_at" | "updated_at"
+    | "id"
+    | "name"
+    | "main_image_url"
+    | "sub_categories"
+    | "created_at"
+    | "updated_at"
   >;
 
   export namespace IProperty {

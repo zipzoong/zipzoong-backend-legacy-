@@ -12,7 +12,7 @@ console.log("\n- users.re_agents.me.get");
 
 export const test_success = async (connection: IConnection) => {
   const code = "test_re_agent_get_me";
-  const { access_token } = await auth.sign_up.signUp(connection, {
+  const { access_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
@@ -43,7 +43,7 @@ export const test_success = async (connection: IConnection) => {
   );
   // sign-up & user create
 
-  const tokens = await auth.sign_in.signIn(connection, {
+  const tokens = await auth.sign_in.execute(connection, {
     code,
     user_type: "real estate agent",
     oauth_type: "kakao"

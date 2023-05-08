@@ -195,9 +195,21 @@ CREATE TABLE "re_properties" (
     "name" TEXT NOT NULL,
     "main_image_url" TEXT NOT NULL,
     "agent_id" TEXT NOT NULL,
-    "sub_category_id" TEXT NOT NULL,
 
     CONSTRAINT "re_properties_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "re_property_categories" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "re_property_id" TEXT NOT NULL,
+    "sub_category_id" TEXT NOT NULL,
+
+    CONSTRAINT "re_property_categories_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -302,7 +314,10 @@ ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_agreem
 ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_agent_id_fkey" FOREIGN KEY ("agent_id") REFERENCES "re_agents"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "re_property_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "re_property_categories" ADD CONSTRAINT "re_property_categories_re_property_id_fkey" FOREIGN KEY ("re_property_id") REFERENCES "re_properties"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "re_property_categories" ADD CONSTRAINT "re_property_categories_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "re_property_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "re_property_sub_categories" ADD CONSTRAINT "re_property_sub_categories_middle_category_id_fkey" FOREIGN KEY ("middle_category_id") REFERENCES "re_property_middle_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

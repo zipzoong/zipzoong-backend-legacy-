@@ -77,7 +77,7 @@ export namespace REAgent {
           }
         },
         properties: {
-          include: { sub_category: true }
+          include: findPropertyInclude()
         }
       } satisfies Prisma.REAgentModelInclude);
 
@@ -97,12 +97,22 @@ export namespace REAgent {
           }
         },
         properties: {
-          include: { sub_category: true }
+          include: findPropertyInclude()
         }
       } satisfies Prisma.REAgentModelInclude);
 
     export const findPropertyInclude = () =>
-      ({ sub_category: true } satisfies Prisma.REProertyModelInclude);
+      ({
+        categories: {
+          include: {
+            sub_category: {
+              include: {
+                middle_category: { include: { super_category: true } }
+              }
+            }
+          }
+        }
+      } satisfies Prisma.REProertyModelInclude);
   }
 
   export const map = (
@@ -162,25 +172,7 @@ export namespace REAgent {
       is_licensed: input.is_licensed,
       created_at: getISOString(input.base.base.created_at),
       updated_at: getISOString(input.base.base.updated_at),
-      properties: input.properties
-        .filter(isActive)
-        .map(
-          ({
-            id,
-            name,
-            main_image_url,
-            sub_category,
-            created_at,
-            updated_at
-          }) => ({
-            id,
-            name,
-            main_image_url,
-            category: { id: sub_category.id, name: sub_category.name },
-            created_at: getISOString(created_at),
-            updated_at: getISOString(updated_at)
-          })
-        )
+      properties: input.properties.filter(isActive).map(mapProperty)
     };
     if (!typia.equals<IREAgent>(agent))
       throw Error(`re agent: ${input.id} has invalid data`);
@@ -238,7 +230,23 @@ export namespace REAgent {
     id: input.id,
     name: input.name,
     main_image_url: input.main_image_url,
-    category: { id: input.sub_category.id, name: input.sub_category.name },
+    sub_categories: input.categories
+      .filter(isActive)
+      .map(({ sub_category }) => ({
+        type: "sub",
+        id: sub_category.id,
+        name: sub_category.name,
+        middle_category: {
+          type: "middle",
+          id: sub_category.middle_category.id,
+          name: sub_category.middle_category.name,
+          super_category: {
+            type: "super",
+            id: sub_category.middle_category.super_category.id,
+            name: sub_category.middle_category.super_category.name
+          }
+        }
+      })),
     created_at: getISOString(input.created_at),
     updated_at: getISOString(input.updated_at)
   });

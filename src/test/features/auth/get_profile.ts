@@ -3,15 +3,15 @@ import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- auth.profile.getProfile");
+console.log("\n- auth.profile.get");
 
 export const test_success = async (connection: IConnection): Promise<void> => {
-  const { access_token } = await auth.sign_up.signUp(connection, {
+  const { access_token } = await auth.sign_up.execute(connection, {
     code: "test_user_get_profile",
     oauth_type: "kakao"
   });
 
-  const received = await auth.profile.getProfile(
+  const received = await auth.profile.get(
     internal.addHeader(connection)("Authorization", `basic ${access_token}`)
   );
 
@@ -21,5 +21,5 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 };
 
 export const test_invalid_accessor = internal.test_invalid_accessor(
-  auth.profile.getProfile
+  auth.profile.get
 );
