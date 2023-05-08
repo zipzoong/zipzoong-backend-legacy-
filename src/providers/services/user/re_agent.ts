@@ -1,7 +1,7 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
-import { identity, isUndefined, map, pipe, toArray } from "@fxts/core";
+import { identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { REAgent } from "@PROVIDER/cores/user/re_agent";
 import { toThrow } from "@UTIL";
@@ -23,16 +23,14 @@ export namespace REAgentService {
             base: {
               base: { is_deleted: false },
               is_verified: true,
-              ...(isUndefined(super_category_name)
-                ? {}
-                : { super_expertise: { name: super_category_name } }),
-              ...(isUndefined(sub_category_name)
-                ? {}
-                : {
-                    sub_expertises: {
-                      some: { category: { name: sub_category_name } }
-                    }
-                  })
+              sub_expertises: {
+                some: {
+                  sub_category: {
+                    name: sub_category_name,
+                    super_category: { name: super_category_name }
+                  }
+                }
+              }
             }
           },
           include: REAgent.json.findInclude(),
@@ -67,74 +65,80 @@ export namespace REAgentService {
       mapper: REAgent.map
     });
 
-  export const getMe = (user_id: string): Promise<IREAgent.IPrivate> =>
-    UserCommonService.getOne({
+  export namespace Me {
+    export const get = (user_id: string): Promise<IREAgent.IPrivate> =>
+      UserCommonService.getOne({
+        user_id,
+
+        findFirst: async (id) =>
+          prisma.rEAgentModel.findFirst({
+            where: { id },
+            include: REAgent.json.findPrivateInclude()
+          }),
+
+        exception_for_notfound: UserCommonException.MeNotFound,
+
+        validator: identity,
+
+        mapper: REAgent.mapPrivate
+      });
+
+    export namespace Property {
+      export const getList = ({
+        user_id,
+        page = 1
+      }: {
+        user_id: string;
+        page?: number;
+      }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+        pipe(
+          get(user_id),
+
+          async (agent) =>
+            prisma.rEProertyModel.findMany({
+              where: { agent_id: agent.id, is_deleted: false },
+              include: REAgent.json.findPropertyInclude(),
+              take: 30,
+              skip: 30 * (page - 1)
+            }),
+
+          // filter(isActive),
+
+          map(REAgent.mapProperty),
+
+          toArray,
+
+          (data) => ({ page, data })
+        );
+    }
+  }
+
+  export namespace Property {
+    export const getList = ({
       user_id,
+      page = 1
+    }: {
+      user_id: string;
+      page?: number;
+    }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+      pipe(
+        getOne(user_id),
 
-      findFirst: async (id) =>
-        prisma.rEAgentModel.findFirst({
-          where: { id },
-          include: REAgent.json.findPrivateInclude()
-        }),
+        async (agent) =>
+          prisma.rEProertyModel.findMany({
+            where: { agent_id: agent.id, is_deleted: false },
+            include: REAgent.json.findPropertyInclude(),
+            take: 30,
+            skip: 30 * (page - 1)
+          }),
 
-      exception_for_notfound: UserCommonException.MeNotFound,
+        // filter(isActive),
 
-      validator: identity,
+        map(REAgent.mapProperty),
 
-      mapper: REAgent.mapPrivate
-    });
+        toArray,
 
-  export const getPropertyList = async ({
-    user_id,
-    page = 1
-  }: {
-    user_id: string;
-    page?: number;
-  }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
-    pipe(
-      getOne(user_id),
-
-      async (agent) =>
-        prisma.rEProertyModel.findMany({
-          where: { agent_id: agent.id, is_deleted: false },
-          include: REAgent.json.findPropertyInclude(),
-          take: 30,
-          skip: 30 * (page - 1)
-        }),
-
-      // filter(isActive),
-
-      map(REAgent.mapProperty),
-
-      toArray,
-
-      (data) => ({ page, data })
-    );
-
-  export const getMyPropertyList = async ({
-    user_id,
-    page = 1
-  }: {
-    user_id: string;
-    page?: number;
-  }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
-    pipe(
-      getMe(user_id),
-
-      async (agent) =>
-        prisma.rEProertyModel.findMany({
-          where: { agent_id: agent.id, is_deleted: false },
-          include: REAgent.json.findPropertyInclude(),
-          take: 30,
-          skip: 30 * (page - 1)
-        }),
-
-      // filter(isActive),
-
-      map(REAgent.mapProperty),
-
-      toArray,
-
-      (data) => ({ page, data })
-    );
+        (data) => ({ page, data })
+      );
+  }
 }

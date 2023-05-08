@@ -1,7 +1,7 @@
 import { IExpertCategory } from "@DTO/expert_category";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
-import { ExpertCategory } from "@PROVIDER/services/expert_category";
+import { ExpertSuperCategory } from "@PROVIDER/services/expert_super_category";
 
 @Controller("expert-super-categories")
 export class ExpertSuperCategoriesController {
@@ -15,7 +15,7 @@ export class ExpertSuperCategoriesController {
   getList(
     @TypedQuery() query: IExpertCategory.ISuperSearch
   ): Promise<IExpertCategory.Super[]> {
-    return ExpertCategory.getSuperCategoryList(query);
+    return ExpertSuperCategory.getList(query);
   }
 
   /**
@@ -29,7 +29,7 @@ export class ExpertSuperCategoriesController {
   getOne(
     @TypedParam("super_id") super_id: string
   ): Promise<IExpertCategory.Super> {
-    return ExpertCategory.getSuperCategory(super_id);
+    return ExpertSuperCategory.getOne(super_id);
   }
 }
 
@@ -46,6 +46,6 @@ export class ExpertSubCategoriesController {
   getList(
     @TypedParam("super_id") super_id: string
   ): Promise<IExpertCategory.Sub[]> {
-    return ExpertCategory.getSubCategoryList(super_id);
+    return ExpertSuperCategory.SubCategory.getList(super_id);
   }
 }

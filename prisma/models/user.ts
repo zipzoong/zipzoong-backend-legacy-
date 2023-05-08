@@ -83,18 +83,11 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .string("address_first")
     .string("address_second", { optional: true })
     .string("profile_image_url")
-    .string("super_expertise_id")
     .relation("base", User, one_to_one)
     .relation("re_agent", REAgent, { optional: true })
     .relation("hs_provider", HSProvider, { optional: true })
-    .relation("certifications", BusinessCertificationImage, {
+    .relation("certification_images", BusinessCertificationImage, {
       list: true
-    })
-    .relation("super_expertise", ExpertSuperCategory, {
-      fields: ["super_expertise_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
     })
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accessor", OauthAccessor, { list: true })
@@ -162,7 +155,7 @@ export const SubExpertise = createModel("SubExpertiseModel", (model) => {
     .mixin(Entity)
     .string("sub_category_id")
     .string("business_user_id")
-    .relation("category", ExpertSubCategory, {
+    .relation("sub_category", ExpertSubCategory, {
       fields: ["sub_category_id"],
       references: ["id"],
       onUpdate: "NoAction",
@@ -184,9 +177,9 @@ export const ExpertSubCategory = createModel(
     model
       .mixin(Entity)
       .string("name", { unique: true })
-      .string("super_id")
-      .relation("super", ExpertSuperCategory, {
-        fields: ["super_id"],
+      .string("super_category_id")
+      .relation("super_category", ExpertSuperCategory, {
+        fields: ["super_category_id"],
         references: ["id"],
         onUpdate: "NoAction",
         onDelete: "NoAction"
@@ -203,8 +196,7 @@ export const ExpertSuperCategory = createModel(
       .mixin(Entity)
       .string("name", { unique: true })
       .enum("business_type", ExpertBusinessType)
-      .relation("subs", ExpertSubCategory, { list: true })
-      .relation("business_users", BusinessUser, { list: true })
+      .relation("sub_categories", ExpertSubCategory, { list: true })
       .map("expert_super_categories");
   }
 );

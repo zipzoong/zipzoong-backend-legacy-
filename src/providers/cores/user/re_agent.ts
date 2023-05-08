@@ -5,6 +5,7 @@ import { getISOString, isActive } from "@UTIL";
 import { randomUUID } from "crypto";
 import { IBusinessUser } from "@DTO/user/business_user";
 import typia from "typia";
+import { isUndefined } from "@fxts/core";
 
 export namespace REAgent {
   export namespace json {
@@ -43,7 +44,6 @@ export namespace REAgent {
             address_first: input.real_estate.address.first,
             address_second: input.real_estate.address.second,
             profile_image_url: input.profile_image_url,
-            super_expertise: { connect: { id: input.super_expertise_id } },
             sub_expertises: {
               createMany: {
                 data: input.sub_expertise_ids.map((sub_category_id) => ({
@@ -71,8 +71,9 @@ export namespace REAgent {
         base: {
           include: {
             base: true,
-            sub_expertises: { include: { category: true } },
-            super_expertise: true
+            sub_expertises: {
+              include: { sub_category: { include: { super_category: true } } }
+            }
           }
         },
         properties: {
@@ -89,9 +90,10 @@ export namespace REAgent {
                 agreement_acceptances: { include: { agreement: true } }
               }
             },
-            sub_expertises: { include: { category: true } },
-            super_expertise: true,
-            certifications: true
+            sub_expertises: {
+              include: { sub_category: { include: { super_category: true } } }
+            },
+            certification_images: true
           }
         },
         properties: {
@@ -114,6 +116,27 @@ export namespace REAgent {
       >
     >
   ): IREAgent => {
+    const super_category =
+      input.base.sub_expertises.filter(isActive)[0]?.sub_category
+        .super_category;
+    if (isUndefined(super_category))
+      throw Error(`re agent: ${input.id} has invalid data`);
+
+    const expertise: IBusinessUser.IExpertise = {
+      super_category_id: super_category.id,
+      super_category_name: super_category.name,
+      sub_categories: input.base.sub_expertises
+        .filter(isActive)
+        .filter(
+          ({ sub_category: { super_category_id } }) =>
+            super_category_id === super_category.id
+        )
+        .map(({ sub_category }) => ({
+          sub_category_id: sub_category.id,
+          sub_category_name: sub_category.name
+        }))
+    };
+
     const agent: IREAgent = {
       type: "real estate agent",
       id: input.id,
@@ -125,16 +148,7 @@ export namespace REAgent {
         title: input.base.introduction_title,
         content: input.base.introduction_content
       },
-      super_expertise: {
-        super_category_id: input.base.super_expertise_id,
-        name: input.base.super_expertise.name
-      },
-      sub_expertises: input.base.sub_expertises
-        .filter(({ is_deleted }) => !is_deleted)
-        .map(({ sub_category_id, category: { name } }) => ({
-          sub_category_id,
-          name
-        })),
+      expertise,
       real_estate: {
         num: input.re_num,
         name: input.re_name,
@@ -187,7 +201,7 @@ export namespace REAgent {
     const base = map(input);
     const privateFragment: IBusinessUser.IPrivateFragment = {
       is_verified: input.base.is_verified,
-      business_certifications: input.base.certifications
+      business_certification_images: input.base.certification_images
         .filter(({ is_deleted }) => !is_deleted)
         .map(({ id, url }) => ({
           id,

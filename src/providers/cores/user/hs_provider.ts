@@ -1,8 +1,9 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
+import { isUndefined } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString } from "@UTIL";
+import { getISOString, isActive } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -54,9 +55,6 @@ export namespace HSProvider {
                   deleted_at: null
                 }))
               }
-            },
-            super_expertise: {
-              connect: { id: input.super_expertise_id }
             }
           }
         },
@@ -80,8 +78,9 @@ export namespace HSProvider {
         base: {
           include: {
             base: true,
-            sub_expertises: { include: { category: true } },
-            super_expertise: true
+            sub_expertises: {
+              include: { sub_category: { include: { super_category: true } } }
+            }
           }
         },
         introduction_images: true
@@ -95,9 +94,10 @@ export namespace HSProvider {
                 agreement_acceptances: { include: { agreement: true } }
               }
             },
-            sub_expertises: { include: { category: true } },
-            super_expertise: true,
-            certifications: true
+            sub_expertises: {
+              include: { sub_category: { include: { super_category: true } } }
+            },
+            certification_images: true
           }
         },
         introduction_images: true
@@ -115,6 +115,26 @@ export namespace HSProvider {
       >
     >
   ): IHSProvider => {
+    const super_category =
+      input.base.sub_expertises.filter(isActive)[0]?.sub_category
+        .super_category;
+    if (isUndefined(super_category))
+      throw Error(`hs-provider: ${input.id} has invalid data`);
+
+    const expertise: IBusinessUser.IExpertise = {
+      super_category_id: super_category.id,
+      super_category_name: super_category.name,
+      sub_categories: input.base.sub_expertises
+        .filter(isActive)
+        .filter(
+          ({ sub_category: { super_category_id } }) =>
+            super_category_id === super_category.id
+        )
+        .map(({ sub_category }) => ({
+          sub_category_id: sub_category.id,
+          sub_category_name: sub_category.name
+        }))
+    };
     const provider: IHSProvider = {
       type: "home service provider",
       id: input.id,
@@ -130,16 +150,7 @@ export namespace HSProvider {
           .map(({ id, url }) => ({ id, url }))
       },
       business_registration_num: input.business_registration_num,
-      super_expertise: {
-        super_category_id: input.base.super_expertise_id,
-        name: input.base.super_expertise.name
-      },
-      sub_expertises: input.base.sub_expertises
-        .filter(({ is_deleted }) => !is_deleted)
-        .map(({ sub_category_id, category: { name } }) => ({
-          sub_category_id,
-          name
-        })),
+      expertise,
       address: {
         first: input.base.address_first,
         second: input.base.address_second
@@ -166,7 +177,7 @@ export namespace HSProvider {
     const base = map(input);
     const privateFragment: IBusinessUser.IPrivateFragment = {
       is_verified: input.base.is_verified,
-      business_certifications: input.base.certifications
+      business_certification_images: input.base.certification_images
         .filter(({ is_deleted }) => !is_deleted)
         .map(({ id, url }) => ({
           id,

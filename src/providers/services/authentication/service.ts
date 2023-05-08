@@ -156,7 +156,6 @@ export namespace AuthenticationService {
         if (isNull(phone)) throw PhoneRequired;
         {
           await Check.acceptanceValid(input);
-          await Check.superExpertCategoryValid(input);
           await Check.subExpertCategoriesValid(input);
           const data = REAgent.json.createData({ ...input, email, phone });
           user_id = data.base.create.base.create.id;
@@ -167,7 +166,6 @@ export namespace AuthenticationService {
         if (isNull(phone)) throw PhoneRequired;
         {
           await Check.acceptanceValid(input);
-          await Check.superExpertCategoryValid(input);
           await Check.subExpertCategoriesValid(input);
           const data = HSProvider.json.createData({ ...input, email, phone });
           user_id = data.base.create.base.create.id;

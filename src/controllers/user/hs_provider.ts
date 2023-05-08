@@ -36,7 +36,7 @@ export class HSProvidersController {
     @HSProviderToken()
     { user_id }: ITokens.IUserPayload<"home service provider">
   ): Promise<IHSProvider.IPrivate> {
-    return HSProviderService.getMe(user_id);
+    return HSProviderService.Me.get(user_id);
   }
 
   /**

@@ -1,7 +1,7 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
-import { identity, isUndefined, map, pipe, toArray } from "@fxts/core";
+import { identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
 import { toThrow } from "@UTIL";
@@ -23,16 +23,14 @@ export namespace HSProviderService {
             base: {
               base: { is_deleted: false },
               is_verified: true,
-              ...(isUndefined(super_category_name)
-                ? {}
-                : { super_expertise: { name: super_category_name } }),
-              ...(isUndefined(sub_category_name)
-                ? {}
-                : {
-                    sub_expertises: {
-                      some: { category: { name: sub_category_name } }
-                    }
-                  })
+              sub_expertises: {
+                some: {
+                  sub_category: {
+                    name: sub_category_name,
+                    super_category: { name: super_category_name }
+                  }
+                }
+              }
             }
           },
           include: HSProvider.json.findInclude(),
@@ -67,20 +65,22 @@ export namespace HSProviderService {
       mapper: HSProvider.map
     });
 
-  export const getMe = (user_id: string): Promise<IHSProvider.IPrivate> =>
-    UserCommonService.getOne({
-      user_id,
+  export namespace Me {
+    export const get = (user_id: string): Promise<IHSProvider.IPrivate> =>
+      UserCommonService.getOne({
+        user_id,
 
-      findFirst: async (id) =>
-        prisma.hSProviderModel.findFirst({
-          where: { id },
-          include: HSProvider.json.findPrivateInclude()
-        }),
+        findFirst: async (id) =>
+          prisma.hSProviderModel.findFirst({
+            where: { id },
+            include: HSProvider.json.findPrivateInclude()
+          }),
 
-      exception_for_notfound: UserCommonException.MeNotFound,
+        exception_for_notfound: UserCommonException.MeNotFound,
 
-      validator: identity,
+        validator: identity,
 
-      mapper: HSProvider.mapPrivate
-    });
+        mapper: HSProvider.mapPrivate
+      });
+  }
 }

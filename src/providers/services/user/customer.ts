@@ -27,20 +27,22 @@ export namespace CustomerService {
       mapper: Customer.map
     });
 
-  export const getMe = (user_id: string): Promise<ICustomer.IPrivate> =>
-    UserCommonService.getOne({
-      user_id,
+  export namespace Me {
+    export const get = (user_id: string): Promise<ICustomer.IPrivate> =>
+      UserCommonService.getOne({
+        user_id,
 
-      findFirst: async (id) =>
-        prisma.customerModel.findFirst({
-          where: { id },
-          include: Customer.json.findPrivateInclude()
-        }),
+        findFirst: async (id) =>
+          prisma.customerModel.findFirst({
+            where: { id },
+            include: Customer.json.findPrivateInclude()
+          }),
 
-      exception_for_notfound: UserCommonException.MeNotFound,
+        exception_for_notfound: UserCommonException.MeNotFound,
 
-      validator: identity,
+        validator: identity,
 
-      mapper: Customer.mapPrivate
-    });
+        mapper: Customer.mapPrivate
+      });
+  }
 }

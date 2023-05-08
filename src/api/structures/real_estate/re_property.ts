@@ -12,7 +12,7 @@ export interface IREProperty extends IDateTime {
 export namespace IREProperty {
   export type IAgent = Pick<
     IREAgent,
-    "id" | "name" | "profile_image_url" | "super_expertise"
+    "id" | "name" | "profile_image_url" | "expertise"
   >;
   export interface ICategory {
     readonly id: string;

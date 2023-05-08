@@ -8,7 +8,7 @@ import {
   UnauthorizedException
 } from "@nestjs/common";
 import { AgreementUserType, OauthAccessorModel } from "@PRISMA";
-import { isNull, toThrow } from "@UTIL";
+import { isActive, isInActive, isNull, toThrow } from "@UTIL";
 
 export namespace Check {
   const AuthenticationFail = new UnauthorizedException("Authentication Fail");
@@ -29,7 +29,7 @@ export namespace Check {
   export const active =
     <E>(exception: E) =>
     <T extends Pick<ISoftDeletable, "is_deleted">>(model: T) =>
-      model.is_deleted ? toThrow(exception) : model;
+      isInActive(model) ? toThrow(exception) : model;
 
   /** @throw Unauthorized */
   export const existAccessor = exist(AuthenticationFail)<OauthAccessorModel>;
@@ -122,54 +122,24 @@ export namespace Check {
       where: { user_type: { in: or } }
     });
 
-    const setA = new Set(
-      acceptances.filter(({ is_deleted }) => !is_deleted).map(({ id }) => id)
-    );
-    const setB = new Set(
-      agreements.filter(({ is_deleted }) => !is_deleted).map(({ id }) => id)
-    );
+    const setA = new Set(acceptances.filter(isActive).map(({ id }) => id));
+    const setB = new Set(agreements.filter(isActive).map(({ id }) => id));
     const rest = Array.from(new Set([...setB].filter((x) => !setA.has(x))));
 
     if (rest.length > 0) throw AcceptanceInSufficient;
   };
 
   /** @throw BadRequest */
-  export const superExpertCategoryValid = async ({
-    type,
-    super_expertise_id
-  }: {
-    type: Exclude<IUser.Type, "customer_id">;
-    super_expertise_id: string;
-  }) => {
-    const category = await prisma.expertSuperCategoryModel.findFirst({
-      where: { id: super_expertise_id }
-    });
-
-    if (isNull(category)) throw InvalidExpertise;
-
-    if (category.is_deleted) throw InvalidExpertise;
-    if (category.business_type === "HS" && type !== "home service provider")
-      throw InvalidExpertise;
-
-    if (category.business_type === "RE" && type !== "real estate agent")
-      throw InvalidExpertise;
-  };
-
-  /** @throw BadRequest */
   export const subExpertCategoriesValid = async ({
-    super_expertise_id,
     sub_expertise_ids
   }: {
-    super_expertise_id: string;
     sub_expertise_ids: string[];
   }) => {
     const categories = (
       await prisma.expertSubCategoryModel.findMany({
         where: { id: { in: sub_expertise_ids } }
       })
-    )
-      .filter(({ is_deleted }) => !is_deleted)
-      .filter(({ super_id }) => super_id === super_expertise_id);
+    ).filter(isActive);
 
     if (sub_expertise_ids.length !== categories.length) throw InvalidExpertise;
   };

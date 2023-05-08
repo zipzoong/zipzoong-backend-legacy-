@@ -125,8 +125,7 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   phone: 'phone',
   address_first: 'address_first',
   address_second: 'address_second',
-  profile_image_url: 'profile_image_url',
-  super_expertise_id: 'super_expertise_id'
+  profile_image_url: 'profile_image_url'
 };
 
 exports.Prisma.CustomerModelScalarFieldEnum = {
@@ -146,7 +145,7 @@ exports.Prisma.ExpertSubCategoryModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   name: 'name',
-  super_id: 'super_id'
+  super_category_id: 'super_category_id'
 };
 
 exports.Prisma.ExpertSuperCategoryModelScalarFieldEnum = {
@@ -220,7 +219,7 @@ exports.Prisma.REProertyModelScalarFieldEnum = {
   sub_category_id: 'sub_category_id'
 };
 
-exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
+exports.Prisma.REPropertyMiddleCategoryModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -228,6 +227,16 @@ exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   super_category_id: 'super_category_id'
+};
+
+exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  middle_category_id: 'middle_category_id'
 };
 
 exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
@@ -309,8 +318,9 @@ exports.Prisma.ModelName = {
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
   REProertyModel: 'REProertyModel',
-  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
-  REPropertySubCategoryModel: 'REPropertySubCategoryModel'
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
+  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel'
 };
 
 /**

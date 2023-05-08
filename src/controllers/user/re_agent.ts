@@ -35,7 +35,7 @@ export class REAgentsController {
   get(
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IREAgent.IPrivate> {
-    return REAgentService.getMe(user_id);
+    return REAgentService.Me.get(user_id);
   }
 
   /**
@@ -69,7 +69,7 @@ export class REAgentsMyPropertiesController {
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    return REAgentService.getMyPropertyList({ user_id, page: query.page });
+    return REAgentService.Me.Property.getList({ user_id, page: query.page });
   }
 }
 
@@ -90,7 +90,7 @@ export class REAgentsPropertiesController {
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @TypedParam("agent_id") agent_id: string
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    return REAgentService.getPropertyList({
+    return REAgentService.Property.getList({
       user_id: agent_id,
       page: query.page
     });

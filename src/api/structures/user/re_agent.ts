@@ -9,8 +9,7 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
   readonly phone: string;
   readonly profile_image_url: string;
   readonly introduction: IBusinessUser.IIntroduction;
-  readonly super_expertise: IBusinessUser.ISuperExpertise;
-  readonly sub_expertises: IBusinessUser.ISubExpertise[];
+  readonly expertise: IBusinessUser.IExpertise;
   /**
    * 개업/소속 공인중개사 구분
    *
@@ -59,16 +58,10 @@ export namespace IREAgent {
   export interface ICreate
     extends Omit<
       Mutable<IREAgent>,
-      | "id"
-      | "super_expertise"
-      | "sub_expertises"
-      | "created_at"
-      | "updated_at"
-      | "type"
+      "id" | "expertise" | "created_at" | "updated_at" | "type"
     > {
     /** 동의 약관 id 목록 */
     acceptant_agreement_ids: string[];
-    super_expertise_id: string;
     sub_expertise_ids: string[];
   }
 

@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IAgreement } from "./../../structures/agreement/agreement";
+import type { IAgreement } from "./../../structures/agreement";
 
 /**
  * @summary 약관 조회 API

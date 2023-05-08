@@ -2278,12 +2278,6 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "sub_expertise_ids": {
             "type": "array",
             "items": {
@@ -2327,7 +2321,6 @@
           "is_licensed",
           "real_estate",
           "properties",
-          "super_expertise_id",
           "sub_expertise_ids",
           "type"
         ],
@@ -2573,12 +2566,6 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "sub_expertise_ids": {
             "type": "array",
             "items": {
@@ -2626,7 +2613,6 @@
           "name",
           "acceptant_agreement_ids",
           "introduction",
-          "super_expertise_id",
           "sub_expertise_ids",
           "business_registration_num",
           "type"
@@ -3057,7 +3043,6 @@
             "x-typia-optional": false
           },
           "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3068,29 +3053,6 @@
           "profile_image_url",
           "name",
           "super_expertise"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.ISuperExpertise": {
-        "type": "object",
-        "properties": {
-          "super_category_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "super_category_id",
-          "name"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3620,19 +3582,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3747,8 +3698,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "address",
           "business_registration_num",
           "type",
@@ -3818,6 +3768,41 @@
         ],
         "x-typia-jsDocTags": []
       },
+      "IBusinessUser.IExpertise": {
+        "type": "object",
+        "properties": {
+          "super_category_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category_id",
+          "super_category_name",
+          "sub_categories"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "IBusinessUser.ISubExpertise": {
         "type": "object",
         "properties": {
@@ -3827,7 +3812,7 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "name": {
+          "sub_category_name": {
             "type": "string",
             "nullable": false,
             "x-typia-required": true,
@@ -3837,7 +3822,7 @@
         "nullable": false,
         "required": [
           "sub_category_id",
-          "name"
+          "sub_category_name"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3861,19 +3846,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3989,7 +3963,7 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "business_certifications": {
+          "business_certification_images": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
@@ -4021,8 +3995,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "address",
           "business_registration_num",
           "type",
@@ -4032,7 +4005,7 @@
           "created_at",
           "updated_at",
           "is_verified",
-          "business_certifications",
+          "business_certification_images",
           "acceptant_agreements"
         ],
         "x-typia-jsDocTags": []
@@ -4140,19 +4113,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4282,8 +4244,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "is_licensed",
           "real_estate",
           "properties",
@@ -4317,19 +4278,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4460,7 +4410,7 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "business_certifications": {
+          "business_certification_images": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
@@ -4492,8 +4442,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "is_licensed",
           "real_estate",
           "properties",
@@ -4504,7 +4453,7 @@
           "created_at",
           "updated_at",
           "is_verified",
-          "business_certifications",
+          "business_certification_images",
           "acceptant_agreements"
         ],
         "x-typia-jsDocTags": []

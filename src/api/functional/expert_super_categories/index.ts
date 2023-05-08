@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IExpertCategory } from "./../../structures/expert_category/expert-category";
+import type { IExpertCategory } from "./../../structures/expert_category";
 
 export * as expert_sub_categories from "./expert_sub_categories";
 

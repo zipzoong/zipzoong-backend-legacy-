@@ -17,7 +17,7 @@ export class CustomersController {
   get(
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
-    return CustomerService.getMe(payload.user_id);
+    return CustomerService.Me.get(payload.user_id);
   }
 
   /**

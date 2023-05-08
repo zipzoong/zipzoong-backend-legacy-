@@ -7,8 +7,7 @@ export interface IHSProvider extends IUser.IBase<"home service provider"> {
   readonly phone: string;
   readonly profile_image_url: string;
   readonly introduction: IHSProvider.IIntroduction;
-  readonly super_expertise: IBusinessUser.ISuperExpertise;
-  readonly sub_expertises: IBusinessUser.ISubExpertise[];
+  readonly expertise: IBusinessUser.IExpertise;
   readonly address: IAddress;
   readonly business_registration_num: string;
 }
@@ -31,17 +30,10 @@ export namespace IHSProvider {
   export interface ICreate
     extends Omit<
       Mutable<IHSProvider>,
-      | "introduction"
-      | "super_expertise"
-      | "sub_expertises"
-      | "id"
-      | "created_at"
-      | "updated_at"
-      | "type"
+      "introduction" | "expertise" | "id" | "created_at" | "updated_at" | "type"
     > {
     acceptant_agreement_ids: string[];
     introduction: ICreateIntroduction;
-    super_expertise_id: string;
     sub_expertise_ids: string[];
   }
 
