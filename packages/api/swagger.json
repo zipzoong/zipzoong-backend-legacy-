@@ -504,7 +504,7 @@
             "in": "query",
             "description": "상위 전문 분야 필터링 조건",
             "schema": {
-              "$ref": "#/components/schemas/IExpertCategory.ISuperSearch"
+              "$ref": "#/components/schemas/IExpertCategory.ISuper.ISearch"
             },
             "required": true
           }
@@ -517,7 +517,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IExpertCategory.Super"
+                    "$ref": "#/components/schemas/IExpertCategory.ISuper"
                   },
                   "nullable": false
                 }
@@ -577,14 +577,14 @@
         ]
       }
     },
-    "/expert-super-categories/{super_id}": {
+    "/expert-super-categories/{super_category_id}": {
       "get": {
         "tags": [
           "expert-categories"
         ],
         "parameters": [
           {
-            "name": "super_id",
+            "name": "super_category_id",
             "in": "path",
             "description": "상위 전문 분야 id",
             "schema": {
@@ -600,7 +600,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IExpertCategory.Super"
+                  "$ref": "#/components/schemas/IExpertCategory.ISuper"
                 }
               }
             },
@@ -636,7 +636,7 @@
             "name": "param",
             "text": [
               {
-                "text": "super_id",
+                "text": "super_category_id",
                 "kind": "parameterName"
               },
               {
@@ -670,19 +670,18 @@
         ]
       }
     },
-    "/expert-super-categories/{super_id}/sub-categories": {
+    "/expert-sub-categories": {
       "get": {
         "tags": [
           "expert-categories"
         ],
         "parameters": [
           {
-            "name": "super_id",
-            "in": "path",
-            "description": "상위 전문 분야 id",
+            "name": "query",
+            "in": "query",
+            "description": "하위 전문 분야 필터링 조건",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "$ref": "#/components/schemas/IExpertCategory.ISub.ISearch"
             },
             "required": true
           }
@@ -695,7 +694,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IExpertCategory.Sub"
+                    "$ref": "#/components/schemas/IExpertCategory.ISub"
                   },
                   "nullable": false
                 }
@@ -709,7 +708,7 @@
         },
         "summary": "하위 전문 분야 목록 조회 API",
         "description": "",
-        "x-nestia-namespace": "expert-super-categories.sub-categories.getList",
+        "x-nestia-namespace": "expert-sub-categories.getList",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
@@ -733,7 +732,7 @@
             "name": "param",
             "text": [
               {
-                "text": "super_id",
+                "text": "query",
                 "kind": "parameterName"
               },
               {
@@ -741,7 +740,7 @@
                 "kind": "space"
               },
               {
-                "text": "상위 전문 분야 id",
+                "text": "하위 전문 분야 필터링 조건",
                 "kind": "text"
               }
             ]
@@ -751,6 +750,99 @@
             "text": [
               {
                 "text": "하위 전문 분야 목록",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 NotFound",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/expert-sub-categories/{sub_category_id}": {
+      "get": {
+        "tags": [
+          "expert-categories"
+        ],
+        "parameters": [
+          {
+            "name": "sub_category_id",
+            "in": "path",
+            "description": "하위 전문 분야 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "상위 전문 분야 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IExpertCategory.ISuper"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "NotFound"
+          }
+        },
+        "summary": "상위 전문 분야 조회 API",
+        "description": "",
+        "x-nestia-namespace": "expert-sub-categories.getOne",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "상위 전문 분야 조회 API",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "expert-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "sub_category_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "하위 전문 분야 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "상위 전문 분야 정보",
                 "kind": "text"
               }
             ]
@@ -796,6 +888,201 @@
         },
         "description": "",
         "x-nestia-namespace": "re-properties.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-super-categories": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/IPage"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.ISuper_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-super-categories.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-super-categories/{super_category_id}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "super_category_id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.ISuper"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-super-categories.getOne",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-middle-categories": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.IMiddle_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-middle-categories.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-middle-categories/{middle_category_id}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "middle_category_id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.IMiddle"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-middle-categories.getOne",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-sub-categories": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISub.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.ISub_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-sub-categories.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
+    "/re-property-sub-categories/{sub_category_id}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "sub_category_id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.ISub"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "re-property-sub-categories.getOne",
         "x-nestia-jsDocTags": []
       }
     },
@@ -2749,7 +3036,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.ISuperSearch": {
+      "IExpertCategory.ISuper.ISearch": {
         "type": "object",
         "properties": {
           "filter": {
@@ -2812,7 +3099,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.Super": {
+      "IExpertCategory.ISuper": {
         "type": "object",
         "properties": {
           "business_type": {
@@ -2828,7 +3115,7 @@
           "sub_categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IExpertCategory.Sub",
+              "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_",
               "x-typia-required": true,
               "x-typia-optional": false
             },
@@ -2868,7 +3155,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.Sub": {
+      "Omit_lt_IExpertCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_": {
         "type": "object",
         "properties": {
           "type": {
@@ -2898,6 +3185,158 @@
           "type",
           "id",
           "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IExpertCategory.ISub.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "HS",
+                "RE"
+              ],
+              "nullable": false,
+              "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minItems": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "filter"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IExpertCategory.ISub": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISuper_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IExpertCategory.ISuper_comma__space__doublequote_sub_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "HS",
+              "RE"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "business_type"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3212,6 +3651,621 @@
         "required": [
           "sub_category_id",
           "sub_category_name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IPage": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.ISuper_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISuper",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISuper": {
+        "type": "object",
+        "properties": {
+          "middle_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_categories",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "sub_categories"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.IMiddle.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.IMiddle_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.IMiddle",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.IMiddle": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "sub_categories",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISub.ISearch": {
+        "type": "object",
+        "properties": {
+          "middle_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.ISub_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISub",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISub": {
+        "type": "object",
+        "properties": {
+          "middle_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_sub_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "super_category"
         ],
         "x-typia-jsDocTags": []
       },

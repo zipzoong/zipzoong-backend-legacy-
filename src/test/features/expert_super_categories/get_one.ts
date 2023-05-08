@@ -10,7 +10,7 @@ import typia from "typia";
 console.log("\n- expert_super_categories.getOne");
 
 export const test_success = async (connection: IConnection) => {
-  const query = typia.random<IExpertCategory.ISuperSearch>();
+  const query = typia.random<IExpertCategory.ISuper.ISearch>();
   const super_categories = await expert_super_categories.getList(
     connection,
     query
@@ -22,7 +22,6 @@ export const test_success = async (connection: IConnection) => {
   typia.assertEquals(received);
 };
 
-export const test_not_found = async (connection: IConnection) =>
-  internal.test_error(() =>
-    expert_super_categories.getOne(connection, randomUUID())
-  )(HttpStatus.NOT_FOUND, "Expert Category Not Found")();
+export const test_not_found = internal.test_error((connection: IConnection) =>
+  expert_super_categories.getOne(connection, randomUUID())
+)(HttpStatus.NOT_FOUND, "Expert Category Not Found");

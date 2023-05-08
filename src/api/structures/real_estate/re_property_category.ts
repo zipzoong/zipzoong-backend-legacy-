@@ -1,3 +1,6 @@
+import { IPage } from "@DTO/common";
+import { Omit } from "@TYPE";
+
 export namespace IREPropertyCategory {
   export type Type = "super" | "middle" | "sub";
 
@@ -8,12 +11,27 @@ export namespace IREPropertyCategory {
   }
 
   export interface ISuper extends IBase<"super"> {
-    readonly middle_categories: IMiddle[];
+    readonly middle_categories: Omit<IMiddle, "super_category">[];
   }
 
   export interface IMiddle extends IBase<"middle"> {
-    readonly sub_categories: ISub[];
+    readonly super_category: Omit<ISuper, "middle_categories">;
+    readonly sub_categories: Omit<ISub, "middle_category">[];
   }
 
-  export interface ISub extends IBase<"sub"> {}
+  export namespace IMiddle {
+    export interface ISearch extends IPage {
+      super_category_name?: string;
+    }
+  }
+
+  export interface ISub extends IBase<"sub"> {
+    readonly middle_category: Omit<IMiddle, "sub_categories">;
+  }
+
+  export namespace ISub {
+    export interface ISearch extends IMiddle.ISearch {
+      middle_category_name?: string;
+    }
+  }
 }
