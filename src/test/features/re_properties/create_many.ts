@@ -9,6 +9,8 @@ import { re_properties, re_property_sub_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
+console.log("\n- re_properties.createMany");
+
 const createRequest = typia.createRandom<IREProperty.ICreateRequest>();
 
 export const test_success = async (connection: IConnection) => {
