@@ -61,7 +61,8 @@ async function run(): Promise<void> {
     );
   } else {
     console.log("\n\x1b[31mSome Tests Failed\x1b[0m");
-    for (const error of errors) console.error(error);
+    console.log(errors[0]); // only report first error
+    // for (const error of errors) console.error(error);
     process.exit(-1);
   }
 }
