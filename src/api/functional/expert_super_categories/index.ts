@@ -10,7 +10,7 @@ import type { IConnection } from "@nestia/fetcher";
 import type { IExpertCategory } from "./../../structures/expert_category";
 
 /**
- * @summary 상위 전문 분야 목록 조회 API
+ * @summary 상위 전문 분야 목록 조회
  * @tag expert-categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 전문 분야 상위 카테고리 필터링 조건
@@ -62,7 +62,7 @@ export namespace getList
 }
 
 /**
- * @summary 상위 전문 분야 조회 API
+ * @summary 상위 전문 분야 조회
  * @tag expert-categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param super_category_id 상위 전문 분야 id

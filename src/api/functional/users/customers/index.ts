@@ -12,7 +12,7 @@ import type { ICustomer } from "./../../../structures/user/customer";
 export * as me from "./me";
 
 /**
- * @summary 일반 고객 조회 API
+ * @summary 일반 고객 조회
  * @tag customers
  * @tag users
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)

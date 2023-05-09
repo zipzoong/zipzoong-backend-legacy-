@@ -8,6 +8,8 @@ import { CustomerToken } from "../decorators";
 @Controller("users/customers")
 export class CustomersController {
   /**
+   * @summary 내 정보 조회
+   * @tag customers
    * @tag users
    * @return 일반 고객 내 정보
    * @throw 401 Unauthorized
@@ -21,7 +23,7 @@ export class CustomersController {
   }
 
   /**
-   * @summary 일반 고객 조회 API
+   * @summary 일반 고객 조회
    * @tag customers
    * @tag users
    * @param customer_id 일반 고객 id

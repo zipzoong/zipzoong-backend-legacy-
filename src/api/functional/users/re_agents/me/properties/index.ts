@@ -13,8 +13,9 @@ import type { IPaginatedResponse } from "./../../../../../structures/common/pagi
 /**
  * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
  * 
- * @summary 내 매물 목록 조회 API
+ * @summary 내 매물 목록 조회
  * @tag re-agents
+ * @tag users
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 페이지 정보
  * @return 부동산 매물 목록

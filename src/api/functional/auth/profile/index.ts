@@ -12,7 +12,7 @@ import type { Authentication } from "./../../../structures/auth/authentication";
 /**
  * 새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.
  * 
- * @summary OauthProfile 요청 API
+ * @summary 소셜 계정 프로필 정보 조회
  * @tag authentication
  * @return OauthProfile
  * @throw 401 Unauthorized

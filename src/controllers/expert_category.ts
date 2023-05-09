@@ -6,7 +6,7 @@ import { ExpertCategory } from "@PROVIDER/services/expert_category";
 @Controller("expert-super-categories")
 export class ExpertSuperCategoriesController {
   /**
-   * @summary 상위 전문 분야 목록 조회 API
+   * @summary 상위 전문 분야 목록 조회
    * @tag expert-categories
    * @param query 전문 분야 상위 카테고리 필터링 조건
    * @return 전문 분야 상위 카테고리 목록
@@ -19,7 +19,7 @@ export class ExpertSuperCategoriesController {
   }
 
   /**
-   * @summary 상위 전문 분야 조회 API
+   * @summary 상위 전문 분야 조회
    * @tag expert-categories
    * @param super_category_id 상위 전문 분야 id
    * @return 상위 전문 분야 정보
@@ -36,7 +36,7 @@ export class ExpertSuperCategoriesController {
 @Controller("expert-sub-categories")
 export class ExpertSubCategoriesController {
   /**
-   * @summary 하위 전문 분야 목록 조회 API
+   * @summary 하위 전문 분야 목록 조회
    * @tag expert-categories
    * @param query 하위 전문 분야 필터링 조건
    * @return 하위 전문 분야 목록
@@ -50,7 +50,7 @@ export class ExpertSubCategoriesController {
   }
 
   /**
-   * @summary 상위 전문 분야 조회 API
+   * @summary 상위 전문 분야 조회
    * @tag expert-categories
    * @param sub_category_id 하위 전문 분야 id
    * @return 상위 전문 분야 정보

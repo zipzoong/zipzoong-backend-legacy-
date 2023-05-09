@@ -10,7 +10,7 @@ import { REAgentService } from "@PROVIDER/services/user/re_agent";
 @Controller("users/re-agents")
 export class REAgentsController {
   /**
-   * @summary 공인중개사 목록 조회 API
+   * @summary 공인중개사 목록 검색
    * @tag re-agents
    * @tag users
    * @param query 필터링 기준
@@ -24,7 +24,7 @@ export class REAgentsController {
   }
 
   /**
-   * @summary 공인중개사 내 정보 조회 API
+   * @summary 공인중개사 내 정보 조회
    * @tag re-agents
    * @tag users
    * @return 공인중개사 내 정보
@@ -39,7 +39,7 @@ export class REAgentsController {
   }
 
   /**
-   * @summary 공인중개사 조회 API
+   * @summary 공인중개사 조회
    * @tag re-agents
    * @tag users
    * @param agent_id 공인중개사 id
@@ -57,8 +57,9 @@ export class REAgentsMyPropertiesController {
   /**
    * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
    *
-   * @summary 내 매물 목록 조회 API
+   * @summary 내 매물 목록 조회
    * @tag re-agents
+   * @tag users
    * @param query 페이지 정보
    * @return 부동산 매물 목록
    * @throw 401 Unauthorized
@@ -78,8 +79,9 @@ export class REAgentsPropertiesController {
   /**
    * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
    *
-   * @summary 매물 목록 조회 API
+   * @summary 매물 목록 조회
    * @tag re-agents
+   * @tag re-properties
    * @param agent_id 공인중개사 id
    * @param query 페이지 정보
    * @return 부동산 매물 목록

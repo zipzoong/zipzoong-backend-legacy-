@@ -12,7 +12,7 @@ export class SignInController {
   /**
    * 전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.
    *
-   * @summary 로그인 API
+   * @summary 로그인
    * @tag authentication
    * @param body oauth code, oauth type, user_type
    * @return tokens
@@ -33,7 +33,7 @@ export class SignUpController {
    *
    * accessor에 포함된 정보는 회원 정보에 기본값으로 사용할 수 있다.
    *
-   * @summary 회원가입 API
+   * @summary 회원가입
    * @tag authentication
    * @param body oauth code, oauth type
    * @return tokens
@@ -50,7 +50,7 @@ export class ProfileController {
   /**
    * 새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.
    *
-   * @summary OauthProfile 요청 API
+   * @summary 소셜 계정 프로필 정보 조회
    * @tag authentication
    * @return OauthProfile
    * @throw 401 Unauthorized
@@ -76,8 +76,9 @@ export class UserCreateController {
    *
    * OauthProfile phone 정보가 없고, 인증코드도 요청에 포함하지 않았다면 요청은 실패한다.
    *
-   * @summary 사용자 생성 API
+   * @summary 사용자 생성
    * @tag authentication
+   * @tag users
    * @param body 사용자 생성 정보
    * @return void
    * @throw 400 BadRequest

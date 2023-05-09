@@ -10,7 +10,7 @@ import { HSProviderToken } from "../decorators";
 @Controller("users/hs-providers")
 export class HSProvidersController {
   /**
-   * @summary 생활서비스 제공자 목록 조회 API
+   * @summary 생활서비스 전문가 목록 조회
    * @tag hs-providers
    * @tag users
    * @param query 필터링 기준
@@ -24,10 +24,10 @@ export class HSProvidersController {
   }
 
   /**
-   * @summary 생활서비스 제공자 내 정보 조회 API
+   * @summary 내 정보 조회
    * @tag hs-providers
    * @tag users
-   * @return 생활서비스 제공자 내 정보
+   * @return 생활서비스 전문가 내 정보
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
@@ -40,10 +40,10 @@ export class HSProvidersController {
   }
 
   /**
-   * @summary 생활서비스 제공자 조회 API
+   * @summary 생활서비스 전문가 조회
    * @tag hs-providers
    * @tag users
-   * @param provider_id 생활서비스 제공자 id
+   * @param provider_id 생활서비스 전문가 id
    * @return 생활서비스 제공자 정보
    * @throw 404 Not Found
    */

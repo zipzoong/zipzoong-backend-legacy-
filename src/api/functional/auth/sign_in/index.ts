@@ -14,7 +14,7 @@ import type { ITokens } from "./../../../structures/auth/token";
 /**
  * 전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.
  * 
- * @summary 로그인 API
+ * @summary 로그인
  * @tag authentication
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type, user_type

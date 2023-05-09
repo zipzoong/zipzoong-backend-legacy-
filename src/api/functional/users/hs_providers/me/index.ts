@@ -10,10 +10,10 @@ import type { IConnection } from "@nestia/fetcher";
 import type { IHSProvider } from "./../../../../structures/user/hs_provider";
 
 /**
- * @summary 생활서비스 제공자 내 정보 조회 API
+ * @summary 내 정보 조회
  * @tag hs-providers
  * @tag users
- * @return 생활서비스 제공자 내 정보
+ * @return 생활서비스 전문가 내 정보
  * @throw 401 Unauthorized
  * @throw 403 Forbidden
  * 

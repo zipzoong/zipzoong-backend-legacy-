@@ -21,8 +21,9 @@ import type { Authentication } from "./../../../structures/auth/authentication";
  * 
  * OauthProfile phone 정보가 없고, 인증코드도 요청에 포함하지 않았다면 요청은 실패한다.
  * 
- * @summary 사용자 생성 API
+ * @summary 사용자 생성
  * @tag authentication
+ * @tag users
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 사용자 생성 정보
  * @return void

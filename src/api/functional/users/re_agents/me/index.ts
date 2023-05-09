@@ -12,7 +12,7 @@ import type { IREAgent } from "./../../../../structures/user/re_agent";
 export * as properties from "./properties";
 
 /**
- * @summary 공인중개사 내 정보 조회 API
+ * @summary 공인중개사 내 정보 조회
  * @tag re-agents
  * @tag users
  * @return 공인중개사 내 정보

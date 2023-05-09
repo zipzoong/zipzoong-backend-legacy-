@@ -13,8 +13,9 @@ import type { IPaginatedResponse } from "./../../../../structures/common/paginat
 /**
  * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
  * 
- * @summary 매물 목록 조회 API
+ * @summary 매물 목록 조회
  * @tag re-agents
+ * @tag re-properties
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param agent_id 공인중개사 id
  * @param query 페이지 정보

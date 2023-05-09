@@ -16,7 +16,7 @@ import type { ITokens } from "./../../../structures/auth/token";
  * 
  * accessor에 포함된 정보는 회원 정보에 기본값으로 사용할 수 있다.
  * 
- * @summary 회원가입 API
+ * @summary 회원가입
  * @tag authentication
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type
