@@ -1,6 +1,6 @@
 import { IAuthentication, ITokens } from "@DTO/auth";
-import { TypedBody } from "@nestia/core";
-import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { TypedBody, TypedRoute } from "@nestia/core";
+import { Controller, HttpCode, HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { Authorization } from "./decorators";
 
@@ -17,7 +17,7 @@ export class SignInController {
    * @throw 403 Forbidden
    */
   @HttpCode(HttpStatus.OK)
-  @Post()
+  @TypedRoute.Post()
   execute(@TypedBody() body: IAuthentication.ISignIn): Promise<ITokens> {
     return Authentication.Service.signIn(body);
   }
@@ -36,7 +36,7 @@ export class SignUpController {
    * @return tokens
    * @throw 403 Forbidden
    */
-  @Post()
+  @TypedRoute.Post()
   execute(@TypedBody() body: IAuthentication.ISignUp): Promise<ITokens> {
     return Authentication.Service.signUp(body);
   }
@@ -53,7 +53,7 @@ export class ProfileController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get()
+  @TypedRoute.Get()
   get(
     @Authorization("basic") token: string
   ): Promise<IAuthentication.IProfile> {
@@ -85,7 +85,7 @@ export class UserCreateController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Post()
+  @TypedRoute.Post()
   create(
     @Authorization("basic") token: string,
     @TypedBody() body: IAuthentication.ICreateRequest

@@ -2,8 +2,8 @@ import { ITokens } from "@DTO/auth";
 import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
-import { TypedParam, TypedQuery } from "@nestia/core";
-import { Controller, Get } from "@nestjs/common";
+import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
+import { Controller } from "@nestjs/common";
 import HSProvider from "@PROVIDER/user/hs_provider";
 import { HSProviderToken } from "../decorators";
 
@@ -16,7 +16,7 @@ export class HSProvidersController {
    * @param query 필터링 기준
    * @return 생활서비스 제공자 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
   ): Promise<IPaginatedResponse<IHSProvider>> {
@@ -31,7 +31,7 @@ export class HSProvidersController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get("me")
+  @TypedRoute.Get("me")
   get(
     @HSProviderToken()
     { user_id }: ITokens.IUserPayload<"home service provider">
@@ -47,7 +47,7 @@ export class HSProvidersController {
    * @return 생활서비스 제공자 정보
    * @throw 404 Not Found
    */
-  @Get(":provider_id")
+  @TypedRoute.Get(":provider_id")
   getOne(@TypedParam("provider_id") provider_id: string): Promise<IHSProvider> {
     return HSProvider.Service.getOne(provider_id);
   }

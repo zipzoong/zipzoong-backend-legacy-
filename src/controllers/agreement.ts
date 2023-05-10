@@ -1,6 +1,6 @@
 import { IAgreement } from "@DTO/agreement";
-import { TypedQuery } from "@nestia/core";
-import { Controller, Get } from "@nestjs/common";
+import { TypedQuery, TypedRoute } from "@nestia/core";
+import { Controller } from "@nestjs/common";
 import Agreement from "@PROVIDER/agreement";
 
 @Controller("agreements")
@@ -11,7 +11,7 @@ export class AgreementsController {
    * @param query 약관 검색 조건
    * @return 약관 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IAgreement.ISearch
   ): Promise<IAgreement.IResponse[]> {

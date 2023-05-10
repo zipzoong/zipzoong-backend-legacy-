@@ -1,8 +1,8 @@
 import { ITokens } from "@DTO/auth";
 import { IPaginatedResponse } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
-import { TypedBody, TypedQuery } from "@nestia/core";
-import { Controller, Get, Post } from "@nestjs/common";
+import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
+import { Controller } from "@nestjs/common";
 import REProperty from "@PROVIDER/re_property";
 import { REAgentToken } from "./decorators";
 
@@ -14,7 +14,7 @@ export class REPropertiesController {
    * @param query 부동산 매물 필터링 조건
    * @return 부동산 매물 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREProperty.ISearch
   ): Promise<IPaginatedResponse<IREProperty>> {
@@ -29,7 +29,7 @@ export class REPropertiesController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Post()
+  @TypedRoute.Post()
   createMany(
     @TypedBody() body: IREProperty.ICreateManyRequest,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">

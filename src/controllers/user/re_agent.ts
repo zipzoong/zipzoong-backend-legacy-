@@ -1,8 +1,8 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { IPaginatedResponse } from "@DTO/common";
-import { Controller, Get } from "@nestjs/common";
-import { TypedParam, TypedQuery } from "@nestia/core";
+import { Controller } from "@nestjs/common";
+import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { REAgentToken } from "../decorators";
 import { ITokens } from "@DTO/auth";
 import REAgent from "@PROVIDER/user/re_agent";
@@ -16,7 +16,7 @@ export class REAgentsController {
    * @param query 필터링 기준
    * @return 공인중개사 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
   ): Promise<IPaginatedResponse<IREAgent>> {
@@ -31,7 +31,7 @@ export class REAgentsController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get("me")
+  @TypedRoute.Get("me")
   get(
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IREAgent.IPrivate> {
@@ -46,7 +46,7 @@ export class REAgentsController {
    * @return 공인중개사 정보
    * @throw 404 Not Found
    */
-  @Get(":agent_id")
+  @TypedRoute.Get(":agent_id")
   getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
     return REAgent.Service.getOne(agent_id);
   }
@@ -65,7 +65,7 @@ export class REAgentsMyPropertiesController {
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
@@ -87,7 +87,7 @@ export class REAgentsPropertiesController {
    * @return 부동산 매물 목록
    * @throw 404 Not Found
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedParam("agent_id") agent_id: string,
     @TypedQuery() query: IREAgent.IProperty.ISearch

@@ -1,6 +1,6 @@
 import { IExpertCategory } from "@DTO/expert_category";
-import { TypedParam, TypedQuery } from "@nestia/core";
-import { Controller, Get } from "@nestjs/common";
+import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
+import { Controller } from "@nestjs/common";
 import ExpertCategory from "@PROVIDER/expert_category";
 
 @Controller("expert-super-categories")
@@ -11,7 +11,7 @@ export class ExpertSuperCategoriesController {
    * @param query 전문 분야 상위 카테고리 필터링 조건
    * @return 전문 분야 상위 카테고리 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IExpertCategory.ISuper.ISearch
   ): Promise<IExpertCategory.ISuper[]> {
@@ -25,7 +25,7 @@ export class ExpertSuperCategoriesController {
    * @return 상위 전문 분야 정보
    * @throw 404 NotFound
    */
-  @Get(":super_category_id")
+  @TypedRoute.Get(":super_category_id")
   getOne(
     @TypedParam("super_category_id") super_category_id: string
   ): Promise<IExpertCategory.ISuper> {
@@ -42,7 +42,7 @@ export class ExpertSubCategoriesController {
    * @return 하위 전문 분야 목록
    * @throw 404 NotFound
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IExpertCategory.ISub.ISearch
   ): Promise<IExpertCategory.ISub[]> {
@@ -56,7 +56,7 @@ export class ExpertSubCategoriesController {
    * @return 하위 전문 분야 정보
    * @throw 404 NotFound
    */
-  @Get(":sub_category_id")
+  @TypedRoute.Get(":sub_category_id")
   getOne(
     @TypedParam("sub_category_id") sub_category_id: string
   ): Promise<IExpertCategory.ISub> {

@@ -1,7 +1,7 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IREPropertyCategory } from "@DTO/re_property_category";
-import { TypedParam, TypedQuery } from "@nestia/core";
-import { Controller, Get } from "@nestjs/common";
+import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
+import { Controller } from "@nestjs/common";
 import REPropertyCategory from "@PROVIDER/re_property_category";
 
 @Controller("re-property-super-categories")
@@ -12,7 +12,7 @@ export class REPropertySuperCategoriesController {
    * @param query 부동산 매물 상위 카테고리 필터링 조건
    * @return 부동산 매물 상위 카테고리 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREPropertyCategory.ISuper.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.ISuper>> {
@@ -25,7 +25,7 @@ export class REPropertySuperCategoriesController {
    * @return 부동산 매물 상위 카테고리
    * @throw 404 Not Found
    */
-  @Get(":super_category_id")
+  @TypedRoute.Get(":super_category_id")
   getOne(
     @TypedParam("super_category_id") super_category_id: string
   ): Promise<IREPropertyCategory.ISuper> {
@@ -41,7 +41,7 @@ export class REPropertyMiddleCategoriesController {
    * @param query 부동산 매물 중간 카테고리 필터링 조건
    * @return 부동산 매물 중간 카테고리 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREPropertyCategory.IMiddle.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.IMiddle>> {
@@ -55,7 +55,7 @@ export class REPropertyMiddleCategoriesController {
    * @return 부동산 매물 중간 카테고리
    * @throw 404 Not Found
    */
-  @Get(":middle_category_id")
+  @TypedRoute.Get(":middle_category_id")
   getOne(
     @TypedParam("middle_category_id") middle_category_id: string
   ): Promise<IREPropertyCategory.IMiddle> {
@@ -71,7 +71,7 @@ export class REPropertysubCategoriesController {
    * @param query 부동산 매물 하위 카테고리 필터링 조건
    * @return 부동산 매물 하위 카테고리 목록
    */
-  @Get()
+  @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREPropertyCategory.ISub.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.ISub>> {
@@ -85,7 +85,7 @@ export class REPropertysubCategoriesController {
    * @return 부동산 매물 하위 카테고리
    * @throw 404 Not Found
    */
-  @Get(":sub_category_id")
+  @TypedRoute.Get(":sub_category_id")
   getOne(
     @TypedParam("sub_category_id") sub_category_id: string
   ): Promise<IREPropertyCategory.ISub> {
