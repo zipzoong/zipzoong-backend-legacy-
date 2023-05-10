@@ -1,4 +1,4 @@
-import { Authentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
@@ -21,7 +21,7 @@ const getTokens = (connection: IConnection) =>
 
 const test_success = async (
   connection: IConnection,
-  body: Authentication.ICreateRequest
+  body: IAuthentication.ICreateRequest
 ): Promise<void> => {
   const { access_token } = await getTokens(connection);
 
@@ -101,7 +101,7 @@ export const test_invalid_accessor = internal.test_invalid_accessor(
   (connection: IConnection) =>
     sdk.auth.user.create(
       connection,
-      typia.random<Authentication.ICreateRequest>()
+      typia.random<IAuthentication.ICreateRequest>()
     )
 );
 

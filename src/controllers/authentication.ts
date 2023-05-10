@@ -1,10 +1,7 @@
-import { Authentication, ITokens } from "@DTO/auth";
+import { IAuthentication, ITokens } from "@DTO/auth";
 import { TypedBody } from "@nestia/core";
 import { Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import {
-  AuthenticationService,
-  Crypto
-} from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { Authorization } from "./decorators";
 
 @Controller("auth/sign-in")
@@ -21,8 +18,8 @@ export class SignInController {
    */
   @HttpCode(HttpStatus.OK)
   @Post()
-  execute(@TypedBody() body: Authentication.ISignIn): Promise<ITokens> {
-    return AuthenticationService.signIn(body);
+  execute(@TypedBody() body: IAuthentication.ISignIn): Promise<ITokens> {
+    return Authentication.Service.signIn(body);
   }
 }
 
@@ -40,8 +37,8 @@ export class SignUpController {
    * @throw 403 Forbidden
    */
   @Post()
-  execute(@TypedBody() body: Authentication.ISignUp): Promise<ITokens> {
-    return AuthenticationService.signUp(body);
+  execute(@TypedBody() body: IAuthentication.ISignUp): Promise<ITokens> {
+    return Authentication.Service.signUp(body);
   }
 }
 
@@ -57,9 +54,12 @@ export class ProfileController {
    * @throw 403 Forbidden
    */
   @Get()
-  get(@Authorization("basic") token: string): Promise<Authentication.IProfile> {
-    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
-    return AuthenticationService.getProfile(accessor_id);
+  get(
+    @Authorization("basic") token: string
+  ): Promise<IAuthentication.IProfile> {
+    const { accessor_id } =
+      Authentication.Crypto.getAccessorTokenPayload(token);
+    return Authentication.Service.getProfile(accessor_id);
   }
 }
 
@@ -88,9 +88,10 @@ export class UserCreateController {
   @Post()
   create(
     @Authorization("basic") token: string,
-    @TypedBody() body: Authentication.ICreateRequest
+    @TypedBody() body: IAuthentication.ICreateRequest
   ): Promise<void> {
-    const { accessor_id } = Crypto.getAccessorTokenPayload(token);
-    return AuthenticationService.createUser(accessor_id, body);
+    const { accessor_id } =
+      Authentication.Crypto.getAccessorTokenPayload(token);
+    return Authentication.Service.createUser(accessor_id, body);
   }
 }

@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IREProperty } from "./../../structures/real_estate/re_property";
+import type { IREProperty } from "./../../structures/re_property";
 import type { IPaginatedResponse } from "./../../structures/common/pagination";
 
 /**

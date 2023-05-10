@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/authentication";
+import type { IAuthentication } from "./../../../structures/auth/authentication";
 import type { ITokens } from "./../../../structures/auth/token";
 
 /**
@@ -29,7 +29,7 @@ import type { ITokens } from "./../../../structures/auth/token";
 export function execute
     (
         connection: IConnection,
-        body: Authentication.ISignIn
+        body: IAuthentication.ISignIn
     ): Promise<execute.Output>
 {
     return Fetcher.fetch
@@ -44,7 +44,7 @@ export function execute
 }
 export namespace execute
 {
-    export type Input = Authentication.ISignIn;
+    export type Input = IAuthentication.ISignIn;
     export type Output = ITokens;
 
     export const METHOD = "POST" as const;

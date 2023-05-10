@@ -2,7 +2,7 @@ import { ITokens } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { TypedParam } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
-import { CustomerService } from "@PROVIDER/services/user/customer";
+import Customer from "@PROVIDER/user/customer";
 import { CustomerToken } from "../decorators";
 
 @Controller("users/customers")
@@ -19,7 +19,7 @@ export class CustomersController {
   get(
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
-    return CustomerService.Me.get(payload.user_id);
+    return Customer.Service.Me.get(payload.user_id);
   }
 
   /**
@@ -32,6 +32,6 @@ export class CustomersController {
    */
   @Get(":customer_id")
   getOne(@TypedParam("customer_id") customer_id: string): Promise<ICustomer> {
-    return CustomerService.getOne(customer_id);
+    return Customer.Service.getOne(customer_id);
   }
 }

@@ -1,9 +1,9 @@
-import { Authentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/auth";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import { getISOString } from "@UTIL";
@@ -26,7 +26,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
 export const test_oauth_fail = (connection: IConnection) =>
   ArrayUtil.asyncForEach(["kakao"] as const)(
-    internal.test_error((oauth_type: Authentication.OauthType) =>
+    internal.test_error((oauth_type: IAuthentication.OauthType) =>
       auth.sign_up.execute(connection, { code: "invalid code", oauth_type })
     )(HttpStatus.UNAUTHORIZED, "Authentication Fail")
   );
@@ -36,7 +36,8 @@ export const test_inactive_accessor = async (connection: IConnection) => {
     code,
     oauth_type: "kakao"
   });
-  const { accessor_id } = Crypto.getAccessorTokenPayload(access_token);
+  const { accessor_id } =
+    Authentication.Crypto.getAccessorTokenPayload(access_token);
   await prisma.oauthAccessorModel.update({
     where: { id: accessor_id },
     data: { is_deleted: true, deleted_at: getISOString() }

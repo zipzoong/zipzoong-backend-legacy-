@@ -106,7 +106,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Authentication.ISignIn"
+                "$ref": "#/components/schemas/IAuthentication.ISignIn"
               }
             }
           },
@@ -212,7 +212,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Authentication.ISignUp"
+                "$ref": "#/components/schemas/IAuthentication.ISignUp"
               }
             }
           },
@@ -307,7 +307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Authentication.IProfile"
+                  "$ref": "#/components/schemas/IAuthentication.IProfile"
                 }
               }
             },
@@ -795,11 +795,11 @@
         ],
         "responses": {
           "200": {
-            "description": "상위 전문 분야 정보",
+            "description": "하위 전문 분야 정보",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IExpertCategory.ISuper"
+                  "$ref": "#/components/schemas/IExpertCategory.ISub"
                 }
               }
             },
@@ -809,7 +809,7 @@
             "description": "NotFound"
           }
         },
-        "summary": "상위 전문 분야 조회",
+        "summary": "하위 전문 분야 조회",
         "description": "",
         "x-nestia-namespace": "expert-sub-categories.getOne",
         "x-nestia-jsDocTags": [
@@ -817,7 +817,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "상위 전문 분야 조회",
+                "text": "하위 전문 분야 조회",
                 "kind": "text"
               }
             ]
@@ -852,7 +852,7 @@
             "name": "return",
             "text": [
               {
-                "text": "상위 전문 분야 정보",
+                "text": "하위 전문 분야 정보",
                 "kind": "text"
               }
             ]
@@ -2721,7 +2721,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.ISignIn": {
+      "IAuthentication.ISignIn": {
         "type": "object",
         "properties": {
           "user_type": {
@@ -2775,7 +2775,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.ISignUp": {
+      "IAuthentication.ISignUp": {
         "type": "object",
         "properties": {
           "code": {
@@ -2801,7 +2801,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.IProfile": {
+      "IAuthentication.IProfile": {
         "type": "object",
         "properties": {
           "name": {

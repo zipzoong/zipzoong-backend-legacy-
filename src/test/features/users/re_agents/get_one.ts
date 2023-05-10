@@ -3,7 +3,7 @@ import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { REAgent } from "@PROVIDER/cores/user/re_agent";
+import REAgent from "@PROVIDER/user/re_agent";
 import { agreements, expert_super_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
@@ -27,7 +27,7 @@ export const test_success = async (connection: IConnection) => {
 
   body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  const data = REAgent.json.createData(body);
+  const data = REAgent.Json.createData(body);
   data.base.create.is_verified = true;
   const { id } = await prisma.rEAgentModel.create({ data });
 
@@ -51,7 +51,7 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
 
   body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  const data = REAgent.json.createData(body);
+  const data = REAgent.Json.createData(body);
   const { id } = await prisma.rEAgentModel.create({ data });
   await internal.test_error(() => users.re_agents.getOne(connection, id))(
     HttpStatus.NOT_FOUND,

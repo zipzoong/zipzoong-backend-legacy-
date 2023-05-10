@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { Authentication } from "./../../../structures/auth/authentication";
+import type { IAuthentication } from "./../../../structures/auth/authentication";
 
 /**
  * 새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.
@@ -37,7 +37,7 @@ export function get
 }
 export namespace get
 {
-    export type Output = Authentication.IProfile;
+    export type Output = IAuthentication.IProfile;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/auth/profile";

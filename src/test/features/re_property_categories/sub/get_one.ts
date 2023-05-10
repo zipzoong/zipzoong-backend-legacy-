@@ -1,4 +1,4 @@
-import { IREPropertyCategory } from "@DTO/real_estate/re_property_category";
+import { IREPropertyCategory } from "@DTO/re_property_category";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";

@@ -2,7 +2,7 @@ import { ITokens } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { agreements, auth, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
@@ -57,7 +57,7 @@ export const test_user_token_mismatch = internal.test_user_token_mismatch(
 
 export const test_not_found_user = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"customer">>();
-  const token = Crypto.getUserToken(payload);
+  const token = Authentication.Crypto.getUserToken(payload);
 
   await internal.test_error(() =>
     users.customers.me.get(

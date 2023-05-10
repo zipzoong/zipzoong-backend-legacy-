@@ -4,8 +4,8 @@ import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { AgreementUserType, ExpertBusinessType, Prisma } from "@PRISMA";
-import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
-import { REAgent } from "@PROVIDER/cores/user/re_agent";
+import HSProvider from "@PROVIDER/user/hs_provider";
+import REAgent from "@PROVIDER/user/re_agent";
 import { agreements, expert_super_categories } from "@SDK";
 import { randomUUID } from "crypto";
 import typia from "typia";
@@ -142,7 +142,7 @@ export const seedHSProviders = async (connection: IConnection) => {
         .slice(0, 2)
         .map(({ id }) => id);
 
-      const data = HSProvider.json.createData(input);
+      const data = HSProvider.Json.createData(input);
 
       queries.push(prisma.hSProviderModel.create({ data }));
     })
@@ -174,7 +174,7 @@ export const seedREAgents = async (connection: IConnection) => {
         .slice(0, 2)
         .map(({ id }) => id);
 
-      const data = REAgent.json.createData(input);
+      const data = REAgent.Json.createData(input);
 
       queries.push(prisma.rEAgentModel.create({ data }));
 

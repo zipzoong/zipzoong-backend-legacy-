@@ -1,8 +1,8 @@
 import { IPaginatedResponse } from "@DTO/common";
-import { IREPropertyCategory } from "@DTO/real_estate/re_property_category";
+import { IREPropertyCategory } from "@DTO/re_property_category";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
-import { REPropertyCategory } from "@PROVIDER/services/re_property_category";
+import REPropertyCategory from "@PROVIDER/re_property_category";
 
 @Controller("re-property-super-categories")
 export class REPropertySuperCategoriesController {
@@ -16,7 +16,7 @@ export class REPropertySuperCategoriesController {
   getList(
     @TypedQuery() query: IREPropertyCategory.ISuper.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.ISuper>> {
-    return REPropertyCategory.Super.getList(query);
+    return REPropertyCategory.Service.Super.getList(query);
   }
   /**
    * @summary 부동산 매물 상위 카테고리 조회
@@ -29,7 +29,7 @@ export class REPropertySuperCategoriesController {
   getOne(
     @TypedParam("super_category_id") super_category_id: string
   ): Promise<IREPropertyCategory.ISuper> {
-    return REPropertyCategory.Super.getOne(super_category_id);
+    return REPropertyCategory.Service.Super.getOne(super_category_id);
   }
 }
 
@@ -45,7 +45,7 @@ export class REPropertyMiddleCategoriesController {
   getList(
     @TypedQuery() query: IREPropertyCategory.IMiddle.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.IMiddle>> {
-    return REPropertyCategory.Middle.getList(query);
+    return REPropertyCategory.Service.Middle.getList(query);
   }
 
   /**
@@ -59,7 +59,7 @@ export class REPropertyMiddleCategoriesController {
   getOne(
     @TypedParam("middle_category_id") middle_category_id: string
   ): Promise<IREPropertyCategory.IMiddle> {
-    return REPropertyCategory.Middle.getOne(middle_category_id);
+    return REPropertyCategory.Service.Middle.getOne(middle_category_id);
   }
 }
 
@@ -75,7 +75,7 @@ export class REPropertysubCategoriesController {
   getList(
     @TypedQuery() query: IREPropertyCategory.ISub.ISearch
   ): Promise<IPaginatedResponse<IREPropertyCategory.ISub>> {
-    return REPropertyCategory.Sub.getList(query);
+    return REPropertyCategory.Service.Sub.getList(query);
   }
 
   /**
@@ -89,6 +89,6 @@ export class REPropertysubCategoriesController {
   getOne(
     @TypedParam("sub_category_id") sub_category_id: string
   ): Promise<IREPropertyCategory.ISub> {
-    return REPropertyCategory.Sub.getOne(sub_category_id);
+    return REPropertyCategory.Service.Sub.getOne(sub_category_id);
   }
 }

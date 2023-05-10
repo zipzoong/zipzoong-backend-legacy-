@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { Authentication } from "./../../../structures/auth/authentication";
+import type { IAuthentication } from "./../../../structures/auth/authentication";
 
 /**
  * type 속성을 통해 사용자 분류를 구분한다.
@@ -38,7 +38,7 @@ import type { Authentication } from "./../../../structures/auth/authentication";
 export function create
     (
         connection: IConnection,
-        body: Authentication.ICreateRequest
+        body: IAuthentication.ICreateRequest
     ): Promise<void>
 {
     return Fetcher.fetch
@@ -53,7 +53,7 @@ export function create
 }
 export namespace create
 {
-    export type Input = Authentication.ICreateRequest;
+    export type Input = IAuthentication.ICreateRequest;
 
     export const METHOD = "POST" as const;
     export const PATH: string = "/auth/user";

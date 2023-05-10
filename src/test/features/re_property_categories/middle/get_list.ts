@@ -1,4 +1,4 @@
-import { IREPropertyCategory } from "@DTO/real_estate/re_property_category";
+import { IREPropertyCategory } from "@DTO/re_property_category";
 import { IConnection } from "@nestia/fetcher";
 import { re_property_middle_categories } from "@SDK";
 import typia from "typia";

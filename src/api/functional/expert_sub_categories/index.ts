@@ -63,11 +63,11 @@ export namespace getList
 }
 
 /**
- * @summary 상위 전문 분야 조회
+ * @summary 하위 전문 분야 조회
  * @tag expert-categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param sub_category_id 하위 전문 분야 id
- * @return 상위 전문 분야 정보
+ * @return 하위 전문 분야 정보
  * @throw 404 NotFound
  * 
  * @controller ExpertSubCategoriesController.getOne()
@@ -90,7 +90,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = IExpertCategory.ISuper;
+    export type Output = IExpertCategory.ISub;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/expert-sub-categories/:sub_category_id";

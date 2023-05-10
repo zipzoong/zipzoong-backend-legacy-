@@ -1,10 +1,10 @@
 import { ITokens } from "@DTO/auth";
-import { IREProperty } from "@DTO/real_estate/re_property";
+import { IREProperty } from "@DTO/re_property";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { re_properties, re_property_sub_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
@@ -32,7 +32,7 @@ export const test_success = async (connection: IConnection) => {
 
   const agent = RandomGenerator.pick(agents);
 
-  const token = Crypto.getUserToken({
+  const token = Authentication.Crypto.getUserToken({
     type: "user",
     user_id: agent.id,
     user_type: "real estate agent"
@@ -57,7 +57,7 @@ export const test_user_token_mismatch = internal.test_user_token_mismatch(
 
 export const test_not_found = async (connection: IConnection) => {
   const payload = typia.random<ITokens.IUserPayload<"real estate agent">>();
-  const token = Crypto.getUserToken(payload);
+  const token = Authentication.Crypto.getUserToken(payload);
 
   await internal.test_error(() =>
     re_properties.createMany(
@@ -84,7 +84,7 @@ export const test_if_unverified_agent = async (connection: IConnection) => {
     re_properties.createMany(
       internal.addAuthorizationHeader(connection)(
         "bearer",
-        Crypto.getUserToken({
+        Authentication.Crypto.getUserToken({
           type: "user",
           user_id: agent.id,
           user_type: "real estate agent"

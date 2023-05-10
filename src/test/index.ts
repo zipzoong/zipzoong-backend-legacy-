@@ -18,10 +18,6 @@ process.stdout.write = (str: string) => {
   return write(str);
 };
 
-process.on("exit", () => {
-  logger.end();
-});
-
 console.log("# Test Report");
 logger.write("\n<details open>\n<summary>detail test case</summary>\n\n");
 
@@ -61,13 +57,15 @@ async function run(): Promise<void> {
     );
   } else {
     console.log("\n\x1b[31mSome Tests Failed\x1b[0m");
-    console.log(errors[0]); // only report first error
-    // for (const error of errors) console.error(error);
-    process.exit(-1);
+    for (const error of errors) console.error(error);
   }
 }
 
-run().catch((err) => {
-  console.error(err);
-  process.exit(-1);
-});
+run()
+  .catch((err) => {
+    console.error(err);
+    process.exit(-1);
+  })
+  .finally(() => {
+    logger.end();
+  });

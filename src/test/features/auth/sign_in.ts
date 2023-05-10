@@ -1,7 +1,7 @@
 import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
@@ -36,7 +36,7 @@ export const test_success = async (connection: IConnection) => {
 
   typia.assertEquals(received);
 
-  Crypto.getUserTokenPayload(received.access_token);
+  Authentication.Crypto.getUserTokenPayload(received.access_token);
 
   await internal.deleteAccessor(access_token);
 };

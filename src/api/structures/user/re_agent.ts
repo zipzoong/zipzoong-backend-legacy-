@@ -1,5 +1,5 @@
 import { IAddress, IPage } from "@DTO/common";
-import { IREProperty } from "@DTO/real_estate/re_property";
+import { IREProperty } from "@DTO/re_property";
 import { Mutable, Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";

@@ -1,9 +1,9 @@
 import { ITokens } from "@DTO/auth";
 import { IPaginatedResponse } from "@DTO/common";
-import { IREProperty } from "@DTO/real_estate/re_property";
+import { IREProperty } from "@DTO/re_property";
 import { TypedBody, TypedQuery } from "@nestia/core";
 import { Controller, Get, Post } from "@nestjs/common";
-import { REProperty } from "@PROVIDER/services/re_property";
+import REProperty from "@PROVIDER/re_property";
 import { REAgentToken } from "./decorators";
 
 @Controller("re-properties")
@@ -18,7 +18,7 @@ export class REPropertiesController {
   getList(
     @TypedQuery() query: IREProperty.ISearch
   ): Promise<IPaginatedResponse<IREProperty>> {
-    return REProperty.getList(query);
+    return REProperty.Service.getList(query);
   }
 
   /**
@@ -34,6 +34,6 @@ export class REPropertiesController {
     @TypedBody() body: IREProperty.ICreateManyRequest,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<void> {
-    return REProperty.createMany({ data: body.data, user_id });
+    return REProperty.Service.createMany({ data: body.data, user_id });
   }
 }

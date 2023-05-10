@@ -5,7 +5,7 @@ import { Controller, Get } from "@nestjs/common";
 import { TypedParam, TypedQuery } from "@nestia/core";
 import { REAgentToken } from "../decorators";
 import { ITokens } from "@DTO/auth";
-import { REAgentService } from "@PROVIDER/services/user/re_agent";
+import REAgent from "@PROVIDER/user/re_agent";
 
 @Controller("users/re-agents")
 export class REAgentsController {
@@ -20,7 +20,7 @@ export class REAgentsController {
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
   ): Promise<IPaginatedResponse<IREAgent>> {
-    return REAgentService.getList(query);
+    return REAgent.Service.getList(query);
   }
 
   /**
@@ -35,7 +35,7 @@ export class REAgentsController {
   get(
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IREAgent.IPrivate> {
-    return REAgentService.Me.get(user_id);
+    return REAgent.Service.Me.get(user_id);
   }
 
   /**
@@ -48,7 +48,7 @@ export class REAgentsController {
    */
   @Get(":agent_id")
   getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
-    return REAgentService.getOne(agent_id);
+    return REAgent.Service.getOne(agent_id);
   }
 }
 
@@ -70,7 +70,7 @@ export class REAgentsMyPropertiesController {
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    return REAgentService.Me.Property.getList({ user_id, page: query.page });
+    return REAgent.Service.Me.Property.getList({ user_id, page: query.page });
   }
 }
 
@@ -92,7 +92,7 @@ export class REAgentsPropertiesController {
     @TypedParam("agent_id") agent_id: string,
     @TypedQuery() query: IREAgent.IProperty.ISearch
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    return REAgentService.Property.getList({
+    return REAgent.Service.Property.getList({
       user_id: agent_id,
       page: query.page
     });

@@ -7,7 +7,7 @@
 import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
-import type { IREPropertyCategory } from "./../../structures/real_estate/re_property_category";
+import type { IREPropertyCategory } from "./../../structures/re_property_category";
 import type { IPaginatedResponse } from "./../../structures/common/pagination";
 
 /**

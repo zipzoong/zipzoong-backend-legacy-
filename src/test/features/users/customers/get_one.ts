@@ -2,7 +2,7 @@ import { ICustomer } from "@DTO/user/customer";
 import { prisma } from "@INFRA/DB";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Customer } from "@PROVIDER/cores/user/customer";
+import Customer from "@PROVIDER/user/customer";
 import { agreements, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
@@ -18,7 +18,7 @@ export const test_success = async (connection: IConnection) => {
     })
   ).map(({ id }) => id);
 
-  const data = Customer.json.createData(input);
+  const data = Customer.Json.createData(input);
   data.phone = "required";
   const { id } = await prisma.customerModel.create({ data });
 
@@ -35,7 +35,7 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
     })
   ).map(({ id }) => id);
 
-  const data = Customer.json.createData(input);
+  const data = Customer.Json.createData(input);
   data.phone = null;
   const { id } = await prisma.customerModel.create({ data });
 

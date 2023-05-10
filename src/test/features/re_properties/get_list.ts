@@ -1,4 +1,4 @@
-import { IREProperty } from "@DTO/real_estate/re_property";
+import { IREProperty } from "@DTO/re_property";
 import { IConnection } from "@nestia/fetcher";
 import { re_properties } from "@SDK";
 import typia from "typia";
