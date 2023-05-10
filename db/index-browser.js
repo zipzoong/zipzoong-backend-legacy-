@@ -117,6 +117,28 @@ exports.Prisma.BusinessCertificationImageModelScalarFieldEnum = {
   url: 'url'
 };
 
+exports.Prisma.BusinessRateCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  business_type: 'business_type'
+};
+
+exports.Prisma.BusinessRateModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  rater_id: 'rater_id',
+  ratee_id: 'ratee_id',
+  category_id: 'category_id',
+  score: 'score'
+};
+
 exports.Prisma.BusinessUserModelScalarFieldEnum = {
   id: 'id',
   is_verified: 'is_verified',
@@ -296,6 +318,12 @@ exports.AgreementUserType = {
   RE: 'RE'
 };
 
+exports.BusinessRateType = {
+  all: 'all',
+  HS: 'HS',
+  RE: 'RE'
+};
+
 exports.ExpertBusinessType = {
   HS: 'HS',
   RE: 'RE'
@@ -313,6 +341,11 @@ exports.OauthType = {
 };
 
 exports.Prisma.ModelName = {
+  REProertyModel: 'REProertyModel',
+  REPropertyCategoryModel: 'REPropertyCategoryModel',
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
+  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
   OauthAccessorModel: 'OauthAccessorModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
@@ -326,11 +359,8 @@ exports.Prisma.ModelName = {
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  REProertyModel: 'REProertyModel',
-  REPropertyCategoryModel: 'REPropertyCategoryModel',
-  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
-  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
-  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel'
+  BusinessRateModel: 'BusinessRateModel',
+  BusinessRateCategoryModel: 'BusinessRateCategoryModel'
 };
 
 /**
