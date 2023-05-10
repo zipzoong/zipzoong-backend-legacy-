@@ -2633,18 +2633,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "title": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2658,12 +2661,14 @@
               "RE"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2688,6 +2693,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2732,12 +2738,14 @@
               "home service provider"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2747,6 +2755,7 @@
               "kakao"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2765,6 +2774,7 @@
           "access_token": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2781,6 +2791,7 @@
           "code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2790,6 +2801,7 @@
               "kakao"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2807,12 +2819,14 @@
           "name": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2837,12 +2851,14 @@
           "phone": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2879,11 +2895,13 @@
               "other"
             ],
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2906,12 +2924,14 @@
           "first": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "second": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2929,17 +2949,20 @@
           "profile_image_url": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "birth": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2969,12 +2992,14 @@
               "other"
             ],
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2983,10 +3008,12 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2996,18 +3023,21 @@
               "customer"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           }
@@ -3030,12 +3060,14 @@
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3055,6 +3087,7 @@
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3089,10 +3122,12 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3102,18 +3137,21 @@
               "real estate agent"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           }
@@ -3138,12 +3176,14 @@
           "title": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3209,12 +3249,14 @@
           "first": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "second": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3232,12 +3274,14 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3262,6 +3306,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3286,12 +3331,14 @@
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "main_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3299,10 +3346,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3323,6 +3372,7 @@
         "properties": {
           "middle_category": {
             "$ref": "#/components/schemas/IREProperty.IMiddleCategory",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3332,18 +3382,21 @@
               "sub"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3362,6 +3415,7 @@
         "properties": {
           "super_category": {
             "$ref": "#/components/schemas/IREProperty.ISuperCategory",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3371,18 +3425,21 @@
               "middle"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3405,18 +3462,21 @@
               "super"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3435,17 +3495,20 @@
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3454,15 +3517,18 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.ICreateIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3471,16 +3537,19 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "business_registration_num": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3490,18 +3559,21 @@
               "home service provider"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "phone_access_code": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           }
@@ -3527,22 +3599,26 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "title": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3628,6 +3704,7 @@
               "RE"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3635,10 +3712,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3648,18 +3727,21 @@
               "super"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3683,18 +3765,21 @@
               "sub"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3713,6 +3798,7 @@
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
@@ -3781,6 +3867,7 @@
         "properties": {
           "super_category": {
             "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISuper_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3790,18 +3877,21 @@
               "sub"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3824,18 +3914,21 @@
               "super"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3846,6 +3939,7 @@
               "RE"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3865,24 +3959,28 @@
           "agent_id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "middle_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "sub_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
@@ -3935,16 +4033,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -3993,23 +4094,27 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "main_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "agent": {
             "$ref": "#/components/schemas/IREProperty.IAgent",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4017,16 +4122,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4051,6 +4159,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4091,23 +4200,27 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4127,12 +4240,14 @@
           "super_category_id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4140,10 +4255,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4162,12 +4279,14 @@
           "sub_category_id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "sub_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4186,6 +4305,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ICreateRequest",
+              "description": "",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -4207,6 +4327,7 @@
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -4241,12 +4362,14 @@
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "main_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4255,10 +4378,12 @@
             "items": {
               "type": "string",
               "nullable": false,
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4323,16 +4448,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.ISuper",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4382,10 +4510,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4395,18 +4525,21 @@
               "super"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4429,18 +4562,21 @@
               "middle"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4448,10 +4584,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4474,18 +4612,21 @@
               "sub"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4504,6 +4645,7 @@
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
@@ -4556,16 +4698,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.IMiddle",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4613,6 +4758,7 @@
         "properties": {
           "super_category": {
             "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4620,10 +4766,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4633,18 +4781,21 @@
               "middle"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4668,18 +4819,21 @@
               "super"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4698,12 +4852,14 @@
           "middle_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
@@ -4756,16 +4912,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.ISub",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4813,6 +4972,7 @@
         "properties": {
           "middle_category": {
             "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -4822,18 +4982,21 @@
               "sub"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4856,23 +5019,27 @@
               "middle"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "super_category": {
             "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -4892,12 +5059,14 @@
           "phone": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4932,12 +5101,14 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4962,6 +5133,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4986,17 +5158,20 @@
           "profile_image_url": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "birth": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5026,12 +5201,14 @@
               "other"
             ],
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5072,18 +5249,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "title": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5097,6 +5277,7 @@
               "RE"
             ],
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -5116,23 +5297,27 @@
           "phone": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "birth": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5162,6 +5347,7 @@
               "other"
             ],
             "nullable": true,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5178,18 +5364,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5214,6 +5403,7 @@
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5238,6 +5428,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5282,12 +5473,14 @@
           "super_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
           "sub_category_name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true
           },
@@ -5340,16 +5533,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5398,33 +5594,39 @@
           "phone": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.IIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "business_registration_num": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5441,18 +5643,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5477,6 +5682,7 @@
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5501,6 +5707,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5547,22 +5754,26 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider.IIntroductionImage",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "title": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -5581,12 +5792,14 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -5604,33 +5817,39 @@
           "phone": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.IIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "business_registration_num": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5647,18 +5866,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5683,6 +5905,7 @@
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5707,6 +5930,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5788,12 +6012,14 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -5812,16 +6038,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5877,16 +6106,19 @@
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -5929,18 +6161,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5965,6 +6200,7 @@
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5989,6 +6225,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6042,16 +6279,19 @@
           "profile_image_url": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -6094,18 +6334,21 @@
           "id": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "email": {
             "type": "string",
             "nullable": true,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6130,6 +6373,7 @@
           "created_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6154,6 +6398,7 @@
           "updated_at": {
             "type": "string",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6282,16 +6527,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
+              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             },
             "nullable": false,
+            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "page": {
             "type": "integer",
             "nullable": false,
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
