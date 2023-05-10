@@ -4,7 +4,7 @@ import { IUser } from "@DTO/user/user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { IHSProvider } from "@DTO/user/hs_provider";
 
-export namespace Authentication {
+export namespace IAuthentication {
   export type OauthType = "kakao";
 
   export interface ISignUp {

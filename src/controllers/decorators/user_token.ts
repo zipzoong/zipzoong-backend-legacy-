@@ -7,7 +7,7 @@ import {
   ForbiddenException,
   UnauthorizedException
 } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { isNull, throwIf } from "@UTIL";
 import { Request } from "express";
 
@@ -49,7 +49,7 @@ export const CustomerToken = () =>
 
       throwIf(isUndefined, RequestUnauthorized),
 
-      Crypto.getUserTokenPayload,
+      Authentication.Crypto.getUserTokenPayload,
 
       throwIf(matchUserType("customer"), UserTypeMisMatch)
     )
@@ -72,7 +72,7 @@ export const REAgentToken = () =>
 
       throwIf(isUndefined, RequestUnauthorized),
 
-      Crypto.getUserTokenPayload,
+      Authentication.Crypto.getUserTokenPayload,
 
       throwIf(matchUserType("real estate agent"), UserTypeMisMatch)
     )
@@ -95,7 +95,7 @@ export const HSProviderToken = () =>
 
       throwIf(isUndefined, RequestUnauthorized),
 
-      Crypto.getUserTokenPayload,
+      Authentication.Crypto.getUserTokenPayload,
 
       throwIf(matchUserType("home service provider"), UserTypeMisMatch)
     )

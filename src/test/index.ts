@@ -18,10 +18,6 @@ process.stdout.write = (str: string) => {
   return write(str);
 };
 
-process.on("exit", () => {
-  logger.end();
-});
-
 console.log("# Test Report");
 logger.write("\n<details open>\n<summary>detail test case</summary>\n\n");
 
@@ -53,20 +49,40 @@ async function run(): Promise<void> {
   logger.write("\n</details>\n");
 
   if (errors.length === 0) {
-    console.log("\n\x1b[32mAll Tests Passed\x1b[0m");
-    console.log(
-      "\nTotal Test Time:\x1b[33m",
-      report.time.toLocaleString(),
-      "\x1b[0mms"
+    write("\n\x1b[32mAll Tests Passed\x1b[0m\n");
+    logger.write("\n$`\\color{#00FF00}\\text{All Tests Passed}`$\n");
+
+    write(`\nTest Count: \x1b[36m${report.executions.length}\x1b[0m\n`);
+    logger.write(
+      "\nTest Count: $`\\color{#00ffff}\\text{" +
+        `${report.executions.length}` +
+        "}`$\n"
+    );
+
+    write(
+      `\nTotal Test Time: \x1b[33m${report.time.toLocaleString()}\x1b[0mms\n`
+    );
+    logger.write(
+      "\nTotal Test Time: $`\\color{#ffff00}\\text{" +
+        `${report.time.toLocaleString()}` +
+        "}`$\n"
     );
   } else {
-    console.log("\n\x1b[31mSome Tests Failed\x1b[0m");
+    write(`\n\x1b[31m${errors.length} Tests have Failed\x1b[0m\n`);
+    logger.write(
+      "\n$`\\color{#ff0000}\\text{" +
+        `${errors.length}` +
+        " Tests have Failed}`$\n"
+    );
     for (const error of errors) console.error(error);
-    process.exit(-1);
   }
 }
 
-run().catch((err) => {
-  console.error(err);
-  process.exit(-1);
-});
+run()
+  .catch((err) => {
+    console.error(err);
+    process.exit(-1);
+  })
+  .finally(() => {
+    logger.end();
+  });

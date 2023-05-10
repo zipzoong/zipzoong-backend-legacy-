@@ -1,4 +1,5 @@
-import { IAddress } from "@DTO/common";
+import { IAddress, IPage } from "@DTO/common";
+import { IREProperty } from "@DTO/re_property";
 import { Mutable, Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -8,8 +9,7 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
   readonly phone: string;
   readonly profile_image_url: string;
   readonly introduction: IBusinessUser.IIntroduction;
-  readonly super_expertise: IBusinessUser.ISuperExpertise;
-  readonly sub_expertises: IBusinessUser.ISubExpertise[];
+  readonly expertise: IBusinessUser.IExpertise;
   /**
    * 개업/소속 공인중개사 구분
    *
@@ -21,6 +21,10 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
    * 부동산 정보
    */
   readonly real_estate: IREAgent.IRealEstate;
+  /**
+   * 부동산 매물 목록
+   */
+  readonly properties: IREAgent.IProperty[];
 }
 
 export namespace IREAgent {
@@ -37,21 +41,30 @@ export namespace IREAgent {
     readonly address: IAddress;
   }
 
+  /** 부동산 매물 정보 */
+  export type IProperty = Pick<
+    IREProperty,
+    | "id"
+    | "name"
+    | "main_image_url"
+    | "sub_categories"
+    | "created_at"
+    | "updated_at"
+  >;
+
+  export namespace IProperty {
+    export interface ISearch extends IPage {}
+  }
+
   export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;
 
   export interface ICreate
     extends Omit<
       Mutable<IREAgent>,
-      | "id"
-      | "super_expertise"
-      | "sub_expertises"
-      | "created_at"
-      | "updated_at"
-      | "type"
+      "id" | "expertise" | "created_at" | "updated_at" | "type"
     > {
     /** 동의 약관 id 목록 */
     acceptant_agreement_ids: string[];
-    super_expertise_id: string;
     sub_expertise_ids: string[];
   }
 

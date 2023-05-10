@@ -3,8 +3,8 @@ import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { HSProvider } from "@PROVIDER/cores/user/hs_provider";
-import { agreements, expert_categories, users } from "@SDK";
+import HSProvider from "@PROVIDER/user/hs_provider";
+import { agreements, expert_super_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
 import typia from "typia";
@@ -19,15 +19,14 @@ export const test_success = async (connection: IConnection) => {
     })
   ).map(({ id }) => id);
 
-  const list = await expert_categories.getSuperCategoryList(connection, {
+  const list = await expert_super_categories.getList(connection, {
     filter: ["HS"]
   });
   const super_expertise = RandomGenerator.pick(list);
 
-  input.super_expertise_id = super_expertise.id;
   input.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  const data = HSProvider.json.createData(input);
+  const data = HSProvider.Json.createData(input);
   data.base.create.is_verified = true;
   const { id } = await prisma.hSProviderModel.create({ data });
 
@@ -44,15 +43,14 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
     })
   ).map(({ id }) => id);
 
-  const list = await expert_categories.getSuperCategoryList(connection, {
+  const list = await expert_super_categories.getList(connection, {
     filter: ["HS"]
   });
   const super_expertise = RandomGenerator.pick(list);
 
-  input.super_expertise_id = super_expertise.id;
   input.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  const data = HSProvider.json.createData(input);
+  const data = HSProvider.Json.createData(input);
   const { id } = await prisma.hSProviderModel.create({ data });
 
   await internal.test_error(() => users.hs_providers.getOne(connection, id))(

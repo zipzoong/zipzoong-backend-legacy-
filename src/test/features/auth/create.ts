@@ -1,4 +1,4 @@
-import { Authentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
@@ -6,7 +6,7 @@ import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { agreements, auth, expert_categories } from "@SDK";
+import * as sdk from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
@@ -14,14 +14,14 @@ console.log("\n- auth.user.create");
 
 const code = "test_user_create";
 const getTokens = (connection: IConnection) =>
-  auth.sign_up.signUp(connection, {
+  sdk.auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
 
 const test_success = async (
   connection: IConnection,
-  body: Authentication.ICreateRequest
+  body: IAuthentication.ICreateRequest
 ): Promise<void> => {
   const { access_token } = await getTokens(connection);
 
@@ -34,7 +34,7 @@ const test_success = async (
       data: { phone: "test_phone_number" }
     });
 
-  await auth.user.create(
+  await sdk.auth.user.create(
     internal.addAuthorizationHeader(connection)("basic", access_token),
     body
   );
@@ -47,7 +47,7 @@ export const test_success_customer_create = async (
 ): Promise<void> => {
   const create = typia.random<ICustomer.ICreateRequest>();
 
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "customer"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
@@ -57,19 +57,20 @@ export const test_success_customer_create = async (
 
 export const test_success_re_agent_create = async (connection: IConnection) => {
   const create = typia.random<IREAgent.ICreateRequest>();
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
 
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,
-    { filter: ["RE"] }
+    {
+      filter: ["RE"]
+    }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
   const sub_expertise = RandomGenerator.pick(super_expertise.sub_categories);
 
-  create.super_expertise_id = super_expertise.id;
   create.sub_expertise_ids = [sub_expertise.id];
   await test_success(connection, create);
 };
@@ -78,18 +79,19 @@ export const test_success_hs_provider_create = async (
   connection: IConnection
 ) => {
   const create = typia.random<IHSProvider.ICreateRequest>();
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
 
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,
-    { filter: ["HS"] }
+    {
+      filter: ["HS"]
+    }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise.id;
   create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   await test_success(connection, create);
@@ -97,7 +99,10 @@ export const test_success_hs_provider_create = async (
 
 export const test_invalid_accessor = internal.test_invalid_accessor(
   (connection: IConnection) =>
-    auth.user.create(connection, typia.random<Authentication.ICreateRequest>())
+    sdk.auth.user.create(
+      connection,
+      typia.random<IAuthentication.ICreateRequest>()
+    )
 );
 
 export const test_already_user_exist = async (connection: IConnection) => {
@@ -109,13 +114,13 @@ export const test_already_user_exist = async (connection: IConnection) => {
     access_token
   );
 
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "customer"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
-  await auth.user.create(_connection, create);
+  await sdk.auth.user.create(_connection, create);
 
-  await internal.test_error(() => auth.user.create(_connection, create))(
+  await internal.test_error(() => sdk.auth.user.create(_connection, create))(
     HttpStatus.FORBIDDEN,
     "Already Created"
   )();
@@ -131,7 +136,7 @@ export const test_insufficient_agreement_acceptance = async (
   create.acceptant_agreement_ids = [];
 
   await internal.test_error(() =>
-    auth.user.create(
+    sdk.auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
       create
     )
@@ -144,23 +149,24 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
 
   const create = typia.random<IREAgent.ICreateRequest>();
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = "test_phone";
 
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,
-    { filter: ["HS"] }
+    {
+      filter: ["HS"]
+    }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise.id;
   create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
   await internal.test_error(() =>
-    auth.user.create(
+    sdk.auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
       create
     )
@@ -172,30 +178,34 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
 
   const create = typia.random<IREAgent.ICreateRequest>();
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = "phone";
 
-  const valid_super_list = await expert_categories.getSuperCategoryList(
+  const valid_super_list = await sdk.expert_super_categories.getList(
     connection,
     {
       filter: ["RE"]
     }
   );
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,
-    { filter: ["HS"] }
+    {
+      filter: ["HS"]
+    }
   );
-  const super_expertise = RandomGenerator.pick(super_expertise_list);
-  const valid_expertise = RandomGenerator.pick(valid_super_list);
+  const super_expertise = RandomGenerator.pick(valid_super_list);
+  const invalid_sub_categories =
+    RandomGenerator.pick(super_expertise_list).sub_categories;
 
-  create.super_expertise_id = valid_expertise.id;
   create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
+  create.sub_expertise_ids.push(...invalid_sub_categories.map(({ id }) => id));
+
   await internal.test_error(() =>
-    auth.user.create(
+    sdk.auth.user.create(
       internal.addAuthorizationHeader(connection)("basic", access_token),
       create
     )
@@ -217,22 +227,23 @@ export const test_phone_required = async (connection: IConnection) => {
   );
 
   const create = typia.random<IHSProvider.ICreateRequest>();
-  const list = await agreements.getList(connection, {
+  const list = await sdk.agreements.getList(connection, {
     filter: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = undefined;
 
-  const super_expertise_list = await expert_categories.getSuperCategoryList(
+  const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,
-    { filter: ["HS"] }
+    {
+      filter: ["HS"]
+    }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.super_expertise_id = super_expertise.id;
   create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
 
-  await internal.test_error(() => auth.user.create(_connection, create))(
+  await internal.test_error(() => sdk.auth.user.create(_connection, create))(
     HttpStatus.BAD_REQUEST,
     "Phone Required"
   )();

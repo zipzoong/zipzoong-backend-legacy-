@@ -1,12 +1,12 @@
 import { IAgreement } from "@DTO/agreement";
 import { TypedQuery } from "@nestia/core";
 import { Controller, Get } from "@nestjs/common";
-import { AgreementService } from "@PROVIDER/services/agreement";
+import Agreement from "@PROVIDER/agreement";
 
 @Controller("agreements")
 export class AgreementsController {
   /**
-   * @summary 약관 조회 API
+   * @summary 약관 조회
    * @tag agreements
    * @param query 약관 검색 조건
    * @return 약관 목록
@@ -15,6 +15,6 @@ export class AgreementsController {
   getList(
     @TypedQuery() query: IAgreement.ISearch
   ): Promise<IAgreement.IResponse[]> {
-    return AgreementService.getList(query);
+    return Agreement.Service.getList(query);
   }
 }

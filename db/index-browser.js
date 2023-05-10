@@ -13,12 +13,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.13.0
- * Query Engine version: 1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
+ * Prisma Client JS version: 4.14.0
+ * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
  */
 Prisma.prismaVersion = {
-  client: "4.13.0",
-  engine: "1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a"
+  client: "4.14.0",
+  engine: "d9a4c5988f480fa576d43970d5a23641aa77bc9c"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -125,8 +125,7 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   phone: 'phone',
   address_first: 'address_first',
   address_second: 'address_second',
-  profile_image_url: 'profile_image_url',
-  super_expertise_id: 'super_expertise_id'
+  profile_image_url: 'profile_image_url'
 };
 
 exports.Prisma.CustomerModelScalarFieldEnum = {
@@ -146,7 +145,7 @@ exports.Prisma.ExpertSubCategoryModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   name: 'name',
-  super_id: 'super_id'
+  super_category_id: 'super_category_id'
 };
 
 exports.Prisma.ExpertSuperCategoryModelScalarFieldEnum = {
@@ -206,6 +205,56 @@ exports.Prisma.REAgentModelScalarFieldEnum = {
   re_name: 're_name',
   re_phone: 're_phone',
   re_licensed_agent_name: 're_licensed_agent_name'
+};
+
+exports.Prisma.REProertyModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  main_image_url: 'main_image_url',
+  agent_id: 'agent_id'
+};
+
+exports.Prisma.REPropertyCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  re_property_id: 're_property_id',
+  sub_category_id: 'sub_category_id'
+};
+
+exports.Prisma.REPropertyMiddleCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  super_category_id: 'super_category_id'
+};
+
+exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  middle_category_id: 'middle_category_id'
+};
+
+exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name'
 };
 
 exports.Prisma.SortOrder = {
@@ -276,7 +325,12 @@ exports.Prisma.ModelName = {
   ExpertSubCategoryModel: 'ExpertSubCategoryModel',
   ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   AgreementModel: 'AgreementModel',
-  AgreementAcceptanceModel: 'AgreementAcceptanceModel'
+  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
+  REProertyModel: 'REProertyModel',
+  REPropertyCategoryModel: 'REPropertyCategoryModel',
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
+  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel'
 };
 
 /**

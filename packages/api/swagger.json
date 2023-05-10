@@ -44,7 +44,7 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "약관 조회 API",
+        "summary": "약관 조회",
         "description": "",
         "x-nestia-namespace": "agreements.getList",
         "x-nestia-jsDocTags": [
@@ -52,7 +52,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "약관 조회 API",
+                "text": "약관 조회",
                 "kind": "text"
               }
             ]
@@ -106,7 +106,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Authentication.ISignIn"
+                "$ref": "#/components/schemas/IAuthentication.ISignIn"
               }
             }
           },
@@ -132,15 +132,15 @@
             "description": "Forbidden"
           }
         },
-        "summary": "로그인 API",
+        "summary": "로그인",
         "description": "전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.",
-        "x-nestia-namespace": "auth.sign-in.signIn",
+        "x-nestia-namespace": "auth.sign-in.execute",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "로그인 API",
+                "text": "로그인",
                 "kind": "text"
               }
             ]
@@ -212,7 +212,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Authentication.ISignUp"
+                "$ref": "#/components/schemas/IAuthentication.ISignUp"
               }
             }
           },
@@ -235,15 +235,15 @@
             "description": "Forbidden"
           }
         },
-        "summary": "회원가입 API",
+        "summary": "회원가입",
         "description": "회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.\n\naccessor에 포함된 정보는 회원 정보에 기본값으로 사용할 수 있다.",
-        "x-nestia-namespace": "auth.sign-up.signUp",
+        "x-nestia-namespace": "auth.sign-up.execute",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "회원가입 API",
+                "text": "회원가입",
                 "kind": "text"
               }
             ]
@@ -307,7 +307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Authentication.IProfile"
+                  "$ref": "#/components/schemas/IAuthentication.IProfile"
                 }
               }
             },
@@ -320,15 +320,15 @@
             "description": "Forbidden"
           }
         },
-        "summary": "OauthProfile 요청 API",
+        "summary": "소셜 계정 프로필 정보 조회",
         "description": "새로운 회원 정보를 생성할 때, 입력창 기본값을 채우기 위해 사용한다.",
-        "x-nestia-namespace": "auth.profile.getProfile",
+        "x-nestia-namespace": "auth.profile.get",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "OauthProfile 요청 API",
+                "text": "소셜 계정 프로필 정보 조회",
                 "kind": "text"
               }
             ]
@@ -375,7 +375,8 @@
     "/auth/user": {
       "post": {
         "tags": [
-          "authentication"
+          "authentication",
+          "users"
         ],
         "parameters": [],
         "requestBody": {
@@ -415,7 +416,7 @@
             "description": "Forbidden"
           }
         },
-        "summary": "사용자 생성 API",
+        "summary": "사용자 생성",
         "description": "type 속성을 통해 사용자 분류를 구분한다.\n\n사용자 분류에 따라 포함하는 속성이 달라진다.\n\n다른 속성값은 null, \"\" 등의 속성 기본값이 사용되지만 email, phone은 OauthProfile 정보가 기본값으로 사용된다.\n\n사업자의 경우, phone 정보가 필수다.\n\nOauthProfile phone 정보가 없고, 인증코드도 요청에 포함하지 않았다면 요청은 실패한다.",
         "x-nestia-namespace": "auth.user.create",
         "x-nestia-jsDocTags": [
@@ -423,7 +424,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "사용자 생성 API",
+                "text": "사용자 생성",
                 "kind": "text"
               }
             ]
@@ -433,6 +434,15 @@
             "text": [
               {
                 "text": "authentication",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "users",
                 "kind": "text"
               }
             ]
@@ -493,7 +503,7 @@
         ]
       }
     },
-    "/expert-categories": {
+    "/expert-super-categories": {
       "get": {
         "tags": [
           "expert-categories"
@@ -502,22 +512,22 @@
           {
             "name": "query",
             "in": "query",
-            "description": "상위 전문 분야 필터링 조건",
+            "description": "전문 분야 상위 카테고리 필터링 조건",
             "schema": {
-              "$ref": "#/components/schemas/IExpertCategory.ISuperSearch"
+              "$ref": "#/components/schemas/IExpertCategory.ISuper.ISearch"
             },
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "상위 전문 분야 목록",
+            "description": "전문 분야 상위 카테고리 목록",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IExpertCategory.Super"
+                    "$ref": "#/components/schemas/IExpertCategory.ISuper"
                   },
                   "nullable": false
                 }
@@ -526,15 +536,15 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "상위 전문 분야 목록 조회 API",
+        "summary": "상위 전문 분야 목록 조회",
         "description": "",
-        "x-nestia-namespace": "expert-categories.getSuperCategoryList",
+        "x-nestia-namespace": "expert-super-categories.getList",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "상위 전문 분야 목록 조회 API",
+                "text": "상위 전문 분야 목록 조회",
                 "kind": "text"
               }
             ]
@@ -560,7 +570,7 @@
                 "kind": "space"
               },
               {
-                "text": "상위 전문 분야 필터링 조건",
+                "text": "전문 분야 상위 카테고리 필터링 조건",
                 "kind": "text"
               }
             ]
@@ -569,7 +579,7 @@
             "name": "return",
             "text": [
               {
-                "text": "상위 전문 분야 목록",
+                "text": "전문 분야 상위 카테고리 목록",
                 "kind": "text"
               }
             ]
@@ -577,14 +587,14 @@
         ]
       }
     },
-    "/expert-categories/{super_id}": {
+    "/expert-super-categories/{super_category_id}": {
       "get": {
         "tags": [
           "expert-categories"
         ],
         "parameters": [
           {
-            "name": "super_id",
+            "name": "super_category_id",
             "in": "path",
             "description": "상위 전문 분야 id",
             "schema": {
@@ -600,7 +610,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IExpertCategory.Super"
+                  "$ref": "#/components/schemas/IExpertCategory.ISuper"
                 }
               }
             },
@@ -610,15 +620,15 @@
             "description": "NotFound"
           }
         },
-        "summary": "상위 전문 분야 조회 API",
+        "summary": "상위 전문 분야 조회",
         "description": "",
-        "x-nestia-namespace": "expert-categories.getSuperCategory",
+        "x-nestia-namespace": "expert-super-categories.getOne",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "상위 전문 분야 조회 API",
+                "text": "상위 전문 분야 조회",
                 "kind": "text"
               }
             ]
@@ -636,7 +646,7 @@
             "name": "param",
             "text": [
               {
-                "text": "super_id",
+                "text": "super_category_id",
                 "kind": "parameterName"
               },
               {
@@ -670,19 +680,18 @@
         ]
       }
     },
-    "/expert-categories/{super_id}/sub-categories": {
+    "/expert-sub-categories": {
       "get": {
         "tags": [
           "expert-categories"
         ],
         "parameters": [
           {
-            "name": "super_id",
-            "in": "path",
-            "description": "상위 전문 분야 id",
+            "name": "query",
+            "in": "query",
+            "description": "하위 전문 분야 필터링 조건",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "$ref": "#/components/schemas/IExpertCategory.ISub.ISearch"
             },
             "required": true
           }
@@ -695,7 +704,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IExpertCategory.Sub"
+                    "$ref": "#/components/schemas/IExpertCategory.ISub"
                   },
                   "nullable": false
                 }
@@ -707,15 +716,15 @@
             "description": "NotFound"
           }
         },
-        "summary": "하위 전문 분야 목록 조회 API",
+        "summary": "하위 전문 분야 목록 조회",
         "description": "",
-        "x-nestia-namespace": "expert-categories.sub-categories.getSubCategoryList",
+        "x-nestia-namespace": "expert-sub-categories.getList",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "하위 전문 분야 목록 조회 API",
+                "text": "하위 전문 분야 목록 조회",
                 "kind": "text"
               }
             ]
@@ -733,7 +742,7 @@
             "name": "param",
             "text": [
               {
-                "text": "super_id",
+                "text": "query",
                 "kind": "parameterName"
               },
               {
@@ -741,7 +750,7 @@
                 "kind": "space"
               },
               {
-                "text": "상위 전문 분야 id",
+                "text": "하위 전문 분야 필터링 조건",
                 "kind": "text"
               }
             ]
@@ -767,9 +776,799 @@
         ]
       }
     },
+    "/expert-sub-categories/{sub_category_id}": {
+      "get": {
+        "tags": [
+          "expert-categories"
+        ],
+        "parameters": [
+          {
+            "name": "sub_category_id",
+            "in": "path",
+            "description": "하위 전문 분야 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "하위 전문 분야 정보",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IExpertCategory.ISub"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "NotFound"
+          }
+        },
+        "summary": "하위 전문 분야 조회",
+        "description": "",
+        "x-nestia-namespace": "expert-sub-categories.getOne",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "하위 전문 분야 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "expert-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "sub_category_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "하위 전문 분야 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "하위 전문 분야 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 NotFound",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-properties": {
+      "get": {
+        "tags": [
+          "re-properties"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "부동산 매물 필터링 조건",
+            "schema": {
+              "$ref": "#/components/schemas/IREProperty.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREProperty_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "부동산 매물 목록 검색",
+        "description": "",
+        "x-nestia-namespace": "re-properties.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 목록 검색",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 필터링 조건",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 목록",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "re-properties"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IREProperty.ICreateManyRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "부동산 매물 목록",
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "summary": "부동산 매물 복수 등록",
+        "description": "",
+        "x-nestia-namespace": "re-properties.createMany",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 복수 등록",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 필터링 조건",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 목록",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-super-categories": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "부동산 매물 상위 카테고리 필터링 조건",
+            "schema": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISuper.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 상위 카테고리 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.ISuper_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "부동산 매물 상위 카테고리 목록 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-super-categories.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 상위 카테고리 목록 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 상위 카테고리 필터링 조건",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 상위 카테고리 목록",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-super-categories/{super_category_id}": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "super_category_id",
+            "in": "path",
+            "description": "부동산 매물 상위 카테고리 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 상위 카테고리",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.ISuper"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "부동산 매물 상위 카테고리 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-super-categories.getOne",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 상위 카테고리 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "super_category_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 상위 카테고리 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 상위 카테고리",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-middle-categories": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "부동산 매물 중간 카테고리 필터링 조건",
+            "schema": {
+              "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 중간 카테고리 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.IMiddle_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "부동산 매물 중간 카테고리 목록 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-middle-categories.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 중간 카테고리 목록 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 중간 카테고리 필터링 조건",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 중간 카테고리 목록",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-middle-categories/{middle_category_id}": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "middle_category_id",
+            "in": "path",
+            "description": "부동산 매물 중간 카테고리 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 중간 카테고리",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.IMiddle"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "부동산 매물 중간 카테고리 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-middle-categories.getOne",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 중간 카테고리 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "middle_category_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 중간 카테고리 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 중간 카테고리",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-sub-categories": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "부동산 매물 하위 카테고리 필터링 조건",
+            "schema": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISub.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 하위 카테고리 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREPropertyCategory.ISub_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "부동산 매물 하위 카테고리 목록 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-sub-categories.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 하위 카테고리 목록 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 하위 카테고리 필터링 조건",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 하위 카테고리 목록",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/re-property-sub-categories/{sub_category_id}": {
+      "get": {
+        "tags": [
+          "re-property-categories"
+        ],
+        "parameters": [
+          {
+            "name": "sub_category_id",
+            "in": "path",
+            "description": "부동산 매물 하위 카테고리 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 하위 카테고리",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IREPropertyCategory.ISub"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "부동산 매물 하위 카테고리 조회",
+        "description": "",
+        "x-nestia-namespace": "re-property-sub-categories.getOne",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "부동산 매물 하위 카테고리 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-property-categories",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "sub_category_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "부동산 매물 하위 카테고리 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 하위 카테고리",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "/users/customers/me": {
       "get": {
         "tags": [
+          "customers",
           "users"
         ],
         "parameters": [],
@@ -792,9 +1591,28 @@
             "description": "Forbidden"
           }
         },
+        "summary": "내 정보 조회",
         "description": "",
-        "x-nestia-namespace": "users.customers.me.getMe",
+        "x-nestia-namespace": "users.customers.me.get",
         "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "내 정보 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "customers",
+                "kind": "text"
+              }
+            ]
+          },
           {
             "name": "tag",
             "text": [
@@ -868,7 +1686,7 @@
             "description": "Not Found"
           }
         },
-        "summary": "일반 고객 조회 API",
+        "summary": "일반 고객 조회",
         "description": "",
         "x-nestia-namespace": "users.customers.getOne",
         "x-nestia-jsDocTags": [
@@ -876,7 +1694,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "일반 고객 조회 API",
+                "text": "일반 고객 조회",
                 "kind": "text"
               }
             ]
@@ -967,7 +1785,7 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "생활서비스 제공자 목록 조회 API",
+        "summary": "생활서비스 전문가 목록 조회",
         "description": "",
         "x-nestia-namespace": "users.hs-providers.getList",
         "x-nestia-jsDocTags": [
@@ -975,7 +1793,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "생활서비스 제공자 목록 조회 API",
+                "text": "생활서비스 전문가 목록 조회",
                 "kind": "text"
               }
             ]
@@ -1036,7 +1854,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "생활서비스 제공자 내 정보",
+            "description": "생활서비스 전문가 내 정보",
             "content": {
               "application/json": {
                 "schema": {
@@ -1053,15 +1871,15 @@
             "description": "Forbidden"
           }
         },
-        "summary": "생활서비스 제공자 내 정보 조회 API",
+        "summary": "내 정보 조회",
         "description": "",
-        "x-nestia-namespace": "users.hs-providers.me.getMe",
+        "x-nestia-namespace": "users.hs-providers.me.get",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "생활서비스 제공자 내 정보 조회 API",
+                "text": "내 정보 조회",
                 "kind": "text"
               }
             ]
@@ -1088,7 +1906,7 @@
             "name": "return",
             "text": [
               {
-                "text": "생활서비스 제공자 내 정보",
+                "text": "생활서비스 전문가 내 정보",
                 "kind": "text"
               }
             ]
@@ -1124,7 +1942,7 @@
           {
             "name": "provider_id",
             "in": "path",
-            "description": "생활서비스 제공자 id",
+            "description": "생활서비스 전문가 id",
             "schema": {
               "type": "string",
               "nullable": false
@@ -1148,7 +1966,7 @@
             "description": "Not Found"
           }
         },
-        "summary": "생활서비스 제공자 조회 API",
+        "summary": "생활서비스 전문가 조회",
         "description": "",
         "x-nestia-namespace": "users.hs-providers.getOne",
         "x-nestia-jsDocTags": [
@@ -1156,7 +1974,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "생활서비스 제공자 조회 API",
+                "text": "생활서비스 전문가 조회",
                 "kind": "text"
               }
             ]
@@ -1191,7 +2009,7 @@
                 "kind": "space"
               },
               {
-                "text": "생활서비스 제공자 id",
+                "text": "생활서비스 전문가 id",
                 "kind": "text"
               }
             ]
@@ -1247,7 +2065,7 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "공인중개사 목록 조회 API",
+        "summary": "공인중개사 목록 검색",
         "description": "",
         "x-nestia-namespace": "users.re-agents.getList",
         "x-nestia-jsDocTags": [
@@ -1255,7 +2073,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "공인중개사 목록 조회 API",
+                "text": "공인중개사 목록 검색",
                 "kind": "text"
               }
             ]
@@ -1333,15 +2151,15 @@
             "description": "Forbidden"
           }
         },
-        "summary": "공인중개사 내 정보 조회 API",
+        "summary": "공인중개사 내 정보 조회",
         "description": "",
-        "x-nestia-namespace": "users.re-agents.me.getMe",
+        "x-nestia-namespace": "users.re-agents.me.get",
         "x-nestia-jsDocTags": [
           {
             "name": "summary",
             "text": [
               {
-                "text": "공인중개사 내 정보 조회 API",
+                "text": "공인중개사 내 정보 조회",
                 "kind": "text"
               }
             ]
@@ -1428,7 +2246,7 @@
             "description": "Not Found"
           }
         },
-        "summary": "공인중개사 조회 API",
+        "summary": "공인중개사 조회",
         "description": "",
         "x-nestia-namespace": "users.re-agents.getOne",
         "x-nestia-jsDocTags": [
@@ -1436,7 +2254,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "공인중개사 조회 API",
+                "text": "공인중개사 조회",
                 "kind": "text"
               }
             ]
@@ -1481,6 +2299,249 @@
             "text": [
               {
                 "text": "공인중개사 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/users/re-agents/me/properties": {
+      "get": {
+        "tags": [
+          "re-agents",
+          "users"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "페이지 정보",
+            "schema": {
+              "$ref": "#/components/schemas/IREAgent.IProperty.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREAgent.IProperty_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "summary": "내 매물 목록 조회",
+        "description": "공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.",
+        "x-nestia-namespace": "users.re-agents.me.properties.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "내 매물 목록 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-agents",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "users",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "페이지 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 목록",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/users/re-agents/{agent_id}/properties": {
+      "get": {
+        "tags": [
+          "re-agents",
+          "re-properties"
+        ],
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "description": "공인중개사 id",
+            "schema": {
+              "type": "string",
+              "nullable": false
+            },
+            "required": true
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "페이지 정보",
+            "schema": {
+              "$ref": "#/components/schemas/IREAgent.IProperty.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "부동산 매물 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IREAgent.IProperty_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "매물 목록 조회",
+        "description": "공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.",
+        "x-nestia-namespace": "users.re-agents.properties.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "매물 목록 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-agents",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "agent_id",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "공인중개사 id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "페이지 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "부동산 매물 목록",
                 "kind": "text"
               }
             ]
@@ -1660,7 +2721,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.ISignIn": {
+      "IAuthentication.ISignIn": {
         "type": "object",
         "properties": {
           "user_type": {
@@ -1714,7 +2775,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.ISignUp": {
+      "IAuthentication.ISignUp": {
         "type": "object",
         "properties": {
           "code": {
@@ -1740,7 +2801,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "Authentication.IProfile": {
+      "IAuthentication.IProfile": {
         "type": "object",
         "properties": {
           "name": {
@@ -2010,9 +3071,16 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise_id": {
-            "type": "string",
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty",
+              "description": "부동산 매물 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
             "nullable": false,
+            "description": "부동산 매물 목록",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2058,7 +3126,7 @@
           "introduction",
           "is_licensed",
           "real_estate",
-          "super_expertise_id",
+          "properties",
           "sub_expertise_ids",
           "type"
         ],
@@ -2158,6 +3226,209 @@
         ],
         "x-typia-jsDocTags": []
       },
+      "IREAgent.IProperty": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "main_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.ISubCategory",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "created_at",
+          "updated_at",
+          "name",
+          "main_image_url",
+          "sub_categories"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISubCategory": {
+        "type": "object",
+        "properties": {
+          "middle_category": {
+            "$ref": "#/components/schemas/IREProperty.IMiddleCategory",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.IMiddleCategory": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/IREProperty.ISuperCategory",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISuperCategory": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "IHSProvider.ICreateRequest": {
         "type": "object",
         "properties": {
@@ -2192,12 +3463,6 @@
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.ICreateIntroduction",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "super_expertise_id": {
-            "type": "string",
-            "nullable": false,
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2248,7 +3513,6 @@
           "name",
           "acceptant_agreement_ids",
           "introduction",
-          "super_expertise_id",
           "sub_expertise_ids",
           "business_registration_num",
           "type"
@@ -2291,7 +3555,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.ISuperSearch": {
+      "IExpertCategory.ISuper.ISearch": {
         "type": "object",
         "properties": {
           "filter": {
@@ -2354,7 +3618,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.Super": {
+      "IExpertCategory.ISuper": {
         "type": "object",
         "properties": {
           "business_type": {
@@ -2370,7 +3634,7 @@
           "sub_categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IExpertCategory.Sub",
+              "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_",
               "x-typia-required": true,
               "x-typia-optional": false
             },
@@ -2410,7 +3674,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IExpertCategory.Sub": {
+      "Omit_lt_IExpertCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_": {
         "type": "object",
         "properties": {
           "type": {
@@ -2440,6 +3704,1185 @@
           "type",
           "id",
           "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IExpertCategory.ISub.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "HS",
+                "RE"
+              ],
+              "nullable": false,
+              "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "전문 분야 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minItems": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "filter"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IExpertCategory.ISub": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IExpertCategory.ISuper_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IExpertCategory.ISuper_comma__space__doublequote_sub_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "business_type": {
+            "type": "string",
+            "enum": [
+              "HS",
+              "RE"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "business_type"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISearch": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "middle_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "sub_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREProperty_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "main_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "agent": {
+            "$ref": "#/components/schemas/IREProperty.IAgent",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.ISubCategory",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "main_image_url",
+          "agent",
+          "sub_categories",
+          "created_at",
+          "updated_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.IAgent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "profile_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "profile_image_url",
+          "name",
+          "expertise"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IExpertise": {
+        "type": "object",
+        "properties": {
+          "super_category_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_expertises": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category_id",
+          "super_category_name",
+          "sub_expertises"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.ISubExpertise": {
+        "type": "object",
+        "properties": {
+          "sub_category_id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "sub_category_id",
+          "sub_category_name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ICreateManyRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.ICreateRequest",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minItems": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "main_image_url": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_category_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "main_image_url",
+          "sub_category_ids"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISuper.ISearch": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.ISuper_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISuper",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISuper": {
+        "type": "object",
+        "properties": {
+          "middle_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_categories",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "sub_categories"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.IMiddle.ISearch": {
+        "type": "object",
+        "properties": {
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.IMiddle_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.IMiddle",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.IMiddle": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "sub_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "sub_categories",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "super"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISub.ISearch": {
+        "type": "object",
+        "properties": {
+          "middle_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "super_category_name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREPropertyCategory.ISub_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.ISub",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.ISub": {
+        "type": "object",
+        "properties": {
+          "middle_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_sub_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sub"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_category",
+          "type",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_sub_categories_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "middle"
+            ],
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "super_category": {
+            "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISuper_comma__space__doublequote_middle_categories_doublequote__gt_",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "id",
+          "name",
+          "super_category"
         ],
         "x-typia-jsDocTags": []
       },
@@ -2969,19 +5412,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3096,8 +5528,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "address",
           "business_registration_num",
           "type",
@@ -3167,52 +5598,6 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IBusinessUser.ISuperExpertise": {
-        "type": "object",
-        "properties": {
-          "super_category_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "super_category_id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.ISubExpertise": {
-        "type": "object",
-        "properties": {
-          "sub_category_id": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "name": {
-            "type": "string",
-            "nullable": false,
-            "x-typia-required": true,
-            "x-typia-optional": false
-          }
-        },
-        "nullable": false,
-        "required": [
-          "sub_category_id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
       "IHSProvider.IPrivate": {
         "type": "object",
         "properties": {
@@ -3233,19 +5618,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3361,7 +5735,7 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "business_certifications": {
+          "business_certification_images": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
@@ -3393,8 +5767,7 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "address",
           "business_registration_num",
           "type",
@@ -3404,7 +5777,7 @@
           "created_at",
           "updated_at",
           "is_verified",
-          "business_certifications",
+          "business_certification_images",
           "acceptant_agreements"
         ],
         "x-typia-jsDocTags": []
@@ -3512,19 +5885,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3538,6 +5900,19 @@
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "description": "부동산 정보",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty",
+              "description": "부동산 매물 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "부동산 매물 목록",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3641,10 +6016,10 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "is_licensed",
           "real_estate",
+          "properties",
           "type",
           "id",
           "name",
@@ -3675,19 +6050,8 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "super_expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.ISuperExpertise",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "sub_expertises": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3701,6 +6065,19 @@
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
             "description": "부동산 정보",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty",
+              "description": "부동산 매물 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "부동산 매물 목록",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -3805,7 +6182,7 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "business_certifications": {
+          "business_certification_images": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
@@ -3837,10 +6214,10 @@
           "phone",
           "profile_image_url",
           "introduction",
-          "super_expertise",
-          "sub_expertises",
+          "expertise",
           "is_licensed",
           "real_estate",
+          "properties",
           "type",
           "id",
           "name",
@@ -3848,8 +6225,112 @@
           "created_at",
           "updated_at",
           "is_verified",
-          "business_certifications",
+          "business_certification_images",
           "acceptant_agreements"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.IProperty.ISearch": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "기본값 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IREAgent.IProperty_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
         ],
         "x-typia-jsDocTags": []
       }

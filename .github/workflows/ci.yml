@@ -6,8 +6,7 @@ on:
   pull_request:
     branches:
       - main
-      - devlop
-      - user_system
+      - develop
 
 env:
   PORT: 4000

@@ -3,7 +3,7 @@ import { IUser } from "@DTO/user/user";
 import { prisma } from "@INFRA/DB";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { auth } from "@SDK";
 import { Mutable } from "@TYPE";
 import { getISOString } from "@UTIL";
@@ -35,7 +35,7 @@ export const test_error =
 export const test_not_exist_accessor =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
-    const accessor_token = Crypto.getAccessorToken({
+    const accessor_token = Authentication.Crypto.getAccessorToken({
       type: "accessor",
       accessor_id: "invalid_id"
     });
@@ -53,7 +53,7 @@ export const test_not_exist_accessor =
 export const test_inactive_accessor =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
-    const { access_token } = await auth.sign_up.signUp(connection, {
+    const { access_token } = await auth.sign_up.execute(connection, {
       code: "inactive_accessor",
       oauth_type: "kakao"
     });
@@ -85,7 +85,7 @@ export const test_invalid_user_token =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
     const payload = typia.random<ITokens.IOauthPayload>();
-    const access_token = Crypto.getAccessorToken(payload);
+    const access_token = Authentication.Crypto.getAccessorToken(payload);
 
     await test_error(api)(HttpStatus.UNAUTHORIZED, "Authentication Fail")(
       addAuthorizationHeader(connection)("bearer", access_token)
@@ -103,7 +103,7 @@ export const test_user_token_mismatch =
     if (user_type === "real estate agent")
       payload.user_type = "home service provider";
 
-    const access_token = Crypto.getUserToken(payload);
+    const access_token = Authentication.Crypto.getUserToken(payload);
 
     await test_error(api)(HttpStatus.FORBIDDEN, "User Type Mismatch")(
       addAuthorizationHeader(connection)("bearer", access_token)
@@ -111,7 +111,8 @@ export const test_user_token_mismatch =
   };
 
 export const deleteAccessor = async (accessor_token: string) => {
-  const { accessor_id } = Crypto.getAccessorTokenPayload(accessor_token);
+  const { accessor_id } =
+    Authentication.Crypto.getAccessorTokenPayload(accessor_token);
 
   await prisma.oauthAccessorModel.delete({ where: { id: accessor_id } });
 };

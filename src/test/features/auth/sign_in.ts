@@ -1,15 +1,15 @@
 import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import { Crypto } from "@PROVIDER/services/authentication";
+import Authentication from "@PROVIDER/authentication";
 import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
-console.log("\n- auth.sign_in.signIn");
+console.log("\n- auth.sign_in.execute");
 
 export const test_success = async (connection: IConnection) => {
-  const { access_token } = await auth.sign_up.signUp(connection, {
+  const { access_token } = await auth.sign_up.execute(connection, {
     code: "test_sign_in",
     oauth_type: "kakao"
   });
@@ -28,7 +28,7 @@ export const test_success = async (connection: IConnection) => {
 
   await auth.user.create(_connection, input);
 
-  const received = await auth.sign_in.signIn(_connection, {
+  const received = await auth.sign_in.execute(_connection, {
     code: "test_sign_in",
     oauth_type: "kakao",
     user_type: "customer"
@@ -36,14 +36,14 @@ export const test_success = async (connection: IConnection) => {
 
   typia.assertEquals(received);
 
-  Crypto.getUserTokenPayload(received.access_token);
+  Authentication.Crypto.getUserTokenPayload(received.access_token);
 
   await internal.deleteAccessor(access_token);
 };
 
 export const test_invalid_accessor = internal.test_invalid_accessor(
   (connection: IConnection) =>
-    auth.sign_in.signIn(connection, {
+    auth.sign_in.execute(connection, {
       code: "inactive_accessor",
       oauth_type: "kakao",
       user_type: "customer"
@@ -51,7 +51,7 @@ export const test_invalid_accessor = internal.test_invalid_accessor(
 );
 
 export const test_not_found_user = async (connection: IConnection) => {
-  const { access_token } = await auth.sign_up.signUp(connection, {
+  const { access_token } = await auth.sign_up.execute(connection, {
     code: "test_sign_in",
     oauth_type: "kakao"
   });
@@ -61,7 +61,7 @@ export const test_not_found_user = async (connection: IConnection) => {
     access_token
   );
   await internal.test_error(() =>
-    auth.sign_in.signIn(_connection, {
+    auth.sign_in.execute(_connection, {
       code: "test_sign_in",
       oauth_type: "kakao",
       user_type: "customer"
