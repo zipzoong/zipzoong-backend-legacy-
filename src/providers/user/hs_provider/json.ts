@@ -66,7 +66,7 @@ export namespace Json {
           }))
         }
       }
-    } satisfies Prisma.HSProviderModelCreateArgs["data"];
+    } satisfies Prisma.HSProviderModelCreateInput;
   };
   export const findInclude = () =>
     ({

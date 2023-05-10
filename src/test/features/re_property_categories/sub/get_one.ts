@@ -24,4 +24,4 @@ export const test_success = async (connection: IConnection) => {
 
 export const test_not_found = internal.test_error((connection: IConnection) =>
   re_property_sub_categories.getOne(connection, randomUUID())
-)(HttpStatus.NOT_FOUND, "REProperty Category Not Found");
+)(HttpStatus.NOT_FOUND, "RE-Property Category Not Found");

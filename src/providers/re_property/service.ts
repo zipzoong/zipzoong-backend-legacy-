@@ -55,11 +55,19 @@ export namespace Service {
       data.flatMap(({ sub_category_ids }) => sub_category_ids)
     );
 
-    await prisma.rEProertyModel.createMany({
-      data: data.map((input) =>
-        Json.createData({ ...input, agent_id: user_id })
-      )
-    });
+    const createData = data.map((input) =>
+      Json.createData({ ...input, agent_id: user_id })
+    );
+    const createManyData = Json.createManyData(createData);
+
+    await prisma.$transaction([
+      prisma.rEProertyModel.createMany({
+        data: createManyData.property_create_many_input
+      }),
+      prisma.rEPropertyCategoryModel.createMany({
+        data: createManyData.property_category_create_many_input
+      })
+    ]);
     return;
   };
 }

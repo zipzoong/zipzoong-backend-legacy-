@@ -36,7 +36,7 @@ export namespace Json {
           }
         }
       }
-    } satisfies Prisma.CustomerModelCreateArgs["data"];
+    } satisfies Prisma.CustomerModelCreateInput;
   };
   export const findInclude = () =>
     ({

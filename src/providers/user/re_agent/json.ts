@@ -58,7 +58,7 @@ export namespace Json {
       re_name: input.real_estate.name,
       re_phone: input.real_estate.phone,
       re_licensed_agent_name: input.real_estate.licensed_agent_name
-    } satisfies Prisma.REAgentModelCreateArgs["data"];
+    } satisfies Prisma.REAgentModelCreateInput;
   };
 
   export const findInclude = () =>

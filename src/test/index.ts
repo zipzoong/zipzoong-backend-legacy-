@@ -14,7 +14,13 @@ const logger = createWriteStream(path.join(__dirname, "./../../test_log.md"), {
 const write = process.stdout.write.bind(process.stdout);
 
 process.stdout.write = (str: string) => {
-  logger.write(stripAnsi(str));
+  const line = str
+    .replaceAll("\x1b[31m", '<span style="color: #ff0000;">')
+    .replaceAll("\x1b[32m", '<span style="color: #00FF00;">')
+    .replaceAll("\x1b[33m", '<span style="color: #ffff00;">')
+    .replaceAll("\x1b[36m", '<span style="color: #00ffff;">')
+    .replaceAll("\x1b[0m", "</span>");
+  logger.write(stripAnsi(line));
   return write(str);
 };
 
@@ -50,13 +56,12 @@ async function run(): Promise<void> {
 
   if (errors.length === 0) {
     console.log("\n\x1b[32mAll Tests Passed\x1b[0m");
+    console.log(`\nTest Count: \x1b[36m${report.executions.length}\x1b[0m`);
     console.log(
-      "\nTotal Test Time:\x1b[33m",
-      report.time.toLocaleString(),
-      "\x1b[0mms"
+      `\nTotal Test Time: \x1b[33m${report.time.toLocaleString()}\x1b[0mms`
     );
   } else {
-    console.log("\n\x1b[31mSome Tests Failed\x1b[0m");
+    console.log(`\n\x1b[31m${errors.length} Tests have Failed\x1b[0m\n`);
     for (const error of errors) console.error(error);
   }
 }
