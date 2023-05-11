@@ -6,6 +6,8 @@
 //================================================================
 export * as agreements from "./agreements";
 export * as auth from "./auth";
+export * as business_rates from "./business_rates";
+export * as business_rate_categories from "./business_rate_categories";
 export * as expert_super_categories from "./expert_super_categories";
 export * as expert_sub_categories from "./expert_sub_categories";
 export * as re_properties from "./re_properties";
