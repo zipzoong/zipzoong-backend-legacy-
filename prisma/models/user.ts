@@ -8,7 +8,7 @@ import {
   OauthType
 } from "../enums";
 import { REProperty } from "./real_estate";
-import { BusinessRate } from "./business_rate";
+import { BusinessRate, BusinessRatesStats } from "./business_rate";
 
 const one_to_one: RelationalFieldOptions = {
   fields: ["id"],
@@ -94,6 +94,7 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accessor", OauthAccessor, { list: true })
     .relation("business_rates", BusinessRate, { list: true })
+    .relation("business_rates_stats", BusinessRatesStats, { list: true })
     .map("business_users");
 });
 

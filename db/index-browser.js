@@ -139,6 +139,18 @@ exports.Prisma.BusinessRateModelScalarFieldEnum = {
   score: 'score'
 };
 
+exports.Prisma.BusinessRatesStatsModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  avg: 'avg',
+  avg_cnt: 'avg_cnt',
+  rate_category_id: 'rate_category_id',
+  business_user_id: 'business_user_id'
+};
+
 exports.Prisma.BusinessUserModelScalarFieldEnum = {
   id: 'id',
   is_verified: 'is_verified',
@@ -360,7 +372,8 @@ exports.Prisma.ModelName = {
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
   BusinessRateModel: 'BusinessRateModel',
-  BusinessRateCategoryModel: 'BusinessRateCategoryModel'
+  BusinessRateCategoryModel: 'BusinessRateCategoryModel',
+  BusinessRatesStatsModel: 'BusinessRatesStatsModel'
 };
 
 /**

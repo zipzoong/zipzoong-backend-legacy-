@@ -177,6 +177,7 @@ model BusinessUserModel {
   sub_expertises       SubExpertiseModel[]
   oauth_accessor       OauthAccessorModel[]
   business_rates       BusinessRateModel[]
+  business_rates_stats BusinessRatesStatsModel[]
 
   @@map("business_users")
 }
@@ -318,14 +319,31 @@ model BusinessRateModel {
 }
 
 model BusinessRateCategoryModel {
-  id            String              @id
-  created_at    DateTime            @database.Timestamptz
-  updated_at    DateTime            @database.Timestamptz
+  id            String                    @id
+  created_at    DateTime                  @database.Timestamptz
+  updated_at    DateTime                  @database.Timestamptz
   is_deleted    Boolean
-  deleted_at    DateTime?           @database.Timestamptz
-  name          String              @unique
+  deleted_at    DateTime?                 @database.Timestamptz
+  name          String                    @unique
   business_type BusinessRateType
   rates         BusinessRateModel[]
+  stats         BusinessRatesStatsModel[]
 
   @@map("business_rate_categories")
+}
+
+model BusinessRatesStatsModel {
+  id               String                    @id
+  created_at       DateTime                  @database.Timestamptz
+  updated_at       DateTime                  @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?                 @database.Timestamptz
+  avg              Decimal
+  avg_cnt          Int
+  rate_category_id String
+  business_user_id String
+  rate_category    BusinessRateCategoryModel @relation(fields: [rate_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  business_user    BusinessUserModel         @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("business_rates_stats")
 }

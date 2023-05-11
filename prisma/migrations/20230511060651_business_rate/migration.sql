@@ -29,6 +29,21 @@ CREATE TABLE "business_rate_categories" (
     CONSTRAINT "business_rate_categories_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "business_rates_stats" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "avg" DECIMAL(65,30) NOT NULL,
+    "avg_cnt" INTEGER NOT NULL,
+    "rate_category_id" TEXT NOT NULL,
+    "business_user_id" TEXT NOT NULL,
+
+    CONSTRAINT "business_rates_stats_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "business_rate_categories_name_key" ON "business_rate_categories"("name");
 
@@ -40,3 +55,9 @@ ALTER TABLE "business_rates" ADD CONSTRAINT "business_rates_ratee_id_fkey" FOREI
 
 -- AddForeignKey
 ALTER TABLE "business_rates" ADD CONSTRAINT "business_rates_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "business_rate_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "business_rates_stats" ADD CONSTRAINT "business_rates_stats_rate_category_id_fkey" FOREIGN KEY ("rate_category_id") REFERENCES "business_rate_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "business_rates_stats" ADD CONSTRAINT "business_rates_stats_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

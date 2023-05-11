@@ -39,6 +39,32 @@ export const BusinessRateCategory = createModel(
       .string("name", { unique: true })
       .enum("business_type", BusinessRateType)
       .relation("rates", BusinessRate, { list: true })
+      .relation("stats", BusinessRatesStats, { list: true })
       .map("business_rate_categories");
+  }
+);
+
+export const BusinessRatesStats = createModel(
+  "BusinessRatesStatsModel",
+  (model) => {
+    model
+      .mixin(Entity)
+      .decimal("avg")
+      .int("avg_cnt")
+      .string("rate_category_id")
+      .string("business_user_id")
+      .relation("rate_category", BusinessRateCategory, {
+        fields: ["rate_category_id"],
+        references: ["id"],
+        onDelete: "NoAction",
+        onUpdate: "NoAction"
+      })
+      .relation("business_user", BusinessUser, {
+        fields: ["business_user_id"],
+        references: ["id"],
+        onDelete: "NoAction",
+        onUpdate: "NoAction"
+      })
+      .map("business_rates_stats");
   }
 );

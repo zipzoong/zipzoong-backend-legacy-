@@ -300,6 +300,22 @@ export type BusinessRateCategoryModel = {
   business_type: BusinessRateType
 }
 
+/**
+ * Model BusinessRatesStatsModel
+ * 
+ */
+export type BusinessRatesStatsModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  avg: Prisma.Decimal
+  avg_cnt: number
+  rate_category_id: string
+  business_user_id: string
+}
+
 
 /**
  * Enums
@@ -669,6 +685,16 @@ export class PrismaClient<
     * ```
     */
   get businessRateCategoryModel(): Prisma.BusinessRateCategoryModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.businessRatesStatsModel`: Exposes CRUD operations for the **BusinessRatesStatsModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BusinessRatesStatsModels
+    * const businessRatesStatsModels = await prisma.businessRatesStatsModel.findMany()
+    * ```
+    */
+  get businessRatesStatsModel(): Prisma.BusinessRatesStatsModelDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -1157,7 +1183,8 @@ export namespace Prisma {
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
     BusinessRateModel: 'BusinessRateModel',
-    BusinessRateCategoryModel: 'BusinessRateCategoryModel'
+    BusinessRateCategoryModel: 'BusinessRateCategoryModel',
+    BusinessRatesStatsModel: 'BusinessRatesStatsModel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1588,6 +1615,7 @@ export namespace Prisma {
     sub_expertises: number
     oauth_accessor: number
     business_rates: number
+    business_rates_stats: number
   }
 
   export type BusinessUserModelCountOutputTypeSelect = {
@@ -1595,6 +1623,7 @@ export namespace Prisma {
     sub_expertises?: boolean
     oauth_accessor?: boolean
     business_rates?: boolean
+    business_rates_stats?: boolean
   }
 
   export type BusinessUserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserModelCountOutputTypeArgs> =
@@ -1849,10 +1878,12 @@ export namespace Prisma {
 
   export type BusinessRateCategoryModelCountOutputType = {
     rates: number
+    stats: number
   }
 
   export type BusinessRateCategoryModelCountOutputTypeSelect = {
     rates?: boolean
+    stats?: boolean
   }
 
   export type BusinessRateCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessRateCategoryModelCountOutputTypeArgs> =
@@ -9967,6 +9998,7 @@ export namespace Prisma {
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
     business_rates?: boolean | BusinessUserModel$business_ratesArgs
+    business_rates_stats?: boolean | BusinessUserModel$business_rates_statsArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -9979,6 +10011,7 @@ export namespace Prisma {
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accessor?: boolean | BusinessUserModel$oauth_accessorArgs
     business_rates?: boolean | BusinessUserModel$business_ratesArgs
+    business_rates_stats?: boolean | BusinessUserModel$business_rates_statsArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -9996,6 +10029,7 @@ export namespace Prisma {
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['include'][P]>>  :
         P extends 'business_rates' ? Array < BusinessRateModelGetPayload<S['include'][P]>>  :
+        P extends 'business_rates_stats' ? Array < BusinessRatesStatsModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
@@ -10008,6 +10042,7 @@ export namespace Prisma {
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
         P extends 'oauth_accessor' ? Array < OauthAccessorModelGetPayload<S['select'][P]>>  :
         P extends 'business_rates' ? Array < BusinessRateModelGetPayload<S['select'][P]>>  :
+        P extends 'business_rates_stats' ? Array < BusinessRatesStatsModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
   } 
       : BusinessUserModel
@@ -10393,6 +10428,8 @@ export namespace Prisma {
     oauth_accessor<T extends BusinessUserModel$oauth_accessorArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accessorArgs>): Prisma.PrismaPromise<Array<OauthAccessorModelGetPayload<T>>| Null>;
 
     business_rates<T extends BusinessUserModel$business_ratesArgs= {}>(args?: Subset<T, BusinessUserModel$business_ratesArgs>): Prisma.PrismaPromise<Array<BusinessRateModelGetPayload<T>>| Null>;
+
+    business_rates_stats<T extends BusinessUserModel$business_rates_statsArgs= {}>(args?: Subset<T, BusinessUserModel$business_rates_statsArgs>): Prisma.PrismaPromise<Array<BusinessRatesStatsModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -10830,6 +10867,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<BusinessRateModelScalarFieldEnum>
+  }
+
+
+  /**
+   * BusinessUserModel.business_rates_stats
+   */
+  export type BusinessUserModel$business_rates_statsArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    where?: BusinessRatesStatsModelWhereInput
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BusinessRatesStatsModelScalarFieldEnum>
   }
 
 
@@ -20679,12 +20737,14 @@ export namespace Prisma {
     name?: boolean
     business_type?: boolean
     rates?: boolean | BusinessRateCategoryModel$ratesArgs
+    stats?: boolean | BusinessRateCategoryModel$statsArgs
     _count?: boolean | BusinessRateCategoryModelCountOutputTypeArgs
   }
 
 
   export type BusinessRateCategoryModelInclude = {
     rates?: boolean | BusinessRateCategoryModel$ratesArgs
+    stats?: boolean | BusinessRateCategoryModel$statsArgs
     _count?: boolean | BusinessRateCategoryModelCountOutputTypeArgs
   }
 
@@ -20696,12 +20756,14 @@ export namespace Prisma {
     ? BusinessRateCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'rates' ? Array < BusinessRateModelGetPayload<S['include'][P]>>  :
+        P extends 'stats' ? Array < BusinessRatesStatsModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? BusinessRateCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (BusinessRateCategoryModelArgs | BusinessRateCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'rates' ? Array < BusinessRateModelGetPayload<S['select'][P]>>  :
+        P extends 'stats' ? Array < BusinessRatesStatsModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? BusinessRateCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessRateCategoryModel ? BusinessRateCategoryModel[P] : never
   } 
       : BusinessRateCategoryModel
@@ -21075,6 +21137,8 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     rates<T extends BusinessRateCategoryModel$ratesArgs= {}>(args?: Subset<T, BusinessRateCategoryModel$ratesArgs>): Prisma.PrismaPromise<Array<BusinessRateModelGetPayload<T>>| Null>;
+
+    stats<T extends BusinessRateCategoryModel$statsArgs= {}>(args?: Subset<T, BusinessRateCategoryModel$statsArgs>): Prisma.PrismaPromise<Array<BusinessRatesStatsModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -21453,6 +21517,27 @@ export namespace Prisma {
 
 
   /**
+   * BusinessRateCategoryModel.stats
+   */
+  export type BusinessRateCategoryModel$statsArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    where?: BusinessRatesStatsModelWhereInput
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<BusinessRatesStatsModelScalarFieldEnum>
+  }
+
+
+  /**
    * BusinessRateCategoryModel without action
    */
   export type BusinessRateCategoryModelArgs = {
@@ -21464,6 +21549,1013 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: BusinessRateCategoryModelInclude | null
+  }
+
+
+
+  /**
+   * Model BusinessRatesStatsModel
+   */
+
+
+  export type AggregateBusinessRatesStatsModel = {
+    _count: BusinessRatesStatsModelCountAggregateOutputType | null
+    _avg: BusinessRatesStatsModelAvgAggregateOutputType | null
+    _sum: BusinessRatesStatsModelSumAggregateOutputType | null
+    _min: BusinessRatesStatsModelMinAggregateOutputType | null
+    _max: BusinessRatesStatsModelMaxAggregateOutputType | null
+  }
+
+  export type BusinessRatesStatsModelAvgAggregateOutputType = {
+    avg: Decimal | null
+    avg_cnt: number | null
+  }
+
+  export type BusinessRatesStatsModelSumAggregateOutputType = {
+    avg: Decimal | null
+    avg_cnt: number | null
+  }
+
+  export type BusinessRatesStatsModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    avg: Decimal | null
+    avg_cnt: number | null
+    rate_category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type BusinessRatesStatsModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    avg: Decimal | null
+    avg_cnt: number | null
+    rate_category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type BusinessRatesStatsModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    avg: number
+    avg_cnt: number
+    rate_category_id: number
+    business_user_id: number
+    _all: number
+  }
+
+
+  export type BusinessRatesStatsModelAvgAggregateInputType = {
+    avg?: true
+    avg_cnt?: true
+  }
+
+  export type BusinessRatesStatsModelSumAggregateInputType = {
+    avg?: true
+    avg_cnt?: true
+  }
+
+  export type BusinessRatesStatsModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    avg?: true
+    avg_cnt?: true
+    rate_category_id?: true
+    business_user_id?: true
+  }
+
+  export type BusinessRatesStatsModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    avg?: true
+    avg_cnt?: true
+    rate_category_id?: true
+    business_user_id?: true
+  }
+
+  export type BusinessRatesStatsModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    avg?: true
+    avg_cnt?: true
+    rate_category_id?: true
+    business_user_id?: true
+    _all?: true
+  }
+
+  export type BusinessRatesStatsModelAggregateArgs = {
+    /**
+     * Filter which BusinessRatesStatsModel to aggregate.
+     */
+    where?: BusinessRatesStatsModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessRatesStatsModels to fetch.
+     */
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessRatesStatsModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessRatesStatsModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BusinessRatesStatsModels
+    **/
+    _count?: true | BusinessRatesStatsModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BusinessRatesStatsModelAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BusinessRatesStatsModelSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BusinessRatesStatsModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BusinessRatesStatsModelMaxAggregateInputType
+  }
+
+  export type GetBusinessRatesStatsModelAggregateType<T extends BusinessRatesStatsModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessRatesStatsModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusinessRatesStatsModel[P]>
+      : GetScalarType<T[P], AggregateBusinessRatesStatsModel[P]>
+  }
+
+
+
+
+  export type BusinessRatesStatsModelGroupByArgs = {
+    where?: BusinessRatesStatsModelWhereInput
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithAggregationInput>
+    by: BusinessRatesStatsModelScalarFieldEnum[]
+    having?: BusinessRatesStatsModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BusinessRatesStatsModelCountAggregateInputType | true
+    _avg?: BusinessRatesStatsModelAvgAggregateInputType
+    _sum?: BusinessRatesStatsModelSumAggregateInputType
+    _min?: BusinessRatesStatsModelMinAggregateInputType
+    _max?: BusinessRatesStatsModelMaxAggregateInputType
+  }
+
+
+  export type BusinessRatesStatsModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    avg: Decimal
+    avg_cnt: number
+    rate_category_id: string
+    business_user_id: string
+    _count: BusinessRatesStatsModelCountAggregateOutputType | null
+    _avg: BusinessRatesStatsModelAvgAggregateOutputType | null
+    _sum: BusinessRatesStatsModelSumAggregateOutputType | null
+    _min: BusinessRatesStatsModelMinAggregateOutputType | null
+    _max: BusinessRatesStatsModelMaxAggregateOutputType | null
+  }
+
+  type GetBusinessRatesStatsModelGroupByPayload<T extends BusinessRatesStatsModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<BusinessRatesStatsModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BusinessRatesStatsModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BusinessRatesStatsModelGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessRatesStatsModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BusinessRatesStatsModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    avg?: boolean
+    avg_cnt?: boolean
+    rate_category_id?: boolean
+    business_user_id?: boolean
+    rate_category?: boolean | BusinessRateCategoryModelArgs
+    business_user?: boolean | BusinessUserModelArgs
+  }
+
+
+  export type BusinessRatesStatsModelInclude = {
+    rate_category?: boolean | BusinessRateCategoryModelArgs
+    business_user?: boolean | BusinessUserModelArgs
+  }
+
+  export type BusinessRatesStatsModelGetPayload<S extends boolean | null | undefined | BusinessRatesStatsModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? BusinessRatesStatsModel :
+    S extends undefined ? never :
+    S extends { include: any } & (BusinessRatesStatsModelArgs | BusinessRatesStatsModelFindManyArgs)
+    ? BusinessRatesStatsModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'rate_category' ? BusinessRateCategoryModelGetPayload<S['include'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (BusinessRatesStatsModelArgs | BusinessRatesStatsModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'rate_category' ? BusinessRateCategoryModelGetPayload<S['select'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof BusinessRatesStatsModel ? BusinessRatesStatsModel[P] : never
+  } 
+      : BusinessRatesStatsModel
+
+
+  type BusinessRatesStatsModelCountArgs = 
+    Omit<BusinessRatesStatsModelFindManyArgs, 'select' | 'include'> & {
+      select?: BusinessRatesStatsModelCountAggregateInputType | true
+    }
+
+  export interface BusinessRatesStatsModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one BusinessRatesStatsModel that matches the filter.
+     * @param {BusinessRatesStatsModelFindUniqueArgs} args - Arguments to find a BusinessRatesStatsModel
+     * @example
+     * // Get one BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends BusinessRatesStatsModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessRatesStatsModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessRatesStatsModel'> extends True ? Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>> : Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T> | null, null>
+
+    /**
+     * Find one BusinessRatesStatsModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BusinessRatesStatsModelFindUniqueOrThrowArgs} args - Arguments to find a BusinessRatesStatsModel
+     * @example
+     * // Get one BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BusinessRatesStatsModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, BusinessRatesStatsModelFindUniqueOrThrowArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Find the first BusinessRatesStatsModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelFindFirstArgs} args - Arguments to find a BusinessRatesStatsModel
+     * @example
+     * // Get one BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends BusinessRatesStatsModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessRatesStatsModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessRatesStatsModel'> extends True ? Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>> : Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first BusinessRatesStatsModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelFindFirstOrThrowArgs} args - Arguments to find a BusinessRatesStatsModel
+     * @example
+     * // Get one BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BusinessRatesStatsModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BusinessRatesStatsModelFindFirstOrThrowArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Find zero or more BusinessRatesStatsModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BusinessRatesStatsModels
+     * const businessRatesStatsModels = await prisma.businessRatesStatsModel.findMany()
+     * 
+     * // Get first 10 BusinessRatesStatsModels
+     * const businessRatesStatsModels = await prisma.businessRatesStatsModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const businessRatesStatsModelWithIdOnly = await prisma.businessRatesStatsModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends BusinessRatesStatsModelFindManyArgs>(
+      args?: SelectSubset<T, BusinessRatesStatsModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<BusinessRatesStatsModelGetPayload<T>>>
+
+    /**
+     * Create a BusinessRatesStatsModel.
+     * @param {BusinessRatesStatsModelCreateArgs} args - Arguments to create a BusinessRatesStatsModel.
+     * @example
+     * // Create one BusinessRatesStatsModel
+     * const BusinessRatesStatsModel = await prisma.businessRatesStatsModel.create({
+     *   data: {
+     *     // ... data to create a BusinessRatesStatsModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends BusinessRatesStatsModelCreateArgs>(
+      args: SelectSubset<T, BusinessRatesStatsModelCreateArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Create many BusinessRatesStatsModels.
+     *     @param {BusinessRatesStatsModelCreateManyArgs} args - Arguments to create many BusinessRatesStatsModels.
+     *     @example
+     *     // Create many BusinessRatesStatsModels
+     *     const businessRatesStatsModel = await prisma.businessRatesStatsModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends BusinessRatesStatsModelCreateManyArgs>(
+      args?: SelectSubset<T, BusinessRatesStatsModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BusinessRatesStatsModel.
+     * @param {BusinessRatesStatsModelDeleteArgs} args - Arguments to delete one BusinessRatesStatsModel.
+     * @example
+     * // Delete one BusinessRatesStatsModel
+     * const BusinessRatesStatsModel = await prisma.businessRatesStatsModel.delete({
+     *   where: {
+     *     // ... filter to delete one BusinessRatesStatsModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends BusinessRatesStatsModelDeleteArgs>(
+      args: SelectSubset<T, BusinessRatesStatsModelDeleteArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Update one BusinessRatesStatsModel.
+     * @param {BusinessRatesStatsModelUpdateArgs} args - Arguments to update one BusinessRatesStatsModel.
+     * @example
+     * // Update one BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends BusinessRatesStatsModelUpdateArgs>(
+      args: SelectSubset<T, BusinessRatesStatsModelUpdateArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Delete zero or more BusinessRatesStatsModels.
+     * @param {BusinessRatesStatsModelDeleteManyArgs} args - Arguments to filter BusinessRatesStatsModels to delete.
+     * @example
+     * // Delete a few BusinessRatesStatsModels
+     * const { count } = await prisma.businessRatesStatsModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends BusinessRatesStatsModelDeleteManyArgs>(
+      args?: SelectSubset<T, BusinessRatesStatsModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessRatesStatsModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BusinessRatesStatsModels
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends BusinessRatesStatsModelUpdateManyArgs>(
+      args: SelectSubset<T, BusinessRatesStatsModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BusinessRatesStatsModel.
+     * @param {BusinessRatesStatsModelUpsertArgs} args - Arguments to update or create a BusinessRatesStatsModel.
+     * @example
+     * // Update or create a BusinessRatesStatsModel
+     * const businessRatesStatsModel = await prisma.businessRatesStatsModel.upsert({
+     *   create: {
+     *     // ... data to create a BusinessRatesStatsModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BusinessRatesStatsModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends BusinessRatesStatsModelUpsertArgs>(
+      args: SelectSubset<T, BusinessRatesStatsModelUpsertArgs>
+    ): Prisma__BusinessRatesStatsModelClient<BusinessRatesStatsModelGetPayload<T>>
+
+    /**
+     * Count the number of BusinessRatesStatsModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelCountArgs} args - Arguments to filter BusinessRatesStatsModels to count.
+     * @example
+     * // Count the number of BusinessRatesStatsModels
+     * const count = await prisma.businessRatesStatsModel.count({
+     *   where: {
+     *     // ... the filter for the BusinessRatesStatsModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends BusinessRatesStatsModelCountArgs>(
+      args?: Subset<T, BusinessRatesStatsModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BusinessRatesStatsModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BusinessRatesStatsModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BusinessRatesStatsModelAggregateArgs>(args: Subset<T, BusinessRatesStatsModelAggregateArgs>): Prisma.PrismaPromise<GetBusinessRatesStatsModelAggregateType<T>>
+
+    /**
+     * Group by BusinessRatesStatsModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessRatesStatsModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BusinessRatesStatsModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BusinessRatesStatsModelGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessRatesStatsModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BusinessRatesStatsModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessRatesStatsModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BusinessRatesStatsModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__BusinessRatesStatsModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    rate_category<T extends BusinessRateCategoryModelArgs= {}>(args?: Subset<T, BusinessRateCategoryModelArgs>): Prisma__BusinessRateCategoryModelClient<BusinessRateCategoryModelGetPayload<T> | Null>;
+
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * BusinessRatesStatsModel base type for findUnique actions
+   */
+  export type BusinessRatesStatsModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter, which BusinessRatesStatsModel to fetch.
+     */
+    where: BusinessRatesStatsModelWhereUniqueInput
+  }
+
+  /**
+   * BusinessRatesStatsModel findUnique
+   */
+  export interface BusinessRatesStatsModelFindUniqueArgs extends BusinessRatesStatsModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * BusinessRatesStatsModel findUniqueOrThrow
+   */
+  export type BusinessRatesStatsModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter, which BusinessRatesStatsModel to fetch.
+     */
+    where: BusinessRatesStatsModelWhereUniqueInput
+  }
+
+
+  /**
+   * BusinessRatesStatsModel base type for findFirst actions
+   */
+  export type BusinessRatesStatsModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter, which BusinessRatesStatsModel to fetch.
+     */
+    where?: BusinessRatesStatsModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessRatesStatsModels to fetch.
+     */
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessRatesStatsModels.
+     */
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessRatesStatsModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessRatesStatsModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessRatesStatsModels.
+     */
+    distinct?: Enumerable<BusinessRatesStatsModelScalarFieldEnum>
+  }
+
+  /**
+   * BusinessRatesStatsModel findFirst
+   */
+  export interface BusinessRatesStatsModelFindFirstArgs extends BusinessRatesStatsModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * BusinessRatesStatsModel findFirstOrThrow
+   */
+  export type BusinessRatesStatsModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter, which BusinessRatesStatsModel to fetch.
+     */
+    where?: BusinessRatesStatsModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessRatesStatsModels to fetch.
+     */
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessRatesStatsModels.
+     */
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessRatesStatsModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessRatesStatsModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessRatesStatsModels.
+     */
+    distinct?: Enumerable<BusinessRatesStatsModelScalarFieldEnum>
+  }
+
+
+  /**
+   * BusinessRatesStatsModel findMany
+   */
+  export type BusinessRatesStatsModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter, which BusinessRatesStatsModels to fetch.
+     */
+    where?: BusinessRatesStatsModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessRatesStatsModels to fetch.
+     */
+    orderBy?: Enumerable<BusinessRatesStatsModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BusinessRatesStatsModels.
+     */
+    cursor?: BusinessRatesStatsModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessRatesStatsModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessRatesStatsModels.
+     */
+    skip?: number
+    distinct?: Enumerable<BusinessRatesStatsModelScalarFieldEnum>
+  }
+
+
+  /**
+   * BusinessRatesStatsModel create
+   */
+  export type BusinessRatesStatsModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * The data needed to create a BusinessRatesStatsModel.
+     */
+    data: XOR<BusinessRatesStatsModelCreateInput, BusinessRatesStatsModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * BusinessRatesStatsModel createMany
+   */
+  export type BusinessRatesStatsModelCreateManyArgs = {
+    /**
+     * The data used to create many BusinessRatesStatsModels.
+     */
+    data: Enumerable<BusinessRatesStatsModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * BusinessRatesStatsModel update
+   */
+  export type BusinessRatesStatsModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * The data needed to update a BusinessRatesStatsModel.
+     */
+    data: XOR<BusinessRatesStatsModelUpdateInput, BusinessRatesStatsModelUncheckedUpdateInput>
+    /**
+     * Choose, which BusinessRatesStatsModel to update.
+     */
+    where: BusinessRatesStatsModelWhereUniqueInput
+  }
+
+
+  /**
+   * BusinessRatesStatsModel updateMany
+   */
+  export type BusinessRatesStatsModelUpdateManyArgs = {
+    /**
+     * The data used to update BusinessRatesStatsModels.
+     */
+    data: XOR<BusinessRatesStatsModelUpdateManyMutationInput, BusinessRatesStatsModelUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessRatesStatsModels to update
+     */
+    where?: BusinessRatesStatsModelWhereInput
+  }
+
+
+  /**
+   * BusinessRatesStatsModel upsert
+   */
+  export type BusinessRatesStatsModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * The filter to search for the BusinessRatesStatsModel to update in case it exists.
+     */
+    where: BusinessRatesStatsModelWhereUniqueInput
+    /**
+     * In case the BusinessRatesStatsModel found by the `where` argument doesn't exist, create a new BusinessRatesStatsModel with this data.
+     */
+    create: XOR<BusinessRatesStatsModelCreateInput, BusinessRatesStatsModelUncheckedCreateInput>
+    /**
+     * In case the BusinessRatesStatsModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BusinessRatesStatsModelUpdateInput, BusinessRatesStatsModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * BusinessRatesStatsModel delete
+   */
+  export type BusinessRatesStatsModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
+    /**
+     * Filter which BusinessRatesStatsModel to delete.
+     */
+    where: BusinessRatesStatsModelWhereUniqueInput
+  }
+
+
+  /**
+   * BusinessRatesStatsModel deleteMany
+   */
+  export type BusinessRatesStatsModelDeleteManyArgs = {
+    /**
+     * Filter which BusinessRatesStatsModels to delete
+     */
+    where?: BusinessRatesStatsModelWhereInput
+  }
+
+
+  /**
+   * BusinessRatesStatsModel without action
+   */
+  export type BusinessRatesStatsModelArgs = {
+    /**
+     * Select specific fields to fetch from the BusinessRatesStatsModel
+     */
+    select?: BusinessRatesStatsModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BusinessRatesStatsModelInclude | null
   }
 
 
@@ -21541,6 +22633,21 @@ export namespace Prisma {
   };
 
   export type BusinessRateModelScalarFieldEnum = (typeof BusinessRateModelScalarFieldEnum)[keyof typeof BusinessRateModelScalarFieldEnum]
+
+
+  export const BusinessRatesStatsModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    avg: 'avg',
+    avg_cnt: 'avg_cnt',
+    rate_category_id: 'rate_category_id',
+    business_user_id: 'business_user_id'
+  };
+
+  export type BusinessRatesStatsModelScalarFieldEnum = (typeof BusinessRatesStatsModelScalarFieldEnum)[keyof typeof BusinessRatesStatsModelScalarFieldEnum]
 
 
   export const BusinessUserModelScalarFieldEnum: {
@@ -22294,6 +23401,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelListRelationFilter
     oauth_accessor?: OauthAccessorModelListRelationFilter
     business_rates?: BusinessRateModelListRelationFilter
+    business_rates_stats?: BusinessRatesStatsModelListRelationFilter
   }
 
   export type BusinessUserModelOrderByWithRelationInput = {
@@ -22312,6 +23420,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelOrderByRelationAggregateInput
     oauth_accessor?: OauthAccessorModelOrderByRelationAggregateInput
     business_rates?: BusinessRateModelOrderByRelationAggregateInput
+    business_rates_stats?: BusinessRatesStatsModelOrderByRelationAggregateInput
   }
 
   export type BusinessUserModelWhereUniqueInput = {
@@ -22916,6 +24025,7 @@ export namespace Prisma {
     name?: StringFilter | string
     business_type?: EnumBusinessRateTypeFilter | BusinessRateType
     rates?: BusinessRateModelListRelationFilter
+    stats?: BusinessRatesStatsModelListRelationFilter
   }
 
   export type BusinessRateCategoryModelOrderByWithRelationInput = {
@@ -22927,6 +24037,7 @@ export namespace Prisma {
     name?: SortOrder
     business_type?: SortOrder
     rates?: BusinessRateModelOrderByRelationAggregateInput
+    stats?: BusinessRatesStatsModelOrderByRelationAggregateInput
   }
 
   export type BusinessRateCategoryModelWhereUniqueInput = {
@@ -22958,6 +24069,73 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     name?: StringWithAggregatesFilter | string
     business_type?: EnumBusinessRateTypeWithAggregatesFilter | BusinessRateType
+  }
+
+  export type BusinessRatesStatsModelWhereInput = {
+    AND?: Enumerable<BusinessRatesStatsModelWhereInput>
+    OR?: Enumerable<BusinessRatesStatsModelWhereInput>
+    NOT?: Enumerable<BusinessRatesStatsModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    avg?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFilter | number
+    rate_category_id?: StringFilter | string
+    business_user_id?: StringFilter | string
+    rate_category?: XOR<BusinessRateCategoryModelRelationFilter, BusinessRateCategoryModelWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
+  }
+
+  export type BusinessRatesStatsModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+    rate_category_id?: SortOrder
+    business_user_id?: SortOrder
+    rate_category?: BusinessRateCategoryModelOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
+  }
+
+  export type BusinessRatesStatsModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type BusinessRatesStatsModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+    rate_category_id?: SortOrder
+    business_user_id?: SortOrder
+    _count?: BusinessRatesStatsModelCountOrderByAggregateInput
+    _avg?: BusinessRatesStatsModelAvgOrderByAggregateInput
+    _max?: BusinessRatesStatsModelMaxOrderByAggregateInput
+    _min?: BusinessRatesStatsModelMinOrderByAggregateInput
+    _sum?: BusinessRatesStatsModelSumOrderByAggregateInput
+  }
+
+  export type BusinessRatesStatsModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<BusinessRatesStatsModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<BusinessRatesStatsModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<BusinessRatesStatsModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    avg?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntWithAggregatesFilter | number
+    rate_category_id?: StringWithAggregatesFilter | string
+    business_user_id?: StringWithAggregatesFilter | string
   }
 
   export type REProertyModelCreateInput = {
@@ -23633,6 +24811,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateInput = {
@@ -23650,6 +24829,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUpdateInput = {
@@ -23667,6 +24847,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateInput = {
@@ -23684,6 +24865,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelCreateManyInput = {
@@ -24414,6 +25596,7 @@ export namespace Prisma {
     name: string
     business_type: BusinessRateType
     rates?: BusinessRateModelCreateNestedManyWithoutCategoryInput
+    stats?: BusinessRatesStatsModelCreateNestedManyWithoutRate_categoryInput
   }
 
   export type BusinessRateCategoryModelUncheckedCreateInput = {
@@ -24425,6 +25608,7 @@ export namespace Prisma {
     name: string
     business_type: BusinessRateType
     rates?: BusinessRateModelUncheckedCreateNestedManyWithoutCategoryInput
+    stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutRate_categoryInput
   }
 
   export type BusinessRateCategoryModelUpdateInput = {
@@ -24436,6 +25620,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
     rates?: BusinessRateModelUpdateManyWithoutCategoryNestedInput
+    stats?: BusinessRatesStatsModelUpdateManyWithoutRate_categoryNestedInput
   }
 
   export type BusinessRateCategoryModelUncheckedUpdateInput = {
@@ -24447,6 +25632,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
     rates?: BusinessRateModelUncheckedUpdateManyWithoutCategoryNestedInput
+    stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutRate_categoryNestedInput
   }
 
   export type BusinessRateCategoryModelCreateManyInput = {
@@ -24477,6 +25663,88 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+  }
+
+  export type BusinessRatesStatsModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category: BusinessRateCategoryModelCreateNestedOneWithoutStatsInput
+    business_user: BusinessUserModelCreateNestedOneWithoutBusiness_rates_statsInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category_id: string
+    business_user_id: string
+  }
+
+  export type BusinessRatesStatsModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category?: BusinessRateCategoryModelUpdateOneRequiredWithoutStatsNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutBusiness_rates_statsNestedInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessRatesStatsModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category_id: string
+    business_user_id: string
+  }
+
+  export type BusinessRatesStatsModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter = {
@@ -25029,11 +26297,21 @@ export namespace Prisma {
     none?: SubExpertiseModelWhereInput
   }
 
+  export type BusinessRatesStatsModelListRelationFilter = {
+    every?: BusinessRatesStatsModelWhereInput
+    some?: BusinessRatesStatsModelWhereInput
+    none?: BusinessRatesStatsModelWhereInput
+  }
+
   export type BusinessCertificationImageModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type SubExpertiseModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BusinessRatesStatsModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25535,6 +26813,79 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumBusinessRateTypeFilter
     _max?: NestedEnumBusinessRateTypeFilter
+  }
+
+  export type DecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
+  }
+
+  export type BusinessRatesStatsModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+    rate_category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type BusinessRatesStatsModelAvgOrderByAggregateInput = {
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+  }
+
+  export type BusinessRatesStatsModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+    rate_category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type BusinessRatesStatsModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+    rate_category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type BusinessRatesStatsModelSumOrderByAggregateInput = {
+    avg?: SortOrder
+    avg_cnt?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type REAgentModelCreateNestedOneWithoutPropertiesInput = {
@@ -26085,6 +27436,13 @@ export namespace Prisma {
     connect?: Enumerable<BusinessRateModelWhereUniqueInput>
   }
 
+  export type BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutBusiness_userInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: BusinessRatesStatsModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+  }
+
   export type REAgentModelUncheckedCreateNestedOneWithoutBaseInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -26123,6 +27481,13 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<BusinessRateModelCreateOrConnectWithoutBusiness_userInput>
     createMany?: BusinessRateModelCreateManyBusiness_userInputEnvelope
     connect?: Enumerable<BusinessRateModelWhereUniqueInput>
+  }
+
+  export type BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutBusiness_userInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutBusiness_userInput>
+    createMany?: BusinessRatesStatsModelCreateManyBusiness_userInputEnvelope
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
   }
 
   export type UserModelUpdateOneRequiredWithoutBusiness_userNestedInput = {
@@ -26209,6 +27574,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<BusinessRateModelScalarWhereInput>
   }
 
+  export type BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutBusiness_userInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<BusinessRatesStatsModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: BusinessRatesStatsModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    delete?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    update?: Enumerable<BusinessRatesStatsModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<BusinessRatesStatsModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+  }
+
   export type REAgentModelUncheckedUpdateOneWithoutBaseNestedInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -26283,6 +27662,20 @@ export namespace Prisma {
     update?: Enumerable<BusinessRateModelUpdateWithWhereUniqueWithoutBusiness_userInput>
     updateMany?: Enumerable<BusinessRateModelUpdateManyWithWhereWithoutBusiness_userInput>
     deleteMany?: Enumerable<BusinessRateModelScalarWhereInput>
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutBusiness_userInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutBusiness_userInput>
+    upsert?: Enumerable<BusinessRatesStatsModelUpsertWithWhereUniqueWithoutBusiness_userInput>
+    createMany?: BusinessRatesStatsModelCreateManyBusiness_userInputEnvelope
+    set?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    delete?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    update?: Enumerable<BusinessRatesStatsModelUpdateWithWhereUniqueWithoutBusiness_userInput>
+    updateMany?: Enumerable<BusinessRatesStatsModelUpdateManyWithWhereWithoutBusiness_userInput>
+    deleteMany?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
   }
 
   export type BusinessUserModelCreateNestedOneWithoutRe_agentInput = {
@@ -26686,11 +28079,25 @@ export namespace Prisma {
     connect?: Enumerable<BusinessRateModelWhereUniqueInput>
   }
 
+  export type BusinessRatesStatsModelCreateNestedManyWithoutRate_categoryInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutRate_categoryInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutRate_categoryInput>
+    createMany?: BusinessRatesStatsModelCreateManyRate_categoryInputEnvelope
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+  }
+
   export type BusinessRateModelUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<Enumerable<BusinessRateModelCreateWithoutCategoryInput>, Enumerable<BusinessRateModelUncheckedCreateWithoutCategoryInput>>
     connectOrCreate?: Enumerable<BusinessRateModelCreateOrConnectWithoutCategoryInput>
     createMany?: BusinessRateModelCreateManyCategoryInputEnvelope
     connect?: Enumerable<BusinessRateModelWhereUniqueInput>
+  }
+
+  export type BusinessRatesStatsModelUncheckedCreateNestedManyWithoutRate_categoryInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutRate_categoryInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutRate_categoryInput>
+    createMany?: BusinessRatesStatsModelCreateManyRate_categoryInputEnvelope
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
   }
 
   export type EnumBusinessRateTypeFieldUpdateOperationsInput = {
@@ -26711,6 +28118,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<BusinessRateModelScalarWhereInput>
   }
 
+  export type BusinessRatesStatsModelUpdateManyWithoutRate_categoryNestedInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutRate_categoryInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutRate_categoryInput>
+    upsert?: Enumerable<BusinessRatesStatsModelUpsertWithWhereUniqueWithoutRate_categoryInput>
+    createMany?: BusinessRatesStatsModelCreateManyRate_categoryInputEnvelope
+    set?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    delete?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    update?: Enumerable<BusinessRatesStatsModelUpdateWithWhereUniqueWithoutRate_categoryInput>
+    updateMany?: Enumerable<BusinessRatesStatsModelUpdateManyWithWhereWithoutRate_categoryInput>
+    deleteMany?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+  }
+
   export type BusinessRateModelUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<Enumerable<BusinessRateModelCreateWithoutCategoryInput>, Enumerable<BusinessRateModelUncheckedCreateWithoutCategoryInput>>
     connectOrCreate?: Enumerable<BusinessRateModelCreateOrConnectWithoutCategoryInput>
@@ -26723,6 +28144,56 @@ export namespace Prisma {
     update?: Enumerable<BusinessRateModelUpdateWithWhereUniqueWithoutCategoryInput>
     updateMany?: Enumerable<BusinessRateModelUpdateManyWithWhereWithoutCategoryInput>
     deleteMany?: Enumerable<BusinessRateModelScalarWhereInput>
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateManyWithoutRate_categoryNestedInput = {
+    create?: XOR<Enumerable<BusinessRatesStatsModelCreateWithoutRate_categoryInput>, Enumerable<BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>>
+    connectOrCreate?: Enumerable<BusinessRatesStatsModelCreateOrConnectWithoutRate_categoryInput>
+    upsert?: Enumerable<BusinessRatesStatsModelUpsertWithWhereUniqueWithoutRate_categoryInput>
+    createMany?: BusinessRatesStatsModelCreateManyRate_categoryInputEnvelope
+    set?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    disconnect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    delete?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    connect?: Enumerable<BusinessRatesStatsModelWhereUniqueInput>
+    update?: Enumerable<BusinessRatesStatsModelUpdateWithWhereUniqueWithoutRate_categoryInput>
+    updateMany?: Enumerable<BusinessRatesStatsModelUpdateManyWithWhereWithoutRate_categoryInput>
+    deleteMany?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+  }
+
+  export type BusinessRateCategoryModelCreateNestedOneWithoutStatsInput = {
+    create?: XOR<BusinessRateCategoryModelCreateWithoutStatsInput, BusinessRateCategoryModelUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: BusinessRateCategoryModelCreateOrConnectWithoutStatsInput
+    connect?: BusinessRateCategoryModelWhereUniqueInput
+  }
+
+  export type BusinessUserModelCreateNestedOneWithoutBusiness_rates_statsInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedCreateWithoutBusiness_rates_statsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBusiness_rates_statsInput
+    connect?: BusinessUserModelWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type BusinessRateCategoryModelUpdateOneRequiredWithoutStatsNestedInput = {
+    create?: XOR<BusinessRateCategoryModelCreateWithoutStatsInput, BusinessRateCategoryModelUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: BusinessRateCategoryModelCreateOrConnectWithoutStatsInput
+    upsert?: BusinessRateCategoryModelUpsertWithoutStatsInput
+    connect?: BusinessRateCategoryModelWhereUniqueInput
+    update?: XOR<BusinessRateCategoryModelUpdateWithoutStatsInput, BusinessRateCategoryModelUncheckedUpdateWithoutStatsInput>
+  }
+
+  export type BusinessUserModelUpdateOneRequiredWithoutBusiness_rates_statsNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedCreateWithoutBusiness_rates_statsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutBusiness_rates_statsInput
+    upsert?: BusinessUserModelUpsertWithoutBusiness_rates_statsInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedUpdateWithoutBusiness_rates_statsInput>
   }
 
   export type NestedStringFilter = {
@@ -26982,6 +28453,33 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumBusinessRateTypeFilter
     _max?: NestedEnumBusinessRateTypeFilter
+  }
+
+  export type NestedDecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type REAgentModelCreateWithoutPropertiesInput = {
@@ -27463,6 +28961,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutOauth_accessorInput = {
@@ -27479,6 +28978,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutOauth_accessorInput = {
@@ -27532,6 +29032,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutOauth_accessorInput = {
@@ -27548,6 +29049,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type CustomerModelUpsertWithoutOauth_accessorInput = {
@@ -27618,6 +29120,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutBaseInput = {
@@ -27634,6 +29137,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutBaseInput = {
@@ -27715,6 +29219,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutBaseInput = {
@@ -27731,6 +29236,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput = {
@@ -28173,6 +29679,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BusinessRatesStatsModelCreateWithoutBusiness_userInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category: BusinessRateCategoryModelCreateNestedOneWithoutStatsInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category_id: string
+  }
+
+  export type BusinessRatesStatsModelCreateOrConnectWithoutBusiness_userInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    create: XOR<BusinessRatesStatsModelCreateWithoutBusiness_userInput, BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type BusinessRatesStatsModelCreateManyBusiness_userInputEnvelope = {
+    data: Enumerable<BusinessRatesStatsModelCreateManyBusiness_userInput>
+    skipDuplicates?: boolean
+  }
+
   export type UserModelUpsertWithoutBusiness_userInput = {
     update: XOR<UserModelUpdateWithoutBusiness_userInput, UserModelUncheckedUpdateWithoutBusiness_userInput>
     create: XOR<UserModelCreateWithoutBusiness_userInput, UserModelUncheckedCreateWithoutBusiness_userInput>
@@ -28330,6 +29868,37 @@ export namespace Prisma {
     data: XOR<BusinessRateModelUpdateManyMutationInput, BusinessRateModelUncheckedUpdateManyWithoutBusiness_ratesInput>
   }
 
+  export type BusinessRatesStatsModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    update: XOR<BusinessRatesStatsModelUpdateWithoutBusiness_userInput, BusinessRatesStatsModelUncheckedUpdateWithoutBusiness_userInput>
+    create: XOR<BusinessRatesStatsModelCreateWithoutBusiness_userInput, BusinessRatesStatsModelUncheckedCreateWithoutBusiness_userInput>
+  }
+
+  export type BusinessRatesStatsModelUpdateWithWhereUniqueWithoutBusiness_userInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    data: XOR<BusinessRatesStatsModelUpdateWithoutBusiness_userInput, BusinessRatesStatsModelUncheckedUpdateWithoutBusiness_userInput>
+  }
+
+  export type BusinessRatesStatsModelUpdateManyWithWhereWithoutBusiness_userInput = {
+    where: BusinessRatesStatsModelScalarWhereInput
+    data: XOR<BusinessRatesStatsModelUpdateManyMutationInput, BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_rates_statsInput>
+  }
+
+  export type BusinessRatesStatsModelScalarWhereInput = {
+    AND?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+    OR?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+    NOT?: Enumerable<BusinessRatesStatsModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    avg?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFilter | number
+    rate_category_id?: StringFilter | string
+    business_user_id?: StringFilter | string
+  }
+
   export type BusinessUserModelCreateWithoutRe_agentInput = {
     is_verified: boolean
     introduction_title: string
@@ -28344,6 +29913,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutRe_agentInput = {
@@ -28360,6 +29930,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutRe_agentInput = {
@@ -28418,6 +29989,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutRe_agentInput = {
@@ -28434,6 +30006,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type REProertyModelUpsertWithWhereUniqueWithoutAgentInput = {
@@ -28480,6 +30053,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutHs_providerInput = {
@@ -28496,6 +30070,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutHs_providerInput = {
@@ -28550,6 +30125,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutHs_providerInput = {
@@ -28566,6 +30142,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput = {
@@ -28611,6 +30188,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutCertification_imagesInput = {
@@ -28627,6 +30205,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutCertification_imagesInput = {
@@ -28653,6 +30232,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutCertification_imagesInput = {
@@ -28669,6 +30249,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type HSProviderModelCreateWithoutIntroduction_imagesInput = {
@@ -28740,6 +30321,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
@@ -28756,6 +30338,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
     business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
@@ -28807,6 +30390,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
@@ -28823,6 +30407,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type ExpertSuperCategoryModelCreateWithoutSub_categoriesInput = {
@@ -29175,6 +30760,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutBusiness_ratesInput = {
@@ -29191,6 +30777,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutBusiness_userInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutBusiness_ratesInput = {
@@ -29206,6 +30793,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     business_type: BusinessRateType
+    stats?: BusinessRatesStatsModelCreateNestedManyWithoutRate_categoryInput
   }
 
   export type BusinessRateCategoryModelUncheckedCreateWithoutRatesInput = {
@@ -29216,6 +30804,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     business_type: BusinessRateType
+    stats?: BusinessRatesStatsModelUncheckedCreateNestedManyWithoutRate_categoryInput
   }
 
   export type BusinessRateCategoryModelCreateOrConnectWithoutRatesInput = {
@@ -29269,6 +30858,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutBusiness_ratesInput = {
@@ -29285,6 +30875,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates_stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type BusinessRateCategoryModelUpsertWithoutRatesInput = {
@@ -29300,6 +30891,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    stats?: BusinessRatesStatsModelUpdateManyWithoutRate_categoryNestedInput
   }
 
   export type BusinessRateCategoryModelUncheckedUpdateWithoutRatesInput = {
@@ -29310,6 +30902,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    stats?: BusinessRatesStatsModelUncheckedUpdateManyWithoutRate_categoryNestedInput
   }
 
   export type BusinessRateModelCreateWithoutCategoryInput = {
@@ -29344,6 +30937,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BusinessRatesStatsModelCreateWithoutRate_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    business_user: BusinessUserModelCreateNestedOneWithoutBusiness_rates_statsInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    business_user_id: string
+  }
+
+  export type BusinessRatesStatsModelCreateOrConnectWithoutRate_categoryInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    create: XOR<BusinessRatesStatsModelCreateWithoutRate_categoryInput, BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>
+  }
+
+  export type BusinessRatesStatsModelCreateManyRate_categoryInputEnvelope = {
+    data: Enumerable<BusinessRatesStatsModelCreateManyRate_categoryInput>
+    skipDuplicates?: boolean
+  }
+
   export type BusinessRateModelUpsertWithWhereUniqueWithoutCategoryInput = {
     where: BusinessRateModelWhereUniqueInput
     update: XOR<BusinessRateModelUpdateWithoutCategoryInput, BusinessRateModelUncheckedUpdateWithoutCategoryInput>
@@ -29358,6 +30983,154 @@ export namespace Prisma {
   export type BusinessRateModelUpdateManyWithWhereWithoutCategoryInput = {
     where: BusinessRateModelScalarWhereInput
     data: XOR<BusinessRateModelUpdateManyMutationInput, BusinessRateModelUncheckedUpdateManyWithoutRatesInput>
+  }
+
+  export type BusinessRatesStatsModelUpsertWithWhereUniqueWithoutRate_categoryInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    update: XOR<BusinessRatesStatsModelUpdateWithoutRate_categoryInput, BusinessRatesStatsModelUncheckedUpdateWithoutRate_categoryInput>
+    create: XOR<BusinessRatesStatsModelCreateWithoutRate_categoryInput, BusinessRatesStatsModelUncheckedCreateWithoutRate_categoryInput>
+  }
+
+  export type BusinessRatesStatsModelUpdateWithWhereUniqueWithoutRate_categoryInput = {
+    where: BusinessRatesStatsModelWhereUniqueInput
+    data: XOR<BusinessRatesStatsModelUpdateWithoutRate_categoryInput, BusinessRatesStatsModelUncheckedUpdateWithoutRate_categoryInput>
+  }
+
+  export type BusinessRatesStatsModelUpdateManyWithWhereWithoutRate_categoryInput = {
+    where: BusinessRatesStatsModelScalarWhereInput
+    data: XOR<BusinessRatesStatsModelUpdateManyMutationInput, BusinessRatesStatsModelUncheckedUpdateManyWithoutStatsInput>
+  }
+
+  export type BusinessRateCategoryModelCreateWithoutStatsInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    business_type: BusinessRateType
+    rates?: BusinessRateModelCreateNestedManyWithoutCategoryInput
+  }
+
+  export type BusinessRateCategoryModelUncheckedCreateWithoutStatsInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    business_type: BusinessRateType
+    rates?: BusinessRateModelUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type BusinessRateCategoryModelCreateOrConnectWithoutStatsInput = {
+    where: BusinessRateCategoryModelWhereUniqueInput
+    create: XOR<BusinessRateCategoryModelCreateWithoutStatsInput, BusinessRateCategoryModelUncheckedCreateWithoutStatsInput>
+  }
+
+  export type BusinessUserModelCreateWithoutBusiness_rates_statsInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelCreateNestedManyWithoutBusiness_userInput
+    business_rates?: BusinessRateModelCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserModelUncheckedCreateWithoutBusiness_rates_statsInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accessor?: OauthAccessorModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    business_rates?: BusinessRateModelUncheckedCreateNestedManyWithoutBusiness_userInput
+  }
+
+  export type BusinessUserModelCreateOrConnectWithoutBusiness_rates_statsInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedCreateWithoutBusiness_rates_statsInput>
+  }
+
+  export type BusinessRateCategoryModelUpsertWithoutStatsInput = {
+    update: XOR<BusinessRateCategoryModelUpdateWithoutStatsInput, BusinessRateCategoryModelUncheckedUpdateWithoutStatsInput>
+    create: XOR<BusinessRateCategoryModelCreateWithoutStatsInput, BusinessRateCategoryModelUncheckedCreateWithoutStatsInput>
+  }
+
+  export type BusinessRateCategoryModelUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    rates?: BusinessRateModelUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type BusinessRateCategoryModelUncheckedUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    rates?: BusinessRateModelUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type BusinessUserModelUpsertWithoutBusiness_rates_statsInput = {
+    update: XOR<BusinessUserModelUpdateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedUpdateWithoutBusiness_rates_statsInput>
+    create: XOR<BusinessUserModelCreateWithoutBusiness_rates_statsInput, BusinessUserModelUncheckedCreateWithoutBusiness_rates_statsInput>
+  }
+
+  export type BusinessUserModelUpdateWithoutBusiness_rates_statsInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUpdateManyWithoutBusiness_userNestedInput
+    business_rates?: BusinessRateModelUpdateManyWithoutBusiness_userNestedInput
+  }
+
+  export type BusinessUserModelUncheckedUpdateWithoutBusiness_rates_statsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accessor?: OauthAccessorModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    business_rates?: BusinessRateModelUncheckedUpdateManyWithoutBusiness_userNestedInput
   }
 
   export type REPropertyCategoryModelCreateManyRe_propertyInput = {
@@ -29712,6 +31485,17 @@ export namespace Prisma {
     score: number
   }
 
+  export type BusinessRatesStatsModelCreateManyBusiness_userInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    rate_category_id: string
+  }
+
   export type BusinessCertificationImageModelUpdateWithoutBusiness_userInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29824,6 +31608,39 @@ export namespace Prisma {
     rater_id?: StringFieldUpdateOperationsInput | string
     category_id?: StringFieldUpdateOperationsInput | string
     score?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BusinessRatesStatsModelUpdateWithoutBusiness_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category?: BusinessRateCategoryModelUpdateOneRequiredWithoutStatsNestedInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateWithoutBusiness_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateManyWithoutBusiness_rates_statsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    rate_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REProertyModelCreateManyAgentInput = {
@@ -30025,6 +31842,17 @@ export namespace Prisma {
     score: number
   }
 
+  export type BusinessRatesStatsModelCreateManyRate_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    avg: Decimal | DecimalJsLike | number | string
+    avg_cnt: number
+    business_user_id: string
+  }
+
   export type BusinessRateModelUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30056,6 +31884,39 @@ export namespace Prisma {
     rater_id?: StringFieldUpdateOperationsInput | string
     ratee_id?: StringFieldUpdateOperationsInput | string
     score?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BusinessRatesStatsModelUpdateWithoutRate_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutBusiness_rates_statsNestedInput
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateWithoutRate_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessRatesStatsModelUncheckedUpdateManyWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    avg_cnt?: IntFieldUpdateOperationsInput | number
+    business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
 
