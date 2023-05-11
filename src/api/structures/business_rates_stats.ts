@@ -1,4 +1,5 @@
 import { IBusinessRateCategory } from "./business_rate_category";
+import { IPage } from "./common";
 import { IBusinessUser } from "./user/business_user";
 
 export interface IBusinessRatesStats {
@@ -9,7 +10,7 @@ export interface IBusinessRatesStats {
 }
 
 export namespace IBusinessRatesStats {
-  export interface ISearch {
+  export interface ISearch extends IPage {
     ratee_id: string[];
     rate_category_type: IBusinessRateCategory.Type[];
     rate_category_name: string[];
