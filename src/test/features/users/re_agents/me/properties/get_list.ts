@@ -1,7 +1,5 @@
-import { ITokens } from "@DTO/auth";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
-import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { users } from "@SDK";
 import { internal } from "@TEST/internal";
@@ -26,24 +24,6 @@ export const test_success = async (connection: IConnection) => {
   typia.assertEquals(received);
 };
 
-export const test_invalid_token = internal.test_invalid_user_token(
-  (connection: IConnection) =>
-    users.re_agents.me.properties.getList(connection, {})
-);
-
-export const test_user_token_mismatch = internal.test_user_token_mismatch(
-  "real estate agent"
-)((connection: IConnection) =>
-  users.re_agents.me.properties.getList(connection, {})
-);
-
-export const test_not_found = async (connection: IConnection) => {
-  const payload = typia.random<ITokens.IUserPayload<"real estate agent">>();
-  const token = Authentication.Crypto.getUserToken(payload);
-
-  await internal.test_error(() =>
-    users.re_agents.me.get(
-      internal.addAuthorizationHeader(connection)("bearer", token)
-    )
-  )(HttpStatus.FORBIDDEN, "User Not Found")();
-};
+export const test_authorization_fail = internal.test_authorization_fail(
+  (connection) => users.re_agents.me.properties.getList(connection, {})
+)("real estate agent");

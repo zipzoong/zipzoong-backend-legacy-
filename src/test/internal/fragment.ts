@@ -116,3 +116,22 @@ export const deleteAccessor = async (accessor_token: string) => {
 
   await prisma.oauthAccessorModel.delete({ where: { id: accessor_id } });
 };
+
+export const test_authorization_fail =
+  <T = void>(api: (connection: IConnection) => Promise<T>) =>
+  <U extends IUser.Type>(user_type: U) =>
+  async (connection: IConnection) => {
+    await test_invalid_user_token(api)(connection);
+
+    await test_user_token_mismatch(user_type)(api)(connection);
+
+    const payload = typia.random<Mutable<ITokens.IUserPayload>>();
+
+    payload.user_type = user_type;
+
+    const token = Authentication.Crypto.getUserToken(payload);
+
+    await test_error(api)(HttpStatus.FORBIDDEN, "User Not Found")(
+      addAuthorizationHeader(connection)("bearer", token)
+    );
+  };

@@ -41,14 +41,11 @@ async function run(): Promise<void> {
 
   await Backend.end(app);
 
-  const errors: Error[] = report.executions
-    .filter((line) => line.error !== null)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .map<Error>((result) => result.error!);
+  const executions = report.executions.filter((line) => line.error !== null);
 
   logger.write("\n</details>\n");
 
-  if (errors.length === 0) {
+  if (executions.length === 0) {
     write("\n\x1b[32mAll Tests Passed\x1b[0m\n");
     logger.write("\n$`\\color{#00FF00}\\text{All Tests Passed}`$\n");
 
@@ -68,13 +65,20 @@ async function run(): Promise<void> {
         "}`$\n"
     );
   } else {
-    write(`\n\x1b[31m${errors.length} Tests have Failed\x1b[0m\n`);
+    write(`\n\x1b[31m${executions.length} Tests have Failed\x1b[0m\n`);
     logger.write(
       "\n$`\\color{#ff0000}\\text{" +
-        `${errors.length}` +
+        `${executions.length}` +
         " Tests have Failed}`$\n"
     );
-    for (const error of errors) console.error(error);
+    for (const { location, name, error } of executions) {
+      console.log("\n\x1b[33m--- Location ---\x1b[0m");
+      console.log(location);
+      console.log("\n\x1b[34m--- Function Name ---\x1b[0m");
+      console.log(name);
+      console.log(`\n\x1b[32m--- Error ---\x1b[0m`);
+      console.error(error);
+    }
   }
 }
 

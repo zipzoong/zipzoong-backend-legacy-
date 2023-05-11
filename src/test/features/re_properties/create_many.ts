@@ -1,4 +1,3 @@
-import { ITokens } from "@DTO/auth";
 import { IREProperty } from "@DTO/re_property";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
@@ -44,28 +43,10 @@ export const test_success = async (connection: IConnection) => {
   );
 };
 
-export const test_invalid_token = internal.test_invalid_user_token(
-  (connection) =>
+export const test_authorization_fail = internal.test_authorization_fail(
+  (connection: IConnection) =>
     re_properties.createMany(connection, { data: [createRequest()] })
-);
-
-export const test_user_token_mismatch = internal.test_user_token_mismatch(
-  "real estate agent"
-)((connection) =>
-  re_properties.createMany(connection, { data: [createRequest()] })
-);
-
-export const test_not_found = async (connection: IConnection) => {
-  const payload = typia.random<ITokens.IUserPayload<"real estate agent">>();
-  const token = Authentication.Crypto.getUserToken(payload);
-
-  await internal.test_error(() =>
-    re_properties.createMany(
-      internal.addAuthorizationHeader(connection)("bearer", token),
-      { data: [createRequest()] }
-    )
-  )(HttpStatus.FORBIDDEN, "User Not Found")();
-};
+)("real estate agent");
 
 // if agent is not verified -> forbidden
 export const test_if_unverified_agent = async (connection: IConnection) => {
