@@ -71,14 +71,23 @@ async function run(): Promise<void> {
         `${executions.length}` +
         " Tests have Failed}`$\n"
     );
-    for (const { location, name, error } of executions) {
-      console.log("\n\x1b[33m--- Location ---\x1b[0m");
-      console.log(location);
-      console.log("\n\x1b[34m--- Function Name ---\x1b[0m");
-      console.log(name);
-      console.log(`\n\x1b[32m--- Error ---\x1b[0m`);
-      console.error(error);
-    }
+    const hashmap = new Map<string, { name: string; error: Error | null }[]>();
+    executions.forEach(({ location, name, error }) => {
+      const data = { name, error };
+
+      hashmap.get(location)?.push(data) ?? hashmap.set(location, [data]);
+    });
+
+    hashmap.forEach((list, location) => {
+      console.log(
+        "\n\x1b[33mLocation:\x1b[0m " + location.split("/features")[1]
+      );
+      list.forEach(({ name, error }) => {
+        console.log("\n- \x1b[34mFunction:\x1b[0m " + name);
+        console.error();
+        console.error(error);
+      });
+    });
   }
 }
 
