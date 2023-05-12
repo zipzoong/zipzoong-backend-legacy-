@@ -23,13 +23,13 @@ export namespace IBusinessRatesStats {
       readonly business_type: IBusinessUser.Type;
     }
     export interface ICreate {
-      readonly ratee_id: string;
-      readonly rate_category_id: string;
+      ratee_id: string;
+      rate_category_id: string;
       /**
        * @type uint
        * @maximum 10
        */
-      readonly score: number;
+      score: number;
     }
   }
 }

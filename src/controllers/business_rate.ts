@@ -3,6 +3,7 @@ import { IBusinessRatesStats } from "@DTO/business_rates_stats";
 import { IPaginatedResponse } from "@DTO/common";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
+import { BusinessRate } from "@PROVIDER/business_rate";
 import { CustomerToken } from "./decorators";
 
 @Controller("business-rates")
@@ -23,9 +24,9 @@ export class BusinessRatesController {
   @TypedRoute.Post()
   create(
     @TypedBody() body: IBusinessRatesStats.IRate.ICreate,
-    @CustomerToken() payload: ITokens.IUserPayload<"customer">
+    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">
   ): Promise<void> {
-    throw Error();
+    return BusinessRate.Service.create({ data: body, user_id });
   }
 }
 
@@ -40,9 +41,8 @@ export class BusinessRatesStatsController {
    */
   @TypedRoute.Get()
   getList(
-    @TypedQuery()
-    query: IBusinessRatesStats.ISearch
+    @TypedQuery() query: IBusinessRatesStats.ISearch
   ): Promise<IPaginatedResponse<IBusinessRatesStats>> {
-    throw Error();
+    return BusinessRate.Stats.getList(query);
   }
 }
