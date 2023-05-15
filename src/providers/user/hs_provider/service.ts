@@ -3,6 +3,7 @@ import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
+import Authentication from "@PROVIDER/authentication";
 import { toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
@@ -76,7 +77,7 @@ export namespace Service {
             include: Json.findPrivateInclude()
           }),
 
-        exception_for_notfound: User.Exception.MeNotFound,
+        exception_for_notfound: Authentication.Exception.MeNotFound,
 
         validator: identity,
 

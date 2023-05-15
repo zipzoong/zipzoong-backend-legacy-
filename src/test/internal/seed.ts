@@ -112,6 +112,51 @@ export const seed = async (connection: IConnection) => {
         is_deleted: false,
         deleted_at: null
       }))
+    }),
+
+    prisma.businessRateCategoryModel.createMany({
+      data: await ArrayUtil.asyncRepeat(5)(async () =>
+        typia.random<{
+          /** @format uuid */
+          id: string;
+          name: string;
+          business_type: "all";
+          created_at: "2023-05-02T07:27:30.128Z";
+          updated_at: "2023-05-02T07:27:30.128Z";
+          is_deleted: false;
+          deleted_at: null;
+        }>()
+      )
+    }),
+
+    prisma.businessRateCategoryModel.createMany({
+      data: await ArrayUtil.asyncRepeat(5)(async () =>
+        typia.random<{
+          /** @format uuid */
+          id: string;
+          name: string;
+          business_type: "RE";
+          created_at: "2023-05-02T07:27:30.128Z";
+          updated_at: "2023-05-02T07:27:30.128Z";
+          is_deleted: false;
+          deleted_at: null;
+        }>()
+      )
+    }),
+
+    prisma.businessRateCategoryModel.createMany({
+      data: await ArrayUtil.asyncRepeat(5)(async () =>
+        typia.random<{
+          /** @format uuid */
+          id: string;
+          name: string;
+          business_type: "HS";
+          created_at: "2023-05-02T07:27:30.128Z";
+          updated_at: "2023-05-02T07:27:30.128Z";
+          is_deleted: false;
+          deleted_at: null;
+        }>()
+      )
     })
   ]);
 

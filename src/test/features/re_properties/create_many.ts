@@ -73,7 +73,7 @@ export const test_if_unverified_agent = async (connection: IConnection) => {
       ),
       { data: [createRequest()] }
     )
-  )(HttpStatus.FORBIDDEN, "RE-Agent Unverified")();
+  )(HttpStatus.FORBIDDEN, "User Unverified")();
 
   await prisma.businessUserModel.updateMany({
     where: { id: agent.id },

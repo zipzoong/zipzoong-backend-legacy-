@@ -1,7 +1,8 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { prisma } from "@INFRA/DB";
 import { ExpertBusinessType } from "@PRISMA";
-import { isActive } from "@UTIL";
+import { isActive, isNull } from "@UTIL";
+import User from "../user";
 import { Exception } from "./exception";
 
 export namespace Check {
@@ -41,5 +42,22 @@ export namespace Check {
       )
     )
       throw Exception.InvalidExpertise;
+  };
+
+  /** @throw Not Found */
+  export const verify = async (user_id: string) => {
+    const user = await prisma.businessUserModel.findFirst({
+      where: { id: user_id },
+      include: { base: true }
+    });
+
+    // user not exist
+    if (isNull(user)) throw User.Exception.UserNotFound;
+    // user inactive
+    if (user.base.is_deleted) throw User.Exception.UserNotFound;
+    // user unverified
+    if (!user.is_verified) throw User.Exception.UserNotFound;
+
+    return;
   };
 }

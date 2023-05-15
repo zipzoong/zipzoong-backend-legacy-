@@ -1,6 +1,7 @@
 import { ICustomer } from "@DTO/user/customer";
 import { identity } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
+import Authentication from "@PROVIDER/authentication";
 import { isNull, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
@@ -38,7 +39,7 @@ export namespace Service {
             include: Json.findPrivateInclude()
           }),
 
-        exception_for_notfound: User.Exception.MeNotFound,
+        exception_for_notfound: Authentication.Exception.MeNotFound,
 
         validator: identity,
 

@@ -6,12 +6,12 @@
 //================================================================
 export * as agreements from "./agreements";
 export * as auth from "./auth";
-export * as business_rates from "./business_rates";
-export * as business_rate_categories from "./business_rate_categories";
 export * as expert_super_categories from "./expert_super_categories";
 export * as expert_sub_categories from "./expert_sub_categories";
+export * as rate_categories from "./rate_categories";
 export * as re_properties from "./re_properties";
 export * as re_property_super_categories from "./re_property_super_categories";
 export * as re_property_middle_categories from "./re_property_middle_categories";
 export * as re_property_sub_categories from "./re_property_sub_categories";
+export * as reviews from "./reviews";
 export * as users from "./users";

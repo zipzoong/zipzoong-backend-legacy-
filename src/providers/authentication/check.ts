@@ -1,8 +1,12 @@
 import { ISoftDeletable } from "@DTO/common";
+import { ICustomer } from "@DTO/user/customer";
+import { IHSProvider } from "@DTO/user/hs_provider";
+import { IREAgent } from "@DTO/user/re_agent";
 import { IUser } from "@DTO/user/user";
 import { pipe, tap } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { AgreementUserType, OauthAccessorModel } from "@PRISMA";
+import Agreement from "@PROVIDER/agreement";
 import { isActive, isInActive, isNull, toThrow } from "@UTIL";
 import { Exception } from "./exception";
 
@@ -34,17 +38,17 @@ export namespace Check {
       switch (user_type) {
         case "customer":
           return isNull(model.customer_id)
-            ? toThrow(Exception.UserNotFound)
+            ? toThrow(Exception.MeNotFound)
             : model.customer_id;
 
         case "home service provider":
           return isNull(model.business_user_id)
-            ? toThrow(Exception.UserNotFound)
+            ? toThrow(Exception.MeNotFound)
             : model.business_user_id;
 
         case "real estate agent":
           return isNull(model.business_user_id)
-            ? toThrow(Exception.UserNotFound)
+            ? toThrow(Exception.MeNotFound)
             : model.business_user_id;
 
         default:
@@ -107,7 +111,7 @@ export namespace Check {
     });
 
     if (acceptances.length !== acceptant_agreement_ids.length)
-      throw Exception.InvalidAgreement;
+      throw Agreement.Exception.Invalid;
 
     const agreements = await prisma.agreementModel.findMany({
       select: { id: true, is_deleted: true },
@@ -120,4 +124,29 @@ export namespace Check {
 
     if (rest.length > 0) throw Exception.AcceptanceInSufficient;
   };
+
+  /** @throw Forbidden */
+  export const verifyUser = <
+    T extends ICustomer.IPrivate | IREAgent.IPrivate | IHSProvider.IPrivate
+  >(
+    user: T
+  ): T =>
+    pipe(
+      user,
+
+      tap((u) => {
+        if (u.type === "customer" && isNull(u.phone))
+          throw Exception.UserUnverified;
+      }),
+
+      tap((u) => {
+        if (u.type === "home service provider" && !u.is_verified)
+          throw Exception.UserUnverified;
+      }),
+
+      tap((u) => {
+        if (u.type === "real estate agent" && !u.is_verified)
+          throw Exception.UserUnverified;
+      })
+    );
 }

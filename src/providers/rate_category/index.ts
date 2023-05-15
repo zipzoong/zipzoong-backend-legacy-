@@ -1,5 +1,5 @@
 import { Service } from "./service";
 
-export const BusinessRateCategory = {
+export const RateCategory = {
   Service
 };

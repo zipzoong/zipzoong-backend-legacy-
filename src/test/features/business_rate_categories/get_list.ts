@@ -6,7 +6,7 @@ console.log("\n- business_rate_categories.getList");
 
 export const test_success = async (connection: IConnection) => {
   const received = await business_rate_categories.getList(connection, {
-    business_type: []
+    business_type: ["all", "HS", "RE"]
   });
 
   typia.assertEquals(received);

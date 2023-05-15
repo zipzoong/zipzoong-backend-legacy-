@@ -1,6 +1,7 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
 import { prisma } from "@INFRA/DB";
+import Authentication from "@PROVIDER/authentication";
 import REAgent from "@PROVIDER/user/re_agent";
 import { Check } from "./check";
 import { Json } from "./json";
@@ -49,7 +50,7 @@ export namespace Service {
   }): Promise<void> => {
     const me = await REAgent.Service.Me.get(user_id); // authorize
 
-    Check.verify(me);
+    Authentication.Check.verifyUser(me);
 
     await Check.subCategoryValid(
       data.flatMap(({ sub_category_ids }) => sub_category_ids)
