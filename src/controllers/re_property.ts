@@ -34,6 +34,6 @@ export class REPropertiesController {
     @TypedBody() body: IREProperty.ICreateManyRequest,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<void> {
-    return REProperty.Service.createMany({ data: body.data, user_id });
+    return REProperty.Service.createMany({ input: body.data, user_id });
   }
 }

@@ -1,12 +1,10 @@
 import { ITokens } from "@DTO/auth";
 import { Configuration } from "@INFRA/config";
-import { UnauthorizedException } from "@nestjs/common";
 import jwt from "jsonwebtoken";
 import typia from "typia";
+import { Exception } from "./exception";
 
 export namespace Crypto {
-  const AuthenticationFail = new UnauthorizedException("Authentication Fail");
-
   const encrypt =
     <T extends object>(
       secret: string,
@@ -21,23 +19,23 @@ export namespace Crypto {
     try {
       return jwt.verify(token, secret);
     } catch (error) {
-      throw AuthenticationFail;
+      throw Exception.AuthenticationFail;
     }
   };
 
-  export const getAccessorToken = encrypt<ITokens.IOauthPayload>(
+  export const getAccountToken = encrypt<ITokens.IAccountPayload>(
     Configuration.ACCESSOR_TOKEN_PRIVATE_KEY,
     "RS256",
     "1h"
   );
 
   /** @throw unauthorized */
-  export const getAccessorTokenPayload = (
+  export const getAccountTokenPayload = (
     token: string
-  ): ITokens.IOauthPayload => {
+  ): ITokens.IAccountPayload => {
     const payload = decrypt(token, Configuration.ACCESSOR_TOKEN_PUBLIC_KEY);
-    if (!typia.is<ITokens.IOauthPayload>(payload)) {
-      throw AuthenticationFail;
+    if (!typia.is<ITokens.IAccountPayload>(payload)) {
+      throw Exception.AuthenticationFail;
     }
     return payload;
   };
@@ -52,7 +50,7 @@ export namespace Crypto {
   export const getUserTokenPayload = (token: string): ITokens.IUserPayload => {
     const payload = decrypt(token, Configuration.USER_TOKEN_PUBLIC_KEY);
     if (!typia.is<ITokens.IUserPayload>(payload)) {
-      throw AuthenticationFail;
+      throw Exception.AuthenticationFail;
     }
     return payload;
   };

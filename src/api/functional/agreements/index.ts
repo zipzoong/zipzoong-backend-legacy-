@@ -37,7 +37,7 @@ export function getList
 export namespace getList
 {
     export type Query = IAgreement.ISearch;
-    export type Output = Array<IAgreement.IResponse>;
+    export type Output = Array<IAgreement>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/agreements";

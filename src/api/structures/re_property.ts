@@ -43,7 +43,10 @@ export namespace IREProperty {
   export type ICreateRequest = Omit<ICreate, "agent_id">;
 
   export interface ICreateManyRequest {
-    /** @minItems 1 */
+    /**
+     * @minItems 1
+     * @maxItems 10
+     */
     data: ICreateRequest[];
   }
 }

@@ -104,6 +104,7 @@ exports.Prisma.AgreementModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   title: 'title',
   content: 'content',
+  is_required: 'is_required',
   user_type: 'user_type'
 };
 
@@ -173,7 +174,7 @@ exports.Prisma.HSProviderModelScalarFieldEnum = {
   business_registration_num: 'business_registration_num'
 };
 
-exports.Prisma.OauthAccessorModelScalarFieldEnum = {
+exports.Prisma.OauthAccountModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -351,10 +352,19 @@ exports.OauthType = {
 };
 
 exports.Prisma.ModelName = {
+  REProertyModel: 'REProertyModel',
+  REPropertyCategoryModel: 'REPropertyCategoryModel',
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
+  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
   ReviewModel: 'ReviewModel',
   RateModel: 'RateModel',
   RateCategoryModel: 'RateCategoryModel',
-  OauthAccessorModel: 'OauthAccessorModel',
+  AgreementModel: 'AgreementModel',
+  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
+  SubExpertiseModel: 'SubExpertiseModel',
+  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
+  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
@@ -362,16 +372,7 @@ exports.Prisma.ModelName = {
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',
   HSIntroductionImageModel: 'HSIntroductionImageModel',
-  SubExpertiseModel: 'SubExpertiseModel',
-  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
-  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
-  AgreementModel: 'AgreementModel',
-  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  REProertyModel: 'REProertyModel',
-  REPropertyCategoryModel: 'REPropertyCategoryModel',
-  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
-  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
-  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel'
+  OauthAccountModel: 'OauthAccountModel'
 };
 
 /**

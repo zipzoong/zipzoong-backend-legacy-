@@ -38,6 +38,75 @@ enum BusinessRateType {
   RE
 }
 
+model REProertyModel {
+  id             String                    @id
+  created_at     DateTime                  @database.Timestamptz
+  updated_at     DateTime                  @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                 @database.Timestamptz
+  name           String
+  main_image_url String
+  agent_id       String
+  agent          REAgentModel              @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categories     REPropertyCategoryModel[]
+
+  @@map("re_properties")
+}
+
+model REPropertyCategoryModel {
+  id              String                     @id
+  created_at      DateTime                   @database.Timestamptz
+  updated_at      DateTime                   @database.Timestamptz
+  is_deleted      Boolean
+  deleted_at      DateTime?                  @database.Timestamptz
+  re_property_id  String
+  sub_category_id String
+  re_property     REProertyModel             @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_category    REPropertySubCategoryModel @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("re_property_categories")
+}
+
+model REPropertySubCategoryModel {
+  id                  String                        @id
+  created_at          DateTime                      @database.Timestamptz
+  updated_at          DateTime                      @database.Timestamptz
+  is_deleted          Boolean
+  deleted_at          DateTime?                     @database.Timestamptz
+  name                String
+  middle_category_id  String
+  middle_category     REPropertyMiddleCategoryModel @relation(fields: [middle_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  property_categories REPropertyCategoryModel[]
+
+  @@map("re_property_sub_categories")
+}
+
+model REPropertyMiddleCategoryModel {
+  id                String                       @id
+  created_at        DateTime                     @database.Timestamptz
+  updated_at        DateTime                     @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                    @database.Timestamptz
+  name              String
+  super_category_id String
+  super_category    REPropertySuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_categories    REPropertySubCategoryModel[]
+
+  @@map("re_property_middle_categories")
+}
+
+model REPropertySuperCategoryModel {
+  id                String                          @id
+  created_at        DateTime                        @database.Timestamptz
+  updated_at        DateTime                        @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                       @database.Timestamptz
+  name              String                          @unique
+  middle_categories REPropertyMiddleCategoryModel[]
+
+  @@map("re_property_super_categories")
+}
+
 model ReviewModel {
   id          String            @id
   created_at  DateTime          @database.Timestamptz
@@ -83,28 +152,76 @@ model RateCategoryModel {
   @@map("rate_categories")
 }
 
-model OauthAccessorModel {
-  id                String             @id
-  created_at        DateTime           @database.Timestamptz
-  updated_at        DateTime           @database.Timestamptz
-  is_deleted        Boolean
-  deleted_at        DateTime?          @database.Timestamptz
-  oauth_type        OauthType
-  oauth_sub         String
-  business_user_id  String?
-  customer_id       String?
-  name              String?
-  email             String?
-  phone             String?
-  profile_image_url String?
-  birth             String?
-  gender            GenderType?
-  address_first     String?
-  address_second    String?
-  business_user     BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer          CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model AgreementModel {
+  id          String                     @id
+  created_at  DateTime                   @database.Timestamptz
+  updated_at  DateTime                   @database.Timestamptz
+  is_deleted  Boolean
+  deleted_at  DateTime?                  @database.Timestamptz
+  title       String
+  content     String
+  is_required Boolean
+  user_type   AgreementUserType
+  acceptances AgreementAcceptanceModel[]
 
-  @@map("oauth_accessors")
+  @@map("agreements")
+}
+
+model AgreementAcceptanceModel {
+  id           String         @id
+  created_at   DateTime       @database.Timestamptz
+  updated_at   DateTime       @database.Timestamptz
+  is_deleted   Boolean
+  deleted_at   DateTime?      @database.Timestamptz
+  user_id      String
+  agreement_id String
+  user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, agreement_id])
+  @@map("agreement_acceptances")
+}
+
+model SubExpertiseModel {
+  id               String                 @id
+  created_at       DateTime               @database.Timestamptz
+  updated_at       DateTime               @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?              @database.Timestamptz
+  sub_category_id  String
+  business_user_id String
+  sub_category     ExpertSubCategoryModel @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  business_user    BusinessUserModel      @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@unique([sub_category_id, business_user_id])
+  @@map("sub_expertises")
+}
+
+model ExpertSubCategoryModel {
+  id                String                   @id
+  created_at        DateTime                 @database.Timestamptz
+  updated_at        DateTime                 @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                @database.Timestamptz
+  name              String
+  super_category_id String
+  super_category    ExpertSuperCategoryModel @relation(fields: [super_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  expertises        SubExpertiseModel[]
+
+  @@map("expert_sub_categories")
+}
+
+model ExpertSuperCategoryModel {
+  id             String                   @id
+  created_at     DateTime                 @database.Timestamptz
+  updated_at     DateTime                 @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                @database.Timestamptz
+  name           String                   @unique
+  business_type  ExpertBusinessType
+  sub_categories ExpertSubCategoryModel[]
+
+  @@map("expert_super_categories")
 }
 
 model UserModel {
@@ -123,15 +240,15 @@ model UserModel {
 }
 
 model CustomerModel {
-  id                String               @id
+  id                String              @id
   birth             String?
   gender            GenderType?
   phone             String?
   address_first     String?
   address_second    String?
   profile_image_url String?
-  base              UserModel            @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  oauth_accessor    OauthAccessorModel[]
+  base              UserModel           @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  oauth_accounts    OauthAccountModel[]
   reviews           ReviewModel[]
 
   @@map("customers")
@@ -151,7 +268,7 @@ model BusinessUserModel {
   hs_provider          HSProviderModel?
   certification_images BusinessCertificationImageModel[]
   sub_expertises       SubExpertiseModel[]
-  oauth_accessor       OauthAccessorModel[]
+  oauth_accounts       OauthAccountModel[]
   reviews              ReviewModel[]
 
   @@map("business_users")
@@ -205,142 +322,26 @@ model HSIntroductionImageModel {
   @@map("hs_introduction_images")
 }
 
-model SubExpertiseModel {
-  id               String                 @id
-  created_at       DateTime               @database.Timestamptz
-  updated_at       DateTime               @database.Timestamptz
-  is_deleted       Boolean
-  deleted_at       DateTime?              @database.Timestamptz
-  sub_category_id  String
-  business_user_id String
-  sub_category     ExpertSubCategoryModel @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  business_user    BusinessUserModel      @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-
-  @@unique([sub_category_id, business_user_id])
-  @@map("sub_expertises")
-}
-
-model ExpertSubCategoryModel {
-  id                String                   @id
-  created_at        DateTime                 @database.Timestamptz
-  updated_at        DateTime                 @database.Timestamptz
+model OauthAccountModel {
+  id                String             @id
+  created_at        DateTime           @database.Timestamptz
+  updated_at        DateTime           @database.Timestamptz
   is_deleted        Boolean
-  deleted_at        DateTime?                @database.Timestamptz
-  name              String                   @unique
-  super_category_id String
-  super_category    ExpertSuperCategoryModel @relation(fields: [super_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  expertises        SubExpertiseModel[]
+  deleted_at        DateTime?          @database.Timestamptz
+  oauth_type        OauthType
+  oauth_sub         String
+  business_user_id  String?
+  customer_id       String?
+  name              String?
+  email             String?
+  phone             String?
+  profile_image_url String?
+  birth             String?
+  gender            GenderType?
+  address_first     String?
+  address_second    String?
+  business_user     BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer          CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("expert_sub_categories")
-}
-
-model ExpertSuperCategoryModel {
-  id             String                   @id
-  created_at     DateTime                 @database.Timestamptz
-  updated_at     DateTime                 @database.Timestamptz
-  is_deleted     Boolean
-  deleted_at     DateTime?                @database.Timestamptz
-  name           String                   @unique
-  business_type  ExpertBusinessType
-  sub_categories ExpertSubCategoryModel[]
-
-  @@map("expert_super_categories")
-}
-
-model AgreementModel {
-  id          String                     @id
-  created_at  DateTime                   @database.Timestamptz
-  updated_at  DateTime                   @database.Timestamptz
-  is_deleted  Boolean
-  deleted_at  DateTime?                  @database.Timestamptz
-  title       String
-  content     String
-  user_type   AgreementUserType
-  acceptances AgreementAcceptanceModel[]
-
-  @@map("agreements")
-}
-
-model AgreementAcceptanceModel {
-  id           String         @id
-  created_at   DateTime       @database.Timestamptz
-  updated_at   DateTime       @database.Timestamptz
-  is_deleted   Boolean
-  deleted_at   DateTime?      @database.Timestamptz
-  user_id      String
-  agreement_id String
-  user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@unique([user_id, agreement_id])
-  @@map("agreement_acceptances")
-}
-
-model REProertyModel {
-  id             String                    @id
-  created_at     DateTime                  @database.Timestamptz
-  updated_at     DateTime                  @database.Timestamptz
-  is_deleted     Boolean
-  deleted_at     DateTime?                 @database.Timestamptz
-  name           String
-  main_image_url String
-  agent_id       String
-  agent          REAgentModel              @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  categories     REPropertyCategoryModel[]
-
-  @@map("re_properties")
-}
-
-model REPropertyCategoryModel {
-  id              String                     @id
-  created_at      DateTime                   @database.Timestamptz
-  updated_at      DateTime                   @database.Timestamptz
-  is_deleted      Boolean
-  deleted_at      DateTime?                  @database.Timestamptz
-  re_property_id  String
-  sub_category_id String
-  re_property     REProertyModel             @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  sub_category    REPropertySubCategoryModel @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("re_property_categories")
-}
-
-model REPropertySubCategoryModel {
-  id                  String                        @id
-  created_at          DateTime                      @database.Timestamptz
-  updated_at          DateTime                      @database.Timestamptz
-  is_deleted          Boolean
-  deleted_at          DateTime?                     @database.Timestamptz
-  name                String                        @unique
-  middle_category_id  String
-  middle_category     REPropertyMiddleCategoryModel @relation(fields: [middle_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  property_categories REPropertyCategoryModel[]
-
-  @@map("re_property_sub_categories")
-}
-
-model REPropertyMiddleCategoryModel {
-  id                String                       @id
-  created_at        DateTime                     @database.Timestamptz
-  updated_at        DateTime                     @database.Timestamptz
-  is_deleted        Boolean
-  deleted_at        DateTime?                    @database.Timestamptz
-  name              String                       @unique
-  super_category_id String
-  super_category    REPropertySuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  sub_categories    REPropertySubCategoryModel[]
-
-  @@map("re_property_middle_categories")
-}
-
-model REPropertySuperCategoryModel {
-  id                String                          @id
-  created_at        DateTime                        @database.Timestamptz
-  updated_at        DateTime                        @database.Timestamptz
-  is_deleted        Boolean
-  deleted_at        DateTime?                       @database.Timestamptz
-  name              String                          @unique
-  middle_categories REPropertyMiddleCategoryModel[]
-
-  @@map("re_property_super_categories")
+  @@map("oauth_accounts")
 }

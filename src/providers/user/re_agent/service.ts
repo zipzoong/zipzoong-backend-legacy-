@@ -3,6 +3,7 @@ import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
+import { Prisma } from "@PRISMA";
 import Authentication from "@PROVIDER/authentication";
 import { toThrow } from "@UTIL";
 import User from "../user";
@@ -46,21 +47,27 @@ export namespace Service {
       (data) => ({ page, data })
     );
 
-  export const getOne = (user_id: string): Promise<IREAgent> =>
+  export const getOne = ({
+    user_id,
+    tx = prisma
+  }: {
+    user_id: string;
+    tx?: Prisma.TransactionClient;
+  }): Promise<IREAgent> =>
     User.Service.getOne({
       user_id,
 
       findFirst: async (id) =>
-        prisma.rEAgentModel.findFirst({
+        tx.rEAgentModel.findFirst({
           where: { id },
           include: Json.findInclude()
         }),
 
-      exception_for_notfound: User.Exception.UserNotFound,
+      exception_for_notfound: User.Exception.NotFound,
 
       validator: (provider) =>
         !provider.base.is_verified || provider.base.base.is_deleted
-          ? toThrow(User.Exception.UserNotFound)
+          ? toThrow(User.Exception.NotFound)
           : provider,
 
       mapper: Map.rEAgent
@@ -68,12 +75,18 @@ export namespace Service {
 
   export namespace Me {
     /** @throw Forbidden */
-    export const get = (user_id: string): Promise<IREAgent.IPrivate> =>
+    export const get = ({
+      user_id,
+      tx = prisma
+    }: {
+      user_id: string;
+      tx?: Prisma.TransactionClient;
+    }): Promise<IREAgent.IPrivate> =>
       User.Service.getOne({
         user_id,
 
         findFirst: async (id) =>
-          prisma.rEAgentModel.findFirst({
+          tx.rEAgentModel.findFirst({
             where: { id },
             include: Json.findPrivateInclude()
           }),
@@ -94,7 +107,7 @@ export namespace Service {
         page?: number;
       }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
         pipe(
-          get(user_id),
+          get({ user_id }),
 
           async (agent) =>
             prisma.rEProertyModel.findMany({
@@ -103,8 +116,6 @@ export namespace Service {
               take: 30,
               skip: 30 * (page - 1)
             }),
-
-          // filter(isActive),
 
           map(Map.property),
 
@@ -124,7 +135,7 @@ export namespace Service {
       page?: number;
     }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
       pipe(
-        getOne(user_id),
+        getOne({ user_id }),
 
         async (agent) =>
           prisma.rEProertyModel.findMany({

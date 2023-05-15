@@ -1,14 +1,12 @@
 import { Entity } from "../mixins";
 import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
-import {
-  AgreementUserType,
-  ExpertBusinessType,
-  GenderType,
-  OauthType
-} from "../enums";
+import { GenderType } from "../enums";
 import { REProperty } from "./real_estate";
 import { Review } from "./review";
+import { OauthAccount } from "./account";
+import { AgreementAcceptance } from "./agreement";
+import { SubExpertise } from "./expertise";
 
 const one_to_one: RelationalFieldOptions = {
   fields: ["id"],
@@ -16,38 +14,6 @@ const one_to_one: RelationalFieldOptions = {
   onUpdate: "NoAction",
   onDelete: "NoAction"
 };
-
-export const OauthAccessor = createModel("OauthAccessorModel", (model) => {
-  model
-    .mixin(Entity)
-    .enum("oauth_type", OauthType)
-    .string("oauth_sub")
-    .string("business_user_id", { optional: true })
-    .string("customer_id", { optional: true })
-    .string("name", { optional: true })
-    .string("email", { optional: true })
-    .string("phone", { optional: true })
-    .string("profile_image_url", { optional: true })
-    .string("birth", { optional: true })
-    .enum("gender", GenderType, { optional: true })
-    .string("address_first", { optional: true })
-    .string("address_second", { optional: true })
-    .relation("business_user", BusinessUser, {
-      optional: true,
-      fields: ["business_user_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
-    .relation("customer", Customer, {
-      optional: true,
-      fields: ["customer_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
-    .map("oauth_accessors");
-});
 
 export const User = createModel("UserModel", (model) => {
   model
@@ -70,7 +36,7 @@ export const Customer = createModel("CustomerModel", (model) => {
     .string("address_second", { optional: true })
     .string("profile_image_url", { optional: true })
     .relation("base", User, one_to_one)
-    .relation("oauth_accessor", OauthAccessor, { list: true })
+    .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
     .map("customers");
 });
@@ -92,7 +58,7 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
       list: true
     })
     .relation("sub_expertises", SubExpertise, { list: true })
-    .relation("oauth_accessor", OauthAccessor, { list: true })
+    .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
     .map("business_users");
 });
@@ -150,90 +116,5 @@ export const HSIntroductionImage = createModel(
         onDelete: "NoAction"
       })
       .map("hs_introduction_images");
-  }
-);
-
-export const SubExpertise = createModel("SubExpertiseModel", (model) => {
-  model
-    .mixin(Entity)
-    .string("sub_category_id")
-    .string("business_user_id")
-    .relation("sub_category", ExpertSubCategory, {
-      fields: ["sub_category_id"],
-      references: ["id"],
-      onUpdate: "NoAction",
-      onDelete: "NoAction"
-    })
-    .relation("business_user", BusinessUser, {
-      fields: ["business_user_id"],
-      references: ["id"],
-      onUpdate: "NoAction",
-      onDelete: "NoAction"
-    })
-    .unique({ fields: ["sub_category_id", "business_user_id"] })
-    .map("sub_expertises");
-});
-
-export const ExpertSubCategory = createModel(
-  "ExpertSubCategoryModel",
-  (model) => {
-    model
-      .mixin(Entity)
-      .string("name", { unique: true })
-      .string("super_category_id")
-      .relation("super_category", ExpertSuperCategory, {
-        fields: ["super_category_id"],
-        references: ["id"],
-        onUpdate: "NoAction",
-        onDelete: "NoAction"
-      })
-      .relation("expertises", SubExpertise, { list: true })
-      .map("expert_sub_categories");
-  }
-);
-
-export const ExpertSuperCategory = createModel(
-  "ExpertSuperCategoryModel",
-  (model) => {
-    model
-      .mixin(Entity)
-      .string("name", { unique: true })
-      .enum("business_type", ExpertBusinessType)
-      .relation("sub_categories", ExpertSubCategory, { list: true })
-      .map("expert_super_categories");
-  }
-);
-
-export const Agreement = createModel("AgreementModel", (model) => {
-  model
-    .mixin(Entity)
-    .string("title")
-    .string("content")
-    .enum("user_type", AgreementUserType)
-    .relation("acceptances", AgreementAcceptance, { list: true })
-    .map("agreements");
-});
-
-export const AgreementAcceptance = createModel(
-  "AgreementAcceptanceModel",
-  (model) => {
-    model
-      .mixin(Entity)
-      .string("user_id")
-      .string("agreement_id")
-      .relation("user", User, {
-        fields: ["user_id"],
-        references: ["id"],
-        onDelete: "NoAction",
-        onUpdate: "NoAction"
-      })
-      .relation("agreement", Agreement, {
-        fields: ["agreement_id"],
-        references: ["id"],
-        onDelete: "NoAction",
-        onUpdate: "NoAction"
-      })
-      .unique({ fields: ["user_id", "agreement_id"] })
-      .map("agreement_acceptances");
   }
 );

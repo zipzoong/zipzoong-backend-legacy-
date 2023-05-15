@@ -12,9 +12,7 @@ export class AgreementsController {
    * @return 약관 목록
    */
   @TypedRoute.Get()
-  getList(
-    @TypedQuery() query: IAgreement.ISearch
-  ): Promise<IAgreement.IResponse[]> {
+  getList(@TypedQuery() query: IAgreement.ISearch): Promise<IAgreement[]> {
     return Agreement.Service.getList(query);
   }
 }

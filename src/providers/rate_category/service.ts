@@ -19,8 +19,7 @@ export namespace Service {
 
       map((category) => ({
         id: category.id,
-        name: category.name,
-        business_type: category.business_type
+        name: category.name
       })),
 
       toArray

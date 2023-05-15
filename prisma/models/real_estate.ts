@@ -46,7 +46,7 @@ export const REPropertySubCategory = createModel(
   (model) => {
     model
       .mixin(Entity)
-      .string("name", { unique: true })
+      .string("name")
       .string("middle_category_id")
       .relation("middle_category", REPropertyMiddleCategory, {
         fields: ["middle_category_id"],
@@ -64,7 +64,7 @@ export const REPropertyMiddleCategory = createModel(
   (model) => {
     model
       .mixin(Entity)
-      .string("name", { unique: true })
+      .string("name")
       .string("super_category_id")
       .relation("super_category", REPropertySuperCategory, {
         fields: ["super_category_id"],

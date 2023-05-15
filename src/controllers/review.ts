@@ -34,8 +34,8 @@ export class ReviewsController {
     @TypedBody() body: IReview.ICreateRequest
   ): Promise<void> {
     return Review.Service.create({
-      ...body,
-      reviewer_id: user_id
+      input: body,
+      user_id
     });
   }
 }

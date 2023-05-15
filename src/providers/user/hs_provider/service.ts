@@ -3,6 +3,7 @@ import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
+import { Prisma } from "@PRISMA";
 import Authentication from "@PROVIDER/authentication";
 import { toThrow } from "@UTIL";
 import User from "../user";
@@ -46,33 +47,45 @@ export namespace Service {
       (data) => ({ page, data })
     );
 
-  export const getOne = (user_id: string): Promise<IHSProvider> =>
+  export const getOne = ({
+    user_id,
+    tx = prisma
+  }: {
+    user_id: string;
+    tx?: Prisma.TransactionClient;
+  }): Promise<IHSProvider> =>
     User.Service.getOne({
       user_id,
 
       findFirst: async (id) =>
-        prisma.hSProviderModel.findFirst({
+        tx.hSProviderModel.findFirst({
           where: { id },
           include: Json.findInclude()
         }),
 
-      exception_for_notfound: User.Exception.UserNotFound,
+      exception_for_notfound: User.Exception.NotFound,
 
       validator: (provider) =>
         !provider.base.is_verified || provider.base.base.is_deleted
-          ? toThrow(User.Exception.UserNotFound)
+          ? toThrow(User.Exception.NotFound)
           : provider,
 
       mapper: Map.hSProvider
     });
 
   export namespace Me {
-    export const get = (user_id: string): Promise<IHSProvider.IPrivate> =>
+    export const get = ({
+      user_id,
+      tx = prisma
+    }: {
+      user_id: string;
+      tx?: Prisma.TransactionClient;
+    }): Promise<IHSProvider.IPrivate> =>
       User.Service.getOne({
         user_id,
 
         findFirst: async (id) =>
-          prisma.hSProviderModel.findFirst({
+          tx.hSProviderModel.findFirst({
             where: { id },
             include: Json.findPrivateInclude()
           }),

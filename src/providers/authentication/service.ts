@@ -25,13 +25,13 @@ export namespace Service {
       (_code) => Oauth[oauth_type](_code),
 
       async ({ oauth_sub }) =>
-        prisma.oauthAccessorModel.findFirst({
+        prisma.oauthAccountModel.findFirst({
           where: { oauth_sub, oauth_type }
         }),
 
-      Check.existAccessor,
+      Check.existAccount,
 
-      Check.activeAccessor,
+      Check.activeAccount,
 
       Check.existUserId(user_type),
 
@@ -50,10 +50,10 @@ export namespace Service {
       (_code) => Oauth[oauth_type](_code),
 
       async ({ oauth_sub, profile }) =>
-        (await prisma.oauthAccessorModel.findFirst({
+        (await prisma.oauthAccountModel.findFirst({
           where: { oauth_sub, oauth_type }
         })) ??
-        prisma.oauthAccessorModel.create({
+        prisma.oauthAccountModel.create({
           data: {
             id: randomUUID(),
             oauth_sub,
@@ -73,24 +73,24 @@ export namespace Service {
           }
         }),
 
-      Check.activeAccessor,
+      Check.activeAccount,
 
       (model) =>
-        Crypto.getAccessorToken({ type: "accessor", accessor_id: model.id }),
+        Crypto.getAccountToken({ type: "account", account_id: model.id }),
 
       (access_token) => ({ access_token })
     );
 
   export const getProfile = (
-    accessor_id: string
+    account_id: string
   ): Promise<IAuthentication.IProfile> =>
     pipe(
-      accessor_id,
+      account_id,
 
-      async (id) => prisma.oauthAccessorModel.findFirst({ where: { id } }),
+      async (id) => prisma.oauthAccountModel.findFirst({ where: { id } }),
 
-      Check.existAccessor,
-      Check.activeAccessor,
+      Check.existAccount,
+      Check.activeAccount,
 
       ({
         name,
@@ -125,71 +125,97 @@ export namespace Service {
     return code;
   };
 
-  export const createUser = async (
-    accessor_id: string,
-    input: IAuthentication.ICreateRequest
-  ): Promise<void> => {
-    const accessor = await Check.canCreateUser(input.type)(accessor_id);
-
+  export const createUser = async ({
+    input,
+    account_id
+  }: {
+    input: IAuthentication.ICreateRequest;
+    account_id: string;
+  }): Promise<void> => {
     const email = input.email_access_code
       ? await getEmail(input.email_access_code)
-      : accessor.email ?? null;
-
+      : null;
     const phone = input.phone_access_code
       ? await getPhone(input.phone_access_code)
-      : accessor.phone ?? null;
+      : null;
 
-    const queries: Prisma.PrismaPromise<unknown>[] = [];
-    let user_id: string;
+    await prisma.$transaction(async (tx) => {
+      const account = await Check.canCreateUser(input.type)({ account_id, tx });
 
-    switch (input.type) {
-      case "customer":
-        {
-          await Check.acceptanceValid(input);
-          const data = Customer.Json.createData({ ...input, email, phone });
-          user_id = data.base.create.id;
-          queries.push(prisma.customerModel.create({ data }));
-        }
-        break;
-      case "real estate agent":
-        if (isNull(phone)) throw Exception.PhoneRequired;
-        {
-          await Check.acceptanceValid(input);
-          await BusinessUser.Check.subExpertCategoriesValid(input);
-          const data = REAgent.Json.createData({ ...input, email, phone });
-          user_id = data.base.create.base.create.id;
-          queries.push(prisma.rEAgentModel.create({ data }));
-        }
-        break;
-      case "home service provider":
-        if (isNull(phone)) throw Exception.PhoneRequired;
-        {
-          await Check.acceptanceValid(input);
-          await BusinessUser.Check.subExpertCategoriesValid(input);
-          const data = HSProvider.Json.createData({ ...input, email, phone });
-          user_id = data.base.create.base.create.id;
-          queries.push(prisma.hSProviderModel.create({ data }));
-        }
-        break;
-      default:
-        throw Error("unreachable case");
-    }
+      const connect = (
+        input: Partial<
+          Pick<
+            Prisma.OauthAccountModelUncheckedUpdateInput,
+            "business_user_id" | "customer_id"
+          >
+        >
+      ) =>
+        tx.oauthAccountModel.update({
+          where: { id: account.id },
+          data: {
+            ...input,
+            updated_at: getISOString()
+          }
+        });
 
-    queries.push(
-      prisma.oauthAccessorModel.update({
-        where: { id: accessor_id },
-        data: {
-          ...(input.type === "customer" ? { customer_id: user_id } : {}),
-          ...(input.type === "home service provider" ||
-          input.type === "real estate agent"
-            ? { business_user_id: user_id }
-            : {}),
-          updated_at: getISOString()
-        }
-      })
-    );
+      switch (input.type) {
+        case "customer":
+          {
+            await Check.acceptanceValid({
+              type: input.type,
+              acceptant_agreement_ids: input.acceptant_agreement_ids,
+              tx
+            });
+            const data = Customer.Json.createData({ ...input, email, phone });
+            await tx.customerModel.create({ data });
+            await connect({ customer_id: data.base.create.id });
+          }
+          break;
+        case "real estate agent":
+          if (isNull(phone)) throw Exception.PhoneRequired;
+          {
+            await Check.acceptanceValid({
+              type: input.type,
+              acceptant_agreement_ids: input.acceptant_agreement_ids,
+              tx
+            });
+            await BusinessUser.Check.subExpertCategoriesValid({
+              type: input.type,
+              sub_expertise_ids: input.sub_expertise_ids,
+              tx
+            });
+            const data = REAgent.Json.createData({ ...input, email, phone });
+            await tx.rEAgentModel.create({ data });
+            await connect({
+              business_user_id: data.base.create.base.create.id
+            });
+          }
+          break;
+        case "home service provider":
+          if (isNull(phone)) throw Exception.PhoneRequired;
+          {
+            await Check.acceptanceValid({
+              type: input.type,
+              acceptant_agreement_ids: input.acceptant_agreement_ids,
+              tx
+            });
+            await BusinessUser.Check.subExpertCategoriesValid({
+              type: input.type,
+              sub_expertise_ids: input.sub_expertise_ids,
+              tx
+            });
+            const data = HSProvider.Json.createData({ ...input, email, phone });
+            await tx.hSProviderModel.create({ data });
+            await connect({
+              business_user_id: data.base.create.base.create.id
+            });
+          }
+          break;
+        default:
+          throw Error("unreachable case");
+      }
+    });
 
-    await prisma.$transaction(queries);
     return;
   };
 }

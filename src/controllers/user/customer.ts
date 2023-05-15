@@ -19,7 +19,7 @@ export class CustomersController {
   get(
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
-    return Customer.Service.Me.get(payload.user_id);
+    return Customer.Service.Me.get({ user_id: payload.user_id });
   }
 
   /**
@@ -32,6 +32,6 @@ export class CustomersController {
    */
   @TypedRoute.Get(":customer_id")
   getOne(@TypedParam("customer_id") customer_id: string): Promise<ICustomer> {
-    return Customer.Service.getOne(customer_id);
+    return Customer.Service.getOne({ user_id: customer_id });
   }
 }

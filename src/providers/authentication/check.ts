@@ -5,7 +5,7 @@ import { IREAgent } from "@DTO/user/re_agent";
 import { IUser } from "@DTO/user/user";
 import { pipe, tap } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { AgreementUserType, OauthAccessorModel } from "@PRISMA";
+import { AgreementUserType, OauthAccountModel, Prisma } from "@PRISMA";
 import Agreement from "@PROVIDER/agreement";
 import { isActive, isInActive, isNull, toThrow } from "@UTIL";
 import { Exception } from "./exception";
@@ -22,19 +22,19 @@ export namespace Check {
       isInActive(model) ? toThrow(exception) : model;
 
   /** @throw Unauthorized */
-  export const existAccessor = exist(
+  export const existAccount = exist(
     Exception.AuthenticationFail
-  )<OauthAccessorModel>;
+  )<OauthAccountModel>;
 
   /** @throw Forbidden */
-  export const activeAccessor = active(
-    Exception.AccessorInactive
-  )<OauthAccessorModel>;
+  export const activeAccount = active(
+    Exception.AccountInactive
+  )<OauthAccountModel>;
 
   /** @throw NotFound */
   export const existUserId =
     (user_type: IUser.Type) =>
-    (model: OauthAccessorModel): string => {
+    (model: OauthAccountModel): string => {
       switch (user_type) {
         case "customer":
           return isNull(model.customer_id)
@@ -58,7 +58,7 @@ export namespace Check {
 
   /** @throw Forbidden */
   const userNotExist =
-    (user_type: IUser.Type) => (model: OauthAccessorModel) => {
+    (user_type: IUser.Type) => (model: OauthAccountModel) => {
       switch (user_type) {
         case "customer":
           return !isNull(model.customer_id)
@@ -81,14 +81,21 @@ export namespace Check {
    * @throw Forbidden
    */
   export const canCreateUser =
-    (user_type: IUser.Type) => (accessor_id: string) =>
+    (user_type: IUser.Type) =>
+    ({
+      account_id,
+      tx = prisma
+    }: {
+      account_id: string;
+      tx?: Prisma.TransactionClient;
+    }) =>
       pipe(
-        accessor_id,
-        async (id) => prisma.oauthAccessorModel.findFirst({ where: { id } }),
+        account_id,
+        async (id) => tx.oauthAccountModel.findFirst({ where: { id } }),
 
-        existAccessor,
+        existAccount,
 
-        activeAccessor,
+        activeAccount,
 
         tap(userNotExist(user_type))
       );
@@ -96,33 +103,41 @@ export namespace Check {
   /** @throw Forbidden */
   export const acceptanceValid = async ({
     type,
-    acceptant_agreement_ids
+    acceptant_agreement_ids,
+    tx = prisma
   }: {
     type: IUser.Type;
     acceptant_agreement_ids: string[];
+    tx?: Prisma.TransactionClient;
   }) => {
     const or: AgreementUserType[] = ["all"];
     if (type === "customer") or.push("customer");
     else if (type === "real estate agent") or.push("business", "RE");
     else if (type === "home service provider") or.push("business", "HS");
 
-    const acceptances = await prisma.agreementModel.findMany({
+    const acceptances = await tx.agreementModel.findMany({
       where: { id: { in: acceptant_agreement_ids } }
     });
 
     if (acceptances.length !== acceptant_agreement_ids.length)
       throw Agreement.Exception.Invalid;
 
-    const agreements = await prisma.agreementModel.findMany({
-      select: { id: true, is_deleted: true },
-      where: { user_type: { in: or } }
-    });
+    const requireds = (
+      await tx.agreementModel.findMany({
+        select: { id: true, is_required: true, is_deleted: true },
+        where: { user_type: { in: or } }
+      })
+    )
+      .filter(isActive)
+      .filter(({ is_required }) => is_required)
+      .map(({ id }) => id);
 
-    const setA = new Set(acceptances.filter(isActive).map(({ id }) => id));
-    const setB = new Set(agreements.filter(isActive).map(({ id }) => id));
-    const rest = Array.from(new Set([...setB].filter((x) => !setA.has(x))));
+    // 필수 항목이 모두 있는가?
+    const isInSufficient = !requireds.every((agreement_id) =>
+      acceptant_agreement_ids.includes(agreement_id)
+    );
 
-    if (rest.length > 0) throw Exception.AcceptanceInSufficient;
+    if (isInSufficient) throw Exception.AcceptanceInSufficient;
   };
 
   /** @throw Forbidden */

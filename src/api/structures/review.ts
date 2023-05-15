@@ -26,8 +26,11 @@ export namespace IReview {
   }
 
   export interface IRate {
-    readonly id: string;
-    readonly score: string;
+    /**
+     * @type uint
+     * @maximum 10
+     */
+    readonly score: number;
     readonly category: IRateCategory;
   }
 

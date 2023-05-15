@@ -41,7 +41,7 @@ export const test_success = async (connection: IConnection) => {
   await internal.deleteAccessor(access_token);
 };
 
-export const test_invalid_accessor = internal.test_invalid_accessor(
+export const test_invalid_account = internal.test_invalid_account(
   (connection: IConnection) =>
     auth.sign_in.execute(connection, {
       code: "inactive_accessor",

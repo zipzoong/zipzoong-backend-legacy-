@@ -9,6 +9,5 @@ export const test_success = async (connection: IConnection) => {
   const query = typia.random<IExpertCategory.ISub.ISearch>();
 
   const received = await expert_sub_categories.getList(connection, query);
-
   typia.assertEquals(received);
 };

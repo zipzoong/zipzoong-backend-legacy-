@@ -20,6 +20,6 @@ export const test_success = async (connection: IConnection): Promise<void> => {
   await internal.deleteAccessor(access_token);
 };
 
-export const test_invalid_accessor = internal.test_invalid_accessor(
+export const test_invalid_account = internal.test_invalid_account(
   auth.profile.get
 );
