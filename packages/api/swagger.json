@@ -4304,7 +4304,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4316,6 +4316,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4337,7 +4346,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -4746,7 +4756,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4758,6 +4768,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4779,7 +4798,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -4996,7 +5016,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5008,6 +5028,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -5029,7 +5058,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -5210,7 +5240,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5222,6 +5252,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -5243,7 +5282,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -5417,7 +5457,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5429,6 +5469,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -5450,7 +5499,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -6343,7 +6393,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -6355,6 +6405,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -6376,7 +6435,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -7337,7 +7397,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -7349,6 +7409,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -7370,7 +7439,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,

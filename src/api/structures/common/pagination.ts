@@ -9,8 +9,7 @@ export interface IPaginatedResponse<T> {
 
 export interface IPage {
   /**
-   * 기본값 1
-   *
+   * @default 1
    * @type uint
    * @minimum 1
    */
