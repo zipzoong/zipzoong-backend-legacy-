@@ -27,6 +27,9 @@ export class ReviewsController {
    * @summary 리뷰 등록
    * @tag reviews
    * @param body 리뷰 내용과 평점 리스트를 포함
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   * @throw 404 Not Found
    */
   @TypedRoute.Post()
   create(

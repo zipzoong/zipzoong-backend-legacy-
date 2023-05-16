@@ -1,13 +1,15 @@
+import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { Prisma } from "@PRISMA";
+import Customer from "@PROVIDER/user/customer";
 import HSProvider from "@PROVIDER/user/hs_provider";
 import REAgent from "@PROVIDER/user/re_agent";
 import { agreements, expert_super_categories } from "@SDK";
-import { getISOString } from "@UTIL";
+import { getISOString, pick } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -22,6 +24,8 @@ const createEntity = () => ({
 
 export const seed = async (connection: IConnection) => {
   await seedCategories();
+
+  await seedCustomers(connection);
   await seedHSProviders(connection);
   await seedREAgents(connection);
 
@@ -547,12 +551,33 @@ export const seedCategories = () =>
     });
   });
 
+export const seedCustomers = async (connection: IConnection) => {
+  const agreement_list = (
+    await agreements.getList(connection, { filter: ["all", "customer"] })
+  ).map(pick("id"));
+
+  const createCustomerData = typia.createRandom<ICustomer.ICreate>();
+
+  const queries: Prisma.PrismaPromise<unknown>[] = [];
+
+  await ArrayUtil.asyncRepeat(10)(async () => {
+    const input = createCustomerData();
+    input.acceptant_agreement_ids = agreement_list;
+    input.phone = "test phone";
+
+    const data = Customer.Json.createData(input);
+
+    queries.push(prisma.customerModel.create({ data }));
+  });
+  await prisma.$transaction(queries);
+};
+
 export const seedHSProviders = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, {
       filter: ["all", "business", "HS"]
     })
-  ).map(({ id }) => id);
+  ).map(pick("id"));
   const super_categories = await expert_super_categories.getList(connection, {
     filter: ["HS"]
   });

@@ -1,11 +1,11 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IReview } from "@DTO/review";
-import { map, pipe, toArray } from "@fxts/core";
+import { average, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
 import BusinessUser from "@PROVIDER/user/business_user";
 import Customer from "@PROVIDER/user/customer";
-import { getISOString, isActive } from "@UTIL";
+import { getISOString, isActive, pick, toFixed } from "@UTIL";
 import { Check } from "./check";
 import { Json } from "./json";
 
@@ -30,14 +30,8 @@ export namespace Service {
           }
         }),
 
-      map((review) => ({
-        id: review.id,
-        content: review.content,
-        created_at: getISOString(review.created_at),
-        updated_at: getISOString(review.updated_at),
-        reviewer: { id: review.reviewer.id, name: review.reviewer.base.name },
-        reviewee: { id: review.reviewee.id, name: review.reviewee.base.name },
-        rates: review.rates
+      map((review) => {
+        const rates = review.rates
           .filter(isActive)
           .filter((rate) => isActive(rate.category))
           .map((rate) => ({
@@ -46,8 +40,27 @@ export namespace Service {
               id: rate.category.id,
               name: rate.category.name
             }
-          }))
-      })),
+          }));
+
+        return {
+          id: review.id,
+          content: review.content,
+          created_at: getISOString(review.created_at),
+          updated_at: getISOString(review.updated_at),
+          reviewer: { id: review.reviewer.id, name: review.reviewer.base.name },
+          reviewee: { id: review.reviewee.id, name: review.reviewee.base.name },
+          rate_avg: pipe(
+            rates,
+
+            map(pick("score")),
+
+            average,
+
+            toFixed(3)
+          ),
+          rates
+        };
+      }),
 
       toArray,
 

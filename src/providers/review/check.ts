@@ -4,6 +4,7 @@ import { isActive } from "@UTIL";
 import { Exception } from "./exception";
 
 export namespace Check {
+  /** @throw BadRequest */
   export const categoryValid = async ({
     category_ids,
     tx = prisma
