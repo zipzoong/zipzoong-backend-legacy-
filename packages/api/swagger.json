@@ -4273,13 +4273,6 @@
       "IREProperty.ISearch": {
         "type": "object",
         "properties": {
-          "agent_id": {
-            "type": "string",
-            "nullable": false,
-            "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
-          },
           "super_category_name": {
             "type": "string",
             "nullable": false,

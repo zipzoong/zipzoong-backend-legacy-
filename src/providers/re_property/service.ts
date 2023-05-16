@@ -17,7 +17,6 @@ export namespace Service {
       where: {
         is_deleted: false,
         agent: {
-          id: input.agent_id,
           base: { is_verified: true, base: { is_deleted: false } }
         },
         categories: {
