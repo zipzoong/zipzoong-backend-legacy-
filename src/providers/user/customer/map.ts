@@ -1,6 +1,6 @@
 import { ICustomer } from "@DTO/user/customer";
 import { prisma } from "@INFRA/DB";
-import { getISOString, isNull } from "@UTIL";
+import { getISOString, isActive, isNull } from "@UTIL";
 import typia from "typia";
 import { Json } from "./json";
 
@@ -70,15 +70,17 @@ export namespace Map {
       gender: input.gender,
       birth: input.birth,
       acceptant_agreements: input.base.agreement_acceptances
-        .filter(
-          ({ is_deleted, agreement }) => !is_deleted && !agreement.is_deleted
-        )
-        .map(({ agreement: { id, title, content, user_type } }) => ({
-          id,
-          title,
-          content,
-          user_type
-        })),
+        .filter(isActive)
+        .filter(({ agreement }) => isActive(agreement))
+        .map(
+          ({ agreement: { id, title, content, user_type, is_required } }) => ({
+            id,
+            title,
+            content,
+            user_type,
+            is_required
+          })
+        ),
       created_at: getISOString(input.base.created_at),
       updated_at: getISOString(input.base.updated_at)
     };

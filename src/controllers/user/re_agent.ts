@@ -35,7 +35,7 @@ export class REAgentsController {
   get(
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IREAgent.IPrivate> {
-    return REAgent.Service.Me.get(user_id);
+    return REAgent.Service.Me.get({ user_id });
   }
 
   /**
@@ -48,7 +48,7 @@ export class REAgentsController {
    */
   @TypedRoute.Get(":agent_id")
   getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
-    return REAgent.Service.getOne(agent_id);
+    return REAgent.Service.getOne({ user_id: agent_id });
   }
 }
 

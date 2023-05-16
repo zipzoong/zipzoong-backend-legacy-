@@ -36,10 +36,10 @@ export const test_inactive_accessor = async (connection: IConnection) => {
     code,
     oauth_type: "kakao"
   });
-  const { accessor_id } =
-    Authentication.Crypto.getAccessorTokenPayload(access_token);
-  await prisma.oauthAccessorModel.update({
-    where: { id: accessor_id },
+  const { account_id } =
+    Authentication.Crypto.getAccountTokenPayload(access_token);
+  await prisma.oauthAccountModel.update({
+    where: { id: account_id },
     data: { is_deleted: true, deleted_at: getISOString() }
   });
 
@@ -48,7 +48,7 @@ export const test_inactive_accessor = async (connection: IConnection) => {
       code,
       oauth_type: "kakao"
     })
-  )(HttpStatus.FORBIDDEN, "Inactive Accessor")();
+  )(HttpStatus.FORBIDDEN, "Account Inactive")();
 
   await internal.deleteAccessor(access_token);
 };

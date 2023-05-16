@@ -52,7 +52,7 @@ export namespace Service {
 
         (model) =>
           isNull(model) || isInActive(model)
-            ? toThrow(Exception.CategoryNotFound)
+            ? toThrow(Exception.NotFound)
             : model,
 
         (model) => ({
@@ -117,10 +117,9 @@ export namespace Service {
             include: { super_category: true }
           }),
 
-        throwIfNull(Exception.CategoryNotFound),
+        throwIfNull(Exception.NotFound),
 
-        (model) =>
-          isInActive(model) ? toThrow(Exception.CategoryNotFound) : model,
+        (model) => (isInActive(model) ? toThrow(Exception.NotFound) : model),
 
         (model) => ({
           type: "sub",

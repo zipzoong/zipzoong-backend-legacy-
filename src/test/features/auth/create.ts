@@ -29,10 +29,7 @@ const test_success = async (
     body.type === "home service provider" ||
     body.type === "real estate agent"
   )
-    await prisma.oauthAccessorModel.updateMany({
-      where: { oauth_sub: code, oauth_type: "kakao" },
-      data: { phone: "test_phone_number" }
-    });
+    body.phone_access_code = "test";
 
   await sdk.auth.user.create(
     internal.addAuthorizationHeader(connection)("basic", access_token),
@@ -97,7 +94,7 @@ export const test_success_hs_provider_create = async (
   await test_success(connection, create);
 };
 
-export const test_invalid_accessor = internal.test_invalid_accessor(
+export const test_invalid_account = internal.test_invalid_account(
   (connection: IConnection) =>
     sdk.auth.user.create(
       connection,
@@ -122,7 +119,7 @@ export const test_already_user_exist = async (connection: IConnection) => {
 
   await internal.test_error(() => sdk.auth.user.create(_connection, create))(
     HttpStatus.FORBIDDEN,
-    "Already Created"
+    "User Already Created"
   )();
 
   await internal.deleteAccessor(access_token);
@@ -170,7 +167,7 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
       internal.addAuthorizationHeader(connection)("basic", access_token),
       create
     )
-  )(HttpStatus.BAD_REQUEST, "Invalid Expertise")();
+  )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
   await internal.deleteAccessor(access_token);
 };
 
@@ -209,14 +206,14 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
       internal.addAuthorizationHeader(connection)("basic", access_token),
       create
     )
-  )(HttpStatus.BAD_REQUEST, "Invalid Expertise")();
+  )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
   await internal.deleteAccessor(access_token);
 };
 
 export const test_phone_required = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
 
-  await prisma.oauthAccessorModel.updateMany({
+  await prisma.oauthAccountModel.updateMany({
     where: { oauth_sub: "test_user_create", oauth_type: "kakao" },
     data: { phone: null }
   });
@@ -231,7 +228,7 @@ export const test_phone_required = async (connection: IConnection) => {
     filter: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
-  create.phone_access_code = undefined;
+  create.phone_access_code = null;
 
   const super_expertise_list = await sdk.expert_super_categories.getList(
     connection,

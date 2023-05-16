@@ -1,10 +1,11 @@
 import { IDateTime } from "@DTO/common";
 
-export interface IAgreement {
+export interface IAgreement extends IDateTime {
   readonly id: string;
   readonly title: string;
   readonly content: string;
   readonly user_type: IAgreement.UserType;
+  readonly is_required: boolean;
 }
 
 export namespace IAgreement {
@@ -23,6 +24,4 @@ export namespace IAgreement {
      */
     filter: UserType[];
   }
-
-  export type IResponse = IAgreement & IDateTime;
 }

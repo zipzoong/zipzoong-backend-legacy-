@@ -73,15 +73,17 @@ export namespace Map {
           url
         })),
       acceptant_agreements: input.base.base.agreement_acceptances
-        .filter(
-          ({ is_deleted, agreement }) => !is_deleted && !agreement.is_deleted
+        .filter(isActive)
+        .filter(({ agreement }) => isActive(agreement))
+        .map(
+          ({ agreement: { id, title, content, user_type, is_required } }) => ({
+            id,
+            title,
+            content,
+            user_type,
+            is_required
+          })
         )
-        .map(({ agreement: { id, title, content, user_type } }) => ({
-          id,
-          title,
-          content,
-          user_type
-        }))
     };
     const agent = { ...base, ...privateFragment };
     if (!typia.equals<IREAgent.IPrivate>(agent))

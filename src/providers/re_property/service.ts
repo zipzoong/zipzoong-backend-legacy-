@@ -1,6 +1,7 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
 import { prisma } from "@INFRA/DB";
+import Authentication from "@PROVIDER/authentication";
 import REAgent from "@PROVIDER/user/re_agent";
 import { Check } from "./check";
 import { Json } from "./json";
@@ -16,7 +17,6 @@ export namespace Service {
       where: {
         is_deleted: false,
         agent: {
-          id: input.agent_id,
           base: { is_verified: true, base: { is_deleted: false } }
         },
         categories: {
@@ -41,33 +41,33 @@ export namespace Service {
   };
 
   export const createMany = async ({
-    data,
+    input,
     user_id
   }: {
-    data: IREProperty.ICreateManyRequest["data"];
+    input: IREProperty.ICreateManyRequest["data"];
     user_id: string;
   }): Promise<void> => {
-    const me = await REAgent.Service.Me.get(user_id); // authorize
+    const tx = prisma;
+    const me = await REAgent.Service.Me.get({ user_id, tx }); // authorize
+    Authentication.Check.verifyUser(me);
 
-    Check.verify(me);
+    await Check.subCategoryValid({
+      sub_category_ids: input.flatMap(
+        ({ sub_category_ids }) => sub_category_ids
+      ),
+      tx
+    });
 
-    await Check.subCategoryValid(
-      data.flatMap(({ sub_category_ids }) => sub_category_ids)
-    );
-
-    const createData = data.map((input) =>
-      Json.createData({ ...input, agent_id: user_id })
+    const createData = input.map((data) =>
+      Json.createData({ ...data, agent_id: user_id })
     );
     const createManyData = Json.createManyData(createData);
 
-    await prisma.$transaction([
-      prisma.rEProertyModel.createMany({
-        data: createManyData.property_create_many_input
-      }),
-      prisma.rEPropertyCategoryModel.createMany({
-        data: createManyData.property_category_create_many_input
-      })
-    ]);
-    return;
+    await tx.rEProertyModel.createMany({
+      data: createManyData.property_create_many_input
+    });
+    await tx.rEPropertyCategoryModel.createMany({
+      data: createManyData.property_category_create_many_input
+    });
   };
 }

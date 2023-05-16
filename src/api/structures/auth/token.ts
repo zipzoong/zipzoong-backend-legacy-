@@ -6,14 +6,14 @@ export interface ITokens {
 
 export namespace ITokens {
   export type AuthorizationHeaderTokenType = "basic" | "bearer";
-  export type AccessTokenType = "accessor" | "user";
+  export type AccessTokenType = "account" | "user";
 
   interface AccessTokenPayloadBase<T extends AccessTokenType> {
     readonly type: T;
   }
 
-  export interface IOauthPayload extends AccessTokenPayloadBase<"accessor"> {
-    readonly accessor_id: string;
+  export interface IAccountPayload extends AccessTokenPayloadBase<"account"> {
+    readonly account_id: string;
   }
 
   export interface IUserPayload<T extends IUser.Type = IUser.Type>
@@ -22,5 +22,5 @@ export namespace ITokens {
     readonly user_type: T;
   }
 
-  export type IAccessTokenPayload = IOauthPayload | IUserPayload;
+  export type IAccessTokenPayload = IAccountPayload | IUserPayload;
 }

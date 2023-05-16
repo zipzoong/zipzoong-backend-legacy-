@@ -57,9 +57,8 @@ export class ProfileController {
   get(
     @Authorization("basic") token: string
   ): Promise<IAuthentication.IProfile> {
-    const { accessor_id } =
-      Authentication.Crypto.getAccessorTokenPayload(token);
-    return Authentication.Service.getProfile(accessor_id);
+    const { account_id } = Authentication.Crypto.getAccountTokenPayload(token);
+    return Authentication.Service.getProfile(account_id);
   }
 }
 
@@ -90,8 +89,7 @@ export class UserCreateController {
     @Authorization("basic") token: string,
     @TypedBody() body: IAuthentication.ICreateRequest
   ): Promise<void> {
-    const { accessor_id } =
-      Authentication.Crypto.getAccessorTokenPayload(token);
-    return Authentication.Service.createUser(accessor_id, body);
+    const { account_id } = Authentication.Crypto.getAccountTokenPayload(token);
+    return Authentication.Service.createUser({ input: body, account_id });
   }
 }

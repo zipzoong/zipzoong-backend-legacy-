@@ -1,5 +1,6 @@
 import { IAgreement } from "@DTO/agreement";
 import { IDateTime } from "@DTO/common";
+import { Omit } from "@TYPE";
 import { ICustomer } from "./customer";
 import { IHSProvider } from "./hs_provider";
 import { IREAgent } from "./re_agent";
@@ -24,14 +25,19 @@ export namespace IUser {
     readonly email: string | null;
   }
 
+  export type IAcceptantAgreement = Omit<
+    IAgreement,
+    "created_at" | "updated_at"
+  >;
+
   export interface IPrivateFragment {
     /** 동의한 약관 목록 */
-    readonly acceptant_agreements: IAgreement[];
+    readonly acceptant_agreements: IAcceptantAgreement[];
   }
 
   export interface ICreateRequest<T extends Type> {
     type: T;
-    email_access_code?: string;
-    phone_access_code?: string;
+    email_access_code: string | null;
+    phone_access_code: string | null;
   }
 }

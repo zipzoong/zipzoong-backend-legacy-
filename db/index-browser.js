@@ -104,6 +104,7 @@ exports.Prisma.AgreementModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   title: 'title',
   content: 'content',
+  is_required: 'is_required',
   user_type: 'user_type'
 };
 
@@ -173,7 +174,7 @@ exports.Prisma.HSProviderModelScalarFieldEnum = {
   business_registration_num: 'business_registration_num'
 };
 
-exports.Prisma.OauthAccessorModelScalarFieldEnum = {
+exports.Prisma.OauthAccountModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -257,6 +258,38 @@ exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.RateCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  business_type: 'business_type'
+};
+
+exports.Prisma.RateModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  score: 'score',
+  category_id: 'category_id',
+  review_id: 'review_id'
+};
+
+exports.Prisma.ReviewModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  reviewer_id: 'reviewer_id',
+  reviewee_id: 'reviewee_id',
+  content: 'content'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -296,6 +329,12 @@ exports.AgreementUserType = {
   RE: 'RE'
 };
 
+exports.BusinessRateType = {
+  all: 'all',
+  HS: 'HS',
+  RE: 'RE'
+};
+
 exports.ExpertBusinessType = {
   HS: 'HS',
   RE: 'RE'
@@ -313,7 +352,19 @@ exports.OauthType = {
 };
 
 exports.Prisma.ModelName = {
-  OauthAccessorModel: 'OauthAccessorModel',
+  REProertyModel: 'REProertyModel',
+  REPropertyCategoryModel: 'REPropertyCategoryModel',
+  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
+  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
+  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
+  ReviewModel: 'ReviewModel',
+  RateModel: 'RateModel',
+  RateCategoryModel: 'RateCategoryModel',
+  AgreementModel: 'AgreementModel',
+  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
+  SubExpertiseModel: 'SubExpertiseModel',
+  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
+  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
@@ -321,16 +372,7 @@ exports.Prisma.ModelName = {
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',
   HSIntroductionImageModel: 'HSIntroductionImageModel',
-  SubExpertiseModel: 'SubExpertiseModel',
-  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
-  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
-  AgreementModel: 'AgreementModel',
-  AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  REProertyModel: 'REProertyModel',
-  REPropertyCategoryModel: 'REPropertyCategoryModel',
-  REPropertySubCategoryModel: 'REPropertySubCategoryModel',
-  REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
-  REPropertySuperCategoryModel: 'REPropertySuperCategoryModel'
+  OauthAccountModel: 'OauthAccountModel'
 };
 
 /**

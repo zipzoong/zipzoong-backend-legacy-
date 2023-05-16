@@ -19,7 +19,7 @@ process.stdout.write = (str: string) => {
 };
 
 console.log("# Test Report");
-logger.write("\n<details open>\n<summary>detail test case</summary>\n\n");
+logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
 
 async function run(): Promise<void> {
   const app = await Backend.start({ logger: false });
@@ -41,14 +41,11 @@ async function run(): Promise<void> {
 
   await Backend.end(app);
 
-  const errors: Error[] = report.executions
-    .filter((line) => line.error !== null)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .map<Error>((result) => result.error!);
+  const executions = report.executions.filter((line) => line.error !== null);
 
   logger.write("\n</details>\n");
 
-  if (errors.length === 0) {
+  if (executions.length === 0) {
     write("\n\x1b[32mAll Tests Passed\x1b[0m\n");
     logger.write("\n$`\\color{#00FF00}\\text{All Tests Passed}`$\n");
 
@@ -68,13 +65,29 @@ async function run(): Promise<void> {
         "}`$\n"
     );
   } else {
-    write(`\n\x1b[31m${errors.length} Tests have Failed\x1b[0m\n`);
+    write(`\n\x1b[31m${executions.length} Tests have Failed\x1b[0m\n`);
     logger.write(
       "\n$`\\color{#ff0000}\\text{" +
-        `${errors.length}` +
+        `${executions.length}` +
         " Tests have Failed}`$\n"
     );
-    for (const error of errors) console.error(error);
+    const hashmap = new Map<string, { name: string; error: Error | null }[]>();
+    executions.forEach(({ location, name, error }) => {
+      const data = { name, error };
+
+      hashmap.get(location)?.push(data) ?? hashmap.set(location, [data]);
+    });
+
+    hashmap.forEach((list, location) => {
+      console.log(
+        "\n\x1b[33mLocation:\x1b[0m " + location.split("/features")[1]
+      );
+      list.forEach(({ name, error }) => {
+        console.log("\n- \x1b[34mFunction:\x1b[0m " + name);
+        console.error();
+        console.error(error);
+      });
+    });
   }
 }
 

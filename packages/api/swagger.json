@@ -35,7 +35,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IAgreement.IResponse"
+                    "$ref": "#/components/schemas/IAgreement"
                   },
                   "nullable": false
                 }
@@ -869,6 +869,42 @@
         ]
       }
     },
+    "/rate-categories": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/IRateCategory.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IRateCategory"
+                  },
+                  "nullable": false
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "rate-categories.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
     "/re-properties": {
       "get": {
         "tags": [
@@ -1549,6 +1585,186 @@
             "text": [
               {
                 "text": "부동산 매물 하위 카테고리",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/reviews": {
+      "get": {
+        "tags": [
+          "reviews"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "리뷰어 혹은 리뷰 대상자를 조건으로 지정 가능",
+            "schema": {
+              "$ref": "#/components/schemas/IReview.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "리뷰 목록",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IReview_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "리뷰 목록 검색",
+        "description": "사업자를 기준으로 리뷰를 검색하거나 리뷰어를 기준으로 검색할 수 있습니다.",
+        "x-nestia-namespace": "reviews.getList",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "리뷰 목록 검색",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "reviews",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "query",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "리뷰어 혹은 리뷰 대상자를 조건으로 지정 가능",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "returns",
+            "text": [
+              {
+                "text": "리뷰 목록",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "reviews"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "리뷰 내용과 평점 리스트를 포함",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IReview.ICreateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "리뷰 등록",
+        "description": "",
+        "x-nestia-namespace": "reviews.create",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "리뷰 등록",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "reviews",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "리뷰 내용과 평점 리스트를 포함",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -2627,7 +2843,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IAgreement.IResponse": {
+      "IAgreement": {
         "type": "object",
         "properties": {
           "id": {
@@ -2660,6 +2876,13 @@
               "HS",
               "RE"
             ],
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "is_required": {
+            "type": "boolean",
             "nullable": false,
             "description": "",
             "x-typia-required": true,
@@ -2722,6 +2945,7 @@
           "title",
           "content",
           "user_type",
+          "is_required",
           "created_at",
           "updated_at"
         ],
@@ -3029,17 +3253,17 @@
           },
           "email_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           },
           "phone_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           }
         },
         "nullable": false,
@@ -3050,7 +3274,9 @@
           "gender",
           "name",
           "acceptant_agreement_ids",
-          "type"
+          "type",
+          "email_access_code",
+          "phone_access_code"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3143,17 +3369,17 @@
           },
           "email_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           },
           "phone_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           }
         },
         "nullable": false,
@@ -3166,7 +3392,9 @@
           "real_estate",
           "properties",
           "sub_expertise_ids",
-          "type"
+          "type",
+          "email_access_code",
+          "phone_access_code"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3565,17 +3793,17 @@
           },
           "email_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           },
           "phone_access_code": {
             "type": "string",
-            "nullable": false,
+            "nullable": true,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           }
         },
         "nullable": false,
@@ -3587,7 +3815,9 @@
           "introduction",
           "sub_expertise_ids",
           "business_registration_num",
-          "type"
+          "type",
+          "email_access_code",
+          "phone_access_code"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3953,16 +4183,96 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IREProperty.ISearch": {
+      "IRateCategory.ISearch": {
         "type": "object",
         "properties": {
-          "agent_id": {
+          "business_type": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "all"
+              ],
+              "nullable": false,
+              "description": "사업자 평가 카테고리 검색 조건 (최소 1개 필요)\n\n- all 전체",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "사업자 평가 카테고리 검색 조건 (최소 1개 필요)\n\n- all 전체",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minItems": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "business_type"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IRateCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "string",
             "nullable": false,
             "description": "",
-            "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-required": true,
+            "x-typia-optional": false
           },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISearch": {
+        "type": "object",
+        "properties": {
           "super_category_name": {
             "type": "string",
             "nullable": false,
@@ -3987,7 +4297,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -3999,6 +4309,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4020,7 +4339,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -4310,6 +4630,10 @@
                 {
                   "kind": "minItems",
                   "value": 1
+                },
+                {
+                  "kind": "maxItems",
+                  "value": 10
                 }
               ],
               "x-typia-jsDocTags": [
@@ -4318,6 +4642,15 @@
                   "text": [
                     {
                       "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                },
+                {
+                  "name": "maxItems",
+                  "text": [
+                    {
+                      "text": "10",
                       "kind": "text"
                     }
                   ]
@@ -4332,6 +4665,10 @@
               {
                 "kind": "minItems",
                 "value": 1
+              },
+              {
+                "kind": "maxItems",
+                "value": 10
               }
             ],
             "x-typia-jsDocTags": [
@@ -4343,11 +4680,21 @@
                     "kind": "text"
                   }
                 ]
+              },
+              {
+                "name": "maxItems",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
               }
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "minItems": 1
+            "minItems": 1,
+            "maxItems": 10
           }
         },
         "nullable": false,
@@ -4402,7 +4749,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4414,6 +4761,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4435,7 +4791,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -4652,7 +5009,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4664,6 +5021,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4685,7 +5051,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -4866,7 +5233,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4878,6 +5245,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -4899,7 +5275,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -5050,6 +5427,520 @@
           "id",
           "name",
           "super_category"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.ISearch": {
+        "type": "object",
+        "properties": {
+          "reviewer_id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "reviewee_id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": false,
+            "x-typia-optional": true
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1,
+            "default": 1
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IReview_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IReview",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "reviewer": {
+            "$ref": "#/components/schemas/IReview.IReviewer",
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "reviewee": {
+            "$ref": "#/components/schemas/IReview.IReviewee",
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "content": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "maxLength": 500
+          },
+          "rates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IReview.IRate",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "rate_avg": {
+            "type": "number",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 0,
+            "maximum": 10
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "reviewer",
+          "reviewee",
+          "content",
+          "rates",
+          "rate_avg",
+          "created_at",
+          "updated_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.IReviewer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.IReviewee": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.IRate": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "maximum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "maximum": 10,
+            "minimum": 0
+          },
+          "category": {
+            "$ref": "#/components/schemas/IRateCategory",
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "score",
+          "category"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "reviewee_id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "content": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "maxLength": 500
+          },
+          "rates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IReview.ICreateRate",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "reviewee_id",
+          "content",
+          "rates"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IReview.ICreateRate": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "maximum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "maximum": 10,
+            "minimum": 0
+          },
+          "category_id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "score",
+          "category_id"
         ],
         "x-typia-jsDocTags": []
       },
@@ -5215,7 +6106,7 @@
           "acceptant_agreements": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IAgreement",
+              "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
@@ -5243,7 +6134,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IAgreement": {
+      "IUser.IAcceptantAgreement": {
         "type": "object",
         "properties": {
           "id": {
@@ -5253,14 +6144,14 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "title": {
+          "content": {
             "type": "string",
             "nullable": false,
             "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "content": {
+          "title": {
             "type": "string",
             "nullable": false,
             "description": "",
@@ -5280,14 +6171,22 @@
             "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
+          },
+          "is_required": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
           }
         },
         "nullable": false,
         "required": [
           "id",
-          "title",
           "content",
-          "user_type"
+          "title",
+          "user_type",
+          "is_required"
         ],
         "x-typia-jsDocTags": []
       },
@@ -5487,7 +6386,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5499,6 +6398,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -5520,7 +6428,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,
@@ -5975,7 +6884,7 @@
           "acceptant_agreements": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IAgreement",
+              "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
@@ -6443,7 +7352,7 @@
           "acceptant_agreements": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/IAgreement",
+              "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
@@ -6481,7 +7390,7 @@
           "page": {
             "type": "integer",
             "nullable": false,
-            "description": "기본값 1",
+            "description": "",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -6493,6 +7402,15 @@
               }
             ],
             "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
               {
                 "name": "type",
                 "text": [
@@ -6514,7 +7432,8 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
           }
         },
         "nullable": false,

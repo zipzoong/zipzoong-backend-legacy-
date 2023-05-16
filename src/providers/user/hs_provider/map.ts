@@ -1,7 +1,7 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { prisma } from "@INFRA/DB";
-import { getISOString } from "@UTIL";
+import { getISOString, isActive } from "@UTIL";
 import typia from "typia";
 import BusinessUser from "../business_user";
 import { Json } from "./json";
@@ -69,15 +69,17 @@ export namespace Map {
           url
         })),
       acceptant_agreements: input.base.base.agreement_acceptances
-        .filter(
-          ({ is_deleted, agreement }) => !is_deleted && !agreement.is_deleted
+        .filter(isActive)
+        .filter(({ agreement }) => isActive(agreement))
+        .map(
+          ({ agreement: { id, title, content, user_type, is_required } }) => ({
+            id,
+            title,
+            content,
+            user_type,
+            is_required
+          })
         )
-        .map(({ agreement: { id, title, content, user_type } }) => ({
-          id,
-          title,
-          content,
-          user_type
-        }))
     };
     const provider = { ...base, ...privateFragment };
     if (!typia.equals<IHSProvider.IPrivate>(provider))

@@ -19,3 +19,7 @@ export const AgreementUserType = createEnum("AgreementUserType", (Enum) => {
     .addValue("HS")
     .addValue("RE");
 });
+
+export const BusinessRateType = createEnum("BusinessRateType", (Enum) => {
+  Enum.addValue("all").addValue("HS").addValue("RE");
+});

@@ -28,7 +28,6 @@ export namespace IREProperty {
   }
 
   export interface ISearch extends IPage {
-    agent_id?: string;
     super_category_name?: string;
     middle_category_name?: string;
     sub_category_name?: string;
@@ -43,7 +42,10 @@ export namespace IREProperty {
   export type ICreateRequest = Omit<ICreate, "agent_id">;
 
   export interface ICreateManyRequest {
-    /** @minItems 1 */
+    /**
+     * @minItems 1
+     * @maxItems 10
+     */
     data: ICreateRequest[];
   }
 }

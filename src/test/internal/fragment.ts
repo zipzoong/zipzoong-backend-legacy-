@@ -32,12 +32,12 @@ export const test_error =
     }
   };
 
-export const test_not_exist_accessor =
+export const test_not_exist_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
-    const accessor_token = Authentication.Crypto.getAccessorToken({
-      type: "accessor",
-      accessor_id: "invalid_id"
+    const accessor_token = Authentication.Crypto.getAccountToken({
+      type: "account",
+      account_id: "invalid_id"
     });
 
     const _connection: IConnection = addAuthorizationHeader(connection)(
@@ -50,7 +50,7 @@ export const test_not_exist_accessor =
     );
   };
 
-export const test_inactive_accessor =
+export const test_inactive_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
     const { access_token } = await auth.sign_up.execute(connection, {
@@ -58,7 +58,7 @@ export const test_inactive_accessor =
       oauth_type: "kakao"
     });
 
-    await prisma.oauthAccessorModel.updateMany({
+    await prisma.oauthAccountModel.updateMany({
       where: { oauth_sub: "inactive_accessor", oauth_type: "kakao" },
       data: { is_deleted: true, deleted_at: getISOString() }
     });
@@ -68,24 +68,24 @@ export const test_inactive_accessor =
       access_token
     );
 
-    await test_error(api)(HttpStatus.FORBIDDEN, "Inactive Accessor")(
+    await test_error(api)(HttpStatus.FORBIDDEN, "Account Inactive")(
       _connection
     );
     await deleteAccessor(access_token);
   };
 
-export const test_invalid_accessor =
+export const test_invalid_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    await test_not_exist_accessor(api)(connection);
-    await test_inactive_accessor(api)(connection);
+    await test_not_exist_account(api)(connection);
+    await test_inactive_account(api)(connection);
   };
 
 export const test_invalid_user_token =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    const payload = typia.random<ITokens.IOauthPayload>();
-    const access_token = Authentication.Crypto.getAccessorToken(payload);
+    const payload = typia.random<ITokens.IAccountPayload>();
+    const access_token = Authentication.Crypto.getAccountToken(payload);
 
     await test_error(api)(HttpStatus.UNAUTHORIZED, "Authentication Fail")(
       addAuthorizationHeader(connection)("bearer", access_token)
@@ -111,8 +111,27 @@ export const test_user_token_mismatch =
   };
 
 export const deleteAccessor = async (accessor_token: string) => {
-  const { accessor_id } =
-    Authentication.Crypto.getAccessorTokenPayload(accessor_token);
+  const { account_id } =
+    Authentication.Crypto.getAccountTokenPayload(accessor_token);
 
-  await prisma.oauthAccessorModel.delete({ where: { id: accessor_id } });
+  await prisma.oauthAccountModel.delete({ where: { id: account_id } });
 };
+
+export const test_authorization_fail =
+  <T = void>(api: (connection: IConnection) => Promise<T>) =>
+  <U extends IUser.Type>(user_type: U) =>
+  async (connection: IConnection) => {
+    await test_invalid_user_token(api)(connection);
+
+    await test_user_token_mismatch(user_type)(api)(connection);
+
+    const payload = typia.random<Mutable<ITokens.IUserPayload>>();
+
+    payload.user_type = user_type;
+
+    const token = Authentication.Crypto.getUserToken(payload);
+
+    await test_error(api)(HttpStatus.FORBIDDEN, "User Not Found")(
+      addAuthorizationHeader(connection)("bearer", token)
+    );
+  };

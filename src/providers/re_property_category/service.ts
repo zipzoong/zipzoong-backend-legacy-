@@ -76,9 +76,9 @@ export namespace Service {
             }
           }),
 
-        throwIfNull(Exception.CategoryNotFound),
+        throwIfNull(Exception.NotFound),
 
-        throwIf(isInActive, Exception.CategoryNotFound),
+        throwIf(isInActive, Exception.NotFound),
 
         (model) => ({
           type: "super",
@@ -177,9 +177,9 @@ export namespace Service {
             include: { sub_categories: true, super_category: true }
           }),
 
-        throwIfNull(Exception.CategoryNotFound),
+        throwIfNull(Exception.NotFound),
 
-        throwIf(isInActive, Exception.CategoryNotFound),
+        throwIf(isInActive, Exception.NotFound),
 
         (middle_category) => ({
           type: "middle",
@@ -266,9 +266,9 @@ export namespace Service {
             include: { middle_category: { include: { super_category: true } } }
           }),
 
-        throwIfNull(Exception.CategoryNotFound),
+        throwIfNull(Exception.NotFound),
 
-        throwIf(isInActive, Exception.CategoryNotFound),
+        throwIf(isInActive, Exception.NotFound),
 
         (sub_category) => ({
           type: "sub",

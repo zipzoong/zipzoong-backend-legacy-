@@ -1,8 +1,5 @@
-import { ITokens } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { IConnection } from "@nestia/fetcher";
-import { HttpStatus } from "@nestjs/common";
-import Authentication from "@PROVIDER/authentication";
 import { agreements, auth, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
@@ -47,21 +44,6 @@ export const test_success = async (connection: IConnection) => {
   await internal.deleteAccessor(access_token);
 };
 
-export const test_invalid_token = internal.test_invalid_user_token(
+export const test_authorization_fail = internal.test_authorization_fail(
   users.customers.me.get
-);
-
-export const test_user_token_mismatch = internal.test_user_token_mismatch(
-  "customer"
-)(users.customers.me.get);
-
-export const test_not_found_user = async (connection: IConnection) => {
-  const payload = typia.random<ITokens.IUserPayload<"customer">>();
-  const token = Authentication.Crypto.getUserToken(payload);
-
-  await internal.test_error(() =>
-    users.customers.me.get(
-      internal.addAuthorizationHeader(connection)("bearer", token)
-    )
-  )(HttpStatus.FORBIDDEN, "User Not Found")();
-};
+)("customer");

@@ -2,6 +2,10 @@ import { prisma } from "@INFRA/DB";
 
 export const truncate = () =>
   prisma.$transaction([
+    prisma.$executeRaw`TRUNCATE TABLE rates cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE rate_categories cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE reviews cascade;`,
+
     prisma.$executeRaw`TRUNCATE TABLE sub_expertises cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE expert_super_categories cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE expert_sub_categories cascade;`,
@@ -19,7 +23,7 @@ export const truncate = () =>
     prisma.$executeRaw`TRUNCATE TABLE business_users cascade;`,
 
     prisma.$executeRaw`TRUNCATE TABLE customers cascade;`,
-    prisma.$executeRaw`TRUNCATE TABLE oauth_accessors cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE oauth_accounts cascade;`,
 
     prisma.$executeRaw`TRUNCATE TABLE agreement_acceptances cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE agreements cascade;`,
