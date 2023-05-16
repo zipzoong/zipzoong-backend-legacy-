@@ -1701,6 +1701,15 @@
           "201": {
             "description": "",
             "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         },
         "summary": "리뷰 등록",
@@ -1738,6 +1747,33 @@
               },
               {
                 "text": "리뷰 내용과 평점 리스트를 포함",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "404 Not Found",
                 "kind": "text"
               }
             ]
@@ -5508,8 +5544,26 @@
             "type": "string",
             "nullable": false,
             "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "maxLength": 500
           },
           "rates": {
             "type": "array",
@@ -5523,6 +5577,45 @@
             "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
+          },
+          "rate_avg": {
+            "type": "number",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 0,
+            "maximum": 10
           },
           "created_at": {
             "type": "string",
@@ -5582,6 +5675,7 @@
           "reviewee",
           "content",
           "rates",
+          "rate_avg",
           "created_at",
           "updated_at"
         ],
@@ -5707,8 +5801,26 @@
             "type": "string",
             "nullable": false,
             "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "maxLength": 500
           },
           "rates": {
             "type": "array",
@@ -5736,11 +5848,43 @@
         "type": "object",
         "properties": {
           "score": {
-            "type": "number",
+            "type": "integer",
             "nullable": false,
             "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "maximum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "maximum": 10,
+            "minimum": 0
           },
           "category_id": {
             "type": "string",

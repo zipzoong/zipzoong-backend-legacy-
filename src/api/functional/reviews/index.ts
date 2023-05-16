@@ -70,6 +70,9 @@ export namespace getList
  * @tag reviews
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 리뷰 내용과 평점 리스트를 포함
+ * @throw 401 Unauthorized
+ * @throw 403 Forbidden
+ * @throw 404 Not Found
  * 
  * @controller ReviewsController.create()
  * @path POST /reviews
