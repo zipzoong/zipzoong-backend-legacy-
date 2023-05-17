@@ -7,8 +7,8 @@ export const truncate = () =>
     prisma.$executeRaw`TRUNCATE TABLE reviews cascade;`,
 
     prisma.$executeRaw`TRUNCATE TABLE sub_expertises cascade;`,
-    prisma.$executeRaw`TRUNCATE TABLE expert_super_categories cascade;`,
-    prisma.$executeRaw`TRUNCATE TABLE expert_sub_categories cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE service_super_categories cascade;`,
+    prisma.$executeRaw`TRUNCATE TABLE service_sub_categories cascade;`,
 
     prisma.$executeRaw`TRUNCATE TABLE business_certification_images cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE hs_introduction_images cascade;`,

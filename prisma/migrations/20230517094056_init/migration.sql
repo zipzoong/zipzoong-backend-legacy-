@@ -5,13 +5,16 @@ CREATE TYPE "GenderType" AS ENUM ('female', 'male', 'other');
 CREATE TYPE "OauthType" AS ENUM ('kakao', 'naver');
 
 -- CreateEnum
-CREATE TYPE "ExpertBusinessType" AS ENUM ('HS', 'RE');
+CREATE TYPE "ServiceType" AS ENUM ('HS', 'RE');
 
 -- CreateEnum
-CREATE TYPE "AgreementUserType" AS ENUM ('all', 'customer', 'business', 'HS', 'RE');
+CREATE TYPE "AgreementTargetType" AS ENUM ('all', 'customer', 'business', 'HS', 'RE');
 
 -- CreateEnum
-CREATE TYPE "BusinessRateType" AS ENUM ('all', 'HS', 'RE');
+CREATE TYPE "RateTargetType" AS ENUM ('all', 'HS', 'RE');
+
+-- CreateEnum
+CREATE TYPE "FocusCareStatus" AS ENUM ('pending', 'caring', 'cared', 'cancelled');
 
 -- CreateTable
 CREATE TABLE "re_properties" (
@@ -22,7 +25,7 @@ CREATE TABLE "re_properties" (
     "deleted_at" TIMESTAMPTZ,
     "name" TEXT NOT NULL,
     "main_image_url" TEXT NOT NULL,
-    "agent_id" TEXT NOT NULL,
+    "re_agent_id" TEXT NOT NULL,
 
     CONSTRAINT "re_properties_pkey" PRIMARY KEY ("id")
 );
@@ -114,7 +117,7 @@ CREATE TABLE "rate_categories" (
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
     "name" TEXT NOT NULL,
-    "business_type" "BusinessRateType" NOT NULL,
+    "target_type" "RateTargetType" NOT NULL,
 
     CONSTRAINT "rate_categories_pkey" PRIMARY KEY ("id")
 );
@@ -129,7 +132,7 @@ CREATE TABLE "agreements" (
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "is_required" BOOLEAN NOT NULL,
-    "user_type" "AgreementUserType" NOT NULL,
+    "target_type" "AgreementTargetType" NOT NULL,
 
     CONSTRAINT "agreements_pkey" PRIMARY KEY ("id")
 );
@@ -148,20 +151,20 @@ CREATE TABLE "agreement_acceptances" (
 );
 
 -- CreateTable
-CREATE TABLE "sub_expertises" (
+CREATE TABLE "consultation_times" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "sub_category_id" TEXT NOT NULL,
-    "business_user_id" TEXT NOT NULL,
+    "start_time" TIMETZ NOT NULL,
+    "end_time" TIMETZ NOT NULL,
 
-    CONSTRAINT "sub_expertises_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "consultation_times_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "expert_sub_categories" (
+CREATE TABLE "service_sub_categories" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
@@ -170,20 +173,62 @@ CREATE TABLE "expert_sub_categories" (
     "name" TEXT NOT NULL,
     "super_category_id" TEXT NOT NULL,
 
-    CONSTRAINT "expert_sub_categories_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "service_sub_categories_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "expert_super_categories" (
+CREATE TABLE "service_super_categories" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
     "name" TEXT NOT NULL,
-    "business_type" "ExpertBusinessType" NOT NULL,
+    "type" "ServiceType" NOT NULL,
 
-    CONSTRAINT "expert_super_categories_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "service_super_categories_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "focus_care_requests" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "care_start_date" DATE NOT NULL,
+    "care_end_date" DATE NOT NULL,
+    "detail" TEXT NOT NULL,
+    "status" "FocusCareStatus" NOT NULL,
+    "requester_id" TEXT NOT NULL,
+
+    CONSTRAINT "focus_care_requests_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "focus_care_service_checks" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "service_super_category_id" TEXT NOT NULL,
+    "request_id" TEXT NOT NULL,
+
+    CONSTRAINT "focus_care_service_checks_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "focus_care_consultation_time_checks" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "consultation_time_id" TEXT NOT NULL,
+    "request_id" TEXT NOT NULL,
+
+    CONSTRAINT "focus_care_consultation_time_checks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -224,6 +269,19 @@ CREATE TABLE "business_users" (
     "profile_image_url" TEXT NOT NULL,
 
     CONSTRAINT "business_users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "sub_expertises" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "sub_category_id" TEXT NOT NULL,
+    "business_user_id" TEXT NOT NULL,
+
+    CONSTRAINT "sub_expertises_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -308,13 +366,13 @@ CREATE UNIQUE INDEX "rate_categories_name_key" ON "rate_categories"("name");
 CREATE UNIQUE INDEX "agreement_acceptances_user_id_agreement_id_key" ON "agreement_acceptances"("user_id", "agreement_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "sub_expertises_sub_category_id_business_user_id_key" ON "sub_expertises"("sub_category_id", "business_user_id");
+CREATE UNIQUE INDEX "service_super_categories_name_key" ON "service_super_categories"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "expert_super_categories_name_key" ON "expert_super_categories"("name");
+CREATE UNIQUE INDEX "sub_expertises_sub_category_id_business_user_id_key" ON "sub_expertises"("sub_category_id", "business_user_id");
 
 -- AddForeignKey
-ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_agent_id_fkey" FOREIGN KEY ("agent_id") REFERENCES "re_agents"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "re_properties" ADD CONSTRAINT "re_properties_re_agent_id_fkey" FOREIGN KEY ("re_agent_id") REFERENCES "re_agents"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "re_property_categories" ADD CONSTRAINT "re_property_categories_re_property_id_fkey" FOREIGN KEY ("re_property_id") REFERENCES "re_properties"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -347,19 +405,34 @@ ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_user_i
 ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_agreement_id_fkey" FOREIGN KEY ("agreement_id") REFERENCES "agreements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "expert_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "service_sub_categories" ADD CONSTRAINT "service_sub_categories_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "service_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "focus_care_requests" ADD CONSTRAINT "focus_care_requests_requester_id_fkey" FOREIGN KEY ("requester_id") REFERENCES "customers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "expert_sub_categories" ADD CONSTRAINT "expert_sub_categories_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "expert_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "focus_care_service_checks" ADD CONSTRAINT "focus_care_service_checks_service_super_category_id_fkey" FOREIGN KEY ("service_super_category_id") REFERENCES "service_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "focus_care_service_checks" ADD CONSTRAINT "focus_care_service_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "focus_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "focus_care_consultation_time_checks" ADD CONSTRAINT "focus_care_consultation_time_checks_consultation_time_id_fkey" FOREIGN KEY ("consultation_time_id") REFERENCES "consultation_times"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "focus_care_consultation_time_checks" ADD CONSTRAINT "focus_care_consultation_time_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "focus_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "customers" ADD CONSTRAINT "customers_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "business_users" ADD CONSTRAINT "business_users_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_sub_category_id_fkey" FOREIGN KEY ("sub_category_id") REFERENCES "service_sub_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "sub_expertises" ADD CONSTRAINT "sub_expertises_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "re_agents" ADD CONSTRAINT "re_agents_id_fkey" FOREIGN KEY ("id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

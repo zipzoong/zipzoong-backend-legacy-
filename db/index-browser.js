@@ -105,7 +105,7 @@ exports.Prisma.AgreementModelScalarFieldEnum = {
   title: 'title',
   content: 'content',
   is_required: 'is_required',
-  user_type: 'user_type'
+  target_type: 'target_type'
 };
 
 exports.Prisma.BusinessCertificationImageModelScalarFieldEnum = {
@@ -129,6 +129,16 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   profile_image_url: 'profile_image_url'
 };
 
+exports.Prisma.ConsultationTimeModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  start_time: 'start_time',
+  end_time: 'end_time'
+};
+
 exports.Prisma.CustomerModelScalarFieldEnum = {
   id: 'id',
   birth: 'birth',
@@ -139,24 +149,37 @@ exports.Prisma.CustomerModelScalarFieldEnum = {
   profile_image_url: 'profile_image_url'
 };
 
-exports.Prisma.ExpertSubCategoryModelScalarFieldEnum = {
+exports.Prisma.FocusCareConsultationTimeCheckModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  name: 'name',
-  super_category_id: 'super_category_id'
+  consultation_time_id: 'consultation_time_id',
+  request_id: 'request_id'
 };
 
-exports.Prisma.ExpertSuperCategoryModelScalarFieldEnum = {
+exports.Prisma.FocusCareRequestModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  name: 'name',
-  business_type: 'business_type'
+  care_start_date: 'care_start_date',
+  care_end_date: 'care_end_date',
+  detail: 'detail',
+  status: 'status',
+  requester_id: 'requester_id'
+};
+
+exports.Prisma.FocusCareServiceCheckModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  service_super_category_id: 'service_super_category_id',
+  request_id: 'request_id'
 };
 
 exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
@@ -216,7 +239,7 @@ exports.Prisma.REProertyModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   main_image_url: 'main_image_url',
-  agent_id: 'agent_id'
+  re_agent_id: 're_agent_id'
 };
 
 exports.Prisma.REPropertyCategoryModelScalarFieldEnum = {
@@ -265,7 +288,7 @@ exports.Prisma.RateCategoryModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   name: 'name',
-  business_type: 'business_type'
+  target_type: 'target_type'
 };
 
 exports.Prisma.RateModelScalarFieldEnum = {
@@ -288,6 +311,26 @@ exports.Prisma.ReviewModelScalarFieldEnum = {
   reviewer_id: 'reviewer_id',
   reviewee_id: 'reviewee_id',
   content: 'content'
+};
+
+exports.Prisma.ServiceSubCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  super_category_id: 'super_category_id'
+};
+
+exports.Prisma.ServiceSuperCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  type: 'type'
 };
 
 exports.Prisma.SortOrder = {
@@ -321,7 +364,7 @@ exports.Prisma.UserModelScalarFieldEnum = {
   name: 'name',
   email: 'email'
 };
-exports.AgreementUserType = {
+exports.AgreementTargetType = {
   all: 'all',
   customer: 'customer',
   business: 'business',
@@ -329,15 +372,11 @@ exports.AgreementUserType = {
   RE: 'RE'
 };
 
-exports.BusinessRateType = {
-  all: 'all',
-  HS: 'HS',
-  RE: 'RE'
-};
-
-exports.ExpertBusinessType = {
-  HS: 'HS',
-  RE: 'RE'
+exports.FocusCareStatus = {
+  pending: 'pending',
+  caring: 'caring',
+  cared: 'cared',
+  cancelled: 'cancelled'
 };
 
 exports.GenderType = {
@@ -351,6 +390,17 @@ exports.OauthType = {
   naver: 'naver'
 };
 
+exports.RateTargetType = {
+  all: 'all',
+  HS: 'HS',
+  RE: 'RE'
+};
+
+exports.ServiceType = {
+  HS: 'HS',
+  RE: 'RE'
+};
+
 exports.Prisma.ModelName = {
   REProertyModel: 'REProertyModel',
   REPropertyCategoryModel: 'REPropertyCategoryModel',
@@ -362,12 +412,16 @@ exports.Prisma.ModelName = {
   RateCategoryModel: 'RateCategoryModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  SubExpertiseModel: 'SubExpertiseModel',
-  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
-  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
+  ConsultationTimeModel: 'ConsultationTimeModel',
+  ServiceSubCategoryModel: 'ServiceSubCategoryModel',
+  ServiceSuperCategoryModel: 'ServiceSuperCategoryModel',
+  FocusCareRequestModel: 'FocusCareRequestModel',
+  FocusCareServiceCheckModel: 'FocusCareServiceCheckModel',
+  FocusCareConsultationTimeCheckModel: 'FocusCareConsultationTimeCheckModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
+  SubExpertiseModel: 'SubExpertiseModel',
   REAgentModel: 'REAgentModel',
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',

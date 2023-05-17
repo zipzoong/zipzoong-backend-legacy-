@@ -4,8 +4,9 @@ import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
-import { re_properties, re_property_sub_categories, users } from "@SDK";
+import { re_properties, re_property_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
+import { pick } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- re_properties.createMany");
@@ -13,11 +14,14 @@ console.log("\n- re_properties.createMany");
 const createRequest = typia.createRandom<IREProperty.ICreateRequest>();
 
 export const test_success = async (connection: IConnection) => {
-  const { data } = await re_property_sub_categories.getList(connection, {
-    page: 1
-  });
+  const super_categories = await re_property_categories.super.getList(
+    connection
+  );
 
-  const sub_category_ids = data.map(({ id }) => id);
+  const sub_category_ids = super_categories
+    .flatMap(pick("middle_categories"))
+    .flatMap(pick("sub_categories"))
+    .map(pick("id"));
 
   const list = await ArrayUtil.asyncRepeat(10)(async () => {
     const input = createRequest();

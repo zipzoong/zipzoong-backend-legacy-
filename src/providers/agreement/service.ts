@@ -4,15 +4,15 @@ import { prisma } from "@INFRA/DB";
 import { getISOString, isActive } from "@UTIL";
 
 export namespace Service {
-  export const getList = async (
-    input: IAgreement.ISearch
-  ): Promise<IAgreement[]> =>
+  export const getList = async ({
+    target_type
+  }: IAgreement.ISearch): Promise<IAgreement[]> =>
     pipe(
-      input.filter,
+      target_type,
 
       async (ins) =>
         prisma.agreementModel.findMany({
-          where: { user_type: { in: ins } }
+          where: { target_type: { in: ins } }
         }),
 
       filter(isActive),
@@ -21,7 +21,7 @@ export namespace Service {
         id: agreement.id,
         title: agreement.title,
         content: agreement.content,
-        user_type: agreement.user_type,
+        target_type: agreement.target_type,
         is_required: agreement.is_required,
         created_at: getISOString(agreement.created_at),
         updated_at: getISOString(agreement.updated_at)

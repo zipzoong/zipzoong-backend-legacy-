@@ -1,13 +1,13 @@
 import { IDateTime, IPage } from "@DTO/common";
 import { IREAgent } from "@DTO/user/re_agent";
 import { Mutable, Omit } from "@TYPE";
-import { IREPropertyCategory } from "./re_property_category";
+import { IREPropertyCategory } from "./category/re_property";
 
 export interface IREProperty extends IDateTime {
   readonly id: string;
   readonly name: string;
   readonly main_image_url: string;
-  readonly agent: IREProperty.IAgent;
+  readonly re_agent: IREProperty.IAgent;
   readonly sub_categories: IREProperty.ISubCategory[];
 }
 
@@ -28,18 +28,18 @@ export namespace IREProperty {
   }
 
   export interface ISearch extends IPage {
-    super_category_name?: string;
-    middle_category_name?: string;
-    sub_category_name?: string;
+    super_category_id?: string;
+    middle_category_id?: string;
+    sub_category_id?: string;
   }
 
   export interface ICreate
     extends Pick<Mutable<IREProperty>, "main_image_url" | "name"> {
-    agent_id: string;
+    re_agent_id: string;
     sub_category_ids: string[];
   }
 
-  export type ICreateRequest = Omit<ICreate, "agent_id">;
+  export type ICreateRequest = Omit<ICreate, "re_agent_id">;
 
   export interface ICreateManyRequest {
     /**

@@ -4,12 +4,12 @@ export interface IAgreement extends IDateTime {
   readonly id: string;
   readonly title: string;
   readonly content: string;
-  readonly user_type: IAgreement.UserType;
+  readonly target_type: IAgreement.TargetType;
   readonly is_required: boolean;
 }
 
 export namespace IAgreement {
-  export type UserType = "all" | "customer" | "business" | "HS" | "RE";
+  export type TargetType = "all" | "customer" | "business" | "HS" | "RE";
 
   export interface ISearch {
     /**
@@ -22,6 +22,6 @@ export namespace IAgreement {
      *
      * @minItems 1
      */
-    filter: UserType[];
+    target_type: TargetType[];
   }
 }

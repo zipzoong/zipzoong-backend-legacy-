@@ -3,6 +3,7 @@ import { IConnection } from "@nestia/fetcher";
 import Authentication from "@PROVIDER/authentication";
 import { users } from "@SDK";
 import { internal } from "@TEST/internal";
+import assert from "assert";
 import typia from "typia";
 
 console.log("\n- users.re_agents.me.properties.getList");
@@ -22,6 +23,7 @@ export const test_success = async (connection: IConnection) => {
   );
 
   typia.assertEquals(received);
+  assert.notStrictEqual(received.data.length, 0);
 };
 
 export const test_authorization_fail = internal.test_authorization_fail(

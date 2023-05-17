@@ -11,7 +11,7 @@ export namespace Json {
       id: randomUUID(),
       name: input.name,
       main_image_url: input.main_image_url,
-      agent: { connect: { id: input.agent_id } },
+      re_agent: { connect: { id: input.re_agent_id } },
       categories: {
         createMany: {
           data: pipe(
@@ -47,7 +47,7 @@ export namespace Json {
             id: data.id,
             name: data.name,
             main_image_url: data.main_image_url,
-            agent_id: data.agent.connect.id,
+            re_agent_id: data.re_agent.connect.id,
             created_at: data.created_at,
             updated_at: data.updated_at,
             is_deleted: data.is_deleted,
@@ -93,7 +93,7 @@ export namespace Json {
 
   export const findInclude = () =>
     ({
-      agent: {
+      re_agent: {
         include: {
           base: {
             include: {

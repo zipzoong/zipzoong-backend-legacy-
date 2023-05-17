@@ -53,7 +53,11 @@ export namespace IREAgent {
   >;
 
   export namespace IProperty {
-    export interface ISearch extends IPage {}
+    export interface ISearch extends IPage {
+      sub_category_id?: string;
+      middle_category_id?: string;
+      super_category_id?: string;
+    }
   }
 
   export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;

@@ -17,7 +17,7 @@ export const test_success = async (connection: IConnection) => {
 
   create_customer_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "customer"]
+      target_type: ["all", "customer"]
     })
   ).map(({ id }) => id);
 

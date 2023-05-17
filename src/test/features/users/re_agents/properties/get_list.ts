@@ -2,6 +2,7 @@ import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { users } from "@SDK";
 import { internal } from "@TEST/internal";
+import assert from "assert";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -17,6 +18,7 @@ export const test_success = async (connection: IConnection) => {
   );
 
   typia.assertEquals(received);
+  assert.notStrictEqual(received.data.length, 0);
 };
 
 export const test_not_found = internal.test_error((connection: IConnection) =>

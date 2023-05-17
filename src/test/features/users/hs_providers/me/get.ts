@@ -1,7 +1,7 @@
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
-import { agreements, auth, expert_super_categories, users } from "@SDK";
+import { agreements, auth, service_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
@@ -18,15 +18,13 @@ export const test_success = async (connection: IConnection) => {
 
   create_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "HS"]
+      target_type: ["all", "business", "HS"]
     })
   ).map(({ id }) => id);
 
-  const super_expertise_list = await expert_super_categories.getList(
+  const super_expertise_list = await service_categories.super.getList(
     connection,
-    {
-      filter: ["HS"]
-    }
+    { type: ["HS"] }
   );
 
   const super_expertise = RandomGenerator.pick(super_expertise_list);

@@ -1,5 +1,5 @@
 import { Entity } from "../mixins";
-import { AgreementUserType } from "../enums";
+import { AgreementTargetType } from "../enums";
 import { createModel } from "schemix";
 import { User } from "./user";
 
@@ -9,7 +9,7 @@ export const Agreement = createModel("AgreementModel", (model) => {
     .string("title")
     .string("content")
     .boolean("is_required")
-    .enum("user_type", AgreementUserType)
+    .enum("target_type", AgreementTargetType)
     .relation("acceptances", AgreementAcceptance, { list: true })
     .map("agreements");
 });

@@ -38,7 +38,7 @@ export const test_success = async (connection: IConnection) => {
   });
 
   const categories = await rate_categories.getList(connection, {
-    business_type: ["all"]
+    target_type: ["all"]
   });
 
   await ArrayUtil.asyncForEach(

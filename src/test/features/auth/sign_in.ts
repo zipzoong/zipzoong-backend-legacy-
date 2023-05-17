@@ -22,7 +22,7 @@ export const test_success = async (connection: IConnection) => {
   const input = typia.random<ICustomer.ICreateRequest>();
   input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "customer"]
+      target_type: ["all", "customer"]
     })
   ).map(({ id }) => id);
 

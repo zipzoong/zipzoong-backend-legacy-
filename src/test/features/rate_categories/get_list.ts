@@ -7,8 +7,9 @@ console.log("\n- rate_categories.getList");
 
 export const test_success = async (connection: IConnection) => {
   const received = await rate_categories.getList(connection, {
-    business_type: ["all"]
+    target_type: ["all"]
   });
-  assert.strictEqual(received.length !== 0, true);
+
   typia.assertEquals(received);
+  assert.notStrictEqual(received.length, 0);
 };

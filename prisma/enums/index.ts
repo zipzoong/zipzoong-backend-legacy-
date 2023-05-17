@@ -8,11 +8,11 @@ export const OauthType = createEnum("OauthType", (Enum) => {
   Enum.addValue("kakao").addValue("naver");
 });
 
-export const ExpertBusinessType = createEnum("ExpertBusinessType", (Enum) => {
+export const ServiceType = createEnum("ServiceType", (Enum) => {
   Enum.addValue("HS").addValue("RE");
 });
 
-export const AgreementUserType = createEnum("AgreementUserType", (Enum) => {
+export const AgreementTargetType = createEnum("AgreementTargetType", (Enum) => {
   Enum.addValue("all")
     .addValue("customer")
     .addValue("business")
@@ -20,6 +20,13 @@ export const AgreementUserType = createEnum("AgreementUserType", (Enum) => {
     .addValue("RE");
 });
 
-export const BusinessRateType = createEnum("BusinessRateType", (Enum) => {
+export const RateTargetType = createEnum("RateTargetType", (Enum) => {
   Enum.addValue("all").addValue("HS").addValue("RE");
+});
+
+export const FocusCareStatus = createEnum("FocusCareStatus", (Enum) => {
+  Enum.addValue("pending")
+    .addValue("caring")
+    .addValue("cared")
+    .addValue("cancelled");
 });

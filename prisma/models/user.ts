@@ -6,7 +6,8 @@ import { REProperty } from "./real_estate";
 import { Review } from "./review";
 import { OauthAccount } from "./account";
 import { AgreementAcceptance } from "./agreement";
-import { SubExpertise } from "./expertise";
+import { FocusCareRequest } from "./focus_care";
+import { ServiceSubCategory } from "./service_category";
 
 const one_to_one: RelationalFieldOptions = {
   fields: ["id"],
@@ -38,6 +39,7 @@ export const Customer = createModel("CustomerModel", (model) => {
     .relation("base", User, one_to_one)
     .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
+    .relation("focus_care_requests", FocusCareRequest, { list: true })
     .map("customers");
 });
 
@@ -61,6 +63,27 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
     .map("business_users");
+});
+
+export const SubExpertise = createModel("SubExpertiseModel", (model) => {
+  model
+    .mixin(Entity)
+    .string("sub_category_id")
+    .string("business_user_id")
+    .relation("sub_category", ServiceSubCategory, {
+      fields: ["sub_category_id"],
+      references: ["id"],
+      onUpdate: "NoAction",
+      onDelete: "NoAction"
+    })
+    .relation("business_user", BusinessUser, {
+      fields: ["business_user_id"],
+      references: ["id"],
+      onUpdate: "NoAction",
+      onDelete: "NoAction"
+    })
+    .unique({ fields: ["sub_category_id", "business_user_id"] })
+    .map("sub_expertises");
 });
 
 export const REAgent = createModel("REAgentModel", (model) => {

@@ -30,8 +30,8 @@ export namespace IBusinessUser {
   }
 
   export interface ISearch extends IPage {
-    super_category_name?: string;
-    sub_category_name?: string;
+    super_category_id?: string;
+    sub_category_id?: string;
   }
 
   export type ICreateRequest<T extends Type> = IUser.ICreateRequest<T>;

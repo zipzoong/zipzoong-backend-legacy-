@@ -1,4 +1,4 @@
-import { IRateCategory } from "@DTO/rate_category";
+import { IRateCategory } from "@DTO/category/rate";
 import { IDateTime, IPage } from "@DTO/common";
 import { Omit } from "@TYPE";
 
