@@ -1,9 +1,9 @@
 import { Exception } from "./exception";
 import { Service } from "./service";
 
-export const ExpertCategory = {
+export const ServiceCategory = {
   Exception,
   Service
 };
 
-export default ExpertCategory;
+export default ServiceCategory;

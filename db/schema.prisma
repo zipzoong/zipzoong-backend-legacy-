@@ -38,7 +38,7 @@ enum RateTargetType {
   RE
 }
 
-enum FocusCareStatus {
+enum ZipzoongCareStatus {
   pending
   caring
   cared
@@ -189,19 +189,6 @@ model AgreementAcceptanceModel {
   @@map("agreement_acceptances")
 }
 
-model ConsultationTimeModel {
-  id                String                                @id
-  created_at        DateTime                              @database.Timestamptz
-  updated_at        DateTime                              @database.Timestamptz
-  is_deleted        Boolean
-  deleted_at        DateTime?                             @database.Timestamptz
-  start_time        DateTime                              @database.Timetz
-  end_time          DateTime                              @database.Timetz
-  focus_care_checks FocusCareConsultationTimeCheckModel[]
-
-  @@map("consultation_times")
-}
-
 model ServiceSubCategoryModel {
   id                String                    @id
   created_at        DateTime                  @database.Timestamptz
@@ -217,38 +204,38 @@ model ServiceSubCategoryModel {
 }
 
 model ServiceSuperCategoryModel {
-  id                String                       @id
-  created_at        DateTime                     @database.Timestamptz
-  updated_at        DateTime                     @database.Timestamptz
+  id                String                          @id
+  created_at        DateTime                        @database.Timestamptz
+  updated_at        DateTime                        @database.Timestamptz
   is_deleted        Boolean
-  deleted_at        DateTime?                    @database.Timestamptz
-  name              String                       @unique
+  deleted_at        DateTime?                       @database.Timestamptz
+  name              String                          @unique
   type              ServiceType
   sub_categories    ServiceSubCategoryModel[]
-  focus_care_checks FocusCareServiceCheckModel[]
+  focus_care_checks ZipzoongCareServiceCheckModel[]
 
   @@map("service_super_categories")
 }
 
-model FocusCareRequestModel {
-  id                 String                                @id
-  created_at         DateTime                              @database.Timestamptz
-  updated_at         DateTime                              @database.Timestamptz
-  is_deleted         Boolean
-  deleted_at         DateTime?                             @database.Timestamptz
-  care_start_date    DateTime                              @database.Date
-  care_end_date      DateTime                              @database.Date
-  detail             String
-  status             FocusCareStatus
-  requester_id       String
-  requester          CustomerModel                         @relation(fields: [requester_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  consultation_times FocusCareConsultationTimeCheckModel[]
-  services           FocusCareServiceCheckModel[]
+model ZipzoongCareRequestModel {
+  id                       String                                   @id
+  created_at               DateTime                                 @database.Timestamptz
+  updated_at               DateTime                                 @database.Timestamptz
+  is_deleted               Boolean
+  deleted_at               DateTime?                                @database.Timestamptz
+  care_start_date          DateTime                                 @database.Date
+  care_end_date            DateTime                                 @database.Date
+  detail                   String
+  status                   ZipzoongCareStatus
+  requester_id             String
+  requester                CustomerModel                            @relation(fields: [requester_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  consultation_time_checks ZipzoongCareConsultationTimeCheckModel[]
+  service_checks           ZipzoongCareServiceCheckModel[]
 
-  @@map("focus_care_requests")
+  @@map("zipzoong_care_requests")
 }
 
-model FocusCareServiceCheckModel {
+model ZipzoongCareServiceCheckModel {
   id                        String                    @id
   created_at                DateTime                  @database.Timestamptz
   updated_at                DateTime                  @database.Timestamptz
@@ -257,23 +244,23 @@ model FocusCareServiceCheckModel {
   service_super_category_id String
   request_id                String
   service_super_category    ServiceSuperCategoryModel @relation(fields: [service_super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  request                   FocusCareRequestModel     @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  request                   ZipzoongCareRequestModel  @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("focus_care_service_checks")
+  @@map("zipzoong_care_service_checks")
 }
 
-model FocusCareConsultationTimeCheckModel {
-  id                   String                @id
-  created_at           DateTime              @database.Timestamptz
-  updated_at           DateTime              @database.Timestamptz
-  is_deleted           Boolean
-  deleted_at           DateTime?             @database.Timestamptz
-  consultation_time_id String
-  request_id           String
-  consultation_time    ConsultationTimeModel @relation(fields: [consultation_time_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  request              FocusCareRequestModel @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model ZipzoongCareConsultationTimeCheckModel {
+  id         String                   @id
+  created_at DateTime                 @database.Timestamptz
+  updated_at DateTime                 @database.Timestamptz
+  is_deleted Boolean
+  deleted_at DateTime?                @database.Timestamptz
+  start_time DateTime                 @database.Timetz
+  end_time   DateTime                 @database.Timetz
+  request_id String
+  request    ZipzoongCareRequestModel @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("focus_care_consultation_time_checks")
+  @@map("zipzoong_care_consultation_time_checks")
 }
 
 model UserModel {
@@ -292,17 +279,17 @@ model UserModel {
 }
 
 model CustomerModel {
-  id                  String                  @id
-  birth               String?
-  gender              GenderType?
-  phone               String?
-  address_first       String?
-  address_second      String?
-  profile_image_url   String?
-  base                UserModel               @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  oauth_accounts      OauthAccountModel[]
-  reviews             ReviewModel[]
-  focus_care_requests FocusCareRequestModel[]
+  id                     String                     @id
+  birth                  String?
+  gender                 GenderType?
+  phone                  String?
+  address_first          String?
+  address_second         String?
+  profile_image_url      String?
+  base                   UserModel                  @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  oauth_accounts         OauthAccountModel[]
+  reviews                ReviewModel[]
+  zipzoong_care_requests ZipzoongCareRequestModel[]
 
   @@map("customers")
 }

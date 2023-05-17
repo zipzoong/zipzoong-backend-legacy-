@@ -6,7 +6,7 @@ import { REProperty } from "./real_estate";
 import { Review } from "./review";
 import { OauthAccount } from "./account";
 import { AgreementAcceptance } from "./agreement";
-import { FocusCareRequest } from "./focus_care";
+import { ZipzoongCareRequest } from "./zipzoong_care";
 import { ServiceSubCategory } from "./service_category";
 
 const one_to_one: RelationalFieldOptions = {
@@ -39,7 +39,7 @@ export const Customer = createModel("CustomerModel", (model) => {
     .relation("base", User, one_to_one)
     .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
-    .relation("focus_care_requests", FocusCareRequest, { list: true })
+    .relation("zipzoong_care_requests", ZipzoongCareRequest, { list: true })
     .map("customers");
 });
 

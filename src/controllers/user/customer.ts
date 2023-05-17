@@ -1,8 +1,11 @@
 import { ITokens } from "@DTO/auth";
+import { IPaginatedResponse } from "@DTO/common";
 import { ICustomer } from "@DTO/user/customer";
-import { TypedParam, TypedRoute } from "@nestia/core";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import Customer from "@PROVIDER/user/customer";
+import ZipzoongCareRequest from "@PROVIDER/zipzoong_care_request";
 import { CustomerToken } from "../decorators";
 
 @Controller("users/customers")
@@ -20,6 +23,14 @@ export class CustomersController {
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
     return Customer.Service.Me.get({ user_id: payload.user_id });
+  }
+
+  @TypedRoute.Get("me/zipzoong-care/requests")
+  getList(
+    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @TypedQuery() query: IZipzoongCareRequest.ISearch
+  ): Promise<IPaginatedResponse<IZipzoongCareRequest>> {
+    return ZipzoongCareRequest.Service.getList({ user_id, search: query });
   }
 
   /**

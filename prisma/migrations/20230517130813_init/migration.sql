@@ -14,7 +14,7 @@ CREATE TYPE "AgreementTargetType" AS ENUM ('all', 'customer', 'business', 'HS', 
 CREATE TYPE "RateTargetType" AS ENUM ('all', 'HS', 'RE');
 
 -- CreateEnum
-CREATE TYPE "FocusCareStatus" AS ENUM ('pending', 'caring', 'cared', 'cancelled');
+CREATE TYPE "ZipzoongCareStatus" AS ENUM ('pending', 'caring', 'cared', 'cancelled');
 
 -- CreateTable
 CREATE TABLE "re_properties" (
@@ -151,19 +151,6 @@ CREATE TABLE "agreement_acceptances" (
 );
 
 -- CreateTable
-CREATE TABLE "consultation_times" (
-    "id" TEXT NOT NULL,
-    "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL,
-    "deleted_at" TIMESTAMPTZ,
-    "start_time" TIMETZ NOT NULL,
-    "end_time" TIMETZ NOT NULL,
-
-    CONSTRAINT "consultation_times_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "service_sub_categories" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
@@ -190,7 +177,7 @@ CREATE TABLE "service_super_categories" (
 );
 
 -- CreateTable
-CREATE TABLE "focus_care_requests" (
+CREATE TABLE "zipzoong_care_requests" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
@@ -199,14 +186,14 @@ CREATE TABLE "focus_care_requests" (
     "care_start_date" DATE NOT NULL,
     "care_end_date" DATE NOT NULL,
     "detail" TEXT NOT NULL,
-    "status" "FocusCareStatus" NOT NULL,
+    "status" "ZipzoongCareStatus" NOT NULL,
     "requester_id" TEXT NOT NULL,
 
-    CONSTRAINT "focus_care_requests_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "zipzoong_care_requests_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "focus_care_service_checks" (
+CREATE TABLE "zipzoong_care_service_checks" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
@@ -215,20 +202,21 @@ CREATE TABLE "focus_care_service_checks" (
     "service_super_category_id" TEXT NOT NULL,
     "request_id" TEXT NOT NULL,
 
-    CONSTRAINT "focus_care_service_checks_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "zipzoong_care_service_checks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "focus_care_consultation_time_checks" (
+CREATE TABLE "zipzoong_care_consultation_time_checks" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
     "is_deleted" BOOLEAN NOT NULL,
     "deleted_at" TIMESTAMPTZ,
-    "consultation_time_id" TEXT NOT NULL,
+    "start_time" TIMETZ NOT NULL,
+    "end_time" TIMETZ NOT NULL,
     "request_id" TEXT NOT NULL,
 
-    CONSTRAINT "focus_care_consultation_time_checks_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "zipzoong_care_consultation_time_checks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -408,19 +396,16 @@ ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_agreem
 ALTER TABLE "service_sub_categories" ADD CONSTRAINT "service_sub_categories_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "service_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "focus_care_requests" ADD CONSTRAINT "focus_care_requests_requester_id_fkey" FOREIGN KEY ("requester_id") REFERENCES "customers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "zipzoong_care_requests" ADD CONSTRAINT "zipzoong_care_requests_requester_id_fkey" FOREIGN KEY ("requester_id") REFERENCES "customers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "focus_care_service_checks" ADD CONSTRAINT "focus_care_service_checks_service_super_category_id_fkey" FOREIGN KEY ("service_super_category_id") REFERENCES "service_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "zipzoong_care_service_checks" ADD CONSTRAINT "zipzoong_care_service_checks_service_super_category_id_fkey" FOREIGN KEY ("service_super_category_id") REFERENCES "service_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "focus_care_service_checks" ADD CONSTRAINT "focus_care_service_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "focus_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "zipzoong_care_service_checks" ADD CONSTRAINT "zipzoong_care_service_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "zipzoong_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "focus_care_consultation_time_checks" ADD CONSTRAINT "focus_care_consultation_time_checks_consultation_time_id_fkey" FOREIGN KEY ("consultation_time_id") REFERENCES "consultation_times"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "focus_care_consultation_time_checks" ADD CONSTRAINT "focus_care_consultation_time_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "focus_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "zipzoong_care_consultation_time_checks" ADD CONSTRAINT "zipzoong_care_consultation_time_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "zipzoong_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "customers" ADD CONSTRAINT "customers_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

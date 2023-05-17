@@ -1,19 +1,18 @@
 import { Entity } from "../mixins";
-import { FocusCareStatus } from "../enums";
+import { ZipzoongCareStatus } from "../enums";
 import { createModel } from "schemix";
 import { Customer } from "./user";
-import { ConsultationTime } from "./consultation_time";
 import { ServiceSuperCategory } from "./service_category";
 
-export const FocusCareRequest = createModel(
-  "FocusCareRequestModel",
+export const ZipzoongCareRequest = createModel(
+  "ZipzoongCareRequestModel",
   (model) => {
     model
       .mixin(Entity)
       .dateTime("care_start_date", { raw: "@database.Date" })
       .dateTime("care_end_date", { raw: "@database.Date" })
       .string("detail")
-      .enum("status", FocusCareStatus)
+      .enum("status", ZipzoongCareStatus)
       .string("requester_id")
       .relation("requester", Customer, {
         fields: ["requester_id"],
@@ -21,18 +20,18 @@ export const FocusCareRequest = createModel(
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .relation("consultation_times", FocusCareConsultationTimeCheck, {
+      .relation("consultation_time_checks", ZipzoongCareConsultationTimeCheck, {
         list: true
       })
-      .relation("services", FocusCareServiceCheck, {
+      .relation("service_checks", ZipzoongCareServiceCheck, {
         list: true
       })
-      .map("focus_care_requests");
+      .map("zipzoong_care_requests");
   }
 );
 
-export const FocusCareServiceCheck = createModel(
-  "FocusCareServiceCheckModel",
+export const ZipzoongCareServiceCheck = createModel(
+  "ZipzoongCareServiceCheckModel",
   (model) => {
     model
       .mixin(Entity)
@@ -44,35 +43,30 @@ export const FocusCareServiceCheck = createModel(
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .relation("request", FocusCareRequest, {
+      .relation("request", ZipzoongCareRequest, {
         fields: ["request_id"],
         references: ["id"],
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .map("focus_care_service_checks");
+      .map("zipzoong_care_service_checks");
   }
 );
 
-export const FocusCareConsultationTimeCheck = createModel(
-  "FocusCareConsultationTimeCheckModel",
+export const ZipzoongCareConsultationTimeCheck = createModel(
+  "ZipzoongCareConsultationTimeCheckModel",
   (model) => {
     model
       .mixin(Entity)
-      .string("consultation_time_id")
+      .dateTime("start_time", { raw: "@database.Timetz" })
+      .dateTime("end_time", { raw: "@database.Timetz" })
       .string("request_id")
-      .relation("consultation_time", ConsultationTime, {
-        fields: ["consultation_time_id"],
-        references: ["id"],
-        onDelete: "NoAction",
-        onUpdate: "NoAction"
-      })
-      .relation("request", FocusCareRequest, {
+      .relation("request", ZipzoongCareRequest, {
         fields: ["request_id"],
         references: ["id"],
         onDelete: "NoAction",
         onUpdate: "NoAction"
       })
-      .map("focus_care_consultation_time_checks");
+      .map("zipzoong_care_consultation_time_checks");
   }
 );

@@ -24,7 +24,7 @@ export const RateTargetType = createEnum("RateTargetType", (Enum) => {
   Enum.addValue("all").addValue("HS").addValue("RE");
 });
 
-export const FocusCareStatus = createEnum("FocusCareStatus", (Enum) => {
+export const ZipzoongCareStatus = createEnum("ZipzoongCareStatus", (Enum) => {
   Enum.addValue("pending")
     .addValue("caring")
     .addValue("cared")

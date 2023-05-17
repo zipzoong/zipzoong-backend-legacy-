@@ -1440,6 +1440,38 @@
         ]
       }
     },
+    "/users/customers/me/zipzoong-care/requests": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ISearch"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPaginatedResponse_lt_IZipzoongCareRequest_gt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "",
+        "x-nestia-namespace": "users.customers.me.zipzoong-care.requests.getList",
+        "x-nestia-jsDocTags": []
+      }
+    },
     "/users/customers/{customer_id}": {
       "get": {
         "tags": [
@@ -2339,6 +2371,96 @@
             "text": [
               {
                 "text": "404 Not Found",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/zipzoong-care/request": {
+      "post": {
+        "tags": [
+          "focus-cares"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "집중 케어 신청 정보",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "summary": "집중 케어 신청",
+        "description": "",
+        "x-nestia-namespace": "zipzoong-care.request.execute",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "집중 케어 신청",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "focus-cares",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "집중 케어 신청 정보",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
                 "kind": "text"
               }
             ]
@@ -5158,6 +5280,467 @@
         ],
         "x-typia-jsDocTags": []
       },
+      "IZipzoongCareRequest.ISearch": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "caring",
+                "cared",
+                "cancelled"
+              ],
+              "nullable": false,
+              "description": "",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minItems": 1
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "minimum": 1,
+            "default": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "status"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IPaginatedResponse_lt_IZipzoongCareRequest_gt_": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "page": {
+            "type": "integer",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "caring",
+              "cared",
+              "cancelled"
+            ],
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "requester": {
+            "$ref": "#/components/schemas/IZipzoongCareRequest.IRequester",
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "care_start_date": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "foramt",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "care_end_date": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date"
+          },
+          "detail": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "checked_services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedService",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "checked_consultation_times": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedConsultationTime",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "created_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "status",
+          "requester",
+          "care_start_date",
+          "care_end_date",
+          "detail",
+          "checked_services",
+          "checked_consultation_times",
+          "created_at",
+          "updated_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.IRequester": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICheckedService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICheckedConsultationTime": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "start_time": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          },
+          "end_time": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "start_time",
+          "end_time"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "ICustomer": {
         "type": "object",
         "properties": {
@@ -6487,6 +7070,146 @@
         "required": [
           "data",
           "page"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "care_start_date": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "foramt",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "care_end_date": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "date"
+          },
+          "detail": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "consultation_times": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateCheckedConsultationTime",
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          },
+          "service_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false,
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false
+            },
+            "nullable": false,
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false
+          }
+        },
+        "nullable": false,
+        "required": [
+          "care_start_date",
+          "care_end_date",
+          "detail",
+          "consultation_times",
+          "service_ids"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICreateCheckedConsultationTime": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          },
+          "end_time": {
+            "type": "string",
+            "nullable": false,
+            "description": "",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "start_time",
+          "end_time"
         ],
         "x-typia-jsDocTags": []
       }

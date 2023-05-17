@@ -129,16 +129,6 @@ exports.Prisma.BusinessUserModelScalarFieldEnum = {
   profile_image_url: 'profile_image_url'
 };
 
-exports.Prisma.ConsultationTimeModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  start_time: 'start_time',
-  end_time: 'end_time'
-};
-
 exports.Prisma.CustomerModelScalarFieldEnum = {
   id: 'id',
   birth: 'birth',
@@ -147,39 +137,6 @@ exports.Prisma.CustomerModelScalarFieldEnum = {
   address_first: 'address_first',
   address_second: 'address_second',
   profile_image_url: 'profile_image_url'
-};
-
-exports.Prisma.FocusCareConsultationTimeCheckModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  consultation_time_id: 'consultation_time_id',
-  request_id: 'request_id'
-};
-
-exports.Prisma.FocusCareRequestModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  care_start_date: 'care_start_date',
-  care_end_date: 'care_end_date',
-  detail: 'detail',
-  status: 'status',
-  requester_id: 'requester_id'
-};
-
-exports.Prisma.FocusCareServiceCheckModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  service_super_category_id: 'service_super_category_id',
-  request_id: 'request_id'
 };
 
 exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
@@ -364,19 +321,46 @@ exports.Prisma.UserModelScalarFieldEnum = {
   name: 'name',
   email: 'email'
 };
+
+exports.Prisma.ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  request_id: 'request_id'
+};
+
+exports.Prisma.ZipzoongCareRequestModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  care_start_date: 'care_start_date',
+  care_end_date: 'care_end_date',
+  detail: 'detail',
+  status: 'status',
+  requester_id: 'requester_id'
+};
+
+exports.Prisma.ZipzoongCareServiceCheckModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  service_super_category_id: 'service_super_category_id',
+  request_id: 'request_id'
+};
 exports.AgreementTargetType = {
   all: 'all',
   customer: 'customer',
   business: 'business',
   HS: 'HS',
   RE: 'RE'
-};
-
-exports.FocusCareStatus = {
-  pending: 'pending',
-  caring: 'caring',
-  cared: 'cared',
-  cancelled: 'cancelled'
 };
 
 exports.GenderType = {
@@ -401,6 +385,13 @@ exports.ServiceType = {
   RE: 'RE'
 };
 
+exports.ZipzoongCareStatus = {
+  pending: 'pending',
+  caring: 'caring',
+  cared: 'cared',
+  cancelled: 'cancelled'
+};
+
 exports.Prisma.ModelName = {
   REProertyModel: 'REProertyModel',
   REPropertyCategoryModel: 'REPropertyCategoryModel',
@@ -412,12 +403,11 @@ exports.Prisma.ModelName = {
   RateCategoryModel: 'RateCategoryModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  ConsultationTimeModel: 'ConsultationTimeModel',
   ServiceSubCategoryModel: 'ServiceSubCategoryModel',
   ServiceSuperCategoryModel: 'ServiceSuperCategoryModel',
-  FocusCareRequestModel: 'FocusCareRequestModel',
-  FocusCareServiceCheckModel: 'FocusCareServiceCheckModel',
-  FocusCareConsultationTimeCheckModel: 'FocusCareConsultationTimeCheckModel',
+  ZipzoongCareRequestModel: 'ZipzoongCareRequestModel',
+  ZipzoongCareServiceCheckModel: 'ZipzoongCareServiceCheckModel',
+  ZipzoongCareConsultationTimeCheckModel: 'ZipzoongCareConsultationTimeCheckModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',

@@ -10,7 +10,10 @@ console.log("\n- users.re_agents.me.properties.getList");
 
 export const test_success = async (connection: IConnection) => {
   const { data } = await users.re_agents.getList(connection, {});
-  const agent = RandomGenerator.pick(data);
+
+  const agent = RandomGenerator.pick(
+    data.filter(({ properties }) => properties.length > 0)
+  );
   const token = Authentication.Crypto.getUserToken({
     type: "user",
     user_id: agent.id,

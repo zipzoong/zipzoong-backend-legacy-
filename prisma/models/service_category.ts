@@ -1,7 +1,7 @@
 import { Entity } from "../mixins";
 import { ServiceType } from "../enums";
 import { createModel } from "schemix";
-import { FocusCareServiceCheck } from "./focus_care";
+import { ZipzoongCareServiceCheck } from "./zipzoong_care";
 import { SubExpertise } from "./user";
 
 export const ServiceSubCategory = createModel(
@@ -30,7 +30,7 @@ export const ServiceSuperCategory = createModel(
       .string("name", { unique: true })
       .enum("type", ServiceType)
       .relation("sub_categories", ServiceSubCategory, { list: true })
-      .relation("focus_care_checks", FocusCareServiceCheck, {
+      .relation("focus_care_checks", ZipzoongCareServiceCheck, {
         list: true
       })
       .map("service_super_categories");

@@ -157,20 +157,6 @@ export type AgreementAcceptanceModel = {
 }
 
 /**
- * Model ConsultationTimeModel
- * 
- */
-export type ConsultationTimeModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  start_time: Date
-  end_time: Date
-}
-
-/**
  * Model ServiceSubCategoryModel
  * 
  */
@@ -199,10 +185,10 @@ export type ServiceSuperCategoryModel = {
 }
 
 /**
- * Model FocusCareRequestModel
+ * Model ZipzoongCareRequestModel
  * 
  */
-export type FocusCareRequestModel = {
+export type ZipzoongCareRequestModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -211,15 +197,15 @@ export type FocusCareRequestModel = {
   care_start_date: Date
   care_end_date: Date
   detail: string
-  status: FocusCareStatus
+  status: ZipzoongCareStatus
   requester_id: string
 }
 
 /**
- * Model FocusCareServiceCheckModel
+ * Model ZipzoongCareServiceCheckModel
  * 
  */
-export type FocusCareServiceCheckModel = {
+export type ZipzoongCareServiceCheckModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -230,16 +216,17 @@ export type FocusCareServiceCheckModel = {
 }
 
 /**
- * Model FocusCareConsultationTimeCheckModel
+ * Model ZipzoongCareConsultationTimeCheckModel
  * 
  */
-export type FocusCareConsultationTimeCheckModel = {
+export type ZipzoongCareConsultationTimeCheckModel = {
   id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
   deleted_at: Date | null
-  consultation_time_id: string
+  start_time: Date
+  end_time: Date
   request_id: string
 }
 
@@ -393,16 +380,6 @@ export const AgreementTargetType: {
 export type AgreementTargetType = (typeof AgreementTargetType)[keyof typeof AgreementTargetType]
 
 
-export const FocusCareStatus: {
-  pending: 'pending',
-  caring: 'caring',
-  cared: 'cared',
-  cancelled: 'cancelled'
-};
-
-export type FocusCareStatus = (typeof FocusCareStatus)[keyof typeof FocusCareStatus]
-
-
 export const GenderType: {
   female: 'female',
   male: 'male',
@@ -435,6 +412,16 @@ export const ServiceType: {
 };
 
 export type ServiceType = (typeof ServiceType)[keyof typeof ServiceType]
+
+
+export const ZipzoongCareStatus: {
+  pending: 'pending',
+  caring: 'caring',
+  cared: 'cared',
+  cancelled: 'cancelled'
+};
+
+export type ZipzoongCareStatus = (typeof ZipzoongCareStatus)[keyof typeof ZipzoongCareStatus]
 
 
 /**
@@ -655,16 +642,6 @@ export class PrismaClient<
   get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.consultationTimeModel`: Exposes CRUD operations for the **ConsultationTimeModel** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ConsultationTimeModels
-    * const consultationTimeModels = await prisma.consultationTimeModel.findMany()
-    * ```
-    */
-  get consultationTimeModel(): Prisma.ConsultationTimeModelDelegate<GlobalReject>;
-
-  /**
    * `prisma.serviceSubCategoryModel`: Exposes CRUD operations for the **ServiceSubCategoryModel** model.
     * Example usage:
     * ```ts
@@ -685,34 +662,34 @@ export class PrismaClient<
   get serviceSuperCategoryModel(): Prisma.ServiceSuperCategoryModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.focusCareRequestModel`: Exposes CRUD operations for the **FocusCareRequestModel** model.
+   * `prisma.zipzoongCareRequestModel`: Exposes CRUD operations for the **ZipzoongCareRequestModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more FocusCareRequestModels
-    * const focusCareRequestModels = await prisma.focusCareRequestModel.findMany()
+    * // Fetch zero or more ZipzoongCareRequestModels
+    * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany()
     * ```
     */
-  get focusCareRequestModel(): Prisma.FocusCareRequestModelDelegate<GlobalReject>;
+  get zipzoongCareRequestModel(): Prisma.ZipzoongCareRequestModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.focusCareServiceCheckModel`: Exposes CRUD operations for the **FocusCareServiceCheckModel** model.
+   * `prisma.zipzoongCareServiceCheckModel`: Exposes CRUD operations for the **ZipzoongCareServiceCheckModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more FocusCareServiceCheckModels
-    * const focusCareServiceCheckModels = await prisma.focusCareServiceCheckModel.findMany()
+    * // Fetch zero or more ZipzoongCareServiceCheckModels
+    * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany()
     * ```
     */
-  get focusCareServiceCheckModel(): Prisma.FocusCareServiceCheckModelDelegate<GlobalReject>;
+  get zipzoongCareServiceCheckModel(): Prisma.ZipzoongCareServiceCheckModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.focusCareConsultationTimeCheckModel`: Exposes CRUD operations for the **FocusCareConsultationTimeCheckModel** model.
+   * `prisma.zipzoongCareConsultationTimeCheckModel`: Exposes CRUD operations for the **ZipzoongCareConsultationTimeCheckModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more FocusCareConsultationTimeCheckModels
-    * const focusCareConsultationTimeCheckModels = await prisma.focusCareConsultationTimeCheckModel.findMany()
+    * // Fetch zero or more ZipzoongCareConsultationTimeCheckModels
+    * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany()
     * ```
     */
-  get focusCareConsultationTimeCheckModel(): Prisma.FocusCareConsultationTimeCheckModelDelegate<GlobalReject>;
+  get zipzoongCareConsultationTimeCheckModel(): Prisma.ZipzoongCareConsultationTimeCheckModelDelegate<GlobalReject>;
 
   /**
    * `prisma.userModel`: Exposes CRUD operations for the **UserModel** model.
@@ -1282,12 +1259,11 @@ export namespace Prisma {
     RateCategoryModel: 'RateCategoryModel',
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-    ConsultationTimeModel: 'ConsultationTimeModel',
     ServiceSubCategoryModel: 'ServiceSubCategoryModel',
     ServiceSuperCategoryModel: 'ServiceSuperCategoryModel',
-    FocusCareRequestModel: 'FocusCareRequestModel',
-    FocusCareServiceCheckModel: 'FocusCareServiceCheckModel',
-    FocusCareConsultationTimeCheckModel: 'FocusCareConsultationTimeCheckModel',
+    ZipzoongCareRequestModel: 'ZipzoongCareRequestModel',
+    ZipzoongCareServiceCheckModel: 'ZipzoongCareServiceCheckModel',
+    ZipzoongCareConsultationTimeCheckModel: 'ZipzoongCareConsultationTimeCheckModel',
     UserModel: 'UserModel',
     CustomerModel: 'CustomerModel',
     BusinessUserModel: 'BusinessUserModel',
@@ -1759,49 +1735,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ConsultationTimeModelCountOutputType
-   */
-
-
-  export type ConsultationTimeModelCountOutputType = {
-    focus_care_checks: number
-  }
-
-  export type ConsultationTimeModelCountOutputTypeSelect = {
-    focus_care_checks?: boolean
-  }
-
-  export type ConsultationTimeModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ConsultationTimeModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ConsultationTimeModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ConsultationTimeModelCountOutputTypeArgs)
-    ? ConsultationTimeModelCountOutputType 
-    : S extends { select: any } & (ConsultationTimeModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ConsultationTimeModelCountOutputType ? ConsultationTimeModelCountOutputType[P] : never
-  } 
-      : ConsultationTimeModelCountOutputType
-
-
-
-
-  // Custom InputTypes
-
-  /**
-   * ConsultationTimeModelCountOutputType without action
-   */
-  export type ConsultationTimeModelCountOutputTypeArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModelCountOutputType
-     */
-    select?: ConsultationTimeModelCountOutputTypeSelect | null
-  }
-
-
-
-  /**
    * Count Type ServiceSubCategoryModelCountOutputType
    */
 
@@ -1890,32 +1823,32 @@ export namespace Prisma {
 
 
   /**
-   * Count Type FocusCareRequestModelCountOutputType
+   * Count Type ZipzoongCareRequestModelCountOutputType
    */
 
 
-  export type FocusCareRequestModelCountOutputType = {
-    consultation_times: number
-    services: number
+  export type ZipzoongCareRequestModelCountOutputType = {
+    consultation_time_checks: number
+    service_checks: number
   }
 
-  export type FocusCareRequestModelCountOutputTypeSelect = {
-    consultation_times?: boolean
-    services?: boolean
+  export type ZipzoongCareRequestModelCountOutputTypeSelect = {
+    consultation_time_checks?: boolean
+    service_checks?: boolean
   }
 
-  export type FocusCareRequestModelCountOutputTypeGetPayload<S extends boolean | null | undefined | FocusCareRequestModelCountOutputTypeArgs> =
+  export type ZipzoongCareRequestModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? FocusCareRequestModelCountOutputType :
+    S extends true ? ZipzoongCareRequestModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (FocusCareRequestModelCountOutputTypeArgs)
-    ? FocusCareRequestModelCountOutputType 
-    : S extends { select: any } & (FocusCareRequestModelCountOutputTypeArgs)
+    S extends { include: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
+    ? ZipzoongCareRequestModelCountOutputType 
+    : S extends { select: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof FocusCareRequestModelCountOutputType ? FocusCareRequestModelCountOutputType[P] : never
+    P extends keyof ZipzoongCareRequestModelCountOutputType ? ZipzoongCareRequestModelCountOutputType[P] : never
   } 
-      : FocusCareRequestModelCountOutputType
+      : ZipzoongCareRequestModelCountOutputType
 
 
 
@@ -1923,13 +1856,13 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * FocusCareRequestModelCountOutputType without action
+   * ZipzoongCareRequestModelCountOutputType without action
    */
-  export type FocusCareRequestModelCountOutputTypeArgs = {
+  export type ZipzoongCareRequestModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModelCountOutputType
+     * Select specific fields to fetch from the ZipzoongCareRequestModelCountOutputType
      */
-    select?: FocusCareRequestModelCountOutputTypeSelect | null
+    select?: ZipzoongCareRequestModelCountOutputTypeSelect | null
   }
 
 
@@ -1985,13 +1918,13 @@ export namespace Prisma {
   export type CustomerModelCountOutputType = {
     oauth_accounts: number
     reviews: number
-    focus_care_requests: number
+    zipzoong_care_requests: number
   }
 
   export type CustomerModelCountOutputTypeSelect = {
     oauth_accounts?: boolean
     reviews?: boolean
-    focus_care_requests?: boolean
+    zipzoong_care_requests?: boolean
   }
 
   export type CustomerModelCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomerModelCountOutputTypeArgs> =
@@ -11923,978 +11856,6 @@ export namespace Prisma {
 
 
   /**
-   * Model ConsultationTimeModel
-   */
-
-
-  export type AggregateConsultationTimeModel = {
-    _count: ConsultationTimeModelCountAggregateOutputType | null
-    _min: ConsultationTimeModelMinAggregateOutputType | null
-    _max: ConsultationTimeModelMaxAggregateOutputType | null
-  }
-
-  export type ConsultationTimeModelMinAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    start_time: Date | null
-    end_time: Date | null
-  }
-
-  export type ConsultationTimeModelMaxAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    start_time: Date | null
-    end_time: Date | null
-  }
-
-  export type ConsultationTimeModelCountAggregateOutputType = {
-    id: number
-    created_at: number
-    updated_at: number
-    is_deleted: number
-    deleted_at: number
-    start_time: number
-    end_time: number
-    _all: number
-  }
-
-
-  export type ConsultationTimeModelMinAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    start_time?: true
-    end_time?: true
-  }
-
-  export type ConsultationTimeModelMaxAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    start_time?: true
-    end_time?: true
-  }
-
-  export type ConsultationTimeModelCountAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    start_time?: true
-    end_time?: true
-    _all?: true
-  }
-
-  export type ConsultationTimeModelAggregateArgs = {
-    /**
-     * Filter which ConsultationTimeModel to aggregate.
-     */
-    where?: ConsultationTimeModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ConsultationTimeModels to fetch.
-     */
-    orderBy?: Enumerable<ConsultationTimeModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ConsultationTimeModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ConsultationTimeModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ConsultationTimeModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ConsultationTimeModels
-    **/
-    _count?: true | ConsultationTimeModelCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ConsultationTimeModelMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ConsultationTimeModelMaxAggregateInputType
-  }
-
-  export type GetConsultationTimeModelAggregateType<T extends ConsultationTimeModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateConsultationTimeModel]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateConsultationTimeModel[P]>
-      : GetScalarType<T[P], AggregateConsultationTimeModel[P]>
-  }
-
-
-
-
-  export type ConsultationTimeModelGroupByArgs = {
-    where?: ConsultationTimeModelWhereInput
-    orderBy?: Enumerable<ConsultationTimeModelOrderByWithAggregationInput>
-    by: ConsultationTimeModelScalarFieldEnum[]
-    having?: ConsultationTimeModelScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ConsultationTimeModelCountAggregateInputType | true
-    _min?: ConsultationTimeModelMinAggregateInputType
-    _max?: ConsultationTimeModelMaxAggregateInputType
-  }
-
-
-  export type ConsultationTimeModelGroupByOutputType = {
-    id: string
-    created_at: Date
-    updated_at: Date
-    is_deleted: boolean
-    deleted_at: Date | null
-    start_time: Date
-    end_time: Date
-    _count: ConsultationTimeModelCountAggregateOutputType | null
-    _min: ConsultationTimeModelMinAggregateOutputType | null
-    _max: ConsultationTimeModelMaxAggregateOutputType | null
-  }
-
-  type GetConsultationTimeModelGroupByPayload<T extends ConsultationTimeModelGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<ConsultationTimeModelGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ConsultationTimeModelGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ConsultationTimeModelGroupByOutputType[P]>
-            : GetScalarType<T[P], ConsultationTimeModelGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ConsultationTimeModelSelect = {
-    id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    is_deleted?: boolean
-    deleted_at?: boolean
-    start_time?: boolean
-    end_time?: boolean
-    focus_care_checks?: boolean | ConsultationTimeModel$focus_care_checksArgs
-    _count?: boolean | ConsultationTimeModelCountOutputTypeArgs
-  }
-
-
-  export type ConsultationTimeModelInclude = {
-    focus_care_checks?: boolean | ConsultationTimeModel$focus_care_checksArgs
-    _count?: boolean | ConsultationTimeModelCountOutputTypeArgs
-  }
-
-  export type ConsultationTimeModelGetPayload<S extends boolean | null | undefined | ConsultationTimeModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ConsultationTimeModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ConsultationTimeModelArgs | ConsultationTimeModelFindManyArgs)
-    ? ConsultationTimeModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'focus_care_checks' ? Array < FocusCareConsultationTimeCheckModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ConsultationTimeModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ConsultationTimeModelArgs | ConsultationTimeModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'focus_care_checks' ? Array < FocusCareConsultationTimeCheckModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ConsultationTimeModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ConsultationTimeModel ? ConsultationTimeModel[P] : never
-  } 
-      : ConsultationTimeModel
-
-
-  type ConsultationTimeModelCountArgs = 
-    Omit<ConsultationTimeModelFindManyArgs, 'select' | 'include'> & {
-      select?: ConsultationTimeModelCountAggregateInputType | true
-    }
-
-  export interface ConsultationTimeModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one ConsultationTimeModel that matches the filter.
-     * @param {ConsultationTimeModelFindUniqueArgs} args - Arguments to find a ConsultationTimeModel
-     * @example
-     * // Get one ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends ConsultationTimeModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ConsultationTimeModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ConsultationTimeModel'> extends True ? Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>> : Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T> | null, null>
-
-    /**
-     * Find one ConsultationTimeModel that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {ConsultationTimeModelFindUniqueOrThrowArgs} args - Arguments to find a ConsultationTimeModel
-     * @example
-     * // Get one ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends ConsultationTimeModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ConsultationTimeModelFindUniqueOrThrowArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Find the first ConsultationTimeModel that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelFindFirstArgs} args - Arguments to find a ConsultationTimeModel
-     * @example
-     * // Get one ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends ConsultationTimeModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ConsultationTimeModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ConsultationTimeModel'> extends True ? Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>> : Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T> | null, null>
-
-    /**
-     * Find the first ConsultationTimeModel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelFindFirstOrThrowArgs} args - Arguments to find a ConsultationTimeModel
-     * @example
-     * // Get one ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends ConsultationTimeModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ConsultationTimeModelFindFirstOrThrowArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Find zero or more ConsultationTimeModels that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ConsultationTimeModels
-     * const consultationTimeModels = await prisma.consultationTimeModel.findMany()
-     * 
-     * // Get first 10 ConsultationTimeModels
-     * const consultationTimeModels = await prisma.consultationTimeModel.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const consultationTimeModelWithIdOnly = await prisma.consultationTimeModel.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends ConsultationTimeModelFindManyArgs>(
-      args?: SelectSubset<T, ConsultationTimeModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ConsultationTimeModelGetPayload<T>>>
-
-    /**
-     * Create a ConsultationTimeModel.
-     * @param {ConsultationTimeModelCreateArgs} args - Arguments to create a ConsultationTimeModel.
-     * @example
-     * // Create one ConsultationTimeModel
-     * const ConsultationTimeModel = await prisma.consultationTimeModel.create({
-     *   data: {
-     *     // ... data to create a ConsultationTimeModel
-     *   }
-     * })
-     * 
-    **/
-    create<T extends ConsultationTimeModelCreateArgs>(
-      args: SelectSubset<T, ConsultationTimeModelCreateArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Create many ConsultationTimeModels.
-     *     @param {ConsultationTimeModelCreateManyArgs} args - Arguments to create many ConsultationTimeModels.
-     *     @example
-     *     // Create many ConsultationTimeModels
-     *     const consultationTimeModel = await prisma.consultationTimeModel.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends ConsultationTimeModelCreateManyArgs>(
-      args?: SelectSubset<T, ConsultationTimeModelCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a ConsultationTimeModel.
-     * @param {ConsultationTimeModelDeleteArgs} args - Arguments to delete one ConsultationTimeModel.
-     * @example
-     * // Delete one ConsultationTimeModel
-     * const ConsultationTimeModel = await prisma.consultationTimeModel.delete({
-     *   where: {
-     *     // ... filter to delete one ConsultationTimeModel
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends ConsultationTimeModelDeleteArgs>(
-      args: SelectSubset<T, ConsultationTimeModelDeleteArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Update one ConsultationTimeModel.
-     * @param {ConsultationTimeModelUpdateArgs} args - Arguments to update one ConsultationTimeModel.
-     * @example
-     * // Update one ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends ConsultationTimeModelUpdateArgs>(
-      args: SelectSubset<T, ConsultationTimeModelUpdateArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Delete zero or more ConsultationTimeModels.
-     * @param {ConsultationTimeModelDeleteManyArgs} args - Arguments to filter ConsultationTimeModels to delete.
-     * @example
-     * // Delete a few ConsultationTimeModels
-     * const { count } = await prisma.consultationTimeModel.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends ConsultationTimeModelDeleteManyArgs>(
-      args?: SelectSubset<T, ConsultationTimeModelDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ConsultationTimeModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ConsultationTimeModels
-     * const consultationTimeModel = await prisma.consultationTimeModel.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends ConsultationTimeModelUpdateManyArgs>(
-      args: SelectSubset<T, ConsultationTimeModelUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one ConsultationTimeModel.
-     * @param {ConsultationTimeModelUpsertArgs} args - Arguments to update or create a ConsultationTimeModel.
-     * @example
-     * // Update or create a ConsultationTimeModel
-     * const consultationTimeModel = await prisma.consultationTimeModel.upsert({
-     *   create: {
-     *     // ... data to create a ConsultationTimeModel
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ConsultationTimeModel we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends ConsultationTimeModelUpsertArgs>(
-      args: SelectSubset<T, ConsultationTimeModelUpsertArgs>
-    ): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T>>
-
-    /**
-     * Count the number of ConsultationTimeModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelCountArgs} args - Arguments to filter ConsultationTimeModels to count.
-     * @example
-     * // Count the number of ConsultationTimeModels
-     * const count = await prisma.consultationTimeModel.count({
-     *   where: {
-     *     // ... the filter for the ConsultationTimeModels we want to count
-     *   }
-     * })
-    **/
-    count<T extends ConsultationTimeModelCountArgs>(
-      args?: Subset<T, ConsultationTimeModelCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ConsultationTimeModelCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ConsultationTimeModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ConsultationTimeModelAggregateArgs>(args: Subset<T, ConsultationTimeModelAggregateArgs>): Prisma.PrismaPromise<GetConsultationTimeModelAggregateType<T>>
-
-    /**
-     * Group by ConsultationTimeModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ConsultationTimeModelGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ConsultationTimeModelGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ConsultationTimeModelGroupByArgs['orderBy'] }
-        : { orderBy?: ConsultationTimeModelGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ConsultationTimeModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsultationTimeModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ConsultationTimeModel.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__ConsultationTimeModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    focus_care_checks<T extends ConsultationTimeModel$focus_care_checksArgs= {}>(args?: Subset<T, ConsultationTimeModel$focus_care_checksArgs>): Prisma.PrismaPromise<Array<FocusCareConsultationTimeCheckModelGetPayload<T>>| Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * ConsultationTimeModel base type for findUnique actions
-   */
-  export type ConsultationTimeModelFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter, which ConsultationTimeModel to fetch.
-     */
-    where: ConsultationTimeModelWhereUniqueInput
-  }
-
-  /**
-   * ConsultationTimeModel findUnique
-   */
-  export interface ConsultationTimeModelFindUniqueArgs extends ConsultationTimeModelFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ConsultationTimeModel findUniqueOrThrow
-   */
-  export type ConsultationTimeModelFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter, which ConsultationTimeModel to fetch.
-     */
-    where: ConsultationTimeModelWhereUniqueInput
-  }
-
-
-  /**
-   * ConsultationTimeModel base type for findFirst actions
-   */
-  export type ConsultationTimeModelFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter, which ConsultationTimeModel to fetch.
-     */
-    where?: ConsultationTimeModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ConsultationTimeModels to fetch.
-     */
-    orderBy?: Enumerable<ConsultationTimeModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ConsultationTimeModels.
-     */
-    cursor?: ConsultationTimeModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ConsultationTimeModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ConsultationTimeModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ConsultationTimeModels.
-     */
-    distinct?: Enumerable<ConsultationTimeModelScalarFieldEnum>
-  }
-
-  /**
-   * ConsultationTimeModel findFirst
-   */
-  export interface ConsultationTimeModelFindFirstArgs extends ConsultationTimeModelFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ConsultationTimeModel findFirstOrThrow
-   */
-  export type ConsultationTimeModelFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter, which ConsultationTimeModel to fetch.
-     */
-    where?: ConsultationTimeModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ConsultationTimeModels to fetch.
-     */
-    orderBy?: Enumerable<ConsultationTimeModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ConsultationTimeModels.
-     */
-    cursor?: ConsultationTimeModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ConsultationTimeModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ConsultationTimeModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ConsultationTimeModels.
-     */
-    distinct?: Enumerable<ConsultationTimeModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ConsultationTimeModel findMany
-   */
-  export type ConsultationTimeModelFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter, which ConsultationTimeModels to fetch.
-     */
-    where?: ConsultationTimeModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ConsultationTimeModels to fetch.
-     */
-    orderBy?: Enumerable<ConsultationTimeModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ConsultationTimeModels.
-     */
-    cursor?: ConsultationTimeModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ConsultationTimeModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ConsultationTimeModels.
-     */
-    skip?: number
-    distinct?: Enumerable<ConsultationTimeModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ConsultationTimeModel create
-   */
-  export type ConsultationTimeModelCreateArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * The data needed to create a ConsultationTimeModel.
-     */
-    data: XOR<ConsultationTimeModelCreateInput, ConsultationTimeModelUncheckedCreateInput>
-  }
-
-
-  /**
-   * ConsultationTimeModel createMany
-   */
-  export type ConsultationTimeModelCreateManyArgs = {
-    /**
-     * The data used to create many ConsultationTimeModels.
-     */
-    data: Enumerable<ConsultationTimeModelCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * ConsultationTimeModel update
-   */
-  export type ConsultationTimeModelUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * The data needed to update a ConsultationTimeModel.
-     */
-    data: XOR<ConsultationTimeModelUpdateInput, ConsultationTimeModelUncheckedUpdateInput>
-    /**
-     * Choose, which ConsultationTimeModel to update.
-     */
-    where: ConsultationTimeModelWhereUniqueInput
-  }
-
-
-  /**
-   * ConsultationTimeModel updateMany
-   */
-  export type ConsultationTimeModelUpdateManyArgs = {
-    /**
-     * The data used to update ConsultationTimeModels.
-     */
-    data: XOR<ConsultationTimeModelUpdateManyMutationInput, ConsultationTimeModelUncheckedUpdateManyInput>
-    /**
-     * Filter which ConsultationTimeModels to update
-     */
-    where?: ConsultationTimeModelWhereInput
-  }
-
-
-  /**
-   * ConsultationTimeModel upsert
-   */
-  export type ConsultationTimeModelUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * The filter to search for the ConsultationTimeModel to update in case it exists.
-     */
-    where: ConsultationTimeModelWhereUniqueInput
-    /**
-     * In case the ConsultationTimeModel found by the `where` argument doesn't exist, create a new ConsultationTimeModel with this data.
-     */
-    create: XOR<ConsultationTimeModelCreateInput, ConsultationTimeModelUncheckedCreateInput>
-    /**
-     * In case the ConsultationTimeModel was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ConsultationTimeModelUpdateInput, ConsultationTimeModelUncheckedUpdateInput>
-  }
-
-
-  /**
-   * ConsultationTimeModel delete
-   */
-  export type ConsultationTimeModelDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-    /**
-     * Filter which ConsultationTimeModel to delete.
-     */
-    where: ConsultationTimeModelWhereUniqueInput
-  }
-
-
-  /**
-   * ConsultationTimeModel deleteMany
-   */
-  export type ConsultationTimeModelDeleteManyArgs = {
-    /**
-     * Filter which ConsultationTimeModels to delete
-     */
-    where?: ConsultationTimeModelWhereInput
-  }
-
-
-  /**
-   * ConsultationTimeModel.focus_care_checks
-   */
-  export type ConsultationTimeModel$focus_care_checksArgs = {
-    /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
-     */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
-    where?: FocusCareConsultationTimeCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<FocusCareConsultationTimeCheckModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ConsultationTimeModel without action
-   */
-  export type ConsultationTimeModelArgs = {
-    /**
-     * Select specific fields to fetch from the ConsultationTimeModel
-     */
-    select?: ConsultationTimeModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ConsultationTimeModelInclude | null
-  }
-
-
-
-  /**
    * Model ServiceSubCategoryModel
    */
 
@@ -14074,14 +13035,14 @@ export namespace Prisma {
     ? ServiceSuperCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['include'][P]>>  :
-        P extends 'focus_care_checks' ? Array < FocusCareServiceCheckModelGetPayload<S['include'][P]>>  :
+        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ServiceSuperCategoryModelArgs | ServiceSuperCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['select'][P]>>  :
-        P extends 'focus_care_checks' ? Array < FocusCareServiceCheckModelGetPayload<S['select'][P]>>  :
+        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ServiceSuperCategoryModel ? ServiceSuperCategoryModel[P] : never
   } 
       : ServiceSuperCategoryModel
@@ -14456,7 +13417,7 @@ export namespace Prisma {
 
     sub_categories<T extends ServiceSuperCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<ServiceSubCategoryModelGetPayload<T>>| Null>;
 
-    focus_care_checks<T extends ServiceSuperCategoryModel$focus_care_checksArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$focus_care_checksArgs>): Prisma.PrismaPromise<Array<FocusCareServiceCheckModelGetPayload<T>>| Null>;
+    focus_care_checks<T extends ServiceSuperCategoryModel$focus_care_checksArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$focus_care_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -14839,19 +13800,19 @@ export namespace Prisma {
    */
   export type ServiceSuperCategoryModel$focus_care_checksArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
-    where?: FocusCareServiceCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<FocusCareServiceCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
   }
 
 
@@ -14872,17 +13833,17 @@ export namespace Prisma {
 
 
   /**
-   * Model FocusCareRequestModel
+   * Model ZipzoongCareRequestModel
    */
 
 
-  export type AggregateFocusCareRequestModel = {
-    _count: FocusCareRequestModelCountAggregateOutputType | null
-    _min: FocusCareRequestModelMinAggregateOutputType | null
-    _max: FocusCareRequestModelMaxAggregateOutputType | null
+  export type AggregateZipzoongCareRequestModel = {
+    _count: ZipzoongCareRequestModelCountAggregateOutputType | null
+    _min: ZipzoongCareRequestModelMinAggregateOutputType | null
+    _max: ZipzoongCareRequestModelMaxAggregateOutputType | null
   }
 
-  export type FocusCareRequestModelMinAggregateOutputType = {
+  export type ZipzoongCareRequestModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -14891,11 +13852,11 @@ export namespace Prisma {
     care_start_date: Date | null
     care_end_date: Date | null
     detail: string | null
-    status: FocusCareStatus | null
+    status: ZipzoongCareStatus | null
     requester_id: string | null
   }
 
-  export type FocusCareRequestModelMaxAggregateOutputType = {
+  export type ZipzoongCareRequestModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -14904,11 +13865,11 @@ export namespace Prisma {
     care_start_date: Date | null
     care_end_date: Date | null
     detail: string | null
-    status: FocusCareStatus | null
+    status: ZipzoongCareStatus | null
     requester_id: string | null
   }
 
-  export type FocusCareRequestModelCountAggregateOutputType = {
+  export type ZipzoongCareRequestModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -14923,7 +13884,7 @@ export namespace Prisma {
   }
 
 
-  export type FocusCareRequestModelMinAggregateInputType = {
+  export type ZipzoongCareRequestModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -14936,7 +13897,7 @@ export namespace Prisma {
     requester_id?: true
   }
 
-  export type FocusCareRequestModelMaxAggregateInputType = {
+  export type ZipzoongCareRequestModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -14949,7 +13910,7 @@ export namespace Prisma {
     requester_id?: true
   }
 
-  export type FocusCareRequestModelCountAggregateInputType = {
+  export type ZipzoongCareRequestModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -14963,80 +13924,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type FocusCareRequestModelAggregateArgs = {
+  export type ZipzoongCareRequestModelAggregateArgs = {
     /**
-     * Filter which FocusCareRequestModel to aggregate.
+     * Filter which ZipzoongCareRequestModel to aggregate.
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareRequestModels to fetch.
+     * Determine the order of ZipzoongCareRequestModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: FocusCareRequestModelWhereUniqueInput
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareRequestModels from the position of the cursor.
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareRequestModels.
+     * Skip the first `n` ZipzoongCareRequestModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned FocusCareRequestModels
+     * Count returned ZipzoongCareRequestModels
     **/
-    _count?: true | FocusCareRequestModelCountAggregateInputType
+    _count?: true | ZipzoongCareRequestModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: FocusCareRequestModelMinAggregateInputType
+    _min?: ZipzoongCareRequestModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: FocusCareRequestModelMaxAggregateInputType
+    _max?: ZipzoongCareRequestModelMaxAggregateInputType
   }
 
-  export type GetFocusCareRequestModelAggregateType<T extends FocusCareRequestModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateFocusCareRequestModel]: P extends '_count' | 'count'
+  export type GetZipzoongCareRequestModelAggregateType<T extends ZipzoongCareRequestModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareRequestModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateFocusCareRequestModel[P]>
-      : GetScalarType<T[P], AggregateFocusCareRequestModel[P]>
+        : GetScalarType<T[P], AggregateZipzoongCareRequestModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareRequestModel[P]>
   }
 
 
 
 
-  export type FocusCareRequestModelGroupByArgs = {
-    where?: FocusCareRequestModelWhereInput
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithAggregationInput>
-    by: FocusCareRequestModelScalarFieldEnum[]
-    having?: FocusCareRequestModelScalarWhereWithAggregatesInput
+  export type ZipzoongCareRequestModelGroupByArgs = {
+    where?: ZipzoongCareRequestModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithAggregationInput>
+    by: ZipzoongCareRequestModelScalarFieldEnum[]
+    having?: ZipzoongCareRequestModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: FocusCareRequestModelCountAggregateInputType | true
-    _min?: FocusCareRequestModelMinAggregateInputType
-    _max?: FocusCareRequestModelMaxAggregateInputType
+    _count?: ZipzoongCareRequestModelCountAggregateInputType | true
+    _min?: ZipzoongCareRequestModelMinAggregateInputType
+    _max?: ZipzoongCareRequestModelMaxAggregateInputType
   }
 
 
-  export type FocusCareRequestModelGroupByOutputType = {
+  export type ZipzoongCareRequestModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -15045,28 +14006,28 @@ export namespace Prisma {
     care_start_date: Date
     care_end_date: Date
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
     requester_id: string
-    _count: FocusCareRequestModelCountAggregateOutputType | null
-    _min: FocusCareRequestModelMinAggregateOutputType | null
-    _max: FocusCareRequestModelMaxAggregateOutputType | null
+    _count: ZipzoongCareRequestModelCountAggregateOutputType | null
+    _min: ZipzoongCareRequestModelMinAggregateOutputType | null
+    _max: ZipzoongCareRequestModelMaxAggregateOutputType | null
   }
 
-  type GetFocusCareRequestModelGroupByPayload<T extends FocusCareRequestModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetZipzoongCareRequestModelGroupByPayload<T extends ZipzoongCareRequestModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<FocusCareRequestModelGroupByOutputType, T['by']> &
+      PickArray<ZipzoongCareRequestModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof FocusCareRequestModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ZipzoongCareRequestModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], FocusCareRequestModelGroupByOutputType[P]>
-            : GetScalarType<T[P], FocusCareRequestModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ZipzoongCareRequestModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareRequestModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type FocusCareRequestModelSelect = {
+  export type ZipzoongCareRequestModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -15078,189 +14039,189 @@ export namespace Prisma {
     status?: boolean
     requester_id?: boolean
     requester?: boolean | CustomerModelArgs
-    consultation_times?: boolean | FocusCareRequestModel$consultation_timesArgs
-    services?: boolean | FocusCareRequestModel$servicesArgs
-    _count?: boolean | FocusCareRequestModelCountOutputTypeArgs
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
   }
 
 
-  export type FocusCareRequestModelInclude = {
+  export type ZipzoongCareRequestModelInclude = {
     requester?: boolean | CustomerModelArgs
-    consultation_times?: boolean | FocusCareRequestModel$consultation_timesArgs
-    services?: boolean | FocusCareRequestModel$servicesArgs
-    _count?: boolean | FocusCareRequestModelCountOutputTypeArgs
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
   }
 
-  export type FocusCareRequestModelGetPayload<S extends boolean | null | undefined | FocusCareRequestModelArgs> =
+  export type ZipzoongCareRequestModelGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? FocusCareRequestModel :
+    S extends true ? ZipzoongCareRequestModel :
     S extends undefined ? never :
-    S extends { include: any } & (FocusCareRequestModelArgs | FocusCareRequestModelFindManyArgs)
-    ? FocusCareRequestModel  & {
+    S extends { include: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
+    ? ZipzoongCareRequestModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'requester' ? CustomerModelGetPayload<S['include'][P]> :
-        P extends 'consultation_times' ? Array < FocusCareConsultationTimeCheckModelGetPayload<S['include'][P]>>  :
-        P extends 'services' ? Array < FocusCareServiceCheckModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? FocusCareRequestModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['include'][P]>>  :
+        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (FocusCareRequestModelArgs | FocusCareRequestModelFindManyArgs)
+    : S extends { select: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'requester' ? CustomerModelGetPayload<S['select'][P]> :
-        P extends 'consultation_times' ? Array < FocusCareConsultationTimeCheckModelGetPayload<S['select'][P]>>  :
-        P extends 'services' ? Array < FocusCareServiceCheckModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? FocusCareRequestModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof FocusCareRequestModel ? FocusCareRequestModel[P] : never
+        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['select'][P]>>  :
+        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareRequestModel ? ZipzoongCareRequestModel[P] : never
   } 
-      : FocusCareRequestModel
+      : ZipzoongCareRequestModel
 
 
-  type FocusCareRequestModelCountArgs = 
-    Omit<FocusCareRequestModelFindManyArgs, 'select' | 'include'> & {
-      select?: FocusCareRequestModelCountAggregateInputType | true
+  type ZipzoongCareRequestModelCountArgs = 
+    Omit<ZipzoongCareRequestModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareRequestModelCountAggregateInputType | true
     }
 
-  export interface FocusCareRequestModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ZipzoongCareRequestModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one FocusCareRequestModel that matches the filter.
-     * @param {FocusCareRequestModelFindUniqueArgs} args - Arguments to find a FocusCareRequestModel
+     * Find zero or one ZipzoongCareRequestModel that matches the filter.
+     * @param {ZipzoongCareRequestModelFindUniqueArgs} args - Arguments to find a ZipzoongCareRequestModel
      * @example
-     * // Get one FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.findUnique({
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends FocusCareRequestModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, FocusCareRequestModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'FocusCareRequestModel'> extends True ? Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>> : Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareRequestModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareRequestModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
 
     /**
-     * Find one FocusCareRequestModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ZipzoongCareRequestModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {FocusCareRequestModelFindUniqueOrThrowArgs} args - Arguments to find a FocusCareRequestModel
+     * @param {ZipzoongCareRequestModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareRequestModel
      * @example
-     * // Get one FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.findUniqueOrThrow({
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends FocusCareRequestModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareRequestModelFindUniqueOrThrowArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareRequestModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Find the first FocusCareRequestModel that matches the filter.
+     * Find the first ZipzoongCareRequestModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelFindFirstArgs} args - Arguments to find a FocusCareRequestModel
+     * @param {ZipzoongCareRequestModelFindFirstArgs} args - Arguments to find a ZipzoongCareRequestModel
      * @example
-     * // Get one FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.findFirst({
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends FocusCareRequestModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, FocusCareRequestModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'FocusCareRequestModel'> extends True ? Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>> : Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareRequestModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
 
     /**
-     * Find the first FocusCareRequestModel that matches the filter or
+     * Find the first ZipzoongCareRequestModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelFindFirstOrThrowArgs} args - Arguments to find a FocusCareRequestModel
+     * @param {ZipzoongCareRequestModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareRequestModel
      * @example
-     * // Get one FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.findFirstOrThrow({
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends FocusCareRequestModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareRequestModelFindFirstOrThrowArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareRequestModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Find zero or more FocusCareRequestModels that matches the filter.
+     * Find zero or more ZipzoongCareRequestModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ZipzoongCareRequestModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all FocusCareRequestModels
-     * const focusCareRequestModels = await prisma.focusCareRequestModel.findMany()
+     * // Get all ZipzoongCareRequestModels
+     * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany()
      * 
-     * // Get first 10 FocusCareRequestModels
-     * const focusCareRequestModels = await prisma.focusCareRequestModel.findMany({ take: 10 })
+     * // Get first 10 ZipzoongCareRequestModels
+     * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const focusCareRequestModelWithIdOnly = await prisma.focusCareRequestModel.findMany({ select: { id: true } })
+     * const zipzoongCareRequestModelWithIdOnly = await prisma.zipzoongCareRequestModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends FocusCareRequestModelFindManyArgs>(
-      args?: SelectSubset<T, FocusCareRequestModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<FocusCareRequestModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareRequestModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>>
 
     /**
-     * Create a FocusCareRequestModel.
-     * @param {FocusCareRequestModelCreateArgs} args - Arguments to create a FocusCareRequestModel.
+     * Create a ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelCreateArgs} args - Arguments to create a ZipzoongCareRequestModel.
      * @example
-     * // Create one FocusCareRequestModel
-     * const FocusCareRequestModel = await prisma.focusCareRequestModel.create({
+     * // Create one ZipzoongCareRequestModel
+     * const ZipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.create({
      *   data: {
-     *     // ... data to create a FocusCareRequestModel
+     *     // ... data to create a ZipzoongCareRequestModel
      *   }
      * })
      * 
     **/
-    create<T extends FocusCareRequestModelCreateArgs>(
-      args: SelectSubset<T, FocusCareRequestModelCreateArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    create<T extends ZipzoongCareRequestModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelCreateArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Create many FocusCareRequestModels.
-     *     @param {FocusCareRequestModelCreateManyArgs} args - Arguments to create many FocusCareRequestModels.
+     * Create many ZipzoongCareRequestModels.
+     *     @param {ZipzoongCareRequestModelCreateManyArgs} args - Arguments to create many ZipzoongCareRequestModels.
      *     @example
-     *     // Create many FocusCareRequestModels
-     *     const focusCareRequestModel = await prisma.focusCareRequestModel.createMany({
+     *     // Create many ZipzoongCareRequestModels
+     *     const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends FocusCareRequestModelCreateManyArgs>(
-      args?: SelectSubset<T, FocusCareRequestModelCreateManyArgs>
+    createMany<T extends ZipzoongCareRequestModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a FocusCareRequestModel.
-     * @param {FocusCareRequestModelDeleteArgs} args - Arguments to delete one FocusCareRequestModel.
+     * Delete a ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelDeleteArgs} args - Arguments to delete one ZipzoongCareRequestModel.
      * @example
-     * // Delete one FocusCareRequestModel
-     * const FocusCareRequestModel = await prisma.focusCareRequestModel.delete({
+     * // Delete one ZipzoongCareRequestModel
+     * const ZipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.delete({
      *   where: {
-     *     // ... filter to delete one FocusCareRequestModel
+     *     // ... filter to delete one ZipzoongCareRequestModel
      *   }
      * })
      * 
     **/
-    delete<T extends FocusCareRequestModelDeleteArgs>(
-      args: SelectSubset<T, FocusCareRequestModelDeleteArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    delete<T extends ZipzoongCareRequestModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelDeleteArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Update one FocusCareRequestModel.
-     * @param {FocusCareRequestModelUpdateArgs} args - Arguments to update one FocusCareRequestModel.
+     * Update one ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelUpdateArgs} args - Arguments to update one ZipzoongCareRequestModel.
      * @example
-     * // Update one FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.update({
+     * // Update one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15270,34 +14231,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends FocusCareRequestModelUpdateArgs>(
-      args: SelectSubset<T, FocusCareRequestModelUpdateArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    update<T extends ZipzoongCareRequestModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Delete zero or more FocusCareRequestModels.
-     * @param {FocusCareRequestModelDeleteManyArgs} args - Arguments to filter FocusCareRequestModels to delete.
+     * Delete zero or more ZipzoongCareRequestModels.
+     * @param {ZipzoongCareRequestModelDeleteManyArgs} args - Arguments to filter ZipzoongCareRequestModels to delete.
      * @example
-     * // Delete a few FocusCareRequestModels
-     * const { count } = await prisma.focusCareRequestModel.deleteMany({
+     * // Delete a few ZipzoongCareRequestModels
+     * const { count } = await prisma.zipzoongCareRequestModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends FocusCareRequestModelDeleteManyArgs>(
-      args?: SelectSubset<T, FocusCareRequestModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareRequestModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more FocusCareRequestModels.
+     * Update zero or more ZipzoongCareRequestModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ZipzoongCareRequestModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many FocusCareRequestModels
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.updateMany({
+     * // Update many ZipzoongCareRequestModels
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15307,59 +14268,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends FocusCareRequestModelUpdateManyArgs>(
-      args: SelectSubset<T, FocusCareRequestModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareRequestModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one FocusCareRequestModel.
-     * @param {FocusCareRequestModelUpsertArgs} args - Arguments to update or create a FocusCareRequestModel.
+     * Create or update one ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelUpsertArgs} args - Arguments to update or create a ZipzoongCareRequestModel.
      * @example
-     * // Update or create a FocusCareRequestModel
-     * const focusCareRequestModel = await prisma.focusCareRequestModel.upsert({
+     * // Update or create a ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.upsert({
      *   create: {
-     *     // ... data to create a FocusCareRequestModel
+     *     // ... data to create a ZipzoongCareRequestModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the FocusCareRequestModel we want to update
+     *     // ... the filter for the ZipzoongCareRequestModel we want to update
      *   }
      * })
     **/
-    upsert<T extends FocusCareRequestModelUpsertArgs>(
-      args: SelectSubset<T, FocusCareRequestModelUpsertArgs>
-    ): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T>>
+    upsert<T extends ZipzoongCareRequestModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpsertArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
 
     /**
-     * Count the number of FocusCareRequestModels.
+     * Count the number of ZipzoongCareRequestModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelCountArgs} args - Arguments to filter FocusCareRequestModels to count.
+     * @param {ZipzoongCareRequestModelCountArgs} args - Arguments to filter ZipzoongCareRequestModels to count.
      * @example
-     * // Count the number of FocusCareRequestModels
-     * const count = await prisma.focusCareRequestModel.count({
+     * // Count the number of ZipzoongCareRequestModels
+     * const count = await prisma.zipzoongCareRequestModel.count({
      *   where: {
-     *     // ... the filter for the FocusCareRequestModels we want to count
+     *     // ... the filter for the ZipzoongCareRequestModels we want to count
      *   }
      * })
     **/
-    count<T extends FocusCareRequestModelCountArgs>(
-      args?: Subset<T, FocusCareRequestModelCountArgs>,
+    count<T extends ZipzoongCareRequestModelCountArgs>(
+      args?: Subset<T, ZipzoongCareRequestModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], FocusCareRequestModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ZipzoongCareRequestModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a FocusCareRequestModel.
+     * Allows you to perform aggregations operations on a ZipzoongCareRequestModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ZipzoongCareRequestModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -15379,13 +14340,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends FocusCareRequestModelAggregateArgs>(args: Subset<T, FocusCareRequestModelAggregateArgs>): Prisma.PrismaPromise<GetFocusCareRequestModelAggregateType<T>>
+    aggregate<T extends ZipzoongCareRequestModelAggregateArgs>(args: Subset<T, ZipzoongCareRequestModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareRequestModelAggregateType<T>>
 
     /**
-     * Group by FocusCareRequestModel.
+     * Group by ZipzoongCareRequestModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareRequestModelGroupByArgs} args - Group by arguments.
+     * @param {ZipzoongCareRequestModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -15400,14 +14361,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends FocusCareRequestModelGroupByArgs,
+      T extends ZipzoongCareRequestModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FocusCareRequestModelGroupByArgs['orderBy'] }
-        : { orderBy?: FocusCareRequestModelGroupByArgs['orderBy'] },
+        ? { orderBy: ZipzoongCareRequestModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareRequestModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -15456,17 +14417,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, FocusCareRequestModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFocusCareRequestModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ZipzoongCareRequestModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareRequestModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for FocusCareRequestModel.
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareRequestModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__FocusCareRequestModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareRequestModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -15483,9 +14444,9 @@ export namespace Prisma {
 
     requester<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
 
-    consultation_times<T extends FocusCareRequestModel$consultation_timesArgs= {}>(args?: Subset<T, FocusCareRequestModel$consultation_timesArgs>): Prisma.PrismaPromise<Array<FocusCareConsultationTimeCheckModelGetPayload<T>>| Null>;
+    consultation_time_checks<T extends ZipzoongCareRequestModel$consultation_time_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$consultation_time_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>| Null>;
 
-    services<T extends FocusCareRequestModel$servicesArgs= {}>(args?: Subset<T, FocusCareRequestModel$servicesArgs>): Prisma.PrismaPromise<Array<FocusCareServiceCheckModelGetPayload<T>>| Null>;
+    service_checks<T extends ZipzoongCareRequestModel$service_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$service_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -15515,27 +14476,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * FocusCareRequestModel base type for findUnique actions
+   * ZipzoongCareRequestModel base type for findUnique actions
    */
-  export type FocusCareRequestModelFindUniqueArgsBase = {
+  export type ZipzoongCareRequestModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter, which FocusCareRequestModel to fetch.
+     * Filter, which ZipzoongCareRequestModel to fetch.
      */
-    where: FocusCareRequestModelWhereUniqueInput
+    where: ZipzoongCareRequestModelWhereUniqueInput
   }
 
   /**
-   * FocusCareRequestModel findUnique
+   * ZipzoongCareRequestModel findUnique
    */
-  export interface FocusCareRequestModelFindUniqueArgs extends FocusCareRequestModelFindUniqueArgsBase {
+  export interface ZipzoongCareRequestModelFindUniqueArgs extends ZipzoongCareRequestModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -15545,76 +14506,76 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareRequestModel findUniqueOrThrow
+   * ZipzoongCareRequestModel findUniqueOrThrow
    */
-  export type FocusCareRequestModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareRequestModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter, which FocusCareRequestModel to fetch.
+     * Filter, which ZipzoongCareRequestModel to fetch.
      */
-    where: FocusCareRequestModelWhereUniqueInput
+    where: ZipzoongCareRequestModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareRequestModel base type for findFirst actions
+   * ZipzoongCareRequestModel base type for findFirst actions
    */
-  export type FocusCareRequestModelFindFirstArgsBase = {
+  export type ZipzoongCareRequestModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter, which FocusCareRequestModel to fetch.
+     * Filter, which ZipzoongCareRequestModel to fetch.
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareRequestModels to fetch.
+     * Determine the order of ZipzoongCareRequestModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareRequestModels.
+     * Sets the position for searching for ZipzoongCareRequestModels.
      */
-    cursor?: FocusCareRequestModelWhereUniqueInput
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareRequestModels from the position of the cursor.
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareRequestModels.
+     * Skip the first `n` ZipzoongCareRequestModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareRequestModels.
+     * Filter by unique combinations of ZipzoongCareRequestModels.
      */
-    distinct?: Enumerable<FocusCareRequestModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
   }
 
   /**
-   * FocusCareRequestModel findFirst
+   * ZipzoongCareRequestModel findFirst
    */
-  export interface FocusCareRequestModelFindFirstArgs extends FocusCareRequestModelFindFirstArgsBase {
+  export interface ZipzoongCareRequestModelFindFirstArgs extends ZipzoongCareRequestModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -15624,294 +14585,294 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareRequestModel findFirstOrThrow
+   * ZipzoongCareRequestModel findFirstOrThrow
    */
-  export type FocusCareRequestModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareRequestModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter, which FocusCareRequestModel to fetch.
+     * Filter, which ZipzoongCareRequestModel to fetch.
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareRequestModels to fetch.
+     * Determine the order of ZipzoongCareRequestModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareRequestModels.
+     * Sets the position for searching for ZipzoongCareRequestModels.
      */
-    cursor?: FocusCareRequestModelWhereUniqueInput
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareRequestModels from the position of the cursor.
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareRequestModels.
+     * Skip the first `n` ZipzoongCareRequestModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareRequestModels.
+     * Filter by unique combinations of ZipzoongCareRequestModels.
      */
-    distinct?: Enumerable<FocusCareRequestModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareRequestModel findMany
+   * ZipzoongCareRequestModel findMany
    */
-  export type FocusCareRequestModelFindManyArgs = {
+  export type ZipzoongCareRequestModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter, which FocusCareRequestModels to fetch.
+     * Filter, which ZipzoongCareRequestModels to fetch.
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareRequestModels to fetch.
+     * Determine the order of ZipzoongCareRequestModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing FocusCareRequestModels.
+     * Sets the position for listing ZipzoongCareRequestModels.
      */
-    cursor?: FocusCareRequestModelWhereUniqueInput
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareRequestModels from the position of the cursor.
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareRequestModels.
+     * Skip the first `n` ZipzoongCareRequestModels.
      */
     skip?: number
-    distinct?: Enumerable<FocusCareRequestModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareRequestModel create
+   * ZipzoongCareRequestModel create
    */
-  export type FocusCareRequestModelCreateArgs = {
+  export type ZipzoongCareRequestModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * The data needed to create a FocusCareRequestModel.
+     * The data needed to create a ZipzoongCareRequestModel.
      */
-    data: XOR<FocusCareRequestModelCreateInput, FocusCareRequestModelUncheckedCreateInput>
+    data: XOR<ZipzoongCareRequestModelCreateInput, ZipzoongCareRequestModelUncheckedCreateInput>
   }
 
 
   /**
-   * FocusCareRequestModel createMany
+   * ZipzoongCareRequestModel createMany
    */
-  export type FocusCareRequestModelCreateManyArgs = {
+  export type ZipzoongCareRequestModelCreateManyArgs = {
     /**
-     * The data used to create many FocusCareRequestModels.
+     * The data used to create many ZipzoongCareRequestModels.
      */
-    data: Enumerable<FocusCareRequestModelCreateManyInput>
+    data: Enumerable<ZipzoongCareRequestModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * FocusCareRequestModel update
+   * ZipzoongCareRequestModel update
    */
-  export type FocusCareRequestModelUpdateArgs = {
+  export type ZipzoongCareRequestModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * The data needed to update a FocusCareRequestModel.
+     * The data needed to update a ZipzoongCareRequestModel.
      */
-    data: XOR<FocusCareRequestModelUpdateInput, FocusCareRequestModelUncheckedUpdateInput>
+    data: XOR<ZipzoongCareRequestModelUpdateInput, ZipzoongCareRequestModelUncheckedUpdateInput>
     /**
-     * Choose, which FocusCareRequestModel to update.
+     * Choose, which ZipzoongCareRequestModel to update.
      */
-    where: FocusCareRequestModelWhereUniqueInput
+    where: ZipzoongCareRequestModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareRequestModel updateMany
+   * ZipzoongCareRequestModel updateMany
    */
-  export type FocusCareRequestModelUpdateManyArgs = {
+  export type ZipzoongCareRequestModelUpdateManyArgs = {
     /**
-     * The data used to update FocusCareRequestModels.
+     * The data used to update ZipzoongCareRequestModels.
      */
-    data: XOR<FocusCareRequestModelUpdateManyMutationInput, FocusCareRequestModelUncheckedUpdateManyInput>
+    data: XOR<ZipzoongCareRequestModelUpdateManyMutationInput, ZipzoongCareRequestModelUncheckedUpdateManyInput>
     /**
-     * Filter which FocusCareRequestModels to update
+     * Filter which ZipzoongCareRequestModels to update
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
   }
 
 
   /**
-   * FocusCareRequestModel upsert
+   * ZipzoongCareRequestModel upsert
    */
-  export type FocusCareRequestModelUpsertArgs = {
+  export type ZipzoongCareRequestModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * The filter to search for the FocusCareRequestModel to update in case it exists.
+     * The filter to search for the ZipzoongCareRequestModel to update in case it exists.
      */
-    where: FocusCareRequestModelWhereUniqueInput
+    where: ZipzoongCareRequestModelWhereUniqueInput
     /**
-     * In case the FocusCareRequestModel found by the `where` argument doesn't exist, create a new FocusCareRequestModel with this data.
+     * In case the ZipzoongCareRequestModel found by the `where` argument doesn't exist, create a new ZipzoongCareRequestModel with this data.
      */
-    create: XOR<FocusCareRequestModelCreateInput, FocusCareRequestModelUncheckedCreateInput>
+    create: XOR<ZipzoongCareRequestModelCreateInput, ZipzoongCareRequestModelUncheckedCreateInput>
     /**
-     * In case the FocusCareRequestModel was found with the provided `where` argument, update it with this data.
+     * In case the ZipzoongCareRequestModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<FocusCareRequestModelUpdateInput, FocusCareRequestModelUncheckedUpdateInput>
+    update: XOR<ZipzoongCareRequestModelUpdateInput, ZipzoongCareRequestModelUncheckedUpdateInput>
   }
 
 
   /**
-   * FocusCareRequestModel delete
+   * ZipzoongCareRequestModel delete
    */
-  export type FocusCareRequestModelDeleteArgs = {
+  export type ZipzoongCareRequestModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
     /**
-     * Filter which FocusCareRequestModel to delete.
+     * Filter which ZipzoongCareRequestModel to delete.
      */
-    where: FocusCareRequestModelWhereUniqueInput
+    where: ZipzoongCareRequestModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareRequestModel deleteMany
+   * ZipzoongCareRequestModel deleteMany
    */
-  export type FocusCareRequestModelDeleteManyArgs = {
+  export type ZipzoongCareRequestModelDeleteManyArgs = {
     /**
-     * Filter which FocusCareRequestModels to delete
+     * Filter which ZipzoongCareRequestModels to delete
      */
-    where?: FocusCareRequestModelWhereInput
+    where?: ZipzoongCareRequestModelWhereInput
   }
 
 
   /**
-   * FocusCareRequestModel.consultation_times
+   * ZipzoongCareRequestModel.consultation_time_checks
    */
-  export type FocusCareRequestModel$consultation_timesArgs = {
+  export type ZipzoongCareRequestModel$consultation_time_checksArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
-    where?: FocusCareConsultationTimeCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<FocusCareConsultationTimeCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareRequestModel.services
+   * ZipzoongCareRequestModel.service_checks
    */
-  export type FocusCareRequestModel$servicesArgs = {
+  export type ZipzoongCareRequestModel$service_checksArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
-    where?: FocusCareServiceCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<FocusCareServiceCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareRequestModel without action
+   * ZipzoongCareRequestModel without action
    */
-  export type FocusCareRequestModelArgs = {
+  export type ZipzoongCareRequestModelArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude | null
   }
 
 
 
   /**
-   * Model FocusCareServiceCheckModel
+   * Model ZipzoongCareServiceCheckModel
    */
 
 
-  export type AggregateFocusCareServiceCheckModel = {
-    _count: FocusCareServiceCheckModelCountAggregateOutputType | null
-    _min: FocusCareServiceCheckModelMinAggregateOutputType | null
-    _max: FocusCareServiceCheckModelMaxAggregateOutputType | null
+  export type AggregateZipzoongCareServiceCheckModel = {
+    _count: ZipzoongCareServiceCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareServiceCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareServiceCheckModelMaxAggregateOutputType | null
   }
 
-  export type FocusCareServiceCheckModelMinAggregateOutputType = {
+  export type ZipzoongCareServiceCheckModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -15921,7 +14882,7 @@ export namespace Prisma {
     request_id: string | null
   }
 
-  export type FocusCareServiceCheckModelMaxAggregateOutputType = {
+  export type ZipzoongCareServiceCheckModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -15931,7 +14892,7 @@ export namespace Prisma {
     request_id: string | null
   }
 
-  export type FocusCareServiceCheckModelCountAggregateOutputType = {
+  export type ZipzoongCareServiceCheckModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -15943,7 +14904,7 @@ export namespace Prisma {
   }
 
 
-  export type FocusCareServiceCheckModelMinAggregateInputType = {
+  export type ZipzoongCareServiceCheckModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -15953,7 +14914,7 @@ export namespace Prisma {
     request_id?: true
   }
 
-  export type FocusCareServiceCheckModelMaxAggregateInputType = {
+  export type ZipzoongCareServiceCheckModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -15963,7 +14924,7 @@ export namespace Prisma {
     request_id?: true
   }
 
-  export type FocusCareServiceCheckModelCountAggregateInputType = {
+  export type ZipzoongCareServiceCheckModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -15974,80 +14935,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type FocusCareServiceCheckModelAggregateArgs = {
+  export type ZipzoongCareServiceCheckModelAggregateArgs = {
     /**
-     * Filter which FocusCareServiceCheckModel to aggregate.
+     * Filter which ZipzoongCareServiceCheckModel to aggregate.
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareServiceCheckModels to fetch.
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareServiceCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareServiceCheckModels.
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned FocusCareServiceCheckModels
+     * Count returned ZipzoongCareServiceCheckModels
     **/
-    _count?: true | FocusCareServiceCheckModelCountAggregateInputType
+    _count?: true | ZipzoongCareServiceCheckModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: FocusCareServiceCheckModelMinAggregateInputType
+    _min?: ZipzoongCareServiceCheckModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: FocusCareServiceCheckModelMaxAggregateInputType
+    _max?: ZipzoongCareServiceCheckModelMaxAggregateInputType
   }
 
-  export type GetFocusCareServiceCheckModelAggregateType<T extends FocusCareServiceCheckModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateFocusCareServiceCheckModel]: P extends '_count' | 'count'
+  export type GetZipzoongCareServiceCheckModelAggregateType<T extends ZipzoongCareServiceCheckModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareServiceCheckModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateFocusCareServiceCheckModel[P]>
-      : GetScalarType<T[P], AggregateFocusCareServiceCheckModel[P]>
+        : GetScalarType<T[P], AggregateZipzoongCareServiceCheckModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareServiceCheckModel[P]>
   }
 
 
 
 
-  export type FocusCareServiceCheckModelGroupByArgs = {
-    where?: FocusCareServiceCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithAggregationInput>
-    by: FocusCareServiceCheckModelScalarFieldEnum[]
-    having?: FocusCareServiceCheckModelScalarWhereWithAggregatesInput
+  export type ZipzoongCareServiceCheckModelGroupByArgs = {
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithAggregationInput>
+    by: ZipzoongCareServiceCheckModelScalarFieldEnum[]
+    having?: ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: FocusCareServiceCheckModelCountAggregateInputType | true
-    _min?: FocusCareServiceCheckModelMinAggregateInputType
-    _max?: FocusCareServiceCheckModelMaxAggregateInputType
+    _count?: ZipzoongCareServiceCheckModelCountAggregateInputType | true
+    _min?: ZipzoongCareServiceCheckModelMinAggregateInputType
+    _max?: ZipzoongCareServiceCheckModelMaxAggregateInputType
   }
 
 
-  export type FocusCareServiceCheckModelGroupByOutputType = {
+  export type ZipzoongCareServiceCheckModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -16055,26 +15016,26 @@ export namespace Prisma {
     deleted_at: Date | null
     service_super_category_id: string
     request_id: string
-    _count: FocusCareServiceCheckModelCountAggregateOutputType | null
-    _min: FocusCareServiceCheckModelMinAggregateOutputType | null
-    _max: FocusCareServiceCheckModelMaxAggregateOutputType | null
+    _count: ZipzoongCareServiceCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareServiceCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareServiceCheckModelMaxAggregateOutputType | null
   }
 
-  type GetFocusCareServiceCheckModelGroupByPayload<T extends FocusCareServiceCheckModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetZipzoongCareServiceCheckModelGroupByPayload<T extends ZipzoongCareServiceCheckModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<FocusCareServiceCheckModelGroupByOutputType, T['by']> &
+      PickArray<ZipzoongCareServiceCheckModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof FocusCareServiceCheckModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ZipzoongCareServiceCheckModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], FocusCareServiceCheckModelGroupByOutputType[P]>
-            : GetScalarType<T[P], FocusCareServiceCheckModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ZipzoongCareServiceCheckModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareServiceCheckModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type FocusCareServiceCheckModelSelect = {
+  export type ZipzoongCareServiceCheckModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -16083,181 +15044,181 @@ export namespace Prisma {
     service_super_category_id?: boolean
     request_id?: boolean
     service_super_category?: boolean | ServiceSuperCategoryModelArgs
-    request?: boolean | FocusCareRequestModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs
   }
 
 
-  export type FocusCareServiceCheckModelInclude = {
+  export type ZipzoongCareServiceCheckModelInclude = {
     service_super_category?: boolean | ServiceSuperCategoryModelArgs
-    request?: boolean | FocusCareRequestModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs
   }
 
-  export type FocusCareServiceCheckModelGetPayload<S extends boolean | null | undefined | FocusCareServiceCheckModelArgs> =
+  export type ZipzoongCareServiceCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareServiceCheckModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? FocusCareServiceCheckModel :
+    S extends true ? ZipzoongCareServiceCheckModel :
     S extends undefined ? never :
-    S extends { include: any } & (FocusCareServiceCheckModelArgs | FocusCareServiceCheckModelFindManyArgs)
-    ? FocusCareServiceCheckModel  & {
+    S extends { include: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
+    ? ZipzoongCareServiceCheckModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['include'][P]> :
-        P extends 'request' ? FocusCareRequestModelGetPayload<S['include'][P]> :  never
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (FocusCareServiceCheckModelArgs | FocusCareServiceCheckModelFindManyArgs)
+    : S extends { select: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['select'][P]> :
-        P extends 'request' ? FocusCareRequestModelGetPayload<S['select'][P]> :  P extends keyof FocusCareServiceCheckModel ? FocusCareServiceCheckModel[P] : never
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareServiceCheckModel ? ZipzoongCareServiceCheckModel[P] : never
   } 
-      : FocusCareServiceCheckModel
+      : ZipzoongCareServiceCheckModel
 
 
-  type FocusCareServiceCheckModelCountArgs = 
-    Omit<FocusCareServiceCheckModelFindManyArgs, 'select' | 'include'> & {
-      select?: FocusCareServiceCheckModelCountAggregateInputType | true
+  type ZipzoongCareServiceCheckModelCountArgs = 
+    Omit<ZipzoongCareServiceCheckModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareServiceCheckModelCountAggregateInputType | true
     }
 
-  export interface FocusCareServiceCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ZipzoongCareServiceCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one FocusCareServiceCheckModel that matches the filter.
-     * @param {FocusCareServiceCheckModelFindUniqueArgs} args - Arguments to find a FocusCareServiceCheckModel
+     * Find zero or one ZipzoongCareServiceCheckModel that matches the filter.
+     * @param {ZipzoongCareServiceCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
      * @example
-     * // Get one FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.findUnique({
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends FocusCareServiceCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, FocusCareServiceCheckModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'FocusCareServiceCheckModel'> extends True ? Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>> : Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareServiceCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
 
     /**
-     * Find one FocusCareServiceCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ZipzoongCareServiceCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {FocusCareServiceCheckModelFindUniqueOrThrowArgs} args - Arguments to find a FocusCareServiceCheckModel
+     * @param {ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
      * @example
-     * // Get one FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.findUniqueOrThrow({
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends FocusCareServiceCheckModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelFindUniqueOrThrowArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Find the first FocusCareServiceCheckModel that matches the filter.
+     * Find the first ZipzoongCareServiceCheckModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelFindFirstArgs} args - Arguments to find a FocusCareServiceCheckModel
+     * @param {ZipzoongCareServiceCheckModelFindFirstArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
      * @example
-     * // Get one FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.findFirst({
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends FocusCareServiceCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'FocusCareServiceCheckModel'> extends True ? Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>> : Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareServiceCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
 
     /**
-     * Find the first FocusCareServiceCheckModel that matches the filter or
+     * Find the first ZipzoongCareServiceCheckModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelFindFirstOrThrowArgs} args - Arguments to find a FocusCareServiceCheckModel
+     * @param {ZipzoongCareServiceCheckModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
      * @example
-     * // Get one FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.findFirstOrThrow({
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends FocusCareServiceCheckModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelFindFirstOrThrowArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Find zero or more FocusCareServiceCheckModels that matches the filter.
+     * Find zero or more ZipzoongCareServiceCheckModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ZipzoongCareServiceCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all FocusCareServiceCheckModels
-     * const focusCareServiceCheckModels = await prisma.focusCareServiceCheckModel.findMany()
+     * // Get all ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany()
      * 
-     * // Get first 10 FocusCareServiceCheckModels
-     * const focusCareServiceCheckModels = await prisma.focusCareServiceCheckModel.findMany({ take: 10 })
+     * // Get first 10 ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const focusCareServiceCheckModelWithIdOnly = await prisma.focusCareServiceCheckModel.findMany({ select: { id: true } })
+     * const zipzoongCareServiceCheckModelWithIdOnly = await prisma.zipzoongCareServiceCheckModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends FocusCareServiceCheckModelFindManyArgs>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<FocusCareServiceCheckModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareServiceCheckModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>>
 
     /**
-     * Create a FocusCareServiceCheckModel.
-     * @param {FocusCareServiceCheckModelCreateArgs} args - Arguments to create a FocusCareServiceCheckModel.
+     * Create a ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelCreateArgs} args - Arguments to create a ZipzoongCareServiceCheckModel.
      * @example
-     * // Create one FocusCareServiceCheckModel
-     * const FocusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.create({
+     * // Create one ZipzoongCareServiceCheckModel
+     * const ZipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.create({
      *   data: {
-     *     // ... data to create a FocusCareServiceCheckModel
+     *     // ... data to create a ZipzoongCareServiceCheckModel
      *   }
      * })
      * 
     **/
-    create<T extends FocusCareServiceCheckModelCreateArgs>(
-      args: SelectSubset<T, FocusCareServiceCheckModelCreateArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    create<T extends ZipzoongCareServiceCheckModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelCreateArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Create many FocusCareServiceCheckModels.
-     *     @param {FocusCareServiceCheckModelCreateManyArgs} args - Arguments to create many FocusCareServiceCheckModels.
+     * Create many ZipzoongCareServiceCheckModels.
+     *     @param {ZipzoongCareServiceCheckModelCreateManyArgs} args - Arguments to create many ZipzoongCareServiceCheckModels.
      *     @example
-     *     // Create many FocusCareServiceCheckModels
-     *     const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.createMany({
+     *     // Create many ZipzoongCareServiceCheckModels
+     *     const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends FocusCareServiceCheckModelCreateManyArgs>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelCreateManyArgs>
+    createMany<T extends ZipzoongCareServiceCheckModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a FocusCareServiceCheckModel.
-     * @param {FocusCareServiceCheckModelDeleteArgs} args - Arguments to delete one FocusCareServiceCheckModel.
+     * Delete a ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelDeleteArgs} args - Arguments to delete one ZipzoongCareServiceCheckModel.
      * @example
-     * // Delete one FocusCareServiceCheckModel
-     * const FocusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.delete({
+     * // Delete one ZipzoongCareServiceCheckModel
+     * const ZipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.delete({
      *   where: {
-     *     // ... filter to delete one FocusCareServiceCheckModel
+     *     // ... filter to delete one ZipzoongCareServiceCheckModel
      *   }
      * })
      * 
     **/
-    delete<T extends FocusCareServiceCheckModelDeleteArgs>(
-      args: SelectSubset<T, FocusCareServiceCheckModelDeleteArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    delete<T extends ZipzoongCareServiceCheckModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Update one FocusCareServiceCheckModel.
-     * @param {FocusCareServiceCheckModelUpdateArgs} args - Arguments to update one FocusCareServiceCheckModel.
+     * Update one ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelUpdateArgs} args - Arguments to update one ZipzoongCareServiceCheckModel.
      * @example
-     * // Update one FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.update({
+     * // Update one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -16267,34 +15228,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends FocusCareServiceCheckModelUpdateArgs>(
-      args: SelectSubset<T, FocusCareServiceCheckModelUpdateArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    update<T extends ZipzoongCareServiceCheckModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Delete zero or more FocusCareServiceCheckModels.
-     * @param {FocusCareServiceCheckModelDeleteManyArgs} args - Arguments to filter FocusCareServiceCheckModels to delete.
+     * Delete zero or more ZipzoongCareServiceCheckModels.
+     * @param {ZipzoongCareServiceCheckModelDeleteManyArgs} args - Arguments to filter ZipzoongCareServiceCheckModels to delete.
      * @example
-     * // Delete a few FocusCareServiceCheckModels
-     * const { count } = await prisma.focusCareServiceCheckModel.deleteMany({
+     * // Delete a few ZipzoongCareServiceCheckModels
+     * const { count } = await prisma.zipzoongCareServiceCheckModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends FocusCareServiceCheckModelDeleteManyArgs>(
-      args?: SelectSubset<T, FocusCareServiceCheckModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareServiceCheckModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more FocusCareServiceCheckModels.
+     * Update zero or more ZipzoongCareServiceCheckModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ZipzoongCareServiceCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many FocusCareServiceCheckModels
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.updateMany({
+     * // Update many ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -16304,59 +15265,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends FocusCareServiceCheckModelUpdateManyArgs>(
-      args: SelectSubset<T, FocusCareServiceCheckModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareServiceCheckModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one FocusCareServiceCheckModel.
-     * @param {FocusCareServiceCheckModelUpsertArgs} args - Arguments to update or create a FocusCareServiceCheckModel.
+     * Create or update one ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelUpsertArgs} args - Arguments to update or create a ZipzoongCareServiceCheckModel.
      * @example
-     * // Update or create a FocusCareServiceCheckModel
-     * const focusCareServiceCheckModel = await prisma.focusCareServiceCheckModel.upsert({
+     * // Update or create a ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.upsert({
      *   create: {
-     *     // ... data to create a FocusCareServiceCheckModel
+     *     // ... data to create a ZipzoongCareServiceCheckModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the FocusCareServiceCheckModel we want to update
+     *     // ... the filter for the ZipzoongCareServiceCheckModel we want to update
      *   }
      * })
     **/
-    upsert<T extends FocusCareServiceCheckModelUpsertArgs>(
-      args: SelectSubset<T, FocusCareServiceCheckModelUpsertArgs>
-    ): Prisma__FocusCareServiceCheckModelClient<FocusCareServiceCheckModelGetPayload<T>>
+    upsert<T extends ZipzoongCareServiceCheckModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpsertArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
 
     /**
-     * Count the number of FocusCareServiceCheckModels.
+     * Count the number of ZipzoongCareServiceCheckModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelCountArgs} args - Arguments to filter FocusCareServiceCheckModels to count.
+     * @param {ZipzoongCareServiceCheckModelCountArgs} args - Arguments to filter ZipzoongCareServiceCheckModels to count.
      * @example
-     * // Count the number of FocusCareServiceCheckModels
-     * const count = await prisma.focusCareServiceCheckModel.count({
+     * // Count the number of ZipzoongCareServiceCheckModels
+     * const count = await prisma.zipzoongCareServiceCheckModel.count({
      *   where: {
-     *     // ... the filter for the FocusCareServiceCheckModels we want to count
+     *     // ... the filter for the ZipzoongCareServiceCheckModels we want to count
      *   }
      * })
     **/
-    count<T extends FocusCareServiceCheckModelCountArgs>(
-      args?: Subset<T, FocusCareServiceCheckModelCountArgs>,
+    count<T extends ZipzoongCareServiceCheckModelCountArgs>(
+      args?: Subset<T, ZipzoongCareServiceCheckModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], FocusCareServiceCheckModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ZipzoongCareServiceCheckModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a FocusCareServiceCheckModel.
+     * Allows you to perform aggregations operations on a ZipzoongCareServiceCheckModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ZipzoongCareServiceCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -16376,13 +15337,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends FocusCareServiceCheckModelAggregateArgs>(args: Subset<T, FocusCareServiceCheckModelAggregateArgs>): Prisma.PrismaPromise<GetFocusCareServiceCheckModelAggregateType<T>>
+    aggregate<T extends ZipzoongCareServiceCheckModelAggregateArgs>(args: Subset<T, ZipzoongCareServiceCheckModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareServiceCheckModelAggregateType<T>>
 
     /**
-     * Group by FocusCareServiceCheckModel.
+     * Group by ZipzoongCareServiceCheckModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareServiceCheckModelGroupByArgs} args - Group by arguments.
+     * @param {ZipzoongCareServiceCheckModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -16397,14 +15358,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends FocusCareServiceCheckModelGroupByArgs,
+      T extends ZipzoongCareServiceCheckModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FocusCareServiceCheckModelGroupByArgs['orderBy'] }
-        : { orderBy?: FocusCareServiceCheckModelGroupByArgs['orderBy'] },
+        ? { orderBy: ZipzoongCareServiceCheckModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareServiceCheckModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -16453,17 +15414,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, FocusCareServiceCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFocusCareServiceCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ZipzoongCareServiceCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareServiceCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for FocusCareServiceCheckModel.
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareServiceCheckModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__FocusCareServiceCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareServiceCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -16480,7 +15441,7 @@ export namespace Prisma {
 
     service_super_category<T extends ServiceSuperCategoryModelArgs= {}>(args?: Subset<T, ServiceSuperCategoryModelArgs>): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | Null>;
 
-    request<T extends FocusCareRequestModelArgs= {}>(args?: Subset<T, FocusCareRequestModelArgs>): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T> | Null>;
+    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -16510,27 +15471,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * FocusCareServiceCheckModel base type for findUnique actions
+   * ZipzoongCareServiceCheckModel base type for findUnique actions
    */
-  export type FocusCareServiceCheckModelFindUniqueArgsBase = {
+  export type ZipzoongCareServiceCheckModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter, which FocusCareServiceCheckModel to fetch.
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
-    where: FocusCareServiceCheckModelWhereUniqueInput
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
   }
 
   /**
-   * FocusCareServiceCheckModel findUnique
+   * ZipzoongCareServiceCheckModel findUnique
    */
-  export interface FocusCareServiceCheckModelFindUniqueArgs extends FocusCareServiceCheckModelFindUniqueArgsBase {
+  export interface ZipzoongCareServiceCheckModelFindUniqueArgs extends ZipzoongCareServiceCheckModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -16540,76 +15501,76 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareServiceCheckModel findUniqueOrThrow
+   * ZipzoongCareServiceCheckModel findUniqueOrThrow
    */
-  export type FocusCareServiceCheckModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter, which FocusCareServiceCheckModel to fetch.
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
-    where: FocusCareServiceCheckModelWhereUniqueInput
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareServiceCheckModel base type for findFirst actions
+   * ZipzoongCareServiceCheckModel base type for findFirst actions
    */
-  export type FocusCareServiceCheckModelFindFirstArgsBase = {
+  export type ZipzoongCareServiceCheckModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter, which FocusCareServiceCheckModel to fetch.
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareServiceCheckModels to fetch.
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareServiceCheckModels.
+     * Sets the position for searching for ZipzoongCareServiceCheckModels.
      */
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareServiceCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareServiceCheckModels.
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareServiceCheckModels.
+     * Filter by unique combinations of ZipzoongCareServiceCheckModels.
      */
-    distinct?: Enumerable<FocusCareServiceCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
   }
 
   /**
-   * FocusCareServiceCheckModel findFirst
+   * ZipzoongCareServiceCheckModel findFirst
    */
-  export interface FocusCareServiceCheckModelFindFirstArgs extends FocusCareServiceCheckModelFindFirstArgsBase {
+  export interface ZipzoongCareServiceCheckModelFindFirstArgs extends ZipzoongCareServiceCheckModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -16619,598 +15580,602 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareServiceCheckModel findFirstOrThrow
+   * ZipzoongCareServiceCheckModel findFirstOrThrow
    */
-  export type FocusCareServiceCheckModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareServiceCheckModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter, which FocusCareServiceCheckModel to fetch.
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareServiceCheckModels to fetch.
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareServiceCheckModels.
+     * Sets the position for searching for ZipzoongCareServiceCheckModels.
      */
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareServiceCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareServiceCheckModels.
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareServiceCheckModels.
+     * Filter by unique combinations of ZipzoongCareServiceCheckModels.
      */
-    distinct?: Enumerable<FocusCareServiceCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareServiceCheckModel findMany
+   * ZipzoongCareServiceCheckModel findMany
    */
-  export type FocusCareServiceCheckModelFindManyArgs = {
+  export type ZipzoongCareServiceCheckModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter, which FocusCareServiceCheckModels to fetch.
+     * Filter, which ZipzoongCareServiceCheckModels to fetch.
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareServiceCheckModels to fetch.
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareServiceCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing FocusCareServiceCheckModels.
+     * Sets the position for listing ZipzoongCareServiceCheckModels.
      */
-    cursor?: FocusCareServiceCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareServiceCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareServiceCheckModels.
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
      */
     skip?: number
-    distinct?: Enumerable<FocusCareServiceCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareServiceCheckModel create
+   * ZipzoongCareServiceCheckModel create
    */
-  export type FocusCareServiceCheckModelCreateArgs = {
+  export type ZipzoongCareServiceCheckModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * The data needed to create a FocusCareServiceCheckModel.
+     * The data needed to create a ZipzoongCareServiceCheckModel.
      */
-    data: XOR<FocusCareServiceCheckModelCreateInput, FocusCareServiceCheckModelUncheckedCreateInput>
+    data: XOR<ZipzoongCareServiceCheckModelCreateInput, ZipzoongCareServiceCheckModelUncheckedCreateInput>
   }
 
 
   /**
-   * FocusCareServiceCheckModel createMany
+   * ZipzoongCareServiceCheckModel createMany
    */
-  export type FocusCareServiceCheckModelCreateManyArgs = {
+  export type ZipzoongCareServiceCheckModelCreateManyArgs = {
     /**
-     * The data used to create many FocusCareServiceCheckModels.
+     * The data used to create many ZipzoongCareServiceCheckModels.
      */
-    data: Enumerable<FocusCareServiceCheckModelCreateManyInput>
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * FocusCareServiceCheckModel update
+   * ZipzoongCareServiceCheckModel update
    */
-  export type FocusCareServiceCheckModelUpdateArgs = {
+  export type ZipzoongCareServiceCheckModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * The data needed to update a FocusCareServiceCheckModel.
+     * The data needed to update a ZipzoongCareServiceCheckModel.
      */
-    data: XOR<FocusCareServiceCheckModelUpdateInput, FocusCareServiceCheckModelUncheckedUpdateInput>
+    data: XOR<ZipzoongCareServiceCheckModelUpdateInput, ZipzoongCareServiceCheckModelUncheckedUpdateInput>
     /**
-     * Choose, which FocusCareServiceCheckModel to update.
+     * Choose, which ZipzoongCareServiceCheckModel to update.
      */
-    where: FocusCareServiceCheckModelWhereUniqueInput
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareServiceCheckModel updateMany
+   * ZipzoongCareServiceCheckModel updateMany
    */
-  export type FocusCareServiceCheckModelUpdateManyArgs = {
+  export type ZipzoongCareServiceCheckModelUpdateManyArgs = {
     /**
-     * The data used to update FocusCareServiceCheckModels.
+     * The data used to update ZipzoongCareServiceCheckModels.
      */
-    data: XOR<FocusCareServiceCheckModelUpdateManyMutationInput, FocusCareServiceCheckModelUncheckedUpdateManyInput>
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyInput>
     /**
-     * Filter which FocusCareServiceCheckModels to update
+     * Filter which ZipzoongCareServiceCheckModels to update
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
   }
 
 
   /**
-   * FocusCareServiceCheckModel upsert
+   * ZipzoongCareServiceCheckModel upsert
    */
-  export type FocusCareServiceCheckModelUpsertArgs = {
+  export type ZipzoongCareServiceCheckModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * The filter to search for the FocusCareServiceCheckModel to update in case it exists.
+     * The filter to search for the ZipzoongCareServiceCheckModel to update in case it exists.
      */
-    where: FocusCareServiceCheckModelWhereUniqueInput
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
     /**
-     * In case the FocusCareServiceCheckModel found by the `where` argument doesn't exist, create a new FocusCareServiceCheckModel with this data.
+     * In case the ZipzoongCareServiceCheckModel found by the `where` argument doesn't exist, create a new ZipzoongCareServiceCheckModel with this data.
      */
-    create: XOR<FocusCareServiceCheckModelCreateInput, FocusCareServiceCheckModelUncheckedCreateInput>
+    create: XOR<ZipzoongCareServiceCheckModelCreateInput, ZipzoongCareServiceCheckModelUncheckedCreateInput>
     /**
-     * In case the FocusCareServiceCheckModel was found with the provided `where` argument, update it with this data.
+     * In case the ZipzoongCareServiceCheckModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<FocusCareServiceCheckModelUpdateInput, FocusCareServiceCheckModelUncheckedUpdateInput>
+    update: XOR<ZipzoongCareServiceCheckModelUpdateInput, ZipzoongCareServiceCheckModelUncheckedUpdateInput>
   }
 
 
   /**
-   * FocusCareServiceCheckModel delete
+   * ZipzoongCareServiceCheckModel delete
    */
-  export type FocusCareServiceCheckModelDeleteArgs = {
+  export type ZipzoongCareServiceCheckModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
     /**
-     * Filter which FocusCareServiceCheckModel to delete.
+     * Filter which ZipzoongCareServiceCheckModel to delete.
      */
-    where: FocusCareServiceCheckModelWhereUniqueInput
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareServiceCheckModel deleteMany
+   * ZipzoongCareServiceCheckModel deleteMany
    */
-  export type FocusCareServiceCheckModelDeleteManyArgs = {
+  export type ZipzoongCareServiceCheckModelDeleteManyArgs = {
     /**
-     * Filter which FocusCareServiceCheckModels to delete
+     * Filter which ZipzoongCareServiceCheckModels to delete
      */
-    where?: FocusCareServiceCheckModelWhereInput
+    where?: ZipzoongCareServiceCheckModelWhereInput
   }
 
 
   /**
-   * FocusCareServiceCheckModel without action
+   * ZipzoongCareServiceCheckModel without action
    */
-  export type FocusCareServiceCheckModelArgs = {
+  export type ZipzoongCareServiceCheckModelArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareServiceCheckModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: FocusCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
   }
 
 
 
   /**
-   * Model FocusCareConsultationTimeCheckModel
+   * Model ZipzoongCareConsultationTimeCheckModel
    */
 
 
-  export type AggregateFocusCareConsultationTimeCheckModel = {
-    _count: FocusCareConsultationTimeCheckModelCountAggregateOutputType | null
-    _min: FocusCareConsultationTimeCheckModelMinAggregateOutputType | null
-    _max: FocusCareConsultationTimeCheckModelMaxAggregateOutputType | null
+  export type AggregateZipzoongCareConsultationTimeCheckModel = {
+    _count: ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType | null
   }
 
-  export type FocusCareConsultationTimeCheckModelMinAggregateOutputType = {
+  export type ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
-    consultation_time_id: string | null
+    start_time: Date | null
+    end_time: Date | null
     request_id: string | null
   }
 
-  export type FocusCareConsultationTimeCheckModelMaxAggregateOutputType = {
+  export type ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
-    consultation_time_id: string | null
+    start_time: Date | null
+    end_time: Date | null
     request_id: string | null
   }
 
-  export type FocusCareConsultationTimeCheckModelCountAggregateOutputType = {
+  export type ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
     is_deleted: number
     deleted_at: number
-    consultation_time_id: number
+    start_time: number
+    end_time: number
     request_id: number
     _all: number
   }
 
 
-  export type FocusCareConsultationTimeCheckModelMinAggregateInputType = {
+  export type ZipzoongCareConsultationTimeCheckModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    consultation_time_id?: true
+    start_time?: true
+    end_time?: true
     request_id?: true
   }
 
-  export type FocusCareConsultationTimeCheckModelMaxAggregateInputType = {
+  export type ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    consultation_time_id?: true
+    start_time?: true
+    end_time?: true
     request_id?: true
   }
 
-  export type FocusCareConsultationTimeCheckModelCountAggregateInputType = {
+  export type ZipzoongCareConsultationTimeCheckModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
-    consultation_time_id?: true
+    start_time?: true
+    end_time?: true
     request_id?: true
     _all?: true
   }
 
-  export type FocusCareConsultationTimeCheckModelAggregateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelAggregateArgs = {
     /**
-     * Filter which FocusCareConsultationTimeCheckModel to aggregate.
+     * Filter which ZipzoongCareConsultationTimeCheckModel to aggregate.
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareConsultationTimeCheckModels to fetch.
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareConsultationTimeCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareConsultationTimeCheckModels.
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned FocusCareConsultationTimeCheckModels
+     * Count returned ZipzoongCareConsultationTimeCheckModels
     **/
-    _count?: true | FocusCareConsultationTimeCheckModelCountAggregateInputType
+    _count?: true | ZipzoongCareConsultationTimeCheckModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: FocusCareConsultationTimeCheckModelMinAggregateInputType
+    _min?: ZipzoongCareConsultationTimeCheckModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: FocusCareConsultationTimeCheckModelMaxAggregateInputType
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType
   }
 
-  export type GetFocusCareConsultationTimeCheckModelAggregateType<T extends FocusCareConsultationTimeCheckModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateFocusCareConsultationTimeCheckModel]: P extends '_count' | 'count'
+  export type GetZipzoongCareConsultationTimeCheckModelAggregateType<T extends ZipzoongCareConsultationTimeCheckModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareConsultationTimeCheckModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateFocusCareConsultationTimeCheckModel[P]>
-      : GetScalarType<T[P], AggregateFocusCareConsultationTimeCheckModel[P]>
+        : GetScalarType<T[P], AggregateZipzoongCareConsultationTimeCheckModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareConsultationTimeCheckModel[P]>
   }
 
 
 
 
-  export type FocusCareConsultationTimeCheckModelGroupByArgs = {
-    where?: FocusCareConsultationTimeCheckModelWhereInput
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithAggregationInput>
-    by: FocusCareConsultationTimeCheckModelScalarFieldEnum[]
-    having?: FocusCareConsultationTimeCheckModelScalarWhereWithAggregatesInput
+  export type ZipzoongCareConsultationTimeCheckModelGroupByArgs = {
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithAggregationInput>
+    by: ZipzoongCareConsultationTimeCheckModelScalarFieldEnum[]
+    having?: ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: FocusCareConsultationTimeCheckModelCountAggregateInputType | true
-    _min?: FocusCareConsultationTimeCheckModelMinAggregateInputType
-    _max?: FocusCareConsultationTimeCheckModelMaxAggregateInputType
+    _count?: ZipzoongCareConsultationTimeCheckModelCountAggregateInputType | true
+    _min?: ZipzoongCareConsultationTimeCheckModelMinAggregateInputType
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType
   }
 
 
-  export type FocusCareConsultationTimeCheckModelGroupByOutputType = {
+  export type ZipzoongCareConsultationTimeCheckModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
     deleted_at: Date | null
-    consultation_time_id: string
+    start_time: Date
+    end_time: Date
     request_id: string
-    _count: FocusCareConsultationTimeCheckModelCountAggregateOutputType | null
-    _min: FocusCareConsultationTimeCheckModelMinAggregateOutputType | null
-    _max: FocusCareConsultationTimeCheckModelMaxAggregateOutputType | null
+    _count: ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType | null
   }
 
-  type GetFocusCareConsultationTimeCheckModelGroupByPayload<T extends FocusCareConsultationTimeCheckModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetZipzoongCareConsultationTimeCheckModelGroupByPayload<T extends ZipzoongCareConsultationTimeCheckModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<FocusCareConsultationTimeCheckModelGroupByOutputType, T['by']> &
+      PickArray<ZipzoongCareConsultationTimeCheckModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof FocusCareConsultationTimeCheckModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ZipzoongCareConsultationTimeCheckModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], FocusCareConsultationTimeCheckModelGroupByOutputType[P]>
-            : GetScalarType<T[P], FocusCareConsultationTimeCheckModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ZipzoongCareConsultationTimeCheckModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareConsultationTimeCheckModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type FocusCareConsultationTimeCheckModelSelect = {
+  export type ZipzoongCareConsultationTimeCheckModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
     deleted_at?: boolean
-    consultation_time_id?: boolean
+    start_time?: boolean
+    end_time?: boolean
     request_id?: boolean
-    consultation_time?: boolean | ConsultationTimeModelArgs
-    request?: boolean | FocusCareRequestModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs
   }
 
 
-  export type FocusCareConsultationTimeCheckModelInclude = {
-    consultation_time?: boolean | ConsultationTimeModelArgs
-    request?: boolean | FocusCareRequestModelArgs
+  export type ZipzoongCareConsultationTimeCheckModelInclude = {
+    request?: boolean | ZipzoongCareRequestModelArgs
   }
 
-  export type FocusCareConsultationTimeCheckModelGetPayload<S extends boolean | null | undefined | FocusCareConsultationTimeCheckModelArgs> =
+  export type ZipzoongCareConsultationTimeCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareConsultationTimeCheckModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? FocusCareConsultationTimeCheckModel :
+    S extends true ? ZipzoongCareConsultationTimeCheckModel :
     S extends undefined ? never :
-    S extends { include: any } & (FocusCareConsultationTimeCheckModelArgs | FocusCareConsultationTimeCheckModelFindManyArgs)
-    ? FocusCareConsultationTimeCheckModel  & {
+    S extends { include: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
+    ? ZipzoongCareConsultationTimeCheckModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'consultation_time' ? ConsultationTimeModelGetPayload<S['include'][P]> :
-        P extends 'request' ? FocusCareRequestModelGetPayload<S['include'][P]> :  never
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (FocusCareConsultationTimeCheckModelArgs | FocusCareConsultationTimeCheckModelFindManyArgs)
+    : S extends { select: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'consultation_time' ? ConsultationTimeModelGetPayload<S['select'][P]> :
-        P extends 'request' ? FocusCareRequestModelGetPayload<S['select'][P]> :  P extends keyof FocusCareConsultationTimeCheckModel ? FocusCareConsultationTimeCheckModel[P] : never
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareConsultationTimeCheckModel ? ZipzoongCareConsultationTimeCheckModel[P] : never
   } 
-      : FocusCareConsultationTimeCheckModel
+      : ZipzoongCareConsultationTimeCheckModel
 
 
-  type FocusCareConsultationTimeCheckModelCountArgs = 
-    Omit<FocusCareConsultationTimeCheckModelFindManyArgs, 'select' | 'include'> & {
-      select?: FocusCareConsultationTimeCheckModelCountAggregateInputType | true
+  type ZipzoongCareConsultationTimeCheckModelCountArgs = 
+    Omit<ZipzoongCareConsultationTimeCheckModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareConsultationTimeCheckModelCountAggregateInputType | true
     }
 
-  export interface FocusCareConsultationTimeCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ZipzoongCareConsultationTimeCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one FocusCareConsultationTimeCheckModel that matches the filter.
-     * @param {FocusCareConsultationTimeCheckModelFindUniqueArgs} args - Arguments to find a FocusCareConsultationTimeCheckModel
+     * Find zero or one ZipzoongCareConsultationTimeCheckModel that matches the filter.
+     * @param {ZipzoongCareConsultationTimeCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
      * @example
-     * // Get one FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.findUnique({
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends FocusCareConsultationTimeCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'FocusCareConsultationTimeCheckModel'> extends True ? Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>> : Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
 
     /**
-     * Find one FocusCareConsultationTimeCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ZipzoongCareConsultationTimeCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {FocusCareConsultationTimeCheckModelFindUniqueOrThrowArgs} args - Arguments to find a FocusCareConsultationTimeCheckModel
+     * @param {ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
      * @example
-     * // Get one FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.findUniqueOrThrow({
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends FocusCareConsultationTimeCheckModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelFindUniqueOrThrowArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Find the first FocusCareConsultationTimeCheckModel that matches the filter.
+     * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelFindFirstArgs} args - Arguments to find a FocusCareConsultationTimeCheckModel
+     * @param {ZipzoongCareConsultationTimeCheckModelFindFirstArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
      * @example
-     * // Get one FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.findFirst({
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends FocusCareConsultationTimeCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'FocusCareConsultationTimeCheckModel'> extends True ? Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>> : Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareConsultationTimeCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
 
     /**
-     * Find the first FocusCareConsultationTimeCheckModel that matches the filter or
+     * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelFindFirstOrThrowArgs} args - Arguments to find a FocusCareConsultationTimeCheckModel
+     * @param {ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
      * @example
-     * // Get one FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.findFirstOrThrow({
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends FocusCareConsultationTimeCheckModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelFindFirstOrThrowArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Find zero or more FocusCareConsultationTimeCheckModels that matches the filter.
+     * Find zero or more ZipzoongCareConsultationTimeCheckModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ZipzoongCareConsultationTimeCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all FocusCareConsultationTimeCheckModels
-     * const focusCareConsultationTimeCheckModels = await prisma.focusCareConsultationTimeCheckModel.findMany()
+     * // Get all ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany()
      * 
-     * // Get first 10 FocusCareConsultationTimeCheckModels
-     * const focusCareConsultationTimeCheckModels = await prisma.focusCareConsultationTimeCheckModel.findMany({ take: 10 })
+     * // Get first 10 ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const focusCareConsultationTimeCheckModelWithIdOnly = await prisma.focusCareConsultationTimeCheckModel.findMany({ select: { id: true } })
+     * const zipzoongCareConsultationTimeCheckModelWithIdOnly = await prisma.zipzoongCareConsultationTimeCheckModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends FocusCareConsultationTimeCheckModelFindManyArgs>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<FocusCareConsultationTimeCheckModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareConsultationTimeCheckModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>>
 
     /**
-     * Create a FocusCareConsultationTimeCheckModel.
-     * @param {FocusCareConsultationTimeCheckModelCreateArgs} args - Arguments to create a FocusCareConsultationTimeCheckModel.
+     * Create a ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelCreateArgs} args - Arguments to create a ZipzoongCareConsultationTimeCheckModel.
      * @example
-     * // Create one FocusCareConsultationTimeCheckModel
-     * const FocusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.create({
+     * // Create one ZipzoongCareConsultationTimeCheckModel
+     * const ZipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.create({
      *   data: {
-     *     // ... data to create a FocusCareConsultationTimeCheckModel
+     *     // ... data to create a ZipzoongCareConsultationTimeCheckModel
      *   }
      * })
      * 
     **/
-    create<T extends FocusCareConsultationTimeCheckModelCreateArgs>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelCreateArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    create<T extends ZipzoongCareConsultationTimeCheckModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Create many FocusCareConsultationTimeCheckModels.
-     *     @param {FocusCareConsultationTimeCheckModelCreateManyArgs} args - Arguments to create many FocusCareConsultationTimeCheckModels.
+     * Create many ZipzoongCareConsultationTimeCheckModels.
+     *     @param {ZipzoongCareConsultationTimeCheckModelCreateManyArgs} args - Arguments to create many ZipzoongCareConsultationTimeCheckModels.
      *     @example
-     *     // Create many FocusCareConsultationTimeCheckModels
-     *     const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.createMany({
+     *     // Create many ZipzoongCareConsultationTimeCheckModels
+     *     const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends FocusCareConsultationTimeCheckModelCreateManyArgs>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelCreateManyArgs>
+    createMany<T extends ZipzoongCareConsultationTimeCheckModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a FocusCareConsultationTimeCheckModel.
-     * @param {FocusCareConsultationTimeCheckModelDeleteArgs} args - Arguments to delete one FocusCareConsultationTimeCheckModel.
+     * Delete a ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelDeleteArgs} args - Arguments to delete one ZipzoongCareConsultationTimeCheckModel.
      * @example
-     * // Delete one FocusCareConsultationTimeCheckModel
-     * const FocusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.delete({
+     * // Delete one ZipzoongCareConsultationTimeCheckModel
+     * const ZipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.delete({
      *   where: {
-     *     // ... filter to delete one FocusCareConsultationTimeCheckModel
+     *     // ... filter to delete one ZipzoongCareConsultationTimeCheckModel
      *   }
      * })
      * 
     **/
-    delete<T extends FocusCareConsultationTimeCheckModelDeleteArgs>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelDeleteArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    delete<T extends ZipzoongCareConsultationTimeCheckModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Update one FocusCareConsultationTimeCheckModel.
-     * @param {FocusCareConsultationTimeCheckModelUpdateArgs} args - Arguments to update one FocusCareConsultationTimeCheckModel.
+     * Update one ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelUpdateArgs} args - Arguments to update one ZipzoongCareConsultationTimeCheckModel.
      * @example
-     * // Update one FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.update({
+     * // Update one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -17220,34 +16185,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends FocusCareConsultationTimeCheckModelUpdateArgs>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelUpdateArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    update<T extends ZipzoongCareConsultationTimeCheckModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Delete zero or more FocusCareConsultationTimeCheckModels.
-     * @param {FocusCareConsultationTimeCheckModelDeleteManyArgs} args - Arguments to filter FocusCareConsultationTimeCheckModels to delete.
+     * Delete zero or more ZipzoongCareConsultationTimeCheckModels.
+     * @param {ZipzoongCareConsultationTimeCheckModelDeleteManyArgs} args - Arguments to filter ZipzoongCareConsultationTimeCheckModels to delete.
      * @example
-     * // Delete a few FocusCareConsultationTimeCheckModels
-     * const { count } = await prisma.focusCareConsultationTimeCheckModel.deleteMany({
+     * // Delete a few ZipzoongCareConsultationTimeCheckModels
+     * const { count } = await prisma.zipzoongCareConsultationTimeCheckModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends FocusCareConsultationTimeCheckModelDeleteManyArgs>(
-      args?: SelectSubset<T, FocusCareConsultationTimeCheckModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more FocusCareConsultationTimeCheckModels.
+     * Update zero or more ZipzoongCareConsultationTimeCheckModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ZipzoongCareConsultationTimeCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many FocusCareConsultationTimeCheckModels
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.updateMany({
+     * // Update many ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -17257,59 +16222,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends FocusCareConsultationTimeCheckModelUpdateManyArgs>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one FocusCareConsultationTimeCheckModel.
-     * @param {FocusCareConsultationTimeCheckModelUpsertArgs} args - Arguments to update or create a FocusCareConsultationTimeCheckModel.
+     * Create or update one ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelUpsertArgs} args - Arguments to update or create a ZipzoongCareConsultationTimeCheckModel.
      * @example
-     * // Update or create a FocusCareConsultationTimeCheckModel
-     * const focusCareConsultationTimeCheckModel = await prisma.focusCareConsultationTimeCheckModel.upsert({
+     * // Update or create a ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.upsert({
      *   create: {
-     *     // ... data to create a FocusCareConsultationTimeCheckModel
+     *     // ... data to create a ZipzoongCareConsultationTimeCheckModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the FocusCareConsultationTimeCheckModel we want to update
+     *     // ... the filter for the ZipzoongCareConsultationTimeCheckModel we want to update
      *   }
      * })
     **/
-    upsert<T extends FocusCareConsultationTimeCheckModelUpsertArgs>(
-      args: SelectSubset<T, FocusCareConsultationTimeCheckModelUpsertArgs>
-    ): Prisma__FocusCareConsultationTimeCheckModelClient<FocusCareConsultationTimeCheckModelGetPayload<T>>
+    upsert<T extends ZipzoongCareConsultationTimeCheckModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpsertArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
 
     /**
-     * Count the number of FocusCareConsultationTimeCheckModels.
+     * Count the number of ZipzoongCareConsultationTimeCheckModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelCountArgs} args - Arguments to filter FocusCareConsultationTimeCheckModels to count.
+     * @param {ZipzoongCareConsultationTimeCheckModelCountArgs} args - Arguments to filter ZipzoongCareConsultationTimeCheckModels to count.
      * @example
-     * // Count the number of FocusCareConsultationTimeCheckModels
-     * const count = await prisma.focusCareConsultationTimeCheckModel.count({
+     * // Count the number of ZipzoongCareConsultationTimeCheckModels
+     * const count = await prisma.zipzoongCareConsultationTimeCheckModel.count({
      *   where: {
-     *     // ... the filter for the FocusCareConsultationTimeCheckModels we want to count
+     *     // ... the filter for the ZipzoongCareConsultationTimeCheckModels we want to count
      *   }
      * })
     **/
-    count<T extends FocusCareConsultationTimeCheckModelCountArgs>(
-      args?: Subset<T, FocusCareConsultationTimeCheckModelCountArgs>,
+    count<T extends ZipzoongCareConsultationTimeCheckModelCountArgs>(
+      args?: Subset<T, ZipzoongCareConsultationTimeCheckModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], FocusCareConsultationTimeCheckModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a FocusCareConsultationTimeCheckModel.
+     * Allows you to perform aggregations operations on a ZipzoongCareConsultationTimeCheckModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ZipzoongCareConsultationTimeCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -17329,13 +16294,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends FocusCareConsultationTimeCheckModelAggregateArgs>(args: Subset<T, FocusCareConsultationTimeCheckModelAggregateArgs>): Prisma.PrismaPromise<GetFocusCareConsultationTimeCheckModelAggregateType<T>>
+    aggregate<T extends ZipzoongCareConsultationTimeCheckModelAggregateArgs>(args: Subset<T, ZipzoongCareConsultationTimeCheckModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareConsultationTimeCheckModelAggregateType<T>>
 
     /**
-     * Group by FocusCareConsultationTimeCheckModel.
+     * Group by ZipzoongCareConsultationTimeCheckModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FocusCareConsultationTimeCheckModelGroupByArgs} args - Group by arguments.
+     * @param {ZipzoongCareConsultationTimeCheckModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -17350,14 +16315,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends FocusCareConsultationTimeCheckModelGroupByArgs,
+      T extends ZipzoongCareConsultationTimeCheckModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FocusCareConsultationTimeCheckModelGroupByArgs['orderBy'] }
-        : { orderBy?: FocusCareConsultationTimeCheckModelGroupByArgs['orderBy'] },
+        ? { orderBy: ZipzoongCareConsultationTimeCheckModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareConsultationTimeCheckModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -17406,17 +16371,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, FocusCareConsultationTimeCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFocusCareConsultationTimeCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ZipzoongCareConsultationTimeCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareConsultationTimeCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for FocusCareConsultationTimeCheckModel.
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareConsultationTimeCheckModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__FocusCareConsultationTimeCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareConsultationTimeCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -17431,9 +16396,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    consultation_time<T extends ConsultationTimeModelArgs= {}>(args?: Subset<T, ConsultationTimeModelArgs>): Prisma__ConsultationTimeModelClient<ConsultationTimeModelGetPayload<T> | Null>;
-
-    request<T extends FocusCareRequestModelArgs= {}>(args?: Subset<T, FocusCareRequestModelArgs>): Prisma__FocusCareRequestModelClient<FocusCareRequestModelGetPayload<T> | Null>;
+    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -17463,27 +16426,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * FocusCareConsultationTimeCheckModel base type for findUnique actions
+   * ZipzoongCareConsultationTimeCheckModel base type for findUnique actions
    */
-  export type FocusCareConsultationTimeCheckModelFindUniqueArgsBase = {
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter, which FocusCareConsultationTimeCheckModel to fetch.
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
   }
 
   /**
-   * FocusCareConsultationTimeCheckModel findUnique
+   * ZipzoongCareConsultationTimeCheckModel findUnique
    */
-  export interface FocusCareConsultationTimeCheckModelFindUniqueArgs extends FocusCareConsultationTimeCheckModelFindUniqueArgsBase {
+  export interface ZipzoongCareConsultationTimeCheckModelFindUniqueArgs extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -17493,76 +16456,76 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareConsultationTimeCheckModel findUniqueOrThrow
+   * ZipzoongCareConsultationTimeCheckModel findUniqueOrThrow
    */
-  export type FocusCareConsultationTimeCheckModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter, which FocusCareConsultationTimeCheckModel to fetch.
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel base type for findFirst actions
+   * ZipzoongCareConsultationTimeCheckModel base type for findFirst actions
    */
-  export type FocusCareConsultationTimeCheckModelFindFirstArgsBase = {
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter, which FocusCareConsultationTimeCheckModel to fetch.
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareConsultationTimeCheckModels to fetch.
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareConsultationTimeCheckModels.
+     * Sets the position for searching for ZipzoongCareConsultationTimeCheckModels.
      */
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareConsultationTimeCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareConsultationTimeCheckModels.
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareConsultationTimeCheckModels.
+     * Filter by unique combinations of ZipzoongCareConsultationTimeCheckModels.
      */
-    distinct?: Enumerable<FocusCareConsultationTimeCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
   }
 
   /**
-   * FocusCareConsultationTimeCheckModel findFirst
+   * ZipzoongCareConsultationTimeCheckModel findFirst
    */
-  export interface FocusCareConsultationTimeCheckModelFindFirstArgs extends FocusCareConsultationTimeCheckModelFindFirstArgsBase {
+  export interface ZipzoongCareConsultationTimeCheckModelFindFirstArgs extends ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -17572,236 +16535,236 @@ export namespace Prisma {
       
 
   /**
-   * FocusCareConsultationTimeCheckModel findFirstOrThrow
+   * ZipzoongCareConsultationTimeCheckModel findFirstOrThrow
    */
-  export type FocusCareConsultationTimeCheckModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter, which FocusCareConsultationTimeCheckModel to fetch.
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareConsultationTimeCheckModels to fetch.
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FocusCareConsultationTimeCheckModels.
+     * Sets the position for searching for ZipzoongCareConsultationTimeCheckModels.
      */
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareConsultationTimeCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareConsultationTimeCheckModels.
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FocusCareConsultationTimeCheckModels.
+     * Filter by unique combinations of ZipzoongCareConsultationTimeCheckModels.
      */
-    distinct?: Enumerable<FocusCareConsultationTimeCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel findMany
+   * ZipzoongCareConsultationTimeCheckModel findMany
    */
-  export type FocusCareConsultationTimeCheckModelFindManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter, which FocusCareConsultationTimeCheckModels to fetch.
+     * Filter, which ZipzoongCareConsultationTimeCheckModels to fetch.
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FocusCareConsultationTimeCheckModels to fetch.
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
      */
-    orderBy?: Enumerable<FocusCareConsultationTimeCheckModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing FocusCareConsultationTimeCheckModels.
+     * Sets the position for listing ZipzoongCareConsultationTimeCheckModels.
      */
-    cursor?: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FocusCareConsultationTimeCheckModels from the position of the cursor.
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FocusCareConsultationTimeCheckModels.
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
      */
     skip?: number
-    distinct?: Enumerable<FocusCareConsultationTimeCheckModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel create
+   * ZipzoongCareConsultationTimeCheckModel create
    */
-  export type FocusCareConsultationTimeCheckModelCreateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * The data needed to create a FocusCareConsultationTimeCheckModel.
+     * The data needed to create a ZipzoongCareConsultationTimeCheckModel.
      */
-    data: XOR<FocusCareConsultationTimeCheckModelCreateInput, FocusCareConsultationTimeCheckModelUncheckedCreateInput>
+    data: XOR<ZipzoongCareConsultationTimeCheckModelCreateInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput>
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel createMany
+   * ZipzoongCareConsultationTimeCheckModel createMany
    */
-  export type FocusCareConsultationTimeCheckModelCreateManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyArgs = {
     /**
-     * The data used to create many FocusCareConsultationTimeCheckModels.
+     * The data used to create many ZipzoongCareConsultationTimeCheckModels.
      */
-    data: Enumerable<FocusCareConsultationTimeCheckModelCreateManyInput>
+    data: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel update
+   * ZipzoongCareConsultationTimeCheckModel update
    */
-  export type FocusCareConsultationTimeCheckModelUpdateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * The data needed to update a FocusCareConsultationTimeCheckModel.
+     * The data needed to update a ZipzoongCareConsultationTimeCheckModel.
      */
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateInput, FocusCareConsultationTimeCheckModelUncheckedUpdateInput>
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput>
     /**
-     * Choose, which FocusCareConsultationTimeCheckModel to update.
+     * Choose, which ZipzoongCareConsultationTimeCheckModel to update.
      */
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel updateMany
+   * ZipzoongCareConsultationTimeCheckModel updateMany
    */
-  export type FocusCareConsultationTimeCheckModelUpdateManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyArgs = {
     /**
-     * The data used to update FocusCareConsultationTimeCheckModels.
+     * The data used to update ZipzoongCareConsultationTimeCheckModels.
      */
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateManyMutationInput, FocusCareConsultationTimeCheckModelUncheckedUpdateManyInput>
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyInput>
     /**
-     * Filter which FocusCareConsultationTimeCheckModels to update
+     * Filter which ZipzoongCareConsultationTimeCheckModels to update
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel upsert
+   * ZipzoongCareConsultationTimeCheckModel upsert
    */
-  export type FocusCareConsultationTimeCheckModelUpsertArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * The filter to search for the FocusCareConsultationTimeCheckModel to update in case it exists.
+     * The filter to search for the ZipzoongCareConsultationTimeCheckModel to update in case it exists.
      */
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
     /**
-     * In case the FocusCareConsultationTimeCheckModel found by the `where` argument doesn't exist, create a new FocusCareConsultationTimeCheckModel with this data.
+     * In case the ZipzoongCareConsultationTimeCheckModel found by the `where` argument doesn't exist, create a new ZipzoongCareConsultationTimeCheckModel with this data.
      */
-    create: XOR<FocusCareConsultationTimeCheckModelCreateInput, FocusCareConsultationTimeCheckModelUncheckedCreateInput>
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput>
     /**
-     * In case the FocusCareConsultationTimeCheckModel was found with the provided `where` argument, update it with this data.
+     * In case the ZipzoongCareConsultationTimeCheckModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<FocusCareConsultationTimeCheckModelUpdateInput, FocusCareConsultationTimeCheckModelUncheckedUpdateInput>
+    update: XOR<ZipzoongCareConsultationTimeCheckModelUpdateInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput>
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel delete
+   * ZipzoongCareConsultationTimeCheckModel delete
    */
-  export type FocusCareConsultationTimeCheckModelDeleteArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
     /**
-     * Filter which FocusCareConsultationTimeCheckModel to delete.
+     * Filter which ZipzoongCareConsultationTimeCheckModel to delete.
      */
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel deleteMany
+   * ZipzoongCareConsultationTimeCheckModel deleteMany
    */
-  export type FocusCareConsultationTimeCheckModelDeleteManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelDeleteManyArgs = {
     /**
-     * Filter which FocusCareConsultationTimeCheckModels to delete
+     * Filter which ZipzoongCareConsultationTimeCheckModels to delete
      */
-    where?: FocusCareConsultationTimeCheckModelWhereInput
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
   }
 
 
   /**
-   * FocusCareConsultationTimeCheckModel without action
+   * ZipzoongCareConsultationTimeCheckModel without action
    */
-  export type FocusCareConsultationTimeCheckModelArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareConsultationTimeCheckModel
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: FocusCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
   }
 
 
@@ -18975,7 +17938,7 @@ export namespace Prisma {
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
     reviews?: boolean | CustomerModel$reviewsArgs
-    focus_care_requests?: boolean | CustomerModel$focus_care_requestsArgs
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
@@ -18984,7 +17947,7 @@ export namespace Prisma {
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
     reviews?: boolean | CustomerModel$reviewsArgs
-    focus_care_requests?: boolean | CustomerModel$focus_care_requestsArgs
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
@@ -18998,7 +17961,7 @@ export namespace Prisma {
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['include'][P]>>  :
-        P extends 'focus_care_requests' ? Array < FocusCareRequestModelGetPayload<S['include'][P]>>  :
+        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (CustomerModelArgs | CustomerModelFindManyArgs)
@@ -19007,7 +17970,7 @@ export namespace Prisma {
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['select'][P]>>  :
-        P extends 'focus_care_requests' ? Array < FocusCareRequestModelGetPayload<S['select'][P]>>  :
+        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomerModel ? CustomerModel[P] : never
   } 
       : CustomerModel
@@ -19386,7 +18349,7 @@ export namespace Prisma {
 
     reviews<T extends CustomerModel$reviewsArgs= {}>(args?: Subset<T, CustomerModel$reviewsArgs>): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>| Null>;
 
-    focus_care_requests<T extends CustomerModel$focus_care_requestsArgs= {}>(args?: Subset<T, CustomerModel$focus_care_requestsArgs>): Prisma.PrismaPromise<Array<FocusCareRequestModelGetPayload<T>>| Null>;
+    zipzoong_care_requests<T extends CustomerModel$zipzoong_care_requestsArgs= {}>(args?: Subset<T, CustomerModel$zipzoong_care_requestsArgs>): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -19786,23 +18749,23 @@ export namespace Prisma {
 
 
   /**
-   * CustomerModel.focus_care_requests
+   * CustomerModel.zipzoong_care_requests
    */
-  export type CustomerModel$focus_care_requestsArgs = {
+  export type CustomerModel$zipzoong_care_requestsArgs = {
     /**
-     * Select specific fields to fetch from the FocusCareRequestModel
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: FocusCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: FocusCareRequestModelInclude | null
-    where?: FocusCareRequestModelWhereInput
-    orderBy?: Enumerable<FocusCareRequestModelOrderByWithRelationInput>
-    cursor?: FocusCareRequestModelWhereUniqueInput
+    include?: ZipzoongCareRequestModelInclude | null
+    where?: ZipzoongCareRequestModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<FocusCareRequestModelScalarFieldEnum>
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
   }
 
 
@@ -26751,19 +25714,6 @@ export namespace Prisma {
   export type BusinessUserModelScalarFieldEnum = (typeof BusinessUserModelScalarFieldEnum)[keyof typeof BusinessUserModelScalarFieldEnum]
 
 
-  export const ConsultationTimeModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    start_time: 'start_time',
-    end_time: 'end_time'
-  };
-
-  export type ConsultationTimeModelScalarFieldEnum = (typeof ConsultationTimeModelScalarFieldEnum)[keyof typeof ConsultationTimeModelScalarFieldEnum]
-
-
   export const CustomerModelScalarFieldEnum: {
     id: 'id',
     birth: 'birth',
@@ -26775,48 +25725,6 @@ export namespace Prisma {
   };
 
   export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
-
-
-  export const FocusCareConsultationTimeCheckModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    consultation_time_id: 'consultation_time_id',
-    request_id: 'request_id'
-  };
-
-  export type FocusCareConsultationTimeCheckModelScalarFieldEnum = (typeof FocusCareConsultationTimeCheckModelScalarFieldEnum)[keyof typeof FocusCareConsultationTimeCheckModelScalarFieldEnum]
-
-
-  export const FocusCareRequestModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    care_start_date: 'care_start_date',
-    care_end_date: 'care_end_date',
-    detail: 'detail',
-    status: 'status',
-    requester_id: 'requester_id'
-  };
-
-  export type FocusCareRequestModelScalarFieldEnum = (typeof FocusCareRequestModelScalarFieldEnum)[keyof typeof FocusCareRequestModelScalarFieldEnum]
-
-
-  export const FocusCareServiceCheckModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    service_super_category_id: 'service_super_category_id',
-    request_id: 'request_id'
-  };
-
-  export type FocusCareServiceCheckModelScalarFieldEnum = (typeof FocusCareServiceCheckModelScalarFieldEnum)[keyof typeof FocusCareServiceCheckModelScalarFieldEnum]
 
 
   export const HSIntroductionImageModelScalarFieldEnum: {
@@ -27057,6 +25965,49 @@ export namespace Prisma {
   };
 
   export type UserModelScalarFieldEnum = (typeof UserModelScalarFieldEnum)[keyof typeof UserModelScalarFieldEnum]
+
+
+  export const ZipzoongCareConsultationTimeCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    start_time: 'start_time',
+    end_time: 'end_time',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = (typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum]
+
+
+  export const ZipzoongCareRequestModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    care_start_date: 'care_start_date',
+    care_end_date: 'care_end_date',
+    detail: 'detail',
+    status: 'status',
+    requester_id: 'requester_id'
+  };
+
+  export type ZipzoongCareRequestModelScalarFieldEnum = (typeof ZipzoongCareRequestModelScalarFieldEnum)[keyof typeof ZipzoongCareRequestModelScalarFieldEnum]
+
+
+  export const ZipzoongCareServiceCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    service_super_category_id: 'service_super_category_id',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareServiceCheckModelScalarFieldEnum = (typeof ZipzoongCareServiceCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareServiceCheckModelScalarFieldEnum]
 
 
   /**
@@ -27652,61 +26603,6 @@ export namespace Prisma {
     agreement_id?: StringWithAggregatesFilter | string
   }
 
-  export type ConsultationTimeModelWhereInput = {
-    AND?: Enumerable<ConsultationTimeModelWhereInput>
-    OR?: Enumerable<ConsultationTimeModelWhereInput>
-    NOT?: Enumerable<ConsultationTimeModelWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    start_time?: DateTimeFilter | Date | string
-    end_time?: DateTimeFilter | Date | string
-    focus_care_checks?: FocusCareConsultationTimeCheckModelListRelationFilter
-  }
-
-  export type ConsultationTimeModelOrderByWithRelationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    start_time?: SortOrder
-    end_time?: SortOrder
-    focus_care_checks?: FocusCareConsultationTimeCheckModelOrderByRelationAggregateInput
-  }
-
-  export type ConsultationTimeModelWhereUniqueInput = {
-    id?: string
-  }
-
-  export type ConsultationTimeModelOrderByWithAggregationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    start_time?: SortOrder
-    end_time?: SortOrder
-    _count?: ConsultationTimeModelCountOrderByAggregateInput
-    _max?: ConsultationTimeModelMaxOrderByAggregateInput
-    _min?: ConsultationTimeModelMinOrderByAggregateInput
-  }
-
-  export type ConsultationTimeModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<ConsultationTimeModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<ConsultationTimeModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<ConsultationTimeModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    created_at?: DateTimeWithAggregatesFilter | Date | string
-    updated_at?: DateTimeWithAggregatesFilter | Date | string
-    is_deleted?: BoolWithAggregatesFilter | boolean
-    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    start_time?: DateTimeWithAggregatesFilter | Date | string
-    end_time?: DateTimeWithAggregatesFilter | Date | string
-  }
-
   export type ServiceSubCategoryModelWhereInput = {
     AND?: Enumerable<ServiceSubCategoryModelWhereInput>
     OR?: Enumerable<ServiceSubCategoryModelWhereInput>
@@ -27776,7 +26672,7 @@ export namespace Prisma {
     name?: StringFilter | string
     type?: EnumServiceTypeFilter | ServiceType
     sub_categories?: ServiceSubCategoryModelListRelationFilter
-    focus_care_checks?: FocusCareServiceCheckModelListRelationFilter
+    focus_care_checks?: ZipzoongCareServiceCheckModelListRelationFilter
   }
 
   export type ServiceSuperCategoryModelOrderByWithRelationInput = {
@@ -27788,7 +26684,7 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     sub_categories?: ServiceSubCategoryModelOrderByRelationAggregateInput
-    focus_care_checks?: FocusCareServiceCheckModelOrderByRelationAggregateInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelOrderByRelationAggregateInput
   }
 
   export type ServiceSuperCategoryModelWhereUniqueInput = {
@@ -27822,10 +26718,10 @@ export namespace Prisma {
     type?: EnumServiceTypeWithAggregatesFilter | ServiceType
   }
 
-  export type FocusCareRequestModelWhereInput = {
-    AND?: Enumerable<FocusCareRequestModelWhereInput>
-    OR?: Enumerable<FocusCareRequestModelWhereInput>
-    NOT?: Enumerable<FocusCareRequestModelWhereInput>
+  export type ZipzoongCareRequestModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelWhereInput>
+    OR?: Enumerable<ZipzoongCareRequestModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -27834,14 +26730,14 @@ export namespace Prisma {
     care_start_date?: DateTimeFilter | Date | string
     care_end_date?: DateTimeFilter | Date | string
     detail?: StringFilter | string
-    status?: EnumFocusCareStatusFilter | FocusCareStatus
+    status?: EnumZipzoongCareStatusFilter | ZipzoongCareStatus
     requester_id?: StringFilter | string
     requester?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
-    consultation_times?: FocusCareConsultationTimeCheckModelListRelationFilter
-    services?: FocusCareServiceCheckModelListRelationFilter
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelListRelationFilter
+    service_checks?: ZipzoongCareServiceCheckModelListRelationFilter
   }
 
-  export type FocusCareRequestModelOrderByWithRelationInput = {
+  export type ZipzoongCareRequestModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27853,15 +26749,15 @@ export namespace Prisma {
     status?: SortOrder
     requester_id?: SortOrder
     requester?: CustomerModelOrderByWithRelationInput
-    consultation_times?: FocusCareConsultationTimeCheckModelOrderByRelationAggregateInput
-    services?: FocusCareServiceCheckModelOrderByRelationAggregateInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelOrderByRelationAggregateInput
+    service_checks?: ZipzoongCareServiceCheckModelOrderByRelationAggregateInput
   }
 
-  export type FocusCareRequestModelWhereUniqueInput = {
+  export type ZipzoongCareRequestModelWhereUniqueInput = {
     id?: string
   }
 
-  export type FocusCareRequestModelOrderByWithAggregationInput = {
+  export type ZipzoongCareRequestModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27872,15 +26768,15 @@ export namespace Prisma {
     detail?: SortOrder
     status?: SortOrder
     requester_id?: SortOrder
-    _count?: FocusCareRequestModelCountOrderByAggregateInput
-    _max?: FocusCareRequestModelMaxOrderByAggregateInput
-    _min?: FocusCareRequestModelMinOrderByAggregateInput
+    _count?: ZipzoongCareRequestModelCountOrderByAggregateInput
+    _max?: ZipzoongCareRequestModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareRequestModelMinOrderByAggregateInput
   }
 
-  export type FocusCareRequestModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<FocusCareRequestModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<FocusCareRequestModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<FocusCareRequestModelScalarWhereWithAggregatesInput>
+  export type ZipzoongCareRequestModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -27889,14 +26785,14 @@ export namespace Prisma {
     care_start_date?: DateTimeWithAggregatesFilter | Date | string
     care_end_date?: DateTimeWithAggregatesFilter | Date | string
     detail?: StringWithAggregatesFilter | string
-    status?: EnumFocusCareStatusWithAggregatesFilter | FocusCareStatus
+    status?: EnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
     requester_id?: StringWithAggregatesFilter | string
   }
 
-  export type FocusCareServiceCheckModelWhereInput = {
-    AND?: Enumerable<FocusCareServiceCheckModelWhereInput>
-    OR?: Enumerable<FocusCareServiceCheckModelWhereInput>
-    NOT?: Enumerable<FocusCareServiceCheckModelWhereInput>
+  export type ZipzoongCareServiceCheckModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -27905,10 +26801,10 @@ export namespace Prisma {
     service_super_category_id?: StringFilter | string
     request_id?: StringFilter | string
     service_super_category?: XOR<ServiceSuperCategoryModelRelationFilter, ServiceSuperCategoryModelWhereInput>
-    request?: XOR<FocusCareRequestModelRelationFilter, FocusCareRequestModelWhereInput>
+    request?: XOR<ZipzoongCareRequestModelRelationFilter, ZipzoongCareRequestModelWhereInput>
   }
 
-  export type FocusCareServiceCheckModelOrderByWithRelationInput = {
+  export type ZipzoongCareServiceCheckModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27917,14 +26813,14 @@ export namespace Prisma {
     service_super_category_id?: SortOrder
     request_id?: SortOrder
     service_super_category?: ServiceSuperCategoryModelOrderByWithRelationInput
-    request?: FocusCareRequestModelOrderByWithRelationInput
+    request?: ZipzoongCareRequestModelOrderByWithRelationInput
   }
 
-  export type FocusCareServiceCheckModelWhereUniqueInput = {
+  export type ZipzoongCareServiceCheckModelWhereUniqueInput = {
     id?: string
   }
 
-  export type FocusCareServiceCheckModelOrderByWithAggregationInput = {
+  export type ZipzoongCareServiceCheckModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27932,15 +26828,15 @@ export namespace Prisma {
     deleted_at?: SortOrder
     service_super_category_id?: SortOrder
     request_id?: SortOrder
-    _count?: FocusCareServiceCheckModelCountOrderByAggregateInput
-    _max?: FocusCareServiceCheckModelMaxOrderByAggregateInput
-    _min?: FocusCareServiceCheckModelMinOrderByAggregateInput
+    _count?: ZipzoongCareServiceCheckModelCountOrderByAggregateInput
+    _max?: ZipzoongCareServiceCheckModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareServiceCheckModelMinOrderByAggregateInput
   }
 
-  export type FocusCareServiceCheckModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<FocusCareServiceCheckModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<FocusCareServiceCheckModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<FocusCareServiceCheckModelScalarWhereWithAggregatesInput>
+  export type ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -27950,60 +26846,62 @@ export namespace Prisma {
     request_id?: StringWithAggregatesFilter | string
   }
 
-  export type FocusCareConsultationTimeCheckModelWhereInput = {
-    AND?: Enumerable<FocusCareConsultationTimeCheckModelWhereInput>
-    OR?: Enumerable<FocusCareConsultationTimeCheckModelWhereInput>
-    NOT?: Enumerable<FocusCareConsultationTimeCheckModelWhereInput>
+  export type ZipzoongCareConsultationTimeCheckModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
     deleted_at?: DateTimeNullableFilter | Date | string | null
-    consultation_time_id?: StringFilter | string
+    start_time?: DateTimeFilter | Date | string
+    end_time?: DateTimeFilter | Date | string
     request_id?: StringFilter | string
-    consultation_time?: XOR<ConsultationTimeModelRelationFilter, ConsultationTimeModelWhereInput>
-    request?: XOR<FocusCareRequestModelRelationFilter, FocusCareRequestModelWhereInput>
+    request?: XOR<ZipzoongCareRequestModelRelationFilter, ZipzoongCareRequestModelWhereInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelOrderByWithRelationInput = {
+  export type ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    consultation_time_id?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
     request_id?: SortOrder
-    consultation_time?: ConsultationTimeModelOrderByWithRelationInput
-    request?: FocusCareRequestModelOrderByWithRelationInput
+    request?: ZipzoongCareRequestModelOrderByWithRelationInput
   }
 
-  export type FocusCareConsultationTimeCheckModelWhereUniqueInput = {
+  export type ZipzoongCareConsultationTimeCheckModelWhereUniqueInput = {
     id?: string
   }
 
-  export type FocusCareConsultationTimeCheckModelOrderByWithAggregationInput = {
+  export type ZipzoongCareConsultationTimeCheckModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    consultation_time_id?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
     request_id?: SortOrder
-    _count?: FocusCareConsultationTimeCheckModelCountOrderByAggregateInput
-    _max?: FocusCareConsultationTimeCheckModelMaxOrderByAggregateInput
-    _min?: FocusCareConsultationTimeCheckModelMinOrderByAggregateInput
+    _count?: ZipzoongCareConsultationTimeCheckModelCountOrderByAggregateInput
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareConsultationTimeCheckModelMinOrderByAggregateInput
   }
 
-  export type FocusCareConsultationTimeCheckModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+  export type ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    consultation_time_id?: StringWithAggregatesFilter | string
+    start_time?: DateTimeWithAggregatesFilter | Date | string
+    end_time?: DateTimeWithAggregatesFilter | Date | string
     request_id?: StringWithAggregatesFilter | string
   }
 
@@ -28080,7 +26978,7 @@ export namespace Prisma {
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     oauth_accounts?: OauthAccountModelListRelationFilter
     reviews?: ReviewModelListRelationFilter
-    focus_care_requests?: FocusCareRequestModelListRelationFilter
+    zipzoong_care_requests?: ZipzoongCareRequestModelListRelationFilter
   }
 
   export type CustomerModelOrderByWithRelationInput = {
@@ -28094,7 +26992,7 @@ export namespace Prisma {
     base?: UserModelOrderByWithRelationInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
     reviews?: ReviewModelOrderByRelationAggregateInput
-    focus_care_requests?: FocusCareRequestModelOrderByRelationAggregateInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelOrderByRelationAggregateInput
   }
 
   export type CustomerModelWhereUniqueInput = {
@@ -29298,80 +28196,6 @@ export namespace Prisma {
     agreement_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ConsultationTimeModelCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    start_time: Date | string
-    end_time: Date | string
-    focus_care_checks?: FocusCareConsultationTimeCheckModelCreateNestedManyWithoutConsultation_timeInput
-  }
-
-  export type ConsultationTimeModelUncheckedCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    start_time: Date | string
-    end_time: Date | string
-    focus_care_checks?: FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutConsultation_timeInput
-  }
-
-  export type ConsultationTimeModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    focus_care_checks?: FocusCareConsultationTimeCheckModelUpdateManyWithoutConsultation_timeNestedInput
-  }
-
-  export type ConsultationTimeModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    focus_care_checks?: FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_timeNestedInput
-  }
-
-  export type ConsultationTimeModelCreateManyInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    start_time: Date | string
-    end_time: Date | string
-  }
-
-  export type ConsultationTimeModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConsultationTimeModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ServiceSubCategoryModelCreateInput = {
     id: string
     created_at: Date | string
@@ -29454,7 +28278,7 @@ export namespace Prisma {
     name: string
     type: ServiceType
     sub_categories?: ServiceSubCategoryModelCreateNestedManyWithoutSuper_categoryInput
-    focus_care_checks?: FocusCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
   }
 
   export type ServiceSuperCategoryModelUncheckedCreateInput = {
@@ -29466,7 +28290,7 @@ export namespace Prisma {
     name: string
     type: ServiceType
     sub_categories?: ServiceSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput
-    focus_care_checks?: FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
   }
 
   export type ServiceSuperCategoryModelUpdateInput = {
@@ -29478,7 +28302,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
     sub_categories?: ServiceSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput
-    focus_care_checks?: FocusCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
   }
 
   export type ServiceSuperCategoryModelUncheckedUpdateInput = {
@@ -29490,7 +28314,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
     sub_categories?: ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
-    focus_care_checks?: FocusCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
   }
 
   export type ServiceSuperCategoryModelCreateManyInput = {
@@ -29523,7 +28347,7 @@ export namespace Prisma {
     type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
   }
 
-  export type FocusCareRequestModelCreateInput = {
+  export type ZipzoongCareRequestModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29532,13 +28356,13 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
-    requester: CustomerModelCreateNestedOneWithoutFocus_care_requestsInput
-    consultation_times?: FocusCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
-    services?: FocusCareServiceCheckModelCreateNestedManyWithoutRequestInput
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelUncheckedCreateInput = {
+  export type ZipzoongCareRequestModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29547,13 +28371,13 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
     requester_id: string
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
-    services?: FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelUpdateInput = {
+  export type ZipzoongCareRequestModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29562,13 +28386,13 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
-    requester?: CustomerModelUpdateOneRequiredWithoutFocus_care_requestsNestedInput
-    consultation_times?: FocusCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
-    services?: FocusCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelUncheckedUpdateInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29577,13 +28401,13 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
     requester_id?: StringFieldUpdateOperationsInput | string
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
-    services?: FocusCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelCreateManyInput = {
+  export type ZipzoongCareRequestModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29592,11 +28416,11 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
     requester_id: string
   }
 
-  export type FocusCareRequestModelUpdateManyMutationInput = {
+  export type ZipzoongCareRequestModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29605,10 +28429,10 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
   }
 
-  export type FocusCareRequestModelUncheckedUpdateManyInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29617,21 +28441,21 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
     requester_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareServiceCheckModelCreateInput = {
+  export type ZipzoongCareServiceCheckModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     service_super_category: ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput
-    request: FocusCareRequestModelCreateNestedOneWithoutServicesInput
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedCreateInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29641,17 +28465,17 @@ export namespace Prisma {
     request_id: string
   }
 
-  export type FocusCareServiceCheckModelUpdateInput = {
+  export type ZipzoongCareServiceCheckModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     service_super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
-    request?: FocusCareRequestModelUpdateOneRequiredWithoutServicesNestedInput
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29661,7 +28485,7 @@ export namespace Prisma {
     request_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareServiceCheckModelCreateManyInput = {
+  export type ZipzoongCareServiceCheckModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29671,7 +28495,7 @@ export namespace Prisma {
     request_id: string
   }
 
-  export type FocusCareServiceCheckModelUpdateManyMutationInput = {
+  export type ZipzoongCareServiceCheckModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29679,7 +28503,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateManyInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29689,71 +28513,79 @@ export namespace Prisma {
     request_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time: ConsultationTimeModelCreateNestedOneWithoutFocus_care_checksInput
-    request: FocusCareRequestModelCreateNestedOneWithoutConsultation_timesInput
+    start_time: Date | string
+    end_time: Date | string
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutConsultation_time_checksInput
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedCreateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time_id: string
+    start_time: Date | string
+    end_time: Date | string
     request_id: string
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time?: ConsultationTimeModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
-    request?: FocusCareRequestModelUpdateOneRequiredWithoutConsultation_timesNestedInput
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutConsultation_time_checksNestedInput
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time_id?: StringFieldUpdateOperationsInput | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
     request_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateManyInput = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time_id: string
+    start_time: Date | string
+    end_time: Date | string
     request_id: string
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateManyMutationInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateManyInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time_id?: StringFieldUpdateOperationsInput | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
     request_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -29849,7 +28681,7 @@ export namespace Prisma {
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateInput = {
@@ -29862,7 +28694,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUpdateInput = {
@@ -29875,7 +28707,7 @@ export namespace Prisma {
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateInput = {
@@ -29888,7 +28720,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelCreateManyInput = {
@@ -31060,46 +29892,6 @@ export namespace Prisma {
     agreement_id?: SortOrder
   }
 
-  export type FocusCareConsultationTimeCheckModelListRelationFilter = {
-    every?: FocusCareConsultationTimeCheckModelWhereInput
-    some?: FocusCareConsultationTimeCheckModelWhereInput
-    none?: FocusCareConsultationTimeCheckModelWhereInput
-  }
-
-  export type FocusCareConsultationTimeCheckModelOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ConsultationTimeModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    start_time?: SortOrder
-    end_time?: SortOrder
-  }
-
-  export type ConsultationTimeModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    start_time?: SortOrder
-    end_time?: SortOrder
-  }
-
-  export type ConsultationTimeModelMinOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    start_time?: SortOrder
-    end_time?: SortOrder
-  }
-
   export type ServiceSuperCategoryModelRelationFilter = {
     is?: ServiceSuperCategoryModelWhereInput
     isNot?: ServiceSuperCategoryModelWhereInput
@@ -31158,17 +29950,17 @@ export namespace Prisma {
     none?: ServiceSubCategoryModelWhereInput
   }
 
-  export type FocusCareServiceCheckModelListRelationFilter = {
-    every?: FocusCareServiceCheckModelWhereInput
-    some?: FocusCareServiceCheckModelWhereInput
-    none?: FocusCareServiceCheckModelWhereInput
+  export type ZipzoongCareServiceCheckModelListRelationFilter = {
+    every?: ZipzoongCareServiceCheckModelWhereInput
+    some?: ZipzoongCareServiceCheckModelWhereInput
+    none?: ZipzoongCareServiceCheckModelWhereInput
   }
 
   export type ServiceSubCategoryModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type FocusCareServiceCheckModelOrderByRelationAggregateInput = {
+  export type ZipzoongCareServiceCheckModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31212,14 +30004,24 @@ export namespace Prisma {
     _max?: NestedEnumServiceTypeFilter
   }
 
-  export type EnumFocusCareStatusFilter = {
-    equals?: FocusCareStatus
-    in?: Enumerable<FocusCareStatus>
-    notIn?: Enumerable<FocusCareStatus>
-    not?: NestedEnumFocusCareStatusFilter | FocusCareStatus
+  export type EnumZipzoongCareStatusFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusFilter | ZipzoongCareStatus
   }
 
-  export type FocusCareRequestModelCountOrderByAggregateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelListRelationFilter = {
+    every?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    some?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    none?: ZipzoongCareConsultationTimeCheckModelWhereInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ZipzoongCareRequestModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31232,7 +30034,7 @@ export namespace Prisma {
     requester_id?: SortOrder
   }
 
-  export type FocusCareRequestModelMaxOrderByAggregateInput = {
+  export type ZipzoongCareRequestModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31245,7 +30047,7 @@ export namespace Prisma {
     requester_id?: SortOrder
   }
 
-  export type FocusCareRequestModelMinOrderByAggregateInput = {
+  export type ZipzoongCareRequestModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31258,22 +30060,22 @@ export namespace Prisma {
     requester_id?: SortOrder
   }
 
-  export type EnumFocusCareStatusWithAggregatesFilter = {
-    equals?: FocusCareStatus
-    in?: Enumerable<FocusCareStatus>
-    notIn?: Enumerable<FocusCareStatus>
-    not?: NestedEnumFocusCareStatusWithAggregatesFilter | FocusCareStatus
+  export type EnumZipzoongCareStatusWithAggregatesFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
     _count?: NestedIntFilter
-    _min?: NestedEnumFocusCareStatusFilter
-    _max?: NestedEnumFocusCareStatusFilter
+    _min?: NestedEnumZipzoongCareStatusFilter
+    _max?: NestedEnumZipzoongCareStatusFilter
   }
 
-  export type FocusCareRequestModelRelationFilter = {
-    is?: FocusCareRequestModelWhereInput
-    isNot?: FocusCareRequestModelWhereInput
+  export type ZipzoongCareRequestModelRelationFilter = {
+    is?: ZipzoongCareRequestModelWhereInput
+    isNot?: ZipzoongCareRequestModelWhereInput
   }
 
-  export type FocusCareServiceCheckModelCountOrderByAggregateInput = {
+  export type ZipzoongCareServiceCheckModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31283,7 +30085,7 @@ export namespace Prisma {
     request_id?: SortOrder
   }
 
-  export type FocusCareServiceCheckModelMaxOrderByAggregateInput = {
+  export type ZipzoongCareServiceCheckModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31293,7 +30095,7 @@ export namespace Prisma {
     request_id?: SortOrder
   }
 
-  export type FocusCareServiceCheckModelMinOrderByAggregateInput = {
+  export type ZipzoongCareServiceCheckModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -31303,38 +30105,36 @@ export namespace Prisma {
     request_id?: SortOrder
   }
 
-  export type ConsultationTimeModelRelationFilter = {
-    is?: ConsultationTimeModelWhereInput
-    isNot?: ConsultationTimeModelWhereInput
-  }
-
-  export type FocusCareConsultationTimeCheckModelCountOrderByAggregateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    consultation_time_id?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
     request_id?: SortOrder
   }
 
-  export type FocusCareConsultationTimeCheckModelMaxOrderByAggregateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    consultation_time_id?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
     request_id?: SortOrder
   }
 
-  export type FocusCareConsultationTimeCheckModelMinOrderByAggregateInput = {
+  export type ZipzoongCareConsultationTimeCheckModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    consultation_time_id?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
     request_id?: SortOrder
   }
 
@@ -31420,10 +30220,10 @@ export namespace Prisma {
     none?: ReviewModelWhereInput
   }
 
-  export type FocusCareRequestModelListRelationFilter = {
-    every?: FocusCareRequestModelWhereInput
-    some?: FocusCareRequestModelWhereInput
-    none?: FocusCareRequestModelWhereInput
+  export type ZipzoongCareRequestModelListRelationFilter = {
+    every?: ZipzoongCareRequestModelWhereInput
+    some?: ZipzoongCareRequestModelWhereInput
+    none?: ZipzoongCareRequestModelWhereInput
   }
 
   export type OauthAccountModelOrderByRelationAggregateInput = {
@@ -31434,7 +30234,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type FocusCareRequestModelOrderByRelationAggregateInput = {
+  export type ZipzoongCareRequestModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32245,48 +31045,6 @@ export namespace Prisma {
     update?: XOR<AgreementModelUpdateWithoutAcceptancesInput, AgreementModelUncheckedUpdateWithoutAcceptancesInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateNestedManyWithoutConsultation_timeInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutConsultation_timeInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInputEnvelope
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutConsultation_timeInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutConsultation_timeInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInputEnvelope
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelUpdateManyWithoutConsultation_timeNestedInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutConsultation_timeInput>
-    upsert?: Enumerable<FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutConsultation_timeInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInputEnvelope
-    set?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutConsultation_timeInput>
-    updateMany?: Enumerable<FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutConsultation_timeInput>
-    deleteMany?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_timeNestedInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutConsultation_timeInput>
-    upsert?: Enumerable<FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutConsultation_timeInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInputEnvelope
-    set?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutConsultation_timeInput>
-    updateMany?: Enumerable<FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutConsultation_timeInput>
-    deleteMany?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
-  }
-
   export type ServiceSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput = {
     create?: XOR<ServiceSuperCategoryModelCreateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
     connectOrCreate?: ServiceSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
@@ -32350,11 +31108,11 @@ export namespace Prisma {
     connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
   }
 
-  export type FocusCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
-    createMany?: FocusCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
+  export type ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
   export type ServiceSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput = {
@@ -32364,11 +31122,11 @@ export namespace Prisma {
     connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
   }
 
-  export type FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
-    createMany?: FocusCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
+  export type ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
   export type EnumServiceTypeFieldUpdateOperationsInput = {
@@ -32389,18 +31147,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
   }
 
-  export type FocusCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
-    upsert?: Enumerable<FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
-    createMany?: FocusCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
-    set?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
-    updateMany?: Enumerable<FocusCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
-    deleteMany?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
   }
 
   export type ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput = {
@@ -32417,120 +31175,120 @@ export namespace Prisma {
     deleteMany?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
-    upsert?: Enumerable<FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
-    createMany?: FocusCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
-    set?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
-    updateMany?: Enumerable<FocusCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
-    deleteMany?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
   }
 
-  export type CustomerModelCreateNestedOneWithoutFocus_care_requestsInput = {
-    create?: XOR<CustomerModelCreateWithoutFocus_care_requestsInput, CustomerModelUncheckedCreateWithoutFocus_care_requestsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutFocus_care_requestsInput
+  export type CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput = {
+    create?: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput
     connect?: CustomerModelWhereUniqueInput
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
+  export type ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
   }
 
-  export type FocusCareServiceCheckModelCreateNestedManyWithoutRequestInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutRequestInput>
-    createMany?: FocusCareServiceCheckModelCreateManyRequestInputEnvelope
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
+  export type ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
   }
 
-  export type FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutRequestInput>
-    createMany?: FocusCareServiceCheckModelCreateManyRequestInputEnvelope
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
+  export type ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
-  export type EnumFocusCareStatusFieldUpdateOperationsInput = {
-    set?: FocusCareStatus
+  export type EnumZipzoongCareStatusFieldUpdateOperationsInput = {
+    set?: ZipzoongCareStatus
   }
 
-  export type CustomerModelUpdateOneRequiredWithoutFocus_care_requestsNestedInput = {
-    create?: XOR<CustomerModelCreateWithoutFocus_care_requestsInput, CustomerModelUncheckedCreateWithoutFocus_care_requestsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutFocus_care_requestsInput
-    upsert?: CustomerModelUpsertWithoutFocus_care_requestsInput
+  export type CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput = {
+    create?: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput
+    upsert?: CustomerModelUpsertWithoutZipzoong_care_requestsInput
     connect?: CustomerModelWhereUniqueInput
-    update?: XOR<CustomerModelUpdateWithoutFocus_care_requestsInput, CustomerModelUncheckedUpdateWithoutFocus_care_requestsInput>
+    update?: XOR<CustomerModelUpdateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
-    upsert?: Enumerable<FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
-    set?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
-    updateMany?: Enumerable<FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
-    deleteMany?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
   }
 
-  export type FocusCareServiceCheckModelUpdateManyWithoutRequestNestedInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutRequestInput>
-    upsert?: Enumerable<FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
-    createMany?: FocusCareServiceCheckModelCreateManyRequestInputEnvelope
-    set?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
-    updateMany?: Enumerable<FocusCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
-    deleteMany?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
-    create?: XOR<Enumerable<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
-    upsert?: Enumerable<FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
-    createMany?: FocusCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
-    set?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareConsultationTimeCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
-    updateMany?: Enumerable<FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
-    deleteMany?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
-    create?: XOR<Enumerable<FocusCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
-    connectOrCreate?: Enumerable<FocusCareServiceCheckModelCreateOrConnectWithoutRequestInput>
-    upsert?: Enumerable<FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
-    createMany?: FocusCareServiceCheckModelCreateManyRequestInputEnvelope
-    set?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareServiceCheckModelWhereUniqueInput>
-    update?: Enumerable<FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
-    updateMany?: Enumerable<FocusCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
-    deleteMany?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
   }
 
   export type ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput = {
@@ -32539,10 +31297,10 @@ export namespace Prisma {
     connect?: ServiceSuperCategoryModelWhereUniqueInput
   }
 
-  export type FocusCareRequestModelCreateNestedOneWithoutServicesInput = {
-    create?: XOR<FocusCareRequestModelCreateWithoutServicesInput, FocusCareRequestModelUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: FocusCareRequestModelCreateOrConnectWithoutServicesInput
-    connect?: FocusCareRequestModelWhereUniqueInput
+  export type ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
   }
 
   export type ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput = {
@@ -32553,40 +31311,26 @@ export namespace Prisma {
     update?: XOR<ServiceSuperCategoryModelUpdateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedUpdateWithoutFocus_care_checksInput>
   }
 
-  export type FocusCareRequestModelUpdateOneRequiredWithoutServicesNestedInput = {
-    create?: XOR<FocusCareRequestModelCreateWithoutServicesInput, FocusCareRequestModelUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: FocusCareRequestModelCreateOrConnectWithoutServicesInput
-    upsert?: FocusCareRequestModelUpsertWithoutServicesInput
-    connect?: FocusCareRequestModelWhereUniqueInput
-    update?: XOR<FocusCareRequestModelUpdateWithoutServicesInput, FocusCareRequestModelUncheckedUpdateWithoutServicesInput>
+  export type ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput
+    upsert?: ZipzoongCareRequestModelUpsertWithoutService_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+    update?: XOR<ZipzoongCareRequestModelUpdateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput>
   }
 
-  export type ConsultationTimeModelCreateNestedOneWithoutFocus_care_checksInput = {
-    create?: XOR<ConsultationTimeModelCreateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedCreateWithoutFocus_care_checksInput>
-    connectOrCreate?: ConsultationTimeModelCreateOrConnectWithoutFocus_care_checksInput
-    connect?: ConsultationTimeModelWhereUniqueInput
+  export type ZipzoongCareRequestModelCreateNestedOneWithoutConsultation_time_checksInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
   }
 
-  export type FocusCareRequestModelCreateNestedOneWithoutConsultation_timesInput = {
-    create?: XOR<FocusCareRequestModelCreateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedCreateWithoutConsultation_timesInput>
-    connectOrCreate?: FocusCareRequestModelCreateOrConnectWithoutConsultation_timesInput
-    connect?: FocusCareRequestModelWhereUniqueInput
-  }
-
-  export type ConsultationTimeModelUpdateOneRequiredWithoutFocus_care_checksNestedInput = {
-    create?: XOR<ConsultationTimeModelCreateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedCreateWithoutFocus_care_checksInput>
-    connectOrCreate?: ConsultationTimeModelCreateOrConnectWithoutFocus_care_checksInput
-    upsert?: ConsultationTimeModelUpsertWithoutFocus_care_checksInput
-    connect?: ConsultationTimeModelWhereUniqueInput
-    update?: XOR<ConsultationTimeModelUpdateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedUpdateWithoutFocus_care_checksInput>
-  }
-
-  export type FocusCareRequestModelUpdateOneRequiredWithoutConsultation_timesNestedInput = {
-    create?: XOR<FocusCareRequestModelCreateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedCreateWithoutConsultation_timesInput>
-    connectOrCreate?: FocusCareRequestModelCreateOrConnectWithoutConsultation_timesInput
-    upsert?: FocusCareRequestModelUpsertWithoutConsultation_timesInput
-    connect?: FocusCareRequestModelWhereUniqueInput
-    update?: XOR<FocusCareRequestModelUpdateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedUpdateWithoutConsultation_timesInput>
+  export type ZipzoongCareRequestModelUpdateOneRequiredWithoutConsultation_time_checksNestedInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput
+    upsert?: ZipzoongCareRequestModelUpsertWithoutConsultation_time_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+    update?: XOR<ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput>
   }
 
   export type CustomerModelCreateNestedOneWithoutBaseInput = {
@@ -32719,11 +31463,11 @@ export namespace Prisma {
     connect?: Enumerable<ReviewModelWhereUniqueInput>
   }
 
-  export type FocusCareRequestModelCreateNestedManyWithoutRequesterInput = {
-    create?: XOR<Enumerable<FocusCareRequestModelCreateWithoutRequesterInput>, Enumerable<FocusCareRequestModelUncheckedCreateWithoutRequesterInput>>
-    connectOrCreate?: Enumerable<FocusCareRequestModelCreateOrConnectWithoutRequesterInput>
-    createMany?: FocusCareRequestModelCreateManyRequesterInputEnvelope
-    connect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
+  export type ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
   }
 
   export type OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput = {
@@ -32740,11 +31484,11 @@ export namespace Prisma {
     connect?: Enumerable<ReviewModelWhereUniqueInput>
   }
 
-  export type FocusCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput = {
-    create?: XOR<Enumerable<FocusCareRequestModelCreateWithoutRequesterInput>, Enumerable<FocusCareRequestModelUncheckedCreateWithoutRequesterInput>>
-    connectOrCreate?: Enumerable<FocusCareRequestModelCreateOrConnectWithoutRequesterInput>
-    createMany?: FocusCareRequestModelCreateManyRequesterInputEnvelope
-    connect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
+  export type ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
   }
 
   export type NullableEnumGenderTypeFieldUpdateOperationsInput = {
@@ -32787,18 +31531,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
-  export type FocusCareRequestModelUpdateManyWithoutRequesterNestedInput = {
-    create?: XOR<Enumerable<FocusCareRequestModelCreateWithoutRequesterInput>, Enumerable<FocusCareRequestModelUncheckedCreateWithoutRequesterInput>>
-    connectOrCreate?: Enumerable<FocusCareRequestModelCreateOrConnectWithoutRequesterInput>
-    upsert?: Enumerable<FocusCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
-    createMany?: FocusCareRequestModelCreateManyRequesterInputEnvelope
-    set?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    update?: Enumerable<FocusCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
-    updateMany?: Enumerable<FocusCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
-    deleteMany?: Enumerable<FocusCareRequestModelScalarWhereInput>
+  export type ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    upsert?: Enumerable<ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    set?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
+    updateMany?: Enumerable<ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
+    deleteMany?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
   }
 
   export type OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput = {
@@ -32829,18 +31573,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
-  export type FocusCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput = {
-    create?: XOR<Enumerable<FocusCareRequestModelCreateWithoutRequesterInput>, Enumerable<FocusCareRequestModelUncheckedCreateWithoutRequesterInput>>
-    connectOrCreate?: Enumerable<FocusCareRequestModelCreateOrConnectWithoutRequesterInput>
-    upsert?: Enumerable<FocusCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
-    createMany?: FocusCareRequestModelCreateManyRequesterInputEnvelope
-    set?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    disconnect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    delete?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    connect?: Enumerable<FocusCareRequestModelWhereUniqueInput>
-    update?: Enumerable<FocusCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
-    updateMany?: Enumerable<FocusCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
-    deleteMany?: Enumerable<FocusCareRequestModelScalarWhereInput>
+  export type ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    upsert?: Enumerable<ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    set?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
+    updateMany?: Enumerable<ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
+    deleteMany?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
   }
 
   export type UserModelCreateNestedOneWithoutBusiness_userInput = {
@@ -33487,21 +32231,21 @@ export namespace Prisma {
     _max?: NestedEnumServiceTypeFilter
   }
 
-  export type NestedEnumFocusCareStatusFilter = {
-    equals?: FocusCareStatus
-    in?: Enumerable<FocusCareStatus>
-    notIn?: Enumerable<FocusCareStatus>
-    not?: NestedEnumFocusCareStatusFilter | FocusCareStatus
+  export type NestedEnumZipzoongCareStatusFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusFilter | ZipzoongCareStatus
   }
 
-  export type NestedEnumFocusCareStatusWithAggregatesFilter = {
-    equals?: FocusCareStatus
-    in?: Enumerable<FocusCareStatus>
-    notIn?: Enumerable<FocusCareStatus>
-    not?: NestedEnumFocusCareStatusWithAggregatesFilter | FocusCareStatus
+  export type NestedEnumZipzoongCareStatusWithAggregatesFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
     _count?: NestedIntFilter
-    _min?: NestedEnumFocusCareStatusFilter
-    _max?: NestedEnumFocusCareStatusFilter
+    _min?: NestedEnumZipzoongCareStatusFilter
+    _max?: NestedEnumZipzoongCareStatusFilter
   }
 
   export type NestedStringNullableFilter = {
@@ -34043,7 +32787,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
-    focus_care_requests?: FocusCareRequestModelCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutReviewsInput = {
@@ -34055,7 +32799,7 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
-    focus_care_requests?: FocusCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutReviewsInput = {
@@ -34144,7 +32888,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
-    focus_care_requests?: FocusCareRequestModelUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutReviewsInput = {
@@ -34156,7 +32900,7 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
-    focus_care_requests?: FocusCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type BusinessUserModelUpsertWithoutReviewsInput = {
@@ -34549,63 +33293,6 @@ export namespace Prisma {
     target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    request: FocusCareRequestModelCreateNestedOneWithoutConsultation_timesInput
-  }
-
-  export type FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    request_id: string
-  }
-
-  export type FocusCareConsultationTimeCheckModelCreateOrConnectWithoutConsultation_timeInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    create: XOR<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput, FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInputEnvelope = {
-    data: Enumerable<FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInput>
-    skipDuplicates?: boolean
-  }
-
-  export type FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutConsultation_timeInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    update: XOR<FocusCareConsultationTimeCheckModelUpdateWithoutConsultation_timeInput, FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutConsultation_timeInput>
-    create: XOR<FocusCareConsultationTimeCheckModelCreateWithoutConsultation_timeInput, FocusCareConsultationTimeCheckModelUncheckedCreateWithoutConsultation_timeInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutConsultation_timeInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateWithoutConsultation_timeInput, FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutConsultation_timeInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutConsultation_timeInput = {
-    where: FocusCareConsultationTimeCheckModelScalarWhereInput
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateManyMutationInput, FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput>
-  }
-
-  export type FocusCareConsultationTimeCheckModelScalarWhereInput = {
-    AND?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
-    OR?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
-    NOT?: Enumerable<FocusCareConsultationTimeCheckModelScalarWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    consultation_time_id?: StringFilter | string
-    request_id?: StringFilter | string
-  }
-
   export type ServiceSuperCategoryModelCreateWithoutSub_categoriesInput = {
     id: string
     created_at: Date | string
@@ -34614,7 +33301,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     type: ServiceType
-    focus_care_checks?: FocusCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
   }
 
   export type ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput = {
@@ -34625,7 +33312,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     type: ServiceType
-    focus_care_checks?: FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
   }
 
   export type ServiceSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput = {
@@ -34674,7 +33361,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
-    focus_care_checks?: FocusCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
   }
 
   export type ServiceSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput = {
@@ -34685,7 +33372,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
-    focus_care_checks?: FocusCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
   }
 
   export type SubExpertiseModelUpsertWithWhereUniqueWithoutSub_categoryInput = {
@@ -34747,16 +33434,16 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type FocusCareServiceCheckModelCreateWithoutService_super_categoryInput = {
+  export type ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    request: FocusCareRequestModelCreateNestedOneWithoutServicesInput
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34765,13 +33452,13 @@ export namespace Prisma {
     request_id: string
   }
 
-  export type FocusCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    create: XOR<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput, FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
+  export type ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
   }
 
-  export type FocusCareServiceCheckModelCreateManyService_super_categoryInputEnvelope = {
-    data: Enumerable<FocusCareServiceCheckModelCreateManyService_super_categoryInput>
+  export type ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope = {
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyService_super_categoryInput>
     skipDuplicates?: boolean
   }
 
@@ -34804,26 +33491,26 @@ export namespace Prisma {
     super_category_id?: StringFilter | string
   }
 
-  export type FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    update: XOR<FocusCareServiceCheckModelUpdateWithoutService_super_categoryInput, FocusCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
-    create: XOR<FocusCareServiceCheckModelCreateWithoutService_super_categoryInput, FocusCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
+  export type ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
   }
 
-  export type FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    data: XOR<FocusCareServiceCheckModelUpdateWithoutService_super_categoryInput, FocusCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
+  export type ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
   }
 
-  export type FocusCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput = {
-    where: FocusCareServiceCheckModelScalarWhereInput
-    data: XOR<FocusCareServiceCheckModelUpdateManyMutationInput, FocusCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput>
+  export type ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput>
   }
 
-  export type FocusCareServiceCheckModelScalarWhereInput = {
-    AND?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
-    OR?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
-    NOT?: Enumerable<FocusCareServiceCheckModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -34833,7 +33520,7 @@ export namespace Prisma {
     request_id?: StringFilter | string
   }
 
-  export type CustomerModelCreateWithoutFocus_care_requestsInput = {
+  export type CustomerModelCreateWithoutZipzoong_care_requestsInput = {
     birth?: string | null
     gender?: GenderType | null
     phone?: string | null
@@ -34845,7 +33532,7 @@ export namespace Prisma {
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
   }
 
-  export type CustomerModelUncheckedCreateWithoutFocus_care_requestsInput = {
+  export type CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput = {
     id: string
     birth?: string | null
     gender?: GenderType | null
@@ -34857,40 +33544,42 @@ export namespace Prisma {
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
   }
 
-  export type CustomerModelCreateOrConnectWithoutFocus_care_requestsInput = {
+  export type CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput = {
     where: CustomerModelWhereUniqueInput
-    create: XOR<CustomerModelCreateWithoutFocus_care_requestsInput, CustomerModelUncheckedCreateWithoutFocus_care_requestsInput>
+    create: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateWithoutRequestInput = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time: ConsultationTimeModelCreateNestedOneWithoutFocus_care_checksInput
+    start_time: Date | string
+    end_time: Date | string
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time_id: string
+    start_time: Date | string
+    end_time: Date | string
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    create: XOR<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput, FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
+  export type ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateManyRequestInputEnvelope = {
-    data: Enumerable<FocusCareConsultationTimeCheckModelCreateManyRequestInput>
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope = {
+    data: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateManyRequestInput>
     skipDuplicates?: boolean
   }
 
-  export type FocusCareServiceCheckModelCreateWithoutRequestInput = {
+  export type ZipzoongCareServiceCheckModelCreateWithoutRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34899,7 +33588,7 @@ export namespace Prisma {
     service_super_category: ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34908,22 +33597,22 @@ export namespace Prisma {
     service_super_category_id: string
   }
 
-  export type FocusCareServiceCheckModelCreateOrConnectWithoutRequestInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    create: XOR<FocusCareServiceCheckModelCreateWithoutRequestInput, FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>
+  export type ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>
   }
 
-  export type FocusCareServiceCheckModelCreateManyRequestInputEnvelope = {
-    data: Enumerable<FocusCareServiceCheckModelCreateManyRequestInput>
+  export type ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope = {
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyRequestInput>
     skipDuplicates?: boolean
   }
 
-  export type CustomerModelUpsertWithoutFocus_care_requestsInput = {
-    update: XOR<CustomerModelUpdateWithoutFocus_care_requestsInput, CustomerModelUncheckedUpdateWithoutFocus_care_requestsInput>
-    create: XOR<CustomerModelCreateWithoutFocus_care_requestsInput, CustomerModelUncheckedCreateWithoutFocus_care_requestsInput>
+  export type CustomerModelUpsertWithoutZipzoong_care_requestsInput = {
+    update: XOR<CustomerModelUpdateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput>
+    create: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
   }
 
-  export type CustomerModelUpdateWithoutFocus_care_requestsInput = {
+  export type CustomerModelUpdateWithoutZipzoong_care_requestsInput = {
     birth?: NullableStringFieldUpdateOperationsInput | string | null
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34935,7 +33624,7 @@ export namespace Prisma {
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
   }
 
-  export type CustomerModelUncheckedUpdateWithoutFocus_care_requestsInput = {
+  export type CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     birth?: NullableStringFieldUpdateOperationsInput | string | null
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
@@ -34947,36 +33636,50 @@ export namespace Prisma {
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
   }
 
-  export type FocusCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    update: XOR<FocusCareConsultationTimeCheckModelUpdateWithoutRequestInput, FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
-    create: XOR<FocusCareConsultationTimeCheckModelCreateWithoutRequestInput, FocusCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
+  export type ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
-    where: FocusCareConsultationTimeCheckModelWhereUniqueInput
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateWithoutRequestInput, FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
+  export type ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput = {
-    where: FocusCareConsultationTimeCheckModelScalarWhereInput
-    data: XOR<FocusCareConsultationTimeCheckModelUpdateManyMutationInput, FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_timesInput>
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_time_checksInput>
   }
 
-  export type FocusCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    update: XOR<FocusCareServiceCheckModelUpdateWithoutRequestInput, FocusCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
-    create: XOR<FocusCareServiceCheckModelCreateWithoutRequestInput, FocusCareServiceCheckModelUncheckedCreateWithoutRequestInput>
+  export type ZipzoongCareConsultationTimeCheckModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    start_time?: DateTimeFilter | Date | string
+    end_time?: DateTimeFilter | Date | string
+    request_id?: StringFilter | string
   }
 
-  export type FocusCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
-    where: FocusCareServiceCheckModelWhereUniqueInput
-    data: XOR<FocusCareServiceCheckModelUpdateWithoutRequestInput, FocusCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
+  export type ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareServiceCheckModelUpdateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>
   }
 
-  export type FocusCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput = {
-    where: FocusCareServiceCheckModelScalarWhereInput
-    data: XOR<FocusCareServiceCheckModelUpdateManyMutationInput, FocusCareServiceCheckModelUncheckedUpdateManyWithoutServicesInput>
+  export type ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_checksInput>
   }
 
   export type ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput = {
@@ -35006,7 +33709,7 @@ export namespace Prisma {
     create: XOR<ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput>
   }
 
-  export type FocusCareRequestModelCreateWithoutServicesInput = {
+  export type ZipzoongCareRequestModelCreateWithoutService_checksInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35015,12 +33718,12 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
-    requester: CustomerModelCreateNestedOneWithoutFocus_care_requestsInput
-    consultation_times?: FocusCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelUncheckedCreateWithoutServicesInput = {
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35029,14 +33732,14 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
     requester_id: string
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelCreateOrConnectWithoutServicesInput = {
-    where: FocusCareRequestModelWhereUniqueInput
-    create: XOR<FocusCareRequestModelCreateWithoutServicesInput, FocusCareRequestModelUncheckedCreateWithoutServicesInput>
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
   }
 
   export type ServiceSuperCategoryModelUpsertWithoutFocus_care_checksInput = {
@@ -35066,12 +33769,12 @@ export namespace Prisma {
     sub_categories?: ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
   }
 
-  export type FocusCareRequestModelUpsertWithoutServicesInput = {
-    update: XOR<FocusCareRequestModelUpdateWithoutServicesInput, FocusCareRequestModelUncheckedUpdateWithoutServicesInput>
-    create: XOR<FocusCareRequestModelCreateWithoutServicesInput, FocusCareRequestModelUncheckedCreateWithoutServicesInput>
+  export type ZipzoongCareRequestModelUpsertWithoutService_checksInput = {
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
   }
 
-  export type FocusCareRequestModelUpdateWithoutServicesInput = {
+  export type ZipzoongCareRequestModelUpdateWithoutService_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35080,12 +33783,12 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
-    requester?: CustomerModelUpdateOneRequiredWithoutFocus_care_requestsNestedInput
-    consultation_times?: FocusCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelUncheckedUpdateWithoutServicesInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35094,37 +33797,12 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
     requester_id?: StringFieldUpdateOperationsInput | string
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
   }
 
-  export type ConsultationTimeModelCreateWithoutFocus_care_checksInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    start_time: Date | string
-    end_time: Date | string
-  }
-
-  export type ConsultationTimeModelUncheckedCreateWithoutFocus_care_checksInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    start_time: Date | string
-    end_time: Date | string
-  }
-
-  export type ConsultationTimeModelCreateOrConnectWithoutFocus_care_checksInput = {
-    where: ConsultationTimeModelWhereUniqueInput
-    create: XOR<ConsultationTimeModelCreateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedCreateWithoutFocus_care_checksInput>
-  }
-
-  export type FocusCareRequestModelCreateWithoutConsultation_timesInput = {
+  export type ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35133,12 +33811,12 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
-    requester: CustomerModelCreateNestedOneWithoutFocus_care_requestsInput
-    services?: FocusCareServiceCheckModelCreateNestedManyWithoutRequestInput
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelUncheckedCreateWithoutConsultation_timesInput = {
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35147,47 +33825,22 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
     requester_id: string
-    services?: FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelCreateOrConnectWithoutConsultation_timesInput = {
-    where: FocusCareRequestModelWhereUniqueInput
-    create: XOR<FocusCareRequestModelCreateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedCreateWithoutConsultation_timesInput>
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
   }
 
-  export type ConsultationTimeModelUpsertWithoutFocus_care_checksInput = {
-    update: XOR<ConsultationTimeModelUpdateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedUpdateWithoutFocus_care_checksInput>
-    create: XOR<ConsultationTimeModelCreateWithoutFocus_care_checksInput, ConsultationTimeModelUncheckedCreateWithoutFocus_care_checksInput>
+  export type ZipzoongCareRequestModelUpsertWithoutConsultation_time_checksInput = {
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
   }
 
-  export type ConsultationTimeModelUpdateWithoutFocus_care_checksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConsultationTimeModelUncheckedUpdateWithoutFocus_care_checksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FocusCareRequestModelUpsertWithoutConsultation_timesInput = {
-    update: XOR<FocusCareRequestModelUpdateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedUpdateWithoutConsultation_timesInput>
-    create: XOR<FocusCareRequestModelCreateWithoutConsultation_timesInput, FocusCareRequestModelUncheckedCreateWithoutConsultation_timesInput>
-  }
-
-  export type FocusCareRequestModelUpdateWithoutConsultation_timesInput = {
+  export type ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35196,12 +33849,12 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
-    requester?: CustomerModelUpdateOneRequiredWithoutFocus_care_requestsNestedInput
-    services?: FocusCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelUncheckedUpdateWithoutConsultation_timesInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35210,9 +33863,9 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
     requester_id?: StringFieldUpdateOperationsInput | string
-    services?: FocusCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
   }
 
   export type CustomerModelCreateWithoutBaseInput = {
@@ -35224,7 +33877,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutBaseInput = {
@@ -35236,7 +33889,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutBaseInput = {
@@ -35323,7 +33976,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutBaseInput = {
@@ -35335,7 +33988,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type BusinessUserModelUpsertWithoutBaseInput = {
@@ -35500,7 +34153,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type FocusCareRequestModelCreateWithoutRequesterInput = {
+  export type ZipzoongCareRequestModelCreateWithoutRequesterInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35509,12 +34162,12 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
-    consultation_times?: FocusCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
-    services?: FocusCareServiceCheckModelCreateNestedManyWithoutRequestInput
+    status: ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelUncheckedCreateWithoutRequesterInput = {
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -35523,18 +34176,18 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
-    services?: FocusCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    status: ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
   }
 
-  export type FocusCareRequestModelCreateOrConnectWithoutRequesterInput = {
-    where: FocusCareRequestModelWhereUniqueInput
-    create: XOR<FocusCareRequestModelCreateWithoutRequesterInput, FocusCareRequestModelUncheckedCreateWithoutRequesterInput>
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>
   }
 
-  export type FocusCareRequestModelCreateManyRequesterInputEnvelope = {
-    data: Enumerable<FocusCareRequestModelCreateManyRequesterInput>
+  export type ZipzoongCareRequestModelCreateManyRequesterInputEnvelope = {
+    data: Enumerable<ZipzoongCareRequestModelCreateManyRequesterInput>
     skipDuplicates?: boolean
   }
 
@@ -35636,26 +34289,26 @@ export namespace Prisma {
     content?: StringFilter | string
   }
 
-  export type FocusCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput = {
-    where: FocusCareRequestModelWhereUniqueInput
-    update: XOR<FocusCareRequestModelUpdateWithoutRequesterInput, FocusCareRequestModelUncheckedUpdateWithoutRequesterInput>
-    create: XOR<FocusCareRequestModelCreateWithoutRequesterInput, FocusCareRequestModelUncheckedCreateWithoutRequesterInput>
+  export type ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>
   }
 
-  export type FocusCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput = {
-    where: FocusCareRequestModelWhereUniqueInput
-    data: XOR<FocusCareRequestModelUpdateWithoutRequesterInput, FocusCareRequestModelUncheckedUpdateWithoutRequesterInput>
+  export type ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    data: XOR<ZipzoongCareRequestModelUpdateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput>
   }
 
-  export type FocusCareRequestModelUpdateManyWithWhereWithoutRequesterInput = {
-    where: FocusCareRequestModelScalarWhereInput
-    data: XOR<FocusCareRequestModelUpdateManyMutationInput, FocusCareRequestModelUncheckedUpdateManyWithoutFocus_care_requestsInput>
+  export type ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelScalarWhereInput
+    data: XOR<ZipzoongCareRequestModelUpdateManyMutationInput, ZipzoongCareRequestModelUncheckedUpdateManyWithoutZipzoong_care_requestsInput>
   }
 
-  export type FocusCareRequestModelScalarWhereInput = {
-    AND?: Enumerable<FocusCareRequestModelScalarWhereInput>
-    OR?: Enumerable<FocusCareRequestModelScalarWhereInput>
-    NOT?: Enumerable<FocusCareRequestModelScalarWhereInput>
+  export type ZipzoongCareRequestModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -35664,7 +34317,7 @@ export namespace Prisma {
     care_start_date?: DateTimeFilter | Date | string
     care_end_date?: DateTimeFilter | Date | string
     detail?: StringFilter | string
-    status?: EnumFocusCareStatusFilter | FocusCareStatus
+    status?: EnumZipzoongCareStatusFilter | ZipzoongCareStatus
     requester_id?: StringFilter | string
   }
 
@@ -36556,7 +35209,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutOauth_accountsInput = {
@@ -36568,7 +35221,7 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
-    focus_care_requests?: FocusCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutOauth_accountsInput = {
@@ -36627,7 +35280,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutOauth_accountsInput = {
@@ -36639,7 +35292,7 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
-    focus_care_requests?: FocusCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type REPropertyCategoryModelCreateManyRe_propertyInput = {
@@ -36896,42 +35549,6 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateManyConsultation_timeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    request_id: string
-  }
-
-  export type FocusCareConsultationTimeCheckModelUpdateWithoutConsultation_timeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    request?: FocusCareRequestModelUpdateOneRequiredWithoutConsultation_timesNestedInput
-  }
-
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutConsultation_timeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    request_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    request_id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type SubExpertiseModelCreateManySub_categoryInput = {
     id: string
     created_at: Date | string
@@ -36977,7 +35594,7 @@ export namespace Prisma {
     name: string
   }
 
-  export type FocusCareServiceCheckModelCreateManyService_super_categoryInput = {
+  export type ZipzoongCareServiceCheckModelCreateManyService_super_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -37015,25 +35632,16 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareServiceCheckModelUpdateWithoutService_super_categoryInput = {
+  export type ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    request?: FocusCareRequestModelUpdateOneRequiredWithoutServicesNestedInput
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    request_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type FocusCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37042,16 +35650,26 @@ export namespace Prisma {
     request_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareConsultationTimeCheckModelCreateManyRequestInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    consultation_time_id: string
+    start_time: Date | string
+    end_time: Date | string
   }
 
-  export type FocusCareServiceCheckModelCreateManyRequestInput = {
+  export type ZipzoongCareServiceCheckModelCreateManyRequestInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -37060,34 +35678,37 @@ export namespace Prisma {
     service_super_category_id: string
   }
 
-  export type FocusCareConsultationTimeCheckModelUpdateWithoutRequestInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time?: ConsultationTimeModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time_id?: StringFieldUpdateOperationsInput | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_timesInput = {
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_time_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    consultation_time_id?: StringFieldUpdateOperationsInput | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FocusCareServiceCheckModelUpdateWithoutRequestInput = {
+  export type ZipzoongCareServiceCheckModelUpdateWithoutRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37096,7 +35717,7 @@ export namespace Prisma {
     service_super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateWithoutRequestInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37105,7 +35726,7 @@ export namespace Prisma {
     service_super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareServiceCheckModelUncheckedUpdateManyWithoutServicesInput = {
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_checksInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37179,7 +35800,7 @@ export namespace Prisma {
     content: string
   }
 
-  export type FocusCareRequestModelCreateManyRequesterInput = {
+  export type ZipzoongCareRequestModelCreateManyRequesterInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -37188,7 +35809,7 @@ export namespace Prisma {
     care_start_date: Date | string
     care_end_date: Date | string
     detail: string
-    status: FocusCareStatus
+    status: ZipzoongCareStatus
   }
 
   export type OauthAccountModelUpdateWithoutCustomerInput = {
@@ -37280,7 +35901,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FocusCareRequestModelUpdateWithoutRequesterInput = {
+  export type ZipzoongCareRequestModelUpdateWithoutRequesterInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37289,12 +35910,12 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
-    consultation_times?: FocusCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
-    services?: FocusCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelUncheckedUpdateWithoutRequesterInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37303,12 +35924,12 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
-    consultation_times?: FocusCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
-    services?: FocusCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
   }
 
-  export type FocusCareRequestModelUncheckedUpdateManyWithoutFocus_care_requestsInput = {
+  export type ZipzoongCareRequestModelUncheckedUpdateManyWithoutZipzoong_care_requestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37317,7 +35938,7 @@ export namespace Prisma {
     care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     detail?: StringFieldUpdateOperationsInput | string
-    status?: EnumFocusCareStatusFieldUpdateOperationsInput | FocusCareStatus
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
   }
 
   export type BusinessCertificationImageModelCreateManyBusiness_userInput = {

@@ -1,7 +1,7 @@
 import { IServiceCategory } from "@DTO/category/service";
 import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
-import ExpertCategory from "@PROVIDER/service_category";
+import ServiceCategory from "@PROVIDER/service_category";
 
 @Controller("service-categories/super")
 export class ServiceCategoriesController {
@@ -15,7 +15,7 @@ export class ServiceCategoriesController {
   getList(
     @TypedQuery() query: IServiceCategory.ISearch
   ): Promise<IServiceCategory.ISuper[]> {
-    return ExpertCategory.Service.Super.getList(query);
+    return ServiceCategory.Service.Super.getList(query);
   }
 
   /**
@@ -29,6 +29,6 @@ export class ServiceCategoriesController {
   getOne(
     @TypedParam("super_category_id") super_category_id: string
   ): Promise<IServiceCategory.ISuper> {
-    return ExpertCategory.Service.Super.getOne(super_category_id);
+    return ServiceCategory.Service.Super.getOne(super_category_id);
   }
 }
