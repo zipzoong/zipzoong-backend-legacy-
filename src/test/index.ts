@@ -22,7 +22,7 @@ console.log("# Test Report");
 logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
 
 async function run(): Promise<void> {
-  const app = await Backend.start({ logger: false });
+  const app = await Backend.start({ logger: ["error"] });
 
   const connection: IConnection = {
     host: `http://localhost:${Configuration.PORT}`

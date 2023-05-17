@@ -63,10 +63,10 @@ export namespace Service {
 
       exception_for_notfound: User.Exception.NotFound,
 
-      validator: (provider) =>
-        !provider.base.is_verified || provider.base.base.is_deleted
+      validator: (agent) =>
+        !agent.base.is_verified || agent.base.base.is_deleted
           ? toThrow(User.Exception.NotFound)
-          : provider,
+          : agent,
 
       mapper: Map.rEAgent
     });
@@ -111,6 +111,8 @@ export namespace Service {
       }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
         pipe(
           get({ user_id }),
+
+          Authentication.Check.verifyUser,
 
           async (agent) =>
             prisma.rEProertyModel.findMany({

@@ -110,6 +110,57 @@ export const test_user_token_mismatch =
     );
   };
 
+export const test_user_unverified =
+  <T>(api: (connection: IConnection) => Promise<T>) =>
+  (user_type: IUser.Type) =>
+  async (connection: IConnection) => {
+    let user_id: string;
+    if (user_type === "customer") {
+      const customer = await prisma.customerModel.findFirstOrThrow({});
+      await prisma.customerModel.update({
+        where: { id: customer.id },
+        data: { phone: null }
+      });
+      user_id = customer.id;
+    } else if (user_type === "home service provider") {
+      const provider = await prisma.hSProviderModel.findFirstOrThrow({});
+      await prisma.businessUserModel.update({
+        where: { id: provider.id },
+        data: { is_verified: false }
+      });
+      user_id = provider.id;
+    } else {
+      const agent = await prisma.rEAgentModel.findFirstOrThrow({});
+      await prisma.businessUserModel.update({
+        where: { id: agent.id },
+        data: { is_verified: false }
+      });
+      user_id = agent.id;
+    }
+
+    const token = Authentication.Crypto.getUserToken({
+      type: "user",
+      user_id,
+      user_type
+    });
+
+    await test_error(api)(HttpStatus.FORBIDDEN, "User Unverified")(
+      addAuthorizationHeader(connection)("bearer", token)
+    );
+
+    if (user_type === "customer") {
+      await prisma.customerModel.update({
+        where: { id: user_id },
+        data: { phone: "phone" }
+      });
+    } else {
+      await prisma.businessUserModel.update({
+        where: { id: user_id },
+        data: { is_verified: true }
+      });
+    }
+  };
+
 export const deleteAccessor = async (accessor_token: string) => {
   const { account_id } =
     Authentication.Crypto.getAccountTokenPayload(accessor_token);

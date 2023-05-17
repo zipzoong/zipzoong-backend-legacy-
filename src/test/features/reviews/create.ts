@@ -51,6 +51,10 @@ export const test_authorization_fail = internal.test_authorization_fail((cnt) =>
   reviews.create(cnt, typia.random<IReview.ICreateRequest>())
 )("customer");
 
+export const test_user_unverified = internal.test_user_unverified((cnt) =>
+  reviews.create(cnt, typia.random<IReview.ICreateRequest>())
+)("customer");
+
 export const test_reviewee_not_found = async (connection: IConnection) => {
   const customers = await prisma.customerModel.findMany({
     where: { base: { is_deleted: false }, phone: { not: null } },

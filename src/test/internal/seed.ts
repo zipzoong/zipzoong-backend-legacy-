@@ -608,7 +608,7 @@ export const seedREAgents = async (connection: IConnection) => {
     await agreements.getList(connection, {
       target_type: ["all", "business", "RE"]
     })
-  ).map(({ id }) => id);
+  ).map(pick("id"));
   const super_categories = await service_categories.super.getList(connection, {
     type: ["RE"]
   });
@@ -622,9 +622,8 @@ export const seedREAgents = async (connection: IConnection) => {
       const input = createAgentData();
 
       input.acceptant_agreement_ids = agreement_list;
-      input.sub_expertise_ids = [
-        RandomGenerator.pick(category.sub_categories).id
-      ];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      input.sub_expertise_ids = [category.sub_categories[0]!.id];
 
       const data = REAgent.Json.createData(input);
 

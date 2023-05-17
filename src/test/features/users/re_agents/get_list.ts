@@ -38,11 +38,12 @@ export const test_success_filter_sub_category = async (
   });
 
   const super_category = RandomGenerator.pick(super_categories);
-  const sub_category = RandomGenerator.pick(super_category.sub_categories);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const sub_category_id = super_category.sub_categories[0]!.id;
 
   const received = await users.re_agents.getList(connection, {
     page: 1,
-    sub_category_id: sub_category.id
+    sub_category_id: sub_category_id
   });
 
   typia.assertEquals(received);
@@ -53,7 +54,7 @@ export const test_success_filter_sub_category = async (
       assert.strictEqual(
         expertise.sub_expertises
           .map(pick("sub_category_id"))
-          .includes(sub_category.id),
+          .includes(sub_category_id),
         true
       )
     );

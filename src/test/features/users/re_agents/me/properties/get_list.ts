@@ -32,3 +32,7 @@ export const test_success = async (connection: IConnection) => {
 export const test_authorization_fail = internal.test_authorization_fail(
   (connection) => users.re_agents.me.properties.getList(connection, {})
 )("real estate agent");
+
+export const test_user_unverified = internal.test_user_unverified((cnt) =>
+  users.re_agents.me.properties.getList(cnt, {})
+)("real estate agent");

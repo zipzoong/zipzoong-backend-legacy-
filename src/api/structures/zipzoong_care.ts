@@ -6,10 +6,11 @@ export interface IZipzoongCareRequest extends IDateTime {
   readonly id: string;
   readonly status: IZipzoongCareRequest.Status;
   readonly requester: IZipzoongCareRequest.IRequester;
-  /** @foramt date */
+  /** @format date */
   readonly care_start_date: string;
   /** @format date */
   readonly care_end_date: string;
+  /** @maxLength 500 */
   readonly detail: string;
   readonly checked_services: IZipzoongCareRequest.ICheckedService[];
   readonly checked_consultation_times: IZipzoongCareRequest.ICheckedConsultationTime[];
@@ -55,7 +56,9 @@ export namespace IZipzoongCareRequest {
       | "checked_services"
     > {
     requester_id: string;
+    /** @minItems 1 */
     consultation_times: ICreateCheckedConsultationTime[];
+    /** @minItems 1 */
     service_ids: string[];
   }
 

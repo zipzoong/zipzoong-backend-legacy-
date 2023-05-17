@@ -18,7 +18,11 @@ export namespace Logger {
       case "production":
         Console.setLogLevels(["error", "warn"]);
         return Console; // 추후 변경
+
+      case "test":
+        Console.setLogLevels(["error", "verbose", "warn"]);
+        return Console;
     }
-    return none;
+    //  return none;
   };
 }
