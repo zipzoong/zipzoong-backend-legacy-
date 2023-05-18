@@ -11,6 +11,14 @@ const NESTIA_CONFIG: nestia.INestiaConfig = {
   primitive: false,
   swagger: {
     output: "packages/api/swagger.json",
+    info: {
+      version: "0.0.1",
+      title: "Zipzoong RESTAPI",
+      description: "Zipzoong Server API document"
+    },
+    servers: [
+      { url: "https://api.zipzoong.co.kr", description: "Zipzoong API Server" }
+    ],
     security: {
       bearer: {
         type: "apiKey",
