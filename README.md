@@ -37,22 +37,20 @@
 
 ## 컨벤션 표기 예시
 
-| Udacity  | Gitmoji               | description                 |
-| -------- | --------------------- | --------------------------- |
-| feat     | :sparkles:            | 기능 추가                   |
-| fix      | :bug:                 | 버그 수정                   |
-| hotfix   | :ambulance:           | 긴급 수정                   |
-| (hot)fix | :lock:                | 보안 이슈 해결              |
-| docs     | :memo:                | 문서 업데이트               |
-| style    | :art:                 | 코드 구조, 포매팅 관련 수정 |
-| style    | :truck:               | 리소스 이동, 이름 변경      |
-| refactor | :recycle:             | 프로덕션 코드 리팩토링      |
-| test     | :white_check_mark:    | 테스트 추가/수정            |
-| chore    | :arrow_up:            | dependencies 업데이트       |
-| chore    | :construction_worker: | CI 빌드 시스템 추가/수정    |
-| ?        | :wrench:              | 설정 파일 추가/수정         |
-| ?        | :heavy_plus_sign:     | dependency 추가             |
-| ?        | :heavy_minus_sign:    | dependency 제거             |
-| ?        | :card_file_box:       | DB 관련 수정 사항 적용      |
-
-- ?는 애매한데 일단 chore로 생각중
+| Udacity  | Gitmoji               | emoji | description                 |
+| -------- | --------------------- | ----- | --------------------------- |
+| feat     | :sparkles:            | ✨    | 기능 추가                   |
+| fix      | :bug:                 | 🐛    | 버그 수정                   |
+| hotfix   | :ambulance:           | 🚑    | 긴급 수정                   |
+| (hot)fix | :lock:                | 🔒    | 보안 이슈 해결              |
+| docs     | :memo:                | 📝    | 문서 업데이트               |
+| style    | :art:                 | 🎨    | 코드 구조, 포매팅 관련 수정 |
+| style    | :truck:               | 🚚    | 리소스 이동, 이름 변경      |
+| refactor | :recycle:             | ♻️    | 프로덕션 코드 리팩토링      |
+| test     | :white_check_mark:    | ✅    | 테스트 추가/수정            |
+| chore    | :arrow_up:            | ⬆️    | dependencies 업데이트       |
+| chore    | :construction_worker: | 👷    | CI 빌드 시스템 추가/수정    |
+| chore    | :wrench:              | 🔧    | 설정 파일 추가/수정         |
+| chore    | :heavy_plus_sign:     | ➕    | dependency 추가             |
+| chore    | :heavy_minus_sign:    | ➖    | dependency 제거             |
+| chore    | :card_file_box:       | 🗃️    | DB 관련 수정 사항 적용      |
