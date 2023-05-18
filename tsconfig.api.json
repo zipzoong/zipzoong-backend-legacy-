@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "removeComments": false,
+    "sourceMap": false,
     "target": "ES6",
     "declaration": true,
     "outDir": "./packages/api/lib",
