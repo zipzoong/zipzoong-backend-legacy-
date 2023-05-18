@@ -2,13 +2,14 @@
   "openapi": "3.0.1",
   "servers": [
     {
-      "url": "https://api.zipzoong.com/",
-      "description": "Zipzoong REST API"
+      "url": "https://api.zipzoong.co.kr",
+      "description": "Zipzoong API Server"
     }
   ],
   "info": {
-    "version": "0.1.0",
-    "title": "Zipzoong REST API Doc"
+    "version": "0.0.1",
+    "title": "Zipzoong RESTAPI",
+    "description": "Zipzoong Server API document"
   },
   "paths": {
     "/agreements": {
@@ -36,8 +37,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/IAgreement"
-                  },
-                  "nullable": false
+                  }
                 }
               }
             },
@@ -526,8 +526,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/IRateCategory"
-                  },
-                  "nullable": false
+                  }
                 }
               }
             },
@@ -768,8 +767,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/IREPropertyCategory.ISuper"
-                  },
-                  "nullable": false
+                  }
                 }
               }
             },
@@ -821,8 +819,7 @@
             "in": "path",
             "description": "부동산 매물 상위 카테고리 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -914,8 +911,7 @@
             "in": "path",
             "description": "부동산 매물 중위 카테고리 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -1201,8 +1197,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/IServiceCategory.ISuper"
-                  },
-                  "nullable": false
+                  }
                 }
               }
             },
@@ -1271,8 +1266,7 @@
             "in": "path",
             "description": "",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -1664,8 +1658,7 @@
             "in": "path",
             "description": "일반 고객 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -1944,8 +1937,7 @@
             "in": "path",
             "description": "생활서비스 전문가 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -2224,8 +2216,7 @@
             "in": "path",
             "description": "공인중개사 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           }
@@ -2441,8 +2432,7 @@
             "in": "path",
             "description": "공인중개사 id",
             "schema": {
-              "type": "string",
-              "nullable": false
+              "type": "string"
             },
             "required": true
           },
@@ -2565,39 +2555,6 @@
         "type": "object",
         "properties": {
           "target_type": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "customer",
-                "all",
-                "business",
-                "HS",
-                "RE"
-              ],
-              "nullable": false,
-              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
-              "x-typia-metaTags": [
-                {
-                  "kind": "minItems",
-                  "value": 1
-                }
-              ],
-              "x-typia-jsDocTags": [
-                {
-                  "name": "minItems",
-                  "text": [
-                    {
-                      "text": "1",
-                      "kind": "text"
-                    }
-                  ]
-                }
-              ],
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
             "x-typia-metaTags": [
               {
@@ -2618,6 +2575,37 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "enum": [
+                "customer",
+                "all",
+                "business",
+                "HS",
+                "RE"
+              ]
+            },
             "minItems": 1
           }
         },
@@ -2631,27 +2619,27 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "title": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "target_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer",
@@ -2659,22 +2647,15 @@
               "business",
               "HS",
               "RE"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "is_required": {
-            "type": "boolean",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -2695,11 +2676,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -2720,6 +2700,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -2739,33 +2720,30 @@
         "type": "object",
         "properties": {
           "user_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer",
               "real estate agent",
               "home service provider"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "code": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "oauth_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "kakao"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -2780,11 +2758,10 @@
         "type": "object",
         "properties": {
           "access_token": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -2797,21 +2774,19 @@
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "oauth_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "kakao"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -2825,15 +2800,13 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -2854,25 +2827,25 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "phone": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "birth": {
-            "type": "string",
-            "nullable": true,
             "description": "YYYY-MM-DD",
             "x-typia-metaTags": [
               {
@@ -2893,19 +2866,21 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "gender": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "female",
               "male",
               "other"
             ],
-            "nullable": true,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            "nullable": true
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
@@ -2930,18 +2905,17 @@
         "type": "object",
         "properties": {
           "first": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "second": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": true,
@@ -2955,11 +2929,11 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
@@ -2968,8 +2942,6 @@
             "x-typia-optional": false
           },
           "birth": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -2990,64 +2962,62 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "gender": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "female",
               "male",
               "other"
             ],
-            "nullable": true,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            "nullable": true
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "acceptant_agreement_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "description": "",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "email_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "phone_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -3068,32 +3038,28 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "acceptant_agreement_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "description": "동의 약관 id 목록",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "동의 약관 id 목록",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "동의 약관 id 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
@@ -3102,11 +3068,10 @@
             "x-typia-optional": false
           },
           "is_licensed": {
-            "type": "boolean",
-            "nullable": false,
             "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
@@ -3115,55 +3080,51 @@
             "x-typia-optional": false
           },
           "properties": {
+            "description": "부동산 매물 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
               "description": "부동산 매물 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "부동산 매물 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "sub_expertise_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "description": "",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "real estate agent"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "email_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "phone_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -3186,18 +3147,16 @@
         "type": "object",
         "properties": {
           "title": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3211,32 +3170,28 @@
         "type": "object",
         "properties": {
           "num": {
-            "type": "string",
-            "nullable": false,
             "description": "부동산개설등록번호",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "부동산 상호명",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "부동산 전화번호",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "licensed_agent_name": {
-            "type": "string",
-            "nullable": false,
             "description": "부동산 대표자 이름",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
@@ -3259,18 +3214,17 @@
         "type": "object",
         "properties": {
           "first": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "second": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -3284,15 +3238,12 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3313,11 +3264,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3338,34 +3288,32 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "main_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "sub_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -3389,28 +3337,25 @@
             "x-typia-optional": false
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "sub"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3432,28 +3377,25 @@
             "x-typia-optional": false
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "middle"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3469,28 +3411,25 @@
         "type": "object",
         "properties": {
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "super"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3505,11 +3444,10 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
@@ -3518,25 +3456,22 @@
             "x-typia-optional": false
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "acceptant_agreement_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "description": "",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.ICreateIntroduction",
@@ -3545,49 +3480,45 @@
             "x-typia-optional": false
           },
           "sub_expertise_ids": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
-              "type": "string",
-              "nullable": false,
               "description": "",
               "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "business_registration_num": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "home service provider"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "email_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "phone_access_code": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -3609,32 +3540,28 @@
         "type": "object",
         "properties": {
           "image_urls": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
-              "type": "string",
-              "nullable": false,
               "description": "",
               "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+              "x-typia-optional": false,
+              "type": "string"
+            }
           },
           "title": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3649,37 +3576,6 @@
         "type": "object",
         "properties": {
           "target_type": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "all",
-                "HS",
-                "RE"
-              ],
-              "nullable": false,
-              "description": "사업자 평가 카테고리 검색 조건 (최소 1개 필요)\n\n- all 전체",
-              "x-typia-metaTags": [
-                {
-                  "kind": "minItems",
-                  "value": 1
-                }
-              ],
-              "x-typia-jsDocTags": [
-                {
-                  "name": "minItems",
-                  "text": [
-                    {
-                      "text": "1",
-                      "kind": "text"
-                    }
-                  ]
-                }
-              ],
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "사업자 평가 카테고리 검색 조건 (최소 1개 필요)\n\n- all 전체",
             "x-typia-metaTags": [
               {
@@ -3700,6 +3596,35 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "사업자 평가 카테고리 검색 조건 (최소 1개 필요)\n\n- all 전체",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "enum": [
+                "all",
+                "HS",
+                "RE"
+              ]
+            },
             "minItems": 1
           }
         },
@@ -3713,30 +3638,27 @@
         "type": "object",
         "properties": {
           "target_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "all",
               "HS",
               "RE"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -3751,29 +3673,24 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "middle_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "sub_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3816,6 +3733,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
+            "type": "integer",
             "minimum": 1,
             "default": 1
           }
@@ -3827,21 +3745,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3875,6 +3790,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
@@ -3889,25 +3805,22 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "main_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "re_agent": {
             "$ref": "#/components/schemas/IREProperty.IAgent",
@@ -3916,21 +3829,18 @@
             "x-typia-optional": false
           },
           "sub_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3951,11 +3861,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -3976,6 +3885,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -3995,25 +3905,22 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
@@ -4035,31 +3942,28 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "super_category_name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "sub_expertises": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -4074,18 +3978,16 @@
         "type": "object",
         "properties": {
           "sub_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "sub_category_name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4099,6 +4001,39 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              },
+              {
+                "kind": "maxItems",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxItems",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ICreateRequest",
@@ -4136,40 +4071,6 @@
               "x-typia-required": true,
               "x-typia-optional": false
             },
-            "nullable": false,
-            "description": "",
-            "x-typia-metaTags": [
-              {
-                "kind": "minItems",
-                "value": 1
-              },
-              {
-                "kind": "maxItems",
-                "value": 10
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "minItems",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "maxItems",
-                "text": [
-                  {
-                    "text": "10",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
             "minItems": 1,
             "maxItems": 10
           }
@@ -4184,32 +4085,28 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "main_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "sub_category_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "nullable": false,
-              "description": "",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
           }
         },
         "nullable": false,
@@ -4224,41 +4121,37 @@
         "type": "object",
         "properties": {
           "middle_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.IMiddle_comma__space__doublequote_super_category_doublequote__gt_",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "super"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4274,41 +4167,37 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "sub_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "middle"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -4324,28 +4213,25 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "sub"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -4366,41 +4252,37 @@
             "x-typia-optional": false
           },
           "sub_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IREPropertyCategory.ISub_comma__space__doublequote_middle_category_doublequote__gt_",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "middle"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4417,28 +4299,25 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "super"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -4453,22 +4332,18 @@
         "type": "object",
         "properties": {
           "reviewer_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "reviewee_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4511,6 +4386,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
+            "type": "integer",
             "minimum": 1,
             "default": 1
           }
@@ -4522,21 +4398,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IReview",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4570,6 +4443,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
@@ -4584,11 +4458,10 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "reviewer": {
             "$ref": "#/components/schemas/IReview.IReviewer",
@@ -4603,8 +4476,6 @@
             "x-typia-optional": false
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4625,24 +4496,22 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "maxLength": 500
           },
           "rates": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IReview.IRate",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "rate_avg": {
-            "type": "number",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4676,12 +4545,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "number",
             "minimum": 0,
             "maximum": 10
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4702,11 +4570,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4727,6 +4594,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -4747,18 +4615,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4772,18 +4638,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4797,8 +4661,6 @@
         "type": "object",
         "properties": {
           "score": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4832,6 +4694,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "maximum": 10,
             "minimum": 0
           },
@@ -4853,15 +4716,12 @@
         "type": "object",
         "properties": {
           "reviewee_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4882,20 +4742,20 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "maxLength": 500
           },
           "rates": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IReview.ICreateRate",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -4910,8 +4770,6 @@
         "type": "object",
         "properties": {
           "score": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -4945,15 +4803,15 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "maximum": 10,
             "minimum": 0
           },
           "category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -4967,36 +4825,6 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "HS",
-                "RE"
-              ],
-              "nullable": false,
-              "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야",
-              "x-typia-metaTags": [
-                {
-                  "kind": "minItems",
-                  "value": 1
-                }
-              ],
-              "x-typia-jsDocTags": [
-                {
-                  "name": "minItems",
-                  "text": [
-                    {
-                      "text": "1",
-                      "kind": "text"
-                    }
-                  ]
-                }
-              ],
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야",
             "x-typia-metaTags": [
               {
@@ -5017,6 +4845,34 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "enum": [
+                "HS",
+                "RE"
+              ]
+            },
             "minItems": 1
           }
         },
@@ -5030,52 +4886,47 @@
         "type": "object",
         "properties": {
           "type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "HS",
               "RE"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "sub_categories": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Omit_lt_IServiceCategory.ISub_comma__space__doublequote_super_category_doublequote__gt_",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "super"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -5092,28 +4943,25 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "level": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "sub"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           }
         },
         "nullable": false,
@@ -5128,15 +4976,13 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5157,28 +5003,26 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5199,11 +5043,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5224,14 +5067,15 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
@@ -5240,8 +5084,6 @@
             "x-typia-optional": false
           },
           "birth": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5262,39 +5104,39 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "gender": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "female",
               "male",
               "other"
             ],
-            "nullable": true,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            "nullable": true
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "acceptant_agreements": {
+            "description": "동의한 약관 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "동의한 약관 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -5318,27 +5160,27 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "title": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "target_type": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer",
@@ -5346,18 +5188,13 @@
               "business",
               "HS",
               "RE"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "is_required": {
-            "type": "boolean",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           }
         },
         "nullable": false,
@@ -5374,38 +5211,6 @@
         "type": "object",
         "properties": {
           "status": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "pending",
-                "caring",
-                "cared",
-                "cancelled"
-              ],
-              "nullable": false,
-              "description": "",
-              "x-typia-metaTags": [
-                {
-                  "kind": "minItems",
-                  "value": 1
-                }
-              ],
-              "x-typia-jsDocTags": [
-                {
-                  "name": "minItems",
-                  "text": [
-                    {
-                      "text": "1",
-                      "kind": "text"
-                    }
-                  ]
-                }
-              ],
-              "x-typia-required": true,
-              "x-typia-optional": false
-            },
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5426,11 +5231,39 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "enum": [
+                "pending",
+                "caring",
+                "cared",
+                "cancelled"
+              ]
+            },
             "minItems": 1
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5473,6 +5306,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
+            "type": "integer",
             "minimum": 1,
             "default": 1
           }
@@ -5487,21 +5321,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5535,6 +5366,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
@@ -5549,24 +5381,22 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "status": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "pending",
               "caring",
               "cared",
               "cancelled"
-            ],
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "requester": {
             "$ref": "#/components/schemas/IZipzoongCareRequest.IRequester",
@@ -5575,8 +5405,6 @@
             "x-typia-optional": false
           },
           "care_start_date": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5597,11 +5425,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date"
           },
           "care_end_date": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5622,11 +5449,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date"
           },
           "detail": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5647,37 +5473,34 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "maxLength": 500
           },
           "checked_services": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedService",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "checked_consultation_times": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedConsultationTime",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5698,11 +5521,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5723,6 +5545,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -5745,25 +5568,22 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -5778,18 +5598,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -5803,15 +5621,12 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "start_time": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-jsDocTags": [
               {
@@ -5826,11 +5641,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           },
           "end_time": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-jsDocTags": [
               {
@@ -5845,6 +5659,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           }
         },
@@ -5860,8 +5675,6 @@
         "type": "object",
         "properties": {
           "care_start_date": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5882,11 +5695,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date"
           },
           "care_end_date": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5907,11 +5719,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date"
           },
           "detail": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5932,9 +5743,30 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "maxLength": 500
           },
           "consultation_times": {
+            "description": "",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateCheckedConsultationTime",
@@ -5959,7 +5791,9 @@
               "x-typia-required": true,
               "x-typia-optional": false
             },
-            "nullable": false,
+            "minItems": 1
+          },
+          "service_ids": {
             "description": "",
             "x-typia-metaTags": [
               {
@@ -5980,13 +5814,8 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "minItems": 1
-          },
-          "service_ids": {
             "type": "array",
             "items": {
-              "type": "string",
-              "nullable": false,
               "description": "",
               "x-typia-metaTags": [
                 {
@@ -6006,29 +5835,9 @@
                 }
               ],
               "x-typia-required": true,
-              "x-typia-optional": false
+              "x-typia-optional": false,
+              "type": "string"
             },
-            "nullable": false,
-            "description": "",
-            "x-typia-metaTags": [
-              {
-                "kind": "minItems",
-                "value": 1
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "minItems",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
             "minItems": 1
           }
         },
@@ -6046,8 +5855,6 @@
         "type": "object",
         "properties": {
           "start_time": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-jsDocTags": [
               {
@@ -6062,11 +5869,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           },
           "end_time": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-jsDocTags": [
               {
@@ -6081,6 +5887,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           }
         },
@@ -6095,18 +5902,17 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
@@ -6115,8 +5921,6 @@
             "x-typia-optional": false
           },
           "birth": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6137,47 +5941,44 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "gender": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "female",
               "male",
               "other"
             ],
-            "nullable": true,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            "nullable": true
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "customer"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6198,11 +5999,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6223,11 +6024,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6248,6 +6048,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -6271,22 +6072,18 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "sub_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6329,6 +6126,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
+            "type": "integer",
             "minimum": 1,
             "default": 1
           }
@@ -6340,21 +6138,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6388,6 +6183,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
@@ -6402,18 +6198,16 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.IIntroduction",
@@ -6434,39 +6228,33 @@
             "x-typia-optional": false
           },
           "business_registration_num": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "home service provider"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6487,11 +6275,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6512,11 +6300,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6537,6 +6324,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -6561,31 +6349,28 @@
         "type": "object",
         "properties": {
           "images": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider.IIntroductionImage",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "title": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "content": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -6600,18 +6385,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -6625,18 +6408,16 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "introduction": {
             "$ref": "#/components/schemas/IHSProvider.IIntroduction",
@@ -6657,39 +6438,33 @@
             "x-typia-optional": false
           },
           "business_registration_num": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "home service provider"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6710,11 +6485,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6735,11 +6510,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6760,40 +6534,38 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "is_verified": {
-            "type": "boolean",
-            "nullable": false,
             "description": "사업자 인증 완료 여부",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "business_certification_images": {
+            "description": "사업자 증명 서류 사진 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
               "description": "사업자 증명 서류 사진 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "사업자 증명 서류 사진 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "acceptant_agreements": {
+            "description": "동의한 약관 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "동의한 약관 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -6820,18 +6592,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           }
         },
         "nullable": false,
@@ -6845,21 +6615,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -6893,6 +6660,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
@@ -6907,18 +6675,16 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "가입자 전화번호",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
@@ -6933,11 +6699,10 @@
             "x-typia-optional": false
           },
           "is_licensed": {
-            "type": "boolean",
-            "nullable": false,
             "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
@@ -6946,45 +6711,39 @@
             "x-typia-optional": false
           },
           "properties": {
+            "description": "부동산 매물 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
               "description": "부동산 매물 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "부동산 매물 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "real estate agent"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7005,11 +6764,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7030,11 +6789,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7055,6 +6813,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           }
         },
@@ -7080,18 +6839,16 @@
         "type": "object",
         "properties": {
           "phone": {
-            "type": "string",
-            "nullable": false,
             "description": "가입자 전화번호",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "profile_image_url": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
@@ -7106,11 +6863,10 @@
             "x-typia-optional": false
           },
           "is_licensed": {
-            "type": "boolean",
-            "nullable": false,
             "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "real_estate": {
             "$ref": "#/components/schemas/IREAgent.IRealEstate",
@@ -7119,45 +6875,39 @@
             "x-typia-optional": false
           },
           "properties": {
+            "description": "부동산 매물 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
               "description": "부동산 매물 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "부동산 매물 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string",
             "enum": [
               "real estate agent"
-            ],
-            "nullable": false,
-            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            ]
           },
           "id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7178,11 +6928,11 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "format": "email"
+            "type": "string",
+            "format": "email",
+            "nullable": true
           },
           "created_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7203,11 +6953,10 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "updated_at": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7228,40 +6977,38 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "string",
             "format": "date-time"
           },
           "is_verified": {
-            "type": "boolean",
-            "nullable": false,
             "description": "사업자 인증 완료 여부",
             "x-typia-required": true,
-            "x-typia-optional": false
+            "x-typia-optional": false,
+            "type": "boolean"
           },
           "business_certification_images": {
+            "description": "사업자 증명 서류 사진 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ICertificationImage",
               "description": "사업자 증명 서류 사진 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "사업자 증명 서류 사진 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "acceptant_agreements": {
+            "description": "동의한 약관 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IUser.IAcceptantAgreement",
               "description": "동의한 약관 목록",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "동의한 약관 목록",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           }
         },
         "nullable": false,
@@ -7289,29 +7036,24 @@
         "type": "object",
         "properties": {
           "sub_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "middle_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "super_category_id": {
-            "type": "string",
-            "nullable": false,
             "description": "",
             "x-typia-required": false,
-            "x-typia-optional": true
+            "x-typia-optional": true,
+            "type": "string"
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7354,6 +7096,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
+            "type": "integer",
             "minimum": 1,
             "default": 1
           }
@@ -7365,21 +7108,18 @@
         "type": "object",
         "properties": {
           "data": {
+            "description": "",
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
               "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
-            },
-            "nullable": false,
-            "description": "",
-            "x-typia-required": true,
-            "x-typia-optional": false
+            }
           },
           "page": {
-            "type": "integer",
-            "nullable": false,
             "description": "",
             "x-typia-metaTags": [
               {
@@ -7413,6 +7153,7 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
+            "type": "integer",
             "minimum": 1
           }
         },
