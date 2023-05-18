@@ -26,7 +26,7 @@ export const test_success = async (connection: IConnection) => {
   const { data: agents } = await users.re_agents.getList(connection, {});
 
   const categories = await rate_categories.getList(connection, {
-    business_type: ["all"]
+    target_type: ["all", "RE"]
   });
 
   await reviews.create(
@@ -48,6 +48,10 @@ export const test_success = async (connection: IConnection) => {
 };
 
 export const test_authorization_fail = internal.test_authorization_fail((cnt) =>
+  reviews.create(cnt, typia.random<IReview.ICreateRequest>())
+)("customer");
+
+export const test_user_unverified = internal.test_user_unverified((cnt) =>
   reviews.create(cnt, typia.random<IReview.ICreateRequest>())
 )("customer");
 
@@ -88,7 +92,7 @@ export const test_category_duplicated = async (connection: IConnection) => {
   const { data: providers } = await users.hs_providers.getList(connection, {});
 
   const categories = await rate_categories.getList(connection, {
-    business_type: ["all"]
+    target_type: ["all", "HS"]
   });
   categories.push(RandomGenerator.pick(categories));
 
@@ -122,7 +126,7 @@ export const test_category_invalid = async (connection: IConnection) => {
 
   const categories = (
     await rate_categories.getList(connection, {
-      business_type: ["all"]
+      target_type: ["all", "HS"]
     })
   ).map(pick("id"));
 

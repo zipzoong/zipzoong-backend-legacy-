@@ -8,7 +8,7 @@ import { Prisma } from "@PRISMA";
 import Customer from "@PROVIDER/user/customer";
 import HSProvider from "@PROVIDER/user/hs_provider";
 import REAgent from "@PROVIDER/user/re_agent";
-import { agreements, expert_super_categories } from "@SDK";
+import { agreements, service_categories } from "@SDK";
 import { getISOString, pick } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
@@ -41,37 +41,37 @@ export const seedCategories = () =>
           title: "개인정보 수집 및 이용 동의",
           content: "",
           is_required: true,
-          user_type: "all"
+          target_type: "all"
         },
         {
           ...createEntity(),
           title: "사용자 이용약관",
           content: "",
           is_required: true,
-          user_type: "all"
+          target_type: "all"
         },
         {
           ...createEntity(),
           title: "위치정보 서비스 이용약관",
           content: "",
           is_required: true,
-          user_type: "all"
+          target_type: "all"
         },
         {
           ...createEntity(),
           title: "제3자 정보제공 동의",
           content: "",
           is_required: true,
-          user_type: "all"
+          target_type: "all"
         }
       ]
     });
 
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "공인중개사",
-        business_type: "RE",
+        type: "RE",
         sub_categories: {
           createMany: {
             data: [
@@ -84,11 +84,11 @@ export const seedCategories = () =>
         }
       }
     });
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "이사 전문가",
-        business_type: "HS",
+        type: "HS",
         sub_categories: {
           createMany: {
             data: [
@@ -104,11 +104,11 @@ export const seedCategories = () =>
         }
       }
     });
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "청소 전문가",
-        business_type: "HS",
+        type: "HS",
         sub_categories: {
           createMany: {
             data: [
@@ -124,11 +124,11 @@ export const seedCategories = () =>
         }
       }
     });
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "인테리어 전문가",
-        business_type: "HS",
+        type: "HS",
         sub_categories: {
           createMany: {
             data: [
@@ -146,11 +146,11 @@ export const seedCategories = () =>
         }
       }
     });
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "세무사",
-        business_type: "HS",
+        type: "HS",
         sub_categories: {
           createMany: {
             data: [
@@ -165,11 +165,11 @@ export const seedCategories = () =>
         }
       }
     });
-    await tx.expertSuperCategoryModel.create({
+    await tx.serviceSuperCategoryModel.create({
       data: {
         ...createEntity(),
         name: "법무사",
-        business_type: "HS",
+        type: "HS",
         sub_categories: {
           createMany: {
             data: [
@@ -535,17 +535,17 @@ export const seedCategories = () =>
         {
           ...createEntity(),
           name: "소통",
-          business_type: "all"
+          target_type: "all"
         },
         {
           ...createEntity(),
           name: "가격",
-          business_type: "all"
+          target_type: "all"
         },
         {
           ...createEntity(),
           name: "일정",
-          business_type: "all"
+          target_type: "all"
         }
       ]
     });
@@ -553,7 +553,7 @@ export const seedCategories = () =>
 
 export const seedCustomers = async (connection: IConnection) => {
   const agreement_list = (
-    await agreements.getList(connection, { filter: ["all", "customer"] })
+    await agreements.getList(connection, { target_type: ["all", "customer"] })
   ).map(pick("id"));
 
   const createCustomerData = typia.createRandom<ICustomer.ICreate>();
@@ -575,23 +575,24 @@ export const seedCustomers = async (connection: IConnection) => {
 export const seedHSProviders = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "HS"]
+      target_type: ["all", "business", "HS"]
     })
   ).map(pick("id"));
-  const super_categories = await expert_super_categories.getList(connection, {
-    filter: ["HS"]
+  const super_categories = await service_categories.super.getList(connection, {
+    type: ["HS"]
   });
+
   const createProviderData = typia.createRandom<IHSProvider.ICreate>();
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  ArrayUtil.asyncRepeat(10)(() =>
+  await ArrayUtil.asyncRepeat(10)(() =>
     ArrayUtil.asyncForEach(super_categories)(async (category) => {
       const input = createProviderData();
       input.acceptant_agreement_ids = agreement_list;
       input.sub_expertise_ids = RandomGenerator.sample(category.sub_categories)(
-        2
-      ).map(({ id }) => id);
+        3
+      ).map(pick("id"));
 
       const data = HSProvider.Json.createData(input);
 
@@ -605,11 +606,11 @@ export const seedHSProviders = async (connection: IConnection) => {
 export const seedREAgents = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "RE"]
+      target_type: ["all", "business", "RE"]
     })
-  ).map(({ id }) => id);
-  const super_categories = await expert_super_categories.getList(connection, {
-    filter: ["RE"]
+  ).map(pick("id"));
+  const super_categories = await service_categories.super.getList(connection, {
+    type: ["RE"]
   });
 
   const createAgentData = typia.createRandom<IREAgent.ICreate>();
@@ -621,21 +622,20 @@ export const seedREAgents = async (connection: IConnection) => {
       const input = createAgentData();
 
       input.acceptant_agreement_ids = agreement_list;
-      input.sub_expertise_ids = [
-        RandomGenerator.pick(category.sub_categories).id
-      ];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      input.sub_expertise_ids = [category.sub_categories[0]!.id];
 
       const data = REAgent.Json.createData(input);
 
       queries.push(prisma.rEAgentModel.create({ data }));
 
-      const agent_id = data.base.create.base.create.id;
+      const re_agent_id = data.base.create.base.create.id;
 
       const properties = new Array(10).fill(1).map(() => ({
         ...createEntity(),
         name: RandomGenerator.name(3),
         main_image_url: "",
-        agent_id
+        re_agent_id
       }));
 
       const sub_categories = await prisma.rEPropertySubCategoryModel.findMany();

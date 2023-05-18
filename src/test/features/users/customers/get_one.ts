@@ -14,7 +14,7 @@ export const test_success = async (connection: IConnection) => {
   const input = typia.random<ICustomer.ICreate>();
   input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "customer"]
+      target_type: ["all", "customer"]
     })
   ).map(({ id }) => id);
 
@@ -31,7 +31,7 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
   const input = typia.random<ICustomer.ICreate>();
   input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "customer"]
+      target_type: ["all", "customer"]
     })
   ).map(({ id }) => id);
 

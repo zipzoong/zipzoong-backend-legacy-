@@ -105,7 +105,7 @@ exports.Prisma.AgreementModelScalarFieldEnum = {
   title: 'title',
   content: 'content',
   is_required: 'is_required',
-  user_type: 'user_type'
+  target_type: 'target_type'
 };
 
 exports.Prisma.BusinessCertificationImageModelScalarFieldEnum = {
@@ -137,26 +137,6 @@ exports.Prisma.CustomerModelScalarFieldEnum = {
   address_first: 'address_first',
   address_second: 'address_second',
   profile_image_url: 'profile_image_url'
-};
-
-exports.Prisma.ExpertSubCategoryModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  name: 'name',
-  super_category_id: 'super_category_id'
-};
-
-exports.Prisma.ExpertSuperCategoryModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  name: 'name',
-  business_type: 'business_type'
 };
 
 exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
@@ -216,7 +196,7 @@ exports.Prisma.REProertyModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   main_image_url: 'main_image_url',
-  agent_id: 'agent_id'
+  re_agent_id: 're_agent_id'
 };
 
 exports.Prisma.REPropertyCategoryModelScalarFieldEnum = {
@@ -265,7 +245,7 @@ exports.Prisma.RateCategoryModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   name: 'name',
-  business_type: 'business_type'
+  target_type: 'target_type'
 };
 
 exports.Prisma.RateModelScalarFieldEnum = {
@@ -288,6 +268,26 @@ exports.Prisma.ReviewModelScalarFieldEnum = {
   reviewer_id: 'reviewer_id',
   reviewee_id: 'reviewee_id',
   content: 'content'
+};
+
+exports.Prisma.ServiceSubCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  super_category_id: 'super_category_id'
+};
+
+exports.Prisma.ServiceSuperCategoryModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  type: 'type'
 };
 
 exports.Prisma.SortOrder = {
@@ -321,21 +321,44 @@ exports.Prisma.UserModelScalarFieldEnum = {
   name: 'name',
   email: 'email'
 };
-exports.AgreementUserType = {
+
+exports.Prisma.ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  request_id: 'request_id'
+};
+
+exports.Prisma.ZipzoongCareRequestModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  care_start_date: 'care_start_date',
+  care_end_date: 'care_end_date',
+  detail: 'detail',
+  status: 'status',
+  requester_id: 'requester_id'
+};
+
+exports.Prisma.ZipzoongCareServiceCheckModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  service_super_category_id: 'service_super_category_id',
+  request_id: 'request_id'
+};
+exports.AgreementTargetType = {
   all: 'all',
   customer: 'customer',
   business: 'business',
-  HS: 'HS',
-  RE: 'RE'
-};
-
-exports.BusinessRateType = {
-  all: 'all',
-  HS: 'HS',
-  RE: 'RE'
-};
-
-exports.ExpertBusinessType = {
   HS: 'HS',
   RE: 'RE'
 };
@@ -351,6 +374,24 @@ exports.OauthType = {
   naver: 'naver'
 };
 
+exports.RateTargetType = {
+  all: 'all',
+  HS: 'HS',
+  RE: 'RE'
+};
+
+exports.ServiceType = {
+  HS: 'HS',
+  RE: 'RE'
+};
+
+exports.ZipzoongCareStatus = {
+  pending: 'pending',
+  caring: 'caring',
+  cared: 'cared',
+  cancelled: 'cancelled'
+};
+
 exports.Prisma.ModelName = {
   REProertyModel: 'REProertyModel',
   REPropertyCategoryModel: 'REPropertyCategoryModel',
@@ -362,12 +403,15 @@ exports.Prisma.ModelName = {
   RateCategoryModel: 'RateCategoryModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-  SubExpertiseModel: 'SubExpertiseModel',
-  ExpertSubCategoryModel: 'ExpertSubCategoryModel',
-  ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
+  ServiceSubCategoryModel: 'ServiceSubCategoryModel',
+  ServiceSuperCategoryModel: 'ServiceSuperCategoryModel',
+  ZipzoongCareRequestModel: 'ZipzoongCareRequestModel',
+  ZipzoongCareServiceCheckModel: 'ZipzoongCareServiceCheckModel',
+  ZipzoongCareConsultationTimeCheckModel: 'ZipzoongCareConsultationTimeCheckModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
+  SubExpertiseModel: 'SubExpertiseModel',
   REAgentModel: 'REAgentModel',
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',

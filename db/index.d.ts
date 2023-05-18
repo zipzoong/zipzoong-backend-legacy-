@@ -24,7 +24,7 @@ export type REProertyModel = {
   deleted_at: Date | null
   name: string
   main_image_url: string
-  agent_id: string
+  re_agent_id: string
 }
 
 /**
@@ -123,7 +123,7 @@ export type RateCategoryModel = {
   is_deleted: boolean
   deleted_at: Date | null
   name: string
-  business_type: BusinessRateType
+  target_type: RateTargetType
 }
 
 /**
@@ -139,7 +139,7 @@ export type AgreementModel = {
   title: string
   content: string
   is_required: boolean
-  user_type: AgreementUserType
+  target_type: AgreementTargetType
 }
 
 /**
@@ -157,24 +157,10 @@ export type AgreementAcceptanceModel = {
 }
 
 /**
- * Model SubExpertiseModel
+ * Model ServiceSubCategoryModel
  * 
  */
-export type SubExpertiseModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  sub_category_id: string
-  business_user_id: string
-}
-
-/**
- * Model ExpertSubCategoryModel
- * 
- */
-export type ExpertSubCategoryModel = {
+export type ServiceSubCategoryModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -185,17 +171,63 @@ export type ExpertSubCategoryModel = {
 }
 
 /**
- * Model ExpertSuperCategoryModel
+ * Model ServiceSuperCategoryModel
  * 
  */
-export type ExpertSuperCategoryModel = {
+export type ServiceSuperCategoryModel = {
   id: string
   created_at: Date
   updated_at: Date
   is_deleted: boolean
   deleted_at: Date | null
   name: string
-  business_type: ExpertBusinessType
+  type: ServiceType
+}
+
+/**
+ * Model ZipzoongCareRequestModel
+ * 
+ */
+export type ZipzoongCareRequestModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  care_start_date: Date
+  care_end_date: Date
+  detail: string
+  status: ZipzoongCareStatus
+  requester_id: string
+}
+
+/**
+ * Model ZipzoongCareServiceCheckModel
+ * 
+ */
+export type ZipzoongCareServiceCheckModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  service_super_category_id: string
+  request_id: string
+}
+
+/**
+ * Model ZipzoongCareConsultationTimeCheckModel
+ * 
+ */
+export type ZipzoongCareConsultationTimeCheckModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  start_time: Date
+  end_time: Date
+  request_id: string
 }
 
 /**
@@ -239,6 +271,20 @@ export type BusinessUserModel = {
   address_first: string
   address_second: string | null
   profile_image_url: string
+}
+
+/**
+ * Model SubExpertiseModel
+ * 
+ */
+export type SubExpertiseModel = {
+  id: string
+  created_at: Date
+  updated_at: Date
+  is_deleted: boolean
+  deleted_at: Date | null
+  sub_category_id: string
+  business_user_id: string
 }
 
 /**
@@ -323,7 +369,7 @@ export type OauthAccountModel = {
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-export const AgreementUserType: {
+export const AgreementTargetType: {
   all: 'all',
   customer: 'customer',
   business: 'business',
@@ -331,24 +377,7 @@ export const AgreementUserType: {
   RE: 'RE'
 };
 
-export type AgreementUserType = (typeof AgreementUserType)[keyof typeof AgreementUserType]
-
-
-export const BusinessRateType: {
-  all: 'all',
-  HS: 'HS',
-  RE: 'RE'
-};
-
-export type BusinessRateType = (typeof BusinessRateType)[keyof typeof BusinessRateType]
-
-
-export const ExpertBusinessType: {
-  HS: 'HS',
-  RE: 'RE'
-};
-
-export type ExpertBusinessType = (typeof ExpertBusinessType)[keyof typeof ExpertBusinessType]
+export type AgreementTargetType = (typeof AgreementTargetType)[keyof typeof AgreementTargetType]
 
 
 export const GenderType: {
@@ -366,6 +395,33 @@ export const OauthType: {
 };
 
 export type OauthType = (typeof OauthType)[keyof typeof OauthType]
+
+
+export const RateTargetType: {
+  all: 'all',
+  HS: 'HS',
+  RE: 'RE'
+};
+
+export type RateTargetType = (typeof RateTargetType)[keyof typeof RateTargetType]
+
+
+export const ServiceType: {
+  HS: 'HS',
+  RE: 'RE'
+};
+
+export type ServiceType = (typeof ServiceType)[keyof typeof ServiceType]
+
+
+export const ZipzoongCareStatus: {
+  pending: 'pending',
+  caring: 'caring',
+  cared: 'cared',
+  cancelled: 'cancelled'
+};
+
+export type ZipzoongCareStatus = (typeof ZipzoongCareStatus)[keyof typeof ZipzoongCareStatus]
 
 
 /**
@@ -586,34 +642,54 @@ export class PrismaClient<
   get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.subExpertiseModel`: Exposes CRUD operations for the **SubExpertiseModel** model.
+   * `prisma.serviceSubCategoryModel`: Exposes CRUD operations for the **ServiceSubCategoryModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more SubExpertiseModels
-    * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
+    * // Fetch zero or more ServiceSubCategoryModels
+    * const serviceSubCategoryModels = await prisma.serviceSubCategoryModel.findMany()
     * ```
     */
-  get subExpertiseModel(): Prisma.SubExpertiseModelDelegate<GlobalReject>;
+  get serviceSubCategoryModel(): Prisma.ServiceSubCategoryModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.expertSubCategoryModel`: Exposes CRUD operations for the **ExpertSubCategoryModel** model.
+   * `prisma.serviceSuperCategoryModel`: Exposes CRUD operations for the **ServiceSuperCategoryModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ExpertSubCategoryModels
-    * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany()
+    * // Fetch zero or more ServiceSuperCategoryModels
+    * const serviceSuperCategoryModels = await prisma.serviceSuperCategoryModel.findMany()
     * ```
     */
-  get expertSubCategoryModel(): Prisma.ExpertSubCategoryModelDelegate<GlobalReject>;
+  get serviceSuperCategoryModel(): Prisma.ServiceSuperCategoryModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.expertSuperCategoryModel`: Exposes CRUD operations for the **ExpertSuperCategoryModel** model.
+   * `prisma.zipzoongCareRequestModel`: Exposes CRUD operations for the **ZipzoongCareRequestModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ExpertSuperCategoryModels
-    * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany()
+    * // Fetch zero or more ZipzoongCareRequestModels
+    * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany()
     * ```
     */
-  get expertSuperCategoryModel(): Prisma.ExpertSuperCategoryModelDelegate<GlobalReject>;
+  get zipzoongCareRequestModel(): Prisma.ZipzoongCareRequestModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.zipzoongCareServiceCheckModel`: Exposes CRUD operations for the **ZipzoongCareServiceCheckModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ZipzoongCareServiceCheckModels
+    * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany()
+    * ```
+    */
+  get zipzoongCareServiceCheckModel(): Prisma.ZipzoongCareServiceCheckModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.zipzoongCareConsultationTimeCheckModel`: Exposes CRUD operations for the **ZipzoongCareConsultationTimeCheckModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ZipzoongCareConsultationTimeCheckModels
+    * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany()
+    * ```
+    */
+  get zipzoongCareConsultationTimeCheckModel(): Prisma.ZipzoongCareConsultationTimeCheckModelDelegate<GlobalReject>;
 
   /**
    * `prisma.userModel`: Exposes CRUD operations for the **UserModel** model.
@@ -644,6 +720,16 @@ export class PrismaClient<
     * ```
     */
   get businessUserModel(): Prisma.BusinessUserModelDelegate<GlobalReject>;
+
+  /**
+   * `prisma.subExpertiseModel`: Exposes CRUD operations for the **SubExpertiseModel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubExpertiseModels
+    * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
+    * ```
+    */
+  get subExpertiseModel(): Prisma.SubExpertiseModelDelegate<GlobalReject>;
 
   /**
    * `prisma.rEAgentModel`: Exposes CRUD operations for the **REAgentModel** model.
@@ -1173,12 +1259,15 @@ export namespace Prisma {
     RateCategoryModel: 'RateCategoryModel',
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
-    SubExpertiseModel: 'SubExpertiseModel',
-    ExpertSubCategoryModel: 'ExpertSubCategoryModel',
-    ExpertSuperCategoryModel: 'ExpertSuperCategoryModel',
+    ServiceSubCategoryModel: 'ServiceSubCategoryModel',
+    ServiceSuperCategoryModel: 'ServiceSuperCategoryModel',
+    ZipzoongCareRequestModel: 'ZipzoongCareRequestModel',
+    ZipzoongCareServiceCheckModel: 'ZipzoongCareServiceCheckModel',
+    ZipzoongCareConsultationTimeCheckModel: 'ZipzoongCareConsultationTimeCheckModel',
     UserModel: 'UserModel',
     CustomerModel: 'CustomerModel',
     BusinessUserModel: 'BusinessUserModel',
+    SubExpertiseModel: 'SubExpertiseModel',
     REAgentModel: 'REAgentModel',
     HSProviderModel: 'HSProviderModel',
     BusinessCertificationImageModel: 'BusinessCertificationImageModel',
@@ -1646,30 +1735,30 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ExpertSubCategoryModelCountOutputType
+   * Count Type ServiceSubCategoryModelCountOutputType
    */
 
 
-  export type ExpertSubCategoryModelCountOutputType = {
+  export type ServiceSubCategoryModelCountOutputType = {
     expertises: number
   }
 
-  export type ExpertSubCategoryModelCountOutputTypeSelect = {
+  export type ServiceSubCategoryModelCountOutputTypeSelect = {
     expertises?: boolean
   }
 
-  export type ExpertSubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ExpertSubCategoryModelCountOutputTypeArgs> =
+  export type ServiceSubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ServiceSubCategoryModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ExpertSubCategoryModelCountOutputType :
+    S extends true ? ServiceSubCategoryModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (ExpertSubCategoryModelCountOutputTypeArgs)
-    ? ExpertSubCategoryModelCountOutputType 
-    : S extends { select: any } & (ExpertSubCategoryModelCountOutputTypeArgs)
+    S extends { include: any } & (ServiceSubCategoryModelCountOutputTypeArgs)
+    ? ServiceSubCategoryModelCountOutputType 
+    : S extends { select: any } & (ServiceSubCategoryModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof ExpertSubCategoryModelCountOutputType ? ExpertSubCategoryModelCountOutputType[P] : never
+    P extends keyof ServiceSubCategoryModelCountOutputType ? ServiceSubCategoryModelCountOutputType[P] : never
   } 
-      : ExpertSubCategoryModelCountOutputType
+      : ServiceSubCategoryModelCountOutputType
 
 
 
@@ -1677,42 +1766,44 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * ExpertSubCategoryModelCountOutputType without action
+   * ServiceSubCategoryModelCountOutputType without action
    */
-  export type ExpertSubCategoryModelCountOutputTypeArgs = {
+  export type ServiceSubCategoryModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModelCountOutputType
+     * Select specific fields to fetch from the ServiceSubCategoryModelCountOutputType
      */
-    select?: ExpertSubCategoryModelCountOutputTypeSelect | null
+    select?: ServiceSubCategoryModelCountOutputTypeSelect | null
   }
 
 
 
   /**
-   * Count Type ExpertSuperCategoryModelCountOutputType
+   * Count Type ServiceSuperCategoryModelCountOutputType
    */
 
 
-  export type ExpertSuperCategoryModelCountOutputType = {
+  export type ServiceSuperCategoryModelCountOutputType = {
     sub_categories: number
+    focus_care_checks: number
   }
 
-  export type ExpertSuperCategoryModelCountOutputTypeSelect = {
+  export type ServiceSuperCategoryModelCountOutputTypeSelect = {
     sub_categories?: boolean
+    focus_care_checks?: boolean
   }
 
-  export type ExpertSuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ExpertSuperCategoryModelCountOutputTypeArgs> =
+  export type ServiceSuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ServiceSuperCategoryModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ExpertSuperCategoryModelCountOutputType :
+    S extends true ? ServiceSuperCategoryModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (ExpertSuperCategoryModelCountOutputTypeArgs)
-    ? ExpertSuperCategoryModelCountOutputType 
-    : S extends { select: any } & (ExpertSuperCategoryModelCountOutputTypeArgs)
+    S extends { include: any } & (ServiceSuperCategoryModelCountOutputTypeArgs)
+    ? ServiceSuperCategoryModelCountOutputType 
+    : S extends { select: any } & (ServiceSuperCategoryModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof ExpertSuperCategoryModelCountOutputType ? ExpertSuperCategoryModelCountOutputType[P] : never
+    P extends keyof ServiceSuperCategoryModelCountOutputType ? ServiceSuperCategoryModelCountOutputType[P] : never
   } 
-      : ExpertSuperCategoryModelCountOutputType
+      : ServiceSuperCategoryModelCountOutputType
 
 
 
@@ -1720,13 +1811,58 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * ExpertSuperCategoryModelCountOutputType without action
+   * ServiceSuperCategoryModelCountOutputType without action
    */
-  export type ExpertSuperCategoryModelCountOutputTypeArgs = {
+  export type ServiceSuperCategoryModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModelCountOutputType
+     * Select specific fields to fetch from the ServiceSuperCategoryModelCountOutputType
      */
-    select?: ExpertSuperCategoryModelCountOutputTypeSelect | null
+    select?: ServiceSuperCategoryModelCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ZipzoongCareRequestModelCountOutputType
+   */
+
+
+  export type ZipzoongCareRequestModelCountOutputType = {
+    consultation_time_checks: number
+    service_checks: number
+  }
+
+  export type ZipzoongCareRequestModelCountOutputTypeSelect = {
+    consultation_time_checks?: boolean
+    service_checks?: boolean
+  }
+
+  export type ZipzoongCareRequestModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ZipzoongCareRequestModelCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
+    ? ZipzoongCareRequestModelCountOutputType 
+    : S extends { select: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ZipzoongCareRequestModelCountOutputType ? ZipzoongCareRequestModelCountOutputType[P] : never
+  } 
+      : ZipzoongCareRequestModelCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ZipzoongCareRequestModelCountOutputType without action
+   */
+  export type ZipzoongCareRequestModelCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModelCountOutputType
+     */
+    select?: ZipzoongCareRequestModelCountOutputTypeSelect | null
   }
 
 
@@ -1782,11 +1918,13 @@ export namespace Prisma {
   export type CustomerModelCountOutputType = {
     oauth_accounts: number
     reviews: number
+    zipzoong_care_requests: number
   }
 
   export type CustomerModelCountOutputTypeSelect = {
     oauth_accounts?: boolean
     reviews?: boolean
+    zipzoong_care_requests?: boolean
   }
 
   export type CustomerModelCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomerModelCountOutputTypeArgs> =
@@ -1977,7 +2115,7 @@ export namespace Prisma {
     deleted_at: Date | null
     name: string | null
     main_image_url: string | null
-    agent_id: string | null
+    re_agent_id: string | null
   }
 
   export type REProertyModelMaxAggregateOutputType = {
@@ -1988,7 +2126,7 @@ export namespace Prisma {
     deleted_at: Date | null
     name: string | null
     main_image_url: string | null
-    agent_id: string | null
+    re_agent_id: string | null
   }
 
   export type REProertyModelCountAggregateOutputType = {
@@ -1999,7 +2137,7 @@ export namespace Prisma {
     deleted_at: number
     name: number
     main_image_url: number
-    agent_id: number
+    re_agent_id: number
     _all: number
   }
 
@@ -2012,7 +2150,7 @@ export namespace Prisma {
     deleted_at?: true
     name?: true
     main_image_url?: true
-    agent_id?: true
+    re_agent_id?: true
   }
 
   export type REProertyModelMaxAggregateInputType = {
@@ -2023,7 +2161,7 @@ export namespace Prisma {
     deleted_at?: true
     name?: true
     main_image_url?: true
-    agent_id?: true
+    re_agent_id?: true
   }
 
   export type REProertyModelCountAggregateInputType = {
@@ -2034,7 +2172,7 @@ export namespace Prisma {
     deleted_at?: true
     name?: true
     main_image_url?: true
-    agent_id?: true
+    re_agent_id?: true
     _all?: true
   }
 
@@ -2119,7 +2257,7 @@ export namespace Prisma {
     deleted_at: Date | null
     name: string
     main_image_url: string
-    agent_id: string
+    re_agent_id: string
     _count: REProertyModelCountAggregateOutputType | null
     _min: REProertyModelMinAggregateOutputType | null
     _max: REProertyModelMaxAggregateOutputType | null
@@ -2147,15 +2285,15 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     main_image_url?: boolean
-    agent_id?: boolean
-    agent?: boolean | REAgentModelArgs
+    re_agent_id?: boolean
+    re_agent?: boolean | REAgentModelArgs
     categories?: boolean | REProertyModel$categoriesArgs
     _count?: boolean | REProertyModelCountOutputTypeArgs
   }
 
 
   export type REProertyModelInclude = {
-    agent?: boolean | REAgentModelArgs
+    re_agent?: boolean | REAgentModelArgs
     categories?: boolean | REProertyModel$categoriesArgs
     _count?: boolean | REProertyModelCountOutputTypeArgs
   }
@@ -2167,14 +2305,14 @@ export namespace Prisma {
     S extends { include: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
     ? REProertyModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'agent' ? REAgentModelGetPayload<S['include'][P]> :
+        P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> :
         P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? REProertyModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'agent' ? REAgentModelGetPayload<S['select'][P]> :
+        P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> :
         P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? REProertyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REProertyModel ? REProertyModel[P] : never
   } 
@@ -2548,7 +2686,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
+    re_agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
 
     categories<T extends REProertyModel$categoriesArgs= {}>(args?: Subset<T, REProertyModel$categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>| Null>;
 
@@ -8822,7 +8960,7 @@ export namespace Prisma {
     is_deleted: boolean | null
     deleted_at: Date | null
     name: string | null
-    business_type: BusinessRateType | null
+    target_type: RateTargetType | null
   }
 
   export type RateCategoryModelMaxAggregateOutputType = {
@@ -8832,7 +8970,7 @@ export namespace Prisma {
     is_deleted: boolean | null
     deleted_at: Date | null
     name: string | null
-    business_type: BusinessRateType | null
+    target_type: RateTargetType | null
   }
 
   export type RateCategoryModelCountAggregateOutputType = {
@@ -8842,7 +8980,7 @@ export namespace Prisma {
     is_deleted: number
     deleted_at: number
     name: number
-    business_type: number
+    target_type: number
     _all: number
   }
 
@@ -8854,7 +8992,7 @@ export namespace Prisma {
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    target_type?: true
   }
 
   export type RateCategoryModelMaxAggregateInputType = {
@@ -8864,7 +9002,7 @@ export namespace Prisma {
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    target_type?: true
   }
 
   export type RateCategoryModelCountAggregateInputType = {
@@ -8874,7 +9012,7 @@ export namespace Prisma {
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    target_type?: true
     _all?: true
   }
 
@@ -8958,7 +9096,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at: Date | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
     _count: RateCategoryModelCountAggregateOutputType | null
     _min: RateCategoryModelMinAggregateOutputType | null
     _max: RateCategoryModelMaxAggregateOutputType | null
@@ -8985,7 +9123,7 @@ export namespace Prisma {
     is_deleted?: boolean
     deleted_at?: boolean
     name?: boolean
-    business_type?: boolean
+    target_type?: boolean
     rates?: boolean | RateCategoryModel$ratesArgs
     _count?: boolean | RateCategoryModelCountOutputTypeArgs
   }
@@ -9796,7 +9934,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     is_required: boolean | null
-    user_type: AgreementUserType | null
+    target_type: AgreementTargetType | null
   }
 
   export type AgreementModelMaxAggregateOutputType = {
@@ -9808,7 +9946,7 @@ export namespace Prisma {
     title: string | null
     content: string | null
     is_required: boolean | null
-    user_type: AgreementUserType | null
+    target_type: AgreementTargetType | null
   }
 
   export type AgreementModelCountAggregateOutputType = {
@@ -9820,7 +9958,7 @@ export namespace Prisma {
     title: number
     content: number
     is_required: number
-    user_type: number
+    target_type: number
     _all: number
   }
 
@@ -9834,7 +9972,7 @@ export namespace Prisma {
     title?: true
     content?: true
     is_required?: true
-    user_type?: true
+    target_type?: true
   }
 
   export type AgreementModelMaxAggregateInputType = {
@@ -9846,7 +9984,7 @@ export namespace Prisma {
     title?: true
     content?: true
     is_required?: true
-    user_type?: true
+    target_type?: true
   }
 
   export type AgreementModelCountAggregateInputType = {
@@ -9858,7 +9996,7 @@ export namespace Prisma {
     title?: true
     content?: true
     is_required?: true
-    user_type?: true
+    target_type?: true
     _all?: true
   }
 
@@ -9944,7 +10082,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
     _count: AgreementModelCountAggregateOutputType | null
     _min: AgreementModelMinAggregateOutputType | null
     _max: AgreementModelMaxAggregateOutputType | null
@@ -9973,7 +10111,7 @@ export namespace Prisma {
     title?: boolean
     content?: boolean
     is_required?: boolean
-    user_type?: boolean
+    target_type?: boolean
     acceptances?: boolean | AgreementModel$acceptancesArgs
     _count?: boolean | AgreementModelCountOutputTypeArgs
   }
@@ -11718,970 +11856,17 @@ export namespace Prisma {
 
 
   /**
-   * Model SubExpertiseModel
+   * Model ServiceSubCategoryModel
    */
 
 
-  export type AggregateSubExpertiseModel = {
-    _count: SubExpertiseModelCountAggregateOutputType | null
-    _min: SubExpertiseModelMinAggregateOutputType | null
-    _max: SubExpertiseModelMaxAggregateOutputType | null
+  export type AggregateServiceSubCategoryModel = {
+    _count: ServiceSubCategoryModelCountAggregateOutputType | null
+    _min: ServiceSubCategoryModelMinAggregateOutputType | null
+    _max: ServiceSubCategoryModelMaxAggregateOutputType | null
   }
 
-  export type SubExpertiseModelMinAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    sub_category_id: string | null
-    business_user_id: string | null
-  }
-
-  export type SubExpertiseModelMaxAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    sub_category_id: string | null
-    business_user_id: string | null
-  }
-
-  export type SubExpertiseModelCountAggregateOutputType = {
-    id: number
-    created_at: number
-    updated_at: number
-    is_deleted: number
-    deleted_at: number
-    sub_category_id: number
-    business_user_id: number
-    _all: number
-  }
-
-
-  export type SubExpertiseModelMinAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    sub_category_id?: true
-    business_user_id?: true
-  }
-
-  export type SubExpertiseModelMaxAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    sub_category_id?: true
-    business_user_id?: true
-  }
-
-  export type SubExpertiseModelCountAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    sub_category_id?: true
-    business_user_id?: true
-    _all?: true
-  }
-
-  export type SubExpertiseModelAggregateArgs = {
-    /**
-     * Filter which SubExpertiseModel to aggregate.
-     */
-    where?: SubExpertiseModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubExpertiseModels to fetch.
-     */
-    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: SubExpertiseModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubExpertiseModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubExpertiseModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned SubExpertiseModels
-    **/
-    _count?: true | SubExpertiseModelCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: SubExpertiseModelMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: SubExpertiseModelMaxAggregateInputType
-  }
-
-  export type GetSubExpertiseModelAggregateType<T extends SubExpertiseModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateSubExpertiseModel]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
-      : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
-  }
-
-
-
-
-  export type SubExpertiseModelGroupByArgs = {
-    where?: SubExpertiseModelWhereInput
-    orderBy?: Enumerable<SubExpertiseModelOrderByWithAggregationInput>
-    by: SubExpertiseModelScalarFieldEnum[]
-    having?: SubExpertiseModelScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SubExpertiseModelCountAggregateInputType | true
-    _min?: SubExpertiseModelMinAggregateInputType
-    _max?: SubExpertiseModelMaxAggregateInputType
-  }
-
-
-  export type SubExpertiseModelGroupByOutputType = {
-    id: string
-    created_at: Date
-    updated_at: Date
-    is_deleted: boolean
-    deleted_at: Date | null
-    sub_category_id: string
-    business_user_id: string
-    _count: SubExpertiseModelCountAggregateOutputType | null
-    _min: SubExpertiseModelMinAggregateOutputType | null
-    _max: SubExpertiseModelMaxAggregateOutputType | null
-  }
-
-  type GetSubExpertiseModelGroupByPayload<T extends SubExpertiseModelGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<SubExpertiseModelGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SubExpertiseModelGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
-            : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type SubExpertiseModelSelect = {
-    id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    is_deleted?: boolean
-    deleted_at?: boolean
-    sub_category_id?: boolean
-    business_user_id?: boolean
-    sub_category?: boolean | ExpertSubCategoryModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-  }
-
-
-  export type SubExpertiseModelInclude = {
-    sub_category?: boolean | ExpertSubCategoryModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-  }
-
-  export type SubExpertiseModelGetPayload<S extends boolean | null | undefined | SubExpertiseModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? SubExpertiseModel :
-    S extends undefined ? never :
-    S extends { include: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
-    ? SubExpertiseModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'sub_category' ? ExpertSubCategoryModelGetPayload<S['include'][P]> :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'sub_category' ? ExpertSubCategoryModelGetPayload<S['select'][P]> :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof SubExpertiseModel ? SubExpertiseModel[P] : never
-  } 
-      : SubExpertiseModel
-
-
-  type SubExpertiseModelCountArgs = 
-    Omit<SubExpertiseModelFindManyArgs, 'select' | 'include'> & {
-      select?: SubExpertiseModelCountAggregateInputType | true
-    }
-
-  export interface SubExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one SubExpertiseModel that matches the filter.
-     * @param {SubExpertiseModelFindUniqueArgs} args - Arguments to find a SubExpertiseModel
-     * @example
-     * // Get one SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends SubExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, SubExpertiseModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
-
-    /**
-     * Find one SubExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {SubExpertiseModelFindUniqueOrThrowArgs} args - Arguments to find a SubExpertiseModel
-     * @example
-     * // Get one SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends SubExpertiseModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindUniqueOrThrowArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Find the first SubExpertiseModel that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelFindFirstArgs} args - Arguments to find a SubExpertiseModel
-     * @example
-     * // Get one SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends SubExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, SubExpertiseModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
-
-    /**
-     * Find the first SubExpertiseModel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelFindFirstOrThrowArgs} args - Arguments to find a SubExpertiseModel
-     * @example
-     * // Get one SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends SubExpertiseModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindFirstOrThrowArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Find zero or more SubExpertiseModels that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all SubExpertiseModels
-     * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
-     * 
-     * // Get first 10 SubExpertiseModels
-     * const subExpertiseModels = await prisma.subExpertiseModel.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const subExpertiseModelWithIdOnly = await prisma.subExpertiseModel.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends SubExpertiseModelFindManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>>
-
-    /**
-     * Create a SubExpertiseModel.
-     * @param {SubExpertiseModelCreateArgs} args - Arguments to create a SubExpertiseModel.
-     * @example
-     * // Create one SubExpertiseModel
-     * const SubExpertiseModel = await prisma.subExpertiseModel.create({
-     *   data: {
-     *     // ... data to create a SubExpertiseModel
-     *   }
-     * })
-     * 
-    **/
-    create<T extends SubExpertiseModelCreateArgs>(
-      args: SelectSubset<T, SubExpertiseModelCreateArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Create many SubExpertiseModels.
-     *     @param {SubExpertiseModelCreateManyArgs} args - Arguments to create many SubExpertiseModels.
-     *     @example
-     *     // Create many SubExpertiseModels
-     *     const subExpertiseModel = await prisma.subExpertiseModel.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends SubExpertiseModelCreateManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a SubExpertiseModel.
-     * @param {SubExpertiseModelDeleteArgs} args - Arguments to delete one SubExpertiseModel.
-     * @example
-     * // Delete one SubExpertiseModel
-     * const SubExpertiseModel = await prisma.subExpertiseModel.delete({
-     *   where: {
-     *     // ... filter to delete one SubExpertiseModel
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends SubExpertiseModelDeleteArgs>(
-      args: SelectSubset<T, SubExpertiseModelDeleteArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Update one SubExpertiseModel.
-     * @param {SubExpertiseModelUpdateArgs} args - Arguments to update one SubExpertiseModel.
-     * @example
-     * // Update one SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends SubExpertiseModelUpdateArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpdateArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Delete zero or more SubExpertiseModels.
-     * @param {SubExpertiseModelDeleteManyArgs} args - Arguments to filter SubExpertiseModels to delete.
-     * @example
-     * // Delete a few SubExpertiseModels
-     * const { count } = await prisma.subExpertiseModel.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends SubExpertiseModelDeleteManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more SubExpertiseModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many SubExpertiseModels
-     * const subExpertiseModel = await prisma.subExpertiseModel.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends SubExpertiseModelUpdateManyArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one SubExpertiseModel.
-     * @param {SubExpertiseModelUpsertArgs} args - Arguments to update or create a SubExpertiseModel.
-     * @example
-     * // Update or create a SubExpertiseModel
-     * const subExpertiseModel = await prisma.subExpertiseModel.upsert({
-     *   create: {
-     *     // ... data to create a SubExpertiseModel
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the SubExpertiseModel we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends SubExpertiseModelUpsertArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpsertArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
-
-    /**
-     * Count the number of SubExpertiseModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelCountArgs} args - Arguments to filter SubExpertiseModels to count.
-     * @example
-     * // Count the number of SubExpertiseModels
-     * const count = await prisma.subExpertiseModel.count({
-     *   where: {
-     *     // ... the filter for the SubExpertiseModels we want to count
-     *   }
-     * })
-    **/
-    count<T extends SubExpertiseModelCountArgs>(
-      args?: Subset<T, SubExpertiseModelCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], SubExpertiseModelCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a SubExpertiseModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends SubExpertiseModelAggregateArgs>(args: Subset<T, SubExpertiseModelAggregateArgs>): Prisma.PrismaPromise<GetSubExpertiseModelAggregateType<T>>
-
-    /**
-     * Group by SubExpertiseModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SubExpertiseModelGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends SubExpertiseModelGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SubExpertiseModelGroupByArgs['orderBy'] }
-        : { orderBy?: SubExpertiseModelGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SubExpertiseModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubExpertiseModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for SubExpertiseModel.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__SubExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    sub_category<T extends ExpertSubCategoryModelArgs= {}>(args?: Subset<T, ExpertSubCategoryModelArgs>): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | Null>;
-
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * SubExpertiseModel base type for findUnique actions
-   */
-  export type SubExpertiseModelFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter, which SubExpertiseModel to fetch.
-     */
-    where: SubExpertiseModelWhereUniqueInput
-  }
-
-  /**
-   * SubExpertiseModel findUnique
-   */
-  export interface SubExpertiseModelFindUniqueArgs extends SubExpertiseModelFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * SubExpertiseModel findUniqueOrThrow
-   */
-  export type SubExpertiseModelFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter, which SubExpertiseModel to fetch.
-     */
-    where: SubExpertiseModelWhereUniqueInput
-  }
-
-
-  /**
-   * SubExpertiseModel base type for findFirst actions
-   */
-  export type SubExpertiseModelFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter, which SubExpertiseModel to fetch.
-     */
-    where?: SubExpertiseModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubExpertiseModels to fetch.
-     */
-    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SubExpertiseModels.
-     */
-    cursor?: SubExpertiseModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubExpertiseModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubExpertiseModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SubExpertiseModels.
-     */
-    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
-  }
-
-  /**
-   * SubExpertiseModel findFirst
-   */
-  export interface SubExpertiseModelFindFirstArgs extends SubExpertiseModelFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * SubExpertiseModel findFirstOrThrow
-   */
-  export type SubExpertiseModelFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter, which SubExpertiseModel to fetch.
-     */
-    where?: SubExpertiseModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubExpertiseModels to fetch.
-     */
-    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SubExpertiseModels.
-     */
-    cursor?: SubExpertiseModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubExpertiseModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubExpertiseModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SubExpertiseModels.
-     */
-    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
-  }
-
-
-  /**
-   * SubExpertiseModel findMany
-   */
-  export type SubExpertiseModelFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter, which SubExpertiseModels to fetch.
-     */
-    where?: SubExpertiseModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SubExpertiseModels to fetch.
-     */
-    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing SubExpertiseModels.
-     */
-    cursor?: SubExpertiseModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SubExpertiseModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SubExpertiseModels.
-     */
-    skip?: number
-    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
-  }
-
-
-  /**
-   * SubExpertiseModel create
-   */
-  export type SubExpertiseModelCreateArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * The data needed to create a SubExpertiseModel.
-     */
-    data: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
-  }
-
-
-  /**
-   * SubExpertiseModel createMany
-   */
-  export type SubExpertiseModelCreateManyArgs = {
-    /**
-     * The data used to create many SubExpertiseModels.
-     */
-    data: Enumerable<SubExpertiseModelCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * SubExpertiseModel update
-   */
-  export type SubExpertiseModelUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * The data needed to update a SubExpertiseModel.
-     */
-    data: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
-    /**
-     * Choose, which SubExpertiseModel to update.
-     */
-    where: SubExpertiseModelWhereUniqueInput
-  }
-
-
-  /**
-   * SubExpertiseModel updateMany
-   */
-  export type SubExpertiseModelUpdateManyArgs = {
-    /**
-     * The data used to update SubExpertiseModels.
-     */
-    data: XOR<SubExpertiseModelUpdateManyMutationInput, SubExpertiseModelUncheckedUpdateManyInput>
-    /**
-     * Filter which SubExpertiseModels to update
-     */
-    where?: SubExpertiseModelWhereInput
-  }
-
-
-  /**
-   * SubExpertiseModel upsert
-   */
-  export type SubExpertiseModelUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * The filter to search for the SubExpertiseModel to update in case it exists.
-     */
-    where: SubExpertiseModelWhereUniqueInput
-    /**
-     * In case the SubExpertiseModel found by the `where` argument doesn't exist, create a new SubExpertiseModel with this data.
-     */
-    create: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
-    /**
-     * In case the SubExpertiseModel was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
-  }
-
-
-  /**
-   * SubExpertiseModel delete
-   */
-  export type SubExpertiseModelDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-    /**
-     * Filter which SubExpertiseModel to delete.
-     */
-    where: SubExpertiseModelWhereUniqueInput
-  }
-
-
-  /**
-   * SubExpertiseModel deleteMany
-   */
-  export type SubExpertiseModelDeleteManyArgs = {
-    /**
-     * Filter which SubExpertiseModels to delete
-     */
-    where?: SubExpertiseModelWhereInput
-  }
-
-
-  /**
-   * SubExpertiseModel without action
-   */
-  export type SubExpertiseModelArgs = {
-    /**
-     * Select specific fields to fetch from the SubExpertiseModel
-     */
-    select?: SubExpertiseModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: SubExpertiseModelInclude | null
-  }
-
-
-
-  /**
-   * Model ExpertSubCategoryModel
-   */
-
-
-  export type AggregateExpertSubCategoryModel = {
-    _count: ExpertSubCategoryModelCountAggregateOutputType | null
-    _min: ExpertSubCategoryModelMinAggregateOutputType | null
-    _max: ExpertSubCategoryModelMaxAggregateOutputType | null
-  }
-
-  export type ExpertSubCategoryModelMinAggregateOutputType = {
+  export type ServiceSubCategoryModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -12691,7 +11876,7 @@ export namespace Prisma {
     super_category_id: string | null
   }
 
-  export type ExpertSubCategoryModelMaxAggregateOutputType = {
+  export type ServiceSubCategoryModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -12701,7 +11886,7 @@ export namespace Prisma {
     super_category_id: string | null
   }
 
-  export type ExpertSubCategoryModelCountAggregateOutputType = {
+  export type ServiceSubCategoryModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -12713,7 +11898,7 @@ export namespace Prisma {
   }
 
 
-  export type ExpertSubCategoryModelMinAggregateInputType = {
+  export type ServiceSubCategoryModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -12723,7 +11908,7 @@ export namespace Prisma {
     super_category_id?: true
   }
 
-  export type ExpertSubCategoryModelMaxAggregateInputType = {
+  export type ServiceSubCategoryModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -12733,7 +11918,7 @@ export namespace Prisma {
     super_category_id?: true
   }
 
-  export type ExpertSubCategoryModelCountAggregateInputType = {
+  export type ServiceSubCategoryModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -12744,80 +11929,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ExpertSubCategoryModelAggregateArgs = {
+  export type ServiceSubCategoryModelAggregateArgs = {
     /**
-     * Filter which ExpertSubCategoryModel to aggregate.
+     * Filter which ServiceSubCategoryModel to aggregate.
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSubCategoryModels to fetch.
+     * Determine the order of ServiceSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    cursor?: ServiceSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSubCategoryModels.
+     * Skip the first `n` ServiceSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ExpertSubCategoryModels
+     * Count returned ServiceSubCategoryModels
     **/
-    _count?: true | ExpertSubCategoryModelCountAggregateInputType
+    _count?: true | ServiceSubCategoryModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ExpertSubCategoryModelMinAggregateInputType
+    _min?: ServiceSubCategoryModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ExpertSubCategoryModelMaxAggregateInputType
+    _max?: ServiceSubCategoryModelMaxAggregateInputType
   }
 
-  export type GetExpertSubCategoryModelAggregateType<T extends ExpertSubCategoryModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateExpertSubCategoryModel]: P extends '_count' | 'count'
+  export type GetServiceSubCategoryModelAggregateType<T extends ServiceSubCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceSubCategoryModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateExpertSubCategoryModel[P]>
-      : GetScalarType<T[P], AggregateExpertSubCategoryModel[P]>
+        : GetScalarType<T[P], AggregateServiceSubCategoryModel[P]>
+      : GetScalarType<T[P], AggregateServiceSubCategoryModel[P]>
   }
 
 
 
 
-  export type ExpertSubCategoryModelGroupByArgs = {
-    where?: ExpertSubCategoryModelWhereInput
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithAggregationInput>
-    by: ExpertSubCategoryModelScalarFieldEnum[]
-    having?: ExpertSubCategoryModelScalarWhereWithAggregatesInput
+  export type ServiceSubCategoryModelGroupByArgs = {
+    where?: ServiceSubCategoryModelWhereInput
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithAggregationInput>
+    by: ServiceSubCategoryModelScalarFieldEnum[]
+    having?: ServiceSubCategoryModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ExpertSubCategoryModelCountAggregateInputType | true
-    _min?: ExpertSubCategoryModelMinAggregateInputType
-    _max?: ExpertSubCategoryModelMaxAggregateInputType
+    _count?: ServiceSubCategoryModelCountAggregateInputType | true
+    _min?: ServiceSubCategoryModelMinAggregateInputType
+    _max?: ServiceSubCategoryModelMaxAggregateInputType
   }
 
 
-  export type ExpertSubCategoryModelGroupByOutputType = {
+  export type ServiceSubCategoryModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -12825,26 +12010,26 @@ export namespace Prisma {
     deleted_at: Date | null
     name: string
     super_category_id: string
-    _count: ExpertSubCategoryModelCountAggregateOutputType | null
-    _min: ExpertSubCategoryModelMinAggregateOutputType | null
-    _max: ExpertSubCategoryModelMaxAggregateOutputType | null
+    _count: ServiceSubCategoryModelCountAggregateOutputType | null
+    _min: ServiceSubCategoryModelMinAggregateOutputType | null
+    _max: ServiceSubCategoryModelMaxAggregateOutputType | null
   }
 
-  type GetExpertSubCategoryModelGroupByPayload<T extends ExpertSubCategoryModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetServiceSubCategoryModelGroupByPayload<T extends ServiceSubCategoryModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<ExpertSubCategoryModelGroupByOutputType, T['by']> &
+      PickArray<ServiceSubCategoryModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ExpertSubCategoryModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ServiceSubCategoryModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ExpertSubCategoryModelGroupByOutputType[P]>
-            : GetScalarType<T[P], ExpertSubCategoryModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ServiceSubCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceSubCategoryModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ExpertSubCategoryModelSelect = {
+  export type ServiceSubCategoryModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -12852,186 +12037,186 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     super_category_id?: boolean
-    super_category?: boolean | ExpertSuperCategoryModelArgs
-    expertises?: boolean | ExpertSubCategoryModel$expertisesArgs
-    _count?: boolean | ExpertSubCategoryModelCountOutputTypeArgs
+    super_category?: boolean | ServiceSuperCategoryModelArgs
+    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs
+    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs
   }
 
 
-  export type ExpertSubCategoryModelInclude = {
-    super_category?: boolean | ExpertSuperCategoryModelArgs
-    expertises?: boolean | ExpertSubCategoryModel$expertisesArgs
-    _count?: boolean | ExpertSubCategoryModelCountOutputTypeArgs
+  export type ServiceSubCategoryModelInclude = {
+    super_category?: boolean | ServiceSuperCategoryModelArgs
+    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs
+    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs
   }
 
-  export type ExpertSubCategoryModelGetPayload<S extends boolean | null | undefined | ExpertSubCategoryModelArgs> =
+  export type ServiceSubCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSubCategoryModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ExpertSubCategoryModel :
+    S extends true ? ServiceSubCategoryModel :
     S extends undefined ? never :
-    S extends { include: any } & (ExpertSubCategoryModelArgs | ExpertSubCategoryModelFindManyArgs)
-    ? ExpertSubCategoryModel  & {
+    S extends { include: any } & (ServiceSubCategoryModelArgs | ServiceSubCategoryModelFindManyArgs)
+    ? ServiceSubCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'super_category' ? ExpertSuperCategoryModelGetPayload<S['include'][P]> :
+        P extends 'super_category' ? ServiceSuperCategoryModelGetPayload<S['include'][P]> :
         P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends '_count' ? ServiceSubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (ExpertSubCategoryModelArgs | ExpertSubCategoryModelFindManyArgs)
+    : S extends { select: any } & (ServiceSubCategoryModelArgs | ServiceSubCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'super_category' ? ExpertSuperCategoryModelGetPayload<S['select'][P]> :
+        P extends 'super_category' ? ServiceSuperCategoryModelGetPayload<S['select'][P]> :
         P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ExpertSubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSubCategoryModel ? ExpertSubCategoryModel[P] : never
+        P extends '_count' ? ServiceSubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ServiceSubCategoryModel ? ServiceSubCategoryModel[P] : never
   } 
-      : ExpertSubCategoryModel
+      : ServiceSubCategoryModel
 
 
-  type ExpertSubCategoryModelCountArgs = 
-    Omit<ExpertSubCategoryModelFindManyArgs, 'select' | 'include'> & {
-      select?: ExpertSubCategoryModelCountAggregateInputType | true
+  type ServiceSubCategoryModelCountArgs = 
+    Omit<ServiceSubCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: ServiceSubCategoryModelCountAggregateInputType | true
     }
 
-  export interface ExpertSubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ServiceSubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one ExpertSubCategoryModel that matches the filter.
-     * @param {ExpertSubCategoryModelFindUniqueArgs} args - Arguments to find a ExpertSubCategoryModel
+     * Find zero or one ServiceSubCategoryModel that matches the filter.
+     * @param {ServiceSubCategoryModelFindUniqueArgs} args - Arguments to find a ServiceSubCategoryModel
      * @example
-     * // Get one ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findUnique({
+     * // Get one ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends ExpertSubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ExpertSubCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ExpertSubCategoryModel'> extends True ? Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>> : Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends ServiceSubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ServiceSubCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>> : Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find one ExpertSubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ServiceSubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {ExpertSubCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ExpertSubCategoryModel
+     * @param {ServiceSubCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ServiceSubCategoryModel
      * @example
-     * // Get one ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findUniqueOrThrow({
+     * // Get one ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ExpertSubCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ExpertSubCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends ServiceSubCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Find the first ExpertSubCategoryModel that matches the filter.
+     * Find the first ServiceSubCategoryModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelFindFirstArgs} args - Arguments to find a ExpertSubCategoryModel
+     * @param {ServiceSubCategoryModelFindFirstArgs} args - Arguments to find a ServiceSubCategoryModel
      * @example
-     * // Get one ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findFirst({
+     * // Get one ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends ExpertSubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ExpertSubCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ExpertSubCategoryModel'> extends True ? Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>> : Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends ServiceSubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>> : Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find the first ExpertSubCategoryModel that matches the filter or
+     * Find the first ServiceSubCategoryModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ExpertSubCategoryModel
+     * @param {ServiceSubCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ServiceSubCategoryModel
      * @example
-     * // Get one ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.findFirstOrThrow({
+     * // Get one ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ExpertSubCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ExpertSubCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends ServiceSubCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Find zero or more ExpertSubCategoryModels that matches the filter.
+     * Find zero or more ServiceSubCategoryModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ServiceSubCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ExpertSubCategoryModels
-     * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany()
+     * // Get all ServiceSubCategoryModels
+     * const serviceSubCategoryModels = await prisma.serviceSubCategoryModel.findMany()
      * 
-     * // Get first 10 ExpertSubCategoryModels
-     * const expertSubCategoryModels = await prisma.expertSubCategoryModel.findMany({ take: 10 })
+     * // Get first 10 ServiceSubCategoryModels
+     * const serviceSubCategoryModels = await prisma.serviceSubCategoryModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const expertSubCategoryModelWithIdOnly = await prisma.expertSubCategoryModel.findMany({ select: { id: true } })
+     * const serviceSubCategoryModelWithIdOnly = await prisma.serviceSubCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ExpertSubCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, ExpertSubCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ExpertSubCategoryModelGetPayload<T>>>
+    findMany<T extends ServiceSubCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ServiceSubCategoryModelGetPayload<T>>>
 
     /**
-     * Create a ExpertSubCategoryModel.
-     * @param {ExpertSubCategoryModelCreateArgs} args - Arguments to create a ExpertSubCategoryModel.
+     * Create a ServiceSubCategoryModel.
+     * @param {ServiceSubCategoryModelCreateArgs} args - Arguments to create a ServiceSubCategoryModel.
      * @example
-     * // Create one ExpertSubCategoryModel
-     * const ExpertSubCategoryModel = await prisma.expertSubCategoryModel.create({
+     * // Create one ServiceSubCategoryModel
+     * const ServiceSubCategoryModel = await prisma.serviceSubCategoryModel.create({
      *   data: {
-     *     // ... data to create a ExpertSubCategoryModel
+     *     // ... data to create a ServiceSubCategoryModel
      *   }
      * })
      * 
     **/
-    create<T extends ExpertSubCategoryModelCreateArgs>(
-      args: SelectSubset<T, ExpertSubCategoryModelCreateArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    create<T extends ServiceSubCategoryModelCreateArgs>(
+      args: SelectSubset<T, ServiceSubCategoryModelCreateArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Create many ExpertSubCategoryModels.
-     *     @param {ExpertSubCategoryModelCreateManyArgs} args - Arguments to create many ExpertSubCategoryModels.
+     * Create many ServiceSubCategoryModels.
+     *     @param {ServiceSubCategoryModelCreateManyArgs} args - Arguments to create many ServiceSubCategoryModels.
      *     @example
-     *     // Create many ExpertSubCategoryModels
-     *     const expertSubCategoryModel = await prisma.expertSubCategoryModel.createMany({
+     *     // Create many ServiceSubCategoryModels
+     *     const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends ExpertSubCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, ExpertSubCategoryModelCreateManyArgs>
+    createMany<T extends ServiceSubCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, ServiceSubCategoryModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a ExpertSubCategoryModel.
-     * @param {ExpertSubCategoryModelDeleteArgs} args - Arguments to delete one ExpertSubCategoryModel.
+     * Delete a ServiceSubCategoryModel.
+     * @param {ServiceSubCategoryModelDeleteArgs} args - Arguments to delete one ServiceSubCategoryModel.
      * @example
-     * // Delete one ExpertSubCategoryModel
-     * const ExpertSubCategoryModel = await prisma.expertSubCategoryModel.delete({
+     * // Delete one ServiceSubCategoryModel
+     * const ServiceSubCategoryModel = await prisma.serviceSubCategoryModel.delete({
      *   where: {
-     *     // ... filter to delete one ExpertSubCategoryModel
+     *     // ... filter to delete one ServiceSubCategoryModel
      *   }
      * })
      * 
     **/
-    delete<T extends ExpertSubCategoryModelDeleteArgs>(
-      args: SelectSubset<T, ExpertSubCategoryModelDeleteArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    delete<T extends ServiceSubCategoryModelDeleteArgs>(
+      args: SelectSubset<T, ServiceSubCategoryModelDeleteArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Update one ExpertSubCategoryModel.
-     * @param {ExpertSubCategoryModelUpdateArgs} args - Arguments to update one ExpertSubCategoryModel.
+     * Update one ServiceSubCategoryModel.
+     * @param {ServiceSubCategoryModelUpdateArgs} args - Arguments to update one ServiceSubCategoryModel.
      * @example
-     * // Update one ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.update({
+     * // Update one ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13041,34 +12226,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ExpertSubCategoryModelUpdateArgs>(
-      args: SelectSubset<T, ExpertSubCategoryModelUpdateArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    update<T extends ServiceSubCategoryModelUpdateArgs>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpdateArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Delete zero or more ExpertSubCategoryModels.
-     * @param {ExpertSubCategoryModelDeleteManyArgs} args - Arguments to filter ExpertSubCategoryModels to delete.
+     * Delete zero or more ServiceSubCategoryModels.
+     * @param {ServiceSubCategoryModelDeleteManyArgs} args - Arguments to filter ServiceSubCategoryModels to delete.
      * @example
-     * // Delete a few ExpertSubCategoryModels
-     * const { count } = await prisma.expertSubCategoryModel.deleteMany({
+     * // Delete a few ServiceSubCategoryModels
+     * const { count } = await prisma.serviceSubCategoryModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends ExpertSubCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, ExpertSubCategoryModelDeleteManyArgs>
+    deleteMany<T extends ServiceSubCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, ServiceSubCategoryModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ExpertSubCategoryModels.
+     * Update zero or more ServiceSubCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ServiceSubCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ExpertSubCategoryModels
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.updateMany({
+     * // Update many ServiceSubCategoryModels
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -13078,59 +12263,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ExpertSubCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, ExpertSubCategoryModelUpdateManyArgs>
+    updateMany<T extends ServiceSubCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one ExpertSubCategoryModel.
-     * @param {ExpertSubCategoryModelUpsertArgs} args - Arguments to update or create a ExpertSubCategoryModel.
+     * Create or update one ServiceSubCategoryModel.
+     * @param {ServiceSubCategoryModelUpsertArgs} args - Arguments to update or create a ServiceSubCategoryModel.
      * @example
-     * // Update or create a ExpertSubCategoryModel
-     * const expertSubCategoryModel = await prisma.expertSubCategoryModel.upsert({
+     * // Update or create a ServiceSubCategoryModel
+     * const serviceSubCategoryModel = await prisma.serviceSubCategoryModel.upsert({
      *   create: {
-     *     // ... data to create a ExpertSubCategoryModel
+     *     // ... data to create a ServiceSubCategoryModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ExpertSubCategoryModel we want to update
+     *     // ... the filter for the ServiceSubCategoryModel we want to update
      *   }
      * })
     **/
-    upsert<T extends ExpertSubCategoryModelUpsertArgs>(
-      args: SelectSubset<T, ExpertSubCategoryModelUpsertArgs>
-    ): Prisma__ExpertSubCategoryModelClient<ExpertSubCategoryModelGetPayload<T>>
+    upsert<T extends ServiceSubCategoryModelUpsertArgs>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpsertArgs>
+    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
 
     /**
-     * Count the number of ExpertSubCategoryModels.
+     * Count the number of ServiceSubCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelCountArgs} args - Arguments to filter ExpertSubCategoryModels to count.
+     * @param {ServiceSubCategoryModelCountArgs} args - Arguments to filter ServiceSubCategoryModels to count.
      * @example
-     * // Count the number of ExpertSubCategoryModels
-     * const count = await prisma.expertSubCategoryModel.count({
+     * // Count the number of ServiceSubCategoryModels
+     * const count = await prisma.serviceSubCategoryModel.count({
      *   where: {
-     *     // ... the filter for the ExpertSubCategoryModels we want to count
+     *     // ... the filter for the ServiceSubCategoryModels we want to count
      *   }
      * })
     **/
-    count<T extends ExpertSubCategoryModelCountArgs>(
-      args?: Subset<T, ExpertSubCategoryModelCountArgs>,
+    count<T extends ServiceSubCategoryModelCountArgs>(
+      args?: Subset<T, ServiceSubCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ExpertSubCategoryModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ServiceSubCategoryModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ExpertSubCategoryModel.
+     * Allows you to perform aggregations operations on a ServiceSubCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ServiceSubCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -13150,13 +12335,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ExpertSubCategoryModelAggregateArgs>(args: Subset<T, ExpertSubCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetExpertSubCategoryModelAggregateType<T>>
+    aggregate<T extends ServiceSubCategoryModelAggregateArgs>(args: Subset<T, ServiceSubCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetServiceSubCategoryModelAggregateType<T>>
 
     /**
-     * Group by ExpertSubCategoryModel.
+     * Group by ServiceSubCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSubCategoryModelGroupByArgs} args - Group by arguments.
+     * @param {ServiceSubCategoryModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -13171,14 +12356,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ExpertSubCategoryModelGroupByArgs,
+      T extends ServiceSubCategoryModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ExpertSubCategoryModelGroupByArgs['orderBy'] }
-        : { orderBy?: ExpertSubCategoryModelGroupByArgs['orderBy'] },
+        ? { orderBy: ServiceSubCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceSubCategoryModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -13227,17 +12412,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ExpertSubCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertSubCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ServiceSubCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceSubCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ExpertSubCategoryModel.
+   * The delegate class that acts as a "Promise-like" for ServiceSubCategoryModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ExpertSubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ServiceSubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -13252,9 +12437,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    super_category<T extends ExpertSuperCategoryModelArgs= {}>(args?: Subset<T, ExpertSuperCategoryModelArgs>): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | Null>;
+    super_category<T extends ServiceSuperCategoryModelArgs= {}>(args?: Subset<T, ServiceSuperCategoryModelArgs>): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | Null>;
 
-    expertises<T extends ExpertSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ExpertSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
+    expertises<T extends ServiceSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ServiceSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -13284,27 +12469,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * ExpertSubCategoryModel base type for findUnique actions
+   * ServiceSubCategoryModel base type for findUnique actions
    */
-  export type ExpertSubCategoryModelFindUniqueArgsBase = {
+  export type ServiceSubCategoryModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter, which ExpertSubCategoryModel to fetch.
+     * Filter, which ServiceSubCategoryModel to fetch.
      */
-    where: ExpertSubCategoryModelWhereUniqueInput
+    where: ServiceSubCategoryModelWhereUniqueInput
   }
 
   /**
-   * ExpertSubCategoryModel findUnique
+   * ServiceSubCategoryModel findUnique
    */
-  export interface ExpertSubCategoryModelFindUniqueArgs extends ExpertSubCategoryModelFindUniqueArgsBase {
+  export interface ServiceSubCategoryModelFindUniqueArgs extends ServiceSubCategoryModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -13314,76 +12499,76 @@ export namespace Prisma {
       
 
   /**
-   * ExpertSubCategoryModel findUniqueOrThrow
+   * ServiceSubCategoryModel findUniqueOrThrow
    */
-  export type ExpertSubCategoryModelFindUniqueOrThrowArgs = {
+  export type ServiceSubCategoryModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter, which ExpertSubCategoryModel to fetch.
+     * Filter, which ServiceSubCategoryModel to fetch.
      */
-    where: ExpertSubCategoryModelWhereUniqueInput
+    where: ServiceSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSubCategoryModel base type for findFirst actions
+   * ServiceSubCategoryModel base type for findFirst actions
    */
-  export type ExpertSubCategoryModelFindFirstArgsBase = {
+  export type ServiceSubCategoryModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter, which ExpertSubCategoryModel to fetch.
+     * Filter, which ServiceSubCategoryModel to fetch.
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSubCategoryModels to fetch.
+     * Determine the order of ServiceSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ExpertSubCategoryModels.
+     * Sets the position for searching for ServiceSubCategoryModels.
      */
-    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    cursor?: ServiceSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSubCategoryModels.
+     * Skip the first `n` ServiceSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ExpertSubCategoryModels.
+     * Filter by unique combinations of ServiceSubCategoryModels.
      */
-    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSubCategoryModelScalarFieldEnum>
   }
 
   /**
-   * ExpertSubCategoryModel findFirst
+   * ServiceSubCategoryModel findFirst
    */
-  export interface ExpertSubCategoryModelFindFirstArgs extends ExpertSubCategoryModelFindFirstArgsBase {
+  export interface ServiceSubCategoryModelFindFirstArgs extends ServiceSubCategoryModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -13393,228 +12578,228 @@ export namespace Prisma {
       
 
   /**
-   * ExpertSubCategoryModel findFirstOrThrow
+   * ServiceSubCategoryModel findFirstOrThrow
    */
-  export type ExpertSubCategoryModelFindFirstOrThrowArgs = {
+  export type ServiceSubCategoryModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter, which ExpertSubCategoryModel to fetch.
+     * Filter, which ServiceSubCategoryModel to fetch.
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSubCategoryModels to fetch.
+     * Determine the order of ServiceSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ExpertSubCategoryModels.
+     * Sets the position for searching for ServiceSubCategoryModels.
      */
-    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    cursor?: ServiceSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSubCategoryModels.
+     * Skip the first `n` ServiceSubCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ExpertSubCategoryModels.
+     * Filter by unique combinations of ServiceSubCategoryModels.
      */
-    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSubCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * ExpertSubCategoryModel findMany
+   * ServiceSubCategoryModel findMany
    */
-  export type ExpertSubCategoryModelFindManyArgs = {
+  export type ServiceSubCategoryModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter, which ExpertSubCategoryModels to fetch.
+     * Filter, which ServiceSubCategoryModels to fetch.
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSubCategoryModels to fetch.
+     * Determine the order of ServiceSubCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ExpertSubCategoryModels.
+     * Sets the position for listing ServiceSubCategoryModels.
      */
-    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    cursor?: ServiceSubCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSubCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSubCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSubCategoryModels.
+     * Skip the first `n` ServiceSubCategoryModels.
      */
     skip?: number
-    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSubCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * ExpertSubCategoryModel create
+   * ServiceSubCategoryModel create
    */
-  export type ExpertSubCategoryModelCreateArgs = {
+  export type ServiceSubCategoryModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * The data needed to create a ExpertSubCategoryModel.
+     * The data needed to create a ServiceSubCategoryModel.
      */
-    data: XOR<ExpertSubCategoryModelCreateInput, ExpertSubCategoryModelUncheckedCreateInput>
+    data: XOR<ServiceSubCategoryModelCreateInput, ServiceSubCategoryModelUncheckedCreateInput>
   }
 
 
   /**
-   * ExpertSubCategoryModel createMany
+   * ServiceSubCategoryModel createMany
    */
-  export type ExpertSubCategoryModelCreateManyArgs = {
+  export type ServiceSubCategoryModelCreateManyArgs = {
     /**
-     * The data used to create many ExpertSubCategoryModels.
+     * The data used to create many ServiceSubCategoryModels.
      */
-    data: Enumerable<ExpertSubCategoryModelCreateManyInput>
+    data: Enumerable<ServiceSubCategoryModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * ExpertSubCategoryModel update
+   * ServiceSubCategoryModel update
    */
-  export type ExpertSubCategoryModelUpdateArgs = {
+  export type ServiceSubCategoryModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * The data needed to update a ExpertSubCategoryModel.
+     * The data needed to update a ServiceSubCategoryModel.
      */
-    data: XOR<ExpertSubCategoryModelUpdateInput, ExpertSubCategoryModelUncheckedUpdateInput>
+    data: XOR<ServiceSubCategoryModelUpdateInput, ServiceSubCategoryModelUncheckedUpdateInput>
     /**
-     * Choose, which ExpertSubCategoryModel to update.
+     * Choose, which ServiceSubCategoryModel to update.
      */
-    where: ExpertSubCategoryModelWhereUniqueInput
+    where: ServiceSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSubCategoryModel updateMany
+   * ServiceSubCategoryModel updateMany
    */
-  export type ExpertSubCategoryModelUpdateManyArgs = {
+  export type ServiceSubCategoryModelUpdateManyArgs = {
     /**
-     * The data used to update ExpertSubCategoryModels.
+     * The data used to update ServiceSubCategoryModels.
      */
-    data: XOR<ExpertSubCategoryModelUpdateManyMutationInput, ExpertSubCategoryModelUncheckedUpdateManyInput>
+    data: XOR<ServiceSubCategoryModelUpdateManyMutationInput, ServiceSubCategoryModelUncheckedUpdateManyInput>
     /**
-     * Filter which ExpertSubCategoryModels to update
+     * Filter which ServiceSubCategoryModels to update
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
   }
 
 
   /**
-   * ExpertSubCategoryModel upsert
+   * ServiceSubCategoryModel upsert
    */
-  export type ExpertSubCategoryModelUpsertArgs = {
+  export type ServiceSubCategoryModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * The filter to search for the ExpertSubCategoryModel to update in case it exists.
+     * The filter to search for the ServiceSubCategoryModel to update in case it exists.
      */
-    where: ExpertSubCategoryModelWhereUniqueInput
+    where: ServiceSubCategoryModelWhereUniqueInput
     /**
-     * In case the ExpertSubCategoryModel found by the `where` argument doesn't exist, create a new ExpertSubCategoryModel with this data.
+     * In case the ServiceSubCategoryModel found by the `where` argument doesn't exist, create a new ServiceSubCategoryModel with this data.
      */
-    create: XOR<ExpertSubCategoryModelCreateInput, ExpertSubCategoryModelUncheckedCreateInput>
+    create: XOR<ServiceSubCategoryModelCreateInput, ServiceSubCategoryModelUncheckedCreateInput>
     /**
-     * In case the ExpertSubCategoryModel was found with the provided `where` argument, update it with this data.
+     * In case the ServiceSubCategoryModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ExpertSubCategoryModelUpdateInput, ExpertSubCategoryModelUncheckedUpdateInput>
+    update: XOR<ServiceSubCategoryModelUpdateInput, ServiceSubCategoryModelUncheckedUpdateInput>
   }
 
 
   /**
-   * ExpertSubCategoryModel delete
+   * ServiceSubCategoryModel delete
    */
-  export type ExpertSubCategoryModelDeleteArgs = {
+  export type ServiceSubCategoryModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
     /**
-     * Filter which ExpertSubCategoryModel to delete.
+     * Filter which ServiceSubCategoryModel to delete.
      */
-    where: ExpertSubCategoryModelWhereUniqueInput
+    where: ServiceSubCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSubCategoryModel deleteMany
+   * ServiceSubCategoryModel deleteMany
    */
-  export type ExpertSubCategoryModelDeleteManyArgs = {
+  export type ServiceSubCategoryModelDeleteManyArgs = {
     /**
-     * Filter which ExpertSubCategoryModels to delete
+     * Filter which ServiceSubCategoryModels to delete
      */
-    where?: ExpertSubCategoryModelWhereInput
+    where?: ServiceSubCategoryModelWhereInput
   }
 
 
   /**
-   * ExpertSubCategoryModel.expertises
+   * ServiceSubCategoryModel.expertises
    */
-  export type ExpertSubCategoryModel$expertisesArgs = {
+  export type ServiceSubCategoryModel$expertisesArgs = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
@@ -13633,379 +12818,383 @@ export namespace Prisma {
 
 
   /**
-   * ExpertSubCategoryModel without action
+   * ServiceSubCategoryModel without action
    */
-  export type ExpertSubCategoryModelArgs = {
+  export type ServiceSubCategoryModelArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude | null
   }
 
 
 
   /**
-   * Model ExpertSuperCategoryModel
+   * Model ServiceSuperCategoryModel
    */
 
 
-  export type AggregateExpertSuperCategoryModel = {
-    _count: ExpertSuperCategoryModelCountAggregateOutputType | null
-    _min: ExpertSuperCategoryModelMinAggregateOutputType | null
-    _max: ExpertSuperCategoryModelMaxAggregateOutputType | null
+  export type AggregateServiceSuperCategoryModel = {
+    _count: ServiceSuperCategoryModelCountAggregateOutputType | null
+    _min: ServiceSuperCategoryModelMinAggregateOutputType | null
+    _max: ServiceSuperCategoryModelMaxAggregateOutputType | null
   }
 
-  export type ExpertSuperCategoryModelMinAggregateOutputType = {
+  export type ServiceSuperCategoryModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
     name: string | null
-    business_type: ExpertBusinessType | null
+    type: ServiceType | null
   }
 
-  export type ExpertSuperCategoryModelMaxAggregateOutputType = {
+  export type ServiceSuperCategoryModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
     deleted_at: Date | null
     name: string | null
-    business_type: ExpertBusinessType | null
+    type: ServiceType | null
   }
 
-  export type ExpertSuperCategoryModelCountAggregateOutputType = {
+  export type ServiceSuperCategoryModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
     is_deleted: number
     deleted_at: number
     name: number
-    business_type: number
+    type: number
     _all: number
   }
 
 
-  export type ExpertSuperCategoryModelMinAggregateInputType = {
+  export type ServiceSuperCategoryModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    type?: true
   }
 
-  export type ExpertSuperCategoryModelMaxAggregateInputType = {
+  export type ServiceSuperCategoryModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    type?: true
   }
 
-  export type ExpertSuperCategoryModelCountAggregateInputType = {
+  export type ServiceSuperCategoryModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
     deleted_at?: true
     name?: true
-    business_type?: true
+    type?: true
     _all?: true
   }
 
-  export type ExpertSuperCategoryModelAggregateArgs = {
+  export type ServiceSuperCategoryModelAggregateArgs = {
     /**
-     * Filter which ExpertSuperCategoryModel to aggregate.
+     * Filter which ServiceSuperCategoryModel to aggregate.
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSuperCategoryModels to fetch.
+     * Determine the order of ServiceSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ExpertSuperCategoryModelWhereUniqueInput
+    cursor?: ServiceSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSuperCategoryModels.
+     * Skip the first `n` ServiceSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ExpertSuperCategoryModels
+     * Count returned ServiceSuperCategoryModels
     **/
-    _count?: true | ExpertSuperCategoryModelCountAggregateInputType
+    _count?: true | ServiceSuperCategoryModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ExpertSuperCategoryModelMinAggregateInputType
+    _min?: ServiceSuperCategoryModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ExpertSuperCategoryModelMaxAggregateInputType
+    _max?: ServiceSuperCategoryModelMaxAggregateInputType
   }
 
-  export type GetExpertSuperCategoryModelAggregateType<T extends ExpertSuperCategoryModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateExpertSuperCategoryModel]: P extends '_count' | 'count'
+  export type GetServiceSuperCategoryModelAggregateType<T extends ServiceSuperCategoryModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceSuperCategoryModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateExpertSuperCategoryModel[P]>
-      : GetScalarType<T[P], AggregateExpertSuperCategoryModel[P]>
+        : GetScalarType<T[P], AggregateServiceSuperCategoryModel[P]>
+      : GetScalarType<T[P], AggregateServiceSuperCategoryModel[P]>
   }
 
 
 
 
-  export type ExpertSuperCategoryModelGroupByArgs = {
-    where?: ExpertSuperCategoryModelWhereInput
-    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithAggregationInput>
-    by: ExpertSuperCategoryModelScalarFieldEnum[]
-    having?: ExpertSuperCategoryModelScalarWhereWithAggregatesInput
+  export type ServiceSuperCategoryModelGroupByArgs = {
+    where?: ServiceSuperCategoryModelWhereInput
+    orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithAggregationInput>
+    by: ServiceSuperCategoryModelScalarFieldEnum[]
+    having?: ServiceSuperCategoryModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ExpertSuperCategoryModelCountAggregateInputType | true
-    _min?: ExpertSuperCategoryModelMinAggregateInputType
-    _max?: ExpertSuperCategoryModelMaxAggregateInputType
+    _count?: ServiceSuperCategoryModelCountAggregateInputType | true
+    _min?: ServiceSuperCategoryModelMinAggregateInputType
+    _max?: ServiceSuperCategoryModelMaxAggregateInputType
   }
 
 
-  export type ExpertSuperCategoryModelGroupByOutputType = {
+  export type ServiceSuperCategoryModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
     is_deleted: boolean
     deleted_at: Date | null
     name: string
-    business_type: ExpertBusinessType
-    _count: ExpertSuperCategoryModelCountAggregateOutputType | null
-    _min: ExpertSuperCategoryModelMinAggregateOutputType | null
-    _max: ExpertSuperCategoryModelMaxAggregateOutputType | null
+    type: ServiceType
+    _count: ServiceSuperCategoryModelCountAggregateOutputType | null
+    _min: ServiceSuperCategoryModelMinAggregateOutputType | null
+    _max: ServiceSuperCategoryModelMaxAggregateOutputType | null
   }
 
-  type GetExpertSuperCategoryModelGroupByPayload<T extends ExpertSuperCategoryModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetServiceSuperCategoryModelGroupByPayload<T extends ServiceSuperCategoryModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<ExpertSuperCategoryModelGroupByOutputType, T['by']> &
+      PickArray<ServiceSuperCategoryModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ExpertSuperCategoryModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ServiceSuperCategoryModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ExpertSuperCategoryModelGroupByOutputType[P]>
-            : GetScalarType<T[P], ExpertSuperCategoryModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ServiceSuperCategoryModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceSuperCategoryModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ExpertSuperCategoryModelSelect = {
+  export type ServiceSuperCategoryModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
     deleted_at?: boolean
     name?: boolean
-    business_type?: boolean
-    sub_categories?: boolean | ExpertSuperCategoryModel$sub_categoriesArgs
-    _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
+    type?: boolean
+    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs
+    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs
+    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs
   }
 
 
-  export type ExpertSuperCategoryModelInclude = {
-    sub_categories?: boolean | ExpertSuperCategoryModel$sub_categoriesArgs
-    _count?: boolean | ExpertSuperCategoryModelCountOutputTypeArgs
+  export type ServiceSuperCategoryModelInclude = {
+    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs
+    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs
+    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs
   }
 
-  export type ExpertSuperCategoryModelGetPayload<S extends boolean | null | undefined | ExpertSuperCategoryModelArgs> =
+  export type ServiceSuperCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSuperCategoryModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ExpertSuperCategoryModel :
+    S extends true ? ServiceSuperCategoryModel :
     S extends undefined ? never :
-    S extends { include: any } & (ExpertSuperCategoryModelArgs | ExpertSuperCategoryModelFindManyArgs)
-    ? ExpertSuperCategoryModel  & {
+    S extends { include: any } & (ServiceSuperCategoryModelArgs | ServiceSuperCategoryModelFindManyArgs)
+    ? ServiceSuperCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'sub_categories' ? Array < ExpertSubCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['include'][P]>>  :
+        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (ExpertSuperCategoryModelArgs | ExpertSuperCategoryModelFindManyArgs)
+    : S extends { select: any } & (ServiceSuperCategoryModelArgs | ServiceSuperCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'sub_categories' ? Array < ExpertSubCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ExpertSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ExpertSuperCategoryModel ? ExpertSuperCategoryModel[P] : never
+        P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['select'][P]>>  :
+        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ServiceSuperCategoryModel ? ServiceSuperCategoryModel[P] : never
   } 
-      : ExpertSuperCategoryModel
+      : ServiceSuperCategoryModel
 
 
-  type ExpertSuperCategoryModelCountArgs = 
-    Omit<ExpertSuperCategoryModelFindManyArgs, 'select' | 'include'> & {
-      select?: ExpertSuperCategoryModelCountAggregateInputType | true
+  type ServiceSuperCategoryModelCountArgs = 
+    Omit<ServiceSuperCategoryModelFindManyArgs, 'select' | 'include'> & {
+      select?: ServiceSuperCategoryModelCountAggregateInputType | true
     }
 
-  export interface ExpertSuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ServiceSuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one ExpertSuperCategoryModel that matches the filter.
-     * @param {ExpertSuperCategoryModelFindUniqueArgs} args - Arguments to find a ExpertSuperCategoryModel
+     * Find zero or one ServiceSuperCategoryModel that matches the filter.
+     * @param {ServiceSuperCategoryModelFindUniqueArgs} args - Arguments to find a ServiceSuperCategoryModel
      * @example
-     * // Get one ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findUnique({
+     * // Get one ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends ExpertSuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ExpertSuperCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ExpertSuperCategoryModel'> extends True ? Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>> : Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends ServiceSuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ServiceSuperCategoryModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>> : Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find one ExpertSuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ServiceSuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {ExpertSuperCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ExpertSuperCategoryModel
+     * @param {ServiceSuperCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a ServiceSuperCategoryModel
      * @example
-     * // Get one ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findUniqueOrThrow({
+     * // Get one ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ExpertSuperCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends ServiceSuperCategoryModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindUniqueOrThrowArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Find the first ExpertSuperCategoryModel that matches the filter.
+     * Find the first ServiceSuperCategoryModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelFindFirstArgs} args - Arguments to find a ExpertSuperCategoryModel
+     * @param {ServiceSuperCategoryModelFindFirstArgs} args - Arguments to find a ServiceSuperCategoryModel
      * @example
-     * // Get one ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findFirst({
+     * // Get one ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends ExpertSuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ExpertSuperCategoryModel'> extends True ? Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>> : Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends ServiceSuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>> : Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | null, null>
 
     /**
-     * Find the first ExpertSuperCategoryModel that matches the filter or
+     * Find the first ServiceSuperCategoryModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ExpertSuperCategoryModel
+     * @param {ServiceSuperCategoryModelFindFirstOrThrowArgs} args - Arguments to find a ServiceSuperCategoryModel
      * @example
-     * // Get one ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.findFirstOrThrow({
+     * // Get one ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ExpertSuperCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends ServiceSuperCategoryModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstOrThrowArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Find zero or more ExpertSuperCategoryModels that matches the filter.
+     * Find zero or more ServiceSuperCategoryModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ServiceSuperCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ExpertSuperCategoryModels
-     * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany()
+     * // Get all ServiceSuperCategoryModels
+     * const serviceSuperCategoryModels = await prisma.serviceSuperCategoryModel.findMany()
      * 
-     * // Get first 10 ExpertSuperCategoryModels
-     * const expertSuperCategoryModels = await prisma.expertSuperCategoryModel.findMany({ take: 10 })
+     * // Get first 10 ServiceSuperCategoryModels
+     * const serviceSuperCategoryModels = await prisma.serviceSuperCategoryModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const expertSuperCategoryModelWithIdOnly = await prisma.expertSuperCategoryModel.findMany({ select: { id: true } })
+     * const serviceSuperCategoryModelWithIdOnly = await prisma.serviceSuperCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ExpertSuperCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ExpertSuperCategoryModelGetPayload<T>>>
+    findMany<T extends ServiceSuperCategoryModelFindManyArgs>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ServiceSuperCategoryModelGetPayload<T>>>
 
     /**
-     * Create a ExpertSuperCategoryModel.
-     * @param {ExpertSuperCategoryModelCreateArgs} args - Arguments to create a ExpertSuperCategoryModel.
+     * Create a ServiceSuperCategoryModel.
+     * @param {ServiceSuperCategoryModelCreateArgs} args - Arguments to create a ServiceSuperCategoryModel.
      * @example
-     * // Create one ExpertSuperCategoryModel
-     * const ExpertSuperCategoryModel = await prisma.expertSuperCategoryModel.create({
+     * // Create one ServiceSuperCategoryModel
+     * const ServiceSuperCategoryModel = await prisma.serviceSuperCategoryModel.create({
      *   data: {
-     *     // ... data to create a ExpertSuperCategoryModel
+     *     // ... data to create a ServiceSuperCategoryModel
      *   }
      * })
      * 
     **/
-    create<T extends ExpertSuperCategoryModelCreateArgs>(
-      args: SelectSubset<T, ExpertSuperCategoryModelCreateArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    create<T extends ServiceSuperCategoryModelCreateArgs>(
+      args: SelectSubset<T, ServiceSuperCategoryModelCreateArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Create many ExpertSuperCategoryModels.
-     *     @param {ExpertSuperCategoryModelCreateManyArgs} args - Arguments to create many ExpertSuperCategoryModels.
+     * Create many ServiceSuperCategoryModels.
+     *     @param {ServiceSuperCategoryModelCreateManyArgs} args - Arguments to create many ServiceSuperCategoryModels.
      *     @example
-     *     // Create many ExpertSuperCategoryModels
-     *     const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.createMany({
+     *     // Create many ServiceSuperCategoryModels
+     *     const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends ExpertSuperCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelCreateManyArgs>
+    createMany<T extends ServiceSuperCategoryModelCreateManyArgs>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a ExpertSuperCategoryModel.
-     * @param {ExpertSuperCategoryModelDeleteArgs} args - Arguments to delete one ExpertSuperCategoryModel.
+     * Delete a ServiceSuperCategoryModel.
+     * @param {ServiceSuperCategoryModelDeleteArgs} args - Arguments to delete one ServiceSuperCategoryModel.
      * @example
-     * // Delete one ExpertSuperCategoryModel
-     * const ExpertSuperCategoryModel = await prisma.expertSuperCategoryModel.delete({
+     * // Delete one ServiceSuperCategoryModel
+     * const ServiceSuperCategoryModel = await prisma.serviceSuperCategoryModel.delete({
      *   where: {
-     *     // ... filter to delete one ExpertSuperCategoryModel
+     *     // ... filter to delete one ServiceSuperCategoryModel
      *   }
      * })
      * 
     **/
-    delete<T extends ExpertSuperCategoryModelDeleteArgs>(
-      args: SelectSubset<T, ExpertSuperCategoryModelDeleteArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    delete<T extends ServiceSuperCategoryModelDeleteArgs>(
+      args: SelectSubset<T, ServiceSuperCategoryModelDeleteArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Update one ExpertSuperCategoryModel.
-     * @param {ExpertSuperCategoryModelUpdateArgs} args - Arguments to update one ExpertSuperCategoryModel.
+     * Update one ServiceSuperCategoryModel.
+     * @param {ServiceSuperCategoryModelUpdateArgs} args - Arguments to update one ServiceSuperCategoryModel.
      * @example
-     * // Update one ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.update({
+     * // Update one ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -14015,34 +13204,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ExpertSuperCategoryModelUpdateArgs>(
-      args: SelectSubset<T, ExpertSuperCategoryModelUpdateArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    update<T extends ServiceSuperCategoryModelUpdateArgs>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpdateArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Delete zero or more ExpertSuperCategoryModels.
-     * @param {ExpertSuperCategoryModelDeleteManyArgs} args - Arguments to filter ExpertSuperCategoryModels to delete.
+     * Delete zero or more ServiceSuperCategoryModels.
+     * @param {ServiceSuperCategoryModelDeleteManyArgs} args - Arguments to filter ServiceSuperCategoryModels to delete.
      * @example
-     * // Delete a few ExpertSuperCategoryModels
-     * const { count } = await prisma.expertSuperCategoryModel.deleteMany({
+     * // Delete a few ServiceSuperCategoryModels
+     * const { count } = await prisma.serviceSuperCategoryModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends ExpertSuperCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, ExpertSuperCategoryModelDeleteManyArgs>
+    deleteMany<T extends ServiceSuperCategoryModelDeleteManyArgs>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ExpertSuperCategoryModels.
+     * Update zero or more ServiceSuperCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ServiceSuperCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ExpertSuperCategoryModels
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.updateMany({
+     * // Update many ServiceSuperCategoryModels
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -14052,59 +13241,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ExpertSuperCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, ExpertSuperCategoryModelUpdateManyArgs>
+    updateMany<T extends ServiceSuperCategoryModelUpdateManyArgs>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one ExpertSuperCategoryModel.
-     * @param {ExpertSuperCategoryModelUpsertArgs} args - Arguments to update or create a ExpertSuperCategoryModel.
+     * Create or update one ServiceSuperCategoryModel.
+     * @param {ServiceSuperCategoryModelUpsertArgs} args - Arguments to update or create a ServiceSuperCategoryModel.
      * @example
-     * // Update or create a ExpertSuperCategoryModel
-     * const expertSuperCategoryModel = await prisma.expertSuperCategoryModel.upsert({
+     * // Update or create a ServiceSuperCategoryModel
+     * const serviceSuperCategoryModel = await prisma.serviceSuperCategoryModel.upsert({
      *   create: {
-     *     // ... data to create a ExpertSuperCategoryModel
+     *     // ... data to create a ServiceSuperCategoryModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ExpertSuperCategoryModel we want to update
+     *     // ... the filter for the ServiceSuperCategoryModel we want to update
      *   }
      * })
     **/
-    upsert<T extends ExpertSuperCategoryModelUpsertArgs>(
-      args: SelectSubset<T, ExpertSuperCategoryModelUpsertArgs>
-    ): Prisma__ExpertSuperCategoryModelClient<ExpertSuperCategoryModelGetPayload<T>>
+    upsert<T extends ServiceSuperCategoryModelUpsertArgs>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpsertArgs>
+    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
 
     /**
-     * Count the number of ExpertSuperCategoryModels.
+     * Count the number of ServiceSuperCategoryModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelCountArgs} args - Arguments to filter ExpertSuperCategoryModels to count.
+     * @param {ServiceSuperCategoryModelCountArgs} args - Arguments to filter ServiceSuperCategoryModels to count.
      * @example
-     * // Count the number of ExpertSuperCategoryModels
-     * const count = await prisma.expertSuperCategoryModel.count({
+     * // Count the number of ServiceSuperCategoryModels
+     * const count = await prisma.serviceSuperCategoryModel.count({
      *   where: {
-     *     // ... the filter for the ExpertSuperCategoryModels we want to count
+     *     // ... the filter for the ServiceSuperCategoryModels we want to count
      *   }
      * })
     **/
-    count<T extends ExpertSuperCategoryModelCountArgs>(
-      args?: Subset<T, ExpertSuperCategoryModelCountArgs>,
+    count<T extends ServiceSuperCategoryModelCountArgs>(
+      args?: Subset<T, ServiceSuperCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ExpertSuperCategoryModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ServiceSuperCategoryModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ExpertSuperCategoryModel.
+     * Allows you to perform aggregations operations on a ServiceSuperCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ServiceSuperCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -14124,13 +13313,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ExpertSuperCategoryModelAggregateArgs>(args: Subset<T, ExpertSuperCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetExpertSuperCategoryModelAggregateType<T>>
+    aggregate<T extends ServiceSuperCategoryModelAggregateArgs>(args: Subset<T, ServiceSuperCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetServiceSuperCategoryModelAggregateType<T>>
 
     /**
-     * Group by ExpertSuperCategoryModel.
+     * Group by ServiceSuperCategoryModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExpertSuperCategoryModelGroupByArgs} args - Group by arguments.
+     * @param {ServiceSuperCategoryModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -14145,14 +13334,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ExpertSuperCategoryModelGroupByArgs,
+      T extends ServiceSuperCategoryModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ExpertSuperCategoryModelGroupByArgs['orderBy'] }
-        : { orderBy?: ExpertSuperCategoryModelGroupByArgs['orderBy'] },
+        ? { orderBy: ServiceSuperCategoryModelGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceSuperCategoryModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -14201,17 +13390,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ExpertSuperCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertSuperCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ServiceSuperCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceSuperCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ExpertSuperCategoryModel.
+   * The delegate class that acts as a "Promise-like" for ServiceSuperCategoryModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ExpertSuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ServiceSuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -14226,7 +13415,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    sub_categories<T extends ExpertSuperCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, ExpertSuperCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<ExpertSubCategoryModelGetPayload<T>>| Null>;
+    sub_categories<T extends ServiceSuperCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<ServiceSubCategoryModelGetPayload<T>>| Null>;
+
+    focus_care_checks<T extends ServiceSuperCategoryModel$focus_care_checksArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$focus_care_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -14256,27 +13447,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * ExpertSuperCategoryModel base type for findUnique actions
+   * ServiceSuperCategoryModel base type for findUnique actions
    */
-  export type ExpertSuperCategoryModelFindUniqueArgsBase = {
+  export type ServiceSuperCategoryModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter, which ExpertSuperCategoryModel to fetch.
+     * Filter, which ServiceSuperCategoryModel to fetch.
      */
-    where: ExpertSuperCategoryModelWhereUniqueInput
+    where: ServiceSuperCategoryModelWhereUniqueInput
   }
 
   /**
-   * ExpertSuperCategoryModel findUnique
+   * ServiceSuperCategoryModel findUnique
    */
-  export interface ExpertSuperCategoryModelFindUniqueArgs extends ExpertSuperCategoryModelFindUniqueArgsBase {
+  export interface ServiceSuperCategoryModelFindUniqueArgs extends ServiceSuperCategoryModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -14286,76 +13477,76 @@ export namespace Prisma {
       
 
   /**
-   * ExpertSuperCategoryModel findUniqueOrThrow
+   * ServiceSuperCategoryModel findUniqueOrThrow
    */
-  export type ExpertSuperCategoryModelFindUniqueOrThrowArgs = {
+  export type ServiceSuperCategoryModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter, which ExpertSuperCategoryModel to fetch.
+     * Filter, which ServiceSuperCategoryModel to fetch.
      */
-    where: ExpertSuperCategoryModelWhereUniqueInput
+    where: ServiceSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSuperCategoryModel base type for findFirst actions
+   * ServiceSuperCategoryModel base type for findFirst actions
    */
-  export type ExpertSuperCategoryModelFindFirstArgsBase = {
+  export type ServiceSuperCategoryModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter, which ExpertSuperCategoryModel to fetch.
+     * Filter, which ServiceSuperCategoryModel to fetch.
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSuperCategoryModels to fetch.
+     * Determine the order of ServiceSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ExpertSuperCategoryModels.
+     * Sets the position for searching for ServiceSuperCategoryModels.
      */
-    cursor?: ExpertSuperCategoryModelWhereUniqueInput
+    cursor?: ServiceSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSuperCategoryModels.
+     * Skip the first `n` ServiceSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ExpertSuperCategoryModels.
+     * Filter by unique combinations of ServiceSuperCategoryModels.
      */
-    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSuperCategoryModelScalarFieldEnum>
   }
 
   /**
-   * ExpertSuperCategoryModel findFirst
+   * ServiceSuperCategoryModel findFirst
    */
-  export interface ExpertSuperCategoryModelFindFirstArgs extends ExpertSuperCategoryModelFindFirstArgsBase {
+  export interface ServiceSuperCategoryModelFindFirstArgs extends ServiceSuperCategoryModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -14365,257 +13556,3215 @@ export namespace Prisma {
       
 
   /**
-   * ExpertSuperCategoryModel findFirstOrThrow
+   * ServiceSuperCategoryModel findFirstOrThrow
    */
-  export type ExpertSuperCategoryModelFindFirstOrThrowArgs = {
+  export type ServiceSuperCategoryModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter, which ExpertSuperCategoryModel to fetch.
+     * Filter, which ServiceSuperCategoryModel to fetch.
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSuperCategoryModels to fetch.
+     * Determine the order of ServiceSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ExpertSuperCategoryModels.
+     * Sets the position for searching for ServiceSuperCategoryModels.
      */
-    cursor?: ExpertSuperCategoryModelWhereUniqueInput
+    cursor?: ServiceSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSuperCategoryModels.
+     * Skip the first `n` ServiceSuperCategoryModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ExpertSuperCategoryModels.
+     * Filter by unique combinations of ServiceSuperCategoryModels.
      */
-    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSuperCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * ExpertSuperCategoryModel findMany
+   * ServiceSuperCategoryModel findMany
    */
-  export type ExpertSuperCategoryModelFindManyArgs = {
+  export type ServiceSuperCategoryModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter, which ExpertSuperCategoryModels to fetch.
+     * Filter, which ServiceSuperCategoryModels to fetch.
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ExpertSuperCategoryModels to fetch.
+     * Determine the order of ServiceSuperCategoryModels to fetch.
      */
-    orderBy?: Enumerable<ExpertSuperCategoryModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ExpertSuperCategoryModels.
+     * Sets the position for listing ServiceSuperCategoryModels.
      */
-    cursor?: ExpertSuperCategoryModelWhereUniqueInput
+    cursor?: ServiceSuperCategoryModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ExpertSuperCategoryModels from the position of the cursor.
+     * Take `±n` ServiceSuperCategoryModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ExpertSuperCategoryModels.
+     * Skip the first `n` ServiceSuperCategoryModels.
      */
     skip?: number
-    distinct?: Enumerable<ExpertSuperCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSuperCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * ExpertSuperCategoryModel create
+   * ServiceSuperCategoryModel create
    */
-  export type ExpertSuperCategoryModelCreateArgs = {
+  export type ServiceSuperCategoryModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * The data needed to create a ExpertSuperCategoryModel.
+     * The data needed to create a ServiceSuperCategoryModel.
      */
-    data: XOR<ExpertSuperCategoryModelCreateInput, ExpertSuperCategoryModelUncheckedCreateInput>
+    data: XOR<ServiceSuperCategoryModelCreateInput, ServiceSuperCategoryModelUncheckedCreateInput>
   }
 
 
   /**
-   * ExpertSuperCategoryModel createMany
+   * ServiceSuperCategoryModel createMany
    */
-  export type ExpertSuperCategoryModelCreateManyArgs = {
+  export type ServiceSuperCategoryModelCreateManyArgs = {
     /**
-     * The data used to create many ExpertSuperCategoryModels.
+     * The data used to create many ServiceSuperCategoryModels.
      */
-    data: Enumerable<ExpertSuperCategoryModelCreateManyInput>
+    data: Enumerable<ServiceSuperCategoryModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * ExpertSuperCategoryModel update
+   * ServiceSuperCategoryModel update
    */
-  export type ExpertSuperCategoryModelUpdateArgs = {
+  export type ServiceSuperCategoryModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * The data needed to update a ExpertSuperCategoryModel.
+     * The data needed to update a ServiceSuperCategoryModel.
      */
-    data: XOR<ExpertSuperCategoryModelUpdateInput, ExpertSuperCategoryModelUncheckedUpdateInput>
+    data: XOR<ServiceSuperCategoryModelUpdateInput, ServiceSuperCategoryModelUncheckedUpdateInput>
     /**
-     * Choose, which ExpertSuperCategoryModel to update.
+     * Choose, which ServiceSuperCategoryModel to update.
      */
-    where: ExpertSuperCategoryModelWhereUniqueInput
+    where: ServiceSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSuperCategoryModel updateMany
+   * ServiceSuperCategoryModel updateMany
    */
-  export type ExpertSuperCategoryModelUpdateManyArgs = {
+  export type ServiceSuperCategoryModelUpdateManyArgs = {
     /**
-     * The data used to update ExpertSuperCategoryModels.
+     * The data used to update ServiceSuperCategoryModels.
      */
-    data: XOR<ExpertSuperCategoryModelUpdateManyMutationInput, ExpertSuperCategoryModelUncheckedUpdateManyInput>
+    data: XOR<ServiceSuperCategoryModelUpdateManyMutationInput, ServiceSuperCategoryModelUncheckedUpdateManyInput>
     /**
-     * Filter which ExpertSuperCategoryModels to update
+     * Filter which ServiceSuperCategoryModels to update
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
   }
 
 
   /**
-   * ExpertSuperCategoryModel upsert
+   * ServiceSuperCategoryModel upsert
    */
-  export type ExpertSuperCategoryModelUpsertArgs = {
+  export type ServiceSuperCategoryModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * The filter to search for the ExpertSuperCategoryModel to update in case it exists.
+     * The filter to search for the ServiceSuperCategoryModel to update in case it exists.
      */
-    where: ExpertSuperCategoryModelWhereUniqueInput
+    where: ServiceSuperCategoryModelWhereUniqueInput
     /**
-     * In case the ExpertSuperCategoryModel found by the `where` argument doesn't exist, create a new ExpertSuperCategoryModel with this data.
+     * In case the ServiceSuperCategoryModel found by the `where` argument doesn't exist, create a new ServiceSuperCategoryModel with this data.
      */
-    create: XOR<ExpertSuperCategoryModelCreateInput, ExpertSuperCategoryModelUncheckedCreateInput>
+    create: XOR<ServiceSuperCategoryModelCreateInput, ServiceSuperCategoryModelUncheckedCreateInput>
     /**
-     * In case the ExpertSuperCategoryModel was found with the provided `where` argument, update it with this data.
+     * In case the ServiceSuperCategoryModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ExpertSuperCategoryModelUpdateInput, ExpertSuperCategoryModelUncheckedUpdateInput>
+    update: XOR<ServiceSuperCategoryModelUpdateInput, ServiceSuperCategoryModelUncheckedUpdateInput>
   }
 
 
   /**
-   * ExpertSuperCategoryModel delete
+   * ServiceSuperCategoryModel delete
    */
-  export type ExpertSuperCategoryModelDeleteArgs = {
+  export type ServiceSuperCategoryModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude | null
     /**
-     * Filter which ExpertSuperCategoryModel to delete.
+     * Filter which ServiceSuperCategoryModel to delete.
      */
-    where: ExpertSuperCategoryModelWhereUniqueInput
+    where: ServiceSuperCategoryModelWhereUniqueInput
   }
 
 
   /**
-   * ExpertSuperCategoryModel deleteMany
+   * ServiceSuperCategoryModel deleteMany
    */
-  export type ExpertSuperCategoryModelDeleteManyArgs = {
+  export type ServiceSuperCategoryModelDeleteManyArgs = {
     /**
-     * Filter which ExpertSuperCategoryModels to delete
+     * Filter which ServiceSuperCategoryModels to delete
      */
-    where?: ExpertSuperCategoryModelWhereInput
+    where?: ServiceSuperCategoryModelWhereInput
   }
 
 
   /**
-   * ExpertSuperCategoryModel.sub_categories
+   * ServiceSuperCategoryModel.sub_categories
    */
-  export type ExpertSuperCategoryModel$sub_categoriesArgs = {
+  export type ServiceSuperCategoryModel$sub_categoriesArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSubCategoryModel
+     * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ExpertSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSubCategoryModelInclude | null
-    where?: ExpertSubCategoryModelWhereInput
-    orderBy?: Enumerable<ExpertSubCategoryModelOrderByWithRelationInput>
-    cursor?: ExpertSubCategoryModelWhereUniqueInput
+    include?: ServiceSubCategoryModelInclude | null
+    where?: ServiceSubCategoryModelWhereInput
+    orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
+    cursor?: ServiceSubCategoryModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<ExpertSubCategoryModelScalarFieldEnum>
+    distinct?: Enumerable<ServiceSubCategoryModelScalarFieldEnum>
   }
 
 
   /**
-   * ExpertSuperCategoryModel without action
+   * ServiceSuperCategoryModel.focus_care_checks
    */
-  export type ExpertSuperCategoryModelArgs = {
+  export type ServiceSuperCategoryModel$focus_care_checksArgs = {
     /**
-     * Select specific fields to fetch from the ExpertSuperCategoryModel
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ExpertSuperCategoryModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ExpertSuperCategoryModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ServiceSuperCategoryModel without action
+   */
+  export type ServiceSuperCategoryModelArgs = {
+    /**
+     * Select specific fields to fetch from the ServiceSuperCategoryModel
+     */
+    select?: ServiceSuperCategoryModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ServiceSuperCategoryModelInclude | null
+  }
+
+
+
+  /**
+   * Model ZipzoongCareRequestModel
+   */
+
+
+  export type AggregateZipzoongCareRequestModel = {
+    _count: ZipzoongCareRequestModelCountAggregateOutputType | null
+    _min: ZipzoongCareRequestModelMinAggregateOutputType | null
+    _max: ZipzoongCareRequestModelMaxAggregateOutputType | null
+  }
+
+  export type ZipzoongCareRequestModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    care_start_date: Date | null
+    care_end_date: Date | null
+    detail: string | null
+    status: ZipzoongCareStatus | null
+    requester_id: string | null
+  }
+
+  export type ZipzoongCareRequestModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    care_start_date: Date | null
+    care_end_date: Date | null
+    detail: string | null
+    status: ZipzoongCareStatus | null
+    requester_id: string | null
+  }
+
+  export type ZipzoongCareRequestModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    care_start_date: number
+    care_end_date: number
+    detail: number
+    status: number
+    requester_id: number
+    _all: number
+  }
+
+
+  export type ZipzoongCareRequestModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    care_start_date?: true
+    care_end_date?: true
+    detail?: true
+    status?: true
+    requester_id?: true
+  }
+
+  export type ZipzoongCareRequestModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    care_start_date?: true
+    care_end_date?: true
+    detail?: true
+    status?: true
+    requester_id?: true
+  }
+
+  export type ZipzoongCareRequestModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    care_start_date?: true
+    care_end_date?: true
+    detail?: true
+    status?: true
+    requester_id?: true
+    _all?: true
+  }
+
+  export type ZipzoongCareRequestModelAggregateArgs = {
+    /**
+     * Filter which ZipzoongCareRequestModel to aggregate.
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareRequestModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareRequestModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ZipzoongCareRequestModels
+    **/
+    _count?: true | ZipzoongCareRequestModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ZipzoongCareRequestModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ZipzoongCareRequestModelMaxAggregateInputType
+  }
+
+  export type GetZipzoongCareRequestModelAggregateType<T extends ZipzoongCareRequestModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareRequestModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateZipzoongCareRequestModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareRequestModel[P]>
+  }
+
+
+
+
+  export type ZipzoongCareRequestModelGroupByArgs = {
+    where?: ZipzoongCareRequestModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithAggregationInput>
+    by: ZipzoongCareRequestModelScalarFieldEnum[]
+    having?: ZipzoongCareRequestModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ZipzoongCareRequestModelCountAggregateInputType | true
+    _min?: ZipzoongCareRequestModelMinAggregateInputType
+    _max?: ZipzoongCareRequestModelMaxAggregateInputType
+  }
+
+
+  export type ZipzoongCareRequestModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    care_start_date: Date
+    care_end_date: Date
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+    _count: ZipzoongCareRequestModelCountAggregateOutputType | null
+    _min: ZipzoongCareRequestModelMinAggregateOutputType | null
+    _max: ZipzoongCareRequestModelMaxAggregateOutputType | null
+  }
+
+  type GetZipzoongCareRequestModelGroupByPayload<T extends ZipzoongCareRequestModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ZipzoongCareRequestModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ZipzoongCareRequestModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ZipzoongCareRequestModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareRequestModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ZipzoongCareRequestModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    care_start_date?: boolean
+    care_end_date?: boolean
+    detail?: boolean
+    status?: boolean
+    requester_id?: boolean
+    requester?: boolean | CustomerModelArgs
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
+  }
+
+
+  export type ZipzoongCareRequestModelInclude = {
+    requester?: boolean | CustomerModelArgs
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
+  }
+
+  export type ZipzoongCareRequestModelGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ZipzoongCareRequestModel :
+    S extends undefined ? never :
+    S extends { include: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
+    ? ZipzoongCareRequestModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'requester' ? CustomerModelGetPayload<S['include'][P]> :
+        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['include'][P]>>  :
+        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
+        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'requester' ? CustomerModelGetPayload<S['select'][P]> :
+        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['select'][P]>>  :
+        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
+        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareRequestModel ? ZipzoongCareRequestModel[P] : never
+  } 
+      : ZipzoongCareRequestModel
+
+
+  type ZipzoongCareRequestModelCountArgs = 
+    Omit<ZipzoongCareRequestModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareRequestModelCountAggregateInputType | true
+    }
+
+  export interface ZipzoongCareRequestModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ZipzoongCareRequestModel that matches the filter.
+     * @param {ZipzoongCareRequestModelFindUniqueArgs} args - Arguments to find a ZipzoongCareRequestModel
+     * @example
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ZipzoongCareRequestModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareRequestModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
+
+    /**
+     * Find one ZipzoongCareRequestModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ZipzoongCareRequestModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareRequestModel
+     * @example
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ZipzoongCareRequestModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Find the first ZipzoongCareRequestModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelFindFirstArgs} args - Arguments to find a ZipzoongCareRequestModel
+     * @example
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ZipzoongCareRequestModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first ZipzoongCareRequestModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareRequestModel
+     * @example
+     * // Get one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ZipzoongCareRequestModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Find zero or more ZipzoongCareRequestModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ZipzoongCareRequestModels
+     * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany()
+     * 
+     * // Get first 10 ZipzoongCareRequestModels
+     * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const zipzoongCareRequestModelWithIdOnly = await prisma.zipzoongCareRequestModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ZipzoongCareRequestModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>>
+
+    /**
+     * Create a ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelCreateArgs} args - Arguments to create a ZipzoongCareRequestModel.
+     * @example
+     * // Create one ZipzoongCareRequestModel
+     * const ZipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.create({
+     *   data: {
+     *     // ... data to create a ZipzoongCareRequestModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ZipzoongCareRequestModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelCreateArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Create many ZipzoongCareRequestModels.
+     *     @param {ZipzoongCareRequestModelCreateManyArgs} args - Arguments to create many ZipzoongCareRequestModels.
+     *     @example
+     *     // Create many ZipzoongCareRequestModels
+     *     const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ZipzoongCareRequestModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelDeleteArgs} args - Arguments to delete one ZipzoongCareRequestModel.
+     * @example
+     * // Delete one ZipzoongCareRequestModel
+     * const ZipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.delete({
+     *   where: {
+     *     // ... filter to delete one ZipzoongCareRequestModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ZipzoongCareRequestModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelDeleteArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Update one ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelUpdateArgs} args - Arguments to update one ZipzoongCareRequestModel.
+     * @example
+     * // Update one ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ZipzoongCareRequestModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Delete zero or more ZipzoongCareRequestModels.
+     * @param {ZipzoongCareRequestModelDeleteManyArgs} args - Arguments to filter ZipzoongCareRequestModels to delete.
+     * @example
+     * // Delete a few ZipzoongCareRequestModels
+     * const { count } = await prisma.zipzoongCareRequestModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ZipzoongCareRequestModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ZipzoongCareRequestModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ZipzoongCareRequestModels
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ZipzoongCareRequestModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ZipzoongCareRequestModel.
+     * @param {ZipzoongCareRequestModelUpsertArgs} args - Arguments to update or create a ZipzoongCareRequestModel.
+     * @example
+     * // Update or create a ZipzoongCareRequestModel
+     * const zipzoongCareRequestModel = await prisma.zipzoongCareRequestModel.upsert({
+     *   create: {
+     *     // ... data to create a ZipzoongCareRequestModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ZipzoongCareRequestModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ZipzoongCareRequestModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpsertArgs>
+    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+
+    /**
+     * Count the number of ZipzoongCareRequestModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelCountArgs} args - Arguments to filter ZipzoongCareRequestModels to count.
+     * @example
+     * // Count the number of ZipzoongCareRequestModels
+     * const count = await prisma.zipzoongCareRequestModel.count({
+     *   where: {
+     *     // ... the filter for the ZipzoongCareRequestModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends ZipzoongCareRequestModelCountArgs>(
+      args?: Subset<T, ZipzoongCareRequestModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ZipzoongCareRequestModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ZipzoongCareRequestModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ZipzoongCareRequestModelAggregateArgs>(args: Subset<T, ZipzoongCareRequestModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareRequestModelAggregateType<T>>
+
+    /**
+     * Group by ZipzoongCareRequestModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareRequestModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ZipzoongCareRequestModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ZipzoongCareRequestModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareRequestModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ZipzoongCareRequestModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareRequestModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareRequestModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ZipzoongCareRequestModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    requester<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
+
+    consultation_time_checks<T extends ZipzoongCareRequestModel$consultation_time_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$consultation_time_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>| Null>;
+
+    service_checks<T extends ZipzoongCareRequestModel$service_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$service_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ZipzoongCareRequestModel base type for findUnique actions
+   */
+  export type ZipzoongCareRequestModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter, which ZipzoongCareRequestModel to fetch.
+     */
+    where: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+  /**
+   * ZipzoongCareRequestModel findUnique
+   */
+  export interface ZipzoongCareRequestModelFindUniqueArgs extends ZipzoongCareRequestModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareRequestModel findUniqueOrThrow
+   */
+  export type ZipzoongCareRequestModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter, which ZipzoongCareRequestModel to fetch.
+     */
+    where: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel base type for findFirst actions
+   */
+  export type ZipzoongCareRequestModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter, which ZipzoongCareRequestModel to fetch.
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareRequestModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareRequestModels.
+     */
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareRequestModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareRequestModels.
+     */
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
+  }
+
+  /**
+   * ZipzoongCareRequestModel findFirst
+   */
+  export interface ZipzoongCareRequestModelFindFirstArgs extends ZipzoongCareRequestModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareRequestModel findFirstOrThrow
+   */
+  export type ZipzoongCareRequestModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter, which ZipzoongCareRequestModel to fetch.
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareRequestModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareRequestModels.
+     */
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareRequestModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareRequestModels.
+     */
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel findMany
+   */
+  export type ZipzoongCareRequestModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter, which ZipzoongCareRequestModels to fetch.
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareRequestModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ZipzoongCareRequestModels.
+     */
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareRequestModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareRequestModels.
+     */
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel create
+   */
+  export type ZipzoongCareRequestModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * The data needed to create a ZipzoongCareRequestModel.
+     */
+    data: XOR<ZipzoongCareRequestModelCreateInput, ZipzoongCareRequestModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel createMany
+   */
+  export type ZipzoongCareRequestModelCreateManyArgs = {
+    /**
+     * The data used to create many ZipzoongCareRequestModels.
+     */
+    data: Enumerable<ZipzoongCareRequestModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel update
+   */
+  export type ZipzoongCareRequestModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * The data needed to update a ZipzoongCareRequestModel.
+     */
+    data: XOR<ZipzoongCareRequestModelUpdateInput, ZipzoongCareRequestModelUncheckedUpdateInput>
+    /**
+     * Choose, which ZipzoongCareRequestModel to update.
+     */
+    where: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel updateMany
+   */
+  export type ZipzoongCareRequestModelUpdateManyArgs = {
+    /**
+     * The data used to update ZipzoongCareRequestModels.
+     */
+    data: XOR<ZipzoongCareRequestModelUpdateManyMutationInput, ZipzoongCareRequestModelUncheckedUpdateManyInput>
+    /**
+     * Filter which ZipzoongCareRequestModels to update
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel upsert
+   */
+  export type ZipzoongCareRequestModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * The filter to search for the ZipzoongCareRequestModel to update in case it exists.
+     */
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    /**
+     * In case the ZipzoongCareRequestModel found by the `where` argument doesn't exist, create a new ZipzoongCareRequestModel with this data.
+     */
+    create: XOR<ZipzoongCareRequestModelCreateInput, ZipzoongCareRequestModelUncheckedCreateInput>
+    /**
+     * In case the ZipzoongCareRequestModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ZipzoongCareRequestModelUpdateInput, ZipzoongCareRequestModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel delete
+   */
+  export type ZipzoongCareRequestModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    /**
+     * Filter which ZipzoongCareRequestModel to delete.
+     */
+    where: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel deleteMany
+   */
+  export type ZipzoongCareRequestModelDeleteManyArgs = {
+    /**
+     * Filter which ZipzoongCareRequestModels to delete
+     */
+    where?: ZipzoongCareRequestModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel.consultation_time_checks
+   */
+  export type ZipzoongCareRequestModel$consultation_time_checksArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel.service_checks
+   */
+  export type ZipzoongCareRequestModel$service_checksArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareRequestModel without action
+   */
+  export type ZipzoongCareRequestModelArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+  }
+
+
+
+  /**
+   * Model ZipzoongCareServiceCheckModel
+   */
+
+
+  export type AggregateZipzoongCareServiceCheckModel = {
+    _count: ZipzoongCareServiceCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareServiceCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareServiceCheckModelMaxAggregateOutputType | null
+  }
+
+  export type ZipzoongCareServiceCheckModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    service_super_category_id: string | null
+    request_id: string | null
+  }
+
+  export type ZipzoongCareServiceCheckModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    service_super_category_id: string | null
+    request_id: string | null
+  }
+
+  export type ZipzoongCareServiceCheckModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    service_super_category_id: number
+    request_id: number
+    _all: number
+  }
+
+
+  export type ZipzoongCareServiceCheckModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    service_super_category_id?: true
+    request_id?: true
+  }
+
+  export type ZipzoongCareServiceCheckModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    service_super_category_id?: true
+    request_id?: true
+  }
+
+  export type ZipzoongCareServiceCheckModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    service_super_category_id?: true
+    request_id?: true
+    _all?: true
+  }
+
+  export type ZipzoongCareServiceCheckModelAggregateArgs = {
+    /**
+     * Filter which ZipzoongCareServiceCheckModel to aggregate.
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ZipzoongCareServiceCheckModels
+    **/
+    _count?: true | ZipzoongCareServiceCheckModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ZipzoongCareServiceCheckModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ZipzoongCareServiceCheckModelMaxAggregateInputType
+  }
+
+  export type GetZipzoongCareServiceCheckModelAggregateType<T extends ZipzoongCareServiceCheckModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareServiceCheckModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateZipzoongCareServiceCheckModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareServiceCheckModel[P]>
+  }
+
+
+
+
+  export type ZipzoongCareServiceCheckModelGroupByArgs = {
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithAggregationInput>
+    by: ZipzoongCareServiceCheckModelScalarFieldEnum[]
+    having?: ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ZipzoongCareServiceCheckModelCountAggregateInputType | true
+    _min?: ZipzoongCareServiceCheckModelMinAggregateInputType
+    _max?: ZipzoongCareServiceCheckModelMaxAggregateInputType
+  }
+
+
+  export type ZipzoongCareServiceCheckModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    service_super_category_id: string
+    request_id: string
+    _count: ZipzoongCareServiceCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareServiceCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareServiceCheckModelMaxAggregateOutputType | null
+  }
+
+  type GetZipzoongCareServiceCheckModelGroupByPayload<T extends ZipzoongCareServiceCheckModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ZipzoongCareServiceCheckModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ZipzoongCareServiceCheckModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ZipzoongCareServiceCheckModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareServiceCheckModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ZipzoongCareServiceCheckModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    service_super_category_id?: boolean
+    request_id?: boolean
+    service_super_category?: boolean | ServiceSuperCategoryModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs
+  }
+
+
+  export type ZipzoongCareServiceCheckModelInclude = {
+    service_super_category?: boolean | ServiceSuperCategoryModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs
+  }
+
+  export type ZipzoongCareServiceCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareServiceCheckModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ZipzoongCareServiceCheckModel :
+    S extends undefined ? never :
+    S extends { include: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
+    ? ZipzoongCareServiceCheckModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['include'][P]> :
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['select'][P]> :
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareServiceCheckModel ? ZipzoongCareServiceCheckModel[P] : never
+  } 
+      : ZipzoongCareServiceCheckModel
+
+
+  type ZipzoongCareServiceCheckModelCountArgs = 
+    Omit<ZipzoongCareServiceCheckModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareServiceCheckModelCountAggregateInputType | true
+    }
+
+  export interface ZipzoongCareServiceCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ZipzoongCareServiceCheckModel that matches the filter.
+     * @param {ZipzoongCareServiceCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
+     * @example
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ZipzoongCareServiceCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
+
+    /**
+     * Find one ZipzoongCareServiceCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
+     * @example
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Find the first ZipzoongCareServiceCheckModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelFindFirstArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
+     * @example
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ZipzoongCareServiceCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first ZipzoongCareServiceCheckModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
+     * @example
+     * // Get one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Find zero or more ZipzoongCareServiceCheckModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany()
+     * 
+     * // Get first 10 ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const zipzoongCareServiceCheckModelWithIdOnly = await prisma.zipzoongCareServiceCheckModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ZipzoongCareServiceCheckModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>>
+
+    /**
+     * Create a ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelCreateArgs} args - Arguments to create a ZipzoongCareServiceCheckModel.
+     * @example
+     * // Create one ZipzoongCareServiceCheckModel
+     * const ZipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.create({
+     *   data: {
+     *     // ... data to create a ZipzoongCareServiceCheckModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ZipzoongCareServiceCheckModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelCreateArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Create many ZipzoongCareServiceCheckModels.
+     *     @param {ZipzoongCareServiceCheckModelCreateManyArgs} args - Arguments to create many ZipzoongCareServiceCheckModels.
+     *     @example
+     *     // Create many ZipzoongCareServiceCheckModels
+     *     const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ZipzoongCareServiceCheckModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelDeleteArgs} args - Arguments to delete one ZipzoongCareServiceCheckModel.
+     * @example
+     * // Delete one ZipzoongCareServiceCheckModel
+     * const ZipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.delete({
+     *   where: {
+     *     // ... filter to delete one ZipzoongCareServiceCheckModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ZipzoongCareServiceCheckModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Update one ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelUpdateArgs} args - Arguments to update one ZipzoongCareServiceCheckModel.
+     * @example
+     * // Update one ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ZipzoongCareServiceCheckModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Delete zero or more ZipzoongCareServiceCheckModels.
+     * @param {ZipzoongCareServiceCheckModelDeleteManyArgs} args - Arguments to filter ZipzoongCareServiceCheckModels to delete.
+     * @example
+     * // Delete a few ZipzoongCareServiceCheckModels
+     * const { count } = await prisma.zipzoongCareServiceCheckModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ZipzoongCareServiceCheckModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ZipzoongCareServiceCheckModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ZipzoongCareServiceCheckModels
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ZipzoongCareServiceCheckModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ZipzoongCareServiceCheckModel.
+     * @param {ZipzoongCareServiceCheckModelUpsertArgs} args - Arguments to update or create a ZipzoongCareServiceCheckModel.
+     * @example
+     * // Update or create a ZipzoongCareServiceCheckModel
+     * const zipzoongCareServiceCheckModel = await prisma.zipzoongCareServiceCheckModel.upsert({
+     *   create: {
+     *     // ... data to create a ZipzoongCareServiceCheckModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ZipzoongCareServiceCheckModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ZipzoongCareServiceCheckModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpsertArgs>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+
+    /**
+     * Count the number of ZipzoongCareServiceCheckModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelCountArgs} args - Arguments to filter ZipzoongCareServiceCheckModels to count.
+     * @example
+     * // Count the number of ZipzoongCareServiceCheckModels
+     * const count = await prisma.zipzoongCareServiceCheckModel.count({
+     *   where: {
+     *     // ... the filter for the ZipzoongCareServiceCheckModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends ZipzoongCareServiceCheckModelCountArgs>(
+      args?: Subset<T, ZipzoongCareServiceCheckModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ZipzoongCareServiceCheckModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ZipzoongCareServiceCheckModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ZipzoongCareServiceCheckModelAggregateArgs>(args: Subset<T, ZipzoongCareServiceCheckModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareServiceCheckModelAggregateType<T>>
+
+    /**
+     * Group by ZipzoongCareServiceCheckModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareServiceCheckModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ZipzoongCareServiceCheckModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ZipzoongCareServiceCheckModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareServiceCheckModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ZipzoongCareServiceCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareServiceCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareServiceCheckModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ZipzoongCareServiceCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    service_super_category<T extends ServiceSuperCategoryModelArgs= {}>(args?: Subset<T, ServiceSuperCategoryModelArgs>): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | Null>;
+
+    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ZipzoongCareServiceCheckModel base type for findUnique actions
+   */
+  export type ZipzoongCareServiceCheckModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
+     */
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+  }
+
+  /**
+   * ZipzoongCareServiceCheckModel findUnique
+   */
+  export interface ZipzoongCareServiceCheckModelFindUniqueArgs extends ZipzoongCareServiceCheckModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareServiceCheckModel findUniqueOrThrow
+   */
+  export type ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
+     */
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel base type for findFirst actions
+   */
+  export type ZipzoongCareServiceCheckModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareServiceCheckModels.
+     */
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareServiceCheckModels.
+     */
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
+  }
+
+  /**
+   * ZipzoongCareServiceCheckModel findFirst
+   */
+  export interface ZipzoongCareServiceCheckModelFindFirstArgs extends ZipzoongCareServiceCheckModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareServiceCheckModel findFirstOrThrow
+   */
+  export type ZipzoongCareServiceCheckModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareServiceCheckModel to fetch.
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareServiceCheckModels.
+     */
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareServiceCheckModels.
+     */
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel findMany
+   */
+  export type ZipzoongCareServiceCheckModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareServiceCheckModels to fetch.
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareServiceCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ZipzoongCareServiceCheckModels.
+     */
+    cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareServiceCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareServiceCheckModels.
+     */
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareServiceCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel create
+   */
+  export type ZipzoongCareServiceCheckModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * The data needed to create a ZipzoongCareServiceCheckModel.
+     */
+    data: XOR<ZipzoongCareServiceCheckModelCreateInput, ZipzoongCareServiceCheckModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel createMany
+   */
+  export type ZipzoongCareServiceCheckModelCreateManyArgs = {
+    /**
+     * The data used to create many ZipzoongCareServiceCheckModels.
+     */
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel update
+   */
+  export type ZipzoongCareServiceCheckModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * The data needed to update a ZipzoongCareServiceCheckModel.
+     */
+    data: XOR<ZipzoongCareServiceCheckModelUpdateInput, ZipzoongCareServiceCheckModelUncheckedUpdateInput>
+    /**
+     * Choose, which ZipzoongCareServiceCheckModel to update.
+     */
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel updateMany
+   */
+  export type ZipzoongCareServiceCheckModelUpdateManyArgs = {
+    /**
+     * The data used to update ZipzoongCareServiceCheckModels.
+     */
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyInput>
+    /**
+     * Filter which ZipzoongCareServiceCheckModels to update
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel upsert
+   */
+  export type ZipzoongCareServiceCheckModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * The filter to search for the ZipzoongCareServiceCheckModel to update in case it exists.
+     */
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    /**
+     * In case the ZipzoongCareServiceCheckModel found by the `where` argument doesn't exist, create a new ZipzoongCareServiceCheckModel with this data.
+     */
+    create: XOR<ZipzoongCareServiceCheckModelCreateInput, ZipzoongCareServiceCheckModelUncheckedCreateInput>
+    /**
+     * In case the ZipzoongCareServiceCheckModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ZipzoongCareServiceCheckModelUpdateInput, ZipzoongCareServiceCheckModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel delete
+   */
+  export type ZipzoongCareServiceCheckModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+    /**
+     * Filter which ZipzoongCareServiceCheckModel to delete.
+     */
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel deleteMany
+   */
+  export type ZipzoongCareServiceCheckModelDeleteManyArgs = {
+    /**
+     * Filter which ZipzoongCareServiceCheckModels to delete
+     */
+    where?: ZipzoongCareServiceCheckModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareServiceCheckModel without action
+   */
+  export type ZipzoongCareServiceCheckModelArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
+     */
+    select?: ZipzoongCareServiceCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareServiceCheckModelInclude | null
+  }
+
+
+
+  /**
+   * Model ZipzoongCareConsultationTimeCheckModel
+   */
+
+
+  export type AggregateZipzoongCareConsultationTimeCheckModel = {
+    _count: ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType | null
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    start_time: Date | null
+    end_time: Date | null
+    request_id: string | null
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    start_time: Date | null
+    end_time: Date | null
+    request_id: string | null
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    start_time: number
+    end_time: number
+    request_id: number
+    _all: number
+  }
+
+
+  export type ZipzoongCareConsultationTimeCheckModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    start_time?: true
+    end_time?: true
+    request_id?: true
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    start_time?: true
+    end_time?: true
+    request_id?: true
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    start_time?: true
+    end_time?: true
+    request_id?: true
+    _all?: true
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelAggregateArgs = {
+    /**
+     * Filter which ZipzoongCareConsultationTimeCheckModel to aggregate.
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ZipzoongCareConsultationTimeCheckModels
+    **/
+    _count?: true | ZipzoongCareConsultationTimeCheckModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ZipzoongCareConsultationTimeCheckModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType
+  }
+
+  export type GetZipzoongCareConsultationTimeCheckModelAggregateType<T extends ZipzoongCareConsultationTimeCheckModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateZipzoongCareConsultationTimeCheckModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateZipzoongCareConsultationTimeCheckModel[P]>
+      : GetScalarType<T[P], AggregateZipzoongCareConsultationTimeCheckModel[P]>
+  }
+
+
+
+
+  export type ZipzoongCareConsultationTimeCheckModelGroupByArgs = {
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithAggregationInput>
+    by: ZipzoongCareConsultationTimeCheckModelScalarFieldEnum[]
+    having?: ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ZipzoongCareConsultationTimeCheckModelCountAggregateInputType | true
+    _min?: ZipzoongCareConsultationTimeCheckModelMinAggregateInputType
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxAggregateInputType
+  }
+
+
+  export type ZipzoongCareConsultationTimeCheckModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    start_time: Date
+    end_time: Date
+    request_id: string
+    _count: ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType | null
+    _min: ZipzoongCareConsultationTimeCheckModelMinAggregateOutputType | null
+    _max: ZipzoongCareConsultationTimeCheckModelMaxAggregateOutputType | null
+  }
+
+  type GetZipzoongCareConsultationTimeCheckModelGroupByPayload<T extends ZipzoongCareConsultationTimeCheckModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ZipzoongCareConsultationTimeCheckModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ZipzoongCareConsultationTimeCheckModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ZipzoongCareConsultationTimeCheckModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ZipzoongCareConsultationTimeCheckModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ZipzoongCareConsultationTimeCheckModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    request_id?: boolean
+    request?: boolean | ZipzoongCareRequestModelArgs
+  }
+
+
+  export type ZipzoongCareConsultationTimeCheckModelInclude = {
+    request?: boolean | ZipzoongCareRequestModelArgs
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareConsultationTimeCheckModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ZipzoongCareConsultationTimeCheckModel :
+    S extends undefined ? never :
+    S extends { include: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
+    ? ZipzoongCareConsultationTimeCheckModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareConsultationTimeCheckModel ? ZipzoongCareConsultationTimeCheckModel[P] : never
+  } 
+      : ZipzoongCareConsultationTimeCheckModel
+
+
+  type ZipzoongCareConsultationTimeCheckModelCountArgs = 
+    Omit<ZipzoongCareConsultationTimeCheckModelFindManyArgs, 'select' | 'include'> & {
+      select?: ZipzoongCareConsultationTimeCheckModelCountAggregateInputType | true
+    }
+
+  export interface ZipzoongCareConsultationTimeCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one ZipzoongCareConsultationTimeCheckModel that matches the filter.
+     * @param {ZipzoongCareConsultationTimeCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
+     * @example
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
+
+    /**
+     * Find one ZipzoongCareConsultationTimeCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
+     * @example
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelFindFirstArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
+     * @example
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ZipzoongCareConsultationTimeCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
+     * @example
+     * // Get one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Find zero or more ZipzoongCareConsultationTimeCheckModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany()
+     * 
+     * // Get first 10 ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const zipzoongCareConsultationTimeCheckModelWithIdOnly = await prisma.zipzoongCareConsultationTimeCheckModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ZipzoongCareConsultationTimeCheckModelFindManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>>
+
+    /**
+     * Create a ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelCreateArgs} args - Arguments to create a ZipzoongCareConsultationTimeCheckModel.
+     * @example
+     * // Create one ZipzoongCareConsultationTimeCheckModel
+     * const ZipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.create({
+     *   data: {
+     *     // ... data to create a ZipzoongCareConsultationTimeCheckModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ZipzoongCareConsultationTimeCheckModelCreateArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Create many ZipzoongCareConsultationTimeCheckModels.
+     *     @param {ZipzoongCareConsultationTimeCheckModelCreateManyArgs} args - Arguments to create many ZipzoongCareConsultationTimeCheckModels.
+     *     @example
+     *     // Create many ZipzoongCareConsultationTimeCheckModels
+     *     const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ZipzoongCareConsultationTimeCheckModelCreateManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelDeleteArgs} args - Arguments to delete one ZipzoongCareConsultationTimeCheckModel.
+     * @example
+     * // Delete one ZipzoongCareConsultationTimeCheckModel
+     * const ZipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.delete({
+     *   where: {
+     *     // ... filter to delete one ZipzoongCareConsultationTimeCheckModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ZipzoongCareConsultationTimeCheckModelDeleteArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Update one ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelUpdateArgs} args - Arguments to update one ZipzoongCareConsultationTimeCheckModel.
+     * @example
+     * // Update one ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ZipzoongCareConsultationTimeCheckModelUpdateArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Delete zero or more ZipzoongCareConsultationTimeCheckModels.
+     * @param {ZipzoongCareConsultationTimeCheckModelDeleteManyArgs} args - Arguments to filter ZipzoongCareConsultationTimeCheckModels to delete.
+     * @example
+     * // Delete a few ZipzoongCareConsultationTimeCheckModels
+     * const { count } = await prisma.zipzoongCareConsultationTimeCheckModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ZipzoongCareConsultationTimeCheckModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ZipzoongCareConsultationTimeCheckModels
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ZipzoongCareConsultationTimeCheckModel.
+     * @param {ZipzoongCareConsultationTimeCheckModelUpsertArgs} args - Arguments to update or create a ZipzoongCareConsultationTimeCheckModel.
+     * @example
+     * // Update or create a ZipzoongCareConsultationTimeCheckModel
+     * const zipzoongCareConsultationTimeCheckModel = await prisma.zipzoongCareConsultationTimeCheckModel.upsert({
+     *   create: {
+     *     // ... data to create a ZipzoongCareConsultationTimeCheckModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ZipzoongCareConsultationTimeCheckModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ZipzoongCareConsultationTimeCheckModelUpsertArgs>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpsertArgs>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+
+    /**
+     * Count the number of ZipzoongCareConsultationTimeCheckModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelCountArgs} args - Arguments to filter ZipzoongCareConsultationTimeCheckModels to count.
+     * @example
+     * // Count the number of ZipzoongCareConsultationTimeCheckModels
+     * const count = await prisma.zipzoongCareConsultationTimeCheckModel.count({
+     *   where: {
+     *     // ... the filter for the ZipzoongCareConsultationTimeCheckModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends ZipzoongCareConsultationTimeCheckModelCountArgs>(
+      args?: Subset<T, ZipzoongCareConsultationTimeCheckModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ZipzoongCareConsultationTimeCheckModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ZipzoongCareConsultationTimeCheckModelAggregateArgs>(args: Subset<T, ZipzoongCareConsultationTimeCheckModelAggregateArgs>): Prisma.PrismaPromise<GetZipzoongCareConsultationTimeCheckModelAggregateType<T>>
+
+    /**
+     * Group by ZipzoongCareConsultationTimeCheckModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ZipzoongCareConsultationTimeCheckModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ZipzoongCareConsultationTimeCheckModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ZipzoongCareConsultationTimeCheckModelGroupByArgs['orderBy'] }
+        : { orderBy?: ZipzoongCareConsultationTimeCheckModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ZipzoongCareConsultationTimeCheckModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetZipzoongCareConsultationTimeCheckModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ZipzoongCareConsultationTimeCheckModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ZipzoongCareConsultationTimeCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel base type for findUnique actions
+   */
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
+     */
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+  }
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel findUnique
+   */
+  export interface ZipzoongCareConsultationTimeCheckModelFindUniqueArgs extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel findUniqueOrThrow
+   */
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
+     */
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel base type for findFirst actions
+   */
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareConsultationTimeCheckModels.
+     */
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareConsultationTimeCheckModels.
+     */
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
+  }
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel findFirst
+   */
+  export interface ZipzoongCareConsultationTimeCheckModelFindFirstArgs extends ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel findFirstOrThrow
+   */
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ZipzoongCareConsultationTimeCheckModels.
+     */
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ZipzoongCareConsultationTimeCheckModels.
+     */
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel findMany
+   */
+  export type ZipzoongCareConsultationTimeCheckModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter, which ZipzoongCareConsultationTimeCheckModels to fetch.
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ZipzoongCareConsultationTimeCheckModels to fetch.
+     */
+    orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ZipzoongCareConsultationTimeCheckModels.
+     */
+    cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ZipzoongCareConsultationTimeCheckModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ZipzoongCareConsultationTimeCheckModels.
+     */
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarFieldEnum>
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel create
+   */
+  export type ZipzoongCareConsultationTimeCheckModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * The data needed to create a ZipzoongCareConsultationTimeCheckModel.
+     */
+    data: XOR<ZipzoongCareConsultationTimeCheckModelCreateInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel createMany
+   */
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyArgs = {
+    /**
+     * The data used to create many ZipzoongCareConsultationTimeCheckModels.
+     */
+    data: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel update
+   */
+  export type ZipzoongCareConsultationTimeCheckModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * The data needed to update a ZipzoongCareConsultationTimeCheckModel.
+     */
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput>
+    /**
+     * Choose, which ZipzoongCareConsultationTimeCheckModel to update.
+     */
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel updateMany
+   */
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyArgs = {
+    /**
+     * The data used to update ZipzoongCareConsultationTimeCheckModels.
+     */
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyInput>
+    /**
+     * Filter which ZipzoongCareConsultationTimeCheckModels to update
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel upsert
+   */
+  export type ZipzoongCareConsultationTimeCheckModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * The filter to search for the ZipzoongCareConsultationTimeCheckModel to update in case it exists.
+     */
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    /**
+     * In case the ZipzoongCareConsultationTimeCheckModel found by the `where` argument doesn't exist, create a new ZipzoongCareConsultationTimeCheckModel with this data.
+     */
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput>
+    /**
+     * In case the ZipzoongCareConsultationTimeCheckModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ZipzoongCareConsultationTimeCheckModelUpdateInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel delete
+   */
+  export type ZipzoongCareConsultationTimeCheckModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    /**
+     * Filter which ZipzoongCareConsultationTimeCheckModel to delete.
+     */
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel deleteMany
+   */
+  export type ZipzoongCareConsultationTimeCheckModelDeleteManyArgs = {
+    /**
+     * Filter which ZipzoongCareConsultationTimeCheckModels to delete
+     */
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareConsultationTimeCheckModel without action
+   */
+  export type ZipzoongCareConsultationTimeCheckModelArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
+     */
+    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
   }
 
 
@@ -15789,6 +17938,7 @@ export namespace Prisma {
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
     reviews?: boolean | CustomerModel$reviewsArgs
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
@@ -15797,6 +17947,7 @@ export namespace Prisma {
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
     reviews?: boolean | CustomerModel$reviewsArgs
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
 
@@ -15810,6 +17961,7 @@ export namespace Prisma {
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['include'][P]>>  :
+        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (CustomerModelArgs | CustomerModelFindManyArgs)
@@ -15818,6 +17970,7 @@ export namespace Prisma {
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['select'][P]>>  :
+        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomerModel ? CustomerModel[P] : never
   } 
       : CustomerModel
@@ -16195,6 +18348,8 @@ export namespace Prisma {
     oauth_accounts<T extends CustomerModel$oauth_accountsArgs= {}>(args?: Subset<T, CustomerModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
 
     reviews<T extends CustomerModel$reviewsArgs= {}>(args?: Subset<T, CustomerModel$reviewsArgs>): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>| Null>;
+
+    zipzoong_care_requests<T extends CustomerModel$zipzoong_care_requestsArgs= {}>(args?: Subset<T, CustomerModel$zipzoong_care_requestsArgs>): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -16590,6 +18745,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<ReviewModelScalarFieldEnum>
+  }
+
+
+  /**
+   * CustomerModel.zipzoong_care_requests
+   */
+  export type CustomerModel$zipzoong_care_requestsArgs = {
+    /**
+     * Select specific fields to fetch from the ZipzoongCareRequestModel
+     */
+    select?: ZipzoongCareRequestModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ZipzoongCareRequestModelInclude | null
+    where?: ZipzoongCareRequestModelWhereInput
+    orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
+    cursor?: ZipzoongCareRequestModelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ZipzoongCareRequestModelScalarFieldEnum>
   }
 
 
@@ -17684,6 +19860,959 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: BusinessUserModelInclude | null
+  }
+
+
+
+  /**
+   * Model SubExpertiseModel
+   */
+
+
+  export type AggregateSubExpertiseModel = {
+    _count: SubExpertiseModelCountAggregateOutputType | null
+    _min: SubExpertiseModelMinAggregateOutputType | null
+    _max: SubExpertiseModelMaxAggregateOutputType | null
+  }
+
+  export type SubExpertiseModelMinAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    sub_category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type SubExpertiseModelMaxAggregateOutputType = {
+    id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    is_deleted: boolean | null
+    deleted_at: Date | null
+    sub_category_id: string | null
+    business_user_id: string | null
+  }
+
+  export type SubExpertiseModelCountAggregateOutputType = {
+    id: number
+    created_at: number
+    updated_at: number
+    is_deleted: number
+    deleted_at: number
+    sub_category_id: number
+    business_user_id: number
+    _all: number
+  }
+
+
+  export type SubExpertiseModelMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    sub_category_id?: true
+    business_user_id?: true
+  }
+
+  export type SubExpertiseModelMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    sub_category_id?: true
+    business_user_id?: true
+  }
+
+  export type SubExpertiseModelCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    updated_at?: true
+    is_deleted?: true
+    deleted_at?: true
+    sub_category_id?: true
+    business_user_id?: true
+    _all?: true
+  }
+
+  export type SubExpertiseModelAggregateArgs = {
+    /**
+     * Filter which SubExpertiseModel to aggregate.
+     */
+    where?: SubExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubExpertiseModels
+    **/
+    _count?: true | SubExpertiseModelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubExpertiseModelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubExpertiseModelMaxAggregateInputType
+  }
+
+  export type GetSubExpertiseModelAggregateType<T extends SubExpertiseModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubExpertiseModel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
+      : GetScalarType<T[P], AggregateSubExpertiseModel[P]>
+  }
+
+
+
+
+  export type SubExpertiseModelGroupByArgs = {
+    where?: SubExpertiseModelWhereInput
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithAggregationInput>
+    by: SubExpertiseModelScalarFieldEnum[]
+    having?: SubExpertiseModelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubExpertiseModelCountAggregateInputType | true
+    _min?: SubExpertiseModelMinAggregateInputType
+    _max?: SubExpertiseModelMaxAggregateInputType
+  }
+
+
+  export type SubExpertiseModelGroupByOutputType = {
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    sub_category_id: string
+    business_user_id: string
+    _count: SubExpertiseModelCountAggregateOutputType | null
+    _min: SubExpertiseModelMinAggregateOutputType | null
+    _max: SubExpertiseModelMaxAggregateOutputType | null
+  }
+
+  type GetSubExpertiseModelGroupByPayload<T extends SubExpertiseModelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<SubExpertiseModelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubExpertiseModelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
+            : GetScalarType<T[P], SubExpertiseModelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubExpertiseModelSelect = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    sub_category_id?: boolean
+    business_user_id?: boolean
+    sub_category?: boolean | ServiceSubCategoryModelArgs
+    business_user?: boolean | BusinessUserModelArgs
+  }
+
+
+  export type SubExpertiseModelInclude = {
+    sub_category?: boolean | ServiceSubCategoryModelArgs
+    business_user?: boolean | BusinessUserModelArgs
+  }
+
+  export type SubExpertiseModelGetPayload<S extends boolean | null | undefined | SubExpertiseModelArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? SubExpertiseModel :
+    S extends undefined ? never :
+    S extends { include: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
+    ? SubExpertiseModel  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'sub_category' ? ServiceSubCategoryModelGetPayload<S['include'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'sub_category' ? ServiceSubCategoryModelGetPayload<S['select'][P]> :
+        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof SubExpertiseModel ? SubExpertiseModel[P] : never
+  } 
+      : SubExpertiseModel
+
+
+  type SubExpertiseModelCountArgs = 
+    Omit<SubExpertiseModelFindManyArgs, 'select' | 'include'> & {
+      select?: SubExpertiseModelCountAggregateInputType | true
+    }
+
+  export interface SubExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one SubExpertiseModel that matches the filter.
+     * @param {SubExpertiseModelFindUniqueArgs} args - Arguments to find a SubExpertiseModel
+     * @example
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SubExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SubExpertiseModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
+
+    /**
+     * Find one SubExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SubExpertiseModelFindUniqueOrThrowArgs} args - Arguments to find a SubExpertiseModel
+     * @example
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SubExpertiseModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindUniqueOrThrowArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Find the first SubExpertiseModel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelFindFirstArgs} args - Arguments to find a SubExpertiseModel
+     * @example
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SubExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
+
+    /**
+     * Find the first SubExpertiseModel that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelFindFirstOrThrowArgs} args - Arguments to find a SubExpertiseModel
+     * @example
+     * // Get one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SubExpertiseModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstOrThrowArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Find zero or more SubExpertiseModels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubExpertiseModels
+     * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
+     * 
+     * // Get first 10 SubExpertiseModels
+     * const subExpertiseModels = await prisma.subExpertiseModel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subExpertiseModelWithIdOnly = await prisma.subExpertiseModel.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SubExpertiseModelFindManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>>
+
+    /**
+     * Create a SubExpertiseModel.
+     * @param {SubExpertiseModelCreateArgs} args - Arguments to create a SubExpertiseModel.
+     * @example
+     * // Create one SubExpertiseModel
+     * const SubExpertiseModel = await prisma.subExpertiseModel.create({
+     *   data: {
+     *     // ... data to create a SubExpertiseModel
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SubExpertiseModelCreateArgs>(
+      args: SelectSubset<T, SubExpertiseModelCreateArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Create many SubExpertiseModels.
+     *     @param {SubExpertiseModelCreateManyArgs} args - Arguments to create many SubExpertiseModels.
+     *     @example
+     *     // Create many SubExpertiseModels
+     *     const subExpertiseModel = await prisma.subExpertiseModel.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SubExpertiseModelCreateManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SubExpertiseModel.
+     * @param {SubExpertiseModelDeleteArgs} args - Arguments to delete one SubExpertiseModel.
+     * @example
+     * // Delete one SubExpertiseModel
+     * const SubExpertiseModel = await prisma.subExpertiseModel.delete({
+     *   where: {
+     *     // ... filter to delete one SubExpertiseModel
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SubExpertiseModelDeleteArgs>(
+      args: SelectSubset<T, SubExpertiseModelDeleteArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Update one SubExpertiseModel.
+     * @param {SubExpertiseModelUpdateArgs} args - Arguments to update one SubExpertiseModel.
+     * @example
+     * // Update one SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SubExpertiseModelUpdateArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpdateArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Delete zero or more SubExpertiseModels.
+     * @param {SubExpertiseModelDeleteManyArgs} args - Arguments to filter SubExpertiseModels to delete.
+     * @example
+     * // Delete a few SubExpertiseModels
+     * const { count } = await prisma.subExpertiseModel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SubExpertiseModelDeleteManyArgs>(
+      args?: SelectSubset<T, SubExpertiseModelDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubExpertiseModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubExpertiseModels
+     * const subExpertiseModel = await prisma.subExpertiseModel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SubExpertiseModelUpdateManyArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SubExpertiseModel.
+     * @param {SubExpertiseModelUpsertArgs} args - Arguments to update or create a SubExpertiseModel.
+     * @example
+     * // Update or create a SubExpertiseModel
+     * const subExpertiseModel = await prisma.subExpertiseModel.upsert({
+     *   create: {
+     *     // ... data to create a SubExpertiseModel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubExpertiseModel we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SubExpertiseModelUpsertArgs>(
+      args: SelectSubset<T, SubExpertiseModelUpsertArgs>
+    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+
+    /**
+     * Count the number of SubExpertiseModels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelCountArgs} args - Arguments to filter SubExpertiseModels to count.
+     * @example
+     * // Count the number of SubExpertiseModels
+     * const count = await prisma.subExpertiseModel.count({
+     *   where: {
+     *     // ... the filter for the SubExpertiseModels we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubExpertiseModelCountArgs>(
+      args?: Subset<T, SubExpertiseModelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubExpertiseModelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubExpertiseModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubExpertiseModelAggregateArgs>(args: Subset<T, SubExpertiseModelAggregateArgs>): Prisma.PrismaPromise<GetSubExpertiseModelAggregateType<T>>
+
+    /**
+     * Group by SubExpertiseModel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubExpertiseModelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubExpertiseModelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubExpertiseModelGroupByArgs['orderBy'] }
+        : { orderBy?: SubExpertiseModelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubExpertiseModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubExpertiseModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubExpertiseModel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SubExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    sub_category<T extends ServiceSubCategoryModelArgs= {}>(args?: Subset<T, ServiceSubCategoryModelArgs>): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | Null>;
+
+    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * SubExpertiseModel base type for findUnique actions
+   */
+  export type SubExpertiseModelFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter, which SubExpertiseModel to fetch.
+     */
+    where: SubExpertiseModelWhereUniqueInput
+  }
+
+  /**
+   * SubExpertiseModel findUnique
+   */
+  export interface SubExpertiseModelFindUniqueArgs extends SubExpertiseModelFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SubExpertiseModel findUniqueOrThrow
+   */
+  export type SubExpertiseModelFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter, which SubExpertiseModel to fetch.
+     */
+    where: SubExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * SubExpertiseModel base type for findFirst actions
+   */
+  export type SubExpertiseModelFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter, which SubExpertiseModel to fetch.
+     */
+    where?: SubExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubExpertiseModels.
+     */
+    cursor?: SubExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubExpertiseModels.
+     */
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
+  }
+
+  /**
+   * SubExpertiseModel findFirst
+   */
+  export interface SubExpertiseModelFindFirstArgs extends SubExpertiseModelFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SubExpertiseModel findFirstOrThrow
+   */
+  export type SubExpertiseModelFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter, which SubExpertiseModel to fetch.
+     */
+    where?: SubExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubExpertiseModels.
+     */
+    cursor?: SubExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubExpertiseModels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubExpertiseModels.
+     */
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * SubExpertiseModel findMany
+   */
+  export type SubExpertiseModelFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter, which SubExpertiseModels to fetch.
+     */
+    where?: SubExpertiseModelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubExpertiseModels to fetch.
+     */
+    orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubExpertiseModels.
+     */
+    cursor?: SubExpertiseModelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubExpertiseModels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubExpertiseModels.
+     */
+    skip?: number
+    distinct?: Enumerable<SubExpertiseModelScalarFieldEnum>
+  }
+
+
+  /**
+   * SubExpertiseModel create
+   */
+  export type SubExpertiseModelCreateArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * The data needed to create a SubExpertiseModel.
+     */
+    data: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
+  }
+
+
+  /**
+   * SubExpertiseModel createMany
+   */
+  export type SubExpertiseModelCreateManyArgs = {
+    /**
+     * The data used to create many SubExpertiseModels.
+     */
+    data: Enumerable<SubExpertiseModelCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * SubExpertiseModel update
+   */
+  export type SubExpertiseModelUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * The data needed to update a SubExpertiseModel.
+     */
+    data: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
+    /**
+     * Choose, which SubExpertiseModel to update.
+     */
+    where: SubExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * SubExpertiseModel updateMany
+   */
+  export type SubExpertiseModelUpdateManyArgs = {
+    /**
+     * The data used to update SubExpertiseModels.
+     */
+    data: XOR<SubExpertiseModelUpdateManyMutationInput, SubExpertiseModelUncheckedUpdateManyInput>
+    /**
+     * Filter which SubExpertiseModels to update
+     */
+    where?: SubExpertiseModelWhereInput
+  }
+
+
+  /**
+   * SubExpertiseModel upsert
+   */
+  export type SubExpertiseModelUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * The filter to search for the SubExpertiseModel to update in case it exists.
+     */
+    where: SubExpertiseModelWhereUniqueInput
+    /**
+     * In case the SubExpertiseModel found by the `where` argument doesn't exist, create a new SubExpertiseModel with this data.
+     */
+    create: XOR<SubExpertiseModelCreateInput, SubExpertiseModelUncheckedCreateInput>
+    /**
+     * In case the SubExpertiseModel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubExpertiseModelUpdateInput, SubExpertiseModelUncheckedUpdateInput>
+  }
+
+
+  /**
+   * SubExpertiseModel delete
+   */
+  export type SubExpertiseModelDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
+    /**
+     * Filter which SubExpertiseModel to delete.
+     */
+    where: SubExpertiseModelWhereUniqueInput
+  }
+
+
+  /**
+   * SubExpertiseModel deleteMany
+   */
+  export type SubExpertiseModelDeleteManyArgs = {
+    /**
+     * Filter which SubExpertiseModels to delete
+     */
+    where?: SubExpertiseModelWhereInput
+  }
+
+
+  /**
+   * SubExpertiseModel without action
+   */
+  export type SubExpertiseModelArgs = {
+    /**
+     * Select specific fields to fetch from the SubExpertiseModel
+     */
+    select?: SubExpertiseModelSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubExpertiseModelInclude | null
   }
 
 
@@ -22552,7 +25681,7 @@ export namespace Prisma {
     title: 'title',
     content: 'content',
     is_required: 'is_required',
-    user_type: 'user_type'
+    target_type: 'target_type'
   };
 
   export type AgreementModelScalarFieldEnum = (typeof AgreementModelScalarFieldEnum)[keyof typeof AgreementModelScalarFieldEnum]
@@ -22596,32 +25725,6 @@ export namespace Prisma {
   };
 
   export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
-
-
-  export const ExpertSubCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    super_category_id: 'super_category_id'
-  };
-
-  export type ExpertSubCategoryModelScalarFieldEnum = (typeof ExpertSubCategoryModelScalarFieldEnum)[keyof typeof ExpertSubCategoryModelScalarFieldEnum]
-
-
-  export const ExpertSuperCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    business_type: 'business_type'
-  };
-
-  export type ExpertSuperCategoryModelScalarFieldEnum = (typeof ExpertSuperCategoryModelScalarFieldEnum)[keyof typeof ExpertSuperCategoryModelScalarFieldEnum]
 
 
   export const HSIntroductionImageModelScalarFieldEnum: {
@@ -22696,7 +25799,7 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     name: 'name',
     main_image_url: 'main_image_url',
-    agent_id: 'agent_id'
+    re_agent_id: 're_agent_id'
   };
 
   export type REProertyModelScalarFieldEnum = (typeof REProertyModelScalarFieldEnum)[keyof typeof REProertyModelScalarFieldEnum]
@@ -22760,7 +25863,7 @@ export namespace Prisma {
     is_deleted: 'is_deleted',
     deleted_at: 'deleted_at',
     name: 'name',
-    business_type: 'business_type'
+    target_type: 'target_type'
   };
 
   export type RateCategoryModelScalarFieldEnum = (typeof RateCategoryModelScalarFieldEnum)[keyof typeof RateCategoryModelScalarFieldEnum]
@@ -22792,6 +25895,32 @@ export namespace Prisma {
   };
 
   export type ReviewModelScalarFieldEnum = (typeof ReviewModelScalarFieldEnum)[keyof typeof ReviewModelScalarFieldEnum]
+
+
+  export const ServiceSubCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    super_category_id: 'super_category_id'
+  };
+
+  export type ServiceSubCategoryModelScalarFieldEnum = (typeof ServiceSubCategoryModelScalarFieldEnum)[keyof typeof ServiceSubCategoryModelScalarFieldEnum]
+
+
+  export const ServiceSuperCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    type: 'type'
+  };
+
+  export type ServiceSuperCategoryModelScalarFieldEnum = (typeof ServiceSuperCategoryModelScalarFieldEnum)[keyof typeof ServiceSuperCategoryModelScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -22838,6 +25967,49 @@ export namespace Prisma {
   export type UserModelScalarFieldEnum = (typeof UserModelScalarFieldEnum)[keyof typeof UserModelScalarFieldEnum]
 
 
+  export const ZipzoongCareConsultationTimeCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    start_time: 'start_time',
+    end_time: 'end_time',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = (typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum]
+
+
+  export const ZipzoongCareRequestModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    care_start_date: 'care_start_date',
+    care_end_date: 'care_end_date',
+    detail: 'detail',
+    status: 'status',
+    requester_id: 'requester_id'
+  };
+
+  export type ZipzoongCareRequestModelScalarFieldEnum = (typeof ZipzoongCareRequestModelScalarFieldEnum)[keyof typeof ZipzoongCareRequestModelScalarFieldEnum]
+
+
+  export const ZipzoongCareServiceCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    service_super_category_id: 'service_super_category_id',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareServiceCheckModelScalarFieldEnum = (typeof ZipzoongCareServiceCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareServiceCheckModelScalarFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -22854,8 +26026,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
     main_image_url?: StringFilter | string
-    agent_id?: StringFilter | string
-    agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput>
+    re_agent_id?: StringFilter | string
+    re_agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput>
     categories?: REPropertyCategoryModelListRelationFilter
   }
 
@@ -22867,8 +26039,8 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
-    agent_id?: SortOrder
-    agent?: REAgentModelOrderByWithRelationInput
+    re_agent_id?: SortOrder
+    re_agent?: REAgentModelOrderByWithRelationInput
     categories?: REPropertyCategoryModelOrderByRelationAggregateInput
   }
 
@@ -22884,7 +26056,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
-    agent_id?: SortOrder
+    re_agent_id?: SortOrder
     _count?: REProertyModelCountOrderByAggregateInput
     _max?: REProertyModelMaxOrderByAggregateInput
     _min?: REProertyModelMinOrderByAggregateInput
@@ -22901,7 +26073,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     name?: StringWithAggregatesFilter | string
     main_image_url?: StringWithAggregatesFilter | string
-    agent_id?: StringWithAggregatesFilter | string
+    re_agent_id?: StringWithAggregatesFilter | string
   }
 
   export type REPropertyCategoryModelWhereInput = {
@@ -23264,7 +26436,7 @@ export namespace Prisma {
     is_deleted?: BoolFilter | boolean
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
-    business_type?: EnumBusinessRateTypeFilter | BusinessRateType
+    target_type?: EnumRateTargetTypeFilter | RateTargetType
     rates?: RateModelListRelationFilter
   }
 
@@ -23275,7 +26447,7 @@ export namespace Prisma {
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    target_type?: SortOrder
     rates?: RateModelOrderByRelationAggregateInput
   }
 
@@ -23291,7 +26463,7 @@ export namespace Prisma {
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    target_type?: SortOrder
     _count?: RateCategoryModelCountOrderByAggregateInput
     _max?: RateCategoryModelMaxOrderByAggregateInput
     _min?: RateCategoryModelMinOrderByAggregateInput
@@ -23307,7 +26479,7 @@ export namespace Prisma {
     is_deleted?: BoolWithAggregatesFilter | boolean
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     name?: StringWithAggregatesFilter | string
-    business_type?: EnumBusinessRateTypeWithAggregatesFilter | BusinessRateType
+    target_type?: EnumRateTargetTypeWithAggregatesFilter | RateTargetType
   }
 
   export type AgreementModelWhereInput = {
@@ -23322,7 +26494,7 @@ export namespace Prisma {
     title?: StringFilter | string
     content?: StringFilter | string
     is_required?: BoolFilter | boolean
-    user_type?: EnumAgreementUserTypeFilter | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFilter | AgreementTargetType
     acceptances?: AgreementAcceptanceModelListRelationFilter
   }
 
@@ -23335,7 +26507,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
-    user_type?: SortOrder
+    target_type?: SortOrder
     acceptances?: AgreementAcceptanceModelOrderByRelationAggregateInput
   }
 
@@ -23352,7 +26524,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
-    user_type?: SortOrder
+    target_type?: SortOrder
     _count?: AgreementModelCountOrderByAggregateInput
     _max?: AgreementModelMaxOrderByAggregateInput
     _min?: AgreementModelMinOrderByAggregateInput
@@ -23370,7 +26542,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter | string
     content?: StringWithAggregatesFilter | string
     is_required?: BoolWithAggregatesFilter | boolean
-    user_type?: EnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+    target_type?: EnumAgreementTargetTypeWithAggregatesFilter | AgreementTargetType
   }
 
   export type AgreementAcceptanceModelWhereInput = {
@@ -23431,68 +26603,10 @@ export namespace Prisma {
     agreement_id?: StringWithAggregatesFilter | string
   }
 
-  export type SubExpertiseModelWhereInput = {
-    AND?: Enumerable<SubExpertiseModelWhereInput>
-    OR?: Enumerable<SubExpertiseModelWhereInput>
-    NOT?: Enumerable<SubExpertiseModelWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    sub_category_id?: StringFilter | string
-    business_user_id?: StringFilter | string
-    sub_category?: XOR<ExpertSubCategoryModelRelationFilter, ExpertSubCategoryModelWhereInput>
-    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-  }
-
-  export type SubExpertiseModelOrderByWithRelationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    sub_category_id?: SortOrder
-    business_user_id?: SortOrder
-    sub_category?: ExpertSubCategoryModelOrderByWithRelationInput
-    business_user?: BusinessUserModelOrderByWithRelationInput
-  }
-
-  export type SubExpertiseModelWhereUniqueInput = {
-    id?: string
-    sub_category_id_business_user_id?: SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput
-  }
-
-  export type SubExpertiseModelOrderByWithAggregationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    sub_category_id?: SortOrder
-    business_user_id?: SortOrder
-    _count?: SubExpertiseModelCountOrderByAggregateInput
-    _max?: SubExpertiseModelMaxOrderByAggregateInput
-    _min?: SubExpertiseModelMinOrderByAggregateInput
-  }
-
-  export type SubExpertiseModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    created_at?: DateTimeWithAggregatesFilter | Date | string
-    updated_at?: DateTimeWithAggregatesFilter | Date | string
-    is_deleted?: BoolWithAggregatesFilter | boolean
-    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    sub_category_id?: StringWithAggregatesFilter | string
-    business_user_id?: StringWithAggregatesFilter | string
-  }
-
-  export type ExpertSubCategoryModelWhereInput = {
-    AND?: Enumerable<ExpertSubCategoryModelWhereInput>
-    OR?: Enumerable<ExpertSubCategoryModelWhereInput>
-    NOT?: Enumerable<ExpertSubCategoryModelWhereInput>
+  export type ServiceSubCategoryModelWhereInput = {
+    AND?: Enumerable<ServiceSubCategoryModelWhereInput>
+    OR?: Enumerable<ServiceSubCategoryModelWhereInput>
+    NOT?: Enumerable<ServiceSubCategoryModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -23500,11 +26614,11 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
     super_category_id?: StringFilter | string
-    super_category?: XOR<ExpertSuperCategoryModelRelationFilter, ExpertSuperCategoryModelWhereInput>
+    super_category?: XOR<ServiceSuperCategoryModelRelationFilter, ServiceSuperCategoryModelWhereInput>
     expertises?: SubExpertiseModelListRelationFilter
   }
 
-  export type ExpertSubCategoryModelOrderByWithRelationInput = {
+  export type ServiceSubCategoryModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23512,15 +26626,15 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
-    super_category?: ExpertSuperCategoryModelOrderByWithRelationInput
+    super_category?: ServiceSuperCategoryModelOrderByWithRelationInput
     expertises?: SubExpertiseModelOrderByRelationAggregateInput
   }
 
-  export type ExpertSubCategoryModelWhereUniqueInput = {
+  export type ServiceSubCategoryModelWhereUniqueInput = {
     id?: string
   }
 
-  export type ExpertSubCategoryModelOrderByWithAggregationInput = {
+  export type ServiceSubCategoryModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23528,15 +26642,15 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
-    _count?: ExpertSubCategoryModelCountOrderByAggregateInput
-    _max?: ExpertSubCategoryModelMaxOrderByAggregateInput
-    _min?: ExpertSubCategoryModelMinOrderByAggregateInput
+    _count?: ServiceSubCategoryModelCountOrderByAggregateInput
+    _max?: ServiceSubCategoryModelMaxOrderByAggregateInput
+    _min?: ServiceSubCategoryModelMinOrderByAggregateInput
   }
 
-  export type ExpertSubCategoryModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<ExpertSubCategoryModelScalarWhereWithAggregatesInput>
+  export type ServiceSubCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ServiceSubCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ServiceSubCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ServiceSubCategoryModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -23546,60 +26660,249 @@ export namespace Prisma {
     super_category_id?: StringWithAggregatesFilter | string
   }
 
-  export type ExpertSuperCategoryModelWhereInput = {
-    AND?: Enumerable<ExpertSuperCategoryModelWhereInput>
-    OR?: Enumerable<ExpertSuperCategoryModelWhereInput>
-    NOT?: Enumerable<ExpertSuperCategoryModelWhereInput>
+  export type ServiceSuperCategoryModelWhereInput = {
+    AND?: Enumerable<ServiceSuperCategoryModelWhereInput>
+    OR?: Enumerable<ServiceSuperCategoryModelWhereInput>
+    NOT?: Enumerable<ServiceSuperCategoryModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
     is_deleted?: BoolFilter | boolean
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
-    business_type?: EnumExpertBusinessTypeFilter | ExpertBusinessType
-    sub_categories?: ExpertSubCategoryModelListRelationFilter
+    type?: EnumServiceTypeFilter | ServiceType
+    sub_categories?: ServiceSubCategoryModelListRelationFilter
+    focus_care_checks?: ZipzoongCareServiceCheckModelListRelationFilter
   }
 
-  export type ExpertSuperCategoryModelOrderByWithRelationInput = {
+  export type ServiceSuperCategoryModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
-    sub_categories?: ExpertSubCategoryModelOrderByRelationAggregateInput
+    type?: SortOrder
+    sub_categories?: ServiceSubCategoryModelOrderByRelationAggregateInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelOrderByRelationAggregateInput
   }
 
-  export type ExpertSuperCategoryModelWhereUniqueInput = {
+  export type ServiceSuperCategoryModelWhereUniqueInput = {
     id?: string
     name?: string
   }
 
-  export type ExpertSuperCategoryModelOrderByWithAggregationInput = {
+  export type ServiceSuperCategoryModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
-    _count?: ExpertSuperCategoryModelCountOrderByAggregateInput
-    _max?: ExpertSuperCategoryModelMaxOrderByAggregateInput
-    _min?: ExpertSuperCategoryModelMinOrderByAggregateInput
+    type?: SortOrder
+    _count?: ServiceSuperCategoryModelCountOrderByAggregateInput
+    _max?: ServiceSuperCategoryModelMaxOrderByAggregateInput
+    _min?: ServiceSuperCategoryModelMinOrderByAggregateInput
   }
 
-  export type ExpertSuperCategoryModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<ExpertSuperCategoryModelScalarWhereWithAggregatesInput>
+  export type ServiceSuperCategoryModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ServiceSuperCategoryModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ServiceSuperCategoryModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ServiceSuperCategoryModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
     is_deleted?: BoolWithAggregatesFilter | boolean
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     name?: StringWithAggregatesFilter | string
-    business_type?: EnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+    type?: EnumServiceTypeWithAggregatesFilter | ServiceType
+  }
+
+  export type ZipzoongCareRequestModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelWhereInput>
+    OR?: Enumerable<ZipzoongCareRequestModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    care_start_date?: DateTimeFilter | Date | string
+    care_end_date?: DateTimeFilter | Date | string
+    detail?: StringFilter | string
+    status?: EnumZipzoongCareStatusFilter | ZipzoongCareStatus
+    requester_id?: StringFilter | string
+    requester?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelListRelationFilter
+    service_checks?: ZipzoongCareServiceCheckModelListRelationFilter
+  }
+
+  export type ZipzoongCareRequestModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    care_start_date?: SortOrder
+    care_end_date?: SortOrder
+    detail?: SortOrder
+    status?: SortOrder
+    requester_id?: SortOrder
+    requester?: CustomerModelOrderByWithRelationInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelOrderByRelationAggregateInput
+    service_checks?: ZipzoongCareServiceCheckModelOrderByRelationAggregateInput
+  }
+
+  export type ZipzoongCareRequestModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type ZipzoongCareRequestModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    care_start_date?: SortOrder
+    care_end_date?: SortOrder
+    detail?: SortOrder
+    status?: SortOrder
+    requester_id?: SortOrder
+    _count?: ZipzoongCareRequestModelCountOrderByAggregateInput
+    _max?: ZipzoongCareRequestModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareRequestModelMinOrderByAggregateInput
+  }
+
+  export type ZipzoongCareRequestModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    care_start_date?: DateTimeWithAggregatesFilter | Date | string
+    care_end_date?: DateTimeWithAggregatesFilter | Date | string
+    detail?: StringWithAggregatesFilter | string
+    status?: EnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
+    requester_id?: StringWithAggregatesFilter | string
+  }
+
+  export type ZipzoongCareServiceCheckModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    service_super_category_id?: StringFilter | string
+    request_id?: StringFilter | string
+    service_super_category?: XOR<ServiceSuperCategoryModelRelationFilter, ServiceSuperCategoryModelWhereInput>
+    request?: XOR<ZipzoongCareRequestModelRelationFilter, ZipzoongCareRequestModelWhereInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    service_super_category_id?: SortOrder
+    request_id?: SortOrder
+    service_super_category?: ServiceSuperCategoryModelOrderByWithRelationInput
+    request?: ZipzoongCareRequestModelOrderByWithRelationInput
+  }
+
+  export type ZipzoongCareServiceCheckModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type ZipzoongCareServiceCheckModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    service_super_category_id?: SortOrder
+    request_id?: SortOrder
+    _count?: ZipzoongCareServiceCheckModelCountOrderByAggregateInput
+    _max?: ZipzoongCareServiceCheckModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareServiceCheckModelMinOrderByAggregateInput
+  }
+
+  export type ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    service_super_category_id?: StringWithAggregatesFilter | string
+    request_id?: StringWithAggregatesFilter | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelWhereInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    start_time?: DateTimeFilter | Date | string
+    end_time?: DateTimeFilter | Date | string
+    request_id?: StringFilter | string
+    request?: XOR<ZipzoongCareRequestModelRelationFilter, ZipzoongCareRequestModelWhereInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    request_id?: SortOrder
+    request?: ZipzoongCareRequestModelOrderByWithRelationInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelWhereUniqueInput = {
+    id?: string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    request_id?: SortOrder
+    _count?: ZipzoongCareConsultationTimeCheckModelCountOrderByAggregateInput
+    _max?: ZipzoongCareConsultationTimeCheckModelMaxOrderByAggregateInput
+    _min?: ZipzoongCareConsultationTimeCheckModelMinOrderByAggregateInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    start_time?: DateTimeWithAggregatesFilter | Date | string
+    end_time?: DateTimeWithAggregatesFilter | Date | string
+    request_id?: StringWithAggregatesFilter | string
   }
 
   export type UserModelWhereInput = {
@@ -23675,6 +26978,7 @@ export namespace Prisma {
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     oauth_accounts?: OauthAccountModelListRelationFilter
     reviews?: ReviewModelListRelationFilter
+    zipzoong_care_requests?: ZipzoongCareRequestModelListRelationFilter
   }
 
   export type CustomerModelOrderByWithRelationInput = {
@@ -23688,6 +26992,7 @@ export namespace Prisma {
     base?: UserModelOrderByWithRelationInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
     reviews?: ReviewModelOrderByRelationAggregateInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelOrderByRelationAggregateInput
   }
 
   export type CustomerModelWhereUniqueInput = {
@@ -23789,6 +27094,64 @@ export namespace Prisma {
     address_first?: StringWithAggregatesFilter | string
     address_second?: StringNullableWithAggregatesFilter | string | null
     profile_image_url?: StringWithAggregatesFilter | string
+  }
+
+  export type SubExpertiseModelWhereInput = {
+    AND?: Enumerable<SubExpertiseModelWhereInput>
+    OR?: Enumerable<SubExpertiseModelWhereInput>
+    NOT?: Enumerable<SubExpertiseModelWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    sub_category_id?: StringFilter | string
+    business_user_id?: StringFilter | string
+    sub_category?: XOR<ServiceSubCategoryModelRelationFilter, ServiceSubCategoryModelWhereInput>
+    business_user?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
+  }
+
+  export type SubExpertiseModelOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    sub_category_id?: SortOrder
+    business_user_id?: SortOrder
+    sub_category?: ServiceSubCategoryModelOrderByWithRelationInput
+    business_user?: BusinessUserModelOrderByWithRelationInput
+  }
+
+  export type SubExpertiseModelWhereUniqueInput = {
+    id?: string
+    sub_category_id_business_user_id?: SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput
+  }
+
+  export type SubExpertiseModelOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    sub_category_id?: SortOrder
+    business_user_id?: SortOrder
+    _count?: SubExpertiseModelCountOrderByAggregateInput
+    _max?: SubExpertiseModelMaxOrderByAggregateInput
+    _min?: SubExpertiseModelMinOrderByAggregateInput
+  }
+
+  export type SubExpertiseModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SubExpertiseModelScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    sub_category_id?: StringWithAggregatesFilter | string
+    business_user_id?: StringWithAggregatesFilter | string
   }
 
   export type REAgentModelWhereInput = {
@@ -24096,7 +27459,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
-    agent: REAgentModelCreateNestedOneWithoutPropertiesInput
+    re_agent: REAgentModelCreateNestedOneWithoutPropertiesInput
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
 
@@ -24108,7 +27471,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
-    agent_id: string
+    re_agent_id: string
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
@@ -24120,7 +27483,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
-    agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
+    re_agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
 
@@ -24132,7 +27495,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
-    agent_id?: StringFieldUpdateOperationsInput | string
+    re_agent_id?: StringFieldUpdateOperationsInput | string
     categories?: REPropertyCategoryModelUncheckedUpdateManyWithoutRe_propertyNestedInput
   }
 
@@ -24144,7 +27507,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
-    agent_id: string
+    re_agent_id: string
   }
 
   export type REProertyModelUpdateManyMutationInput = {
@@ -24165,7 +27528,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
-    agent_id?: StringFieldUpdateOperationsInput | string
+    re_agent_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REPropertyCategoryModelCreateInput = {
@@ -24610,7 +27973,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
     rates?: RateModelCreateNestedManyWithoutCategoryInput
   }
 
@@ -24621,7 +27984,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
     rates?: RateModelUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -24632,7 +27995,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
     rates?: RateModelUpdateManyWithoutCategoryNestedInput
   }
 
@@ -24643,7 +28006,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
     rates?: RateModelUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -24654,7 +28017,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
   }
 
   export type RateCategoryModelUpdateManyMutationInput = {
@@ -24664,7 +28027,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
   }
 
   export type RateCategoryModelUncheckedUpdateManyInput = {
@@ -24674,7 +28037,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
   }
 
   export type AgreementModelCreateInput = {
@@ -24686,7 +28049,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
     acceptances?: AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput
   }
 
@@ -24699,7 +28062,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
     acceptances?: AgreementAcceptanceModelUncheckedCreateNestedManyWithoutAgreementInput
   }
 
@@ -24712,7 +28075,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
     acceptances?: AgreementAcceptanceModelUpdateManyWithoutAgreementNestedInput
   }
 
@@ -24725,7 +28088,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
     acceptances?: AgreementAcceptanceModelUncheckedUpdateManyWithoutAgreementNestedInput
   }
 
@@ -24738,7 +28101,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
   }
 
   export type AgreementModelUpdateManyMutationInput = {
@@ -24750,7 +28113,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
   }
 
   export type AgreementModelUncheckedUpdateManyInput = {
@@ -24762,7 +28125,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
   }
 
   export type AgreementAcceptanceModelCreateInput = {
@@ -24833,86 +28196,18 @@ export namespace Prisma {
     agreement_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SubExpertiseModelCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    sub_category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
-    business_user: BusinessUserModelCreateNestedOneWithoutSub_expertisesInput
-  }
-
-  export type SubExpertiseModelUncheckedCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    sub_category_id: string
-    business_user_id: string
-  }
-
-  export type SubExpertiseModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sub_category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
-    business_user?: BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput
-  }
-
-  export type SubExpertiseModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sub_category_id?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SubExpertiseModelCreateManyInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    sub_category_id: string
-    business_user_id: string
-  }
-
-  export type SubExpertiseModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type SubExpertiseModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sub_category_id?: StringFieldUpdateOperationsInput | string
-    business_user_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ExpertSubCategoryModelCreateInput = {
+  export type ServiceSubCategoryModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    super_category: ExpertSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
+    super_category: ServiceSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
     expertises?: SubExpertiseModelCreateNestedManyWithoutSub_categoryInput
   }
 
-  export type ExpertSubCategoryModelUncheckedCreateInput = {
+  export type ServiceSubCategoryModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -24923,18 +28218,18 @@ export namespace Prisma {
     expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutSub_categoryInput
   }
 
-  export type ExpertSubCategoryModelUpdateInput = {
+  export type ServiceSubCategoryModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    super_category?: ExpertSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
+    super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
     expertises?: SubExpertiseModelUpdateManyWithoutSub_categoryNestedInput
   }
 
-  export type ExpertSubCategoryModelUncheckedUpdateInput = {
+  export type ServiceSubCategoryModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24945,7 +28240,7 @@ export namespace Prisma {
     expertises?: SubExpertiseModelUncheckedUpdateManyWithoutSub_categoryNestedInput
   }
 
-  export type ExpertSubCategoryModelCreateManyInput = {
+  export type ServiceSubCategoryModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -24955,7 +28250,7 @@ export namespace Prisma {
     super_category_id: string
   }
 
-  export type ExpertSubCategoryModelUpdateManyMutationInput = {
+  export type ServiceSubCategoryModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24964,7 +28259,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ExpertSubCategoryModelUncheckedUpdateManyInput = {
+  export type ServiceSubCategoryModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24974,78 +28269,324 @@ export namespace Prisma {
     super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ExpertSuperCategoryModelCreateInput = {
+  export type ServiceSuperCategoryModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: ExpertBusinessType
-    sub_categories?: ExpertSubCategoryModelCreateNestedManyWithoutSuper_categoryInput
+    type: ServiceType
+    sub_categories?: ServiceSubCategoryModelCreateNestedManyWithoutSuper_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
   }
 
-  export type ExpertSuperCategoryModelUncheckedCreateInput = {
+  export type ServiceSuperCategoryModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: ExpertBusinessType
-    sub_categories?: ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput
+    type: ServiceType
+    sub_categories?: ServiceSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
   }
 
-  export type ExpertSuperCategoryModelUpdateInput = {
+  export type ServiceSuperCategoryModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
-    sub_categories?: ExpertSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    sub_categories?: ServiceSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
   }
 
-  export type ExpertSuperCategoryModelUncheckedUpdateInput = {
+  export type ServiceSuperCategoryModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
-    sub_categories?: ExpertSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    sub_categories?: ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
   }
 
-  export type ExpertSuperCategoryModelCreateManyInput = {
+  export type ServiceSuperCategoryModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: ExpertBusinessType
+    type: ServiceType
   }
 
-  export type ExpertSuperCategoryModelUpdateManyMutationInput = {
+  export type ServiceSuperCategoryModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
   }
 
-  export type ExpertSuperCategoryModelUncheckedUpdateManyInput = {
+  export type ServiceSuperCategoryModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+  }
+
+  export type ZipzoongCareRequestModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester_id?: StringFieldUpdateOperationsInput | string
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+  }
+
+  export type ZipzoongCareRequestModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category: ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category_id: string
+    request_id: string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category_id: string
+    request_id: string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutConsultation_time_checksInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+    request_id: string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutConsultation_time_checksNestedInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+    request_id: string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserModelCreateInput = {
@@ -25140,6 +28681,7 @@ export namespace Prisma {
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateInput = {
@@ -25152,6 +28694,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUpdateInput = {
@@ -25164,6 +28707,7 @@ export namespace Prisma {
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateInput = {
@@ -25176,6 +28720,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelCreateManyInput = {
@@ -25307,6 +28852,74 @@ export namespace Prisma {
     profile_image_url?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SubExpertiseModelCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    sub_category: ServiceSubCategoryModelCreateNestedOneWithoutExpertisesInput
+    business_user: BusinessUserModelCreateNestedOneWithoutSub_expertisesInput
+  }
+
+  export type SubExpertiseModelUncheckedCreateInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    sub_category_id: string
+    business_user_id: string
+  }
+
+  export type SubExpertiseModelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sub_category?: ServiceSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
+    business_user?: BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput
+  }
+
+  export type SubExpertiseModelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sub_category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubExpertiseModelCreateManyInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    sub_category_id: string
+    business_user_id: string
+  }
+
+  export type SubExpertiseModelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SubExpertiseModelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sub_category_id?: StringFieldUpdateOperationsInput | string
+    business_user_id?: StringFieldUpdateOperationsInput | string
+  }
+
   export type REAgentModelCreateInput = {
     is_licensed: boolean
     re_num: string
@@ -25314,7 +28927,7 @@ export namespace Prisma {
     re_phone: string
     re_licensed_agent_name: string
     base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
-    properties?: REProertyModelCreateNestedManyWithoutAgentInput
+    properties?: REProertyModelCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateInput = {
@@ -25324,7 +28937,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelUncheckedCreateNestedManyWithoutAgentInput
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUpdateInput = {
@@ -25334,7 +28947,7 @@ export namespace Prisma {
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
     base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
-    properties?: REProertyModelUpdateManyWithoutAgentNestedInput
+    properties?: REProertyModelUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateInput = {
@@ -25344,7 +28957,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUncheckedUpdateManyWithoutAgentNestedInput
+    properties?: REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelCreateManyInput = {
@@ -25752,7 +29365,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
-    agent_id?: SortOrder
+    re_agent_id?: SortOrder
   }
 
   export type REProertyModelMaxOrderByAggregateInput = {
@@ -25763,7 +29376,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
-    agent_id?: SortOrder
+    re_agent_id?: SortOrder
   }
 
   export type REProertyModelMinOrderByAggregateInput = {
@@ -25774,7 +29387,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
-    agent_id?: SortOrder
+    re_agent_id?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -26124,11 +29737,11 @@ export namespace Prisma {
     _max?: NestedIntFilter
   }
 
-  export type EnumBusinessRateTypeFilter = {
-    equals?: BusinessRateType
-    in?: Enumerable<BusinessRateType>
-    notIn?: Enumerable<BusinessRateType>
-    not?: NestedEnumBusinessRateTypeFilter | BusinessRateType
+  export type EnumRateTargetTypeFilter = {
+    equals?: RateTargetType
+    in?: Enumerable<RateTargetType>
+    notIn?: Enumerable<RateTargetType>
+    not?: NestedEnumRateTargetTypeFilter | RateTargetType
   }
 
   export type RateCategoryModelCountOrderByAggregateInput = {
@@ -26138,7 +29751,7 @@ export namespace Prisma {
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    target_type?: SortOrder
   }
 
   export type RateCategoryModelMaxOrderByAggregateInput = {
@@ -26148,7 +29761,7 @@ export namespace Prisma {
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    target_type?: SortOrder
   }
 
   export type RateCategoryModelMinOrderByAggregateInput = {
@@ -26158,24 +29771,24 @@ export namespace Prisma {
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    target_type?: SortOrder
   }
 
-  export type EnumBusinessRateTypeWithAggregatesFilter = {
-    equals?: BusinessRateType
-    in?: Enumerable<BusinessRateType>
-    notIn?: Enumerable<BusinessRateType>
-    not?: NestedEnumBusinessRateTypeWithAggregatesFilter | BusinessRateType
+  export type EnumRateTargetTypeWithAggregatesFilter = {
+    equals?: RateTargetType
+    in?: Enumerable<RateTargetType>
+    notIn?: Enumerable<RateTargetType>
+    not?: NestedEnumRateTargetTypeWithAggregatesFilter | RateTargetType
     _count?: NestedIntFilter
-    _min?: NestedEnumBusinessRateTypeFilter
-    _max?: NestedEnumBusinessRateTypeFilter
+    _min?: NestedEnumRateTargetTypeFilter
+    _max?: NestedEnumRateTargetTypeFilter
   }
 
-  export type EnumAgreementUserTypeFilter = {
-    equals?: AgreementUserType
-    in?: Enumerable<AgreementUserType>
-    notIn?: Enumerable<AgreementUserType>
-    not?: NestedEnumAgreementUserTypeFilter | AgreementUserType
+  export type EnumAgreementTargetTypeFilter = {
+    equals?: AgreementTargetType
+    in?: Enumerable<AgreementTargetType>
+    notIn?: Enumerable<AgreementTargetType>
+    not?: NestedEnumAgreementTargetTypeFilter | AgreementTargetType
   }
 
   export type AgreementAcceptanceModelListRelationFilter = {
@@ -26197,7 +29810,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
-    user_type?: SortOrder
+    target_type?: SortOrder
   }
 
   export type AgreementModelMaxOrderByAggregateInput = {
@@ -26209,7 +29822,7 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
-    user_type?: SortOrder
+    target_type?: SortOrder
   }
 
   export type AgreementModelMinOrderByAggregateInput = {
@@ -26221,17 +29834,17 @@ export namespace Prisma {
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
-    user_type?: SortOrder
+    target_type?: SortOrder
   }
 
-  export type EnumAgreementUserTypeWithAggregatesFilter = {
-    equals?: AgreementUserType
-    in?: Enumerable<AgreementUserType>
-    notIn?: Enumerable<AgreementUserType>
-    not?: NestedEnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+  export type EnumAgreementTargetTypeWithAggregatesFilter = {
+    equals?: AgreementTargetType
+    in?: Enumerable<AgreementTargetType>
+    notIn?: Enumerable<AgreementTargetType>
+    not?: NestedEnumAgreementTargetTypeWithAggregatesFilter | AgreementTargetType
     _count?: NestedIntFilter
-    _min?: NestedEnumAgreementUserTypeFilter
-    _max?: NestedEnumAgreementUserTypeFilter
+    _min?: NestedEnumAgreementTargetTypeFilter
+    _max?: NestedEnumAgreementTargetTypeFilter
   }
 
   export type UserModelRelationFilter = {
@@ -26279,49 +29892,9 @@ export namespace Prisma {
     agreement_id?: SortOrder
   }
 
-  export type ExpertSubCategoryModelRelationFilter = {
-    is?: ExpertSubCategoryModelWhereInput
-    isNot?: ExpertSubCategoryModelWhereInput
-  }
-
-  export type SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput = {
-    sub_category_id: string
-    business_user_id: string
-  }
-
-  export type SubExpertiseModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    sub_category_id?: SortOrder
-    business_user_id?: SortOrder
-  }
-
-  export type SubExpertiseModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    sub_category_id?: SortOrder
-    business_user_id?: SortOrder
-  }
-
-  export type SubExpertiseModelMinOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    sub_category_id?: SortOrder
-    business_user_id?: SortOrder
-  }
-
-  export type ExpertSuperCategoryModelRelationFilter = {
-    is?: ExpertSuperCategoryModelWhereInput
-    isNot?: ExpertSuperCategoryModelWhereInput
+  export type ServiceSuperCategoryModelRelationFilter = {
+    is?: ServiceSuperCategoryModelWhereInput
+    isNot?: ServiceSuperCategoryModelWhereInput
   }
 
   export type SubExpertiseModelListRelationFilter = {
@@ -26334,7 +29907,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ExpertSubCategoryModelCountOrderByAggregateInput = {
+  export type ServiceSubCategoryModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26344,7 +29917,7 @@ export namespace Prisma {
     super_category_id?: SortOrder
   }
 
-  export type ExpertSubCategoryModelMaxOrderByAggregateInput = {
+  export type ServiceSubCategoryModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26354,7 +29927,7 @@ export namespace Prisma {
     super_category_id?: SortOrder
   }
 
-  export type ExpertSubCategoryModelMinOrderByAggregateInput = {
+  export type ServiceSubCategoryModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26364,61 +29937,205 @@ export namespace Prisma {
     super_category_id?: SortOrder
   }
 
-  export type EnumExpertBusinessTypeFilter = {
-    equals?: ExpertBusinessType
-    in?: Enumerable<ExpertBusinessType>
-    notIn?: Enumerable<ExpertBusinessType>
-    not?: NestedEnumExpertBusinessTypeFilter | ExpertBusinessType
+  export type EnumServiceTypeFilter = {
+    equals?: ServiceType
+    in?: Enumerable<ServiceType>
+    notIn?: Enumerable<ServiceType>
+    not?: NestedEnumServiceTypeFilter | ServiceType
   }
 
-  export type ExpertSubCategoryModelListRelationFilter = {
-    every?: ExpertSubCategoryModelWhereInput
-    some?: ExpertSubCategoryModelWhereInput
-    none?: ExpertSubCategoryModelWhereInput
+  export type ServiceSubCategoryModelListRelationFilter = {
+    every?: ServiceSubCategoryModelWhereInput
+    some?: ServiceSubCategoryModelWhereInput
+    none?: ServiceSubCategoryModelWhereInput
   }
 
-  export type ExpertSubCategoryModelOrderByRelationAggregateInput = {
+  export type ZipzoongCareServiceCheckModelListRelationFilter = {
+    every?: ZipzoongCareServiceCheckModelWhereInput
+    some?: ZipzoongCareServiceCheckModelWhereInput
+    none?: ZipzoongCareServiceCheckModelWhereInput
+  }
+
+  export type ServiceSubCategoryModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ExpertSuperCategoryModelCountOrderByAggregateInput = {
+  export type ZipzoongCareServiceCheckModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceSuperCategoryModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    type?: SortOrder
   }
 
-  export type ExpertSuperCategoryModelMaxOrderByAggregateInput = {
+  export type ServiceSuperCategoryModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    type?: SortOrder
   }
 
-  export type ExpertSuperCategoryModelMinOrderByAggregateInput = {
+  export type ServiceSuperCategoryModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
     name?: SortOrder
-    business_type?: SortOrder
+    type?: SortOrder
   }
 
-  export type EnumExpertBusinessTypeWithAggregatesFilter = {
-    equals?: ExpertBusinessType
-    in?: Enumerable<ExpertBusinessType>
-    notIn?: Enumerable<ExpertBusinessType>
-    not?: NestedEnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+  export type EnumServiceTypeWithAggregatesFilter = {
+    equals?: ServiceType
+    in?: Enumerable<ServiceType>
+    notIn?: Enumerable<ServiceType>
+    not?: NestedEnumServiceTypeWithAggregatesFilter | ServiceType
     _count?: NestedIntFilter
-    _min?: NestedEnumExpertBusinessTypeFilter
-    _max?: NestedEnumExpertBusinessTypeFilter
+    _min?: NestedEnumServiceTypeFilter
+    _max?: NestedEnumServiceTypeFilter
+  }
+
+  export type EnumZipzoongCareStatusFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusFilter | ZipzoongCareStatus
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelListRelationFilter = {
+    every?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    some?: ZipzoongCareConsultationTimeCheckModelWhereInput
+    none?: ZipzoongCareConsultationTimeCheckModelWhereInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ZipzoongCareRequestModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    care_start_date?: SortOrder
+    care_end_date?: SortOrder
+    detail?: SortOrder
+    status?: SortOrder
+    requester_id?: SortOrder
+  }
+
+  export type ZipzoongCareRequestModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    care_start_date?: SortOrder
+    care_end_date?: SortOrder
+    detail?: SortOrder
+    status?: SortOrder
+    requester_id?: SortOrder
+  }
+
+  export type ZipzoongCareRequestModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    care_start_date?: SortOrder
+    care_end_date?: SortOrder
+    detail?: SortOrder
+    status?: SortOrder
+    requester_id?: SortOrder
+  }
+
+  export type EnumZipzoongCareStatusWithAggregatesFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
+    _count?: NestedIntFilter
+    _min?: NestedEnumZipzoongCareStatusFilter
+    _max?: NestedEnumZipzoongCareStatusFilter
+  }
+
+  export type ZipzoongCareRequestModelRelationFilter = {
+    is?: ZipzoongCareRequestModelWhereInput
+    isNot?: ZipzoongCareRequestModelWhereInput
+  }
+
+  export type ZipzoongCareServiceCheckModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    service_super_category_id?: SortOrder
+    request_id?: SortOrder
+  }
+
+  export type ZipzoongCareServiceCheckModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    service_super_category_id?: SortOrder
+    request_id?: SortOrder
+  }
+
+  export type ZipzoongCareServiceCheckModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    service_super_category_id?: SortOrder
+    request_id?: SortOrder
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    request_id?: SortOrder
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    request_id?: SortOrder
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    request_id?: SortOrder
   }
 
   export type StringNullableFilter = {
@@ -26503,11 +30220,21 @@ export namespace Prisma {
     none?: ReviewModelWhereInput
   }
 
+  export type ZipzoongCareRequestModelListRelationFilter = {
+    every?: ZipzoongCareRequestModelWhereInput
+    some?: ZipzoongCareRequestModelWhereInput
+    none?: ZipzoongCareRequestModelWhereInput
+  }
+
   export type OauthAccountModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ReviewModelOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ZipzoongCareRequestModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26597,6 +30324,46 @@ export namespace Prisma {
     address_first?: SortOrder
     address_second?: SortOrder
     profile_image_url?: SortOrder
+  }
+
+  export type ServiceSubCategoryModelRelationFilter = {
+    is?: ServiceSubCategoryModelWhereInput
+    isNot?: ServiceSubCategoryModelWhereInput
+  }
+
+  export type SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput = {
+    sub_category_id: string
+    business_user_id: string
+  }
+
+  export type SubExpertiseModelCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    sub_category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type SubExpertiseModelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    sub_category_id?: SortOrder
+    business_user_id?: SortOrder
+  }
+
+  export type SubExpertiseModelMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    is_deleted?: SortOrder
+    deleted_at?: SortOrder
+    sub_category_id?: SortOrder
+    business_user_id?: SortOrder
   }
 
   export type REProertyModelListRelationFilter = {
@@ -27172,8 +30939,8 @@ export namespace Prisma {
     connect?: Enumerable<RateModelWhereUniqueInput>
   }
 
-  export type EnumBusinessRateTypeFieldUpdateOperationsInput = {
-    set?: BusinessRateType
+  export type EnumRateTargetTypeFieldUpdateOperationsInput = {
+    set?: RateTargetType
   }
 
   export type RateModelUpdateManyWithoutCategoryNestedInput = {
@@ -27218,8 +30985,8 @@ export namespace Prisma {
     connect?: Enumerable<AgreementAcceptanceModelWhereUniqueInput>
   }
 
-  export type EnumAgreementUserTypeFieldUpdateOperationsInput = {
-    set?: AgreementUserType
+  export type EnumAgreementTargetTypeFieldUpdateOperationsInput = {
+    set?: AgreementTargetType
   }
 
   export type AgreementAcceptanceModelUpdateManyWithoutAgreementNestedInput = {
@@ -27278,38 +31045,10 @@ export namespace Prisma {
     update?: XOR<AgreementModelUpdateWithoutAcceptancesInput, AgreementModelUncheckedUpdateWithoutAcceptancesInput>
   }
 
-  export type ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput = {
-    create?: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput
-    connect?: ExpertSubCategoryModelWhereUniqueInput
-  }
-
-  export type BusinessUserModelCreateNestedOneWithoutSub_expertisesInput = {
-    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
-    connect?: BusinessUserModelWhereUniqueInput
-  }
-
-  export type ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput = {
-    create?: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
-    connectOrCreate?: ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput
-    upsert?: ExpertSubCategoryModelUpsertWithoutExpertisesInput
-    connect?: ExpertSubCategoryModelWhereUniqueInput
-    update?: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
-  }
-
-  export type BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
-    upsert?: BusinessUserModelUpsertWithoutSub_expertisesInput
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
-  }
-
-  export type ExpertSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput = {
-    create?: XOR<ExpertSuperCategoryModelCreateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
-    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
-    connect?: ExpertSuperCategoryModelWhereUniqueInput
+  export type ServiceSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput = {
+    create?: XOR<ServiceSuperCategoryModelCreateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+    connectOrCreate?: ServiceSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
+    connect?: ServiceSuperCategoryModelWhereUniqueInput
   }
 
   export type SubExpertiseModelCreateNestedManyWithoutSub_categoryInput = {
@@ -27326,12 +31065,12 @@ export namespace Prisma {
     connect?: Enumerable<SubExpertiseModelWhereUniqueInput>
   }
 
-  export type ExpertSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput = {
-    create?: XOR<ExpertSuperCategoryModelCreateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
-    connectOrCreate?: ExpertSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
-    upsert?: ExpertSuperCategoryModelUpsertWithoutSub_categoriesInput
-    connect?: ExpertSuperCategoryModelWhereUniqueInput
-    update?: XOR<ExpertSuperCategoryModelUpdateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
+  export type ServiceSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput = {
+    create?: XOR<ServiceSuperCategoryModelCreateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+    connectOrCreate?: ServiceSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput
+    upsert?: ServiceSuperCategoryModelUpsertWithoutSub_categoriesInput
+    connect?: ServiceSuperCategoryModelWhereUniqueInput
+    update?: XOR<ServiceSuperCategoryModelUpdateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
   }
 
   export type SubExpertiseModelUpdateManyWithoutSub_categoryNestedInput = {
@@ -27362,50 +31101,236 @@ export namespace Prisma {
     deleteMany?: Enumerable<SubExpertiseModelScalarWhereInput>
   }
 
-  export type ExpertSubCategoryModelCreateNestedManyWithoutSuper_categoryInput = {
-    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
-    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
-    createMany?: ExpertSubCategoryModelCreateManySuper_categoryInputEnvelope
-    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+  export type ServiceSubCategoryModelCreateNestedManyWithoutSuper_categoryInput = {
+    create?: XOR<Enumerable<ServiceSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<ServiceSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    createMany?: ServiceSubCategoryModelCreateManySuper_categoryInputEnvelope
+    connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
   }
 
-  export type ExpertSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput = {
-    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
-    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
-    createMany?: ExpertSubCategoryModelCreateManySuper_categoryInputEnvelope
-    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
+  export type ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
-  export type EnumExpertBusinessTypeFieldUpdateOperationsInput = {
-    set?: ExpertBusinessType
+  export type ServiceSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput = {
+    create?: XOR<Enumerable<ServiceSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<ServiceSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    createMany?: ServiceSubCategoryModelCreateManySuper_categoryInputEnvelope
+    connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
   }
 
-  export type ExpertSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput = {
-    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
-    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
-    upsert?: Enumerable<ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
-    createMany?: ExpertSubCategoryModelCreateManySuper_categoryInputEnvelope
-    set?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    disconnect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    delete?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    update?: Enumerable<ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
-    updateMany?: Enumerable<ExpertSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
-    deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
   }
 
-  export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput = {
-    create?: XOR<Enumerable<ExpertSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
-    connectOrCreate?: Enumerable<ExpertSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
-    upsert?: Enumerable<ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
-    createMany?: ExpertSubCategoryModelCreateManySuper_categoryInputEnvelope
-    set?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    disconnect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    delete?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    connect?: Enumerable<ExpertSubCategoryModelWhereUniqueInput>
-    update?: Enumerable<ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
-    updateMany?: Enumerable<ExpertSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
-    deleteMany?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  export type EnumServiceTypeFieldUpdateOperationsInput = {
+    set?: ServiceType
+  }
+
+  export type ServiceSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput = {
+    create?: XOR<Enumerable<ServiceSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<ServiceSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    upsert?: Enumerable<ServiceSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
+    createMany?: ServiceSubCategoryModelCreateManySuper_categoryInputEnvelope
+    set?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    update?: Enumerable<ServiceSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
+    updateMany?: Enumerable<ServiceSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
+    deleteMany?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+  }
+
+  export type ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput = {
+    create?: XOR<Enumerable<ServiceSubCategoryModelCreateWithoutSuper_categoryInput>, Enumerable<ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>>
+    connectOrCreate?: Enumerable<ServiceSubCategoryModelCreateOrConnectWithoutSuper_categoryInput>
+    upsert?: Enumerable<ServiceSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput>
+    createMany?: ServiceSubCategoryModelCreateManySuper_categoryInputEnvelope
+    set?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    disconnect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    delete?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    connect?: Enumerable<ServiceSubCategoryModelWhereUniqueInput>
+    update?: Enumerable<ServiceSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput>
+    updateMany?: Enumerable<ServiceSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput>
+    deleteMany?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+  }
+
+  export type CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput = {
+    create?: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput
+    connect?: CustomerModelWhereUniqueInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+  }
+
+  export type EnumZipzoongCareStatusFieldUpdateOperationsInput = {
+    set?: ZipzoongCareStatus
+  }
+
+  export type CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput = {
+    create?: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+    connectOrCreate?: CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput
+    upsert?: CustomerModelUpsertWithoutZipzoong_care_requestsInput
+    connect?: CustomerModelWhereUniqueInput
+    update?: XOR<CustomerModelUpdateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareConsultationTimeCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareServiceCheckModelCreateWithoutRequestInput>, Enumerable<ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput>
+    upsert?: Enumerable<ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput>
+    createMany?: ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope
+    set?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareServiceCheckModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput>
+    updateMany?: Enumerable<ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput>
+    deleteMany?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+  }
+
+  export type ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput = {
+    create?: XOR<ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput>
+    connectOrCreate?: ServiceSuperCategoryModelCreateOrConnectWithoutFocus_care_checksInput
+    connect?: ServiceSuperCategoryModelWhereUniqueInput
+  }
+
+  export type ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+  export type ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput = {
+    create?: XOR<ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput>
+    connectOrCreate?: ServiceSuperCategoryModelCreateOrConnectWithoutFocus_care_checksInput
+    upsert?: ServiceSuperCategoryModelUpsertWithoutFocus_care_checksInput
+    connect?: ServiceSuperCategoryModelWhereUniqueInput
+    update?: XOR<ServiceSuperCategoryModelUpdateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedUpdateWithoutFocus_care_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput
+    upsert?: ZipzoongCareRequestModelUpsertWithoutService_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+    update?: XOR<ZipzoongCareRequestModelUpdateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelCreateNestedOneWithoutConsultation_time_checksInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+  }
+
+  export type ZipzoongCareRequestModelUpdateOneRequiredWithoutConsultation_time_checksNestedInput = {
+    create?: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+    connectOrCreate?: ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput
+    upsert?: ZipzoongCareRequestModelUpsertWithoutConsultation_time_checksInput
+    connect?: ZipzoongCareRequestModelWhereUniqueInput
+    update?: XOR<ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput>
   }
 
   export type CustomerModelCreateNestedOneWithoutBaseInput = {
@@ -27538,6 +31463,13 @@ export namespace Prisma {
     connect?: Enumerable<ReviewModelWhereUniqueInput>
   }
 
+  export type ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+  }
+
   export type OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput = {
     create?: XOR<Enumerable<OauthAccountModelCreateWithoutCustomerInput>, Enumerable<OauthAccountModelUncheckedCreateWithoutCustomerInput>>
     connectOrCreate?: Enumerable<OauthAccountModelCreateOrConnectWithoutCustomerInput>
@@ -27550,6 +31482,13 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutReviewerInput>
     createMany?: ReviewModelCreateManyReviewerInputEnvelope
     connect?: Enumerable<ReviewModelWhereUniqueInput>
+  }
+
+  export type ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
   }
 
   export type NullableEnumGenderTypeFieldUpdateOperationsInput = {
@@ -27592,6 +31531,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
+  export type ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    upsert?: Enumerable<ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    set?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
+    updateMany?: Enumerable<ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
+    deleteMany?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+  }
+
   export type OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput = {
     create?: XOR<Enumerable<OauthAccountModelCreateWithoutCustomerInput>, Enumerable<OauthAccountModelUncheckedCreateWithoutCustomerInput>>
     connectOrCreate?: Enumerable<OauthAccountModelCreateOrConnectWithoutCustomerInput>
@@ -27618,6 +31571,20 @@ export namespace Prisma {
     update?: Enumerable<ReviewModelUpdateWithWhereUniqueWithoutReviewerInput>
     updateMany?: Enumerable<ReviewModelUpdateManyWithWhereWithoutReviewerInput>
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
+    connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
+    upsert?: Enumerable<ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput>
+    createMany?: ZipzoongCareRequestModelCreateManyRequesterInputEnvelope
+    set?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    disconnect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    delete?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    connect?: Enumerable<ZipzoongCareRequestModelWhereUniqueInput>
+    update?: Enumerable<ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput>
+    updateMany?: Enumerable<ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput>
+    deleteMany?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
   }
 
   export type UserModelCreateNestedOneWithoutBusiness_userInput = {
@@ -27866,23 +31833,51 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
+  export type ServiceSubCategoryModelCreateNestedOneWithoutExpertisesInput = {
+    create?: XOR<ServiceSubCategoryModelCreateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: ServiceSubCategoryModelCreateOrConnectWithoutExpertisesInput
+    connect?: ServiceSubCategoryModelWhereUniqueInput
+  }
+
+  export type BusinessUserModelCreateNestedOneWithoutSub_expertisesInput = {
+    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
+    connect?: BusinessUserModelWhereUniqueInput
+  }
+
+  export type ServiceSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput = {
+    create?: XOR<ServiceSubCategoryModelCreateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: ServiceSubCategoryModelCreateOrConnectWithoutExpertisesInput
+    upsert?: ServiceSubCategoryModelUpsertWithoutExpertisesInput
+    connect?: ServiceSubCategoryModelWhereUniqueInput
+    update?: XOR<ServiceSubCategoryModelUpdateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
+  }
+
+  export type BusinessUserModelUpdateOneRequiredWithoutSub_expertisesNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutSub_expertisesInput
+    upsert?: BusinessUserModelUpsertWithoutSub_expertisesInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
+  }
+
   export type BusinessUserModelCreateNestedOneWithoutRe_agentInput = {
     create?: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
     connectOrCreate?: BusinessUserModelCreateOrConnectWithoutRe_agentInput
     connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type REProertyModelCreateNestedManyWithoutAgentInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
-    createMany?: REProertyModelCreateManyAgentInputEnvelope
+  export type REProertyModelCreateNestedManyWithoutRe_agentInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
+    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
     connect?: Enumerable<REProertyModelWhereUniqueInput>
   }
 
-  export type REProertyModelUncheckedCreateNestedManyWithoutAgentInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
-    createMany?: REProertyModelCreateManyAgentInputEnvelope
+  export type REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
+    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
     connect?: Enumerable<REProertyModelWhereUniqueInput>
   }
 
@@ -27894,31 +31889,31 @@ export namespace Prisma {
     update?: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateManyWithoutAgentNestedInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
-    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutAgentInput>
-    createMany?: REProertyModelCreateManyAgentInputEnvelope
+  export type REProertyModelUpdateManyWithoutRe_agentNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
+    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
     set?: Enumerable<REProertyModelWhereUniqueInput>
     disconnect?: Enumerable<REProertyModelWhereUniqueInput>
     delete?: Enumerable<REProertyModelWhereUniqueInput>
     connect?: Enumerable<REProertyModelWhereUniqueInput>
-    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutAgentInput>
-    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutAgentInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutRe_agentInput>
     deleteMany?: Enumerable<REProertyModelScalarWhereInput>
   }
 
-  export type REProertyModelUncheckedUpdateManyWithoutAgentNestedInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutAgentInput>, Enumerable<REProertyModelUncheckedCreateWithoutAgentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutAgentInput>
-    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutAgentInput>
-    createMany?: REProertyModelCreateManyAgentInputEnvelope
+  export type REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput = {
+    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
+    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
+    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
     set?: Enumerable<REProertyModelWhereUniqueInput>
     disconnect?: Enumerable<REProertyModelWhereUniqueInput>
     delete?: Enumerable<REProertyModelWhereUniqueInput>
     connect?: Enumerable<REProertyModelWhereUniqueInput>
-    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutAgentInput>
-    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutAgentInput>
+    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
+    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutRe_agentInput>
     deleteMany?: Enumerable<REProertyModelScalarWhereInput>
   }
 
@@ -28185,55 +32180,72 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
-  export type NestedEnumBusinessRateTypeFilter = {
-    equals?: BusinessRateType
-    in?: Enumerable<BusinessRateType>
-    notIn?: Enumerable<BusinessRateType>
-    not?: NestedEnumBusinessRateTypeFilter | BusinessRateType
+  export type NestedEnumRateTargetTypeFilter = {
+    equals?: RateTargetType
+    in?: Enumerable<RateTargetType>
+    notIn?: Enumerable<RateTargetType>
+    not?: NestedEnumRateTargetTypeFilter | RateTargetType
   }
 
-  export type NestedEnumBusinessRateTypeWithAggregatesFilter = {
-    equals?: BusinessRateType
-    in?: Enumerable<BusinessRateType>
-    notIn?: Enumerable<BusinessRateType>
-    not?: NestedEnumBusinessRateTypeWithAggregatesFilter | BusinessRateType
+  export type NestedEnumRateTargetTypeWithAggregatesFilter = {
+    equals?: RateTargetType
+    in?: Enumerable<RateTargetType>
+    notIn?: Enumerable<RateTargetType>
+    not?: NestedEnumRateTargetTypeWithAggregatesFilter | RateTargetType
     _count?: NestedIntFilter
-    _min?: NestedEnumBusinessRateTypeFilter
-    _max?: NestedEnumBusinessRateTypeFilter
+    _min?: NestedEnumRateTargetTypeFilter
+    _max?: NestedEnumRateTargetTypeFilter
   }
 
-  export type NestedEnumAgreementUserTypeFilter = {
-    equals?: AgreementUserType
-    in?: Enumerable<AgreementUserType>
-    notIn?: Enumerable<AgreementUserType>
-    not?: NestedEnumAgreementUserTypeFilter | AgreementUserType
+  export type NestedEnumAgreementTargetTypeFilter = {
+    equals?: AgreementTargetType
+    in?: Enumerable<AgreementTargetType>
+    notIn?: Enumerable<AgreementTargetType>
+    not?: NestedEnumAgreementTargetTypeFilter | AgreementTargetType
   }
 
-  export type NestedEnumAgreementUserTypeWithAggregatesFilter = {
-    equals?: AgreementUserType
-    in?: Enumerable<AgreementUserType>
-    notIn?: Enumerable<AgreementUserType>
-    not?: NestedEnumAgreementUserTypeWithAggregatesFilter | AgreementUserType
+  export type NestedEnumAgreementTargetTypeWithAggregatesFilter = {
+    equals?: AgreementTargetType
+    in?: Enumerable<AgreementTargetType>
+    notIn?: Enumerable<AgreementTargetType>
+    not?: NestedEnumAgreementTargetTypeWithAggregatesFilter | AgreementTargetType
     _count?: NestedIntFilter
-    _min?: NestedEnumAgreementUserTypeFilter
-    _max?: NestedEnumAgreementUserTypeFilter
+    _min?: NestedEnumAgreementTargetTypeFilter
+    _max?: NestedEnumAgreementTargetTypeFilter
   }
 
-  export type NestedEnumExpertBusinessTypeFilter = {
-    equals?: ExpertBusinessType
-    in?: Enumerable<ExpertBusinessType>
-    notIn?: Enumerable<ExpertBusinessType>
-    not?: NestedEnumExpertBusinessTypeFilter | ExpertBusinessType
+  export type NestedEnumServiceTypeFilter = {
+    equals?: ServiceType
+    in?: Enumerable<ServiceType>
+    notIn?: Enumerable<ServiceType>
+    not?: NestedEnumServiceTypeFilter | ServiceType
   }
 
-  export type NestedEnumExpertBusinessTypeWithAggregatesFilter = {
-    equals?: ExpertBusinessType
-    in?: Enumerable<ExpertBusinessType>
-    notIn?: Enumerable<ExpertBusinessType>
-    not?: NestedEnumExpertBusinessTypeWithAggregatesFilter | ExpertBusinessType
+  export type NestedEnumServiceTypeWithAggregatesFilter = {
+    equals?: ServiceType
+    in?: Enumerable<ServiceType>
+    notIn?: Enumerable<ServiceType>
+    not?: NestedEnumServiceTypeWithAggregatesFilter | ServiceType
     _count?: NestedIntFilter
-    _min?: NestedEnumExpertBusinessTypeFilter
-    _max?: NestedEnumExpertBusinessTypeFilter
+    _min?: NestedEnumServiceTypeFilter
+    _max?: NestedEnumServiceTypeFilter
+  }
+
+  export type NestedEnumZipzoongCareStatusFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusFilter | ZipzoongCareStatus
+  }
+
+  export type NestedEnumZipzoongCareStatusWithAggregatesFilter = {
+    equals?: ZipzoongCareStatus
+    in?: Enumerable<ZipzoongCareStatus>
+    notIn?: Enumerable<ZipzoongCareStatus>
+    not?: NestedEnumZipzoongCareStatusWithAggregatesFilter | ZipzoongCareStatus
+    _count?: NestedIntFilter
+    _min?: NestedEnumZipzoongCareStatusFilter
+    _max?: NestedEnumZipzoongCareStatusFilter
   }
 
   export type NestedStringNullableFilter = {
@@ -28412,7 +32424,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
-    agent: REAgentModelCreateNestedOneWithoutPropertiesInput
+    re_agent: REAgentModelCreateNestedOneWithoutPropertiesInput
   }
 
   export type REProertyModelUncheckedCreateWithoutCategoriesInput = {
@@ -28423,7 +32435,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
-    agent_id: string
+    re_agent_id: string
   }
 
   export type REProertyModelCreateOrConnectWithoutCategoriesInput = {
@@ -28469,7 +32481,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
-    agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
+    re_agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
   }
 
   export type REProertyModelUncheckedUpdateWithoutCategoriesInput = {
@@ -28480,7 +32492,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
-    agent_id?: StringFieldUpdateOperationsInput | string
+    re_agent_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type REPropertySubCategoryModelUpsertWithoutProperty_categoriesInput = {
@@ -28775,6 +32787,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutReviewsInput = {
@@ -28786,6 +32799,7 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutReviewsInput = {
@@ -28874,6 +32888,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutReviewsInput = {
@@ -28885,6 +32900,7 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type BusinessUserModelUpsertWithoutReviewsInput = {
@@ -28961,7 +32977,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
   }
 
   export type RateCategoryModelUncheckedCreateWithoutRatesInput = {
@@ -28971,7 +32987,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    business_type: BusinessRateType
+    target_type: RateTargetType
   }
 
   export type RateCategoryModelCreateOrConnectWithoutRatesInput = {
@@ -29018,7 +33034,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
   }
 
   export type RateCategoryModelUncheckedUpdateWithoutRatesInput = {
@@ -29028,7 +33044,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumBusinessRateTypeFieldUpdateOperationsInput | BusinessRateType
+    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
   }
 
   export type ReviewModelUpsertWithoutRatesInput = {
@@ -29199,7 +33215,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
   }
 
   export type AgreementModelUncheckedCreateWithoutAcceptancesInput = {
@@ -29211,7 +33227,7 @@ export namespace Prisma {
     title: string
     content: string
     is_required: boolean
-    user_type: AgreementUserType
+    target_type: AgreementTargetType
   }
 
   export type AgreementModelCreateOrConnectWithoutAcceptancesInput = {
@@ -29262,7 +33278,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
   }
 
   export type AgreementModelUncheckedUpdateWithoutAcceptancesInput = {
@@ -29274,156 +33290,34 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     is_required?: BoolFieldUpdateOperationsInput | boolean
-    user_type?: EnumAgreementUserTypeFieldUpdateOperationsInput | AgreementUserType
+    target_type?: EnumAgreementTargetTypeFieldUpdateOperationsInput | AgreementTargetType
   }
 
-  export type ExpertSubCategoryModelCreateWithoutExpertisesInput = {
+  export type ServiceSuperCategoryModelCreateWithoutSub_categoriesInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    super_category: ExpertSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
+    type: ServiceType
+    focus_care_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutService_super_categoryInput
   }
 
-  export type ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput = {
+  export type ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     name: string
-    super_category_id: string
+    type: ServiceType
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutService_super_categoryInput
   }
 
-  export type ExpertSubCategoryModelCreateOrConnectWithoutExpertisesInput = {
-    where: ExpertSubCategoryModelWhereUniqueInput
-    create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
-  }
-
-  export type BusinessUserModelCreateWithoutSub_expertisesInput = {
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    base: UserModelCreateNestedOneWithoutBusiness_userInput
-    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
-    id: string
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
-  }
-
-  export type ExpertSubCategoryModelUpsertWithoutExpertisesInput = {
-    update: XOR<ExpertSubCategoryModelUpdateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
-    create: XOR<ExpertSubCategoryModelCreateWithoutExpertisesInput, ExpertSubCategoryModelUncheckedCreateWithoutExpertisesInput>
-  }
-
-  export type ExpertSubCategoryModelUpdateWithoutExpertisesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    super_category?: ExpertSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
-  }
-
-  export type ExpertSubCategoryModelUncheckedUpdateWithoutExpertisesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    super_category_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type BusinessUserModelUpsertWithoutSub_expertisesInput = {
-    update: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
-    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
-  }
-
-  export type BusinessUserModelUpdateWithoutSub_expertisesInput = {
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
-    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-  }
-
-  export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-  }
-
-  export type ExpertSuperCategoryModelCreateWithoutSub_categoriesInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    business_type: ExpertBusinessType
-  }
-
-  export type ExpertSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    business_type: ExpertBusinessType
-  }
-
-  export type ExpertSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput = {
-    where: ExpertSuperCategoryModelWhereUniqueInput
-    create: XOR<ExpertSuperCategoryModelCreateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+  export type ServiceSuperCategoryModelCreateOrConnectWithoutSub_categoriesInput = {
+    where: ServiceSuperCategoryModelWhereUniqueInput
+    create: XOR<ServiceSuperCategoryModelCreateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
   }
 
   export type SubExpertiseModelCreateWithoutSub_categoryInput = {
@@ -29454,29 +33348,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ExpertSuperCategoryModelUpsertWithoutSub_categoriesInput = {
-    update: XOR<ExpertSuperCategoryModelUpdateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
-    create: XOR<ExpertSuperCategoryModelCreateWithoutSub_categoriesInput, ExpertSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
+  export type ServiceSuperCategoryModelUpsertWithoutSub_categoriesInput = {
+    update: XOR<ServiceSuperCategoryModelUpdateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput>
+    create: XOR<ServiceSuperCategoryModelCreateWithoutSub_categoriesInput, ServiceSuperCategoryModelUncheckedCreateWithoutSub_categoriesInput>
   }
 
-  export type ExpertSuperCategoryModelUpdateWithoutSub_categoriesInput = {
+  export type ServiceSuperCategoryModelUpdateWithoutSub_categoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    focus_care_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutService_super_categoryNestedInput
   }
 
-  export type ExpertSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput = {
+  export type ServiceSuperCategoryModelUncheckedUpdateWithoutSub_categoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-    business_type?: EnumExpertBusinessTypeFieldUpdateOperationsInput | ExpertBusinessType
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    focus_care_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_super_categoryNestedInput
   }
 
   export type SubExpertiseModelUpsertWithWhereUniqueWithoutSub_categoryInput = {
@@ -29508,7 +33404,7 @@ export namespace Prisma {
     business_user_id?: StringFilter | string
   }
 
-  export type ExpertSubCategoryModelCreateWithoutSuper_categoryInput = {
+  export type ServiceSubCategoryModelCreateWithoutSuper_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29518,7 +33414,7 @@ export namespace Prisma {
     expertises?: SubExpertiseModelCreateNestedManyWithoutSub_categoryInput
   }
 
-  export type ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput = {
+  export type ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29528,36 +33424,64 @@ export namespace Prisma {
     expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutSub_categoryInput
   }
 
-  export type ExpertSubCategoryModelCreateOrConnectWithoutSuper_categoryInput = {
-    where: ExpertSubCategoryModelWhereUniqueInput
-    create: XOR<ExpertSubCategoryModelCreateWithoutSuper_categoryInput, ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
+  export type ServiceSubCategoryModelCreateOrConnectWithoutSuper_categoryInput = {
+    where: ServiceSubCategoryModelWhereUniqueInput
+    create: XOR<ServiceSubCategoryModelCreateWithoutSuper_categoryInput, ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
   }
 
-  export type ExpertSubCategoryModelCreateManySuper_categoryInputEnvelope = {
-    data: Enumerable<ExpertSubCategoryModelCreateManySuper_categoryInput>
+  export type ServiceSubCategoryModelCreateManySuper_categoryInputEnvelope = {
+    data: Enumerable<ServiceSubCategoryModelCreateManySuper_categoryInput>
     skipDuplicates?: boolean
   }
 
-  export type ExpertSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput = {
-    where: ExpertSubCategoryModelWhereUniqueInput
-    update: XOR<ExpertSubCategoryModelUpdateWithoutSuper_categoryInput, ExpertSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
-    create: XOR<ExpertSubCategoryModelCreateWithoutSuper_categoryInput, ExpertSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
+  export type ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    request: ZipzoongCareRequestModelCreateNestedOneWithoutService_checksInput
   }
 
-  export type ExpertSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput = {
-    where: ExpertSubCategoryModelWhereUniqueInput
-    data: XOR<ExpertSubCategoryModelUpdateWithoutSuper_categoryInput, ExpertSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
+  export type ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    request_id: string
   }
 
-  export type ExpertSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput = {
-    where: ExpertSubCategoryModelScalarWhereInput
-    data: XOR<ExpertSubCategoryModelUpdateManyMutationInput, ExpertSubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput>
+  export type ZipzoongCareServiceCheckModelCreateOrConnectWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
   }
 
-  export type ExpertSubCategoryModelScalarWhereInput = {
-    AND?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
-    OR?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
-    NOT?: Enumerable<ExpertSubCategoryModelScalarWhereInput>
+  export type ZipzoongCareServiceCheckModelCreateManyService_super_categoryInputEnvelope = {
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyService_super_categoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceSubCategoryModelUpsertWithWhereUniqueWithoutSuper_categoryInput = {
+    where: ServiceSubCategoryModelWhereUniqueInput
+    update: XOR<ServiceSubCategoryModelUpdateWithoutSuper_categoryInput, ServiceSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
+    create: XOR<ServiceSubCategoryModelCreateWithoutSuper_categoryInput, ServiceSubCategoryModelUncheckedCreateWithoutSuper_categoryInput>
+  }
+
+  export type ServiceSubCategoryModelUpdateWithWhereUniqueWithoutSuper_categoryInput = {
+    where: ServiceSubCategoryModelWhereUniqueInput
+    data: XOR<ServiceSubCategoryModelUpdateWithoutSuper_categoryInput, ServiceSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput>
+  }
+
+  export type ServiceSubCategoryModelUpdateManyWithWhereWithoutSuper_categoryInput = {
+    where: ServiceSubCategoryModelScalarWhereInput
+    data: XOR<ServiceSubCategoryModelUpdateManyMutationInput, ServiceSubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput>
+  }
+
+  export type ServiceSubCategoryModelScalarWhereInput = {
+    AND?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
+    OR?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
+    NOT?: Enumerable<ServiceSubCategoryModelScalarWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -29565,6 +33489,383 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
     super_category_id?: StringFilter | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutService_super_categoryInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutService_super_categoryInput = {
+    where: ZipzoongCareServiceCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareServiceCheckModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    service_super_category_id?: StringFilter | string
+    request_id?: StringFilter | string
+  }
+
+  export type CustomerModelCreateWithoutZipzoong_care_requestsInput = {
+    birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
+    address_first?: string | null
+    address_second?: string | null
+    profile_image_url?: string | null
+    base: UserModelCreateNestedOneWithoutCustomerInput
+    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
+  }
+
+  export type CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput = {
+    id: string
+    birth?: string | null
+    gender?: GenderType | null
+    phone?: string | null
+    address_first?: string | null
+    address_second?: string | null
+    profile_image_url?: string | null
+    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
+  }
+
+  export type CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput = {
+    where: CustomerModelWhereUniqueInput
+    create: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateOrConnectWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyRequestInputEnvelope = {
+    data: Enumerable<ZipzoongCareConsultationTimeCheckModelCreateManyRequestInput>
+    skipDuplicates?: boolean
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateWithoutRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category: ServiceSuperCategoryModelCreateNestedOneWithoutFocus_care_checksInput
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category_id: string
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateOrConnectWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateManyRequestInputEnvelope = {
+    data: Enumerable<ZipzoongCareServiceCheckModelCreateManyRequestInput>
+    skipDuplicates?: boolean
+  }
+
+  export type CustomerModelUpsertWithoutZipzoong_care_requestsInput = {
+    update: XOR<CustomerModelUpdateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput>
+    create: XOR<CustomerModelCreateWithoutZipzoong_care_requestsInput, CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput>
+  }
+
+  export type CustomerModelUpdateWithoutZipzoong_care_requestsInput = {
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
+    oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
+  }
+
+  export type CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    birth?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address_first?: NullableStringFieldUpdateOperationsInput | string | null
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
+    create: XOR<ZipzoongCareConsultationTimeCheckModelCreateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedCreateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyWithWhereWithoutRequestInput = {
+    where: ZipzoongCareConsultationTimeCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareConsultationTimeCheckModelUpdateManyMutationInput, ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_time_checksInput>
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareConsultationTimeCheckModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    start_time?: DateTimeFilter | Date | string
+    end_time?: DateTimeFilter | Date | string
+    request_id?: StringFilter | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    update: XOR<ZipzoongCareServiceCheckModelUpdateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
+    create: XOR<ZipzoongCareServiceCheckModelCreateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedCreateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateWithWhereUniqueWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelWhereUniqueInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateWithoutRequestInput, ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput>
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateManyWithWhereWithoutRequestInput = {
+    where: ZipzoongCareServiceCheckModelScalarWhereInput
+    data: XOR<ZipzoongCareServiceCheckModelUpdateManyMutationInput, ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_checksInput>
+  }
+
+  export type ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    type: ServiceType
+    sub_categories?: ServiceSubCategoryModelCreateNestedManyWithoutSuper_categoryInput
+  }
+
+  export type ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    type: ServiceType
+    sub_categories?: ServiceSubCategoryModelUncheckedCreateNestedManyWithoutSuper_categoryInput
+  }
+
+  export type ServiceSuperCategoryModelCreateOrConnectWithoutFocus_care_checksInput = {
+    where: ServiceSuperCategoryModelWhereUniqueInput
+    create: XOR<ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelCreateWithoutService_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutService_checksInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+  }
+
+  export type ServiceSuperCategoryModelUpsertWithoutFocus_care_checksInput = {
+    update: XOR<ServiceSuperCategoryModelUpdateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedUpdateWithoutFocus_care_checksInput>
+    create: XOR<ServiceSuperCategoryModelCreateWithoutFocus_care_checksInput, ServiceSuperCategoryModelUncheckedCreateWithoutFocus_care_checksInput>
+  }
+
+  export type ServiceSuperCategoryModelUpdateWithoutFocus_care_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    sub_categories?: ServiceSubCategoryModelUpdateManyWithoutSuper_categoryNestedInput
+  }
+
+  export type ServiceSuperCategoryModelUncheckedUpdateWithoutFocus_care_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumServiceTypeFieldUpdateOperationsInput | ServiceType
+    sub_categories?: ServiceSubCategoryModelUncheckedUpdateManyWithoutSuper_categoryNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUpsertWithoutService_checksInput = {
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutService_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutService_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelUpdateWithoutService_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutService_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester_id?: StringFieldUpdateOperationsInput | string
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester: CustomerModelCreateNestedOneWithoutZipzoong_care_requestsInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutConsultation_time_checksInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelUpsertWithoutConsultation_time_checksInput = {
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutConsultation_time_checksInput, ZipzoongCareRequestModelUncheckedCreateWithoutConsultation_time_checksInput>
+  }
+
+  export type ZipzoongCareRequestModelUpdateWithoutConsultation_time_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester?: CustomerModelUpdateOneRequiredWithoutZipzoong_care_requestsNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutConsultation_time_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    requester_id?: StringFieldUpdateOperationsInput | string
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
   }
 
   export type CustomerModelCreateWithoutBaseInput = {
@@ -29576,6 +33877,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutBaseInput = {
@@ -29587,6 +33889,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutBaseInput = {
@@ -29673,6 +33976,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutBaseInput = {
@@ -29684,6 +33988,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type BusinessUserModelUpsertWithoutBaseInput = {
@@ -29848,6 +34153,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ZipzoongCareRequestModelCreateWithoutRequesterInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedCreateNestedManyWithoutRequestInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedCreateNestedManyWithoutRequestInput
+  }
+
+  export type ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    create: XOR<ZipzoongCareRequestModelCreateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>
+  }
+
+  export type ZipzoongCareRequestModelCreateManyRequesterInputEnvelope = {
+    data: Enumerable<ZipzoongCareRequestModelCreateManyRequesterInput>
+    skipDuplicates?: boolean
+  }
+
   export type UserModelUpsertWithoutCustomerInput = {
     update: XOR<UserModelUpdateWithoutCustomerInput, UserModelUncheckedUpdateWithoutCustomerInput>
     create: XOR<UserModelCreateWithoutCustomerInput, UserModelUncheckedCreateWithoutCustomerInput>
@@ -29946,6 +34289,38 @@ export namespace Prisma {
     content?: StringFilter | string
   }
 
+  export type ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    update: XOR<ZipzoongCareRequestModelUpdateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput>
+    create: XOR<ZipzoongCareRequestModelCreateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>
+  }
+
+  export type ZipzoongCareRequestModelUpdateWithWhereUniqueWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelWhereUniqueInput
+    data: XOR<ZipzoongCareRequestModelUpdateWithoutRequesterInput, ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput>
+  }
+
+  export type ZipzoongCareRequestModelUpdateManyWithWhereWithoutRequesterInput = {
+    where: ZipzoongCareRequestModelScalarWhereInput
+    data: XOR<ZipzoongCareRequestModelUpdateManyMutationInput, ZipzoongCareRequestModelUncheckedUpdateManyWithoutZipzoong_care_requestsInput>
+  }
+
+  export type ZipzoongCareRequestModelScalarWhereInput = {
+    AND?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+    OR?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+    NOT?: Enumerable<ZipzoongCareRequestModelScalarWhereInput>
+    id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+    is_deleted?: BoolFilter | boolean
+    deleted_at?: DateTimeNullableFilter | Date | string | null
+    care_start_date?: DateTimeFilter | Date | string
+    care_end_date?: DateTimeFilter | Date | string
+    detail?: StringFilter | string
+    status?: EnumZipzoongCareStatusFilter | ZipzoongCareStatus
+    requester_id?: StringFilter | string
+  }
+
   export type UserModelCreateWithoutBusiness_userInput = {
     id: string
     created_at: Date | string
@@ -29981,7 +34356,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelCreateNestedManyWithoutAgentInput
+    properties?: REProertyModelCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateWithoutBaseInput = {
@@ -29990,7 +34365,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelUncheckedCreateNestedManyWithoutAgentInput
+    properties?: REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelCreateOrConnectWithoutBaseInput = {
@@ -30047,7 +34422,7 @@ export namespace Prisma {
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    sub_category: ExpertSubCategoryModelCreateNestedOneWithoutExpertisesInput
+    sub_category: ServiceSubCategoryModelCreateNestedOneWithoutExpertisesInput
   }
 
   export type SubExpertiseModelUncheckedCreateWithoutBusiness_userInput = {
@@ -30189,7 +34564,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUpdateManyWithoutAgentNestedInput
+    properties?: REProertyModelUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateWithoutBaseInput = {
@@ -30198,7 +34573,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUncheckedUpdateManyWithoutAgentNestedInput
+    properties?: REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
   }
 
   export type HSProviderModelUpsertWithoutBaseInput = {
@@ -30293,6 +34668,130 @@ export namespace Prisma {
     data: XOR<ReviewModelUpdateManyMutationInput, ReviewModelUncheckedUpdateManyWithoutReviewsInput>
   }
 
+  export type ServiceSubCategoryModelCreateWithoutExpertisesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category: ServiceSuperCategoryModelCreateNestedOneWithoutSub_categoriesInput
+  }
+
+  export type ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    name: string
+    super_category_id: string
+  }
+
+  export type ServiceSubCategoryModelCreateOrConnectWithoutExpertisesInput = {
+    where: ServiceSubCategoryModelWhereUniqueInput
+    create: XOR<ServiceSubCategoryModelCreateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type BusinessUserModelCreateWithoutSub_expertisesInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
+    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+  }
+
+  export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+  }
+
+  export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+  }
+
+  export type ServiceSubCategoryModelUpsertWithoutExpertisesInput = {
+    update: XOR<ServiceSubCategoryModelUpdateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedUpdateWithoutExpertisesInput>
+    create: XOR<ServiceSubCategoryModelCreateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type ServiceSubCategoryModelUpdateWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutSub_categoriesNestedInput
+  }
+
+  export type ServiceSubCategoryModelUncheckedUpdateWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    super_category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BusinessUserModelUpsertWithoutSub_expertisesInput = {
+    update: XOR<BusinessUserModelUpdateWithoutSub_expertisesInput, BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput>
+    create: XOR<BusinessUserModelCreateWithoutSub_expertisesInput, BusinessUserModelUncheckedCreateWithoutSub_expertisesInput>
+  }
+
+  export type BusinessUserModelUpdateWithoutSub_expertisesInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
+    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+  }
+
+  export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+  }
+
   export type BusinessUserModelCreateWithoutRe_agentInput = {
     is_verified: boolean
     introduction_title: string
@@ -30330,7 +34829,7 @@ export namespace Prisma {
     create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelCreateWithoutAgentInput = {
+  export type REProertyModelCreateWithoutRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -30341,7 +34840,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelUncheckedCreateWithoutAgentInput = {
+  export type REProertyModelUncheckedCreateWithoutRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -30352,13 +34851,13 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelCreateOrConnectWithoutAgentInput = {
+  export type REProertyModelCreateOrConnectWithoutRe_agentInput = {
     where: REProertyModelWhereUniqueInput
-    create: XOR<REProertyModelCreateWithoutAgentInput, REProertyModelUncheckedCreateWithoutAgentInput>
+    create: XOR<REProertyModelCreateWithoutRe_agentInput, REProertyModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelCreateManyAgentInputEnvelope = {
-    data: Enumerable<REProertyModelCreateManyAgentInput>
+  export type REProertyModelCreateManyRe_agentInputEnvelope = {
+    data: Enumerable<REProertyModelCreateManyRe_agentInput>
     skipDuplicates?: boolean
   }
 
@@ -30399,18 +34898,18 @@ export namespace Prisma {
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
   }
 
-  export type REProertyModelUpsertWithWhereUniqueWithoutAgentInput = {
+  export type REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput = {
     where: REProertyModelWhereUniqueInput
-    update: XOR<REProertyModelUpdateWithoutAgentInput, REProertyModelUncheckedUpdateWithoutAgentInput>
-    create: XOR<REProertyModelCreateWithoutAgentInput, REProertyModelUncheckedCreateWithoutAgentInput>
+    update: XOR<REProertyModelUpdateWithoutRe_agentInput, REProertyModelUncheckedUpdateWithoutRe_agentInput>
+    create: XOR<REProertyModelCreateWithoutRe_agentInput, REProertyModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateWithWhereUniqueWithoutAgentInput = {
+  export type REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput = {
     where: REProertyModelWhereUniqueInput
-    data: XOR<REProertyModelUpdateWithoutAgentInput, REProertyModelUncheckedUpdateWithoutAgentInput>
+    data: XOR<REProertyModelUpdateWithoutRe_agentInput, REProertyModelUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateManyWithWhereWithoutAgentInput = {
+  export type REProertyModelUpdateManyWithWhereWithoutRe_agentInput = {
     where: REProertyModelScalarWhereInput
     data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyWithoutPropertiesInput>
   }
@@ -30426,7 +34925,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     name?: StringFilter | string
     main_image_url?: StringFilter | string
-    agent_id?: StringFilter | string
+    re_agent_id?: StringFilter | string
   }
 
   export type BusinessUserModelCreateWithoutHs_providerInput = {
@@ -30710,6 +35209,7 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelUncheckedCreateWithoutOauth_accountsInput = {
@@ -30721,6 +35221,7 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
   export type CustomerModelCreateOrConnectWithoutOauth_accountsInput = {
@@ -30779,6 +35280,7 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutOauth_accountsInput = {
@@ -30790,6 +35292,7 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
+    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
   export type REPropertyCategoryModelCreateManyRe_propertyInput = {
@@ -31082,7 +35585,7 @@ export namespace Prisma {
     business_user_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ExpertSubCategoryModelCreateManySuper_categoryInput = {
+  export type ServiceSubCategoryModelCreateManySuper_categoryInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -31091,7 +35594,16 @@ export namespace Prisma {
     name: string
   }
 
-  export type ExpertSubCategoryModelUpdateWithoutSuper_categoryInput = {
+  export type ZipzoongCareServiceCheckModelCreateManyService_super_categoryInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    request_id: string
+  }
+
+  export type ServiceSubCategoryModelUpdateWithoutSuper_categoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31101,7 +35613,7 @@ export namespace Prisma {
     expertises?: SubExpertiseModelUpdateManyWithoutSub_categoryNestedInput
   }
 
-  export type ExpertSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput = {
+  export type ServiceSubCategoryModelUncheckedUpdateWithoutSuper_categoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31111,13 +35623,116 @@ export namespace Prisma {
     expertises?: SubExpertiseModelUncheckedUpdateManyWithoutSub_categoryNestedInput
   }
 
-  export type ExpertSubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput = {
+  export type ServiceSubCategoryModelUncheckedUpdateManyWithoutSub_categoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateWithoutService_super_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    request?: ZipzoongCareRequestModelUpdateOneRequiredWithoutService_checksNestedInput
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateWithoutService_super_categoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutFocus_care_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    request_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    start_time: Date | string
+    end_time: Date | string
+  }
+
+  export type ZipzoongCareServiceCheckModelCreateManyRequestInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    service_super_category_id: string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutConsultation_time_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category?: ServiceSuperCategoryModelUpdateOneRequiredWithoutFocus_care_checksNestedInput
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateWithoutRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutService_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    service_super_category_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementAcceptanceModelCreateManyUserInput = {
@@ -31183,6 +35798,18 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     reviewee_id: string
     content: string
+  }
+
+  export type ZipzoongCareRequestModelCreateManyRequesterInput = {
+    id: string
+    created_at: Date | string
+    updated_at: Date | string
+    is_deleted: boolean
+    deleted_at?: Date | string | null
+    care_start_date: Date | string
+    care_end_date: Date | string
+    detail: string
+    status: ZipzoongCareStatus
   }
 
   export type OauthAccountModelUpdateWithoutCustomerInput = {
@@ -31274,6 +35901,46 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ZipzoongCareRequestModelUpdateWithoutRequesterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateWithoutRequesterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+    consultation_time_checks?: ZipzoongCareConsultationTimeCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+    service_checks?: ZipzoongCareServiceCheckModelUncheckedUpdateManyWithoutRequestNestedInput
+  }
+
+  export type ZipzoongCareRequestModelUncheckedUpdateManyWithoutZipzoong_care_requestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    care_start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    care_end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    detail?: StringFieldUpdateOperationsInput | string
+    status?: EnumZipzoongCareStatusFieldUpdateOperationsInput | ZipzoongCareStatus
+  }
+
   export type BusinessCertificationImageModelCreateManyBusiness_userInput = {
     id: string
     created_at: Date | string
@@ -31354,7 +36021,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sub_category?: ExpertSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
+    sub_category?: ServiceSubCategoryModelUpdateOneRequiredWithoutExpertisesNestedInput
   }
 
   export type SubExpertiseModelUncheckedUpdateWithoutBusiness_userInput = {
@@ -31435,7 +36102,7 @@ export namespace Prisma {
     rates?: RateModelUncheckedUpdateManyWithoutReviewNestedInput
   }
 
-  export type REProertyModelCreateManyAgentInput = {
+  export type REProertyModelCreateManyRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -31445,7 +36112,7 @@ export namespace Prisma {
     main_image_url: string
   }
 
-  export type REProertyModelUpdateWithoutAgentInput = {
+  export type REProertyModelUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31456,7 +36123,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
 
-  export type REProertyModelUncheckedUpdateWithoutAgentInput = {
+  export type REProertyModelUncheckedUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

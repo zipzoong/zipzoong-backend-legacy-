@@ -70,7 +70,7 @@ export class REAgentsMyPropertiesController {
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
-    return REAgent.Service.Me.Property.getList({ user_id, page: query.page });
+    return REAgent.Service.Me.Property.getList({ user_id, search: query });
   }
 }
 
@@ -94,7 +94,7 @@ export class REAgentsPropertiesController {
   ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
     return REAgent.Service.Property.getList({
       user_id: agent_id,
-      page: query.page
+      search: query
     });
   }
 }

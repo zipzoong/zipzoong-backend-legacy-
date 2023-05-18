@@ -9,6 +9,8 @@ import type { IConnection } from "@nestia/fetcher";
 
 import type { ICustomer } from "./../../../../structures/user/customer";
 
+export * as zipzoong_care from "./zipzoong_care";
+
 /**
  * @summary 내 정보 조회
  * @tag customers

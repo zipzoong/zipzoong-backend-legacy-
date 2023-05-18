@@ -1,6 +1,7 @@
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
-import { expert_super_categories, users } from "@SDK";
+import { service_categories, users } from "@SDK";
+import { pick } from "@UTIL";
 import assert from "assert";
 import typia from "typia";
 
@@ -9,45 +10,52 @@ console.log("\n- users.re_agents.getList");
 export const test_success_filter_super_category = async (
   connection: IConnection
 ) => {
-  const super_categories = await expert_super_categories.getList(connection, {
-    filter: ["RE"]
+  const super_categories = await service_categories.super.getList(connection, {
+    type: ["RE"]
   });
 
   const super_category = RandomGenerator.pick(super_categories);
 
   const received = await users.re_agents.getList(connection, {
     page: 1,
-    super_category_name: super_category.name
+    super_category_id: super_category.id
   });
 
   typia.assertEquals(received);
-  received.data.forEach((agent) =>
-    assert.strictEqual(agent.expertise.super_category_id, super_category.id)
-  );
+  assert.notStrictEqual(received.data.length, 0);
+  received.data
+    .map(pick("expertise"))
+    .forEach(({ super_category_id }) =>
+      assert.strictEqual(super_category_id, super_category.id)
+    );
 };
 
 export const test_success_filter_sub_category = async (
   connection: IConnection
 ) => {
-  const super_categories = await expert_super_categories.getList(connection, {
-    filter: ["RE"]
+  const super_categories = await service_categories.super.getList(connection, {
+    type: ["RE"]
   });
 
   const super_category = RandomGenerator.pick(super_categories);
-  const sub_category = RandomGenerator.pick(super_category.sub_categories);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const sub_category_id = super_category.sub_categories[0]!.id;
 
   const received = await users.re_agents.getList(connection, {
     page: 1,
-    sub_category_name: sub_category.name
+    sub_category_id: sub_category_id
   });
 
   typia.assertEquals(received);
-  received.data.forEach((agent) =>
-    assert.strictEqual(
-      agent.expertise.sub_expertises.some(
-        (expertise) => expertise.sub_category_id === sub_category.id
-      ),
-      true
-    )
-  );
+  assert.notStrictEqual(received.data.length, 0);
+  received.data
+    .map(pick("expertise"))
+    .forEach((expertise) =>
+      assert.strictEqual(
+        expertise.sub_expertises
+          .map(pick("sub_category_id"))
+          .includes(sub_category_id),
+        true
+      )
+    );
 };

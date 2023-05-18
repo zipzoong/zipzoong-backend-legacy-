@@ -13,8 +13,8 @@ import { Map } from "./map";
 export namespace Service {
   export const getList = async ({
     page = 1,
-    super_category_name,
-    sub_category_name
+    super_category_id,
+    sub_category_id
   }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IHSProvider>> =>
     pipe(
       30,
@@ -26,12 +26,7 @@ export namespace Service {
               base: { is_deleted: false },
               is_verified: true,
               sub_expertises: {
-                some: {
-                  sub_category: {
-                    name: sub_category_name,
-                    super_category: { name: super_category_name }
-                  }
-                }
+                some: { sub_category_id, sub_category: { super_category_id } }
               }
             }
           },
@@ -44,7 +39,7 @@ export namespace Service {
 
       toArray,
 
-      (data) => ({ page, data })
+      (data) => ({ data, page })
     );
 
   export const getOne = ({

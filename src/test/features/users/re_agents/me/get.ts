@@ -1,7 +1,7 @@
 import { IREAgent } from "@DTO/user/re_agent";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
-import { agreements, auth, expert_super_categories, users } from "@SDK";
+import { agreements, auth, service_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
 
@@ -18,15 +18,15 @@ export const test_success = async (connection: IConnection) => {
 
   create_input.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "RE"]
+      target_type: ["all", "business", "RE"]
     })
   ).map(({ id }) => id);
 
   create_input.phone_access_code = "required";
 
-  const super_expertise_list = await expert_super_categories.getList(
+  const super_expertise_list = await service_categories.super.getList(
     connection,
-    { filter: ["RE"] }
+    { type: ["RE"] }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 

@@ -38,7 +38,8 @@ export namespace Service {
             score: rate.score,
             category: {
               id: rate.category.id,
-              name: rate.category.name
+              name: rate.category.name,
+              target_type: rate.category.target_type
             }
           }));
 

@@ -45,7 +45,7 @@ export const test_success_customer_create = async (
   const create = typia.random<ICustomer.ICreateRequest>();
 
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "customer"]
+    target_type: ["all", "customer"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
 
@@ -55,15 +55,13 @@ export const test_success_customer_create = async (
 export const test_success_re_agent_create = async (connection: IConnection) => {
   const create = typia.random<IREAgent.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "business", "RE"]
+    target_type: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
 
-  const super_expertise_list = await sdk.expert_super_categories.getList(
+  const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["RE"]
-    }
+    { type: ["RE"] }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
   const sub_expertise = RandomGenerator.pick(super_expertise.sub_categories);
@@ -77,15 +75,13 @@ export const test_success_hs_provider_create = async (
 ) => {
   const create = typia.random<IHSProvider.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "business", "HS"]
+    target_type: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
 
-  const super_expertise_list = await sdk.expert_super_categories.getList(
+  const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["HS"]
-    }
+    { type: ["HS"] }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
@@ -112,7 +108,7 @@ export const test_already_user_exist = async (connection: IConnection) => {
   );
 
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "customer"]
+    target_type: ["all", "customer"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   await sdk.auth.user.create(_connection, create);
@@ -147,16 +143,14 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
 
   const create = typia.random<IREAgent.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "business", "RE"]
+    target_type: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = "test_phone";
 
-  const super_expertise_list = await sdk.expert_super_categories.getList(
+  const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["HS"]
-    }
+    { type: ["HS"] }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
@@ -176,22 +170,18 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
 
   const create = typia.random<IREAgent.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "business", "RE"]
+    target_type: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = "phone";
 
-  const valid_super_list = await sdk.expert_super_categories.getList(
+  const valid_super_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["RE"]
-    }
+    { type: ["RE"] }
   );
-  const super_expertise_list = await sdk.expert_super_categories.getList(
+  const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["HS"]
-    }
+    { type: ["HS"] }
   );
   const super_expertise = RandomGenerator.pick(valid_super_list);
   const invalid_sub_categories =
@@ -225,16 +215,14 @@ export const test_phone_required = async (connection: IConnection) => {
 
   const create = typia.random<IHSProvider.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
-    filter: ["all", "business", "HS"]
+    target_type: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(({ id }) => id);
   create.phone_access_code = null;
 
-  const super_expertise_list = await sdk.expert_super_categories.getList(
+  const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
-    {
-      filter: ["HS"]
-    }
+    { type: ["HS"] }
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 

@@ -21,24 +21,26 @@ export namespace Map {
       id: input.id,
       name: input.name,
       main_image_url: input.main_image_url,
-      agent: {
-        id: input.agent.id,
-        name: input.agent.base.base.name,
-        profile_image_url: input.agent.base.profile_image_url,
-        expertise: BusinessUser.Map.expertise(input.agent.base.sub_expertises)
+      re_agent: {
+        id: input.re_agent.id,
+        name: input.re_agent.base.base.name,
+        profile_image_url: input.re_agent.base.profile_image_url,
+        expertise: BusinessUser.Map.expertise(
+          input.re_agent.base.sub_expertises
+        )
       },
       sub_categories: input.categories
         .filter(isActive)
         .map(({ sub_category }) => ({
-          type: "sub",
+          level: "sub",
           id: sub_category.id,
           name: sub_category.name,
           middle_category: {
-            type: "middle",
+            level: "middle",
             id: sub_category.middle_category.id,
             name: sub_category.middle_category.name,
             super_category: {
-              type: "super",
+              level: "super",
               id: sub_category.middle_category.super_category.id,
               name: sub_category.middle_category.super_category.name
             }

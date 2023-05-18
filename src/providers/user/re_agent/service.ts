@@ -13,8 +13,8 @@ import { Map } from "./map";
 export namespace Service {
   export const getList = async ({
     page = 1,
-    super_category_name,
-    sub_category_name
+    super_category_id,
+    sub_category_id
   }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IREAgent>> =>
     pipe(
       30,
@@ -27,10 +27,8 @@ export namespace Service {
               is_verified: true,
               sub_expertises: {
                 some: {
-                  sub_category: {
-                    name: sub_category_name,
-                    super_category: { name: super_category_name }
-                  }
+                  sub_category_id,
+                  sub_category: { super_category_id }
                 }
               }
             }
@@ -65,10 +63,10 @@ export namespace Service {
 
       exception_for_notfound: User.Exception.NotFound,
 
-      validator: (provider) =>
-        !provider.base.is_verified || provider.base.base.is_deleted
+      validator: (agent) =>
+        !agent.base.is_verified || agent.base.base.is_deleted
           ? toThrow(User.Exception.NotFound)
-          : provider,
+          : agent,
 
       mapper: Map.rEAgent
     });
@@ -101,17 +99,36 @@ export namespace Service {
     export namespace Property {
       export const getList = ({
         user_id,
-        page = 1
+        search: {
+          page = 1,
+          sub_category_id,
+          middle_category_id,
+          super_category_id
+        }
       }: {
         user_id: string;
-        page?: number;
+        search: IREAgent.IProperty.ISearch;
       }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
         pipe(
           get({ user_id }),
 
+          Authentication.Check.verifyUser,
+
           async (agent) =>
             prisma.rEProertyModel.findMany({
-              where: { agent_id: agent.id, is_deleted: false },
+              where: {
+                re_agent_id: agent.id,
+                is_deleted: false,
+                categories: {
+                  some: {
+                    id: sub_category_id,
+                    sub_category: {
+                      middle_category_id,
+                      middle_category: { super_category_id }
+                    }
+                  }
+                }
+              },
               include: Json.findPropertyInclude(),
               take: 30,
               skip: 30 * (page - 1)
@@ -129,23 +146,38 @@ export namespace Service {
   export namespace Property {
     export const getList = ({
       user_id,
-      page = 1
+      search: {
+        page = 1,
+        sub_category_id,
+        middle_category_id,
+        super_category_id
+      }
     }: {
       user_id: string;
-      page?: number;
+      search: IREAgent.IProperty.ISearch;
     }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
       pipe(
         getOne({ user_id }),
 
         async (agent) =>
           prisma.rEProertyModel.findMany({
-            where: { agent_id: agent.id, is_deleted: false },
+            where: {
+              re_agent_id: agent.id,
+              is_deleted: false,
+              categories: {
+                some: {
+                  id: sub_category_id,
+                  sub_category: {
+                    middle_category_id,
+                    middle_category: { super_category_id }
+                  }
+                }
+              }
+            },
             include: Json.findPropertyInclude(),
             take: 30,
             skip: 30 * (page - 1)
           }),
-
-        // filter(isActive),
 
         map(Map.property),
 

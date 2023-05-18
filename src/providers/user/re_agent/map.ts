@@ -76,11 +76,13 @@ export namespace Map {
         .filter(isActive)
         .filter(({ agreement }) => isActive(agreement))
         .map(
-          ({ agreement: { id, title, content, user_type, is_required } }) => ({
+          ({
+            agreement: { id, title, content, target_type, is_required }
+          }) => ({
             id,
             title,
             content,
-            user_type,
+            target_type,
             is_required
           })
         )
@@ -108,15 +110,15 @@ export namespace Map {
     sub_categories: input.categories
       .filter(isActive)
       .map(({ sub_category }) => ({
-        type: "sub",
+        level: "sub",
         id: sub_category.id,
         name: sub_category.name,
         middle_category: {
-          type: "middle",
+          level: "middle",
           id: sub_category.middle_category.id,
           name: sub_category.middle_category.name,
           super_category: {
-            type: "super",
+            level: "super",
             id: sub_category.middle_category.super_category.id,
             name: sub_category.middle_category.super_category.name
           }

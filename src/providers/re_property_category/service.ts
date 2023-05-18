@@ -1,5 +1,4 @@
-import { IPaginatedResponse } from "@DTO/common";
-import { IREPropertyCategory } from "@DTO/re_property_category";
+import { IREPropertyCategory } from "@DTO/category/re_property";
 import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { isActive, isInActive, throwIf, throwIfNull } from "@UTIL";
@@ -7,26 +6,21 @@ import { Exception } from "./exception";
 
 export namespace Service {
   export namespace Super {
-    export const getList = ({
-      page = 1
-    }: IREPropertyCategory.ISuper.ISearch): Promise<
-      IPaginatedResponse<IREPropertyCategory.ISuper>
-    > =>
+    export const getList = (): Promise<IREPropertyCategory.ISuper[]> =>
       pipe(
-        30,
+        0,
 
-        async (take) =>
+        async () =>
           prisma.rEPropertySuperCategoryModel.findMany({
-            where: { is_deleted: false },
-            take,
-            skip: (page - 1) * take,
             include: {
               middle_categories: { include: { sub_categories: true } }
             }
           }),
 
+        filter(isActive),
+
         map((super_category) => ({
-          type: "super" as const,
+          level: "super" as const,
           id: super_category.id,
           name: super_category.name,
           middle_categories: pipe(
@@ -35,7 +29,7 @@ export namespace Service {
             filter(isActive),
 
             map((middle_category) => ({
-              type: "middle" as const,
+              level: "middle" as const,
               id: middle_category.id,
               name: middle_category.name,
               sub_categories: pipe(
@@ -44,7 +38,7 @@ export namespace Service {
                 filter(isActive),
 
                 map((sub_category) => ({
-                  type: "sub" as const,
+                  level: "sub" as const,
                   id: sub_category.id,
                   name: sub_category.name
                 })),
@@ -57,16 +51,14 @@ export namespace Service {
           )
         })),
 
-        toArray,
-
-        (data) => ({ data, page })
+        toArray
       );
 
     export const getOne = (
-      category_id: string
+      super_category_id: string
     ): Promise<IREPropertyCategory.ISuper> =>
       pipe(
-        category_id,
+        super_category_id,
 
         async (id) =>
           prisma.rEPropertySuperCategoryModel.findFirst({
@@ -81,7 +73,7 @@ export namespace Service {
         throwIf(isInActive, Exception.NotFound),
 
         (model) => ({
-          type: "super",
+          level: "super",
           id: model.id,
           name: model.name,
           middle_categories: pipe(
@@ -90,7 +82,7 @@ export namespace Service {
             filter(isActive),
 
             map((middle_category) => ({
-              type: "middle" as const,
+              level: "middle" as const,
               id: middle_category.id,
               name: middle_category.name,
               sub_categories: pipe(
@@ -99,7 +91,7 @@ export namespace Service {
                 filter(isActive),
 
                 map((sub_category) => ({
-                  type: "sub" as const,
+                  level: "sub" as const,
                   id: sub_category.id,
                   name: sub_category.name
                 })),
@@ -114,62 +106,11 @@ export namespace Service {
       );
   }
   export namespace Middle {
-    export const getList = ({
-      page = 1,
-      super_category_name
-    }: IREPropertyCategory.IMiddle.ISearch): Promise<
-      IPaginatedResponse<IREPropertyCategory.IMiddle>
-    > =>
-      pipe(
-        30,
-
-        async (take) =>
-          prisma.rEPropertyMiddleCategoryModel.findMany({
-            where: {
-              is_deleted: false,
-              super_category: { name: super_category_name }
-            },
-            include: {
-              sub_categories: true,
-              super_category: true
-            },
-            take,
-            skip: (page - 1) * take
-          }),
-
-        map((middle_category) => ({
-          type: "middle" as const,
-          id: middle_category.id,
-          name: middle_category.name,
-          super_category: {
-            type: "super" as const,
-            id: middle_category.super_category.id,
-            name: middle_category.super_category.name
-          },
-          sub_categories: pipe(
-            middle_category.sub_categories,
-
-            filter(isActive),
-
-            map((sub_category) => ({
-              type: "sub" as const,
-              id: sub_category.id,
-              name: sub_category.name
-            })),
-
-            toArray
-          )
-        })),
-
-        toArray,
-
-        (data) => ({ data, page })
-      );
     export const getOne = (
-      category_id: string
+      middle_category_id: string
     ): Promise<IREPropertyCategory.IMiddle> =>
       pipe(
-        category_id,
+        middle_category_id,
 
         async (id) =>
           prisma.rEPropertyMiddleCategoryModel.findFirst({
@@ -182,11 +123,11 @@ export namespace Service {
         throwIf(isInActive, Exception.NotFound),
 
         (middle_category) => ({
-          type: "middle",
+          level: "middle",
           id: middle_category.id,
           name: middle_category.name,
           super_category: {
-            type: "super",
+            level: "super",
             id: middle_category.super_category.id,
             name: middle_category.super_category.name
           },
@@ -196,94 +137,13 @@ export namespace Service {
             filter(isActive),
 
             map((sub_category) => ({
-              type: "sub" as const,
+              level: "sub" as const,
               id: sub_category.id,
               name: sub_category.name
             })),
 
             toArray
           )
-        })
-      );
-  }
-  export namespace Sub {
-    export const getList = ({
-      page = 1,
-      super_category_name,
-      middle_category_name
-    }: IREPropertyCategory.ISub.ISearch): Promise<
-      IPaginatedResponse<IREPropertyCategory.ISub>
-    > =>
-      pipe(
-        30,
-
-        async (take) =>
-          prisma.rEPropertySubCategoryModel.findMany({
-            where: {
-              is_deleted: false,
-              middle_category: {
-                name: middle_category_name,
-                super_category: { name: super_category_name }
-              }
-            },
-            include: {
-              middle_category: { include: { super_category: true } }
-            },
-
-            take,
-            skip: (page - 1) * take
-          }),
-
-        map((sub_category) => ({
-          type: "sub" as const,
-          id: sub_category.id,
-          name: sub_category.name,
-          middle_category: {
-            type: "middle" as const,
-            id: sub_category.middle_category.id,
-            name: sub_category.middle_category.name,
-            super_category: {
-              type: "super" as const,
-              id: sub_category.middle_category.super_category.id,
-              name: sub_category.middle_category.super_category.name
-            }
-          }
-        })),
-
-        toArray,
-
-        (data) => ({ data, page })
-      );
-    export const getOne = (
-      category_id: string
-    ): Promise<IREPropertyCategory.ISub> =>
-      pipe(
-        category_id,
-
-        async (id) =>
-          prisma.rEPropertySubCategoryModel.findFirst({
-            where: { id },
-            include: { middle_category: { include: { super_category: true } } }
-          }),
-
-        throwIfNull(Exception.NotFound),
-
-        throwIf(isInActive, Exception.NotFound),
-
-        (sub_category) => ({
-          type: "sub",
-          id: sub_category.id,
-          name: sub_category.name,
-          middle_category: {
-            type: "middle",
-            id: sub_category.middle_category.id,
-            name: sub_category.middle_category.name,
-            super_category: {
-              type: "super",
-              id: sub_category.middle_category.super_category.id,
-              name: sub_category.middle_category.super_category.name
-            }
-          }
         })
       );
   }

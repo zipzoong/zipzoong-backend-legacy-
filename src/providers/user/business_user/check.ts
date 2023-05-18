@@ -1,12 +1,12 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { prisma } from "@INFRA/DB";
-import { ExpertBusinessType, Prisma } from "@PRISMA";
+import { ServiceType, Prisma } from "@PRISMA";
 import { isActive, isNull } from "@UTIL";
 import User from "../user";
 import { Exception } from "./exception";
 
 export namespace Check {
-  const mapper: Record<IBusinessUser.Type, ExpertBusinessType> = {
+  const mapper: Record<IBusinessUser.Type, ServiceType> = {
     "home service provider": "HS",
     "real estate agent": "RE"
   };
@@ -22,7 +22,7 @@ export namespace Check {
     tx?: Prisma.TransactionClient;
   }) => {
     const categories = (
-      await tx.expertSubCategoryModel.findMany({
+      await tx.serviceSubCategoryModel.findMany({
         where: { id: { in: sub_expertise_ids } },
         include: { super_category: true }
       })
@@ -38,7 +38,7 @@ export namespace Check {
     const super_category = categories[0]!.super_category;
 
     if (
-      super_category.business_type !== mapper[type] ||
+      super_category.type !== mapper[type] ||
       !categories.every(
         ({ super_category_id }) => super_category_id === super_category.id
       )

@@ -1,8 +1,11 @@
 import { ITokens } from "@DTO/auth";
+import { IPaginatedResponse } from "@DTO/common";
 import { ICustomer } from "@DTO/user/customer";
-import { TypedParam, TypedRoute } from "@nestia/core";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { TypedBody, TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import Customer from "@PROVIDER/user/customer";
+import ZipzoongCareRequest from "@PROVIDER/zipzoong_care_request";
 import { CustomerToken } from "../decorators";
 
 @Controller("users/customers")
@@ -20,6 +23,39 @@ export class CustomersController {
     @CustomerToken() payload: ITokens.IUserPayload<"customer">
   ): Promise<ICustomer.IPrivate> {
     return Customer.Service.Me.get({ user_id: payload.user_id });
+  }
+
+  /**
+   * @summary 집중 케어 신청 목록 검색
+   * @tag customers
+   * @tag zipzoong-cares
+   * @param query 목록 검색 조건
+   * @return 집중 케어 신청 목록
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  @TypedRoute.Get("me/zipzoong-care/requests")
+  getList(
+    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @TypedQuery() query: IZipzoongCareRequest.ISearch
+  ): Promise<IPaginatedResponse<IZipzoongCareRequest>> {
+    return ZipzoongCareRequest.Service.getList({ user_id, search: query });
+  }
+
+  /**
+   * @summary 집중 케어 신청
+   * @tag customers
+   * @tag zipzoong-cares
+   * @param body 집중 케어 신청 정보
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  @TypedRoute.Post("me/zipzoong-care/requests")
+  create(
+    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @TypedBody() body: IZipzoongCareRequest.ICreateRequest
+  ): Promise<void> {
+    return ZipzoongCareRequest.Service.create({ input: body, user_id });
   }
 
   /**

@@ -4,8 +4,9 @@ import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import REAgent from "@PROVIDER/user/re_agent";
-import { agreements, expert_super_categories, users } from "@SDK";
+import { agreements, service_categories, users } from "@SDK";
 import { internal } from "@TEST/internal";
+import { pick } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -15,17 +16,17 @@ export const test_success = async (connection: IConnection) => {
   const body = typia.random<IREAgent.ICreate>();
   body.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "RE"]
+      target_type: ["all", "business", "RE"]
     })
   ).map(({ id }) => id);
 
-  const list = await expert_super_categories.getList(connection, {
-    filter: ["RE"]
+  const list = await service_categories.super.getList(connection, {
+    type: ["RE"]
   });
 
   const super_expertise = RandomGenerator.pick(list);
 
-  body.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  body.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
 
   const data = REAgent.Json.createData(body);
   data.base.create.is_verified = true;
@@ -39,12 +40,12 @@ export const test_not_found_if_unverified = async (connection: IConnection) => {
   const body = typia.random<IREAgent.ICreate>();
   body.acceptant_agreement_ids = (
     await agreements.getList(connection, {
-      filter: ["all", "business", "RE"]
+      target_type: ["all", "business", "RE"]
     })
   ).map(({ id }) => id);
 
-  const list = await expert_super_categories.getList(connection, {
-    filter: ["RE"]
+  const list = await service_categories.super.getList(connection, {
+    type: ["RE"]
   });
 
   const super_expertise = RandomGenerator.pick(list);

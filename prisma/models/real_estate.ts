@@ -7,9 +7,9 @@ export const REProperty = createModel("REProertyModel", (model) => {
     .mixin(Entity)
     .string("name")
     .string("main_image_url")
-    .string("agent_id")
-    .relation("agent", REAgent, {
-      fields: ["agent_id"],
+    .string("re_agent_id")
+    .relation("re_agent", REAgent, {
+      fields: ["re_agent_id"],
       references: ["id"],
       onDelete: "NoAction",
       onUpdate: "NoAction"

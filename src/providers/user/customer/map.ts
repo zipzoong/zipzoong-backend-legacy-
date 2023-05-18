@@ -73,11 +73,13 @@ export namespace Map {
         .filter(isActive)
         .filter(({ agreement }) => isActive(agreement))
         .map(
-          ({ agreement: { id, title, content, user_type, is_required } }) => ({
+          ({
+            agreement: { id, title, content, target_type, is_required }
+          }) => ({
             id,
             title,
             content,
-            user_type,
+            target_type,
             is_required
           })
         ),

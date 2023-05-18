@@ -1,5 +1,5 @@
 import { Entity } from "../mixins";
-import { BusinessRateType } from "../enums";
+import { RateTargetType } from "../enums";
 import { createModel } from "schemix";
 import { BusinessUser, Customer } from "./user";
 
@@ -51,7 +51,7 @@ export const RateCategory = createModel("RateCategoryModel", (model) => {
   model
     .mixin(Entity)
     .string("name", { unique: true })
-    .enum("business_type", BusinessRateType)
+    .enum("target_type", RateTargetType)
     .relation("rates", Rate, { list: true })
     .map("rate_categories");
 });

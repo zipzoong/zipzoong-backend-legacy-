@@ -1,17 +1,13 @@
-import { IREPropertyCategory } from "@DTO/re_property_category";
 import { IConnection } from "@nestia/fetcher";
-import { re_property_super_categories } from "@SDK";
+import { re_property_categories } from "@SDK";
+import assert from "assert";
 import typia from "typia";
 
-console.log("\n- re_property_super_categories.getList");
+console.log("\n- re_property_categories.super.getList");
 
 export const test_success = async (connection: IConnection) => {
-  const query = typia.random<IREPropertyCategory.ISuper.ISearch>();
-
-  const received = await re_property_super_categories.getList(
-    connection,
-    query
-  );
+  const received = await re_property_categories.super.getList(connection);
 
   typia.assertEquals(received);
+  assert.notStrictEqual(received.length, 0);
 };

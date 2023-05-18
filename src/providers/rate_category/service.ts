@@ -1,25 +1,26 @@
-import { IRateCategory } from "@DTO/rate_category";
+import { IRateCategory } from "@DTO/category/rate";
 import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { isActive } from "@UTIL";
 
 export namespace Service {
   export const getList = ({
-    business_type
+    target_type
   }: IRateCategory.ISearch): Promise<IRateCategory[]> =>
     pipe(
-      business_type,
+      target_type,
 
       async (ins) =>
         prisma.rateCategoryModel.findMany({
-          where: { business_type: { in: ins } }
+          where: { target_type: { in: ins } }
         }),
 
       filter(isActive),
 
       map((category) => ({
         id: category.id,
-        name: category.name
+        name: category.name,
+        target_type: category.target_type
       })),
 
       toArray

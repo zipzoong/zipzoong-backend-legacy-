@@ -5,7 +5,7 @@ import { IREAgent } from "@DTO/user/re_agent";
 import { IUser } from "@DTO/user/user";
 import { pipe, tap } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { AgreementUserType, OauthAccountModel, Prisma } from "@PRISMA";
+import { AgreementTargetType, OauthAccountModel, Prisma } from "@PRISMA";
 import Agreement from "@PROVIDER/agreement";
 import { isActive, isInActive, isNull, toThrow } from "@UTIL";
 import { Exception } from "./exception";
@@ -110,10 +110,10 @@ export namespace Check {
     acceptant_agreement_ids: string[];
     tx?: Prisma.TransactionClient;
   }) => {
-    const or: AgreementUserType[] = ["all"];
-    if (type === "customer") or.push("customer");
-    else if (type === "real estate agent") or.push("business", "RE");
-    else if (type === "home service provider") or.push("business", "HS");
+    const targets: AgreementTargetType[] = ["all"];
+    if (type === "customer") targets.push("customer");
+    else if (type === "real estate agent") targets.push("business", "RE");
+    else if (type === "home service provider") targets.push("business", "HS");
 
     const acceptances = await tx.agreementModel.findMany({
       where: { id: { in: acceptant_agreement_ids } }
@@ -125,7 +125,7 @@ export namespace Check {
     const requireds = (
       await tx.agreementModel.findMany({
         select: { id: true, is_required: true, is_deleted: true },
-        where: { user_type: { in: or } }
+        where: { target_type: { in: targets } }
       })
     )
       .filter(isActive)
