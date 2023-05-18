@@ -11,6 +11,8 @@ import type { IRateCategory } from "./../../structures/category/rate";
 
 /**
  * @summary 별점 카테고리 목록 검색
+ * @tag reviews
+ * @tag categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 별점 카테고리 검색 조건
  * @returns 별점 카테고리 목록

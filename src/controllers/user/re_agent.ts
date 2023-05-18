@@ -59,7 +59,7 @@ export class REAgentsMyPropertiesController {
    *
    * @summary 내 매물 목록 조회
    * @tag re-agents
-   * @tag users
+   * @tag re-properties
    * @param query 페이지 정보
    * @return 부동산 매물 목록
    * @throw 401 Unauthorized

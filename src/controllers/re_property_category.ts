@@ -7,7 +7,8 @@ import REPropertyCategory from "@PROVIDER/re_property_category";
 export class REPropertySuperCategoriesController {
   /**
    * @summary 부동산 매물 상위 카테고리 목록 조회
-   * @tag re-property-categories
+   * @tag re-properties
+   * @tag categories
    * @return 부동산 매물 상위 카테고리 목록
    */
   @TypedRoute.Get()
@@ -17,7 +18,8 @@ export class REPropertySuperCategoriesController {
 
   /**
    * @summary 부동산 매물 상위 카테고리 조회
-   * @tag re-property-categories
+   * @tag re-properties
+   * @tag categories
    * @param super_category_id 부동산 매물 상위 카테고리 id
    * @return 부동산 매물 상위 카테고리
    * @throw 404 Not Found
@@ -34,7 +36,8 @@ export class REPropertySuperCategoriesController {
 export class REPropertyMiddleCategoriesController {
   /**
    * @summary 부동산 매물 중위 카테고리 조회
-   * @tag re-property-categories
+   * @tag re-properties
+   * @tag categories
    * @param middle_category_id 부동산 매물 중위 카테고리 id
    * @return 부동산 매물 중위 카테고리
    * @throw 404 Not Found

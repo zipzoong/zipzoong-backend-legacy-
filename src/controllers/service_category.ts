@@ -7,7 +7,8 @@ import ServiceCategory from "@PROVIDER/service_category";
 export class ServiceCategoriesController {
   /**
    * @summary 서비스 상위 카테고리 목록 검색
-   * @tag service-categories
+   * @tag services
+   * @tag categories
    * @param query 서비스 상위 카테고리 목록 검색 조건
    * @return 서비스 상위 카테고리 목록
    */
@@ -20,7 +21,8 @@ export class ServiceCategoriesController {
 
   /**
    * @summary 서비스 상위 카테고리 조회
-   * @tag service-categories
+   * @tag services
+   * @tag categories
    * @param category_id 서비스 상위 카테고리 id
    * @return 서비스 상위 카테고리 정보
    * @throw 404 Not Found

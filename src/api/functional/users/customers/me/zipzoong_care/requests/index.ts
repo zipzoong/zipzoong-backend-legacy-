@@ -14,7 +14,7 @@ import type { IPaginatedResponse } from "./../../../../../../structures/common/p
 /**
  * @summary 집중 케어 신청 목록 검색
  * @tag customers
- * @tag zipzoong-cares
+ * @tag zipzoong-care
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 목록 검색 조건
  * @return 집중 케어 신청 목록
@@ -69,7 +69,7 @@ export namespace getList
 /**
  * @summary 집중 케어 신청
  * @tag customers
- * @tag zipzoong-cares
+ * @tag zipzoong-care
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 집중 케어 신청 정보
  * @throw 401 Unauthorized

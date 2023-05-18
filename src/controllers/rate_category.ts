@@ -7,6 +7,8 @@ import { RateCategory } from "@PROVIDER/rate_category";
 export class RateCategoriesController {
   /**
    * @summary 별점 카테고리 목록 검색
+   * @tag reviews
+   * @tag categories
    * @param query 별점 카테고리 검색 조건
    * @returns 별점 카테고리 목록
    */

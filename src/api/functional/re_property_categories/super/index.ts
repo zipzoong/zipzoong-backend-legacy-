@@ -11,7 +11,8 @@ import type { IREPropertyCategory } from "./../../../structures/category/re_prop
 
 /**
  * @summary 부동산 매물 상위 카테고리 목록 조회
- * @tag re-property-categories
+ * @tag re-properties
+ * @tag categories
  * @return 부동산 매물 상위 카테고리 목록
  * 
  * @controller REPropertySuperCategoriesController.getList()
@@ -50,7 +51,8 @@ export namespace getList
 
 /**
  * @summary 부동산 매물 상위 카테고리 조회
- * @tag re-property-categories
+ * @tag re-properties
+ * @tag categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param super_category_id 부동산 매물 상위 카테고리 id
  * @return 부동산 매물 상위 카테고리

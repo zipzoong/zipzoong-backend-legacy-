@@ -15,7 +15,7 @@ import type { IPaginatedResponse } from "./../../../../../structures/common/pagi
  * 
  * @summary 내 매물 목록 조회
  * @tag re-agents
- * @tag users
+ * @tag re-properties
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 페이지 정보
  * @return 부동산 매물 목록

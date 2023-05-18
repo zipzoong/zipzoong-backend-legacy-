@@ -11,7 +11,8 @@ import type { IREPropertyCategory } from "./../../../structures/category/re_prop
 
 /**
  * @summary 부동산 매물 중위 카테고리 조회
- * @tag re-property-categories
+ * @tag re-properties
+ * @tag categories
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param middle_category_id 부동산 매물 중위 카테고리 id
  * @return 부동산 매물 중위 카테고리
