@@ -20,7 +20,7 @@ export namespace Logger {
         return Console; // 추후 변경
 
       case "test":
-        Console.setLogLevels(["error", "verbose", "warn"]);
+        Console.setLogLevels(["error"]);
         return Console;
     }
     //  return none;
