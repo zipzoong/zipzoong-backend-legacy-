@@ -505,7 +505,10 @@
     },
     "/rate-categories": {
       "get": {
-        "tags": [],
+        "tags": [
+          "reviews",
+          "categories"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -542,6 +545,24 @@
             "text": [
               {
                 "text": "별점 카테고리 목록 검색",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "reviews",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -755,7 +776,8 @@
     "/re-property-categories/super": {
       "get": {
         "tags": [
-          "re-property-categories"
+          "re-properties",
+          "categories"
         ],
         "parameters": [],
         "responses": {
@@ -791,7 +813,16 @@
             "name": "tag",
             "text": [
               {
-                "text": "re-property-categories",
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -811,7 +842,8 @@
     "/re-property-categories/super/{super_category_id}": {
       "get": {
         "tags": [
-          "re-property-categories"
+          "re-properties",
+          "categories"
         ],
         "parameters": [
           {
@@ -857,7 +889,16 @@
             "name": "tag",
             "text": [
               {
-                "text": "re-property-categories",
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -903,7 +944,8 @@
     "/re-property-categories/middle/{middle_category_id}": {
       "get": {
         "tags": [
-          "re-property-categories"
+          "re-properties",
+          "categories"
         ],
         "parameters": [
           {
@@ -949,7 +991,16 @@
             "name": "tag",
             "text": [
               {
-                "text": "re-property-categories",
+                "text": "re-properties",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -1175,7 +1226,8 @@
     "/service-categories/super": {
       "get": {
         "tags": [
-          "service-categories"
+          "services",
+          "categories"
         ],
         "parameters": [
           {
@@ -1221,7 +1273,16 @@
             "name": "tag",
             "text": [
               {
-                "text": "service-categories",
+                "text": "services",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -1258,7 +1319,8 @@
     "/service-categories/super/{super_category_id}": {
       "get": {
         "tags": [
-          "service-categories"
+          "services",
+          "categories"
         ],
         "parameters": [
           {
@@ -1304,7 +1366,16 @@
             "name": "tag",
             "text": [
               {
-                "text": "service-categories",
+                "text": "services",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "categories",
                 "kind": "text"
               }
             ]
@@ -1438,7 +1509,7 @@
       "get": {
         "tags": [
           "customers",
-          "zipzoong-cares"
+          "zipzoong-care"
         ],
         "parameters": [
           {
@@ -1496,7 +1567,7 @@
             "name": "tag",
             "text": [
               {
-                "text": "zipzoong-cares",
+                "text": "zipzoong-care",
                 "kind": "text"
               }
             ]
@@ -1550,7 +1621,7 @@
       "post": {
         "tags": [
           "customers",
-          "zipzoong-cares"
+          "zipzoong-care"
         ],
         "parameters": [],
         "requestBody": {
@@ -1603,7 +1674,7 @@
             "name": "tag",
             "text": [
               {
-                "text": "zipzoong-cares",
+                "text": "zipzoong-care",
                 "kind": "text"
               }
             ]
@@ -2310,7 +2381,7 @@
       "get": {
         "tags": [
           "re-agents",
-          "users"
+          "re-properties"
         ],
         "parameters": [
           {
@@ -2368,7 +2439,7 @@
             "name": "tag",
             "text": [
               {
-                "text": "users",
+                "text": "re-properties",
                 "kind": "text"
               }
             ]
