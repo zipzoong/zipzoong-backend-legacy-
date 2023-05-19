@@ -6,35 +6,47 @@ import { IUser } from "./user";
 export interface IHSProvider extends IUser.IBase<"home service provider"> {
   readonly phone: string;
   readonly profile_image_url: string;
-  readonly introduction: IHSProvider.IIntroduction;
+  readonly review_stats: IBusinessUser.IReviewStats;
+  readonly introduction: IBusinessUser.IIntroduction;
   readonly expertise: IBusinessUser.IExpertise;
+  readonly example_images: IHSProvider.IExampleImage[];
   readonly address: IAddress;
   readonly business_registration_num: string;
 }
 
 export namespace IHSProvider {
   export type IPrivate = IHSProvider & IBusinessUser.IPrivateFragment;
-  export interface IIntroductionImage {
+
+  export type ISummary = Pick<
+    IHSProvider,
+    | "type"
+    | "id"
+    | "name"
+    | "introduction"
+    | "profile_image_url"
+    | "review_stats"
+    | "expertise"
+    | "address"
+  >;
+
+  export interface IExampleImage {
     readonly id: string;
     readonly url: string;
-  }
-  export interface IIntroduction extends IBusinessUser.IIntroduction {
-    readonly images: IIntroductionImage[];
-  }
-
-  export interface ICreateIntroduction
-    extends Mutable<IBusinessUser.IIntroduction> {
-    image_urls: string[];
   }
 
   export interface ICreate
     extends Omit<
       Mutable<IHSProvider>,
-      "introduction" | "expertise" | "id" | "created_at" | "updated_at" | "type"
+      | "expertise"
+      | "id"
+      | "created_at"
+      | "updated_at"
+      | "type"
+      | "example_images"
     > {
     acceptant_agreement_ids: string[];
-    introduction: ICreateIntroduction;
     sub_expertise_ids: string[];
+    example_image_urls: string[];
   }
 
   export type ICreateRequest = Omit<ICreate, "email" | "phone"> &

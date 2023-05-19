@@ -19,7 +19,7 @@ export class HSProvidersController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
-  ): Promise<IPaginatedResponse<IHSProvider>> {
+  ): Promise<IPaginatedResponse<IHSProvider.ISummary>> {
     return HSProvider.Service.getList(query);
   }
 

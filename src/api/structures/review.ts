@@ -1,6 +1,5 @@
-import { IRateCategory } from "@DTO/category/rate";
 import { IDateTime, IPage } from "@DTO/common";
-import { Omit } from "@TYPE";
+import { Mutable, Omit } from "@TYPE";
 
 export interface IReview extends IDateTime {
   readonly id: string;
@@ -8,12 +7,12 @@ export interface IReview extends IDateTime {
   readonly reviewee: IReview.IReviewee;
   /** @maxLength 500 */
   readonly content: string;
-  readonly rates: IReview.IRate[];
   /**
+   * @type int
    * @minimum 0
    * @maximum 10
    */
-  readonly rate_avg: number;
+  readonly rating: number;
 }
 
 export namespace IReview {
@@ -31,30 +30,10 @@ export namespace IReview {
     readonly name: string;
   }
 
-  export interface IRate {
-    /**
-     * @type uint
-     * @maximum 10
-     */
-    readonly score: number;
-    readonly category: IRateCategory;
-  }
-
-  export interface ICreateRate {
-    /**
-     * @type uint
-     * @maximum 10
-     */
-    score: number;
-    category_id: string;
-  }
-
-  export interface ICreate {
+  export interface ICreate
+    extends Pick<Mutable<IReview>, "rating" | "content"> {
     reviewer_id: string;
     reviewee_id: string;
-    /** @maxLength 500 */
-    content: string;
-    rates: ICreateRate[];
   }
 
   export type ICreateRequest = Omit<ICreate, "reviewer_id">;

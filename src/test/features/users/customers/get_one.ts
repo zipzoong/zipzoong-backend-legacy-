@@ -1,9 +1,8 @@
-import { ICustomer } from "@DTO/user/customer";
 import { prisma } from "@INFRA/DB";
+import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import Customer from "@PROVIDER/user/customer";
-import { agreements, users } from "@SDK";
+import { users } from "@SDK";
 import { internal } from "@TEST/internal";
 import { randomUUID } from "crypto";
 import typia from "typia";
@@ -11,35 +10,25 @@ import typia from "typia";
 console.log("\n- users.customers.getOne");
 
 export const test_success = async (connection: IConnection) => {
-  const input = typia.random<ICustomer.ICreate>();
-  input.acceptant_agreement_ids = (
-    await agreements.getList(connection, {
-      target_type: ["all", "customer"]
-    })
-  ).map(({ id }) => id);
+  const customers = await prisma.customerModel.findMany({
+    where: { base: { is_deleted: false }, phone: { not: null } }
+  });
 
-  const data = Customer.Json.createData(input);
-  data.phone = "required";
-  const { id } = await prisma.customerModel.create({ data });
+  const user_id = RandomGenerator.pick(customers).id;
 
-  const received = await users.customers.getOne(connection, id);
+  const received = await users.customers.getOne(connection, user_id);
 
   typia.assertEquals(received);
 };
 
 export const test_not_found_if_unverified = async (connection: IConnection) => {
-  const input = typia.random<ICustomer.ICreate>();
-  input.acceptant_agreement_ids = (
-    await agreements.getList(connection, {
-      target_type: ["all", "customer"]
-    })
-  ).map(({ id }) => id);
+  const customers = await prisma.customerModel.findMany({
+    where: { base: { is_deleted: false }, phone: null }
+  });
 
-  const data = Customer.Json.createData(input);
-  data.phone = null;
-  const { id } = await prisma.customerModel.create({ data });
+  const user_id = RandomGenerator.pick(customers).id;
 
-  await internal.test_error(() => users.customers.getOne(connection, id))(
+  await internal.test_error(() => users.customers.getOne(connection, user_id))(
     HttpStatus.NOT_FOUND,
     "User Not Found"
   )();

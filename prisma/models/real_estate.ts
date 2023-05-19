@@ -2,7 +2,7 @@ import { Entity } from "../mixins";
 import { createModel } from "schemix";
 import { REAgent } from "./user";
 
-export const REProperty = createModel("REProertyModel", (model) => {
+export const REProperty = createModel("REPropertyModel", (model) => {
   model
     .mixin(Entity)
     .string("name")

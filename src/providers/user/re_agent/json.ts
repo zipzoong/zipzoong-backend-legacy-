@@ -60,52 +60,168 @@ export namespace Json {
       re_licensed_agent_name: input.real_estate.licensed_agent_name
     } satisfies Prisma.REAgentModelCreateInput;
   };
-
-  export const findInclude = () =>
+  export const findSelect = () =>
     ({
-      base: {
-        include: {
-          base: true,
-          sub_expertises: {
-            include: { sub_category: { include: { super_category: true } } }
-          }
-        }
-      },
+      id: true,
+      is_licensed: true,
+      re_num: true,
+      re_name: true,
+      re_phone: true,
+      re_licensed_agent_name: true,
       properties: {
-        include: findPropertyInclude()
-      }
-    } satisfies Prisma.REAgentModelInclude);
-
-  export const findPrivateInclude = () =>
-    ({
+        where: { is_deleted: false },
+        select: findPropertySelect(),
+        take: 10
+      },
       base: {
-        include: {
+        select: {
+          is_verified: true,
+          phone: true,
+          profile_image_url: true,
+          introduction_title: true,
+          introduction_content: true,
+          address_first: true,
+          address_second: true,
+          review_stats: true,
+          sub_expertises: {
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
+            }
+          },
           base: {
-            include: {
-              agreement_acceptances: { include: { agreement: true } }
-            }
-          },
-          sub_expertises: {
-            include: { sub_category: { include: { super_category: true } } }
-          },
-          certification_images: true
-        }
-      },
-      properties: {
-        include: findPropertyInclude()
-      }
-    } satisfies Prisma.REAgentModelInclude);
-
-  export const findPropertyInclude = () =>
-    ({
-      categories: {
-        include: {
-          sub_category: {
-            include: {
-              middle_category: { include: { super_category: true } }
+            select: {
+              created_at: true,
+              updated_at: true,
+              is_deleted: true,
+              deleted_at: true,
+              name: true,
+              email: true
             }
           }
         }
       }
-    } satisfies Prisma.REProertyModelInclude);
+    } satisfies Prisma.REAgentModelSelect);
+
+  export const findPrivateSelect = () =>
+    ({
+      id: true,
+      is_licensed: true,
+      re_num: true,
+      re_name: true,
+      re_phone: true,
+      re_licensed_agent_name: true,
+      properties: {
+        where: { is_deleted: false },
+        select: findPropertySelect(),
+        take: 10
+      },
+      base: {
+        select: {
+          phone: true,
+          is_verified: true,
+          address_first: true,
+          address_second: true,
+          profile_image_url: true,
+          introduction_title: true,
+          introduction_content: true,
+          review_stats: true,
+          certification_images: true,
+          sub_expertises: {
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
+            }
+          },
+          base: {
+            select: {
+              created_at: true,
+              updated_at: true,
+              is_deleted: true,
+              deleted_at: true,
+              name: true,
+              email: true,
+              agreement_acceptances: {
+                select: {
+                  created_at: true,
+                  updated_at: true,
+                  is_deleted: true,
+                  deleted_at: true,
+                  agreement: true
+                }
+              }
+            }
+          }
+        }
+      }
+    } satisfies Prisma.REAgentModelSelect);
+
+  export const findSummarySelect = () =>
+    ({
+      id: true,
+      is_licensed: true,
+      base: {
+        select: {
+          profile_image_url: true,
+          introduction_title: true,
+          introduction_content: true,
+          review_stats: true,
+          sub_expertises: {
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
+            }
+          },
+          base: {
+            select: {
+              is_deleted: true,
+              deleted_at: true,
+              name: true
+            }
+          }
+        }
+      }
+    } satisfies Prisma.REAgentModelSelect);
+
+  export const findPropertySelect = () =>
+    ({
+      id: true,
+      name: true,
+      main_image_url: true,
+      created_at: true,
+      updated_at: true,
+      is_deleted: true,
+      deleted_at: true,
+      re_agent_id: true,
+      categories: {
+        select: {
+          is_deleted: true,
+          deleted_at: true,
+          sub_category: {
+            select: {
+              id: true,
+              name: true,
+              middle_category: {
+                select: {
+                  id: true,
+                  name: true,
+                  super_category: {
+                    select: {
+                      id: true,
+                      name: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } satisfies Prisma.REPropertyModelSelect);
 }

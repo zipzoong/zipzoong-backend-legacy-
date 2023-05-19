@@ -21,7 +21,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
   typia.assertEquals(received);
 
-  await internal.deleteAccessor(received.access_token);
+  await internal.deleteAccount(received.access_token);
 };
 
 export const test_oauth_fail = (connection: IConnection) =>
@@ -31,7 +31,7 @@ export const test_oauth_fail = (connection: IConnection) =>
     )(HttpStatus.UNAUTHORIZED, "Authentication Fail")
   );
 
-export const test_inactive_accessor = async (connection: IConnection) => {
+export const test_inactive_account = async (connection: IConnection) => {
   const { access_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
@@ -50,5 +50,5 @@ export const test_inactive_accessor = async (connection: IConnection) => {
     })
   )(HttpStatus.FORBIDDEN, "Account Inactive")();
 
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };

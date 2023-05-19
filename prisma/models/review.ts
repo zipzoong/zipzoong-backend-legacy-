@@ -1,5 +1,4 @@
 import { Entity } from "../mixins";
-import { RateTargetType } from "../enums";
 import { createModel } from "schemix";
 import { BusinessUser, Customer } from "./user";
 
@@ -9,6 +8,7 @@ export const Review = createModel("ReviewModel", (model) => {
     .string("reviewer_id")
     .string("reviewee_id")
     .string("content")
+    .int("rating", { raw: "@database.SmallInt" })
     .relation("reviewer", Customer, {
       fields: ["reviewer_id"],
       references: ["id"],
@@ -21,37 +21,27 @@ export const Review = createModel("ReviewModel", (model) => {
       onDelete: "NoAction",
       onUpdate: "NoAction"
     })
-    .relation("rates", Rate, { list: true })
     .map("reviews");
 });
 
-export const Rate = createModel("RateModel", (model) => {
+export const ReviewStats = createModel("ReviewStatsModel", (model) => {
   model
-    .mixin(Entity)
-    .int("score", { raw: "@database.SmallInt" })
-    .string("category_id")
-    .string("review_id")
-    .relation("category", RateCategory, {
-      fields: ["category_id"],
+    .dateTime("created_at", {
+      raw: "@database.Timestamptz",
+      default: { now: true }
+    })
+    .dateTime("updated_at", {
+      raw: "@database.Timestamptz",
+      default: { now: true }
+    })
+    .decimal("review_cnt")
+    .decimal("rating_sum")
+    .string("reviewee_id", { id: true })
+    .relation("reviewee", BusinessUser, {
+      fields: ["reviewee_id"],
       references: ["id"],
       onDelete: "NoAction",
       onUpdate: "NoAction"
     })
-    .relation("review", Review, {
-      fields: ["review_id"],
-      references: ["id"],
-      onDelete: "NoAction",
-      onUpdate: "NoAction"
-    })
-    .unique({ fields: ["category_id", "review_id"] })
-    .map("rates");
-});
-
-export const RateCategory = createModel("RateCategoryModel", (model) => {
-  model
-    .mixin(Entity)
-    .string("name", { unique: true })
-    .enum("target_type", RateTargetType)
-    .relation("rates", Rate, { list: true })
-    .map("rate_categories");
+    .map("review_stats");
 });

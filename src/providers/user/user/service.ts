@@ -21,5 +21,3 @@ export namespace Service {
       input.mapper
     );
 }
-
-export namespace BusinessUserCheck {}

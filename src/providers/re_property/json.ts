@@ -34,7 +34,7 @@ export namespace Json {
       updated_at: now,
       is_deleted: false,
       deleted_at: null
-    } satisfies Prisma.REProertyModelCreateInput;
+    } satisfies Prisma.REPropertyModelCreateInput;
   };
 
   export const createManyData = (input: ReturnType<typeof createData>[]) => {
@@ -52,7 +52,7 @@ export namespace Json {
             updated_at: data.updated_at,
             is_deleted: data.is_deleted,
             deleted_at: data.deleted_at
-          } satisfies Prisma.REProertyModelCreateManyInput)
+          } satisfies Prisma.REPropertyModelCreateManyInput)
       ),
 
       toArray
@@ -91,16 +91,32 @@ export namespace Json {
     };
   };
 
-  export const findInclude = () =>
+  export const findSelect = () =>
     ({
+      id: true,
+      name: true,
+      main_image_url: true,
+      created_at: true,
+      updated_at: true,
+      is_deleted: true,
+      deleted_at: true,
       re_agent: {
-        include: {
+        select: {
+          id: true,
           base: {
-            include: {
-              base: true,
+            select: {
+              profile_image_url: true,
               sub_expertises: {
-                include: {
-                  sub_category: { include: { super_category: true } }
+                select: {
+                  is_deleted: true,
+                  sub_category: {
+                    select: { id: true, name: true, super_category: true }
+                  }
+                }
+              },
+              base: {
+                select: {
+                  name: true
                 }
               }
             }
@@ -108,17 +124,28 @@ export namespace Json {
         }
       },
       categories: {
-        include: {
+        select: {
+          is_deleted: true,
+          deleted_at: true,
           sub_category: {
-            include: {
+            select: {
+              id: true,
+              name: true,
               middle_category: {
-                include: {
-                  super_category: true
+                select: {
+                  id: true,
+                  name: true,
+                  super_category: {
+                    select: {
+                      id: true,
+                      name: true
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
-    } satisfies Prisma.REProertyModelInclude);
+    } satisfies Prisma.REPropertyModelSelect);
 }

@@ -6,12 +6,12 @@ import typia from "typia";
 import { Json } from "./json";
 
 export namespace Map {
-  export const rEProperty = (
+  export const entity = (
     input: NonNullable<
       Awaited<
         ReturnType<
-          typeof prisma.rEProertyModel.findFirst<{
-            include: ReturnType<typeof Json.findInclude>;
+          typeof prisma.rEPropertyModel.findFirst<{
+            select: ReturnType<typeof Json.findSelect>;
           }>
         >
       >
@@ -19,6 +19,8 @@ export namespace Map {
   ): IREProperty => {
     const property: IREProperty = {
       id: input.id,
+      created_at: getISOString(input.created_at),
+      updated_at: getISOString(input.updated_at),
       name: input.name,
       main_image_url: input.main_image_url,
       re_agent: {
@@ -45,9 +47,7 @@ export namespace Map {
               name: sub_category.middle_category.super_category.name
             }
           }
-        })),
-      created_at: getISOString(input.created_at),
-      updated_at: getISOString(input.updated_at)
+        }))
     };
     if (!typia.equals(property))
       throw Error(`RE-Property ${input.id} has invalid data`);

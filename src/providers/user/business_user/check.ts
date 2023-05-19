@@ -56,7 +56,7 @@ export namespace Check {
   }) => {
     const user = await tx.businessUserModel.findFirst({
       where: { id: user_id },
-      include: { base: true }
+      select: { is_verified: true, base: { select: { is_deleted: true } } }
     });
 
     // user not exist

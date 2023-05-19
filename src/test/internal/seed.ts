@@ -1,17 +1,20 @@
 import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { Prisma } from "@PRISMA";
+import Authentication from "@PROVIDER/authentication";
 import Customer from "@PROVIDER/user/customer";
 import HSProvider from "@PROVIDER/user/hs_provider";
 import REAgent from "@PROVIDER/user/re_agent";
-import { agreements, service_categories } from "@SDK";
+import { agreements, service_categories, users } from "@SDK";
 import { getISOString, pick } from "@UTIL";
-import { randomUUID } from "crypto";
+import { randomInt, randomUUID } from "crypto";
 import typia from "typia";
+import { addAuthorizationHeader } from "./utils";
 
 const now = getISOString();
 const createEntity = () => ({
@@ -29,7 +32,36 @@ export const seed = async (connection: IConnection) => {
   await seedHSProviders(connection);
   await seedREAgents(connection);
 
-  await prisma.businessUserModel.updateMany({ data: { is_verified: true } });
+  await seedReviews();
+
+  await seedZipzoongCareRequests(connection);
+
+  await prisma.$queryRaw`
+    WITH updated_rows AS (
+      INSERT INTO review_stats (reviewee_id, rating_sum, review_cnt)
+      SELECT
+        reviewee_id,
+        SUM(rating) AS rating_sum,
+        COUNT(*) AS review_cnt
+      FROM
+        reviews
+      WHERE reviewee_id IN (SELECT
+                              id
+                            FROM business_users INNER JOIN users
+                            USING (id)
+                            WHERE is_verified = true AND is_deleted = false)
+      GROUP BY
+        reviewee_id
+      ON CONFLICT (reviewee_id) DO UPDATE
+      SET
+        rating_sum = EXCLUDED.rating_sum,
+        review_cnt = EXCLUDED.review_cnt,
+        updated_at = NOW()
+      RETURNING reviewee_id
+    )
+    DELETE FROM review_stats
+    WHERE reviewee_id NOT IN (SELECT reviewee_id FROM updated_rows);
+  `;
 };
 
 export const seedCategories = () =>
@@ -312,15 +344,12 @@ export const seedCategories = () =>
     const mid_6 = await tx.rEPropertyMiddleCategoryModel.findFirstOrThrow({
       where: { super_category_id: third.id, name: "숙박" }
     });
-
     const mid_7 = await tx.rEPropertyMiddleCategoryModel.findFirstOrThrow({
       where: { super_category_id: third.id, name: "분양" }
     });
-
     const mid_8 = await tx.rEPropertyMiddleCategoryModel.findFirstOrThrow({
       where: { super_category_id: third.id, name: "종교시설" }
     });
-
     const mid_9 = await tx.rEPropertyMiddleCategoryModel.findFirstOrThrow({
       where: { super_category_id: third.id, name: "경매" }
     });
@@ -354,7 +383,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -379,7 +407,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -394,7 +421,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -419,7 +445,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -439,7 +464,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -464,7 +488,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -489,7 +512,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -504,7 +526,6 @@ export const seedCategories = () =>
         }
       ]
     });
-
     await tx.rEPropertySubCategoryModel.createMany({
       data: [
         {
@@ -529,29 +550,9 @@ export const seedCategories = () =>
         }
       ]
     });
-
-    await tx.rateCategoryModel.createMany({
-      data: [
-        {
-          ...createEntity(),
-          name: "소통",
-          target_type: "all"
-        },
-        {
-          ...createEntity(),
-          name: "가격",
-          target_type: "all"
-        },
-        {
-          ...createEntity(),
-          name: "일정",
-          target_type: "all"
-        }
-      ]
-    });
   });
 
-export const seedCustomers = async (connection: IConnection) => {
+const seedCustomers = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, { target_type: ["all", "customer"] })
   ).map(pick("id"));
@@ -559,6 +560,16 @@ export const seedCustomers = async (connection: IConnection) => {
   const createCustomerData = typia.createRandom<ICustomer.ICreate>();
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
+
+  await ArrayUtil.asyncRepeat(5)(async () => {
+    const input = createCustomerData();
+    input.acceptant_agreement_ids = agreement_list;
+    input.phone = null;
+
+    const data = Customer.Json.createData(input);
+
+    queries.push(prisma.customerModel.create({ data }));
+  });
 
   await ArrayUtil.asyncRepeat(10)(async () => {
     const input = createCustomerData();
@@ -572,7 +583,7 @@ export const seedCustomers = async (connection: IConnection) => {
   await prisma.$transaction(queries);
 };
 
-export const seedHSProviders = async (connection: IConnection) => {
+const seedHSProviders = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, {
       target_type: ["all", "business", "HS"]
@@ -586,7 +597,7 @@ export const seedHSProviders = async (connection: IConnection) => {
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(10)(() =>
+  await ArrayUtil.asyncRepeat(5)(() =>
     ArrayUtil.asyncForEach(super_categories)(async (category) => {
       const input = createProviderData();
       input.acceptant_agreement_ids = agreement_list;
@@ -595,6 +606,22 @@ export const seedHSProviders = async (connection: IConnection) => {
       ).map(pick("id"));
 
       const data = HSProvider.Json.createData(input);
+      data.base.create.is_verified = true;
+
+      queries.push(prisma.hSProviderModel.create({ data }));
+    })
+  );
+
+  await ArrayUtil.asyncRepeat(5)(() =>
+    ArrayUtil.asyncForEach(super_categories)(async (category) => {
+      const input = createProviderData();
+      input.acceptant_agreement_ids = agreement_list;
+      input.sub_expertise_ids = RandomGenerator.sample(category.sub_categories)(
+        3
+      ).map(pick("id"));
+
+      const data = HSProvider.Json.createData(input);
+      data.base.create.is_verified = false;
 
       queries.push(prisma.hSProviderModel.create({ data }));
     })
@@ -603,7 +630,7 @@ export const seedHSProviders = async (connection: IConnection) => {
   await prisma.$transaction(queries);
 };
 
-export const seedREAgents = async (connection: IConnection) => {
+const seedREAgents = async (connection: IConnection) => {
   const agreement_list = (
     await agreements.getList(connection, {
       target_type: ["all", "business", "RE"]
@@ -617,15 +644,20 @@ export const seedREAgents = async (connection: IConnection) => {
 
   const queries: Prisma.PrismaPromise<unknown>[] = [];
 
-  await ArrayUtil.asyncRepeat(10)(() =>
+  // property exist
+  await ArrayUtil.asyncRepeat(5)(() =>
     ArrayUtil.asyncForEach(super_categories)(async (category) => {
       const input = createAgentData();
 
       input.acceptant_agreement_ids = agreement_list;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      input.sub_expertise_ids = [category.sub_categories[0]!.id];
+
+      input.sub_expertise_ids = RandomGenerator.sample(category.sub_categories)(
+        1
+      ).map(pick("id"));
 
       const data = REAgent.Json.createData(input);
+
+      data.base.create.is_verified = true;
 
       queries.push(prisma.rEAgentModel.create({ data }));
 
@@ -641,7 +673,7 @@ export const seedREAgents = async (connection: IConnection) => {
       const sub_categories = await prisma.rEPropertySubCategoryModel.findMany();
 
       queries.push(
-        prisma.rEProertyModel.createMany({
+        prisma.rEPropertyModel.createMany({
           data: properties
         })
       );
@@ -662,5 +694,152 @@ export const seedREAgents = async (connection: IConnection) => {
     })
   );
 
+  // property not exist
+  await ArrayUtil.asyncRepeat(5)(() =>
+    ArrayUtil.asyncForEach(super_categories)(async (category) => {
+      const input = createAgentData();
+
+      input.acceptant_agreement_ids = agreement_list;
+
+      input.sub_expertise_ids = RandomGenerator.sample(category.sub_categories)(
+        1
+      ).map(pick("id"));
+
+      const data = REAgent.Json.createData(input);
+      data.base.create.is_verified = true;
+
+      queries.push(prisma.rEAgentModel.create({ data }));
+    })
+  );
+
+  await ArrayUtil.asyncRepeat(5)(() =>
+    ArrayUtil.asyncForEach(super_categories)(async (category) => {
+      const input = createAgentData();
+
+      input.acceptant_agreement_ids = agreement_list;
+
+      input.sub_expertise_ids = RandomGenerator.sample(category.sub_categories)(
+        1
+      ).map(pick("id"));
+
+      const data = REAgent.Json.createData(input);
+
+      data.base.create.is_verified = false;
+
+      queries.push(prisma.rEAgentModel.create({ data }));
+    })
+  );
   await prisma.$transaction(queries);
+};
+
+const seedReviews = async () => {
+  const customers = await prisma.customerModel.findMany({
+    where: { phone: { not: null }, base: { is_deleted: false } }
+  });
+
+  const reviewer_id = RandomGenerator.pick(customers).id;
+
+  const business_users = await prisma.businessUserModel.findMany({
+    where: { is_verified: true, base: { is_deleted: false } }
+  });
+
+  const now = getISOString();
+
+  const bs_user_ids = business_users.map(pick("id"));
+
+  const data = () =>
+    bs_user_ids.map((reviewee_id) => ({
+      id: randomUUID(),
+      created_at: now,
+      updated_at: now,
+      is_deleted: false,
+      deleted_at: null,
+      reviewer_id,
+      reviewee_id,
+      content: "test review",
+      rating: randomInt(0, 10)
+    }));
+
+  await prisma.reviewModel.createMany({
+    data: [
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data(),
+      ...data()
+    ]
+  });
+};
+
+const sample_times: IZipzoongCareRequest.ICreateCheckedConsultationTime[] = [
+  { start_time: "09:00", end_time: "10:00" },
+  { start_time: "10:00", end_time: "11:00" },
+  { start_time: "11:00", end_time: "12:00" },
+  { start_time: "12:00", end_time: "13:00" },
+  { start_time: "13:00", end_time: "14:00" },
+  { start_time: "14:00", end_time: "15:00" },
+  { start_time: "15:00", end_time: "16:00" },
+  { start_time: "16:00", end_time: "17:00" },
+  { start_time: "17:00", end_time: "18:00" },
+  { start_time: "18:00", end_time: "19:00" },
+  { start_time: "19:00", end_time: "20:00" }
+];
+
+const seedZipzoongCareRequests = async (connection: IConnection) => {
+  const createBody = typia.createRandom<IZipzoongCareRequest.ICreateRequest>();
+  const customer_ids = (
+    await prisma.customerModel.findMany({
+      where: { base: { is_deleted: false }, phone: { not: null } }
+    })
+  ).map(pick("id"));
+  const categories = await service_categories.super.getList(connection, {
+    type: ["HS", "RE"]
+  });
+
+  await ArrayUtil.asyncForEach(RandomGenerator.sample(customer_ids)(5))(
+    async (user_id) => {
+      const body = createBody();
+      body.consultation_times = RandomGenerator.sample(sample_times)(
+        randomInt(1, sample_times.length)
+      );
+      body.service_ids = RandomGenerator.sample(categories)(
+        randomInt(1, categories.length)
+      ).map(pick("id"));
+
+      const token = Authentication.Crypto.getUserToken({
+        type: "user",
+        user_id,
+        user_type: "customer"
+      });
+
+      return users.customers.me.zipzoong_care.requests.create(
+        addAuthorizationHeader(connection)("bearer", token),
+        body
+      );
+    }
+  );
 };

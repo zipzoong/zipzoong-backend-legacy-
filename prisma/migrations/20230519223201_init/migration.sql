@@ -11,9 +11,6 @@ CREATE TYPE "ServiceType" AS ENUM ('HS', 'RE');
 CREATE TYPE "AgreementTargetType" AS ENUM ('all', 'customer', 'business', 'HS', 'RE');
 
 -- CreateEnum
-CREATE TYPE "RateTargetType" AS ENUM ('all', 'HS', 'RE');
-
--- CreateEnum
 CREATE TYPE "ZipzoongCareStatus" AS ENUM ('pending', 'caring', 'cared', 'cancelled');
 
 -- CreateTable
@@ -91,35 +88,20 @@ CREATE TABLE "reviews" (
     "reviewer_id" TEXT NOT NULL,
     "reviewee_id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "rating" SMALLINT NOT NULL,
 
     CONSTRAINT "reviews_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "rates" (
-    "id" TEXT NOT NULL,
-    "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL,
-    "deleted_at" TIMESTAMPTZ,
-    "score" SMALLINT NOT NULL,
-    "category_id" TEXT NOT NULL,
-    "review_id" TEXT NOT NULL,
+CREATE TABLE "review_stats" (
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "review_cnt" DECIMAL(65,30) NOT NULL,
+    "rating_sum" DECIMAL(65,30) NOT NULL,
+    "reviewee_id" TEXT NOT NULL,
 
-    CONSTRAINT "rates_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "rate_categories" (
-    "id" TEXT NOT NULL,
-    "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL,
-    "deleted_at" TIMESTAMPTZ,
-    "name" TEXT NOT NULL,
-    "target_type" "RateTargetType" NOT NULL,
-
-    CONSTRAINT "rate_categories_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "review_stats_pkey" PRIMARY KEY ("reviewee_id")
 );
 
 -- CreateTable
@@ -306,7 +288,7 @@ CREATE TABLE "business_certification_images" (
 );
 
 -- CreateTable
-CREATE TABLE "hs_introduction_images" (
+CREATE TABLE "hs_example_images" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
@@ -315,7 +297,7 @@ CREATE TABLE "hs_introduction_images" (
     "hs_provider_id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
 
-    CONSTRAINT "hs_introduction_images_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "hs_example_images_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -343,12 +325,6 @@ CREATE TABLE "oauth_accounts" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "re_property_super_categories_name_key" ON "re_property_super_categories"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "rates_category_id_review_id_key" ON "rates"("category_id", "review_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "rate_categories_name_key" ON "rate_categories"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "agreement_acceptances_user_id_agreement_id_key" ON "agreement_acceptances"("user_id", "agreement_id");
@@ -381,10 +357,7 @@ ALTER TABLE "reviews" ADD CONSTRAINT "reviews_reviewer_id_fkey" FOREIGN KEY ("re
 ALTER TABLE "reviews" ADD CONSTRAINT "reviews_reviewee_id_fkey" FOREIGN KEY ("reviewee_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "rates" ADD CONSTRAINT "rates_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "rate_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "rates" ADD CONSTRAINT "rates_review_id_fkey" FOREIGN KEY ("review_id") REFERENCES "reviews"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "review_stats" ADD CONSTRAINT "review_stats_reviewee_id_fkey" FOREIGN KEY ("reviewee_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -429,7 +402,7 @@ ALTER TABLE "hs_providers" ADD CONSTRAINT "hs_providers_id_fkey" FOREIGN KEY ("i
 ALTER TABLE "business_certification_images" ADD CONSTRAINT "business_certification_images_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "hs_introduction_images" ADD CONSTRAINT "hs_introduction_images_hs_provider_id_fkey" FOREIGN KEY ("hs_provider_id") REFERENCES "hs_providers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "hs_example_images" ADD CONSTRAINT "hs_example_images_hs_provider_id_fkey" FOREIGN KEY ("hs_provider_id") REFERENCES "hs_providers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "oauth_accounts" ADD CONSTRAINT "oauth_accounts_business_user_id_fkey" FOREIGN KEY ("business_user_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

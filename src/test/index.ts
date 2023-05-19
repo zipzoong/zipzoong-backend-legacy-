@@ -37,7 +37,7 @@ async function run(): Promise<void> {
     parameters: () => [connection]
   })(__dirname + "/features");
 
-  await internal.truncate();
+  // await internal.truncate();
 
   await Backend.end(app);
 

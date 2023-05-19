@@ -19,7 +19,7 @@ export class REAgentsController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
-  ): Promise<IPaginatedResponse<IREAgent>> {
+  ): Promise<IPaginatedResponse<IREAgent.ISummary>> {
     return REAgent.Service.getList(query);
   }
 

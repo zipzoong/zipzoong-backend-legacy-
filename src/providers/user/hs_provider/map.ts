@@ -4,15 +4,16 @@ import { prisma } from "@INFRA/DB";
 import { getISOString, isActive } from "@UTIL";
 import typia from "typia";
 import BusinessUser from "../business_user";
+import User from "../user";
 import { Json } from "./json";
 
 export namespace Map {
-  export const hSProvider = (
+  export const entity = (
     input: NonNullable<
       Awaited<
         ReturnType<
           typeof prisma.hSProviderModel.findFirst<{
-            include: ReturnType<typeof Json.findInclude>;
+            select: ReturnType<typeof Json.findSelect>;
           }>
         >
       >
@@ -25,65 +26,80 @@ export namespace Map {
       id: input.id,
       name: input.base.base.name,
       email: input.base.base.email,
+      created_at: getISOString(input.base.base.created_at),
+      updated_at: getISOString(input.base.base.updated_at),
       phone: input.base.phone,
       profile_image_url: input.base.profile_image_url,
       introduction: {
         title: input.base.introduction_title,
-        content: input.base.introduction_content,
-        images: input.introduction_images
-          .filter(({ is_deleted }) => !is_deleted)
-          .map(({ id, url }) => ({ id, url }))
+        content: input.base.introduction_content
       },
-      business_registration_num: input.business_registration_num,
       expertise,
+      review_stats: BusinessUser.Map.reviewStats(input.base),
       address: {
         first: input.base.address_first,
         second: input.base.address_second
       },
-      created_at: getISOString(input.base.base.created_at),
-      updated_at: getISOString(input.base.base.updated_at)
+      business_registration_num: input.business_registration_num,
+      example_images: input.example_images
+        .filter(isActive)
+        .map(({ id, url }) => ({ id, url }))
     };
     if (!typia.equals<IHSProvider>(provider))
       throw Error(`hs-provider: ${input.id} has invalid data`);
     return provider;
   };
 
-  export const privateHSProvider = (
+  export const summaryEntity = (
     input: NonNullable<
       Awaited<
         ReturnType<
           typeof prisma.hSProviderModel.findFirst<{
-            include: ReturnType<typeof Json.findPrivateInclude>;
+            select: ReturnType<typeof Json.findSummarySelect>;
+          }>
+        >
+      >
+    >
+  ): IHSProvider.ISummary => ({
+    type: "home service provider",
+    id: input.id,
+    name: input.base.base.name,
+    profile_image_url: input.base.profile_image_url,
+    introduction: {
+      title: input.base.introduction_title,
+      content: input.base.introduction_content
+    },
+    address: {
+      first: input.base.address_first,
+      second: input.base.address_second
+    },
+    review_stats: BusinessUser.Map.reviewStats(input.base),
+    expertise: BusinessUser.Map.expertise(input.base.sub_expertises)
+  });
+
+  export const privateEntity = (
+    input: NonNullable<
+      Awaited<
+        ReturnType<
+          typeof prisma.hSProviderModel.findFirst<{
+            select: ReturnType<typeof Json.findPrivateSelect>;
           }>
         >
       >
     >
   ): IHSProvider.IPrivate => {
-    const base = hSProvider(input);
+    const base = entity(input);
     const privateFragment: IBusinessUser.IPrivateFragment = {
       is_verified: input.base.is_verified,
-      business_certification_images: input.base.certification_images
-        .filter(({ is_deleted }) => !is_deleted)
-        .map(({ id, url }) => ({
-          id,
-          url
-        })),
-      acceptant_agreements: input.base.base.agreement_acceptances
-        .filter(isActive)
-        .filter(({ agreement }) => isActive(agreement))
-        .map(
-          ({
-            agreement: { id, title, content, target_type, is_required }
-          }) => ({
-            id,
-            title,
-            content,
-            target_type,
-            is_required
-          })
-        )
+      business_certification_images: BusinessUser.Map.certificationImages(
+        input.base.certification_images
+      ),
+      acceptant_agreements: User.Map.accepatantAgreements(
+        input.base.base.agreement_acceptances
+      )
     };
-    const provider = { ...base, ...privateFragment };
+    const provider: IHSProvider.IPrivate = { ...base, ...privateFragment };
+
     if (!typia.equals<IHSProvider.IPrivate>(provider))
       throw Error(`hs-provider: ${input.id} has invalid data`);
     return provider;

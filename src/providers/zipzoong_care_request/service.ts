@@ -49,12 +49,12 @@ export namespace Service {
             status: { in: status },
             is_deleted: false
           },
-          include: Json.findInclude(),
+          select: Json.findSelect(),
           take,
           skip: (page - 1) * take
         }),
 
-      map(Map.zipzoongCareRequest),
+      map(Map.entity),
 
       toArray,
 

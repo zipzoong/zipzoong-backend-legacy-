@@ -17,7 +17,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
   typia.assertEquals(received);
 
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };
 
 export const test_invalid_account = internal.test_invalid_account(

@@ -54,9 +54,9 @@ export namespace Json {
         }
       },
       business_registration_num: input.business_registration_num,
-      introduction_images: {
+      example_images: {
         createMany: {
-          data: input.introduction.image_urls.map((url) => ({
+          data: input.example_image_urls.map((url) => ({
             id: randomUUID(),
             url,
             created_at: now,
@@ -68,33 +68,117 @@ export namespace Json {
       }
     } satisfies Prisma.HSProviderModelCreateInput;
   };
-  export const findInclude = () =>
+  export const findSelect = () =>
     ({
+      id: true,
+      business_registration_num: true,
+      example_images: true,
       base: {
-        include: {
-          base: true,
+        select: {
+          is_verified: true,
+          introduction_title: true,
+          introduction_content: true,
+          phone: true,
+          address_first: true,
+          address_second: true,
+          profile_image_url: true,
+          review_stats: true,
           sub_expertises: {
-            include: { sub_category: { include: { super_category: true } } }
-          }
-        }
-      },
-      introduction_images: true
-    } satisfies Prisma.HSProviderModelInclude);
-  export const findPrivateInclude = () =>
-    ({
-      base: {
-        include: {
-          base: {
-            include: {
-              agreement_acceptances: { include: { agreement: true } }
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
             }
           },
-          sub_expertises: {
-            include: { sub_category: { include: { super_category: true } } }
-          },
-          certification_images: true
+          base: {
+            select: {
+              created_at: true,
+              updated_at: true,
+              is_deleted: true,
+              deleted_at: true,
+              name: true,
+              email: true
+            }
+          }
         }
-      },
-      introduction_images: true
-    } satisfies Prisma.HSProviderModelInclude);
+      }
+    } satisfies Prisma.HSProviderModelSelect);
+
+  export const findPrivateSelect = () =>
+    ({
+      id: true,
+      business_registration_num: true,
+      example_images: true,
+      base: {
+        select: {
+          phone: true,
+          is_verified: true,
+          address_first: true,
+          address_second: true,
+          profile_image_url: true,
+          introduction_title: true,
+          introduction_content: true,
+          review_stats: true,
+          certification_images: true,
+          sub_expertises: {
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
+            }
+          },
+          base: {
+            select: {
+              created_at: true,
+              updated_at: true,
+              is_deleted: true,
+              deleted_at: true,
+              name: true,
+              email: true,
+              agreement_acceptances: {
+                select: {
+                  created_at: true,
+                  updated_at: true,
+                  is_deleted: true,
+                  deleted_at: true,
+                  agreement: true
+                }
+              }
+            }
+          }
+        }
+      }
+    } satisfies Prisma.HSProviderModelSelect);
+
+  export const findSummarySelect = () =>
+    ({
+      id: true,
+      base: {
+        select: {
+          introduction_title: true,
+          introduction_content: true,
+          address_first: true,
+          address_second: true,
+          profile_image_url: true,
+          review_stats: true,
+          sub_expertises: {
+            select: {
+              is_deleted: true,
+              sub_category: {
+                select: { id: true, name: true, super_category: true }
+              }
+            }
+          },
+          base: {
+            select: {
+              is_deleted: true,
+              deleted_at: true,
+              name: true
+            }
+          }
+        }
+      }
+    } satisfies Prisma.HSProviderModelSelect);
 }
