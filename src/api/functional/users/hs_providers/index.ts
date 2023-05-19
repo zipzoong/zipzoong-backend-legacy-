@@ -42,7 +42,7 @@ export function getList
 export namespace getList
 {
     export type Query = IBusinessUser.ISearch;
-    export type Output = IPaginatedResponse<IHSProvider>;
+    export type Output = IPaginatedResponse<IHSProvider.ISummary>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/hs-providers";

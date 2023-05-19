@@ -1,12 +1,11 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IReview } from "@DTO/review";
-import { average, map, pipe, toArray } from "@fxts/core";
+import { map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
 import BusinessUser from "@PROVIDER/user/business_user";
 import Customer from "@PROVIDER/user/customer";
-import { getISOString, isActive, pick, toFixed } from "@UTIL";
-import { Check } from "./check";
+import { getISOString } from "@UTIL";
 import { Json } from "./json";
 
 export namespace Service {
@@ -25,43 +24,19 @@ export namespace Service {
           skip: (page - 1) * take,
           include: {
             reviewee: { include: { base: true } },
-            reviewer: { include: { base: true } },
-            rates: { include: { category: true } }
+            reviewer: { include: { base: true } }
           }
         }),
 
-      map((review) => {
-        const rates = review.rates
-          .filter(isActive)
-          .filter((rate) => isActive(rate.category))
-          .map((rate) => ({
-            score: rate.score,
-            category: {
-              id: rate.category.id,
-              name: rate.category.name,
-              target_type: rate.category.target_type
-            }
-          }));
-
-        return {
-          id: review.id,
-          content: review.content,
-          created_at: getISOString(review.created_at),
-          updated_at: getISOString(review.updated_at),
-          reviewer: { id: review.reviewer.id, name: review.reviewer.base.name },
-          reviewee: { id: review.reviewee.id, name: review.reviewee.base.name },
-          rate_avg: pipe(
-            rates,
-
-            map(pick("score")),
-
-            average,
-
-            toFixed(3)
-          ),
-          rates
-        };
-      }),
+      map((review) => ({
+        id: review.id,
+        reviewer: { id: review.reviewer.id, name: review.reviewer.base.name },
+        reviewee: { id: review.reviewee.id, name: review.reviewee.base.name },
+        rating: review.rating,
+        content: review.content,
+        created_at: getISOString(review.created_at),
+        updated_at: getISOString(review.updated_at)
+      })),
 
       toArray,
 
@@ -80,12 +55,6 @@ export namespace Service {
     Authentication.Check.verifyUser(reviewer);
 
     await BusinessUser.Check.verify({ user_id: input.reviewee_id, tx });
-
-    // check category valid
-    await Check.categoryValid({
-      category_ids: input.rates.map(({ category_id }) => category_id),
-      tx
-    });
 
     const data = Json.createData({ ...input, reviewer_id: user_id });
     await tx.reviewModel.create({ data });

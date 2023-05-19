@@ -1,63 +1,40 @@
-import { IHSProvider } from "@DTO/user/hs_provider";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
-import HSProvider from "@PROVIDER/user/hs_provider";
-import { agreements, service_categories, users } from "@SDK";
+import { users } from "@SDK";
 import { internal } from "@TEST/internal";
-import { pick } from "@UTIL";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
 console.log("\n- users.hs_providers.getOne");
 
 export const test_success = async (connection: IConnection) => {
-  const input = typia.random<IHSProvider.ICreate>();
-  input.acceptant_agreement_ids = (
-    await agreements.getList(connection, {
-      target_type: ["all", "business", "RE"]
-    })
-  ).map(({ id }) => id);
-
-  const list = await service_categories.super.getList(connection, {
-    type: ["HS"]
+  const providers = await prisma.hSProviderModel.findMany({
+    where: {
+      base: { is_verified: true, base: { is_deleted: false } }
+    }
   });
-  const super_expertise = RandomGenerator.pick(list);
 
-  input.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
+  const user_id = RandomGenerator.pick(providers).id;
 
-  const data = HSProvider.Json.createData(input);
-  data.base.create.is_verified = true;
-  const { id } = await prisma.hSProviderModel.create({ data });
-
-  const received = await users.hs_providers.getOne(connection, id);
+  const received = await users.hs_providers.getOne(connection, user_id);
 
   typia.assertEquals(received);
 };
 
 export const test_not_found_if_unverified = async (connection: IConnection) => {
-  const input = typia.random<IHSProvider.ICreate>();
-  input.acceptant_agreement_ids = (
-    await agreements.getList(connection, {
-      target_type: ["all", "business", "RE"]
-    })
-  ).map(({ id }) => id);
-
-  const list = await service_categories.super.getList(connection, {
-    type: ["HS"]
+  const providers = await prisma.hSProviderModel.findMany({
+    where: {
+      base: { is_verified: false, base: { is_deleted: false } }
+    }
   });
-  const super_expertise = RandomGenerator.pick(list);
 
-  input.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  const user_id = RandomGenerator.pick(providers).id;
 
-  const data = HSProvider.Json.createData(input);
-  const { id } = await prisma.hSProviderModel.create({ data });
-
-  await internal.test_error(() => users.hs_providers.getOne(connection, id))(
-    HttpStatus.NOT_FOUND,
-    "User Not Found"
-  )();
+  await internal.test_error(() =>
+    users.hs_providers.getOne(connection, user_id)
+  )(HttpStatus.NOT_FOUND, "User Not Found")();
 };
 
 export const test_not_found = internal.test_error((connection: IConnection) =>

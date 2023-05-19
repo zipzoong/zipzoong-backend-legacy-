@@ -1,3 +1,4 @@
+import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
@@ -10,13 +11,18 @@ import typia from "typia";
 console.log("\n- users.re_agents.properties.getList");
 
 export const test_success = async (connection: IConnection) => {
-  const { data } = await users.re_agents.getList(connection, {});
-  const agent = RandomGenerator.pick(
-    data.filter(({ properties }) => properties.length > 0)
-  );
+  const agents = await prisma.rEAgentModel.findMany({
+    where: { base: { is_verified: true } },
+    include: { _count: { select: { properties: true } } }
+  });
+
+  const user_id = RandomGenerator.pick(
+    agents.filter((agent) => agent._count.properties > 0)
+  ).id;
+
   const received = await users.re_agents.properties.getList(
     connection,
-    agent.id,
+    user_id,
     {}
   );
 

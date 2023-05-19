@@ -1,6 +1,7 @@
 import { ITokens } from "@DTO/auth";
 import { IUser } from "@DTO/user/user";
 import { prisma } from "@INFRA/DB";
+import { RandomGenerator } from "@nestia/e2e";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
@@ -10,6 +11,49 @@ import { getISOString } from "@UTIL";
 import assert from "assert";
 import typia from "typia";
 import { addAuthorizationHeader } from "./utils";
+
+export const deleteCustomer = (customer_id: string) =>
+  prisma.$transaction([
+    prisma.oauthAccountModel.updateMany({
+      where: { customer_id },
+      data: { customer_id: null }
+    }),
+    prisma.agreementAcceptanceModel.deleteMany({
+      where: { user_id: customer_id }
+    }),
+    prisma.customerModel.delete({ where: { id: customer_id } }),
+    prisma.userModel.delete({ where: { id: customer_id } })
+  ]);
+
+export const deleteBusinessUser = (business_user_id: string) =>
+  prisma.$transaction([
+    prisma.oauthAccountModel.updateMany({
+      where: { business_user_id },
+      data: { business_user_id: null }
+    }),
+    prisma.agreementAcceptanceModel.deleteMany({
+      where: { user_id: business_user_id }
+    }),
+    prisma.subExpertiseModel.deleteMany({
+      where: { business_user_id: business_user_id }
+    }),
+    prisma.hSExampleImageModel.deleteMany({
+      where: { hs_provider_id: business_user_id }
+    }),
+    prisma.businessCertificationImageModel.deleteMany({
+      where: { business_user_id: business_user_id }
+    }),
+    prisma.hSProviderModel.deleteMany({
+      where: { id: business_user_id }
+    }),
+    prisma.rEAgentModel.deleteMany({
+      where: { id: business_user_id }
+    }),
+    prisma.businessUserModel.delete({
+      where: { id: business_user_id }
+    }),
+    prisma.userModel.delete({ where: { id: business_user_id } })
+  ]);
 
 export const test_error =
   <T = void>(api: (data: T) => Promise<unknown>) =>
@@ -53,13 +97,14 @@ export const test_not_exist_account =
 export const test_inactive_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
+    const code = "inactive_accessor";
     const { access_token } = await auth.sign_up.execute(connection, {
-      code: "inactive_accessor",
+      code,
       oauth_type: "kakao"
     });
 
     await prisma.oauthAccountModel.updateMany({
-      where: { oauth_sub: "inactive_accessor", oauth_type: "kakao" },
+      where: { oauth_sub: code, oauth_type: "kakao" },
       data: { is_deleted: true, deleted_at: getISOString() }
     });
 
@@ -71,7 +116,7 @@ export const test_inactive_account =
     await test_error(api)(HttpStatus.FORBIDDEN, "Account Inactive")(
       _connection
     );
-    await deleteAccessor(access_token);
+    await deleteAccount(access_token);
   };
 
 export const test_invalid_account =
@@ -116,26 +161,20 @@ export const test_user_unverified =
   async (connection: IConnection) => {
     let user_id: string;
     if (user_type === "customer") {
-      const customer = await prisma.customerModel.findFirstOrThrow({});
-      await prisma.customerModel.update({
-        where: { id: customer.id },
-        data: { phone: null }
+      const customers = await prisma.customerModel.findMany({
+        where: { phone: null, base: { is_deleted: false } }
       });
-      user_id = customer.id;
+      user_id = RandomGenerator.pick(customers).id;
     } else if (user_type === "home service provider") {
-      const provider = await prisma.hSProviderModel.findFirstOrThrow({});
-      await prisma.businessUserModel.update({
-        where: { id: provider.id },
-        data: { is_verified: false }
+      const providers = await prisma.hSProviderModel.findMany({
+        where: { base: { is_verified: false, base: { is_deleted: false } } }
       });
-      user_id = provider.id;
+      user_id = RandomGenerator.pick(providers).id;
     } else {
-      const agent = await prisma.rEAgentModel.findFirstOrThrow({});
-      await prisma.businessUserModel.update({
-        where: { id: agent.id },
-        data: { is_verified: false }
+      const agents = await prisma.rEAgentModel.findMany({
+        where: { base: { is_verified: false, base: { is_deleted: false } } }
       });
-      user_id = agent.id;
+      user_id = RandomGenerator.pick(agents).id;
     }
 
     const token = Authentication.Crypto.getUserToken({
@@ -147,21 +186,9 @@ export const test_user_unverified =
     await test_error(api)(HttpStatus.FORBIDDEN, "User Unverified")(
       addAuthorizationHeader(connection)("bearer", token)
     );
-
-    if (user_type === "customer") {
-      await prisma.customerModel.update({
-        where: { id: user_id },
-        data: { phone: "phone" }
-      });
-    } else {
-      await prisma.businessUserModel.update({
-        where: { id: user_id },
-        data: { is_verified: true }
-      });
-    }
   };
 
-export const deleteAccessor = async (accessor_token: string) => {
+export const deleteAccount = async (accessor_token: string) => {
   const { account_id } =
     Authentication.Crypto.getAccountTokenPayload(accessor_token);
 
@@ -173,7 +200,6 @@ export const test_authorization_fail =
   <U extends IUser.Type>(user_type: U) =>
   async (connection: IConnection) => {
     await test_invalid_user_token(api)(connection);
-
     await test_user_token_mismatch(user_type)(api)(connection);
 
     const payload = typia.random<Mutable<ITokens.IUserPayload>>();

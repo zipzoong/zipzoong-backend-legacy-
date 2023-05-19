@@ -4,15 +4,16 @@ import { prisma } from "@INFRA/DB";
 import { getISOString, isActive } from "@UTIL";
 import typia from "typia";
 import BusinessUser from "../business_user";
+import User from "../user";
 import { Json } from "./json";
 
 export namespace Map {
-  export const rEAgent = (
+  export const entity = (
     input: NonNullable<
       Awaited<
         ReturnType<
           typeof prisma.rEAgentModel.findFirst<{
-            include: ReturnType<typeof Json.findInclude>;
+            select: ReturnType<typeof Json.findSelect>;
           }>
         >
       >
@@ -25,6 +26,8 @@ export namespace Map {
       id: input.id,
       name: input.base.base.name,
       email: input.base.base.email,
+      created_at: getISOString(input.base.base.created_at),
+      updated_at: getISOString(input.base.base.updated_at),
       phone: input.base.phone,
       profile_image_url: input.base.profile_image_url,
       introduction: {
@@ -32,6 +35,8 @@ export namespace Map {
         content: input.base.introduction_content
       },
       expertise,
+      is_licensed: input.is_licensed,
+      properties: input.properties.map(property),
       real_estate: {
         num: input.re_num,
         name: input.re_name,
@@ -42,63 +47,70 @@ export namespace Map {
           second: input.base.address_second
         }
       },
-      is_licensed: input.is_licensed,
-      created_at: getISOString(input.base.base.created_at),
-      updated_at: getISOString(input.base.base.updated_at),
-      properties: input.properties.filter(isActive).map(property)
+      review_stats: BusinessUser.Map.reviewStats(input.base)
     };
     if (!typia.equals<IREAgent>(agent))
       throw Error(`re agent: ${input.id} has invalid data`);
     return agent;
   };
 
-  export const privateREAgent = (
+  export const privateEntity = (
     input: NonNullable<
       Awaited<
         ReturnType<
           typeof prisma.rEAgentModel.findFirst<{
-            include: ReturnType<typeof Json.findPrivateInclude>;
+            select: ReturnType<typeof Json.findPrivateSelect>;
           }>
         >
       >
     >
   ): IREAgent.IPrivate => {
-    const base = rEAgent(input);
+    const base = entity(input);
     const privateFragment: IBusinessUser.IPrivateFragment = {
       is_verified: input.base.is_verified,
-      business_certification_images: input.base.certification_images
-        .filter(({ is_deleted }) => !is_deleted)
-        .map(({ id, url }) => ({
-          id,
-          url
-        })),
-      acceptant_agreements: input.base.base.agreement_acceptances
-        .filter(isActive)
-        .filter(({ agreement }) => isActive(agreement))
-        .map(
-          ({
-            agreement: { id, title, content, target_type, is_required }
-          }) => ({
-            id,
-            title,
-            content,
-            target_type,
-            is_required
-          })
-        )
+      business_certification_images: BusinessUser.Map.certificationImages(
+        input.base.certification_images
+      ),
+      acceptant_agreements: User.Map.accepatantAgreements(
+        input.base.base.agreement_acceptances
+      )
     };
-    const agent = { ...base, ...privateFragment };
+    const agent: IREAgent.IPrivate = { ...base, ...privateFragment };
     if (!typia.equals<IREAgent.IPrivate>(agent))
       throw Error(`re agent: ${input.id} has invalid data`);
     return agent;
   };
 
+  export const summaryEntity = (
+    input: NonNullable<
+      Awaited<
+        ReturnType<
+          typeof prisma.rEAgentModel.findFirst<{
+            select: ReturnType<typeof Json.findSummarySelect>;
+          }>
+        >
+      >
+    >
+  ): IREAgent.ISummary => ({
+    type: "real estate agent",
+    id: input.id,
+    is_licensed: input.is_licensed,
+    profile_image_url: input.base.profile_image_url,
+    introduction: {
+      title: input.base.introduction_title,
+      content: input.base.introduction_content
+    },
+    review_stats: BusinessUser.Map.reviewStats(input.base),
+    expertise: BusinessUser.Map.expertise(input.base.sub_expertises),
+    name: input.base.base.name
+  });
+
   export const property = (
     input: NonNullable<
       Awaited<
         ReturnType<
-          typeof prisma.rEProertyModel.findFirst<{
-            include: ReturnType<typeof Json.findPropertyInclude>;
+          typeof prisma.rEPropertyModel.findFirst<{
+            select: ReturnType<typeof Json.findPropertySelect>;
           }>
         >
       >

@@ -8,6 +8,7 @@ import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import * as sdk from "@SDK";
 import { internal } from "@TEST/internal";
+import { isNotNull, pick } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- auth.user.create");
@@ -35,8 +36,17 @@ const test_success = async (
     internal.addAuthorizationHeader(connection)("basic", access_token),
     body
   );
+  const account = await prisma.oauthAccountModel.findFirstOrThrow({
+    where: { oauth_sub: code, oauth_type: "kakao" }
+  });
 
-  await internal.deleteAccessor(access_token);
+  if (isNotNull(account.customer_id)) {
+    await internal.deleteCustomer(account.customer_id);
+  }
+  if (isNotNull(account.business_user_id)) {
+    await internal.deleteBusinessUser(account.business_user_id);
+  }
+  await internal.deleteAccount(access_token);
 };
 
 export const test_success_customer_create = async (
@@ -47,7 +57,7 @@ export const test_success_customer_create = async (
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "customer"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
 
   await test_success(connection, create);
 };
@@ -57,7 +67,7 @@ export const test_success_re_agent_create = async (connection: IConnection) => {
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "business", "RE"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
 
   const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
@@ -77,7 +87,7 @@ export const test_success_hs_provider_create = async (
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "business", "HS"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
 
   const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
@@ -85,7 +95,7 @@ export const test_success_hs_provider_create = async (
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  create.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
 
   await test_success(connection, create);
 };
@@ -110,7 +120,7 @@ export const test_already_user_exist = async (connection: IConnection) => {
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "customer"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
   await sdk.auth.user.create(_connection, create);
 
   await internal.test_error(() => sdk.auth.user.create(_connection, create))(
@@ -118,7 +128,15 @@ export const test_already_user_exist = async (connection: IConnection) => {
     "User Already Created"
   )();
 
-  await internal.deleteAccessor(access_token);
+  const account = await prisma.oauthAccountModel.findFirstOrThrow({
+    where: { oauth_sub: code, oauth_type: "kakao" }
+  });
+
+  if (isNotNull(account.customer_id)) {
+    await internal.deleteCustomer(account.customer_id);
+  }
+
+  await internal.deleteAccount(access_token);
 };
 
 export const test_insufficient_agreement_acceptance = async (
@@ -135,7 +153,7 @@ export const test_insufficient_agreement_acceptance = async (
     )
   )(HttpStatus.FORBIDDEN, "Agreement Acceptance InSufficient")();
 
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };
 
 export const test_invalid_super_expertise = async (connection: IConnection) => {
@@ -145,7 +163,7 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "business", "RE"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
   create.phone_access_code = "test_phone";
 
   const super_expertise_list = await sdk.service_categories.super.getList(
@@ -154,7 +172,7 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  create.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
 
   await internal.test_error(() =>
     sdk.auth.user.create(
@@ -162,7 +180,7 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
       create
     )
   )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };
 
 export const test_invalid_sub_expertises = async (connection: IConnection) => {
@@ -172,7 +190,7 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "business", "RE"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
   create.phone_access_code = "phone";
 
   const valid_super_list = await sdk.service_categories.super.getList(
@@ -187,9 +205,9 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
   const invalid_sub_categories =
     RandomGenerator.pick(super_expertise_list).sub_categories;
 
-  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  create.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
 
-  create.sub_expertise_ids.push(...invalid_sub_categories.map(({ id }) => id));
+  create.sub_expertise_ids.push(...invalid_sub_categories.map(pick("id")));
 
   await internal.test_error(() =>
     sdk.auth.user.create(
@@ -197,14 +215,14 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
       create
     )
   )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };
 
 export const test_phone_required = async (connection: IConnection) => {
   const { access_token } = await getTokens(connection);
 
   await prisma.oauthAccountModel.updateMany({
-    where: { oauth_sub: "test_user_create", oauth_type: "kakao" },
+    where: { oauth_sub: code, oauth_type: "kakao" },
     data: { phone: null }
   });
 
@@ -217,7 +235,7 @@ export const test_phone_required = async (connection: IConnection) => {
   const list = await sdk.agreements.getList(connection, {
     target_type: ["all", "business", "HS"]
   });
-  create.acceptant_agreement_ids = list.map(({ id }) => id);
+  create.acceptant_agreement_ids = list.map(pick("id"));
   create.phone_access_code = null;
 
   const super_expertise_list = await sdk.service_categories.super.getList(
@@ -226,10 +244,12 @@ export const test_phone_required = async (connection: IConnection) => {
   );
   const super_expertise = RandomGenerator.pick(super_expertise_list);
 
-  create.sub_expertise_ids = super_expertise.sub_categories.map(({ id }) => id);
+  create.sub_expertise_ids = super_expertise.sub_categories.map(pick("id"));
 
   await internal.test_error(() => sdk.auth.user.create(_connection, create))(
     HttpStatus.BAD_REQUEST,
     "Phone Required"
   )();
+
+  await internal.deleteAccount(access_token);
 };

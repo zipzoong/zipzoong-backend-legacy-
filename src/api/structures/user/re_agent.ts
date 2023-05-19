@@ -8,6 +8,7 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
   /** 가입자 전화번호 */
   readonly phone: string;
   readonly profile_image_url: string;
+  readonly review_stats: IBusinessUser.IReviewStats;
   readonly introduction: IBusinessUser.IIntroduction;
   readonly expertise: IBusinessUser.IExpertise;
   /**
@@ -28,6 +29,20 @@ export interface IREAgent extends IUser.IBase<"real estate agent"> {
 }
 
 export namespace IREAgent {
+  export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;
+
+  export type ISummary = Pick<
+    IREAgent,
+    | "type"
+    | "id"
+    | "name"
+    | "profile_image_url"
+    | "introduction"
+    | "is_licensed"
+    | "review_stats"
+    | "expertise"
+  >;
+
   export interface IRealEstate {
     /** 부동산개설등록번호 */
     readonly num: string;
@@ -59,8 +74,6 @@ export namespace IREAgent {
       super_category_id?: string;
     }
   }
-
-  export type IPrivate = IREAgent & IBusinessUser.IPrivateFragment;
 
   export interface ICreate
     extends Omit<

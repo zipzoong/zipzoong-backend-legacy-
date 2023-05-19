@@ -45,6 +45,52 @@ export namespace Json {
     } satisfies Prisma.ZipzoongCareRequestModelCreateInput;
   };
 
+  export const findSelect = () =>
+    ({
+      id: true,
+      created_at: true,
+      updated_at: true,
+      is_deleted: true,
+      deleted_at: true,
+      care_start_date: true,
+      care_end_date: true,
+      detail: true,
+      status: true,
+      requester: {
+        select: {
+          id: true,
+          phone: true,
+          base: {
+            select: {
+              name: true
+            }
+          }
+        }
+      },
+      consultation_time_checks: {
+        select: {
+          id: true,
+          is_deleted: true,
+          deleted_at: true,
+          start_time: true,
+          end_time: true
+        }
+      },
+      service_checks: {
+        select: {
+          id: true,
+          is_deleted: true,
+          deleted_at: true,
+          service_super_category: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
+        }
+      }
+    } satisfies Prisma.ZipzoongCareRequestModelSelect);
+
   export const findInclude = () =>
     ({
       requester: { include: { base: true } },

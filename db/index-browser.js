@@ -139,7 +139,7 @@ exports.Prisma.CustomerModelScalarFieldEnum = {
   profile_image_url: 'profile_image_url'
 };
 
-exports.Prisma.HSIntroductionImageModelScalarFieldEnum = {
+exports.Prisma.HSExampleImageModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -188,17 +188,6 @@ exports.Prisma.REAgentModelScalarFieldEnum = {
   re_licensed_agent_name: 're_licensed_agent_name'
 };
 
-exports.Prisma.REProertyModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  name: 'name',
-  main_image_url: 'main_image_url',
-  re_agent_id: 're_agent_id'
-};
-
 exports.Prisma.REPropertyCategoryModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
@@ -217,6 +206,17 @@ exports.Prisma.REPropertyMiddleCategoryModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   super_category_id: 'super_category_id'
+};
+
+exports.Prisma.REPropertyModelScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted',
+  deleted_at: 'deleted_at',
+  name: 'name',
+  main_image_url: 'main_image_url',
+  re_agent_id: 're_agent_id'
 };
 
 exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {
@@ -238,27 +238,6 @@ exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.RateCategoryModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  name: 'name',
-  target_type: 'target_type'
-};
-
-exports.Prisma.RateModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  score: 'score',
-  category_id: 'category_id',
-  review_id: 'review_id'
-};
-
 exports.Prisma.ReviewModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
@@ -267,7 +246,16 @@ exports.Prisma.ReviewModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   reviewer_id: 'reviewer_id',
   reviewee_id: 'reviewee_id',
-  content: 'content'
+  content: 'content',
+  rating: 'rating'
+};
+
+exports.Prisma.ReviewStatsModelScalarFieldEnum = {
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  review_cnt: 'review_cnt',
+  rating_sum: 'rating_sum',
+  reviewee_id: 'reviewee_id'
 };
 
 exports.Prisma.ServiceSubCategoryModelScalarFieldEnum = {
@@ -374,12 +362,6 @@ exports.OauthType = {
   naver: 'naver'
 };
 
-exports.RateTargetType = {
-  all: 'all',
-  HS: 'HS',
-  RE: 'RE'
-};
-
 exports.ServiceType = {
   HS: 'HS',
   RE: 'RE'
@@ -393,14 +375,13 @@ exports.ZipzoongCareStatus = {
 };
 
 exports.Prisma.ModelName = {
-  REProertyModel: 'REProertyModel',
+  REPropertyModel: 'REPropertyModel',
   REPropertyCategoryModel: 'REPropertyCategoryModel',
   REPropertySubCategoryModel: 'REPropertySubCategoryModel',
   REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
   REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
   ReviewModel: 'ReviewModel',
-  RateModel: 'RateModel',
-  RateCategoryModel: 'RateCategoryModel',
+  ReviewStatsModel: 'ReviewStatsModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
   ServiceSubCategoryModel: 'ServiceSubCategoryModel',
@@ -415,7 +396,7 @@ exports.Prisma.ModelName = {
   REAgentModel: 'REAgentModel',
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',
-  HSIntroductionImageModel: 'HSIntroductionImageModel',
+  HSExampleImageModel: 'HSExampleImageModel',
   OauthAccountModel: 'OauthAccountModel'
 };
 

@@ -15,19 +15,7 @@ export namespace Json {
       content: input.content,
       reviewer: { connect: { id: input.reviewer_id } },
       reviewee: { connect: { id: input.reviewee_id } },
-      rates: {
-        createMany: {
-          data: input.rates.map((rate) => ({
-            id: randomUUID(),
-            created_at: now,
-            updated_at: now,
-            is_deleted: false,
-            deleted_at: null,
-            score: rate.score,
-            category_id: rate.category_id
-          }))
-        }
-      }
+      rating: input.rating
     } satisfies Prisma.ReviewModelCreateInput;
   };
 }

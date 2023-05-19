@@ -43,7 +43,7 @@ export function getList
 export namespace getList
 {
     export type Query = IBusinessUser.ISearch;
-    export type Output = IPaginatedResponse<IREAgent>;
+    export type Output = IPaginatedResponse<IREAgent.ISummary>;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents";

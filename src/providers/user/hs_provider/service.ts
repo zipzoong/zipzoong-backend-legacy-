@@ -15,7 +15,9 @@ export namespace Service {
     page = 1,
     super_category_id,
     sub_category_id
-  }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IHSProvider>> =>
+  }: IBusinessUser.ISearch): Promise<
+    IPaginatedResponse<IHSProvider.ISummary>
+  > =>
     pipe(
       30,
 
@@ -30,12 +32,12 @@ export namespace Service {
               }
             }
           },
-          include: Json.findInclude(),
+          select: Json.findSummarySelect(),
           take,
           skip: (page - 1) * take
         }),
 
-      map(Map.hSProvider),
+      map(Map.summaryEntity),
 
       toArray,
 
@@ -55,7 +57,7 @@ export namespace Service {
       findFirst: async (id) =>
         tx.hSProviderModel.findFirst({
           where: { id },
-          include: Json.findInclude()
+          select: Json.findSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
@@ -65,7 +67,7 @@ export namespace Service {
           ? toThrow(User.Exception.NotFound)
           : provider,
 
-      mapper: Map.hSProvider
+      mapper: Map.entity
     });
 
   export namespace Me {
@@ -82,14 +84,14 @@ export namespace Service {
         findFirst: async (id) =>
           tx.hSProviderModel.findFirst({
             where: { id },
-            include: Json.findPrivateInclude()
+            select: Json.findPrivateSelect()
           }),
 
         exception_for_notfound: Authentication.Exception.MeNotFound,
 
         validator: identity,
 
-        mapper: Map.privateHSProvider
+        mapper: Map.privateEntity
       });
   }
 }

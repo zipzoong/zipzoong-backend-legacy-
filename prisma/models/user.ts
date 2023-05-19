@@ -3,7 +3,7 @@ import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import { GenderType } from "../enums";
 import { REProperty } from "./real_estate";
-import { Review } from "./review";
+import { Review, ReviewStats } from "./review";
 import { OauthAccount } from "./account";
 import { AgreementAcceptance } from "./agreement";
 import { ZipzoongCareRequest } from "./zipzoong_care";
@@ -62,6 +62,7 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accounts", OauthAccount, { list: true })
     .relation("reviews", Review, { list: true })
+    .relation("review_stats", ReviewStats, { optional: true })
     .map("business_users");
 });
 
@@ -104,7 +105,7 @@ export const HSProvider = createModel("HSProviderModel", (model) => {
     .string("id", { id: true })
     .string("business_registration_num")
     .relation("base", BusinessUser, one_to_one)
-    .relation("introduction_images", HSIntroductionImage, { list: true })
+    .relation("example_images", HSExampleImage, { list: true })
     .map("hs_providers");
 });
 
@@ -125,19 +126,16 @@ export const BusinessCertificationImage = createModel(
   }
 );
 
-export const HSIntroductionImage = createModel(
-  "HSIntroductionImageModel",
-  (model) => {
-    model
-      .mixin(Entity)
-      .string("hs_provider_id")
-      .string("url")
-      .relation("hs_provider", HSProvider, {
-        fields: ["hs_provider_id"],
-        references: ["id"],
-        onUpdate: "NoAction",
-        onDelete: "NoAction"
-      })
-      .map("hs_introduction_images");
-  }
-);
+export const HSExampleImage = createModel("HSExampleImageModel", (model) => {
+  model
+    .mixin(Entity)
+    .string("hs_provider_id")
+    .string("url")
+    .relation("hs_provider", HSProvider, {
+      fields: ["hs_provider_id"],
+      references: ["id"],
+      onUpdate: "NoAction",
+      onDelete: "NoAction"
+    })
+    .map("hs_example_images");
+});

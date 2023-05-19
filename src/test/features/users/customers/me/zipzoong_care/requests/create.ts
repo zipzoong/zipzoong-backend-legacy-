@@ -34,19 +34,37 @@ export const test_success = async (connection: IConnection) => {
   });
   body.service_ids = RandomGenerator.sample(received)(3).map(pick("id"));
 
-  const customers = await prisma.customerModel.findMany({
-    where: { base: { is_deleted: false }, phone: { not: null } }
-  });
+  const customers = (
+    await prisma.customerModel.findMany({
+      where: { base: { is_deleted: false }, phone: { not: null } },
+      include: { _count: { select: { zipzoong_care_requests: true } } }
+    })
+  ).filter((customer) => customer._count.zipzoong_care_requests === 0);
+
+  const user_id = RandomGenerator.pick(customers).id;
 
   const token = Authentication.Crypto.getUserToken({
     type: "user",
-    user_id: RandomGenerator.pick(customers).id,
+    user_id,
     user_type: "customer"
   });
+
   await users.customers.me.zipzoong_care.requests.create(
     internal.addAuthorizationHeader(connection)("bearer", token),
     body
   );
+
+  await prisma.$transaction([
+    prisma.zipzoongCareConsultationTimeCheckModel.deleteMany({
+      where: { request: { requester_id: user_id } }
+    }),
+    prisma.zipzoongCareServiceCheckModel.deleteMany({
+      where: { request: { requester_id: user_id } }
+    }),
+    prisma.zipzoongCareRequestModel.deleteMany({
+      where: { requester_id: user_id }
+    })
+  ]);
 };
 
 export const test_authorization_fail = internal.test_authorization_fail(

@@ -15,7 +15,7 @@ export namespace Service {
     page = 1,
     super_category_id,
     sub_category_id
-  }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IREAgent>> =>
+  }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IREAgent.ISummary>> =>
     pipe(
       30,
 
@@ -33,12 +33,12 @@ export namespace Service {
               }
             }
           },
-          include: Json.findInclude(),
+          select: Json.findSummarySelect(),
           take,
           skip: (page - 1) * take
         }),
 
-      map(Map.rEAgent),
+      map(Map.summaryEntity),
 
       toArray,
 
@@ -58,7 +58,7 @@ export namespace Service {
       findFirst: async (id) =>
         tx.rEAgentModel.findFirst({
           where: { id },
-          include: Json.findInclude()
+          select: Json.findSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
@@ -68,7 +68,7 @@ export namespace Service {
           ? toThrow(User.Exception.NotFound)
           : agent,
 
-      mapper: Map.rEAgent
+      mapper: Map.entity
     });
 
   export namespace Me {
@@ -86,14 +86,14 @@ export namespace Service {
         findFirst: async (id) =>
           tx.rEAgentModel.findFirst({
             where: { id },
-            include: Json.findPrivateInclude()
+            select: Json.findPrivateSelect()
           }),
 
         exception_for_notfound: Authentication.Exception.MeNotFound,
 
         validator: identity,
 
-        mapper: Map.privateREAgent
+        mapper: Map.privateEntity
       });
 
     export namespace Property {
@@ -115,7 +115,7 @@ export namespace Service {
           Authentication.Check.verifyUser,
 
           async (agent) =>
-            prisma.rEProertyModel.findMany({
+            prisma.rEPropertyModel.findMany({
               where: {
                 re_agent_id: agent.id,
                 is_deleted: false,
@@ -129,7 +129,7 @@ export namespace Service {
                   }
                 }
               },
-              include: Json.findPropertyInclude(),
+              select: Json.findPropertySelect(),
               take: 30,
               skip: 30 * (page - 1)
             }),
@@ -160,7 +160,7 @@ export namespace Service {
         getOne({ user_id }),
 
         async (agent) =>
-          prisma.rEProertyModel.findMany({
+          prisma.rEPropertyModel.findMany({
             where: {
               re_agent_id: agent.id,
               is_deleted: false,
@@ -174,7 +174,7 @@ export namespace Service {
                 }
               }
             },
-            include: Json.findPropertyInclude(),
+            select: Json.findPropertySelect(),
             take: 30,
             skip: 30 * (page - 1)
           }),

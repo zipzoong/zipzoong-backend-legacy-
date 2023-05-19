@@ -32,12 +32,6 @@ enum AgreementTargetType {
   RE
 }
 
-enum RateTargetType {
-  all
-  HS
-  RE
-}
-
 enum ZipzoongCareStatus {
   pending
   caring
@@ -45,7 +39,7 @@ enum ZipzoongCareStatus {
   cancelled
 }
 
-model REProertyModel {
+model REPropertyModel {
   id             String                    @id
   created_at     DateTime                  @database.Timestamptz
   updated_at     DateTime                  @database.Timestamptz
@@ -68,7 +62,7 @@ model REPropertyCategoryModel {
   deleted_at      DateTime?                  @database.Timestamptz
   re_property_id  String
   sub_category_id String
-  re_property     REProertyModel             @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  re_property     REPropertyModel            @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   sub_category    REPropertySubCategoryModel @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("re_property_categories")
@@ -123,40 +117,22 @@ model ReviewModel {
   reviewer_id String
   reviewee_id String
   content     String
+  rating      Int               @database.SmallInt
   reviewer    CustomerModel     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   reviewee    BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  rates       RateModel[]
 
   @@map("reviews")
 }
 
-model RateModel {
-  id          String            @id
-  created_at  DateTime          @database.Timestamptz
-  updated_at  DateTime          @database.Timestamptz
-  is_deleted  Boolean
-  deleted_at  DateTime?         @database.Timestamptz
-  score       Int               @database.SmallInt
-  category_id String
-  review_id   String
-  category    RateCategoryModel @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  review      ReviewModel       @relation(fields: [review_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model ReviewStatsModel {
+  created_at  DateTime          @default(now()) @database.Timestamptz
+  updated_at  DateTime          @default(now()) @database.Timestamptz
+  review_cnt  Decimal
+  rating_sum  Decimal
+  reviewee_id String            @id
+  reviewee    BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([category_id, review_id])
-  @@map("rates")
-}
-
-model RateCategoryModel {
-  id          String         @id
-  created_at  DateTime       @database.Timestamptz
-  updated_at  DateTime       @database.Timestamptz
-  is_deleted  Boolean
-  deleted_at  DateTime?      @database.Timestamptz
-  name        String         @unique
-  target_type RateTargetType
-  rates       RateModel[]
-
-  @@map("rate_categories")
+  @@map("review_stats")
 }
 
 model AgreementModel {
@@ -310,6 +286,7 @@ model BusinessUserModel {
   sub_expertises       SubExpertiseModel[]
   oauth_accounts       OauthAccountModel[]
   reviews              ReviewModel[]
+  review_stats         ReviewStatsModel?
 
   @@map("business_users")
 }
@@ -337,16 +314,16 @@ model REAgentModel {
   re_phone               String
   re_licensed_agent_name String
   base                   BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  properties             REProertyModel[]
+  properties             REPropertyModel[]
 
   @@map("re_agents")
 }
 
 model HSProviderModel {
-  id                        String                     @id
+  id                        String                @id
   business_registration_num String
-  base                      BusinessUserModel          @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  introduction_images       HSIntroductionImageModel[]
+  base                      BusinessUserModel     @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  example_images            HSExampleImageModel[]
 
   @@map("hs_providers")
 }
@@ -364,7 +341,7 @@ model BusinessCertificationImageModel {
   @@map("business_certification_images")
 }
 
-model HSIntroductionImageModel {
+model HSExampleImageModel {
   id             String          @id
   created_at     DateTime        @database.Timestamptz
   updated_at     DateTime        @database.Timestamptz
@@ -374,7 +351,7 @@ model HSIntroductionImageModel {
   url            String
   hs_provider    HSProviderModel @relation(fields: [hs_provider_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
 
-  @@map("hs_introduction_images")
+  @@map("hs_example_images")
 }
 
 model OauthAccountModel {

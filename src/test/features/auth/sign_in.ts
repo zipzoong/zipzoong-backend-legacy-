@@ -4,13 +4,16 @@ import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
+import { pick } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- auth.sign_in.execute");
 
+const code = "test_sign_in";
+
 export const test_success = async (connection: IConnection) => {
   const { access_token } = await auth.sign_up.execute(connection, {
-    code: "test_sign_in",
+    code,
     oauth_type: "kakao"
   });
 
@@ -24,21 +27,24 @@ export const test_success = async (connection: IConnection) => {
     await agreements.getList(connection, {
       target_type: ["all", "customer"]
     })
-  ).map(({ id }) => id);
+  ).map(pick("id"));
 
   await auth.user.create(_connection, input);
 
   const received = await auth.sign_in.execute(_connection, {
-    code: "test_sign_in",
+    code,
     oauth_type: "kakao",
     user_type: "customer"
   });
 
   typia.assertEquals(received);
 
-  Authentication.Crypto.getUserTokenPayload(received.access_token);
+  const { user_id } = Authentication.Crypto.getUserTokenPayload(
+    received.access_token
+  );
 
-  await internal.deleteAccessor(access_token);
+  await internal.deleteCustomer(user_id);
+  await internal.deleteAccount(access_token);
 };
 
 export const test_invalid_account = internal.test_invalid_account(
@@ -52,7 +58,7 @@ export const test_invalid_account = internal.test_invalid_account(
 
 export const test_not_found_user = async (connection: IConnection) => {
   const { access_token } = await auth.sign_up.execute(connection, {
-    code: "test_sign_in",
+    code,
     oauth_type: "kakao"
   });
 
@@ -62,11 +68,11 @@ export const test_not_found_user = async (connection: IConnection) => {
   );
   await internal.test_error(() =>
     auth.sign_in.execute(_connection, {
-      code: "test_sign_in",
+      code,
       oauth_type: "kakao",
       user_type: "customer"
     })
   )(HttpStatus.FORBIDDEN, "User Not Found")();
 
-  await internal.deleteAccessor(access_token);
+  await internal.deleteAccount(access_token);
 };

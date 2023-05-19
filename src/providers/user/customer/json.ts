@@ -38,16 +38,55 @@ export namespace Json {
       }
     } satisfies Prisma.CustomerModelCreateInput;
   };
-  export const findInclude = () =>
+
+  export const findSelect = () =>
     ({
-      base: true
-    } satisfies Prisma.CustomerModelInclude);
-  export const findPrivateInclude = () =>
-    ({
+      id: true,
+      phone: true,
+      profile_image_url: true,
+      address_first: true,
+      address_second: true,
+      gender: true,
+      birth: true,
       base: {
-        include: {
-          agreement_acceptances: { include: { agreement: true } }
+        select: {
+          name: true,
+          email: true,
+          created_at: true,
+          updated_at: true,
+          is_deleted: true,
+          deleted_at: true
         }
       }
-    } satisfies Prisma.CustomerModelInclude);
+    } satisfies Prisma.CustomerModelSelect);
+
+  export const findPrivateSelect = () =>
+    ({
+      id: true,
+      phone: true,
+      profile_image_url: true,
+      address_first: true,
+      address_second: true,
+      gender: true,
+      birth: true,
+      base: {
+        select: {
+          name: true,
+          email: true,
+          created_at: true,
+          updated_at: true,
+          is_deleted: true,
+          deleted_at: true,
+          agreement_acceptances: {
+            select: {
+              created_at: true,
+              updated_at: true,
+              is_deleted: true,
+              deleted_at: true,
+              agreement: true
+            }
+          }
+        }
+      }
+    } satisfies Prisma.CustomerModelSelect);
 }

@@ -20,10 +20,6 @@ export const AgreementTargetType = createEnum("AgreementTargetType", (Enum) => {
     .addValue("RE");
 });
 
-export const RateTargetType = createEnum("RateTargetType", (Enum) => {
-  Enum.addValue("all").addValue("HS").addValue("RE");
-});
-
 export const ZipzoongCareStatus = createEnum("ZipzoongCareStatus", (Enum) => {
   Enum.addValue("pending")
     .addValue("caring")

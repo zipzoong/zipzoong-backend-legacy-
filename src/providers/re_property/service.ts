@@ -1,5 +1,6 @@
 import { IPaginatedResponse } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
+import { map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
 import REAgent from "@PROVIDER/user/re_agent";
@@ -8,38 +9,44 @@ import { Json } from "./json";
 import { Map } from "./map";
 
 export namespace Service {
-  export const getList = async ({
+  export const getList = ({
     page = 1,
     sub_category_id,
     middle_category_id,
     super_category_id
-  }: IREProperty.ISearch): Promise<IPaginatedResponse<IREProperty>> => {
-    const take = 30;
+  }: IREProperty.ISearch): Promise<IPaginatedResponse<IREProperty>> =>
+    pipe(
+      30,
 
-    const result = await prisma.rEProertyModel.findMany({
-      where: {
-        is_deleted: false,
-        re_agent: {
-          base: { is_verified: true, base: { is_deleted: false } }
-        },
-        categories: {
-          some: {
+      async (take) =>
+        prisma.rEPropertyModel.findMany({
+          where: {
             is_deleted: false,
-            sub_category_id,
-            sub_category: {
-              middle_category_id,
-              middle_category: { super_category_id }
+            re_agent: {
+              base: { is_verified: true, base: { is_deleted: false } }
+            },
+            categories: {
+              some: {
+                is_deleted: false,
+                sub_category_id,
+                sub_category: {
+                  middle_category_id,
+                  middle_category: { super_category_id }
+                }
+              }
             }
-          }
-        }
-      },
-      take,
-      skip: (page - 1) * take,
-      include: Json.findInclude()
-    });
+          },
+          select: Json.findSelect(),
+          take,
+          skip: (page - 1) * take
+        }),
 
-    return { data: result.map(Map.rEProperty), page };
-  };
+      map(Map.entity),
+
+      toArray,
+
+      (data) => ({ data, page })
+    );
 
   export const createMany = async ({
     input,
@@ -64,7 +71,7 @@ export namespace Service {
     );
     const createManyData = Json.createManyData(createData);
 
-    await tx.rEProertyModel.createMany({
+    await tx.rEPropertyModel.createMany({
       data: createManyData.property_create_many_input
     });
     await tx.rEPropertyCategoryModel.createMany({

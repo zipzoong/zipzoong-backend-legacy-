@@ -13,10 +13,10 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
- * Model REProertyModel
+ * Model REPropertyModel
  * 
  */
-export type REProertyModel = {
+export type REPropertyModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -95,35 +95,19 @@ export type ReviewModel = {
   reviewer_id: string
   reviewee_id: string
   content: string
+  rating: number
 }
 
 /**
- * Model RateModel
+ * Model ReviewStatsModel
  * 
  */
-export type RateModel = {
-  id: string
+export type ReviewStatsModel = {
   created_at: Date
   updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  score: number
-  category_id: string
-  review_id: string
-}
-
-/**
- * Model RateCategoryModel
- * 
- */
-export type RateCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  target_type: RateTargetType
+  review_cnt: Prisma.Decimal
+  rating_sum: Prisma.Decimal
+  reviewee_id: string
 }
 
 /**
@@ -324,10 +308,10 @@ export type BusinessCertificationImageModel = {
 }
 
 /**
- * Model HSIntroductionImageModel
+ * Model HSExampleImageModel
  * 
  */
-export type HSIntroductionImageModel = {
+export type HSExampleImageModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -397,15 +381,6 @@ export const OauthType: {
 export type OauthType = (typeof OauthType)[keyof typeof OauthType]
 
 
-export const RateTargetType: {
-  all: 'all',
-  HS: 'HS',
-  RE: 'RE'
-};
-
-export type RateTargetType = (typeof RateTargetType)[keyof typeof RateTargetType]
-
-
 export const ServiceType: {
   HS: 'HS',
   RE: 'RE'
@@ -431,8 +406,8 @@ export type ZipzoongCareStatus = (typeof ZipzoongCareStatus)[keyof typeof Zipzoo
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more REProertyModels
- * const rEProertyModels = await prisma.rEProertyModel.findMany()
+ * // Fetch zero or more REPropertyModels
+ * const rEPropertyModels = await prisma.rEPropertyModel.findMany()
  * ```
  *
  * 
@@ -452,8 +427,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more REProertyModels
-   * const rEProertyModels = await prisma.rEProertyModel.findMany()
+   * // Fetch zero or more REPropertyModels
+   * const rEPropertyModels = await prisma.rEPropertyModel.findMany()
    * ```
    *
    * 
@@ -542,14 +517,14 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
-   * `prisma.rEProertyModel`: Exposes CRUD operations for the **REProertyModel** model.
+   * `prisma.rEPropertyModel`: Exposes CRUD operations for the **REPropertyModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more REProertyModels
-    * const rEProertyModels = await prisma.rEProertyModel.findMany()
+    * // Fetch zero or more REPropertyModels
+    * const rEPropertyModels = await prisma.rEPropertyModel.findMany()
     * ```
     */
-  get rEProertyModel(): Prisma.REProertyModelDelegate<GlobalReject>;
+  get rEPropertyModel(): Prisma.REPropertyModelDelegate<GlobalReject>;
 
   /**
    * `prisma.rEPropertyCategoryModel`: Exposes CRUD operations for the **REPropertyCategoryModel** model.
@@ -602,24 +577,14 @@ export class PrismaClient<
   get reviewModel(): Prisma.ReviewModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.rateModel`: Exposes CRUD operations for the **RateModel** model.
+   * `prisma.reviewStatsModel`: Exposes CRUD operations for the **ReviewStatsModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more RateModels
-    * const rateModels = await prisma.rateModel.findMany()
+    * // Fetch zero or more ReviewStatsModels
+    * const reviewStatsModels = await prisma.reviewStatsModel.findMany()
     * ```
     */
-  get rateModel(): Prisma.RateModelDelegate<GlobalReject>;
-
-  /**
-   * `prisma.rateCategoryModel`: Exposes CRUD operations for the **RateCategoryModel** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more RateCategoryModels
-    * const rateCategoryModels = await prisma.rateCategoryModel.findMany()
-    * ```
-    */
-  get rateCategoryModel(): Prisma.RateCategoryModelDelegate<GlobalReject>;
+  get reviewStatsModel(): Prisma.ReviewStatsModelDelegate<GlobalReject>;
 
   /**
    * `prisma.agreementModel`: Exposes CRUD operations for the **AgreementModel** model.
@@ -762,14 +727,14 @@ export class PrismaClient<
   get businessCertificationImageModel(): Prisma.BusinessCertificationImageModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.hSIntroductionImageModel`: Exposes CRUD operations for the **HSIntroductionImageModel** model.
+   * `prisma.hSExampleImageModel`: Exposes CRUD operations for the **HSExampleImageModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more HSIntroductionImageModels
-    * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany()
+    * // Fetch zero or more HSExampleImageModels
+    * const hSExampleImageModels = await prisma.hSExampleImageModel.findMany()
     * ```
     */
-  get hSIntroductionImageModel(): Prisma.HSIntroductionImageModelDelegate<GlobalReject>;
+  get hSExampleImageModel(): Prisma.HSExampleImageModelDelegate<GlobalReject>;
 
   /**
    * `prisma.oauthAccountModel`: Exposes CRUD operations for the **OauthAccountModel** model.
@@ -1249,14 +1214,13 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    REProertyModel: 'REProertyModel',
+    REPropertyModel: 'REPropertyModel',
     REPropertyCategoryModel: 'REPropertyCategoryModel',
     REPropertySubCategoryModel: 'REPropertySubCategoryModel',
     REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
     REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
     ReviewModel: 'ReviewModel',
-    RateModel: 'RateModel',
-    RateCategoryModel: 'RateCategoryModel',
+    ReviewStatsModel: 'ReviewStatsModel',
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
     ServiceSubCategoryModel: 'ServiceSubCategoryModel',
@@ -1271,7 +1235,7 @@ export namespace Prisma {
     REAgentModel: 'REAgentModel',
     HSProviderModel: 'HSProviderModel',
     BusinessCertificationImageModel: 'BusinessCertificationImageModel',
-    HSIntroductionImageModel: 'HSIntroductionImageModel',
+    HSExampleImageModel: 'HSExampleImageModel',
     OauthAccountModel: 'OauthAccountModel'
   };
 
@@ -1434,30 +1398,30 @@ export namespace Prisma {
 
 
   /**
-   * Count Type REProertyModelCountOutputType
+   * Count Type REPropertyModelCountOutputType
    */
 
 
-  export type REProertyModelCountOutputType = {
+  export type REPropertyModelCountOutputType = {
     categories: number
   }
 
-  export type REProertyModelCountOutputTypeSelect = {
+  export type REPropertyModelCountOutputTypeSelect = {
     categories?: boolean
   }
 
-  export type REProertyModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REProertyModelCountOutputTypeArgs> =
+  export type REPropertyModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertyModelCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REProertyModelCountOutputType :
+    S extends true ? REPropertyModelCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (REProertyModelCountOutputTypeArgs)
-    ? REProertyModelCountOutputType 
-    : S extends { select: any } & (REProertyModelCountOutputTypeArgs)
+    S extends { include: any } & (REPropertyModelCountOutputTypeArgs)
+    ? REPropertyModelCountOutputType 
+    : S extends { select: any } & (REPropertyModelCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof REProertyModelCountOutputType ? REProertyModelCountOutputType[P] : never
+    P extends keyof REPropertyModelCountOutputType ? REPropertyModelCountOutputType[P] : never
   } 
-      : REProertyModelCountOutputType
+      : REPropertyModelCountOutputType
 
 
 
@@ -1465,13 +1429,13 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * REProertyModelCountOutputType without action
+   * REPropertyModelCountOutputType without action
    */
-  export type REProertyModelCountOutputTypeArgs = {
+  export type REPropertyModelCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModelCountOutputType
+     * Select specific fields to fetch from the REPropertyModelCountOutputType
      */
-    select?: REProertyModelCountOutputTypeSelect | null
+    select?: REPropertyModelCountOutputTypeSelect | null
   }
 
 
@@ -1601,92 +1565,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the REPropertySuperCategoryModelCountOutputType
      */
     select?: REPropertySuperCategoryModelCountOutputTypeSelect | null
-  }
-
-
-
-  /**
-   * Count Type ReviewModelCountOutputType
-   */
-
-
-  export type ReviewModelCountOutputType = {
-    rates: number
-  }
-
-  export type ReviewModelCountOutputTypeSelect = {
-    rates?: boolean
-  }
-
-  export type ReviewModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ReviewModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ReviewModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ReviewModelCountOutputTypeArgs)
-    ? ReviewModelCountOutputType 
-    : S extends { select: any } & (ReviewModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ReviewModelCountOutputType ? ReviewModelCountOutputType[P] : never
-  } 
-      : ReviewModelCountOutputType
-
-
-
-
-  // Custom InputTypes
-
-  /**
-   * ReviewModelCountOutputType without action
-   */
-  export type ReviewModelCountOutputTypeArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModelCountOutputType
-     */
-    select?: ReviewModelCountOutputTypeSelect | null
-  }
-
-
-
-  /**
-   * Count Type RateCategoryModelCountOutputType
-   */
-
-
-  export type RateCategoryModelCountOutputType = {
-    rates: number
-  }
-
-  export type RateCategoryModelCountOutputTypeSelect = {
-    rates?: boolean
-  }
-
-  export type RateCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | RateCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? RateCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (RateCategoryModelCountOutputTypeArgs)
-    ? RateCategoryModelCountOutputType 
-    : S extends { select: any } & (RateCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof RateCategoryModelCountOutputType ? RateCategoryModelCountOutputType[P] : never
-  } 
-      : RateCategoryModelCountOutputType
-
-
-
-
-  // Custom InputTypes
-
-  /**
-   * RateCategoryModelCountOutputType without action
-   */
-  export type RateCategoryModelCountOutputTypeArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModelCountOutputType
-     */
-    select?: RateCategoryModelCountOutputTypeSelect | null
   }
 
 
@@ -2055,11 +1933,11 @@ export namespace Prisma {
 
 
   export type HSProviderModelCountOutputType = {
-    introduction_images: number
+    example_images: number
   }
 
   export type HSProviderModelCountOutputTypeSelect = {
-    introduction_images?: boolean
+    example_images?: boolean
   }
 
   export type HSProviderModelCountOutputTypeGetPayload<S extends boolean | null | undefined | HSProviderModelCountOutputTypeArgs> =
@@ -2097,17 +1975,17 @@ export namespace Prisma {
    */
 
   /**
-   * Model REProertyModel
+   * Model REPropertyModel
    */
 
 
-  export type AggregateREProertyModel = {
-    _count: REProertyModelCountAggregateOutputType | null
-    _min: REProertyModelMinAggregateOutputType | null
-    _max: REProertyModelMaxAggregateOutputType | null
+  export type AggregateREPropertyModel = {
+    _count: REPropertyModelCountAggregateOutputType | null
+    _min: REPropertyModelMinAggregateOutputType | null
+    _max: REPropertyModelMaxAggregateOutputType | null
   }
 
-  export type REProertyModelMinAggregateOutputType = {
+  export type REPropertyModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -2118,7 +1996,7 @@ export namespace Prisma {
     re_agent_id: string | null
   }
 
-  export type REProertyModelMaxAggregateOutputType = {
+  export type REPropertyModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -2129,7 +2007,7 @@ export namespace Prisma {
     re_agent_id: string | null
   }
 
-  export type REProertyModelCountAggregateOutputType = {
+  export type REPropertyModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -2142,7 +2020,7 @@ export namespace Prisma {
   }
 
 
-  export type REProertyModelMinAggregateInputType = {
+  export type REPropertyModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -2153,7 +2031,7 @@ export namespace Prisma {
     re_agent_id?: true
   }
 
-  export type REProertyModelMaxAggregateInputType = {
+  export type REPropertyModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -2164,7 +2042,7 @@ export namespace Prisma {
     re_agent_id?: true
   }
 
-  export type REProertyModelCountAggregateInputType = {
+  export type REPropertyModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -2176,80 +2054,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REProertyModelAggregateArgs = {
+  export type REPropertyModelAggregateArgs = {
     /**
-     * Filter which REProertyModel to aggregate.
+     * Filter which REPropertyModel to aggregate.
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of REProertyModels to fetch.
+     * Determine the order of REPropertyModels to fetch.
      */
-    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: REProertyModelWhereUniqueInput
+    cursor?: REPropertyModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` REProertyModels from the position of the cursor.
+     * Take `±n` REPropertyModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` REProertyModels.
+     * Skip the first `n` REPropertyModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned REProertyModels
+     * Count returned REPropertyModels
     **/
-    _count?: true | REProertyModelCountAggregateInputType
+    _count?: true | REPropertyModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: REProertyModelMinAggregateInputType
+    _min?: REPropertyModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: REProertyModelMaxAggregateInputType
+    _max?: REPropertyModelMaxAggregateInputType
   }
 
-  export type GetREProertyModelAggregateType<T extends REProertyModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateREProertyModel]: P extends '_count' | 'count'
+  export type GetREPropertyModelAggregateType<T extends REPropertyModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateREPropertyModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateREProertyModel[P]>
-      : GetScalarType<T[P], AggregateREProertyModel[P]>
+        : GetScalarType<T[P], AggregateREPropertyModel[P]>
+      : GetScalarType<T[P], AggregateREPropertyModel[P]>
   }
 
 
 
 
-  export type REProertyModelGroupByArgs = {
-    where?: REProertyModelWhereInput
-    orderBy?: Enumerable<REProertyModelOrderByWithAggregationInput>
-    by: REProertyModelScalarFieldEnum[]
-    having?: REProertyModelScalarWhereWithAggregatesInput
+  export type REPropertyModelGroupByArgs = {
+    where?: REPropertyModelWhereInput
+    orderBy?: Enumerable<REPropertyModelOrderByWithAggregationInput>
+    by: REPropertyModelScalarFieldEnum[]
+    having?: REPropertyModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: REProertyModelCountAggregateInputType | true
-    _min?: REProertyModelMinAggregateInputType
-    _max?: REProertyModelMaxAggregateInputType
+    _count?: REPropertyModelCountAggregateInputType | true
+    _min?: REPropertyModelMinAggregateInputType
+    _max?: REPropertyModelMaxAggregateInputType
   }
 
 
-  export type REProertyModelGroupByOutputType = {
+  export type REPropertyModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -2258,26 +2136,26 @@ export namespace Prisma {
     name: string
     main_image_url: string
     re_agent_id: string
-    _count: REProertyModelCountAggregateOutputType | null
-    _min: REProertyModelMinAggregateOutputType | null
-    _max: REProertyModelMaxAggregateOutputType | null
+    _count: REPropertyModelCountAggregateOutputType | null
+    _min: REPropertyModelMinAggregateOutputType | null
+    _max: REPropertyModelMaxAggregateOutputType | null
   }
 
-  type GetREProertyModelGroupByPayload<T extends REProertyModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetREPropertyModelGroupByPayload<T extends REPropertyModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<REProertyModelGroupByOutputType, T['by']> &
+      PickArray<REPropertyModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof REProertyModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof REPropertyModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], REProertyModelGroupByOutputType[P]>
-            : GetScalarType<T[P], REProertyModelGroupByOutputType[P]>
+              : GetScalarType<T[P], REPropertyModelGroupByOutputType[P]>
+            : GetScalarType<T[P], REPropertyModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type REProertyModelSelect = {
+  export type REPropertyModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2287,185 +2165,185 @@ export namespace Prisma {
     main_image_url?: boolean
     re_agent_id?: boolean
     re_agent?: boolean | REAgentModelArgs
-    categories?: boolean | REProertyModel$categoriesArgs
-    _count?: boolean | REProertyModelCountOutputTypeArgs
+    categories?: boolean | REPropertyModel$categoriesArgs
+    _count?: boolean | REPropertyModelCountOutputTypeArgs
   }
 
 
-  export type REProertyModelInclude = {
+  export type REPropertyModelInclude = {
     re_agent?: boolean | REAgentModelArgs
-    categories?: boolean | REProertyModel$categoriesArgs
-    _count?: boolean | REProertyModelCountOutputTypeArgs
+    categories?: boolean | REPropertyModel$categoriesArgs
+    _count?: boolean | REPropertyModelCountOutputTypeArgs
   }
 
-  export type REProertyModelGetPayload<S extends boolean | null | undefined | REProertyModelArgs> =
+  export type REPropertyModelGetPayload<S extends boolean | null | undefined | REPropertyModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REProertyModel :
+    S extends true ? REPropertyModel :
     S extends undefined ? never :
-    S extends { include: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
-    ? REProertyModel  & {
+    S extends { include: any } & (REPropertyModelArgs | REPropertyModelFindManyArgs)
+    ? REPropertyModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> :
         P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REProertyModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends '_count' ? REPropertyModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (REProertyModelArgs | REProertyModelFindManyArgs)
+    : S extends { select: any } & (REPropertyModelArgs | REPropertyModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> :
         P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REProertyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REProertyModel ? REProertyModel[P] : never
+        P extends '_count' ? REPropertyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertyModel ? REPropertyModel[P] : never
   } 
-      : REProertyModel
+      : REPropertyModel
 
 
-  type REProertyModelCountArgs = 
-    Omit<REProertyModelFindManyArgs, 'select' | 'include'> & {
-      select?: REProertyModelCountAggregateInputType | true
+  type REPropertyModelCountArgs = 
+    Omit<REPropertyModelFindManyArgs, 'select' | 'include'> & {
+      select?: REPropertyModelCountAggregateInputType | true
     }
 
-  export interface REProertyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface REPropertyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one REProertyModel that matches the filter.
-     * @param {REProertyModelFindUniqueArgs} args - Arguments to find a REProertyModel
+     * Find zero or one REPropertyModel that matches the filter.
+     * @param {REPropertyModelFindUniqueArgs} args - Arguments to find a REPropertyModel
      * @example
-     * // Get one REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.findUnique({
+     * // Get one REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends REProertyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REProertyModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REProertyModel'> extends True ? Prisma__REProertyModelClient<REProertyModelGetPayload<T>> : Prisma__REProertyModelClient<REProertyModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertyModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>> : Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | null, null>
 
     /**
-     * Find one REProertyModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one REPropertyModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {REProertyModelFindUniqueOrThrowArgs} args - Arguments to find a REProertyModel
+     * @param {REPropertyModelFindUniqueOrThrowArgs} args - Arguments to find a REPropertyModel
      * @example
-     * // Get one REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.findUniqueOrThrow({
+     * // Get one REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REProertyModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REProertyModelFindUniqueOrThrowArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertyModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, REPropertyModelFindUniqueOrThrowArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Find the first REProertyModel that matches the filter.
+     * Find the first REPropertyModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelFindFirstArgs} args - Arguments to find a REProertyModel
+     * @param {REPropertyModelFindFirstArgs} args - Arguments to find a REPropertyModel
      * @example
-     * // Get one REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.findFirst({
+     * // Get one REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends REProertyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REProertyModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REProertyModel'> extends True ? Prisma__REProertyModelClient<REProertyModelGetPayload<T>> : Prisma__REProertyModelClient<REProertyModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertyModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>> : Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | null, null>
 
     /**
-     * Find the first REProertyModel that matches the filter or
+     * Find the first REPropertyModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelFindFirstOrThrowArgs} args - Arguments to find a REProertyModel
+     * @param {REPropertyModelFindFirstOrThrowArgs} args - Arguments to find a REPropertyModel
      * @example
-     * // Get one REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.findFirstOrThrow({
+     * // Get one REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REProertyModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REProertyModelFindFirstOrThrowArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertyModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, REPropertyModelFindFirstOrThrowArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Find zero or more REProertyModels that matches the filter.
+     * Find zero or more REPropertyModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {REPropertyModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all REProertyModels
-     * const rEProertyModels = await prisma.rEProertyModel.findMany()
+     * // Get all REPropertyModels
+     * const rEPropertyModels = await prisma.rEPropertyModel.findMany()
      * 
-     * // Get first 10 REProertyModels
-     * const rEProertyModels = await prisma.rEProertyModel.findMany({ take: 10 })
+     * // Get first 10 REPropertyModels
+     * const rEPropertyModels = await prisma.rEPropertyModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const rEProertyModelWithIdOnly = await prisma.rEProertyModel.findMany({ select: { id: true } })
+     * const rEPropertyModelWithIdOnly = await prisma.rEPropertyModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REProertyModelFindManyArgs>(
-      args?: SelectSubset<T, REProertyModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REProertyModelGetPayload<T>>>
+    findMany<T extends REPropertyModelFindManyArgs>(
+      args?: SelectSubset<T, REPropertyModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<REPropertyModelGetPayload<T>>>
 
     /**
-     * Create a REProertyModel.
-     * @param {REProertyModelCreateArgs} args - Arguments to create a REProertyModel.
+     * Create a REPropertyModel.
+     * @param {REPropertyModelCreateArgs} args - Arguments to create a REPropertyModel.
      * @example
-     * // Create one REProertyModel
-     * const REProertyModel = await prisma.rEProertyModel.create({
+     * // Create one REPropertyModel
+     * const REPropertyModel = await prisma.rEPropertyModel.create({
      *   data: {
-     *     // ... data to create a REProertyModel
+     *     // ... data to create a REPropertyModel
      *   }
      * })
      * 
     **/
-    create<T extends REProertyModelCreateArgs>(
-      args: SelectSubset<T, REProertyModelCreateArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    create<T extends REPropertyModelCreateArgs>(
+      args: SelectSubset<T, REPropertyModelCreateArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Create many REProertyModels.
-     *     @param {REProertyModelCreateManyArgs} args - Arguments to create many REProertyModels.
+     * Create many REPropertyModels.
+     *     @param {REPropertyModelCreateManyArgs} args - Arguments to create many REPropertyModels.
      *     @example
-     *     // Create many REProertyModels
-     *     const rEProertyModel = await prisma.rEProertyModel.createMany({
+     *     // Create many REPropertyModels
+     *     const rEPropertyModel = await prisma.rEPropertyModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends REProertyModelCreateManyArgs>(
-      args?: SelectSubset<T, REProertyModelCreateManyArgs>
+    createMany<T extends REPropertyModelCreateManyArgs>(
+      args?: SelectSubset<T, REPropertyModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a REProertyModel.
-     * @param {REProertyModelDeleteArgs} args - Arguments to delete one REProertyModel.
+     * Delete a REPropertyModel.
+     * @param {REPropertyModelDeleteArgs} args - Arguments to delete one REPropertyModel.
      * @example
-     * // Delete one REProertyModel
-     * const REProertyModel = await prisma.rEProertyModel.delete({
+     * // Delete one REPropertyModel
+     * const REPropertyModel = await prisma.rEPropertyModel.delete({
      *   where: {
-     *     // ... filter to delete one REProertyModel
+     *     // ... filter to delete one REPropertyModel
      *   }
      * })
      * 
     **/
-    delete<T extends REProertyModelDeleteArgs>(
-      args: SelectSubset<T, REProertyModelDeleteArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    delete<T extends REPropertyModelDeleteArgs>(
+      args: SelectSubset<T, REPropertyModelDeleteArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Update one REProertyModel.
-     * @param {REProertyModelUpdateArgs} args - Arguments to update one REProertyModel.
+     * Update one REPropertyModel.
+     * @param {REPropertyModelUpdateArgs} args - Arguments to update one REPropertyModel.
      * @example
-     * // Update one REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.update({
+     * // Update one REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2475,34 +2353,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REProertyModelUpdateArgs>(
-      args: SelectSubset<T, REProertyModelUpdateArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    update<T extends REPropertyModelUpdateArgs>(
+      args: SelectSubset<T, REPropertyModelUpdateArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Delete zero or more REProertyModels.
-     * @param {REProertyModelDeleteManyArgs} args - Arguments to filter REProertyModels to delete.
+     * Delete zero or more REPropertyModels.
+     * @param {REPropertyModelDeleteManyArgs} args - Arguments to filter REPropertyModels to delete.
      * @example
-     * // Delete a few REProertyModels
-     * const { count } = await prisma.rEProertyModel.deleteMany({
+     * // Delete a few REPropertyModels
+     * const { count } = await prisma.rEPropertyModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends REProertyModelDeleteManyArgs>(
-      args?: SelectSubset<T, REProertyModelDeleteManyArgs>
+    deleteMany<T extends REPropertyModelDeleteManyArgs>(
+      args?: SelectSubset<T, REPropertyModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more REProertyModels.
+     * Update zero or more REPropertyModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {REPropertyModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many REProertyModels
-     * const rEProertyModel = await prisma.rEProertyModel.updateMany({
+     * // Update many REPropertyModels
+     * const rEPropertyModel = await prisma.rEPropertyModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2512,59 +2390,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REProertyModelUpdateManyArgs>(
-      args: SelectSubset<T, REProertyModelUpdateManyArgs>
+    updateMany<T extends REPropertyModelUpdateManyArgs>(
+      args: SelectSubset<T, REPropertyModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one REProertyModel.
-     * @param {REProertyModelUpsertArgs} args - Arguments to update or create a REProertyModel.
+     * Create or update one REPropertyModel.
+     * @param {REPropertyModelUpsertArgs} args - Arguments to update or create a REPropertyModel.
      * @example
-     * // Update or create a REProertyModel
-     * const rEProertyModel = await prisma.rEProertyModel.upsert({
+     * // Update or create a REPropertyModel
+     * const rEPropertyModel = await prisma.rEPropertyModel.upsert({
      *   create: {
-     *     // ... data to create a REProertyModel
+     *     // ... data to create a REPropertyModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the REProertyModel we want to update
+     *     // ... the filter for the REPropertyModel we want to update
      *   }
      * })
     **/
-    upsert<T extends REProertyModelUpsertArgs>(
-      args: SelectSubset<T, REProertyModelUpsertArgs>
-    ): Prisma__REProertyModelClient<REProertyModelGetPayload<T>>
+    upsert<T extends REPropertyModelUpsertArgs>(
+      args: SelectSubset<T, REPropertyModelUpsertArgs>
+    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
 
     /**
-     * Count the number of REProertyModels.
+     * Count the number of REPropertyModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelCountArgs} args - Arguments to filter REProertyModels to count.
+     * @param {REPropertyModelCountArgs} args - Arguments to filter REPropertyModels to count.
      * @example
-     * // Count the number of REProertyModels
-     * const count = await prisma.rEProertyModel.count({
+     * // Count the number of REPropertyModels
+     * const count = await prisma.rEPropertyModel.count({
      *   where: {
-     *     // ... the filter for the REProertyModels we want to count
+     *     // ... the filter for the REPropertyModels we want to count
      *   }
      * })
     **/
-    count<T extends REProertyModelCountArgs>(
-      args?: Subset<T, REProertyModelCountArgs>,
+    count<T extends REPropertyModelCountArgs>(
+      args?: Subset<T, REPropertyModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], REProertyModelCountAggregateOutputType>
+          : GetScalarType<T['select'], REPropertyModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a REProertyModel.
+     * Allows you to perform aggregations operations on a REPropertyModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {REPropertyModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2584,13 +2462,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends REProertyModelAggregateArgs>(args: Subset<T, REProertyModelAggregateArgs>): Prisma.PrismaPromise<GetREProertyModelAggregateType<T>>
+    aggregate<T extends REPropertyModelAggregateArgs>(args: Subset<T, REPropertyModelAggregateArgs>): Prisma.PrismaPromise<GetREPropertyModelAggregateType<T>>
 
     /**
-     * Group by REProertyModel.
+     * Group by REPropertyModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {REProertyModelGroupByArgs} args - Group by arguments.
+     * @param {REPropertyModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2605,14 +2483,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends REProertyModelGroupByArgs,
+      T extends REPropertyModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: REProertyModelGroupByArgs['orderBy'] }
-        : { orderBy?: REProertyModelGroupByArgs['orderBy'] },
+        ? { orderBy: REPropertyModelGroupByArgs['orderBy'] }
+        : { orderBy?: REPropertyModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2661,17 +2539,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, REProertyModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetREProertyModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, REPropertyModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetREPropertyModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for REProertyModel.
+   * The delegate class that acts as a "Promise-like" for REPropertyModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REProertyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -2688,7 +2566,7 @@ export namespace Prisma {
 
     re_agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
 
-    categories<T extends REProertyModel$categoriesArgs= {}>(args?: Subset<T, REProertyModel$categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>| Null>;
+    categories<T extends REPropertyModel$categoriesArgs= {}>(args?: Subset<T, REPropertyModel$categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2718,27 +2596,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * REProertyModel base type for findUnique actions
+   * REPropertyModel base type for findUnique actions
    */
-  export type REProertyModelFindUniqueArgsBase = {
+  export type REPropertyModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter, which REProertyModel to fetch.
+     * Filter, which REPropertyModel to fetch.
      */
-    where: REProertyModelWhereUniqueInput
+    where: REPropertyModelWhereUniqueInput
   }
 
   /**
-   * REProertyModel findUnique
+   * REPropertyModel findUnique
    */
-  export interface REProertyModelFindUniqueArgs extends REProertyModelFindUniqueArgsBase {
+  export interface REPropertyModelFindUniqueArgs extends REPropertyModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -2748,76 +2626,76 @@ export namespace Prisma {
       
 
   /**
-   * REProertyModel findUniqueOrThrow
+   * REPropertyModel findUniqueOrThrow
    */
-  export type REProertyModelFindUniqueOrThrowArgs = {
+  export type REPropertyModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter, which REProertyModel to fetch.
+     * Filter, which REPropertyModel to fetch.
      */
-    where: REProertyModelWhereUniqueInput
+    where: REPropertyModelWhereUniqueInput
   }
 
 
   /**
-   * REProertyModel base type for findFirst actions
+   * REPropertyModel base type for findFirst actions
    */
-  export type REProertyModelFindFirstArgsBase = {
+  export type REPropertyModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter, which REProertyModel to fetch.
+     * Filter, which REPropertyModel to fetch.
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of REProertyModels to fetch.
+     * Determine the order of REPropertyModels to fetch.
      */
-    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for REProertyModels.
+     * Sets the position for searching for REPropertyModels.
      */
-    cursor?: REProertyModelWhereUniqueInput
+    cursor?: REPropertyModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` REProertyModels from the position of the cursor.
+     * Take `±n` REPropertyModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` REProertyModels.
+     * Skip the first `n` REPropertyModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of REProertyModels.
+     * Filter by unique combinations of REPropertyModels.
      */
-    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+    distinct?: Enumerable<REPropertyModelScalarFieldEnum>
   }
 
   /**
-   * REProertyModel findFirst
+   * REPropertyModel findFirst
    */
-  export interface REProertyModelFindFirstArgs extends REProertyModelFindFirstArgsBase {
+  export interface REPropertyModelFindFirstArgs extends REPropertyModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -2827,228 +2705,228 @@ export namespace Prisma {
       
 
   /**
-   * REProertyModel findFirstOrThrow
+   * REPropertyModel findFirstOrThrow
    */
-  export type REProertyModelFindFirstOrThrowArgs = {
+  export type REPropertyModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter, which REProertyModel to fetch.
+     * Filter, which REPropertyModel to fetch.
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of REProertyModels to fetch.
+     * Determine the order of REPropertyModels to fetch.
      */
-    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for REProertyModels.
+     * Sets the position for searching for REPropertyModels.
      */
-    cursor?: REProertyModelWhereUniqueInput
+    cursor?: REPropertyModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` REProertyModels from the position of the cursor.
+     * Take `±n` REPropertyModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` REProertyModels.
+     * Skip the first `n` REPropertyModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of REProertyModels.
+     * Filter by unique combinations of REPropertyModels.
      */
-    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+    distinct?: Enumerable<REPropertyModelScalarFieldEnum>
   }
 
 
   /**
-   * REProertyModel findMany
+   * REPropertyModel findMany
    */
-  export type REProertyModelFindManyArgs = {
+  export type REPropertyModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter, which REProertyModels to fetch.
+     * Filter, which REPropertyModels to fetch.
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of REProertyModels to fetch.
+     * Determine the order of REPropertyModels to fetch.
      */
-    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
+    orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing REProertyModels.
+     * Sets the position for listing REPropertyModels.
      */
-    cursor?: REProertyModelWhereUniqueInput
+    cursor?: REPropertyModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` REProertyModels from the position of the cursor.
+     * Take `±n` REPropertyModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` REProertyModels.
+     * Skip the first `n` REPropertyModels.
      */
     skip?: number
-    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+    distinct?: Enumerable<REPropertyModelScalarFieldEnum>
   }
 
 
   /**
-   * REProertyModel create
+   * REPropertyModel create
    */
-  export type REProertyModelCreateArgs = {
+  export type REPropertyModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * The data needed to create a REProertyModel.
+     * The data needed to create a REPropertyModel.
      */
-    data: XOR<REProertyModelCreateInput, REProertyModelUncheckedCreateInput>
+    data: XOR<REPropertyModelCreateInput, REPropertyModelUncheckedCreateInput>
   }
 
 
   /**
-   * REProertyModel createMany
+   * REPropertyModel createMany
    */
-  export type REProertyModelCreateManyArgs = {
+  export type REPropertyModelCreateManyArgs = {
     /**
-     * The data used to create many REProertyModels.
+     * The data used to create many REPropertyModels.
      */
-    data: Enumerable<REProertyModelCreateManyInput>
+    data: Enumerable<REPropertyModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * REProertyModel update
+   * REPropertyModel update
    */
-  export type REProertyModelUpdateArgs = {
+  export type REPropertyModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * The data needed to update a REProertyModel.
+     * The data needed to update a REPropertyModel.
      */
-    data: XOR<REProertyModelUpdateInput, REProertyModelUncheckedUpdateInput>
+    data: XOR<REPropertyModelUpdateInput, REPropertyModelUncheckedUpdateInput>
     /**
-     * Choose, which REProertyModel to update.
+     * Choose, which REPropertyModel to update.
      */
-    where: REProertyModelWhereUniqueInput
+    where: REPropertyModelWhereUniqueInput
   }
 
 
   /**
-   * REProertyModel updateMany
+   * REPropertyModel updateMany
    */
-  export type REProertyModelUpdateManyArgs = {
+  export type REPropertyModelUpdateManyArgs = {
     /**
-     * The data used to update REProertyModels.
+     * The data used to update REPropertyModels.
      */
-    data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyInput>
+    data: XOR<REPropertyModelUpdateManyMutationInput, REPropertyModelUncheckedUpdateManyInput>
     /**
-     * Filter which REProertyModels to update
+     * Filter which REPropertyModels to update
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
   }
 
 
   /**
-   * REProertyModel upsert
+   * REPropertyModel upsert
    */
-  export type REProertyModelUpsertArgs = {
+  export type REPropertyModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * The filter to search for the REProertyModel to update in case it exists.
+     * The filter to search for the REPropertyModel to update in case it exists.
      */
-    where: REProertyModelWhereUniqueInput
+    where: REPropertyModelWhereUniqueInput
     /**
-     * In case the REProertyModel found by the `where` argument doesn't exist, create a new REProertyModel with this data.
+     * In case the REPropertyModel found by the `where` argument doesn't exist, create a new REPropertyModel with this data.
      */
-    create: XOR<REProertyModelCreateInput, REProertyModelUncheckedCreateInput>
+    create: XOR<REPropertyModelCreateInput, REPropertyModelUncheckedCreateInput>
     /**
-     * In case the REProertyModel was found with the provided `where` argument, update it with this data.
+     * In case the REPropertyModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<REProertyModelUpdateInput, REProertyModelUncheckedUpdateInput>
+    update: XOR<REPropertyModelUpdateInput, REPropertyModelUncheckedUpdateInput>
   }
 
 
   /**
-   * REProertyModel delete
+   * REPropertyModel delete
    */
-  export type REProertyModelDeleteArgs = {
+  export type REPropertyModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
     /**
-     * Filter which REProertyModel to delete.
+     * Filter which REPropertyModel to delete.
      */
-    where: REProertyModelWhereUniqueInput
+    where: REPropertyModelWhereUniqueInput
   }
 
 
   /**
-   * REProertyModel deleteMany
+   * REPropertyModel deleteMany
    */
-  export type REProertyModelDeleteManyArgs = {
+  export type REPropertyModelDeleteManyArgs = {
     /**
-     * Filter which REProertyModels to delete
+     * Filter which REPropertyModels to delete
      */
-    where?: REProertyModelWhereInput
+    where?: REPropertyModelWhereInput
   }
 
 
   /**
-   * REProertyModel.categories
+   * REPropertyModel.categories
    */
-  export type REProertyModel$categoriesArgs = {
+  export type REPropertyModel$categoriesArgs = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
@@ -3067,17 +2945,17 @@ export namespace Prisma {
 
 
   /**
-   * REProertyModel without action
+   * REPropertyModel without action
    */
-  export type REProertyModelArgs = {
+  export type REPropertyModelArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
+    include?: REPropertyModelInclude | null
   }
 
 
@@ -3264,13 +3142,13 @@ export namespace Prisma {
     deleted_at?: boolean
     re_property_id?: boolean
     sub_category_id?: boolean
-    re_property?: boolean | REProertyModelArgs
+    re_property?: boolean | REPropertyModelArgs
     sub_category?: boolean | REPropertySubCategoryModelArgs
   }
 
 
   export type REPropertyCategoryModelInclude = {
-    re_property?: boolean | REProertyModelArgs
+    re_property?: boolean | REPropertyModelArgs
     sub_category?: boolean | REPropertySubCategoryModelArgs
   }
 
@@ -3281,13 +3159,13 @@ export namespace Prisma {
     S extends { include: any } & (REPropertyCategoryModelArgs | REPropertyCategoryModelFindManyArgs)
     ? REPropertyCategoryModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 're_property' ? REProertyModelGetPayload<S['include'][P]> :
+        P extends 're_property' ? REPropertyModelGetPayload<S['include'][P]> :
         P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REPropertyCategoryModelArgs | REPropertyCategoryModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 're_property' ? REProertyModelGetPayload<S['select'][P]> :
+        P extends 're_property' ? REPropertyModelGetPayload<S['select'][P]> :
         P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['select'][P]> :  P extends keyof REPropertyCategoryModel ? REPropertyCategoryModel[P] : never
   } 
       : REPropertyCategoryModel
@@ -3660,7 +3538,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    re_property<T extends REProertyModelArgs= {}>(args?: Subset<T, REProertyModelArgs>): Prisma__REProertyModelClient<REProertyModelGetPayload<T> | Null>;
+    re_property<T extends REPropertyModelArgs= {}>(args?: Subset<T, REPropertyModelArgs>): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | Null>;
 
     sub_category<T extends REPropertySubCategoryModelArgs= {}>(args?: Subset<T, REPropertySubCategoryModelArgs>): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | Null>;
 
@@ -6962,8 +6840,18 @@ export namespace Prisma {
 
   export type AggregateReviewModel = {
     _count: ReviewModelCountAggregateOutputType | null
+    _avg: ReviewModelAvgAggregateOutputType | null
+    _sum: ReviewModelSumAggregateOutputType | null
     _min: ReviewModelMinAggregateOutputType | null
     _max: ReviewModelMaxAggregateOutputType | null
+  }
+
+  export type ReviewModelAvgAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type ReviewModelSumAggregateOutputType = {
+    rating: number | null
   }
 
   export type ReviewModelMinAggregateOutputType = {
@@ -6975,6 +6863,7 @@ export namespace Prisma {
     reviewer_id: string | null
     reviewee_id: string | null
     content: string | null
+    rating: number | null
   }
 
   export type ReviewModelMaxAggregateOutputType = {
@@ -6986,6 +6875,7 @@ export namespace Prisma {
     reviewer_id: string | null
     reviewee_id: string | null
     content: string | null
+    rating: number | null
   }
 
   export type ReviewModelCountAggregateOutputType = {
@@ -6997,9 +6887,18 @@ export namespace Prisma {
     reviewer_id: number
     reviewee_id: number
     content: number
+    rating: number
     _all: number
   }
 
+
+  export type ReviewModelAvgAggregateInputType = {
+    rating?: true
+  }
+
+  export type ReviewModelSumAggregateInputType = {
+    rating?: true
+  }
 
   export type ReviewModelMinAggregateInputType = {
     id?: true
@@ -7010,6 +6909,7 @@ export namespace Prisma {
     reviewer_id?: true
     reviewee_id?: true
     content?: true
+    rating?: true
   }
 
   export type ReviewModelMaxAggregateInputType = {
@@ -7021,6 +6921,7 @@ export namespace Prisma {
     reviewer_id?: true
     reviewee_id?: true
     content?: true
+    rating?: true
   }
 
   export type ReviewModelCountAggregateInputType = {
@@ -7032,6 +6933,7 @@ export namespace Prisma {
     reviewer_id?: true
     reviewee_id?: true
     content?: true
+    rating?: true
     _all?: true
   }
 
@@ -7073,6 +6975,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ReviewModelAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReviewModelSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ReviewModelMinAggregateInputType
@@ -7103,6 +7017,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ReviewModelCountAggregateInputType | true
+    _avg?: ReviewModelAvgAggregateInputType
+    _sum?: ReviewModelSumAggregateInputType
     _min?: ReviewModelMinAggregateInputType
     _max?: ReviewModelMaxAggregateInputType
   }
@@ -7117,7 +7033,10 @@ export namespace Prisma {
     reviewer_id: string
     reviewee_id: string
     content: string
+    rating: number
     _count: ReviewModelCountAggregateOutputType | null
+    _avg: ReviewModelAvgAggregateOutputType | null
+    _sum: ReviewModelSumAggregateOutputType | null
     _min: ReviewModelMinAggregateOutputType | null
     _max: ReviewModelMaxAggregateOutputType | null
   }
@@ -7145,18 +7064,15 @@ export namespace Prisma {
     reviewer_id?: boolean
     reviewee_id?: boolean
     content?: boolean
+    rating?: boolean
     reviewer?: boolean | CustomerModelArgs
     reviewee?: boolean | BusinessUserModelArgs
-    rates?: boolean | ReviewModel$ratesArgs
-    _count?: boolean | ReviewModelCountOutputTypeArgs
   }
 
 
   export type ReviewModelInclude = {
     reviewer?: boolean | CustomerModelArgs
     reviewee?: boolean | BusinessUserModelArgs
-    rates?: boolean | ReviewModel$ratesArgs
-    _count?: boolean | ReviewModelCountOutputTypeArgs
   }
 
   export type ReviewModelGetPayload<S extends boolean | null | undefined | ReviewModelArgs> =
@@ -7167,17 +7083,13 @@ export namespace Prisma {
     ? ReviewModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'reviewer' ? CustomerModelGetPayload<S['include'][P]> :
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'rates' ? Array < RateModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ReviewModelCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'reviewee' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ReviewModelArgs | ReviewModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'reviewer' ? CustomerModelGetPayload<S['select'][P]> :
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'rates' ? Array < RateModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ReviewModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ReviewModel ? ReviewModel[P] : never
+        P extends 'reviewee' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof ReviewModel ? ReviewModel[P] : never
   } 
       : ReviewModel
 
@@ -7553,8 +7465,6 @@ export namespace Prisma {
 
     reviewee<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
-    rates<T extends ReviewModel$ratesArgs= {}>(args?: Subset<T, ReviewModel$ratesArgs>): Prisma.PrismaPromise<Array<RateModelGetPayload<T>>| Null>;
-
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7911,27 +7821,6 @@ export namespace Prisma {
 
 
   /**
-   * ReviewModel.rates
-   */
-  export type ReviewModel$ratesArgs = {
-    /**
-     * Select specific fields to fetch from the RateModel
-     */
-    select?: RateModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateModelInclude | null
-    where?: RateModelWhereInput
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
-    cursor?: RateModelWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<RateModelScalarFieldEnum>
-  }
-
-
-  /**
    * ReviewModel without action
    */
   export type ReviewModelArgs = {
@@ -7948,405 +7837,381 @@ export namespace Prisma {
 
 
   /**
-   * Model RateModel
+   * Model ReviewStatsModel
    */
 
 
-  export type AggregateRateModel = {
-    _count: RateModelCountAggregateOutputType | null
-    _avg: RateModelAvgAggregateOutputType | null
-    _sum: RateModelSumAggregateOutputType | null
-    _min: RateModelMinAggregateOutputType | null
-    _max: RateModelMaxAggregateOutputType | null
+  export type AggregateReviewStatsModel = {
+    _count: ReviewStatsModelCountAggregateOutputType | null
+    _avg: ReviewStatsModelAvgAggregateOutputType | null
+    _sum: ReviewStatsModelSumAggregateOutputType | null
+    _min: ReviewStatsModelMinAggregateOutputType | null
+    _max: ReviewStatsModelMaxAggregateOutputType | null
   }
 
-  export type RateModelAvgAggregateOutputType = {
-    score: number | null
+  export type ReviewStatsModelAvgAggregateOutputType = {
+    review_cnt: Decimal | null
+    rating_sum: Decimal | null
   }
 
-  export type RateModelSumAggregateOutputType = {
-    score: number | null
+  export type ReviewStatsModelSumAggregateOutputType = {
+    review_cnt: Decimal | null
+    rating_sum: Decimal | null
   }
 
-  export type RateModelMinAggregateOutputType = {
-    id: string | null
+  export type ReviewStatsModelMinAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    score: number | null
-    category_id: string | null
-    review_id: string | null
+    review_cnt: Decimal | null
+    rating_sum: Decimal | null
+    reviewee_id: string | null
   }
 
-  export type RateModelMaxAggregateOutputType = {
-    id: string | null
+  export type ReviewStatsModelMaxAggregateOutputType = {
     created_at: Date | null
     updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    score: number | null
-    category_id: string | null
-    review_id: string | null
+    review_cnt: Decimal | null
+    rating_sum: Decimal | null
+    reviewee_id: string | null
   }
 
-  export type RateModelCountAggregateOutputType = {
-    id: number
+  export type ReviewStatsModelCountAggregateOutputType = {
     created_at: number
     updated_at: number
-    is_deleted: number
-    deleted_at: number
-    score: number
-    category_id: number
-    review_id: number
+    review_cnt: number
+    rating_sum: number
+    reviewee_id: number
     _all: number
   }
 
 
-  export type RateModelAvgAggregateInputType = {
-    score?: true
+  export type ReviewStatsModelAvgAggregateInputType = {
+    review_cnt?: true
+    rating_sum?: true
   }
 
-  export type RateModelSumAggregateInputType = {
-    score?: true
+  export type ReviewStatsModelSumAggregateInputType = {
+    review_cnt?: true
+    rating_sum?: true
   }
 
-  export type RateModelMinAggregateInputType = {
-    id?: true
+  export type ReviewStatsModelMinAggregateInputType = {
     created_at?: true
     updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    score?: true
-    category_id?: true
-    review_id?: true
+    review_cnt?: true
+    rating_sum?: true
+    reviewee_id?: true
   }
 
-  export type RateModelMaxAggregateInputType = {
-    id?: true
+  export type ReviewStatsModelMaxAggregateInputType = {
     created_at?: true
     updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    score?: true
-    category_id?: true
-    review_id?: true
+    review_cnt?: true
+    rating_sum?: true
+    reviewee_id?: true
   }
 
-  export type RateModelCountAggregateInputType = {
-    id?: true
+  export type ReviewStatsModelCountAggregateInputType = {
     created_at?: true
     updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    score?: true
-    category_id?: true
-    review_id?: true
+    review_cnt?: true
+    rating_sum?: true
+    reviewee_id?: true
     _all?: true
   }
 
-  export type RateModelAggregateArgs = {
+  export type ReviewStatsModelAggregateArgs = {
     /**
-     * Filter which RateModel to aggregate.
+     * Filter which ReviewStatsModel to aggregate.
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RateModels to fetch.
+     * Determine the order of ReviewStatsModels to fetch.
      */
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: RateModelWhereUniqueInput
+    cursor?: ReviewStatsModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RateModels from the position of the cursor.
+     * Take `±n` ReviewStatsModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RateModels.
+     * Skip the first `n` ReviewStatsModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned RateModels
+     * Count returned ReviewStatsModels
     **/
-    _count?: true | RateModelCountAggregateInputType
+    _count?: true | ReviewStatsModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: RateModelAvgAggregateInputType
+    _avg?: ReviewStatsModelAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: RateModelSumAggregateInputType
+    _sum?: ReviewStatsModelSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: RateModelMinAggregateInputType
+    _min?: ReviewStatsModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: RateModelMaxAggregateInputType
+    _max?: ReviewStatsModelMaxAggregateInputType
   }
 
-  export type GetRateModelAggregateType<T extends RateModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateRateModel]: P extends '_count' | 'count'
+  export type GetReviewStatsModelAggregateType<T extends ReviewStatsModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateReviewStatsModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateRateModel[P]>
-      : GetScalarType<T[P], AggregateRateModel[P]>
+        : GetScalarType<T[P], AggregateReviewStatsModel[P]>
+      : GetScalarType<T[P], AggregateReviewStatsModel[P]>
   }
 
 
 
 
-  export type RateModelGroupByArgs = {
-    where?: RateModelWhereInput
-    orderBy?: Enumerable<RateModelOrderByWithAggregationInput>
-    by: RateModelScalarFieldEnum[]
-    having?: RateModelScalarWhereWithAggregatesInput
+  export type ReviewStatsModelGroupByArgs = {
+    where?: ReviewStatsModelWhereInput
+    orderBy?: Enumerable<ReviewStatsModelOrderByWithAggregationInput>
+    by: ReviewStatsModelScalarFieldEnum[]
+    having?: ReviewStatsModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: RateModelCountAggregateInputType | true
-    _avg?: RateModelAvgAggregateInputType
-    _sum?: RateModelSumAggregateInputType
-    _min?: RateModelMinAggregateInputType
-    _max?: RateModelMaxAggregateInputType
+    _count?: ReviewStatsModelCountAggregateInputType | true
+    _avg?: ReviewStatsModelAvgAggregateInputType
+    _sum?: ReviewStatsModelSumAggregateInputType
+    _min?: ReviewStatsModelMinAggregateInputType
+    _max?: ReviewStatsModelMaxAggregateInputType
   }
 
 
-  export type RateModelGroupByOutputType = {
-    id: string
+  export type ReviewStatsModelGroupByOutputType = {
     created_at: Date
     updated_at: Date
-    is_deleted: boolean
-    deleted_at: Date | null
-    score: number
-    category_id: string
-    review_id: string
-    _count: RateModelCountAggregateOutputType | null
-    _avg: RateModelAvgAggregateOutputType | null
-    _sum: RateModelSumAggregateOutputType | null
-    _min: RateModelMinAggregateOutputType | null
-    _max: RateModelMaxAggregateOutputType | null
+    review_cnt: Decimal
+    rating_sum: Decimal
+    reviewee_id: string
+    _count: ReviewStatsModelCountAggregateOutputType | null
+    _avg: ReviewStatsModelAvgAggregateOutputType | null
+    _sum: ReviewStatsModelSumAggregateOutputType | null
+    _min: ReviewStatsModelMinAggregateOutputType | null
+    _max: ReviewStatsModelMaxAggregateOutputType | null
   }
 
-  type GetRateModelGroupByPayload<T extends RateModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetReviewStatsModelGroupByPayload<T extends ReviewStatsModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<RateModelGroupByOutputType, T['by']> &
+      PickArray<ReviewStatsModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof RateModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ReviewStatsModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], RateModelGroupByOutputType[P]>
-            : GetScalarType<T[P], RateModelGroupByOutputType[P]>
+              : GetScalarType<T[P], ReviewStatsModelGroupByOutputType[P]>
+            : GetScalarType<T[P], ReviewStatsModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type RateModelSelect = {
-    id?: boolean
+  export type ReviewStatsModelSelect = {
     created_at?: boolean
     updated_at?: boolean
-    is_deleted?: boolean
-    deleted_at?: boolean
-    score?: boolean
-    category_id?: boolean
-    review_id?: boolean
-    category?: boolean | RateCategoryModelArgs
-    review?: boolean | ReviewModelArgs
+    review_cnt?: boolean
+    rating_sum?: boolean
+    reviewee_id?: boolean
+    reviewee?: boolean | BusinessUserModelArgs
   }
 
 
-  export type RateModelInclude = {
-    category?: boolean | RateCategoryModelArgs
-    review?: boolean | ReviewModelArgs
+  export type ReviewStatsModelInclude = {
+    reviewee?: boolean | BusinessUserModelArgs
   }
 
-  export type RateModelGetPayload<S extends boolean | null | undefined | RateModelArgs> =
+  export type ReviewStatsModelGetPayload<S extends boolean | null | undefined | ReviewStatsModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? RateModel :
+    S extends true ? ReviewStatsModel :
     S extends undefined ? never :
-    S extends { include: any } & (RateModelArgs | RateModelFindManyArgs)
-    ? RateModel  & {
+    S extends { include: any } & (ReviewStatsModelArgs | ReviewStatsModelFindManyArgs)
+    ? ReviewStatsModel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'category' ? RateCategoryModelGetPayload<S['include'][P]> :
-        P extends 'review' ? ReviewModelGetPayload<S['include'][P]> :  never
+        P extends 'reviewee' ? BusinessUserModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (RateModelArgs | RateModelFindManyArgs)
+    : S extends { select: any } & (ReviewStatsModelArgs | ReviewStatsModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'category' ? RateCategoryModelGetPayload<S['select'][P]> :
-        P extends 'review' ? ReviewModelGetPayload<S['select'][P]> :  P extends keyof RateModel ? RateModel[P] : never
+        P extends 'reviewee' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof ReviewStatsModel ? ReviewStatsModel[P] : never
   } 
-      : RateModel
+      : ReviewStatsModel
 
 
-  type RateModelCountArgs = 
-    Omit<RateModelFindManyArgs, 'select' | 'include'> & {
-      select?: RateModelCountAggregateInputType | true
+  type ReviewStatsModelCountArgs = 
+    Omit<ReviewStatsModelFindManyArgs, 'select' | 'include'> & {
+      select?: ReviewStatsModelCountAggregateInputType | true
     }
 
-  export interface RateModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface ReviewStatsModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one RateModel that matches the filter.
-     * @param {RateModelFindUniqueArgs} args - Arguments to find a RateModel
+     * Find zero or one ReviewStatsModel that matches the filter.
+     * @param {ReviewStatsModelFindUniqueArgs} args - Arguments to find a ReviewStatsModel
      * @example
-     * // Get one RateModel
-     * const rateModel = await prisma.rateModel.findUnique({
+     * // Get one ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends RateModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, RateModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'RateModel'> extends True ? Prisma__RateModelClient<RateModelGetPayload<T>> : Prisma__RateModelClient<RateModelGetPayload<T> | null, null>
+    findUnique<T extends ReviewStatsModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ReviewStatsModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ReviewStatsModel'> extends True ? Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>> : Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | null, null>
 
     /**
-     * Find one RateModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one ReviewStatsModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {RateModelFindUniqueOrThrowArgs} args - Arguments to find a RateModel
+     * @param {ReviewStatsModelFindUniqueOrThrowArgs} args - Arguments to find a ReviewStatsModel
      * @example
-     * // Get one RateModel
-     * const rateModel = await prisma.rateModel.findUniqueOrThrow({
+     * // Get one ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends RateModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, RateModelFindUniqueOrThrowArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    findUniqueOrThrow<T extends ReviewStatsModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ReviewStatsModelFindUniqueOrThrowArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Find the first RateModel that matches the filter.
+     * Find the first ReviewStatsModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelFindFirstArgs} args - Arguments to find a RateModel
+     * @param {ReviewStatsModelFindFirstArgs} args - Arguments to find a ReviewStatsModel
      * @example
-     * // Get one RateModel
-     * const rateModel = await prisma.rateModel.findFirst({
+     * // Get one ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends RateModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, RateModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'RateModel'> extends True ? Prisma__RateModelClient<RateModelGetPayload<T>> : Prisma__RateModelClient<RateModelGetPayload<T> | null, null>
+    findFirst<T extends ReviewStatsModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ReviewStatsModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ReviewStatsModel'> extends True ? Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>> : Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | null, null>
 
     /**
-     * Find the first RateModel that matches the filter or
+     * Find the first ReviewStatsModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelFindFirstOrThrowArgs} args - Arguments to find a RateModel
+     * @param {ReviewStatsModelFindFirstOrThrowArgs} args - Arguments to find a ReviewStatsModel
      * @example
-     * // Get one RateModel
-     * const rateModel = await prisma.rateModel.findFirstOrThrow({
+     * // Get one ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends RateModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, RateModelFindFirstOrThrowArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    findFirstOrThrow<T extends ReviewStatsModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ReviewStatsModelFindFirstOrThrowArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Find zero or more RateModels that matches the filter.
+     * Find zero or more ReviewStatsModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {ReviewStatsModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all RateModels
-     * const rateModels = await prisma.rateModel.findMany()
+     * // Get all ReviewStatsModels
+     * const reviewStatsModels = await prisma.reviewStatsModel.findMany()
      * 
-     * // Get first 10 RateModels
-     * const rateModels = await prisma.rateModel.findMany({ take: 10 })
+     * // Get first 10 ReviewStatsModels
+     * const reviewStatsModels = await prisma.reviewStatsModel.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const rateModelWithIdOnly = await prisma.rateModel.findMany({ select: { id: true } })
+     * // Only select the `created_at`
+     * const reviewStatsModelWithCreated_atOnly = await prisma.reviewStatsModel.findMany({ select: { created_at: true } })
      * 
     **/
-    findMany<T extends RateModelFindManyArgs>(
-      args?: SelectSubset<T, RateModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<RateModelGetPayload<T>>>
+    findMany<T extends ReviewStatsModelFindManyArgs>(
+      args?: SelectSubset<T, ReviewStatsModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ReviewStatsModelGetPayload<T>>>
 
     /**
-     * Create a RateModel.
-     * @param {RateModelCreateArgs} args - Arguments to create a RateModel.
+     * Create a ReviewStatsModel.
+     * @param {ReviewStatsModelCreateArgs} args - Arguments to create a ReviewStatsModel.
      * @example
-     * // Create one RateModel
-     * const RateModel = await prisma.rateModel.create({
+     * // Create one ReviewStatsModel
+     * const ReviewStatsModel = await prisma.reviewStatsModel.create({
      *   data: {
-     *     // ... data to create a RateModel
+     *     // ... data to create a ReviewStatsModel
      *   }
      * })
      * 
     **/
-    create<T extends RateModelCreateArgs>(
-      args: SelectSubset<T, RateModelCreateArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    create<T extends ReviewStatsModelCreateArgs>(
+      args: SelectSubset<T, ReviewStatsModelCreateArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Create many RateModels.
-     *     @param {RateModelCreateManyArgs} args - Arguments to create many RateModels.
+     * Create many ReviewStatsModels.
+     *     @param {ReviewStatsModelCreateManyArgs} args - Arguments to create many ReviewStatsModels.
      *     @example
-     *     // Create many RateModels
-     *     const rateModel = await prisma.rateModel.createMany({
+     *     // Create many ReviewStatsModels
+     *     const reviewStatsModel = await prisma.reviewStatsModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends RateModelCreateManyArgs>(
-      args?: SelectSubset<T, RateModelCreateManyArgs>
+    createMany<T extends ReviewStatsModelCreateManyArgs>(
+      args?: SelectSubset<T, ReviewStatsModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a RateModel.
-     * @param {RateModelDeleteArgs} args - Arguments to delete one RateModel.
+     * Delete a ReviewStatsModel.
+     * @param {ReviewStatsModelDeleteArgs} args - Arguments to delete one ReviewStatsModel.
      * @example
-     * // Delete one RateModel
-     * const RateModel = await prisma.rateModel.delete({
+     * // Delete one ReviewStatsModel
+     * const ReviewStatsModel = await prisma.reviewStatsModel.delete({
      *   where: {
-     *     // ... filter to delete one RateModel
+     *     // ... filter to delete one ReviewStatsModel
      *   }
      * })
      * 
     **/
-    delete<T extends RateModelDeleteArgs>(
-      args: SelectSubset<T, RateModelDeleteArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    delete<T extends ReviewStatsModelDeleteArgs>(
+      args: SelectSubset<T, ReviewStatsModelDeleteArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Update one RateModel.
-     * @param {RateModelUpdateArgs} args - Arguments to update one RateModel.
+     * Update one ReviewStatsModel.
+     * @param {ReviewStatsModelUpdateArgs} args - Arguments to update one ReviewStatsModel.
      * @example
-     * // Update one RateModel
-     * const rateModel = await prisma.rateModel.update({
+     * // Update one ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8356,34 +8221,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends RateModelUpdateArgs>(
-      args: SelectSubset<T, RateModelUpdateArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    update<T extends ReviewStatsModelUpdateArgs>(
+      args: SelectSubset<T, ReviewStatsModelUpdateArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Delete zero or more RateModels.
-     * @param {RateModelDeleteManyArgs} args - Arguments to filter RateModels to delete.
+     * Delete zero or more ReviewStatsModels.
+     * @param {ReviewStatsModelDeleteManyArgs} args - Arguments to filter ReviewStatsModels to delete.
      * @example
-     * // Delete a few RateModels
-     * const { count } = await prisma.rateModel.deleteMany({
+     * // Delete a few ReviewStatsModels
+     * const { count } = await prisma.reviewStatsModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends RateModelDeleteManyArgs>(
-      args?: SelectSubset<T, RateModelDeleteManyArgs>
+    deleteMany<T extends ReviewStatsModelDeleteManyArgs>(
+      args?: SelectSubset<T, ReviewStatsModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more RateModels.
+     * Update zero or more ReviewStatsModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ReviewStatsModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many RateModels
-     * const rateModel = await prisma.rateModel.updateMany({
+     * // Update many ReviewStatsModels
+     * const reviewStatsModel = await prisma.reviewStatsModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8393,59 +8258,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends RateModelUpdateManyArgs>(
-      args: SelectSubset<T, RateModelUpdateManyArgs>
+    updateMany<T extends ReviewStatsModelUpdateManyArgs>(
+      args: SelectSubset<T, ReviewStatsModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one RateModel.
-     * @param {RateModelUpsertArgs} args - Arguments to update or create a RateModel.
+     * Create or update one ReviewStatsModel.
+     * @param {ReviewStatsModelUpsertArgs} args - Arguments to update or create a ReviewStatsModel.
      * @example
-     * // Update or create a RateModel
-     * const rateModel = await prisma.rateModel.upsert({
+     * // Update or create a ReviewStatsModel
+     * const reviewStatsModel = await prisma.reviewStatsModel.upsert({
      *   create: {
-     *     // ... data to create a RateModel
+     *     // ... data to create a ReviewStatsModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the RateModel we want to update
+     *     // ... the filter for the ReviewStatsModel we want to update
      *   }
      * })
     **/
-    upsert<T extends RateModelUpsertArgs>(
-      args: SelectSubset<T, RateModelUpsertArgs>
-    ): Prisma__RateModelClient<RateModelGetPayload<T>>
+    upsert<T extends ReviewStatsModelUpsertArgs>(
+      args: SelectSubset<T, ReviewStatsModelUpsertArgs>
+    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
 
     /**
-     * Count the number of RateModels.
+     * Count the number of ReviewStatsModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelCountArgs} args - Arguments to filter RateModels to count.
+     * @param {ReviewStatsModelCountArgs} args - Arguments to filter ReviewStatsModels to count.
      * @example
-     * // Count the number of RateModels
-     * const count = await prisma.rateModel.count({
+     * // Count the number of ReviewStatsModels
+     * const count = await prisma.reviewStatsModel.count({
      *   where: {
-     *     // ... the filter for the RateModels we want to count
+     *     // ... the filter for the ReviewStatsModels we want to count
      *   }
      * })
     **/
-    count<T extends RateModelCountArgs>(
-      args?: Subset<T, RateModelCountArgs>,
+    count<T extends ReviewStatsModelCountArgs>(
+      args?: Subset<T, ReviewStatsModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], RateModelCountAggregateOutputType>
+          : GetScalarType<T['select'], ReviewStatsModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a RateModel.
+     * Allows you to perform aggregations operations on a ReviewStatsModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ReviewStatsModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -8465,13 +8330,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends RateModelAggregateArgs>(args: Subset<T, RateModelAggregateArgs>): Prisma.PrismaPromise<GetRateModelAggregateType<T>>
+    aggregate<T extends ReviewStatsModelAggregateArgs>(args: Subset<T, ReviewStatsModelAggregateArgs>): Prisma.PrismaPromise<GetReviewStatsModelAggregateType<T>>
 
     /**
-     * Group by RateModel.
+     * Group by ReviewStatsModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateModelGroupByArgs} args - Group by arguments.
+     * @param {ReviewStatsModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -8486,14 +8351,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends RateModelGroupByArgs,
+      T extends ReviewStatsModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RateModelGroupByArgs['orderBy'] }
-        : { orderBy?: RateModelGroupByArgs['orderBy'] },
+        ? { orderBy: ReviewStatsModelGroupByArgs['orderBy'] }
+        : { orderBy?: ReviewStatsModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -8542,17 +8407,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, RateModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ReviewStatsModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewStatsModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for RateModel.
+   * The delegate class that acts as a "Promise-like" for ReviewStatsModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__RateModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ReviewStatsModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -8567,9 +8432,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    category<T extends RateCategoryModelArgs= {}>(args?: Subset<T, RateCategoryModelArgs>): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T> | Null>;
-
-    review<T extends ReviewModelArgs= {}>(args?: Subset<T, ReviewModelArgs>): Prisma__ReviewModelClient<ReviewModelGetPayload<T> | Null>;
+    reviewee<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -8599,27 +8462,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * RateModel base type for findUnique actions
+   * ReviewStatsModel base type for findUnique actions
    */
-  export type RateModelFindUniqueArgsBase = {
+  export type ReviewStatsModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter, which RateModel to fetch.
+     * Filter, which ReviewStatsModel to fetch.
      */
-    where: RateModelWhereUniqueInput
+    where: ReviewStatsModelWhereUniqueInput
   }
 
   /**
-   * RateModel findUnique
+   * ReviewStatsModel findUnique
    */
-  export interface RateModelFindUniqueArgs extends RateModelFindUniqueArgsBase {
+  export interface ReviewStatsModelFindUniqueArgs extends ReviewStatsModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -8629,76 +8492,76 @@ export namespace Prisma {
       
 
   /**
-   * RateModel findUniqueOrThrow
+   * ReviewStatsModel findUniqueOrThrow
    */
-  export type RateModelFindUniqueOrThrowArgs = {
+  export type ReviewStatsModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter, which RateModel to fetch.
+     * Filter, which ReviewStatsModel to fetch.
      */
-    where: RateModelWhereUniqueInput
+    where: ReviewStatsModelWhereUniqueInput
   }
 
 
   /**
-   * RateModel base type for findFirst actions
+   * ReviewStatsModel base type for findFirst actions
    */
-  export type RateModelFindFirstArgsBase = {
+  export type ReviewStatsModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter, which RateModel to fetch.
+     * Filter, which ReviewStatsModel to fetch.
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RateModels to fetch.
+     * Determine the order of ReviewStatsModels to fetch.
      */
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for RateModels.
+     * Sets the position for searching for ReviewStatsModels.
      */
-    cursor?: RateModelWhereUniqueInput
+    cursor?: ReviewStatsModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RateModels from the position of the cursor.
+     * Take `±n` ReviewStatsModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RateModels.
+     * Skip the first `n` ReviewStatsModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of RateModels.
+     * Filter by unique combinations of ReviewStatsModels.
      */
-    distinct?: Enumerable<RateModelScalarFieldEnum>
+    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
   }
 
   /**
-   * RateModel findFirst
+   * ReviewStatsModel findFirst
    */
-  export interface RateModelFindFirstArgs extends RateModelFindFirstArgsBase {
+  export interface ReviewStatsModelFindFirstArgs extends ReviewStatsModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -8708,1208 +8571,236 @@ export namespace Prisma {
       
 
   /**
-   * RateModel findFirstOrThrow
+   * ReviewStatsModel findFirstOrThrow
    */
-  export type RateModelFindFirstOrThrowArgs = {
+  export type ReviewStatsModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter, which RateModel to fetch.
+     * Filter, which ReviewStatsModel to fetch.
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RateModels to fetch.
+     * Determine the order of ReviewStatsModels to fetch.
      */
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for RateModels.
+     * Sets the position for searching for ReviewStatsModels.
      */
-    cursor?: RateModelWhereUniqueInput
+    cursor?: ReviewStatsModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RateModels from the position of the cursor.
+     * Take `±n` ReviewStatsModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RateModels.
+     * Skip the first `n` ReviewStatsModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of RateModels.
+     * Filter by unique combinations of ReviewStatsModels.
      */
-    distinct?: Enumerable<RateModelScalarFieldEnum>
+    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
   }
 
 
   /**
-   * RateModel findMany
+   * ReviewStatsModel findMany
    */
-  export type RateModelFindManyArgs = {
+  export type ReviewStatsModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter, which RateModels to fetch.
+     * Filter, which ReviewStatsModels to fetch.
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RateModels to fetch.
+     * Determine the order of ReviewStatsModels to fetch.
      */
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
+    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing RateModels.
+     * Sets the position for listing ReviewStatsModels.
      */
-    cursor?: RateModelWhereUniqueInput
+    cursor?: ReviewStatsModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RateModels from the position of the cursor.
+     * Take `±n` ReviewStatsModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RateModels.
+     * Skip the first `n` ReviewStatsModels.
      */
     skip?: number
-    distinct?: Enumerable<RateModelScalarFieldEnum>
+    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
   }
 
 
   /**
-   * RateModel create
+   * ReviewStatsModel create
    */
-  export type RateModelCreateArgs = {
+  export type ReviewStatsModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * The data needed to create a RateModel.
+     * The data needed to create a ReviewStatsModel.
      */
-    data: XOR<RateModelCreateInput, RateModelUncheckedCreateInput>
+    data: XOR<ReviewStatsModelCreateInput, ReviewStatsModelUncheckedCreateInput>
   }
 
 
   /**
-   * RateModel createMany
+   * ReviewStatsModel createMany
    */
-  export type RateModelCreateManyArgs = {
+  export type ReviewStatsModelCreateManyArgs = {
     /**
-     * The data used to create many RateModels.
+     * The data used to create many ReviewStatsModels.
      */
-    data: Enumerable<RateModelCreateManyInput>
+    data: Enumerable<ReviewStatsModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * RateModel update
+   * ReviewStatsModel update
    */
-  export type RateModelUpdateArgs = {
+  export type ReviewStatsModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * The data needed to update a RateModel.
+     * The data needed to update a ReviewStatsModel.
      */
-    data: XOR<RateModelUpdateInput, RateModelUncheckedUpdateInput>
+    data: XOR<ReviewStatsModelUpdateInput, ReviewStatsModelUncheckedUpdateInput>
     /**
-     * Choose, which RateModel to update.
+     * Choose, which ReviewStatsModel to update.
      */
-    where: RateModelWhereUniqueInput
+    where: ReviewStatsModelWhereUniqueInput
   }
 
 
   /**
-   * RateModel updateMany
+   * ReviewStatsModel updateMany
    */
-  export type RateModelUpdateManyArgs = {
+  export type ReviewStatsModelUpdateManyArgs = {
     /**
-     * The data used to update RateModels.
+     * The data used to update ReviewStatsModels.
      */
-    data: XOR<RateModelUpdateManyMutationInput, RateModelUncheckedUpdateManyInput>
+    data: XOR<ReviewStatsModelUpdateManyMutationInput, ReviewStatsModelUncheckedUpdateManyInput>
     /**
-     * Filter which RateModels to update
+     * Filter which ReviewStatsModels to update
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
   }
 
 
   /**
-   * RateModel upsert
+   * ReviewStatsModel upsert
    */
-  export type RateModelUpsertArgs = {
+  export type ReviewStatsModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * The filter to search for the RateModel to update in case it exists.
+     * The filter to search for the ReviewStatsModel to update in case it exists.
      */
-    where: RateModelWhereUniqueInput
+    where: ReviewStatsModelWhereUniqueInput
     /**
-     * In case the RateModel found by the `where` argument doesn't exist, create a new RateModel with this data.
+     * In case the ReviewStatsModel found by the `where` argument doesn't exist, create a new ReviewStatsModel with this data.
      */
-    create: XOR<RateModelCreateInput, RateModelUncheckedCreateInput>
+    create: XOR<ReviewStatsModelCreateInput, ReviewStatsModelUncheckedCreateInput>
     /**
-     * In case the RateModel was found with the provided `where` argument, update it with this data.
+     * In case the ReviewStatsModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<RateModelUpdateInput, RateModelUncheckedUpdateInput>
+    update: XOR<ReviewStatsModelUpdateInput, ReviewStatsModelUncheckedUpdateInput>
   }
 
 
   /**
-   * RateModel delete
+   * ReviewStatsModel delete
    */
-  export type RateModelDeleteArgs = {
+  export type ReviewStatsModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
+    include?: ReviewStatsModelInclude | null
     /**
-     * Filter which RateModel to delete.
+     * Filter which ReviewStatsModel to delete.
      */
-    where: RateModelWhereUniqueInput
+    where: ReviewStatsModelWhereUniqueInput
   }
 
 
   /**
-   * RateModel deleteMany
+   * ReviewStatsModel deleteMany
    */
-  export type RateModelDeleteManyArgs = {
+  export type ReviewStatsModelDeleteManyArgs = {
     /**
-     * Filter which RateModels to delete
+     * Filter which ReviewStatsModels to delete
      */
-    where?: RateModelWhereInput
+    where?: ReviewStatsModelWhereInput
   }
 
 
   /**
-   * RateModel without action
+   * ReviewStatsModel without action
    */
-  export type RateModelArgs = {
+  export type ReviewStatsModelArgs = {
     /**
-     * Select specific fields to fetch from the RateModel
+     * Select specific fields to fetch from the ReviewStatsModel
      */
-    select?: RateModelSelect | null
+    select?: ReviewStatsModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: RateModelInclude | null
-  }
-
-
-
-  /**
-   * Model RateCategoryModel
-   */
-
-
-  export type AggregateRateCategoryModel = {
-    _count: RateCategoryModelCountAggregateOutputType | null
-    _min: RateCategoryModelMinAggregateOutputType | null
-    _max: RateCategoryModelMaxAggregateOutputType | null
-  }
-
-  export type RateCategoryModelMinAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    name: string | null
-    target_type: RateTargetType | null
-  }
-
-  export type RateCategoryModelMaxAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    name: string | null
-    target_type: RateTargetType | null
-  }
-
-  export type RateCategoryModelCountAggregateOutputType = {
-    id: number
-    created_at: number
-    updated_at: number
-    is_deleted: number
-    deleted_at: number
-    name: number
-    target_type: number
-    _all: number
-  }
-
-
-  export type RateCategoryModelMinAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    name?: true
-    target_type?: true
-  }
-
-  export type RateCategoryModelMaxAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    name?: true
-    target_type?: true
-  }
-
-  export type RateCategoryModelCountAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    name?: true
-    target_type?: true
-    _all?: true
-  }
-
-  export type RateCategoryModelAggregateArgs = {
-    /**
-     * Filter which RateCategoryModel to aggregate.
-     */
-    where?: RateCategoryModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RateCategoryModels to fetch.
-     */
-    orderBy?: Enumerable<RateCategoryModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RateCategoryModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RateCategoryModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RateCategoryModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned RateCategoryModels
-    **/
-    _count?: true | RateCategoryModelCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RateCategoryModelMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RateCategoryModelMaxAggregateInputType
-  }
-
-  export type GetRateCategoryModelAggregateType<T extends RateCategoryModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateRateCategoryModel]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRateCategoryModel[P]>
-      : GetScalarType<T[P], AggregateRateCategoryModel[P]>
-  }
-
-
-
-
-  export type RateCategoryModelGroupByArgs = {
-    where?: RateCategoryModelWhereInput
-    orderBy?: Enumerable<RateCategoryModelOrderByWithAggregationInput>
-    by: RateCategoryModelScalarFieldEnum[]
-    having?: RateCategoryModelScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RateCategoryModelCountAggregateInputType | true
-    _min?: RateCategoryModelMinAggregateInputType
-    _max?: RateCategoryModelMaxAggregateInputType
-  }
-
-
-  export type RateCategoryModelGroupByOutputType = {
-    id: string
-    created_at: Date
-    updated_at: Date
-    is_deleted: boolean
-    deleted_at: Date | null
-    name: string
-    target_type: RateTargetType
-    _count: RateCategoryModelCountAggregateOutputType | null
-    _min: RateCategoryModelMinAggregateOutputType | null
-    _max: RateCategoryModelMaxAggregateOutputType | null
-  }
-
-  type GetRateCategoryModelGroupByPayload<T extends RateCategoryModelGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<RateCategoryModelGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RateCategoryModelGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RateCategoryModelGroupByOutputType[P]>
-            : GetScalarType<T[P], RateCategoryModelGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RateCategoryModelSelect = {
-    id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    is_deleted?: boolean
-    deleted_at?: boolean
-    name?: boolean
-    target_type?: boolean
-    rates?: boolean | RateCategoryModel$ratesArgs
-    _count?: boolean | RateCategoryModelCountOutputTypeArgs
-  }
-
-
-  export type RateCategoryModelInclude = {
-    rates?: boolean | RateCategoryModel$ratesArgs
-    _count?: boolean | RateCategoryModelCountOutputTypeArgs
-  }
-
-  export type RateCategoryModelGetPayload<S extends boolean | null | undefined | RateCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? RateCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (RateCategoryModelArgs | RateCategoryModelFindManyArgs)
-    ? RateCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'rates' ? Array < RateModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? RateCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (RateCategoryModelArgs | RateCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'rates' ? Array < RateModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? RateCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof RateCategoryModel ? RateCategoryModel[P] : never
-  } 
-      : RateCategoryModel
-
-
-  type RateCategoryModelCountArgs = 
-    Omit<RateCategoryModelFindManyArgs, 'select' | 'include'> & {
-      select?: RateCategoryModelCountAggregateInputType | true
-    }
-
-  export interface RateCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one RateCategoryModel that matches the filter.
-     * @param {RateCategoryModelFindUniqueArgs} args - Arguments to find a RateCategoryModel
-     * @example
-     * // Get one RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends RateCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, RateCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'RateCategoryModel'> extends True ? Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>> : Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T> | null, null>
-
-    /**
-     * Find one RateCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {RateCategoryModelFindUniqueOrThrowArgs} args - Arguments to find a RateCategoryModel
-     * @example
-     * // Get one RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends RateCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, RateCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Find the first RateCategoryModel that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelFindFirstArgs} args - Arguments to find a RateCategoryModel
-     * @example
-     * // Get one RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends RateCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, RateCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'RateCategoryModel'> extends True ? Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>> : Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T> | null, null>
-
-    /**
-     * Find the first RateCategoryModel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelFindFirstOrThrowArgs} args - Arguments to find a RateCategoryModel
-     * @example
-     * // Get one RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends RateCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, RateCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Find zero or more RateCategoryModels that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all RateCategoryModels
-     * const rateCategoryModels = await prisma.rateCategoryModel.findMany()
-     * 
-     * // Get first 10 RateCategoryModels
-     * const rateCategoryModels = await prisma.rateCategoryModel.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const rateCategoryModelWithIdOnly = await prisma.rateCategoryModel.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends RateCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, RateCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<RateCategoryModelGetPayload<T>>>
-
-    /**
-     * Create a RateCategoryModel.
-     * @param {RateCategoryModelCreateArgs} args - Arguments to create a RateCategoryModel.
-     * @example
-     * // Create one RateCategoryModel
-     * const RateCategoryModel = await prisma.rateCategoryModel.create({
-     *   data: {
-     *     // ... data to create a RateCategoryModel
-     *   }
-     * })
-     * 
-    **/
-    create<T extends RateCategoryModelCreateArgs>(
-      args: SelectSubset<T, RateCategoryModelCreateArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Create many RateCategoryModels.
-     *     @param {RateCategoryModelCreateManyArgs} args - Arguments to create many RateCategoryModels.
-     *     @example
-     *     // Create many RateCategoryModels
-     *     const rateCategoryModel = await prisma.rateCategoryModel.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends RateCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, RateCategoryModelCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a RateCategoryModel.
-     * @param {RateCategoryModelDeleteArgs} args - Arguments to delete one RateCategoryModel.
-     * @example
-     * // Delete one RateCategoryModel
-     * const RateCategoryModel = await prisma.rateCategoryModel.delete({
-     *   where: {
-     *     // ... filter to delete one RateCategoryModel
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends RateCategoryModelDeleteArgs>(
-      args: SelectSubset<T, RateCategoryModelDeleteArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Update one RateCategoryModel.
-     * @param {RateCategoryModelUpdateArgs} args - Arguments to update one RateCategoryModel.
-     * @example
-     * // Update one RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends RateCategoryModelUpdateArgs>(
-      args: SelectSubset<T, RateCategoryModelUpdateArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Delete zero or more RateCategoryModels.
-     * @param {RateCategoryModelDeleteManyArgs} args - Arguments to filter RateCategoryModels to delete.
-     * @example
-     * // Delete a few RateCategoryModels
-     * const { count } = await prisma.rateCategoryModel.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends RateCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, RateCategoryModelDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more RateCategoryModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many RateCategoryModels
-     * const rateCategoryModel = await prisma.rateCategoryModel.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends RateCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, RateCategoryModelUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one RateCategoryModel.
-     * @param {RateCategoryModelUpsertArgs} args - Arguments to update or create a RateCategoryModel.
-     * @example
-     * // Update or create a RateCategoryModel
-     * const rateCategoryModel = await prisma.rateCategoryModel.upsert({
-     *   create: {
-     *     // ... data to create a RateCategoryModel
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the RateCategoryModel we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends RateCategoryModelUpsertArgs>(
-      args: SelectSubset<T, RateCategoryModelUpsertArgs>
-    ): Prisma__RateCategoryModelClient<RateCategoryModelGetPayload<T>>
-
-    /**
-     * Count the number of RateCategoryModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelCountArgs} args - Arguments to filter RateCategoryModels to count.
-     * @example
-     * // Count the number of RateCategoryModels
-     * const count = await prisma.rateCategoryModel.count({
-     *   where: {
-     *     // ... the filter for the RateCategoryModels we want to count
-     *   }
-     * })
-    **/
-    count<T extends RateCategoryModelCountArgs>(
-      args?: Subset<T, RateCategoryModelCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RateCategoryModelCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a RateCategoryModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RateCategoryModelAggregateArgs>(args: Subset<T, RateCategoryModelAggregateArgs>): Prisma.PrismaPromise<GetRateCategoryModelAggregateType<T>>
-
-    /**
-     * Group by RateCategoryModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RateCategoryModelGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RateCategoryModelGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RateCategoryModelGroupByArgs['orderBy'] }
-        : { orderBy?: RateCategoryModelGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RateCategoryModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateCategoryModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for RateCategoryModel.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__RateCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    rates<T extends RateCategoryModel$ratesArgs= {}>(args?: Subset<T, RateCategoryModel$ratesArgs>): Prisma.PrismaPromise<Array<RateModelGetPayload<T>>| Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * RateCategoryModel base type for findUnique actions
-   */
-  export type RateCategoryModelFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter, which RateCategoryModel to fetch.
-     */
-    where: RateCategoryModelWhereUniqueInput
-  }
-
-  /**
-   * RateCategoryModel findUnique
-   */
-  export interface RateCategoryModelFindUniqueArgs extends RateCategoryModelFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * RateCategoryModel findUniqueOrThrow
-   */
-  export type RateCategoryModelFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter, which RateCategoryModel to fetch.
-     */
-    where: RateCategoryModelWhereUniqueInput
-  }
-
-
-  /**
-   * RateCategoryModel base type for findFirst actions
-   */
-  export type RateCategoryModelFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter, which RateCategoryModel to fetch.
-     */
-    where?: RateCategoryModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RateCategoryModels to fetch.
-     */
-    orderBy?: Enumerable<RateCategoryModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RateCategoryModels.
-     */
-    cursor?: RateCategoryModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RateCategoryModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RateCategoryModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RateCategoryModels.
-     */
-    distinct?: Enumerable<RateCategoryModelScalarFieldEnum>
-  }
-
-  /**
-   * RateCategoryModel findFirst
-   */
-  export interface RateCategoryModelFindFirstArgs extends RateCategoryModelFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * RateCategoryModel findFirstOrThrow
-   */
-  export type RateCategoryModelFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter, which RateCategoryModel to fetch.
-     */
-    where?: RateCategoryModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RateCategoryModels to fetch.
-     */
-    orderBy?: Enumerable<RateCategoryModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RateCategoryModels.
-     */
-    cursor?: RateCategoryModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RateCategoryModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RateCategoryModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RateCategoryModels.
-     */
-    distinct?: Enumerable<RateCategoryModelScalarFieldEnum>
-  }
-
-
-  /**
-   * RateCategoryModel findMany
-   */
-  export type RateCategoryModelFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter, which RateCategoryModels to fetch.
-     */
-    where?: RateCategoryModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RateCategoryModels to fetch.
-     */
-    orderBy?: Enumerable<RateCategoryModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing RateCategoryModels.
-     */
-    cursor?: RateCategoryModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RateCategoryModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RateCategoryModels.
-     */
-    skip?: number
-    distinct?: Enumerable<RateCategoryModelScalarFieldEnum>
-  }
-
-
-  /**
-   * RateCategoryModel create
-   */
-  export type RateCategoryModelCreateArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * The data needed to create a RateCategoryModel.
-     */
-    data: XOR<RateCategoryModelCreateInput, RateCategoryModelUncheckedCreateInput>
-  }
-
-
-  /**
-   * RateCategoryModel createMany
-   */
-  export type RateCategoryModelCreateManyArgs = {
-    /**
-     * The data used to create many RateCategoryModels.
-     */
-    data: Enumerable<RateCategoryModelCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * RateCategoryModel update
-   */
-  export type RateCategoryModelUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * The data needed to update a RateCategoryModel.
-     */
-    data: XOR<RateCategoryModelUpdateInput, RateCategoryModelUncheckedUpdateInput>
-    /**
-     * Choose, which RateCategoryModel to update.
-     */
-    where: RateCategoryModelWhereUniqueInput
-  }
-
-
-  /**
-   * RateCategoryModel updateMany
-   */
-  export type RateCategoryModelUpdateManyArgs = {
-    /**
-     * The data used to update RateCategoryModels.
-     */
-    data: XOR<RateCategoryModelUpdateManyMutationInput, RateCategoryModelUncheckedUpdateManyInput>
-    /**
-     * Filter which RateCategoryModels to update
-     */
-    where?: RateCategoryModelWhereInput
-  }
-
-
-  /**
-   * RateCategoryModel upsert
-   */
-  export type RateCategoryModelUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * The filter to search for the RateCategoryModel to update in case it exists.
-     */
-    where: RateCategoryModelWhereUniqueInput
-    /**
-     * In case the RateCategoryModel found by the `where` argument doesn't exist, create a new RateCategoryModel with this data.
-     */
-    create: XOR<RateCategoryModelCreateInput, RateCategoryModelUncheckedCreateInput>
-    /**
-     * In case the RateCategoryModel was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RateCategoryModelUpdateInput, RateCategoryModelUncheckedUpdateInput>
-  }
-
-
-  /**
-   * RateCategoryModel delete
-   */
-  export type RateCategoryModelDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
-    /**
-     * Filter which RateCategoryModel to delete.
-     */
-    where: RateCategoryModelWhereUniqueInput
-  }
-
-
-  /**
-   * RateCategoryModel deleteMany
-   */
-  export type RateCategoryModelDeleteManyArgs = {
-    /**
-     * Filter which RateCategoryModels to delete
-     */
-    where?: RateCategoryModelWhereInput
-  }
-
-
-  /**
-   * RateCategoryModel.rates
-   */
-  export type RateCategoryModel$ratesArgs = {
-    /**
-     * Select specific fields to fetch from the RateModel
-     */
-    select?: RateModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateModelInclude | null
-    where?: RateModelWhereInput
-    orderBy?: Enumerable<RateModelOrderByWithRelationInput>
-    cursor?: RateModelWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<RateModelScalarFieldEnum>
-  }
-
-
-  /**
-   * RateCategoryModel without action
-   */
-  export type RateCategoryModelArgs = {
-    /**
-     * Select specific fields to fetch from the RateCategoryModel
-     */
-    select?: RateCategoryModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RateCategoryModelInclude | null
+    include?: ReviewStatsModelInclude | null
   }
 
 
@@ -18982,6 +17873,7 @@ export namespace Prisma {
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
     reviews?: boolean | BusinessUserModel$reviewsArgs
+    review_stats?: boolean | ReviewStatsModelArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -18994,6 +17886,7 @@ export namespace Prisma {
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
     reviews?: boolean | BusinessUserModel$reviewsArgs
+    review_stats?: boolean | ReviewStatsModelArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -19011,6 +17904,7 @@ export namespace Prisma {
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['include'][P]>>  :
+        P extends 'review_stats' ? ReviewStatsModelGetPayload<S['include'][P]> | null :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
@@ -19023,6 +17917,7 @@ export namespace Prisma {
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
         P extends 'reviews' ? Array < ReviewModelGetPayload<S['select'][P]>>  :
+        P extends 'review_stats' ? ReviewStatsModelGetPayload<S['select'][P]> | null :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
   } 
       : BusinessUserModel
@@ -19408,6 +18303,8 @@ export namespace Prisma {
     oauth_accounts<T extends BusinessUserModel$oauth_accountsArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
 
     reviews<T extends BusinessUserModel$reviewsArgs= {}>(args?: Subset<T, BusinessUserModel$reviewsArgs>): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>| Null>;
+
+    review_stats<T extends ReviewStatsModelArgs= {}>(args?: Subset<T, ReviewStatsModelArgs>): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -21011,14 +19908,14 @@ export namespace Prisma {
     ? REAgentModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'properties' ? Array < REProertyModelGetPayload<S['include'][P]>>  :
+        P extends 'properties' ? Array < REPropertyModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'properties' ? Array < REProertyModelGetPayload<S['select'][P]>>  :
+        P extends 'properties' ? Array < REPropertyModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
   } 
       : REAgentModel
@@ -21393,7 +20290,7 @@ export namespace Prisma {
 
     base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
-    properties<T extends REAgentModel$propertiesArgs= {}>(args?: Subset<T, REAgentModel$propertiesArgs>): Prisma.PrismaPromise<Array<REProertyModelGetPayload<T>>| Null>;
+    properties<T extends REAgentModel$propertiesArgs= {}>(args?: Subset<T, REAgentModel$propertiesArgs>): Prisma.PrismaPromise<Array<REPropertyModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -21755,19 +20652,19 @@ export namespace Prisma {
    */
   export type REAgentModel$propertiesArgs = {
     /**
-     * Select specific fields to fetch from the REProertyModel
+     * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REProertyModelSelect | null
+    select?: REPropertyModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REProertyModelInclude | null
-    where?: REProertyModelWhereInput
-    orderBy?: Enumerable<REProertyModelOrderByWithRelationInput>
-    cursor?: REProertyModelWhereUniqueInput
+    include?: REPropertyModelInclude | null
+    where?: REPropertyModelWhereInput
+    orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
+    cursor?: REPropertyModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<REProertyModelScalarFieldEnum>
+    distinct?: Enumerable<REPropertyModelScalarFieldEnum>
   }
 
 
@@ -21930,14 +20827,14 @@ export namespace Prisma {
     id?: boolean
     business_registration_num?: boolean
     base?: boolean | BusinessUserModelArgs
-    introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
+    example_images?: boolean | HSProviderModel$example_imagesArgs
     _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
 
 
   export type HSProviderModelInclude = {
     base?: boolean | BusinessUserModelArgs
-    introduction_images?: boolean | HSProviderModel$introduction_imagesArgs
+    example_images?: boolean | HSProviderModel$example_imagesArgs
     _count?: boolean | HSProviderModelCountOutputTypeArgs
   }
 
@@ -21949,14 +20846,14 @@ export namespace Prisma {
     ? HSProviderModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['include'][P]>>  :
+        P extends 'example_images' ? Array < HSExampleImageModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'introduction_images' ? Array < HSIntroductionImageModelGetPayload<S['select'][P]>>  :
+        P extends 'example_images' ? Array < HSExampleImageModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSProviderModel ? HSProviderModel[P] : never
   } 
       : HSProviderModel
@@ -22331,7 +21228,7 @@ export namespace Prisma {
 
     base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
 
-    introduction_images<T extends HSProviderModel$introduction_imagesArgs= {}>(args?: Subset<T, HSProviderModel$introduction_imagesArgs>): Prisma.PrismaPromise<Array<HSIntroductionImageModelGetPayload<T>>| Null>;
+    example_images<T extends HSProviderModel$example_imagesArgs= {}>(args?: Subset<T, HSProviderModel$example_imagesArgs>): Prisma.PrismaPromise<Array<HSExampleImageModelGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -22689,23 +21586,23 @@ export namespace Prisma {
 
 
   /**
-   * HSProviderModel.introduction_images
+   * HSProviderModel.example_images
    */
-  export type HSProviderModel$introduction_imagesArgs = {
+  export type HSProviderModel$example_imagesArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
-    where?: HSIntroductionImageModelWhereInput
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
-    cursor?: HSIntroductionImageModelWhereUniqueInput
+    include?: HSExampleImageModelInclude | null
+    where?: HSExampleImageModelWhereInput
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
+    cursor?: HSExampleImageModelWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<HSExampleImageModelScalarFieldEnum>
   }
 
 
@@ -23673,17 +22570,17 @@ export namespace Prisma {
 
 
   /**
-   * Model HSIntroductionImageModel
+   * Model HSExampleImageModel
    */
 
 
-  export type AggregateHSIntroductionImageModel = {
-    _count: HSIntroductionImageModelCountAggregateOutputType | null
-    _min: HSIntroductionImageModelMinAggregateOutputType | null
-    _max: HSIntroductionImageModelMaxAggregateOutputType | null
+  export type AggregateHSExampleImageModel = {
+    _count: HSExampleImageModelCountAggregateOutputType | null
+    _min: HSExampleImageModelMinAggregateOutputType | null
+    _max: HSExampleImageModelMaxAggregateOutputType | null
   }
 
-  export type HSIntroductionImageModelMinAggregateOutputType = {
+  export type HSExampleImageModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -23693,7 +22590,7 @@ export namespace Prisma {
     url: string | null
   }
 
-  export type HSIntroductionImageModelMaxAggregateOutputType = {
+  export type HSExampleImageModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -23703,7 +22600,7 @@ export namespace Prisma {
     url: string | null
   }
 
-  export type HSIntroductionImageModelCountAggregateOutputType = {
+  export type HSExampleImageModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -23715,7 +22612,7 @@ export namespace Prisma {
   }
 
 
-  export type HSIntroductionImageModelMinAggregateInputType = {
+  export type HSExampleImageModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -23725,7 +22622,7 @@ export namespace Prisma {
     url?: true
   }
 
-  export type HSIntroductionImageModelMaxAggregateInputType = {
+  export type HSExampleImageModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -23735,7 +22632,7 @@ export namespace Prisma {
     url?: true
   }
 
-  export type HSIntroductionImageModelCountAggregateInputType = {
+  export type HSExampleImageModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -23746,80 +22643,80 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type HSIntroductionImageModelAggregateArgs = {
+  export type HSExampleImageModelAggregateArgs = {
     /**
-     * Filter which HSIntroductionImageModel to aggregate.
+     * Filter which HSExampleImageModel to aggregate.
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSIntroductionImageModels to fetch.
+     * Determine the order of HSExampleImageModels to fetch.
      */
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: HSIntroductionImageModelWhereUniqueInput
+    cursor?: HSExampleImageModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     * Take `±n` HSExampleImageModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSIntroductionImageModels.
+     * Skip the first `n` HSExampleImageModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned HSIntroductionImageModels
+     * Count returned HSExampleImageModels
     **/
-    _count?: true | HSIntroductionImageModelCountAggregateInputType
+    _count?: true | HSExampleImageModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: HSIntroductionImageModelMinAggregateInputType
+    _min?: HSExampleImageModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: HSIntroductionImageModelMaxAggregateInputType
+    _max?: HSExampleImageModelMaxAggregateInputType
   }
 
-  export type GetHSIntroductionImageModelAggregateType<T extends HSIntroductionImageModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateHSIntroductionImageModel]: P extends '_count' | 'count'
+  export type GetHSExampleImageModelAggregateType<T extends HSExampleImageModelAggregateArgs> = {
+        [P in keyof T & keyof AggregateHSExampleImageModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateHSIntroductionImageModel[P]>
-      : GetScalarType<T[P], AggregateHSIntroductionImageModel[P]>
+        : GetScalarType<T[P], AggregateHSExampleImageModel[P]>
+      : GetScalarType<T[P], AggregateHSExampleImageModel[P]>
   }
 
 
 
 
-  export type HSIntroductionImageModelGroupByArgs = {
-    where?: HSIntroductionImageModelWhereInput
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithAggregationInput>
-    by: HSIntroductionImageModelScalarFieldEnum[]
-    having?: HSIntroductionImageModelScalarWhereWithAggregatesInput
+  export type HSExampleImageModelGroupByArgs = {
+    where?: HSExampleImageModelWhereInput
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithAggregationInput>
+    by: HSExampleImageModelScalarFieldEnum[]
+    having?: HSExampleImageModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: HSIntroductionImageModelCountAggregateInputType | true
-    _min?: HSIntroductionImageModelMinAggregateInputType
-    _max?: HSIntroductionImageModelMaxAggregateInputType
+    _count?: HSExampleImageModelCountAggregateInputType | true
+    _min?: HSExampleImageModelMinAggregateInputType
+    _max?: HSExampleImageModelMaxAggregateInputType
   }
 
 
-  export type HSIntroductionImageModelGroupByOutputType = {
+  export type HSExampleImageModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -23827,26 +22724,26 @@ export namespace Prisma {
     deleted_at: Date | null
     hs_provider_id: string
     url: string
-    _count: HSIntroductionImageModelCountAggregateOutputType | null
-    _min: HSIntroductionImageModelMinAggregateOutputType | null
-    _max: HSIntroductionImageModelMaxAggregateOutputType | null
+    _count: HSExampleImageModelCountAggregateOutputType | null
+    _min: HSExampleImageModelMinAggregateOutputType | null
+    _max: HSExampleImageModelMaxAggregateOutputType | null
   }
 
-  type GetHSIntroductionImageModelGroupByPayload<T extends HSIntroductionImageModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetHSExampleImageModelGroupByPayload<T extends HSExampleImageModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<HSIntroductionImageModelGroupByOutputType, T['by']> &
+      PickArray<HSExampleImageModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof HSIntroductionImageModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof HSExampleImageModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], HSIntroductionImageModelGroupByOutputType[P]>
-            : GetScalarType<T[P], HSIntroductionImageModelGroupByOutputType[P]>
+              : GetScalarType<T[P], HSExampleImageModelGroupByOutputType[P]>
+            : GetScalarType<T[P], HSExampleImageModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type HSIntroductionImageModelSelect = {
+  export type HSExampleImageModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -23858,174 +22755,174 @@ export namespace Prisma {
   }
 
 
-  export type HSIntroductionImageModelInclude = {
+  export type HSExampleImageModelInclude = {
     hs_provider?: boolean | HSProviderModelArgs
   }
 
-  export type HSIntroductionImageModelGetPayload<S extends boolean | null | undefined | HSIntroductionImageModelArgs> =
+  export type HSExampleImageModelGetPayload<S extends boolean | null | undefined | HSExampleImageModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSIntroductionImageModel :
+    S extends true ? HSExampleImageModel :
     S extends undefined ? never :
-    S extends { include: any } & (HSIntroductionImageModelArgs | HSIntroductionImageModelFindManyArgs)
-    ? HSIntroductionImageModel  & {
+    S extends { include: any } & (HSExampleImageModelArgs | HSExampleImageModelFindManyArgs)
+    ? HSExampleImageModel  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (HSIntroductionImageModelArgs | HSIntroductionImageModelFindManyArgs)
+    : S extends { select: any } & (HSExampleImageModelArgs | HSExampleImageModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> :  P extends keyof HSIntroductionImageModel ? HSIntroductionImageModel[P] : never
+        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> :  P extends keyof HSExampleImageModel ? HSExampleImageModel[P] : never
   } 
-      : HSIntroductionImageModel
+      : HSExampleImageModel
 
 
-  type HSIntroductionImageModelCountArgs = 
-    Omit<HSIntroductionImageModelFindManyArgs, 'select' | 'include'> & {
-      select?: HSIntroductionImageModelCountAggregateInputType | true
+  type HSExampleImageModelCountArgs = 
+    Omit<HSExampleImageModelFindManyArgs, 'select' | 'include'> & {
+      select?: HSExampleImageModelCountAggregateInputType | true
     }
 
-  export interface HSIntroductionImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface HSExampleImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one HSIntroductionImageModel that matches the filter.
-     * @param {HSIntroductionImageModelFindUniqueArgs} args - Arguments to find a HSIntroductionImageModel
+     * Find zero or one HSExampleImageModel that matches the filter.
+     * @param {HSExampleImageModelFindUniqueArgs} args - Arguments to find a HSExampleImageModel
      * @example
-     * // Get one HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findUnique({
+     * // Get one HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends HSIntroductionImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HSIntroductionImageModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSIntroductionImageModel'> extends True ? Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>> : Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T> | null, null>
+    findUnique<T extends HSExampleImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSExampleImageModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>> : Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T> | null, null>
 
     /**
-     * Find one HSIntroductionImageModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one HSExampleImageModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {HSIntroductionImageModelFindUniqueOrThrowArgs} args - Arguments to find a HSIntroductionImageModel
+     * @param {HSExampleImageModelFindUniqueOrThrowArgs} args - Arguments to find a HSExampleImageModel
      * @example
-     * // Get one HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findUniqueOrThrow({
+     * // Get one HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HSIntroductionImageModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HSIntroductionImageModelFindUniqueOrThrowArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    findUniqueOrThrow<T extends HSExampleImageModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, HSExampleImageModelFindUniqueOrThrowArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Find the first HSIntroductionImageModel that matches the filter.
+     * Find the first HSExampleImageModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelFindFirstArgs} args - Arguments to find a HSIntroductionImageModel
+     * @param {HSExampleImageModelFindFirstArgs} args - Arguments to find a HSExampleImageModel
      * @example
-     * // Get one HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findFirst({
+     * // Get one HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends HSIntroductionImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HSIntroductionImageModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSIntroductionImageModel'> extends True ? Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>> : Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T> | null, null>
+    findFirst<T extends HSExampleImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSExampleImageModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>> : Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T> | null, null>
 
     /**
-     * Find the first HSIntroductionImageModel that matches the filter or
+     * Find the first HSExampleImageModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelFindFirstOrThrowArgs} args - Arguments to find a HSIntroductionImageModel
+     * @param {HSExampleImageModelFindFirstOrThrowArgs} args - Arguments to find a HSExampleImageModel
      * @example
-     * // Get one HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.findFirstOrThrow({
+     * // Get one HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HSIntroductionImageModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HSIntroductionImageModelFindFirstOrThrowArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    findFirstOrThrow<T extends HSExampleImageModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, HSExampleImageModelFindFirstOrThrowArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Find zero or more HSIntroductionImageModels that matches the filter.
+     * Find zero or more HSExampleImageModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {HSExampleImageModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all HSIntroductionImageModels
-     * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany()
+     * // Get all HSExampleImageModels
+     * const hSExampleImageModels = await prisma.hSExampleImageModel.findMany()
      * 
-     * // Get first 10 HSIntroductionImageModels
-     * const hSIntroductionImageModels = await prisma.hSIntroductionImageModel.findMany({ take: 10 })
+     * // Get first 10 HSExampleImageModels
+     * const hSExampleImageModels = await prisma.hSExampleImageModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const hSIntroductionImageModelWithIdOnly = await prisma.hSIntroductionImageModel.findMany({ select: { id: true } })
+     * const hSExampleImageModelWithIdOnly = await prisma.hSExampleImageModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends HSIntroductionImageModelFindManyArgs>(
-      args?: SelectSubset<T, HSIntroductionImageModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<HSIntroductionImageModelGetPayload<T>>>
+    findMany<T extends HSExampleImageModelFindManyArgs>(
+      args?: SelectSubset<T, HSExampleImageModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<HSExampleImageModelGetPayload<T>>>
 
     /**
-     * Create a HSIntroductionImageModel.
-     * @param {HSIntroductionImageModelCreateArgs} args - Arguments to create a HSIntroductionImageModel.
+     * Create a HSExampleImageModel.
+     * @param {HSExampleImageModelCreateArgs} args - Arguments to create a HSExampleImageModel.
      * @example
-     * // Create one HSIntroductionImageModel
-     * const HSIntroductionImageModel = await prisma.hSIntroductionImageModel.create({
+     * // Create one HSExampleImageModel
+     * const HSExampleImageModel = await prisma.hSExampleImageModel.create({
      *   data: {
-     *     // ... data to create a HSIntroductionImageModel
+     *     // ... data to create a HSExampleImageModel
      *   }
      * })
      * 
     **/
-    create<T extends HSIntroductionImageModelCreateArgs>(
-      args: SelectSubset<T, HSIntroductionImageModelCreateArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    create<T extends HSExampleImageModelCreateArgs>(
+      args: SelectSubset<T, HSExampleImageModelCreateArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Create many HSIntroductionImageModels.
-     *     @param {HSIntroductionImageModelCreateManyArgs} args - Arguments to create many HSIntroductionImageModels.
+     * Create many HSExampleImageModels.
+     *     @param {HSExampleImageModelCreateManyArgs} args - Arguments to create many HSExampleImageModels.
      *     @example
-     *     // Create many HSIntroductionImageModels
-     *     const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.createMany({
+     *     // Create many HSExampleImageModels
+     *     const hSExampleImageModel = await prisma.hSExampleImageModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends HSIntroductionImageModelCreateManyArgs>(
-      args?: SelectSubset<T, HSIntroductionImageModelCreateManyArgs>
+    createMany<T extends HSExampleImageModelCreateManyArgs>(
+      args?: SelectSubset<T, HSExampleImageModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a HSIntroductionImageModel.
-     * @param {HSIntroductionImageModelDeleteArgs} args - Arguments to delete one HSIntroductionImageModel.
+     * Delete a HSExampleImageModel.
+     * @param {HSExampleImageModelDeleteArgs} args - Arguments to delete one HSExampleImageModel.
      * @example
-     * // Delete one HSIntroductionImageModel
-     * const HSIntroductionImageModel = await prisma.hSIntroductionImageModel.delete({
+     * // Delete one HSExampleImageModel
+     * const HSExampleImageModel = await prisma.hSExampleImageModel.delete({
      *   where: {
-     *     // ... filter to delete one HSIntroductionImageModel
+     *     // ... filter to delete one HSExampleImageModel
      *   }
      * })
      * 
     **/
-    delete<T extends HSIntroductionImageModelDeleteArgs>(
-      args: SelectSubset<T, HSIntroductionImageModelDeleteArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    delete<T extends HSExampleImageModelDeleteArgs>(
+      args: SelectSubset<T, HSExampleImageModelDeleteArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Update one HSIntroductionImageModel.
-     * @param {HSIntroductionImageModelUpdateArgs} args - Arguments to update one HSIntroductionImageModel.
+     * Update one HSExampleImageModel.
+     * @param {HSExampleImageModelUpdateArgs} args - Arguments to update one HSExampleImageModel.
      * @example
-     * // Update one HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.update({
+     * // Update one HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24035,34 +22932,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends HSIntroductionImageModelUpdateArgs>(
-      args: SelectSubset<T, HSIntroductionImageModelUpdateArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    update<T extends HSExampleImageModelUpdateArgs>(
+      args: SelectSubset<T, HSExampleImageModelUpdateArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Delete zero or more HSIntroductionImageModels.
-     * @param {HSIntroductionImageModelDeleteManyArgs} args - Arguments to filter HSIntroductionImageModels to delete.
+     * Delete zero or more HSExampleImageModels.
+     * @param {HSExampleImageModelDeleteManyArgs} args - Arguments to filter HSExampleImageModels to delete.
      * @example
-     * // Delete a few HSIntroductionImageModels
-     * const { count } = await prisma.hSIntroductionImageModel.deleteMany({
+     * // Delete a few HSExampleImageModels
+     * const { count } = await prisma.hSExampleImageModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends HSIntroductionImageModelDeleteManyArgs>(
-      args?: SelectSubset<T, HSIntroductionImageModelDeleteManyArgs>
+    deleteMany<T extends HSExampleImageModelDeleteManyArgs>(
+      args?: SelectSubset<T, HSExampleImageModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more HSIntroductionImageModels.
+     * Update zero or more HSExampleImageModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {HSExampleImageModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many HSIntroductionImageModels
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.updateMany({
+     * // Update many HSExampleImageModels
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24072,59 +22969,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends HSIntroductionImageModelUpdateManyArgs>(
-      args: SelectSubset<T, HSIntroductionImageModelUpdateManyArgs>
+    updateMany<T extends HSExampleImageModelUpdateManyArgs>(
+      args: SelectSubset<T, HSExampleImageModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one HSIntroductionImageModel.
-     * @param {HSIntroductionImageModelUpsertArgs} args - Arguments to update or create a HSIntroductionImageModel.
+     * Create or update one HSExampleImageModel.
+     * @param {HSExampleImageModelUpsertArgs} args - Arguments to update or create a HSExampleImageModel.
      * @example
-     * // Update or create a HSIntroductionImageModel
-     * const hSIntroductionImageModel = await prisma.hSIntroductionImageModel.upsert({
+     * // Update or create a HSExampleImageModel
+     * const hSExampleImageModel = await prisma.hSExampleImageModel.upsert({
      *   create: {
-     *     // ... data to create a HSIntroductionImageModel
+     *     // ... data to create a HSExampleImageModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the HSIntroductionImageModel we want to update
+     *     // ... the filter for the HSExampleImageModel we want to update
      *   }
      * })
     **/
-    upsert<T extends HSIntroductionImageModelUpsertArgs>(
-      args: SelectSubset<T, HSIntroductionImageModelUpsertArgs>
-    ): Prisma__HSIntroductionImageModelClient<HSIntroductionImageModelGetPayload<T>>
+    upsert<T extends HSExampleImageModelUpsertArgs>(
+      args: SelectSubset<T, HSExampleImageModelUpsertArgs>
+    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
 
     /**
-     * Count the number of HSIntroductionImageModels.
+     * Count the number of HSExampleImageModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelCountArgs} args - Arguments to filter HSIntroductionImageModels to count.
+     * @param {HSExampleImageModelCountArgs} args - Arguments to filter HSExampleImageModels to count.
      * @example
-     * // Count the number of HSIntroductionImageModels
-     * const count = await prisma.hSIntroductionImageModel.count({
+     * // Count the number of HSExampleImageModels
+     * const count = await prisma.hSExampleImageModel.count({
      *   where: {
-     *     // ... the filter for the HSIntroductionImageModels we want to count
+     *     // ... the filter for the HSExampleImageModels we want to count
      *   }
      * })
     **/
-    count<T extends HSIntroductionImageModelCountArgs>(
-      args?: Subset<T, HSIntroductionImageModelCountArgs>,
+    count<T extends HSExampleImageModelCountArgs>(
+      args?: Subset<T, HSExampleImageModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], HSIntroductionImageModelCountAggregateOutputType>
+          : GetScalarType<T['select'], HSExampleImageModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a HSIntroductionImageModel.
+     * Allows you to perform aggregations operations on a HSExampleImageModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {HSExampleImageModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -24144,13 +23041,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends HSIntroductionImageModelAggregateArgs>(args: Subset<T, HSIntroductionImageModelAggregateArgs>): Prisma.PrismaPromise<GetHSIntroductionImageModelAggregateType<T>>
+    aggregate<T extends HSExampleImageModelAggregateArgs>(args: Subset<T, HSExampleImageModelAggregateArgs>): Prisma.PrismaPromise<GetHSExampleImageModelAggregateType<T>>
 
     /**
-     * Group by HSIntroductionImageModel.
+     * Group by HSExampleImageModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {HSIntroductionImageModelGroupByArgs} args - Group by arguments.
+     * @param {HSExampleImageModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -24165,14 +23062,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends HSIntroductionImageModelGroupByArgs,
+      T extends HSExampleImageModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: HSIntroductionImageModelGroupByArgs['orderBy'] }
-        : { orderBy?: HSIntroductionImageModelGroupByArgs['orderBy'] },
+        ? { orderBy: HSExampleImageModelGroupByArgs['orderBy'] }
+        : { orderBy?: HSExampleImageModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -24221,17 +23118,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, HSIntroductionImageModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSIntroductionImageModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, HSExampleImageModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHSExampleImageModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for HSIntroductionImageModel.
+   * The delegate class that acts as a "Promise-like" for HSExampleImageModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HSIntroductionImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__HSExampleImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -24276,27 +23173,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * HSIntroductionImageModel base type for findUnique actions
+   * HSExampleImageModel base type for findUnique actions
    */
-  export type HSIntroductionImageModelFindUniqueArgsBase = {
+  export type HSExampleImageModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter, which HSIntroductionImageModel to fetch.
+     * Filter, which HSExampleImageModel to fetch.
      */
-    where: HSIntroductionImageModelWhereUniqueInput
+    where: HSExampleImageModelWhereUniqueInput
   }
 
   /**
-   * HSIntroductionImageModel findUnique
+   * HSExampleImageModel findUnique
    */
-  export interface HSIntroductionImageModelFindUniqueArgs extends HSIntroductionImageModelFindUniqueArgsBase {
+  export interface HSExampleImageModelFindUniqueArgs extends HSExampleImageModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -24306,76 +23203,76 @@ export namespace Prisma {
       
 
   /**
-   * HSIntroductionImageModel findUniqueOrThrow
+   * HSExampleImageModel findUniqueOrThrow
    */
-  export type HSIntroductionImageModelFindUniqueOrThrowArgs = {
+  export type HSExampleImageModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter, which HSIntroductionImageModel to fetch.
+     * Filter, which HSExampleImageModel to fetch.
      */
-    where: HSIntroductionImageModelWhereUniqueInput
+    where: HSExampleImageModelWhereUniqueInput
   }
 
 
   /**
-   * HSIntroductionImageModel base type for findFirst actions
+   * HSExampleImageModel base type for findFirst actions
    */
-  export type HSIntroductionImageModelFindFirstArgsBase = {
+  export type HSExampleImageModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter, which HSIntroductionImageModel to fetch.
+     * Filter, which HSExampleImageModel to fetch.
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSIntroductionImageModels to fetch.
+     * Determine the order of HSExampleImageModels to fetch.
      */
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSIntroductionImageModels.
+     * Sets the position for searching for HSExampleImageModels.
      */
-    cursor?: HSIntroductionImageModelWhereUniqueInput
+    cursor?: HSExampleImageModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     * Take `±n` HSExampleImageModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSIntroductionImageModels.
+     * Skip the first `n` HSExampleImageModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSIntroductionImageModels.
+     * Filter by unique combinations of HSExampleImageModels.
      */
-    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<HSExampleImageModelScalarFieldEnum>
   }
 
   /**
-   * HSIntroductionImageModel findFirst
+   * HSExampleImageModel findFirst
    */
-  export interface HSIntroductionImageModelFindFirstArgs extends HSIntroductionImageModelFindFirstArgsBase {
+  export interface HSExampleImageModelFindFirstArgs extends HSExampleImageModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -24385,236 +23282,236 @@ export namespace Prisma {
       
 
   /**
-   * HSIntroductionImageModel findFirstOrThrow
+   * HSExampleImageModel findFirstOrThrow
    */
-  export type HSIntroductionImageModelFindFirstOrThrowArgs = {
+  export type HSExampleImageModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter, which HSIntroductionImageModel to fetch.
+     * Filter, which HSExampleImageModel to fetch.
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSIntroductionImageModels to fetch.
+     * Determine the order of HSExampleImageModels to fetch.
      */
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for HSIntroductionImageModels.
+     * Sets the position for searching for HSExampleImageModels.
      */
-    cursor?: HSIntroductionImageModelWhereUniqueInput
+    cursor?: HSExampleImageModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     * Take `±n` HSExampleImageModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSIntroductionImageModels.
+     * Skip the first `n` HSExampleImageModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of HSIntroductionImageModels.
+     * Filter by unique combinations of HSExampleImageModels.
      */
-    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<HSExampleImageModelScalarFieldEnum>
   }
 
 
   /**
-   * HSIntroductionImageModel findMany
+   * HSExampleImageModel findMany
    */
-  export type HSIntroductionImageModelFindManyArgs = {
+  export type HSExampleImageModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter, which HSIntroductionImageModels to fetch.
+     * Filter, which HSExampleImageModels to fetch.
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of HSIntroductionImageModels to fetch.
+     * Determine the order of HSExampleImageModels to fetch.
      */
-    orderBy?: Enumerable<HSIntroductionImageModelOrderByWithRelationInput>
+    orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing HSIntroductionImageModels.
+     * Sets the position for listing HSExampleImageModels.
      */
-    cursor?: HSIntroductionImageModelWhereUniqueInput
+    cursor?: HSExampleImageModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` HSIntroductionImageModels from the position of the cursor.
+     * Take `±n` HSExampleImageModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` HSIntroductionImageModels.
+     * Skip the first `n` HSExampleImageModels.
      */
     skip?: number
-    distinct?: Enumerable<HSIntroductionImageModelScalarFieldEnum>
+    distinct?: Enumerable<HSExampleImageModelScalarFieldEnum>
   }
 
 
   /**
-   * HSIntroductionImageModel create
+   * HSExampleImageModel create
    */
-  export type HSIntroductionImageModelCreateArgs = {
+  export type HSExampleImageModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * The data needed to create a HSIntroductionImageModel.
+     * The data needed to create a HSExampleImageModel.
      */
-    data: XOR<HSIntroductionImageModelCreateInput, HSIntroductionImageModelUncheckedCreateInput>
+    data: XOR<HSExampleImageModelCreateInput, HSExampleImageModelUncheckedCreateInput>
   }
 
 
   /**
-   * HSIntroductionImageModel createMany
+   * HSExampleImageModel createMany
    */
-  export type HSIntroductionImageModelCreateManyArgs = {
+  export type HSExampleImageModelCreateManyArgs = {
     /**
-     * The data used to create many HSIntroductionImageModels.
+     * The data used to create many HSExampleImageModels.
      */
-    data: Enumerable<HSIntroductionImageModelCreateManyInput>
+    data: Enumerable<HSExampleImageModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * HSIntroductionImageModel update
+   * HSExampleImageModel update
    */
-  export type HSIntroductionImageModelUpdateArgs = {
+  export type HSExampleImageModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * The data needed to update a HSIntroductionImageModel.
+     * The data needed to update a HSExampleImageModel.
      */
-    data: XOR<HSIntroductionImageModelUpdateInput, HSIntroductionImageModelUncheckedUpdateInput>
+    data: XOR<HSExampleImageModelUpdateInput, HSExampleImageModelUncheckedUpdateInput>
     /**
-     * Choose, which HSIntroductionImageModel to update.
+     * Choose, which HSExampleImageModel to update.
      */
-    where: HSIntroductionImageModelWhereUniqueInput
+    where: HSExampleImageModelWhereUniqueInput
   }
 
 
   /**
-   * HSIntroductionImageModel updateMany
+   * HSExampleImageModel updateMany
    */
-  export type HSIntroductionImageModelUpdateManyArgs = {
+  export type HSExampleImageModelUpdateManyArgs = {
     /**
-     * The data used to update HSIntroductionImageModels.
+     * The data used to update HSExampleImageModels.
      */
-    data: XOR<HSIntroductionImageModelUpdateManyMutationInput, HSIntroductionImageModelUncheckedUpdateManyInput>
+    data: XOR<HSExampleImageModelUpdateManyMutationInput, HSExampleImageModelUncheckedUpdateManyInput>
     /**
-     * Filter which HSIntroductionImageModels to update
+     * Filter which HSExampleImageModels to update
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
   }
 
 
   /**
-   * HSIntroductionImageModel upsert
+   * HSExampleImageModel upsert
    */
-  export type HSIntroductionImageModelUpsertArgs = {
+  export type HSExampleImageModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * The filter to search for the HSIntroductionImageModel to update in case it exists.
+     * The filter to search for the HSExampleImageModel to update in case it exists.
      */
-    where: HSIntroductionImageModelWhereUniqueInput
+    where: HSExampleImageModelWhereUniqueInput
     /**
-     * In case the HSIntroductionImageModel found by the `where` argument doesn't exist, create a new HSIntroductionImageModel with this data.
+     * In case the HSExampleImageModel found by the `where` argument doesn't exist, create a new HSExampleImageModel with this data.
      */
-    create: XOR<HSIntroductionImageModelCreateInput, HSIntroductionImageModelUncheckedCreateInput>
+    create: XOR<HSExampleImageModelCreateInput, HSExampleImageModelUncheckedCreateInput>
     /**
-     * In case the HSIntroductionImageModel was found with the provided `where` argument, update it with this data.
+     * In case the HSExampleImageModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<HSIntroductionImageModelUpdateInput, HSIntroductionImageModelUncheckedUpdateInput>
+    update: XOR<HSExampleImageModelUpdateInput, HSExampleImageModelUncheckedUpdateInput>
   }
 
 
   /**
-   * HSIntroductionImageModel delete
+   * HSExampleImageModel delete
    */
-  export type HSIntroductionImageModelDeleteArgs = {
+  export type HSExampleImageModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
     /**
-     * Filter which HSIntroductionImageModel to delete.
+     * Filter which HSExampleImageModel to delete.
      */
-    where: HSIntroductionImageModelWhereUniqueInput
+    where: HSExampleImageModelWhereUniqueInput
   }
 
 
   /**
-   * HSIntroductionImageModel deleteMany
+   * HSExampleImageModel deleteMany
    */
-  export type HSIntroductionImageModelDeleteManyArgs = {
+  export type HSExampleImageModelDeleteManyArgs = {
     /**
-     * Filter which HSIntroductionImageModels to delete
+     * Filter which HSExampleImageModels to delete
      */
-    where?: HSIntroductionImageModelWhereInput
+    where?: HSExampleImageModelWhereInput
   }
 
 
   /**
-   * HSIntroductionImageModel without action
+   * HSExampleImageModel without action
    */
-  export type HSIntroductionImageModelArgs = {
+  export type HSExampleImageModelArgs = {
     /**
-     * Select specific fields to fetch from the HSIntroductionImageModel
+     * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSIntroductionImageModelSelect | null
+    select?: HSExampleImageModelSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSIntroductionImageModelInclude | null
+    include?: HSExampleImageModelInclude | null
   }
 
 
@@ -25727,7 +24624,7 @@ export namespace Prisma {
   export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
 
 
-  export const HSIntroductionImageModelScalarFieldEnum: {
+  export const HSExampleImageModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -25737,7 +24634,7 @@ export namespace Prisma {
     url: 'url'
   };
 
-  export type HSIntroductionImageModelScalarFieldEnum = (typeof HSIntroductionImageModelScalarFieldEnum)[keyof typeof HSIntroductionImageModelScalarFieldEnum]
+  export type HSExampleImageModelScalarFieldEnum = (typeof HSExampleImageModelScalarFieldEnum)[keyof typeof HSExampleImageModelScalarFieldEnum]
 
 
   export const HSProviderModelScalarFieldEnum: {
@@ -25791,20 +24688,6 @@ export namespace Prisma {
   export type REAgentModelScalarFieldEnum = (typeof REAgentModelScalarFieldEnum)[keyof typeof REAgentModelScalarFieldEnum]
 
 
-  export const REProertyModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    main_image_url: 'main_image_url',
-    re_agent_id: 're_agent_id'
-  };
-
-  export type REProertyModelScalarFieldEnum = (typeof REProertyModelScalarFieldEnum)[keyof typeof REProertyModelScalarFieldEnum]
-
-
   export const REPropertyCategoryModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
@@ -25829,6 +24712,20 @@ export namespace Prisma {
   };
 
   export type REPropertyMiddleCategoryModelScalarFieldEnum = (typeof REPropertyMiddleCategoryModelScalarFieldEnum)[keyof typeof REPropertyMiddleCategoryModelScalarFieldEnum]
+
+
+  export const REPropertyModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    main_image_url: 'main_image_url',
+    re_agent_id: 're_agent_id'
+  };
+
+  export type REPropertyModelScalarFieldEnum = (typeof REPropertyModelScalarFieldEnum)[keyof typeof REPropertyModelScalarFieldEnum]
 
 
   export const REPropertySubCategoryModelScalarFieldEnum: {
@@ -25856,33 +24753,6 @@ export namespace Prisma {
   export type REPropertySuperCategoryModelScalarFieldEnum = (typeof REPropertySuperCategoryModelScalarFieldEnum)[keyof typeof REPropertySuperCategoryModelScalarFieldEnum]
 
 
-  export const RateCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    target_type: 'target_type'
-  };
-
-  export type RateCategoryModelScalarFieldEnum = (typeof RateCategoryModelScalarFieldEnum)[keyof typeof RateCategoryModelScalarFieldEnum]
-
-
-  export const RateModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    score: 'score',
-    category_id: 'category_id',
-    review_id: 'review_id'
-  };
-
-  export type RateModelScalarFieldEnum = (typeof RateModelScalarFieldEnum)[keyof typeof RateModelScalarFieldEnum]
-
-
   export const ReviewModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
@@ -25891,10 +24761,22 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     reviewer_id: 'reviewer_id',
     reviewee_id: 'reviewee_id',
-    content: 'content'
+    content: 'content',
+    rating: 'rating'
   };
 
   export type ReviewModelScalarFieldEnum = (typeof ReviewModelScalarFieldEnum)[keyof typeof ReviewModelScalarFieldEnum]
+
+
+  export const ReviewStatsModelScalarFieldEnum: {
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    review_cnt: 'review_cnt',
+    rating_sum: 'rating_sum',
+    reviewee_id: 'reviewee_id'
+  };
+
+  export type ReviewStatsModelScalarFieldEnum = (typeof ReviewStatsModelScalarFieldEnum)[keyof typeof ReviewStatsModelScalarFieldEnum]
 
 
   export const ServiceSubCategoryModelScalarFieldEnum: {
@@ -26015,10 +24897,10 @@ export namespace Prisma {
    */
 
 
-  export type REProertyModelWhereInput = {
-    AND?: Enumerable<REProertyModelWhereInput>
-    OR?: Enumerable<REProertyModelWhereInput>
-    NOT?: Enumerable<REProertyModelWhereInput>
+  export type REPropertyModelWhereInput = {
+    AND?: Enumerable<REPropertyModelWhereInput>
+    OR?: Enumerable<REPropertyModelWhereInput>
+    NOT?: Enumerable<REPropertyModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -26031,7 +24913,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelListRelationFilter
   }
 
-  export type REProertyModelOrderByWithRelationInput = {
+  export type REPropertyModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26044,11 +24926,11 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelOrderByRelationAggregateInput
   }
 
-  export type REProertyModelWhereUniqueInput = {
+  export type REPropertyModelWhereUniqueInput = {
     id?: string
   }
 
-  export type REProertyModelOrderByWithAggregationInput = {
+  export type REPropertyModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26057,15 +24939,15 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
-    _count?: REProertyModelCountOrderByAggregateInput
-    _max?: REProertyModelMaxOrderByAggregateInput
-    _min?: REProertyModelMinOrderByAggregateInput
+    _count?: REPropertyModelCountOrderByAggregateInput
+    _max?: REPropertyModelMaxOrderByAggregateInput
+    _min?: REPropertyModelMinOrderByAggregateInput
   }
 
-  export type REProertyModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<REProertyModelScalarWhereWithAggregatesInput>
+  export type REPropertyModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<REPropertyModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<REPropertyModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<REPropertyModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -26087,7 +24969,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     re_property_id?: StringFilter | string
     sub_category_id?: StringFilter | string
-    re_property?: XOR<REProertyModelRelationFilter, REProertyModelWhereInput>
+    re_property?: XOR<REPropertyModelRelationFilter, REPropertyModelWhereInput>
     sub_category?: XOR<REPropertySubCategoryModelRelationFilter, REPropertySubCategoryModelWhereInput>
   }
 
@@ -26099,7 +24981,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     re_property_id?: SortOrder
     sub_category_id?: SortOrder
-    re_property?: REProertyModelOrderByWithRelationInput
+    re_property?: REPropertyModelOrderByWithRelationInput
     sub_category?: REPropertySubCategoryModelOrderByWithRelationInput
   }
 
@@ -26311,9 +25193,9 @@ export namespace Prisma {
     reviewer_id?: StringFilter | string
     reviewee_id?: StringFilter | string
     content?: StringFilter | string
+    rating?: IntFilter | number
     reviewer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
     reviewee?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-    rates?: RateModelListRelationFilter
   }
 
   export type ReviewModelOrderByWithRelationInput = {
@@ -26325,9 +25207,9 @@ export namespace Prisma {
     reviewer_id?: SortOrder
     reviewee_id?: SortOrder
     content?: SortOrder
+    rating?: SortOrder
     reviewer?: CustomerModelOrderByWithRelationInput
     reviewee?: BusinessUserModelOrderByWithRelationInput
-    rates?: RateModelOrderByRelationAggregateInput
   }
 
   export type ReviewModelWhereUniqueInput = {
@@ -26343,9 +25225,12 @@ export namespace Prisma {
     reviewer_id?: SortOrder
     reviewee_id?: SortOrder
     content?: SortOrder
+    rating?: SortOrder
     _count?: ReviewModelCountOrderByAggregateInput
+    _avg?: ReviewModelAvgOrderByAggregateInput
     _max?: ReviewModelMaxOrderByAggregateInput
     _min?: ReviewModelMinOrderByAggregateInput
+    _sum?: ReviewModelSumOrderByAggregateInput
   }
 
   export type ReviewModelScalarWhereWithAggregatesInput = {
@@ -26360,126 +25245,56 @@ export namespace Prisma {
     reviewer_id?: StringWithAggregatesFilter | string
     reviewee_id?: StringWithAggregatesFilter | string
     content?: StringWithAggregatesFilter | string
+    rating?: IntWithAggregatesFilter | number
   }
 
-  export type RateModelWhereInput = {
-    AND?: Enumerable<RateModelWhereInput>
-    OR?: Enumerable<RateModelWhereInput>
-    NOT?: Enumerable<RateModelWhereInput>
-    id?: StringFilter | string
+  export type ReviewStatsModelWhereInput = {
+    AND?: Enumerable<ReviewStatsModelWhereInput>
+    OR?: Enumerable<ReviewStatsModelWhereInput>
+    NOT?: Enumerable<ReviewStatsModelWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    score?: IntFilter | number
-    category_id?: StringFilter | string
-    review_id?: StringFilter | string
-    category?: XOR<RateCategoryModelRelationFilter, RateCategoryModelWhereInput>
-    review?: XOR<ReviewModelRelationFilter, ReviewModelWhereInput>
+    review_cnt?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFilter | Decimal | DecimalJsLike | number | string
+    reviewee_id?: StringFilter | string
+    reviewee?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
   }
 
-  export type RateModelOrderByWithRelationInput = {
-    id?: SortOrder
+  export type ReviewStatsModelOrderByWithRelationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    score?: SortOrder
-    category_id?: SortOrder
-    review_id?: SortOrder
-    category?: RateCategoryModelOrderByWithRelationInput
-    review?: ReviewModelOrderByWithRelationInput
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+    reviewee_id?: SortOrder
+    reviewee?: BusinessUserModelOrderByWithRelationInput
   }
 
-  export type RateModelWhereUniqueInput = {
-    id?: string
-    category_id_review_id?: RateModelCategory_idReview_idCompoundUniqueInput
+  export type ReviewStatsModelWhereUniqueInput = {
+    reviewee_id?: string
   }
 
-  export type RateModelOrderByWithAggregationInput = {
-    id?: SortOrder
+  export type ReviewStatsModelOrderByWithAggregationInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    score?: SortOrder
-    category_id?: SortOrder
-    review_id?: SortOrder
-    _count?: RateModelCountOrderByAggregateInput
-    _avg?: RateModelAvgOrderByAggregateInput
-    _max?: RateModelMaxOrderByAggregateInput
-    _min?: RateModelMinOrderByAggregateInput
-    _sum?: RateModelSumOrderByAggregateInput
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+    reviewee_id?: SortOrder
+    _count?: ReviewStatsModelCountOrderByAggregateInput
+    _avg?: ReviewStatsModelAvgOrderByAggregateInput
+    _max?: ReviewStatsModelMaxOrderByAggregateInput
+    _min?: ReviewStatsModelMinOrderByAggregateInput
+    _sum?: ReviewStatsModelSumOrderByAggregateInput
   }
 
-  export type RateModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<RateModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<RateModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<RateModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
+  export type ReviewStatsModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
-    is_deleted?: BoolWithAggregatesFilter | boolean
-    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    score?: IntWithAggregatesFilter | number
-    category_id?: StringWithAggregatesFilter | string
-    review_id?: StringWithAggregatesFilter | string
-  }
-
-  export type RateCategoryModelWhereInput = {
-    AND?: Enumerable<RateCategoryModelWhereInput>
-    OR?: Enumerable<RateCategoryModelWhereInput>
-    NOT?: Enumerable<RateCategoryModelWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    name?: StringFilter | string
-    target_type?: EnumRateTargetTypeFilter | RateTargetType
-    rates?: RateModelListRelationFilter
-  }
-
-  export type RateCategoryModelOrderByWithRelationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    name?: SortOrder
-    target_type?: SortOrder
-    rates?: RateModelOrderByRelationAggregateInput
-  }
-
-  export type RateCategoryModelWhereUniqueInput = {
-    id?: string
-    name?: string
-  }
-
-  export type RateCategoryModelOrderByWithAggregationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    name?: SortOrder
-    target_type?: SortOrder
-    _count?: RateCategoryModelCountOrderByAggregateInput
-    _max?: RateCategoryModelMaxOrderByAggregateInput
-    _min?: RateCategoryModelMinOrderByAggregateInput
-  }
-
-  export type RateCategoryModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<RateCategoryModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<RateCategoryModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<RateCategoryModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    created_at?: DateTimeWithAggregatesFilter | Date | string
-    updated_at?: DateTimeWithAggregatesFilter | Date | string
-    is_deleted?: BoolWithAggregatesFilter | boolean
-    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    name?: StringWithAggregatesFilter | string
-    target_type?: EnumRateTargetTypeWithAggregatesFilter | RateTargetType
+    review_cnt?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
+    reviewee_id?: StringWithAggregatesFilter | string
   }
 
   export type AgreementModelWhereInput = {
@@ -27044,6 +25859,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelListRelationFilter
     oauth_accounts?: OauthAccountModelListRelationFilter
     reviews?: ReviewModelListRelationFilter
+    review_stats?: XOR<ReviewStatsModelRelationFilter, ReviewStatsModelWhereInput> | null
   }
 
   export type BusinessUserModelOrderByWithRelationInput = {
@@ -27062,6 +25878,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelOrderByRelationAggregateInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
     reviews?: ReviewModelOrderByRelationAggregateInput
+    review_stats?: ReviewStatsModelOrderByWithRelationInput
   }
 
   export type BusinessUserModelWhereUniqueInput = {
@@ -27165,7 +25982,7 @@ export namespace Prisma {
     re_phone?: StringFilter | string
     re_licensed_agent_name?: StringFilter | string
     base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-    properties?: REProertyModelListRelationFilter
+    properties?: REPropertyModelListRelationFilter
   }
 
   export type REAgentModelOrderByWithRelationInput = {
@@ -27176,7 +25993,7 @@ export namespace Prisma {
     re_phone?: SortOrder
     re_licensed_agent_name?: SortOrder
     base?: BusinessUserModelOrderByWithRelationInput
-    properties?: REProertyModelOrderByRelationAggregateInput
+    properties?: REPropertyModelOrderByRelationAggregateInput
   }
 
   export type REAgentModelWhereUniqueInput = {
@@ -27214,14 +26031,14 @@ export namespace Prisma {
     id?: StringFilter | string
     business_registration_num?: StringFilter | string
     base?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-    introduction_images?: HSIntroductionImageModelListRelationFilter
+    example_images?: HSExampleImageModelListRelationFilter
   }
 
   export type HSProviderModelOrderByWithRelationInput = {
     id?: SortOrder
     business_registration_num?: SortOrder
     base?: BusinessUserModelOrderByWithRelationInput
-    introduction_images?: HSIntroductionImageModelOrderByRelationAggregateInput
+    example_images?: HSExampleImageModelOrderByRelationAggregateInput
   }
 
   export type HSProviderModelWhereUniqueInput = {
@@ -27299,10 +26116,10 @@ export namespace Prisma {
     url?: StringWithAggregatesFilter | string
   }
 
-  export type HSIntroductionImageModelWhereInput = {
-    AND?: Enumerable<HSIntroductionImageModelWhereInput>
-    OR?: Enumerable<HSIntroductionImageModelWhereInput>
-    NOT?: Enumerable<HSIntroductionImageModelWhereInput>
+  export type HSExampleImageModelWhereInput = {
+    AND?: Enumerable<HSExampleImageModelWhereInput>
+    OR?: Enumerable<HSExampleImageModelWhereInput>
+    NOT?: Enumerable<HSExampleImageModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -27313,7 +26130,7 @@ export namespace Prisma {
     hs_provider?: XOR<HSProviderModelRelationFilter, HSProviderModelWhereInput>
   }
 
-  export type HSIntroductionImageModelOrderByWithRelationInput = {
+  export type HSExampleImageModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27324,11 +26141,11 @@ export namespace Prisma {
     hs_provider?: HSProviderModelOrderByWithRelationInput
   }
 
-  export type HSIntroductionImageModelWhereUniqueInput = {
+  export type HSExampleImageModelWhereUniqueInput = {
     id?: string
   }
 
-  export type HSIntroductionImageModelOrderByWithAggregationInput = {
+  export type HSExampleImageModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27336,15 +26153,15 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
-    _count?: HSIntroductionImageModelCountOrderByAggregateInput
-    _max?: HSIntroductionImageModelMaxOrderByAggregateInput
-    _min?: HSIntroductionImageModelMinOrderByAggregateInput
+    _count?: HSExampleImageModelCountOrderByAggregateInput
+    _max?: HSExampleImageModelMaxOrderByAggregateInput
+    _min?: HSExampleImageModelMinOrderByAggregateInput
   }
 
-  export type HSIntroductionImageModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<HSIntroductionImageModelScalarWhereWithAggregatesInput>
+  export type HSExampleImageModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<HSExampleImageModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<HSExampleImageModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<HSExampleImageModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -27451,7 +26268,7 @@ export namespace Prisma {
     address_second?: StringNullableWithAggregatesFilter | string | null
   }
 
-  export type REProertyModelCreateInput = {
+  export type REPropertyModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -27463,7 +26280,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelUncheckedCreateInput = {
+  export type REPropertyModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -27475,7 +26292,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelUpdateInput = {
+  export type REPropertyModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27487,7 +26304,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
 
-  export type REProertyModelUncheckedUpdateInput = {
+  export type REPropertyModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27499,7 +26316,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUncheckedUpdateManyWithoutRe_propertyNestedInput
   }
 
-  export type REProertyModelCreateManyInput = {
+  export type REPropertyModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -27510,7 +26327,7 @@ export namespace Prisma {
     re_agent_id: string
   }
 
-  export type REProertyModelUpdateManyMutationInput = {
+  export type REPropertyModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27520,7 +26337,7 @@ export namespace Prisma {
     main_image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type REProertyModelUncheckedUpdateManyInput = {
+  export type REPropertyModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27537,7 +26354,7 @@ export namespace Prisma {
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    re_property: REProertyModelCreateNestedOneWithoutCategoriesInput
+    re_property: REPropertyModelCreateNestedOneWithoutCategoriesInput
     sub_category: REPropertySubCategoryModelCreateNestedOneWithoutProperty_categoriesInput
   }
 
@@ -27557,7 +26374,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    re_property?: REProertyModelUpdateOneRequiredWithoutCategoriesNestedInput
+    re_property?: REPropertyModelUpdateOneRequiredWithoutCategoriesNestedInput
     sub_category?: REPropertySubCategoryModelUpdateOneRequiredWithoutProperty_categoriesNestedInput
   }
 
@@ -27819,9 +26636,9 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     content: string
+    rating: number
     reviewer: CustomerModelCreateNestedOneWithoutReviewsInput
     reviewee: BusinessUserModelCreateNestedOneWithoutReviewsInput
-    rates?: RateModelCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewModelUncheckedCreateInput = {
@@ -27833,7 +26650,7 @@ export namespace Prisma {
     reviewer_id: string
     reviewee_id: string
     content: string
-    rates?: RateModelUncheckedCreateNestedManyWithoutReviewInput
+    rating: number
   }
 
   export type ReviewModelUpdateInput = {
@@ -27843,9 +26660,9 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
     reviewer?: CustomerModelUpdateOneRequiredWithoutReviewsNestedInput
     reviewee?: BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput
-    rates?: RateModelUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewModelUncheckedUpdateInput = {
@@ -27857,7 +26674,7 @@ export namespace Prisma {
     reviewer_id?: StringFieldUpdateOperationsInput | string
     reviewee_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    rates?: RateModelUncheckedUpdateManyWithoutReviewNestedInput
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type ReviewModelCreateManyInput = {
@@ -27869,6 +26686,7 @@ export namespace Prisma {
     reviewer_id: string
     reviewee_id: string
     content: string
+    rating: number
   }
 
   export type ReviewModelUpdateManyMutationInput = {
@@ -27878,6 +26696,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type ReviewModelUncheckedUpdateManyInput = {
@@ -27889,155 +26708,62 @@ export namespace Prisma {
     reviewer_id?: StringFieldUpdateOperationsInput | string
     reviewee_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
-  export type RateModelCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category: RateCategoryModelCreateNestedOneWithoutRatesInput
-    review: ReviewModelCreateNestedOneWithoutRatesInput
+  export type ReviewStatsModelCreateInput = {
+    created_at?: Date | string
+    updated_at?: Date | string
+    review_cnt: Decimal | DecimalJsLike | number | string
+    rating_sum: Decimal | DecimalJsLike | number | string
+    reviewee: BusinessUserModelCreateNestedOneWithoutReview_statsInput
   }
 
-  export type RateModelUncheckedCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category_id: string
-    review_id: string
+  export type ReviewStatsModelUncheckedCreateInput = {
+    created_at?: Date | string
+    updated_at?: Date | string
+    review_cnt: Decimal | DecimalJsLike | number | string
+    rating_sum: Decimal | DecimalJsLike | number | string
+    reviewee_id: string
   }
 
-  export type RateModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ReviewStatsModelUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category?: RateCategoryModelUpdateOneRequiredWithoutRatesNestedInput
-    review?: ReviewModelUpdateOneRequiredWithoutRatesNestedInput
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reviewee?: BusinessUserModelUpdateOneRequiredWithoutReview_statsNestedInput
   }
 
-  export type RateModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ReviewStatsModelUncheckedUpdateInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category_id?: StringFieldUpdateOperationsInput | string
-    review_id?: StringFieldUpdateOperationsInput | string
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reviewee_id?: StringFieldUpdateOperationsInput | string
   }
 
-  export type RateModelCreateManyInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category_id: string
-    review_id: string
+  export type ReviewStatsModelCreateManyInput = {
+    created_at?: Date | string
+    updated_at?: Date | string
+    review_cnt: Decimal | DecimalJsLike | number | string
+    rating_sum: Decimal | DecimalJsLike | number | string
+    reviewee_id: string
   }
 
-  export type RateModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ReviewStatsModelUpdateManyMutationInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
 
-  export type RateModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ReviewStatsModelUncheckedUpdateManyInput = {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category_id?: StringFieldUpdateOperationsInput | string
-    review_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RateCategoryModelCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    target_type: RateTargetType
-    rates?: RateModelCreateNestedManyWithoutCategoryInput
-  }
-
-  export type RateCategoryModelUncheckedCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    target_type: RateTargetType
-    rates?: RateModelUncheckedCreateNestedManyWithoutCategoryInput
-  }
-
-  export type RateCategoryModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
-    rates?: RateModelUpdateManyWithoutCategoryNestedInput
-  }
-
-  export type RateCategoryModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
-    rates?: RateModelUncheckedUpdateManyWithoutCategoryNestedInput
-  }
-
-  export type RateCategoryModelCreateManyInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    target_type: RateTargetType
-  }
-
-  export type RateCategoryModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
-  }
-
-  export type RateCategoryModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reviewee_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementModelCreateInput = {
@@ -28767,6 +27493,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateInput = {
@@ -28784,6 +27511,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUpdateInput = {
@@ -28801,6 +27529,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateInput = {
@@ -28818,6 +27547,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelCreateManyInput = {
@@ -28927,7 +27657,7 @@ export namespace Prisma {
     re_phone: string
     re_licensed_agent_name: string
     base: BusinessUserModelCreateNestedOneWithoutRe_agentInput
-    properties?: REProertyModelCreateNestedManyWithoutRe_agentInput
+    properties?: REPropertyModelCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateInput = {
@@ -28937,7 +27667,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput
+    properties?: REPropertyModelUncheckedCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUpdateInput = {
@@ -28947,7 +27677,7 @@ export namespace Prisma {
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
     base?: BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput
-    properties?: REProertyModelUpdateManyWithoutRe_agentNestedInput
+    properties?: REPropertyModelUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateInput = {
@@ -28957,7 +27687,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
+    properties?: REPropertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelCreateManyInput = {
@@ -28989,25 +27719,25 @@ export namespace Prisma {
   export type HSProviderModelCreateInput = {
     business_registration_num: string
     base: BusinessUserModelCreateNestedOneWithoutHs_providerInput
-    introduction_images?: HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput
+    example_images?: HSExampleImageModelCreateNestedManyWithoutHs_providerInput
   }
 
   export type HSProviderModelUncheckedCreateInput = {
     id: string
     business_registration_num: string
-    introduction_images?: HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput
+    example_images?: HSExampleImageModelUncheckedCreateNestedManyWithoutHs_providerInput
   }
 
   export type HSProviderModelUpdateInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
     base?: BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput
-    introduction_images?: HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput
+    example_images?: HSExampleImageModelUpdateManyWithoutHs_providerNestedInput
   }
 
   export type HSProviderModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     business_registration_num?: StringFieldUpdateOperationsInput | string
-    introduction_images?: HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
+    example_images?: HSExampleImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
   }
 
   export type HSProviderModelCreateManyInput = {
@@ -29093,17 +27823,17 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelCreateInput = {
+  export type HSExampleImageModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
     url: string
-    hs_provider: HSProviderModelCreateNestedOneWithoutIntroduction_imagesInput
+    hs_provider: HSProviderModelCreateNestedOneWithoutExample_imagesInput
   }
 
-  export type HSIntroductionImageModelUncheckedCreateInput = {
+  export type HSExampleImageModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29113,17 +27843,17 @@ export namespace Prisma {
     url: string
   }
 
-  export type HSIntroductionImageModelUpdateInput = {
+  export type HSExampleImageModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
-    hs_provider?: HSProviderModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput
+    hs_provider?: HSProviderModelUpdateOneRequiredWithoutExample_imagesNestedInput
   }
 
-  export type HSIntroductionImageModelUncheckedUpdateInput = {
+  export type HSExampleImageModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29133,7 +27863,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelCreateManyInput = {
+  export type HSExampleImageModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29143,7 +27873,7 @@ export namespace Prisma {
     url: string
   }
 
-  export type HSIntroductionImageModelUpdateManyMutationInput = {
+  export type HSExampleImageModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29152,7 +27882,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelUncheckedUpdateManyInput = {
+  export type HSExampleImageModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29357,7 +28087,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type REProertyModelCountOrderByAggregateInput = {
+  export type REPropertyModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -29368,7 +28098,7 @@ export namespace Prisma {
     re_agent_id?: SortOrder
   }
 
-  export type REProertyModelMaxOrderByAggregateInput = {
+  export type REPropertyModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -29379,7 +28109,7 @@ export namespace Prisma {
     re_agent_id?: SortOrder
   }
 
-  export type REProertyModelMinOrderByAggregateInput = {
+  export type REPropertyModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -29444,9 +28174,9 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type REProertyModelRelationFilter = {
-    is?: REProertyModelWhereInput
-    isNot?: REProertyModelWhereInput
+  export type REPropertyModelRelationFilter = {
+    is?: REPropertyModelWhereInput
+    isNot?: REPropertyModelWhereInput
   }
 
   export type REPropertySubCategoryModelRelationFilter = {
@@ -29601,59 +28331,6 @@ export namespace Prisma {
     name?: SortOrder
   }
 
-  export type CustomerModelRelationFilter = {
-    is?: CustomerModelWhereInput | null
-    isNot?: CustomerModelWhereInput | null
-  }
-
-  export type BusinessUserModelRelationFilter = {
-    is?: BusinessUserModelWhereInput | null
-    isNot?: BusinessUserModelWhereInput | null
-  }
-
-  export type RateModelListRelationFilter = {
-    every?: RateModelWhereInput
-    some?: RateModelWhereInput
-    none?: RateModelWhereInput
-  }
-
-  export type RateModelOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ReviewModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-  }
-
-  export type ReviewModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-  }
-
-  export type ReviewModelMinOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-  }
-
   export type IntFilter = {
     equals?: number
     in?: Enumerable<number> | number
@@ -29665,60 +28342,58 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
-  export type RateCategoryModelRelationFilter = {
-    is?: RateCategoryModelWhereInput
-    isNot?: RateCategoryModelWhereInput
+  export type CustomerModelRelationFilter = {
+    is?: CustomerModelWhereInput | null
+    isNot?: CustomerModelWhereInput | null
   }
 
-  export type ReviewModelRelationFilter = {
-    is?: ReviewModelWhereInput
-    isNot?: ReviewModelWhereInput
+  export type BusinessUserModelRelationFilter = {
+    is?: BusinessUserModelWhereInput | null
+    isNot?: BusinessUserModelWhereInput | null
   }
 
-  export type RateModelCategory_idReview_idCompoundUniqueInput = {
-    category_id: string
-    review_id: string
-  }
-
-  export type RateModelCountOrderByAggregateInput = {
+  export type ReviewModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    score?: SortOrder
-    category_id?: SortOrder
-    review_id?: SortOrder
+    reviewer_id?: SortOrder
+    reviewee_id?: SortOrder
+    content?: SortOrder
+    rating?: SortOrder
   }
 
-  export type RateModelAvgOrderByAggregateInput = {
-    score?: SortOrder
+  export type ReviewModelAvgOrderByAggregateInput = {
+    rating?: SortOrder
   }
 
-  export type RateModelMaxOrderByAggregateInput = {
+  export type ReviewModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    score?: SortOrder
-    category_id?: SortOrder
-    review_id?: SortOrder
+    reviewer_id?: SortOrder
+    reviewee_id?: SortOrder
+    content?: SortOrder
+    rating?: SortOrder
   }
 
-  export type RateModelMinOrderByAggregateInput = {
+  export type ReviewModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
     deleted_at?: SortOrder
-    score?: SortOrder
-    category_id?: SortOrder
-    review_id?: SortOrder
+    reviewer_id?: SortOrder
+    reviewee_id?: SortOrder
+    content?: SortOrder
+    rating?: SortOrder
   }
 
-  export type RateModelSumOrderByAggregateInput = {
-    score?: SortOrder
+  export type ReviewModelSumOrderByAggregateInput = {
+    rating?: SortOrder
   }
 
   export type IntWithAggregatesFilter = {
@@ -29737,51 +28412,65 @@ export namespace Prisma {
     _max?: NestedIntFilter
   }
 
-  export type EnumRateTargetTypeFilter = {
-    equals?: RateTargetType
-    in?: Enumerable<RateTargetType>
-    notIn?: Enumerable<RateTargetType>
-    not?: NestedEnumRateTargetTypeFilter | RateTargetType
+  export type DecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
-  export type RateCategoryModelCountOrderByAggregateInput = {
-    id?: SortOrder
+  export type ReviewStatsModelCountOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    name?: SortOrder
-    target_type?: SortOrder
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+    reviewee_id?: SortOrder
   }
 
-  export type RateCategoryModelMaxOrderByAggregateInput = {
-    id?: SortOrder
+  export type ReviewStatsModelAvgOrderByAggregateInput = {
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+  }
+
+  export type ReviewStatsModelMaxOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    name?: SortOrder
-    target_type?: SortOrder
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+    reviewee_id?: SortOrder
   }
 
-  export type RateCategoryModelMinOrderByAggregateInput = {
-    id?: SortOrder
+  export type ReviewStatsModelMinOrderByAggregateInput = {
     created_at?: SortOrder
     updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    name?: SortOrder
-    target_type?: SortOrder
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+    reviewee_id?: SortOrder
   }
 
-  export type EnumRateTargetTypeWithAggregatesFilter = {
-    equals?: RateTargetType
-    in?: Enumerable<RateTargetType>
-    notIn?: Enumerable<RateTargetType>
-    not?: NestedEnumRateTargetTypeWithAggregatesFilter | RateTargetType
+  export type ReviewStatsModelSumOrderByAggregateInput = {
+    review_cnt?: SortOrder
+    rating_sum?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     _count?: NestedIntFilter
-    _min?: NestedEnumRateTargetTypeFilter
-    _max?: NestedEnumRateTargetTypeFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type EnumAgreementTargetTypeFilter = {
@@ -30289,6 +28978,11 @@ export namespace Prisma {
     none?: BusinessCertificationImageModelWhereInput
   }
 
+  export type ReviewStatsModelRelationFilter = {
+    is?: ReviewStatsModelWhereInput | null
+    isNot?: ReviewStatsModelWhereInput | null
+  }
+
   export type BusinessCertificationImageModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -30366,13 +29060,13 @@ export namespace Prisma {
     business_user_id?: SortOrder
   }
 
-  export type REProertyModelListRelationFilter = {
-    every?: REProertyModelWhereInput
-    some?: REProertyModelWhereInput
-    none?: REProertyModelWhereInput
+  export type REPropertyModelListRelationFilter = {
+    every?: REPropertyModelWhereInput
+    some?: REPropertyModelWhereInput
+    none?: REPropertyModelWhereInput
   }
 
-  export type REProertyModelOrderByRelationAggregateInput = {
+  export type REPropertyModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30403,13 +29097,13 @@ export namespace Prisma {
     re_licensed_agent_name?: SortOrder
   }
 
-  export type HSIntroductionImageModelListRelationFilter = {
-    every?: HSIntroductionImageModelWhereInput
-    some?: HSIntroductionImageModelWhereInput
-    none?: HSIntroductionImageModelWhereInput
+  export type HSExampleImageModelListRelationFilter = {
+    every?: HSExampleImageModelWhereInput
+    some?: HSExampleImageModelWhereInput
+    none?: HSExampleImageModelWhereInput
   }
 
-  export type HSIntroductionImageModelOrderByRelationAggregateInput = {
+  export type HSExampleImageModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30458,7 +29152,7 @@ export namespace Prisma {
     url?: SortOrder
   }
 
-  export type HSIntroductionImageModelCountOrderByAggregateInput = {
+  export type HSExampleImageModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30468,7 +29162,7 @@ export namespace Prisma {
     url?: SortOrder
   }
 
-  export type HSIntroductionImageModelMaxOrderByAggregateInput = {
+  export type HSExampleImageModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30478,7 +29172,7 @@ export namespace Prisma {
     url?: SortOrder
   }
 
-  export type HSIntroductionImageModelMinOrderByAggregateInput = {
+  export type HSExampleImageModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30637,10 +29331,10 @@ export namespace Prisma {
     deleteMany?: Enumerable<REPropertyCategoryModelScalarWhereInput>
   }
 
-  export type REProertyModelCreateNestedOneWithoutCategoriesInput = {
-    create?: XOR<REProertyModelCreateWithoutCategoriesInput, REProertyModelUncheckedCreateWithoutCategoriesInput>
-    connectOrCreate?: REProertyModelCreateOrConnectWithoutCategoriesInput
-    connect?: REProertyModelWhereUniqueInput
+  export type REPropertyModelCreateNestedOneWithoutCategoriesInput = {
+    create?: XOR<REPropertyModelCreateWithoutCategoriesInput, REPropertyModelUncheckedCreateWithoutCategoriesInput>
+    connectOrCreate?: REPropertyModelCreateOrConnectWithoutCategoriesInput
+    connect?: REPropertyModelWhereUniqueInput
   }
 
   export type REPropertySubCategoryModelCreateNestedOneWithoutProperty_categoriesInput = {
@@ -30649,12 +29343,12 @@ export namespace Prisma {
     connect?: REPropertySubCategoryModelWhereUniqueInput
   }
 
-  export type REProertyModelUpdateOneRequiredWithoutCategoriesNestedInput = {
-    create?: XOR<REProertyModelCreateWithoutCategoriesInput, REProertyModelUncheckedCreateWithoutCategoriesInput>
-    connectOrCreate?: REProertyModelCreateOrConnectWithoutCategoriesInput
-    upsert?: REProertyModelUpsertWithoutCategoriesInput
-    connect?: REProertyModelWhereUniqueInput
-    update?: XOR<REProertyModelUpdateWithoutCategoriesInput, REProertyModelUncheckedUpdateWithoutCategoriesInput>
+  export type REPropertyModelUpdateOneRequiredWithoutCategoriesNestedInput = {
+    create?: XOR<REPropertyModelCreateWithoutCategoriesInput, REPropertyModelUncheckedCreateWithoutCategoriesInput>
+    connectOrCreate?: REPropertyModelCreateOrConnectWithoutCategoriesInput
+    upsert?: REPropertyModelUpsertWithoutCategoriesInput
+    connect?: REPropertyModelWhereUniqueInput
+    update?: XOR<REPropertyModelUpdateWithoutCategoriesInput, REPropertyModelUncheckedUpdateWithoutCategoriesInput>
   }
 
   export type REPropertySubCategoryModelUpdateOneRequiredWithoutProperty_categoriesNestedInput = {
@@ -30831,18 +29525,12 @@ export namespace Prisma {
     connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type RateModelCreateNestedManyWithoutReviewInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutReviewInput>, Enumerable<RateModelUncheckedCreateWithoutReviewInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutReviewInput>
-    createMany?: RateModelCreateManyReviewInputEnvelope
-    connect?: Enumerable<RateModelWhereUniqueInput>
-  }
-
-  export type RateModelUncheckedCreateNestedManyWithoutReviewInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutReviewInput>, Enumerable<RateModelUncheckedCreateWithoutReviewInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutReviewInput>
-    createMany?: RateModelCreateManyReviewInputEnvelope
-    connect?: Enumerable<RateModelWhereUniqueInput>
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type CustomerModelUpdateOneRequiredWithoutReviewsNestedInput = {
@@ -30861,114 +29549,26 @@ export namespace Prisma {
     update?: XOR<BusinessUserModelUpdateWithoutReviewsInput, BusinessUserModelUncheckedUpdateWithoutReviewsInput>
   }
 
-  export type RateModelUpdateManyWithoutReviewNestedInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutReviewInput>, Enumerable<RateModelUncheckedCreateWithoutReviewInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutReviewInput>
-    upsert?: Enumerable<RateModelUpsertWithWhereUniqueWithoutReviewInput>
-    createMany?: RateModelCreateManyReviewInputEnvelope
-    set?: Enumerable<RateModelWhereUniqueInput>
-    disconnect?: Enumerable<RateModelWhereUniqueInput>
-    delete?: Enumerable<RateModelWhereUniqueInput>
-    connect?: Enumerable<RateModelWhereUniqueInput>
-    update?: Enumerable<RateModelUpdateWithWhereUniqueWithoutReviewInput>
-    updateMany?: Enumerable<RateModelUpdateManyWithWhereWithoutReviewInput>
-    deleteMany?: Enumerable<RateModelScalarWhereInput>
+  export type BusinessUserModelCreateNestedOneWithoutReview_statsInput = {
+    create?: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReview_statsInput
+    connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type RateModelUncheckedUpdateManyWithoutReviewNestedInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutReviewInput>, Enumerable<RateModelUncheckedCreateWithoutReviewInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutReviewInput>
-    upsert?: Enumerable<RateModelUpsertWithWhereUniqueWithoutReviewInput>
-    createMany?: RateModelCreateManyReviewInputEnvelope
-    set?: Enumerable<RateModelWhereUniqueInput>
-    disconnect?: Enumerable<RateModelWhereUniqueInput>
-    delete?: Enumerable<RateModelWhereUniqueInput>
-    connect?: Enumerable<RateModelWhereUniqueInput>
-    update?: Enumerable<RateModelUpdateWithWhereUniqueWithoutReviewInput>
-    updateMany?: Enumerable<RateModelUpdateManyWithWhereWithoutReviewInput>
-    deleteMany?: Enumerable<RateModelScalarWhereInput>
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type RateCategoryModelCreateNestedOneWithoutRatesInput = {
-    create?: XOR<RateCategoryModelCreateWithoutRatesInput, RateCategoryModelUncheckedCreateWithoutRatesInput>
-    connectOrCreate?: RateCategoryModelCreateOrConnectWithoutRatesInput
-    connect?: RateCategoryModelWhereUniqueInput
-  }
-
-  export type ReviewModelCreateNestedOneWithoutRatesInput = {
-    create?: XOR<ReviewModelCreateWithoutRatesInput, ReviewModelUncheckedCreateWithoutRatesInput>
-    connectOrCreate?: ReviewModelCreateOrConnectWithoutRatesInput
-    connect?: ReviewModelWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type RateCategoryModelUpdateOneRequiredWithoutRatesNestedInput = {
-    create?: XOR<RateCategoryModelCreateWithoutRatesInput, RateCategoryModelUncheckedCreateWithoutRatesInput>
-    connectOrCreate?: RateCategoryModelCreateOrConnectWithoutRatesInput
-    upsert?: RateCategoryModelUpsertWithoutRatesInput
-    connect?: RateCategoryModelWhereUniqueInput
-    update?: XOR<RateCategoryModelUpdateWithoutRatesInput, RateCategoryModelUncheckedUpdateWithoutRatesInput>
-  }
-
-  export type ReviewModelUpdateOneRequiredWithoutRatesNestedInput = {
-    create?: XOR<ReviewModelCreateWithoutRatesInput, ReviewModelUncheckedCreateWithoutRatesInput>
-    connectOrCreate?: ReviewModelCreateOrConnectWithoutRatesInput
-    upsert?: ReviewModelUpsertWithoutRatesInput
-    connect?: ReviewModelWhereUniqueInput
-    update?: XOR<ReviewModelUpdateWithoutRatesInput, ReviewModelUncheckedUpdateWithoutRatesInput>
-  }
-
-  export type RateModelCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutCategoryInput>, Enumerable<RateModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutCategoryInput>
-    createMany?: RateModelCreateManyCategoryInputEnvelope
-    connect?: Enumerable<RateModelWhereUniqueInput>
-  }
-
-  export type RateModelUncheckedCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutCategoryInput>, Enumerable<RateModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutCategoryInput>
-    createMany?: RateModelCreateManyCategoryInputEnvelope
-    connect?: Enumerable<RateModelWhereUniqueInput>
-  }
-
-  export type EnumRateTargetTypeFieldUpdateOperationsInput = {
-    set?: RateTargetType
-  }
-
-  export type RateModelUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutCategoryInput>, Enumerable<RateModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutCategoryInput>
-    upsert?: Enumerable<RateModelUpsertWithWhereUniqueWithoutCategoryInput>
-    createMany?: RateModelCreateManyCategoryInputEnvelope
-    set?: Enumerable<RateModelWhereUniqueInput>
-    disconnect?: Enumerable<RateModelWhereUniqueInput>
-    delete?: Enumerable<RateModelWhereUniqueInput>
-    connect?: Enumerable<RateModelWhereUniqueInput>
-    update?: Enumerable<RateModelUpdateWithWhereUniqueWithoutCategoryInput>
-    updateMany?: Enumerable<RateModelUpdateManyWithWhereWithoutCategoryInput>
-    deleteMany?: Enumerable<RateModelScalarWhereInput>
-  }
-
-  export type RateModelUncheckedUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<Enumerable<RateModelCreateWithoutCategoryInput>, Enumerable<RateModelUncheckedCreateWithoutCategoryInput>>
-    connectOrCreate?: Enumerable<RateModelCreateOrConnectWithoutCategoryInput>
-    upsert?: Enumerable<RateModelUpsertWithWhereUniqueWithoutCategoryInput>
-    createMany?: RateModelCreateManyCategoryInputEnvelope
-    set?: Enumerable<RateModelWhereUniqueInput>
-    disconnect?: Enumerable<RateModelWhereUniqueInput>
-    delete?: Enumerable<RateModelWhereUniqueInput>
-    connect?: Enumerable<RateModelWhereUniqueInput>
-    update?: Enumerable<RateModelUpdateWithWhereUniqueWithoutCategoryInput>
-    updateMany?: Enumerable<RateModelUpdateManyWithWhereWithoutCategoryInput>
-    deleteMany?: Enumerable<RateModelScalarWhereInput>
+  export type BusinessUserModelUpdateOneRequiredWithoutReview_statsNestedInput = {
+    create?: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
+    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReview_statsInput
+    upsert?: BusinessUserModelUpsertWithoutReview_statsInput
+    connect?: BusinessUserModelWhereUniqueInput
+    update?: XOR<BusinessUserModelUpdateWithoutReview_statsInput, BusinessUserModelUncheckedUpdateWithoutReview_statsInput>
   }
 
   export type AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput = {
@@ -31633,6 +30233,12 @@ export namespace Prisma {
     connect?: Enumerable<ReviewModelWhereUniqueInput>
   }
 
+  export type ReviewStatsModelCreateNestedOneWithoutRevieweeInput = {
+    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
+    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
+    connect?: ReviewStatsModelWhereUniqueInput
+  }
+
   export type REAgentModelUncheckedCreateNestedOneWithoutBaseInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -31671,6 +30277,12 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutRevieweeInput>
     createMany?: ReviewModelCreateManyRevieweeInputEnvelope
     connect?: Enumerable<ReviewModelWhereUniqueInput>
+  }
+
+  export type ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput = {
+    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
+    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
+    connect?: ReviewStatsModelWhereUniqueInput
   }
 
   export type UserModelUpdateOneRequiredWithoutBusiness_userNestedInput = {
@@ -31757,6 +30369,16 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
+  export type ReviewStatsModelUpdateOneWithoutRevieweeNestedInput = {
+    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
+    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
+    upsert?: ReviewStatsModelUpsertWithoutRevieweeInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: ReviewStatsModelWhereUniqueInput
+    update?: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
+  }
+
   export type REAgentModelUncheckedUpdateOneWithoutBaseNestedInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -31833,6 +30455,16 @@ export namespace Prisma {
     deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
+  export type ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput = {
+    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
+    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
+    upsert?: ReviewStatsModelUpsertWithoutRevieweeInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: ReviewStatsModelWhereUniqueInput
+    update?: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
+  }
+
   export type ServiceSubCategoryModelCreateNestedOneWithoutExpertisesInput = {
     create?: XOR<ServiceSubCategoryModelCreateWithoutExpertisesInput, ServiceSubCategoryModelUncheckedCreateWithoutExpertisesInput>
     connectOrCreate?: ServiceSubCategoryModelCreateOrConnectWithoutExpertisesInput
@@ -31867,18 +30499,18 @@ export namespace Prisma {
     connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type REProertyModelCreateNestedManyWithoutRe_agentInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
-    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
-    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  export type REPropertyModelCreateNestedManyWithoutRe_agentInput = {
+    create?: XOR<Enumerable<REPropertyModelCreateWithoutRe_agentInput>, Enumerable<REPropertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REPropertyModelCreateOrConnectWithoutRe_agentInput>
+    createMany?: REPropertyModelCreateManyRe_agentInputEnvelope
+    connect?: Enumerable<REPropertyModelWhereUniqueInput>
   }
 
-  export type REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
-    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
-    connect?: Enumerable<REProertyModelWhereUniqueInput>
+  export type REPropertyModelUncheckedCreateNestedManyWithoutRe_agentInput = {
+    create?: XOR<Enumerable<REPropertyModelCreateWithoutRe_agentInput>, Enumerable<REPropertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REPropertyModelCreateOrConnectWithoutRe_agentInput>
+    createMany?: REPropertyModelCreateManyRe_agentInputEnvelope
+    connect?: Enumerable<REPropertyModelWhereUniqueInput>
   }
 
   export type BusinessUserModelUpdateOneRequiredWithoutRe_agentNestedInput = {
@@ -31889,32 +30521,32 @@ export namespace Prisma {
     update?: XOR<BusinessUserModelUpdateWithoutRe_agentInput, BusinessUserModelUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateManyWithoutRe_agentNestedInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
-    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
-    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
-    set?: Enumerable<REProertyModelWhereUniqueInput>
-    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
-    delete?: Enumerable<REProertyModelWhereUniqueInput>
-    connect?: Enumerable<REProertyModelWhereUniqueInput>
-    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
-    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutRe_agentInput>
-    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
+  export type REPropertyModelUpdateManyWithoutRe_agentNestedInput = {
+    create?: XOR<Enumerable<REPropertyModelCreateWithoutRe_agentInput>, Enumerable<REPropertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REPropertyModelCreateOrConnectWithoutRe_agentInput>
+    upsert?: Enumerable<REPropertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
+    createMany?: REPropertyModelCreateManyRe_agentInputEnvelope
+    set?: Enumerable<REPropertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REPropertyModelWhereUniqueInput>
+    delete?: Enumerable<REPropertyModelWhereUniqueInput>
+    connect?: Enumerable<REPropertyModelWhereUniqueInput>
+    update?: Enumerable<REPropertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
+    updateMany?: Enumerable<REPropertyModelUpdateManyWithWhereWithoutRe_agentInput>
+    deleteMany?: Enumerable<REPropertyModelScalarWhereInput>
   }
 
-  export type REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput = {
-    create?: XOR<Enumerable<REProertyModelCreateWithoutRe_agentInput>, Enumerable<REProertyModelUncheckedCreateWithoutRe_agentInput>>
-    connectOrCreate?: Enumerable<REProertyModelCreateOrConnectWithoutRe_agentInput>
-    upsert?: Enumerable<REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
-    createMany?: REProertyModelCreateManyRe_agentInputEnvelope
-    set?: Enumerable<REProertyModelWhereUniqueInput>
-    disconnect?: Enumerable<REProertyModelWhereUniqueInput>
-    delete?: Enumerable<REProertyModelWhereUniqueInput>
-    connect?: Enumerable<REProertyModelWhereUniqueInput>
-    update?: Enumerable<REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
-    updateMany?: Enumerable<REProertyModelUpdateManyWithWhereWithoutRe_agentInput>
-    deleteMany?: Enumerable<REProertyModelScalarWhereInput>
+  export type REPropertyModelUncheckedUpdateManyWithoutRe_agentNestedInput = {
+    create?: XOR<Enumerable<REPropertyModelCreateWithoutRe_agentInput>, Enumerable<REPropertyModelUncheckedCreateWithoutRe_agentInput>>
+    connectOrCreate?: Enumerable<REPropertyModelCreateOrConnectWithoutRe_agentInput>
+    upsert?: Enumerable<REPropertyModelUpsertWithWhereUniqueWithoutRe_agentInput>
+    createMany?: REPropertyModelCreateManyRe_agentInputEnvelope
+    set?: Enumerable<REPropertyModelWhereUniqueInput>
+    disconnect?: Enumerable<REPropertyModelWhereUniqueInput>
+    delete?: Enumerable<REPropertyModelWhereUniqueInput>
+    connect?: Enumerable<REPropertyModelWhereUniqueInput>
+    update?: Enumerable<REPropertyModelUpdateWithWhereUniqueWithoutRe_agentInput>
+    updateMany?: Enumerable<REPropertyModelUpdateManyWithWhereWithoutRe_agentInput>
+    deleteMany?: Enumerable<REPropertyModelScalarWhereInput>
   }
 
   export type BusinessUserModelCreateNestedOneWithoutHs_providerInput = {
@@ -31923,18 +30555,18 @@ export namespace Prisma {
     connect?: BusinessUserModelWhereUniqueInput
   }
 
-  export type HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput = {
-    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
-    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
-    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
-    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+  export type HSExampleImageModelCreateNestedManyWithoutHs_providerInput = {
+    create?: XOR<Enumerable<HSExampleImageModelCreateWithoutHs_providerInput>, Enumerable<HSExampleImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSExampleImageModelCreateOrConnectWithoutHs_providerInput>
+    createMany?: HSExampleImageModelCreateManyHs_providerInputEnvelope
+    connect?: Enumerable<HSExampleImageModelWhereUniqueInput>
   }
 
-  export type HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput = {
-    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
-    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
-    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
-    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
+  export type HSExampleImageModelUncheckedCreateNestedManyWithoutHs_providerInput = {
+    create?: XOR<Enumerable<HSExampleImageModelCreateWithoutHs_providerInput>, Enumerable<HSExampleImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSExampleImageModelCreateOrConnectWithoutHs_providerInput>
+    createMany?: HSExampleImageModelCreateManyHs_providerInputEnvelope
+    connect?: Enumerable<HSExampleImageModelWhereUniqueInput>
   }
 
   export type BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput = {
@@ -31945,32 +30577,32 @@ export namespace Prisma {
     update?: XOR<BusinessUserModelUpdateWithoutHs_providerInput, BusinessUserModelUncheckedUpdateWithoutHs_providerInput>
   }
 
-  export type HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput = {
-    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
-    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
-    upsert?: Enumerable<HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
-    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
-    set?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    disconnect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    delete?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    update?: Enumerable<HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
-    updateMany?: Enumerable<HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput>
-    deleteMany?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+  export type HSExampleImageModelUpdateManyWithoutHs_providerNestedInput = {
+    create?: XOR<Enumerable<HSExampleImageModelCreateWithoutHs_providerInput>, Enumerable<HSExampleImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSExampleImageModelCreateOrConnectWithoutHs_providerInput>
+    upsert?: Enumerable<HSExampleImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
+    createMany?: HSExampleImageModelCreateManyHs_providerInputEnvelope
+    set?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    delete?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    connect?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    update?: Enumerable<HSExampleImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
+    updateMany?: Enumerable<HSExampleImageModelUpdateManyWithWhereWithoutHs_providerInput>
+    deleteMany?: Enumerable<HSExampleImageModelScalarWhereInput>
   }
 
-  export type HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput = {
-    create?: XOR<Enumerable<HSIntroductionImageModelCreateWithoutHs_providerInput>, Enumerable<HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>>
-    connectOrCreate?: Enumerable<HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput>
-    upsert?: Enumerable<HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
-    createMany?: HSIntroductionImageModelCreateManyHs_providerInputEnvelope
-    set?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    disconnect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    delete?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    connect?: Enumerable<HSIntroductionImageModelWhereUniqueInput>
-    update?: Enumerable<HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
-    updateMany?: Enumerable<HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput>
-    deleteMany?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+  export type HSExampleImageModelUncheckedUpdateManyWithoutHs_providerNestedInput = {
+    create?: XOR<Enumerable<HSExampleImageModelCreateWithoutHs_providerInput>, Enumerable<HSExampleImageModelUncheckedCreateWithoutHs_providerInput>>
+    connectOrCreate?: Enumerable<HSExampleImageModelCreateOrConnectWithoutHs_providerInput>
+    upsert?: Enumerable<HSExampleImageModelUpsertWithWhereUniqueWithoutHs_providerInput>
+    createMany?: HSExampleImageModelCreateManyHs_providerInputEnvelope
+    set?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    disconnect?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    delete?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    connect?: Enumerable<HSExampleImageModelWhereUniqueInput>
+    update?: Enumerable<HSExampleImageModelUpdateWithWhereUniqueWithoutHs_providerInput>
+    updateMany?: Enumerable<HSExampleImageModelUpdateManyWithWhereWithoutHs_providerInput>
+    deleteMany?: Enumerable<HSExampleImageModelScalarWhereInput>
   }
 
   export type BusinessUserModelCreateNestedOneWithoutCertification_imagesInput = {
@@ -31987,18 +30619,18 @@ export namespace Prisma {
     update?: XOR<BusinessUserModelUpdateWithoutCertification_imagesInput, BusinessUserModelUncheckedUpdateWithoutCertification_imagesInput>
   }
 
-  export type HSProviderModelCreateNestedOneWithoutIntroduction_imagesInput = {
-    create?: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
-    connectOrCreate?: HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput
+  export type HSProviderModelCreateNestedOneWithoutExample_imagesInput = {
+    create?: XOR<HSProviderModelCreateWithoutExample_imagesInput, HSProviderModelUncheckedCreateWithoutExample_imagesInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutExample_imagesInput
     connect?: HSProviderModelWhereUniqueInput
   }
 
-  export type HSProviderModelUpdateOneRequiredWithoutIntroduction_imagesNestedInput = {
-    create?: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
-    connectOrCreate?: HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput
-    upsert?: HSProviderModelUpsertWithoutIntroduction_imagesInput
+  export type HSProviderModelUpdateOneRequiredWithoutExample_imagesNestedInput = {
+    create?: XOR<HSProviderModelCreateWithoutExample_imagesInput, HSProviderModelUncheckedCreateWithoutExample_imagesInput>
+    connectOrCreate?: HSProviderModelCreateOrConnectWithoutExample_imagesInput
+    upsert?: HSProviderModelUpsertWithoutExample_imagesInput
     connect?: HSProviderModelWhereUniqueInput
-    update?: XOR<HSProviderModelUpdateWithoutIntroduction_imagesInput, HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput>
+    update?: XOR<HSProviderModelUpdateWithoutExample_imagesInput, HSProviderModelUncheckedUpdateWithoutExample_imagesInput>
   }
 
   export type BusinessUserModelCreateNestedOneWithoutOauth_accountsInput = {
@@ -32180,21 +30812,31 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
-  export type NestedEnumRateTargetTypeFilter = {
-    equals?: RateTargetType
-    in?: Enumerable<RateTargetType>
-    notIn?: Enumerable<RateTargetType>
-    not?: NestedEnumRateTargetTypeFilter | RateTargetType
+  export type NestedDecimalFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
-  export type NestedEnumRateTargetTypeWithAggregatesFilter = {
-    equals?: RateTargetType
-    in?: Enumerable<RateTargetType>
-    notIn?: Enumerable<RateTargetType>
-    not?: NestedEnumRateTargetTypeWithAggregatesFilter | RateTargetType
+  export type NestedDecimalWithAggregatesFilter = {
+    equals?: Decimal | DecimalJsLike | number | string
+    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
+    lt?: Decimal | DecimalJsLike | number | string
+    lte?: Decimal | DecimalJsLike | number | string
+    gt?: Decimal | DecimalJsLike | number | string
+    gte?: Decimal | DecimalJsLike | number | string
+    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
     _count?: NestedIntFilter
-    _min?: NestedEnumRateTargetTypeFilter
-    _max?: NestedEnumRateTargetTypeFilter
+    _avg?: NestedDecimalFilter
+    _sum?: NestedDecimalFilter
+    _min?: NestedDecimalFilter
+    _max?: NestedDecimalFilter
   }
 
   export type NestedEnumAgreementTargetTypeFilter = {
@@ -32416,7 +31058,7 @@ export namespace Prisma {
     sub_category_id?: StringFilter | string
   }
 
-  export type REProertyModelCreateWithoutCategoriesInput = {
+  export type REPropertyModelCreateWithoutCategoriesInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -32427,7 +31069,7 @@ export namespace Prisma {
     re_agent: REAgentModelCreateNestedOneWithoutPropertiesInput
   }
 
-  export type REProertyModelUncheckedCreateWithoutCategoriesInput = {
+  export type REPropertyModelUncheckedCreateWithoutCategoriesInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -32438,9 +31080,9 @@ export namespace Prisma {
     re_agent_id: string
   }
 
-  export type REProertyModelCreateOrConnectWithoutCategoriesInput = {
-    where: REProertyModelWhereUniqueInput
-    create: XOR<REProertyModelCreateWithoutCategoriesInput, REProertyModelUncheckedCreateWithoutCategoriesInput>
+  export type REPropertyModelCreateOrConnectWithoutCategoriesInput = {
+    where: REPropertyModelWhereUniqueInput
+    create: XOR<REPropertyModelCreateWithoutCategoriesInput, REPropertyModelUncheckedCreateWithoutCategoriesInput>
   }
 
   export type REPropertySubCategoryModelCreateWithoutProperty_categoriesInput = {
@@ -32468,12 +31110,12 @@ export namespace Prisma {
     create: XOR<REPropertySubCategoryModelCreateWithoutProperty_categoriesInput, REPropertySubCategoryModelUncheckedCreateWithoutProperty_categoriesInput>
   }
 
-  export type REProertyModelUpsertWithoutCategoriesInput = {
-    update: XOR<REProertyModelUpdateWithoutCategoriesInput, REProertyModelUncheckedUpdateWithoutCategoriesInput>
-    create: XOR<REProertyModelCreateWithoutCategoriesInput, REProertyModelUncheckedCreateWithoutCategoriesInput>
+  export type REPropertyModelUpsertWithoutCategoriesInput = {
+    update: XOR<REPropertyModelUpdateWithoutCategoriesInput, REPropertyModelUncheckedUpdateWithoutCategoriesInput>
+    create: XOR<REPropertyModelCreateWithoutCategoriesInput, REPropertyModelUncheckedCreateWithoutCategoriesInput>
   }
 
-  export type REProertyModelUpdateWithoutCategoriesInput = {
+  export type REPropertyModelUpdateWithoutCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32484,7 +31126,7 @@ export namespace Prisma {
     re_agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
   }
 
-  export type REProertyModelUncheckedUpdateWithoutCategoriesInput = {
+  export type REPropertyModelUncheckedUpdateWithoutCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32551,7 +31193,7 @@ export namespace Prisma {
     updated_at: Date | string
     is_deleted: boolean
     deleted_at?: Date | string | null
-    re_property: REProertyModelCreateNestedOneWithoutCategoriesInput
+    re_property: REPropertyModelCreateNestedOneWithoutCategoriesInput
   }
 
   export type REPropertyCategoryModelUncheckedCreateWithoutSub_categoryInput = {
@@ -32821,6 +31463,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutReviewsInput = {
@@ -32837,41 +31480,12 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutReviewsInput = {
     where: BusinessUserModelWhereUniqueInput
     create: XOR<BusinessUserModelCreateWithoutReviewsInput, BusinessUserModelUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type RateModelCreateWithoutReviewInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category: RateCategoryModelCreateNestedOneWithoutRatesInput
-  }
-
-  export type RateModelUncheckedCreateWithoutReviewInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category_id: string
-  }
-
-  export type RateModelCreateOrConnectWithoutReviewInput = {
-    where: RateModelWhereUniqueInput
-    create: XOR<RateModelCreateWithoutReviewInput, RateModelUncheckedCreateWithoutReviewInput>
-  }
-
-  export type RateModelCreateManyReviewInputEnvelope = {
-    data: Enumerable<RateModelCreateManyReviewInput>
-    skipDuplicates?: boolean
   }
 
   export type CustomerModelUpsertWithoutReviewsInput = {
@@ -32922,6 +31536,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutReviewsInput = {
@@ -32938,186 +31553,85 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
-  export type RateModelUpsertWithWhereUniqueWithoutReviewInput = {
-    where: RateModelWhereUniqueInput
-    update: XOR<RateModelUpdateWithoutReviewInput, RateModelUncheckedUpdateWithoutReviewInput>
-    create: XOR<RateModelCreateWithoutReviewInput, RateModelUncheckedCreateWithoutReviewInput>
+  export type BusinessUserModelCreateWithoutReview_statsInput = {
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    base: UserModelCreateNestedOneWithoutBusiness_userInput
+    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
+    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
+    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
   }
 
-  export type RateModelUpdateWithWhereUniqueWithoutReviewInput = {
-    where: RateModelWhereUniqueInput
-    data: XOR<RateModelUpdateWithoutReviewInput, RateModelUncheckedUpdateWithoutReviewInput>
-  }
-
-  export type RateModelUpdateManyWithWhereWithoutReviewInput = {
-    where: RateModelScalarWhereInput
-    data: XOR<RateModelUpdateManyMutationInput, RateModelUncheckedUpdateManyWithoutRatesInput>
-  }
-
-  export type RateModelScalarWhereInput = {
-    AND?: Enumerable<RateModelScalarWhereInput>
-    OR?: Enumerable<RateModelScalarWhereInput>
-    NOT?: Enumerable<RateModelScalarWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    score?: IntFilter | number
-    category_id?: StringFilter | string
-    review_id?: StringFilter | string
-  }
-
-  export type RateCategoryModelCreateWithoutRatesInput = {
+  export type BusinessUserModelUncheckedCreateWithoutReview_statsInput = {
     id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    target_type: RateTargetType
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second?: string | null
+    profile_image_url: string
+    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
+    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
+    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
+    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
   }
 
-  export type RateCategoryModelUncheckedCreateWithoutRatesInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    name: string
-    target_type: RateTargetType
+  export type BusinessUserModelCreateOrConnectWithoutReview_statsInput = {
+    where: BusinessUserModelWhereUniqueInput
+    create: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
   }
 
-  export type RateCategoryModelCreateOrConnectWithoutRatesInput = {
-    where: RateCategoryModelWhereUniqueInput
-    create: XOR<RateCategoryModelCreateWithoutRatesInput, RateCategoryModelUncheckedCreateWithoutRatesInput>
+  export type BusinessUserModelUpsertWithoutReview_statsInput = {
+    update: XOR<BusinessUserModelUpdateWithoutReview_statsInput, BusinessUserModelUncheckedUpdateWithoutReview_statsInput>
+    create: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
   }
 
-  export type ReviewModelCreateWithoutRatesInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    content: string
-    reviewer: CustomerModelCreateNestedOneWithoutReviewsInput
-    reviewee: BusinessUserModelCreateNestedOneWithoutReviewsInput
+  export type BusinessUserModelUpdateWithoutReview_statsInput = {
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
+    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
+    oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
+    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
   }
 
-  export type ReviewModelUncheckedCreateWithoutRatesInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewer_id: string
-    reviewee_id: string
-    content: string
-  }
-
-  export type ReviewModelCreateOrConnectWithoutRatesInput = {
-    where: ReviewModelWhereUniqueInput
-    create: XOR<ReviewModelCreateWithoutRatesInput, ReviewModelUncheckedCreateWithoutRatesInput>
-  }
-
-  export type RateCategoryModelUpsertWithoutRatesInput = {
-    update: XOR<RateCategoryModelUpdateWithoutRatesInput, RateCategoryModelUncheckedUpdateWithoutRatesInput>
-    create: XOR<RateCategoryModelCreateWithoutRatesInput, RateCategoryModelUncheckedCreateWithoutRatesInput>
-  }
-
-  export type RateCategoryModelUpdateWithoutRatesInput = {
+  export type BusinessUserModelUncheckedUpdateWithoutReview_statsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
-  }
-
-  export type RateCategoryModelUncheckedUpdateWithoutRatesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    target_type?: EnumRateTargetTypeFieldUpdateOperationsInput | RateTargetType
-  }
-
-  export type ReviewModelUpsertWithoutRatesInput = {
-    update: XOR<ReviewModelUpdateWithoutRatesInput, ReviewModelUncheckedUpdateWithoutRatesInput>
-    create: XOR<ReviewModelCreateWithoutRatesInput, ReviewModelUncheckedCreateWithoutRatesInput>
-  }
-
-  export type ReviewModelUpdateWithoutRatesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    reviewer?: CustomerModelUpdateOneRequiredWithoutReviewsNestedInput
-    reviewee?: BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput
-  }
-
-  export type ReviewModelUncheckedUpdateWithoutRatesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewer_id?: StringFieldUpdateOperationsInput | string
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RateModelCreateWithoutCategoryInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    review: ReviewModelCreateNestedOneWithoutRatesInput
-  }
-
-  export type RateModelUncheckedCreateWithoutCategoryInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    review_id: string
-  }
-
-  export type RateModelCreateOrConnectWithoutCategoryInput = {
-    where: RateModelWhereUniqueInput
-    create: XOR<RateModelCreateWithoutCategoryInput, RateModelUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type RateModelCreateManyCategoryInputEnvelope = {
-    data: Enumerable<RateModelCreateManyCategoryInput>
-    skipDuplicates?: boolean
-  }
-
-  export type RateModelUpsertWithWhereUniqueWithoutCategoryInput = {
-    where: RateModelWhereUniqueInput
-    update: XOR<RateModelUpdateWithoutCategoryInput, RateModelUncheckedUpdateWithoutCategoryInput>
-    create: XOR<RateModelCreateWithoutCategoryInput, RateModelUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type RateModelUpdateWithWhereUniqueWithoutCategoryInput = {
-    where: RateModelWhereUniqueInput
-    data: XOR<RateModelUpdateWithoutCategoryInput, RateModelUncheckedUpdateWithoutCategoryInput>
-  }
-
-  export type RateModelUpdateManyWithWhereWithoutCategoryInput = {
-    where: RateModelScalarWhereInput
-    data: XOR<RateModelUpdateManyMutationInput, RateModelUncheckedUpdateManyWithoutRatesInput>
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
+    introduction_title?: StringFieldUpdateOperationsInput | string
+    introduction_content?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address_first?: StringFieldUpdateOperationsInput | string
+    address_second?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_image_url?: StringFieldUpdateOperationsInput | string
+    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
+    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
+    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
+    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
   }
 
   export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
@@ -33911,6 +32425,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutBaseInput = {
@@ -33927,6 +32442,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutBaseInput = {
@@ -34010,6 +32526,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutBaseInput = {
@@ -34026,6 +32543,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput = {
@@ -34128,8 +32646,8 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     content: string
+    rating: number
     reviewee: BusinessUserModelCreateNestedOneWithoutReviewsInput
-    rates?: RateModelCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewModelUncheckedCreateWithoutReviewerInput = {
@@ -34140,7 +32658,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     reviewee_id: string
     content: string
-    rates?: RateModelUncheckedCreateNestedManyWithoutReviewInput
+    rating: number
   }
 
   export type ReviewModelCreateOrConnectWithoutReviewerInput = {
@@ -34287,6 +32805,7 @@ export namespace Prisma {
     reviewer_id?: StringFilter | string
     reviewee_id?: StringFilter | string
     content?: StringFilter | string
+    rating?: IntFilter | number
   }
 
   export type ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput = {
@@ -34356,7 +32875,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelCreateNestedManyWithoutRe_agentInput
+    properties?: REPropertyModelCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelUncheckedCreateWithoutBaseInput = {
@@ -34365,7 +32884,7 @@ export namespace Prisma {
     re_name: string
     re_phone: string
     re_licensed_agent_name: string
-    properties?: REProertyModelUncheckedCreateNestedManyWithoutRe_agentInput
+    properties?: REPropertyModelUncheckedCreateNestedManyWithoutRe_agentInput
   }
 
   export type REAgentModelCreateOrConnectWithoutBaseInput = {
@@ -34375,12 +32894,12 @@ export namespace Prisma {
 
   export type HSProviderModelCreateWithoutBaseInput = {
     business_registration_num: string
-    introduction_images?: HSIntroductionImageModelCreateNestedManyWithoutHs_providerInput
+    example_images?: HSExampleImageModelCreateNestedManyWithoutHs_providerInput
   }
 
   export type HSProviderModelUncheckedCreateWithoutBaseInput = {
     business_registration_num: string
-    introduction_images?: HSIntroductionImageModelUncheckedCreateNestedManyWithoutHs_providerInput
+    example_images?: HSExampleImageModelUncheckedCreateNestedManyWithoutHs_providerInput
   }
 
   export type HSProviderModelCreateOrConnectWithoutBaseInput = {
@@ -34499,8 +33018,8 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     content: string
+    rating: number
     reviewer: CustomerModelCreateNestedOneWithoutReviewsInput
-    rates?: RateModelCreateNestedManyWithoutReviewInput
   }
 
   export type ReviewModelUncheckedCreateWithoutRevieweeInput = {
@@ -34511,7 +33030,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     reviewer_id: string
     content: string
-    rates?: RateModelUncheckedCreateNestedManyWithoutReviewInput
+    rating: number
   }
 
   export type ReviewModelCreateOrConnectWithoutRevieweeInput = {
@@ -34522,6 +33041,25 @@ export namespace Prisma {
   export type ReviewModelCreateManyRevieweeInputEnvelope = {
     data: Enumerable<ReviewModelCreateManyRevieweeInput>
     skipDuplicates?: boolean
+  }
+
+  export type ReviewStatsModelCreateWithoutRevieweeInput = {
+    created_at?: Date | string
+    updated_at?: Date | string
+    review_cnt: Decimal | DecimalJsLike | number | string
+    rating_sum: Decimal | DecimalJsLike | number | string
+  }
+
+  export type ReviewStatsModelUncheckedCreateWithoutRevieweeInput = {
+    created_at?: Date | string
+    updated_at?: Date | string
+    review_cnt: Decimal | DecimalJsLike | number | string
+    rating_sum: Decimal | DecimalJsLike | number | string
+  }
+
+  export type ReviewStatsModelCreateOrConnectWithoutRevieweeInput = {
+    where: ReviewStatsModelWhereUniqueInput
+    create: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
   }
 
   export type UserModelUpsertWithoutBusiness_userInput = {
@@ -34564,7 +33102,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUpdateManyWithoutRe_agentNestedInput
+    properties?: REPropertyModelUpdateManyWithoutRe_agentNestedInput
   }
 
   export type REAgentModelUncheckedUpdateWithoutBaseInput = {
@@ -34573,7 +33111,7 @@ export namespace Prisma {
     re_name?: StringFieldUpdateOperationsInput | string
     re_phone?: StringFieldUpdateOperationsInput | string
     re_licensed_agent_name?: StringFieldUpdateOperationsInput | string
-    properties?: REProertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
+    properties?: REPropertyModelUncheckedUpdateManyWithoutRe_agentNestedInput
   }
 
   export type HSProviderModelUpsertWithoutBaseInput = {
@@ -34583,12 +33121,12 @@ export namespace Prisma {
 
   export type HSProviderModelUpdateWithoutBaseInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
-    introduction_images?: HSIntroductionImageModelUpdateManyWithoutHs_providerNestedInput
+    example_images?: HSExampleImageModelUpdateManyWithoutHs_providerNestedInput
   }
 
   export type HSProviderModelUncheckedUpdateWithoutBaseInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
-    introduction_images?: HSIntroductionImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
+    example_images?: HSExampleImageModelUncheckedUpdateManyWithoutHs_providerNestedInput
   }
 
   export type BusinessCertificationImageModelUpsertWithWhereUniqueWithoutBusiness_userInput = {
@@ -34668,6 +33206,25 @@ export namespace Prisma {
     data: XOR<ReviewModelUpdateManyMutationInput, ReviewModelUncheckedUpdateManyWithoutReviewsInput>
   }
 
+  export type ReviewStatsModelUpsertWithoutRevieweeInput = {
+    update: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
+    create: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
+  }
+
+  export type ReviewStatsModelUpdateWithoutRevieweeInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type ReviewStatsModelUncheckedUpdateWithoutRevieweeInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
   export type ServiceSubCategoryModelCreateWithoutExpertisesInput = {
     id: string
     created_at: Date | string
@@ -34707,6 +33264,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
@@ -34723,6 +33281,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
@@ -34774,6 +33333,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
@@ -34790,6 +33350,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelCreateWithoutRe_agentInput = {
@@ -34806,6 +33367,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutRe_agentInput = {
@@ -34822,6 +33384,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutRe_agentInput = {
@@ -34829,7 +33392,7 @@ export namespace Prisma {
     create: XOR<BusinessUserModelCreateWithoutRe_agentInput, BusinessUserModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelCreateWithoutRe_agentInput = {
+  export type REPropertyModelCreateWithoutRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34840,7 +33403,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelUncheckedCreateWithoutRe_agentInput = {
+  export type REPropertyModelUncheckedCreateWithoutRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34851,13 +33414,13 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
-  export type REProertyModelCreateOrConnectWithoutRe_agentInput = {
-    where: REProertyModelWhereUniqueInput
-    create: XOR<REProertyModelCreateWithoutRe_agentInput, REProertyModelUncheckedCreateWithoutRe_agentInput>
+  export type REPropertyModelCreateOrConnectWithoutRe_agentInput = {
+    where: REPropertyModelWhereUniqueInput
+    create: XOR<REPropertyModelCreateWithoutRe_agentInput, REPropertyModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelCreateManyRe_agentInputEnvelope = {
-    data: Enumerable<REProertyModelCreateManyRe_agentInput>
+  export type REPropertyModelCreateManyRe_agentInputEnvelope = {
+    data: Enumerable<REPropertyModelCreateManyRe_agentInput>
     skipDuplicates?: boolean
   }
 
@@ -34880,6 +33443,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutRe_agentInput = {
@@ -34896,28 +33460,29 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
-  export type REProertyModelUpsertWithWhereUniqueWithoutRe_agentInput = {
-    where: REProertyModelWhereUniqueInput
-    update: XOR<REProertyModelUpdateWithoutRe_agentInput, REProertyModelUncheckedUpdateWithoutRe_agentInput>
-    create: XOR<REProertyModelCreateWithoutRe_agentInput, REProertyModelUncheckedCreateWithoutRe_agentInput>
+  export type REPropertyModelUpsertWithWhereUniqueWithoutRe_agentInput = {
+    where: REPropertyModelWhereUniqueInput
+    update: XOR<REPropertyModelUpdateWithoutRe_agentInput, REPropertyModelUncheckedUpdateWithoutRe_agentInput>
+    create: XOR<REPropertyModelCreateWithoutRe_agentInput, REPropertyModelUncheckedCreateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateWithWhereUniqueWithoutRe_agentInput = {
-    where: REProertyModelWhereUniqueInput
-    data: XOR<REProertyModelUpdateWithoutRe_agentInput, REProertyModelUncheckedUpdateWithoutRe_agentInput>
+  export type REPropertyModelUpdateWithWhereUniqueWithoutRe_agentInput = {
+    where: REPropertyModelWhereUniqueInput
+    data: XOR<REPropertyModelUpdateWithoutRe_agentInput, REPropertyModelUncheckedUpdateWithoutRe_agentInput>
   }
 
-  export type REProertyModelUpdateManyWithWhereWithoutRe_agentInput = {
-    where: REProertyModelScalarWhereInput
-    data: XOR<REProertyModelUpdateManyMutationInput, REProertyModelUncheckedUpdateManyWithoutPropertiesInput>
+  export type REPropertyModelUpdateManyWithWhereWithoutRe_agentInput = {
+    where: REPropertyModelScalarWhereInput
+    data: XOR<REPropertyModelUpdateManyMutationInput, REPropertyModelUncheckedUpdateManyWithoutPropertiesInput>
   }
 
-  export type REProertyModelScalarWhereInput = {
-    AND?: Enumerable<REProertyModelScalarWhereInput>
-    OR?: Enumerable<REProertyModelScalarWhereInput>
-    NOT?: Enumerable<REProertyModelScalarWhereInput>
+  export type REPropertyModelScalarWhereInput = {
+    AND?: Enumerable<REPropertyModelScalarWhereInput>
+    OR?: Enumerable<REPropertyModelScalarWhereInput>
+    NOT?: Enumerable<REPropertyModelScalarWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -34942,6 +33507,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutHs_providerInput = {
@@ -34958,6 +33524,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutHs_providerInput = {
@@ -34965,7 +33532,7 @@ export namespace Prisma {
     create: XOR<BusinessUserModelCreateWithoutHs_providerInput, BusinessUserModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSIntroductionImageModelCreateWithoutHs_providerInput = {
+  export type HSExampleImageModelCreateWithoutHs_providerInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34974,7 +33541,7 @@ export namespace Prisma {
     url: string
   }
 
-  export type HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput = {
+  export type HSExampleImageModelUncheckedCreateWithoutHs_providerInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -34983,13 +33550,13 @@ export namespace Prisma {
     url: string
   }
 
-  export type HSIntroductionImageModelCreateOrConnectWithoutHs_providerInput = {
-    where: HSIntroductionImageModelWhereUniqueInput
-    create: XOR<HSIntroductionImageModelCreateWithoutHs_providerInput, HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>
+  export type HSExampleImageModelCreateOrConnectWithoutHs_providerInput = {
+    where: HSExampleImageModelWhereUniqueInput
+    create: XOR<HSExampleImageModelCreateWithoutHs_providerInput, HSExampleImageModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSIntroductionImageModelCreateManyHs_providerInputEnvelope = {
-    data: Enumerable<HSIntroductionImageModelCreateManyHs_providerInput>
+  export type HSExampleImageModelCreateManyHs_providerInputEnvelope = {
+    data: Enumerable<HSExampleImageModelCreateManyHs_providerInput>
     skipDuplicates?: boolean
   }
 
@@ -35012,6 +33579,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutHs_providerInput = {
@@ -35028,28 +33596,29 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
-  export type HSIntroductionImageModelUpsertWithWhereUniqueWithoutHs_providerInput = {
-    where: HSIntroductionImageModelWhereUniqueInput
-    update: XOR<HSIntroductionImageModelUpdateWithoutHs_providerInput, HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput>
-    create: XOR<HSIntroductionImageModelCreateWithoutHs_providerInput, HSIntroductionImageModelUncheckedCreateWithoutHs_providerInput>
+  export type HSExampleImageModelUpsertWithWhereUniqueWithoutHs_providerInput = {
+    where: HSExampleImageModelWhereUniqueInput
+    update: XOR<HSExampleImageModelUpdateWithoutHs_providerInput, HSExampleImageModelUncheckedUpdateWithoutHs_providerInput>
+    create: XOR<HSExampleImageModelCreateWithoutHs_providerInput, HSExampleImageModelUncheckedCreateWithoutHs_providerInput>
   }
 
-  export type HSIntroductionImageModelUpdateWithWhereUniqueWithoutHs_providerInput = {
-    where: HSIntroductionImageModelWhereUniqueInput
-    data: XOR<HSIntroductionImageModelUpdateWithoutHs_providerInput, HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput>
+  export type HSExampleImageModelUpdateWithWhereUniqueWithoutHs_providerInput = {
+    where: HSExampleImageModelWhereUniqueInput
+    data: XOR<HSExampleImageModelUpdateWithoutHs_providerInput, HSExampleImageModelUncheckedUpdateWithoutHs_providerInput>
   }
 
-  export type HSIntroductionImageModelUpdateManyWithWhereWithoutHs_providerInput = {
-    where: HSIntroductionImageModelScalarWhereInput
-    data: XOR<HSIntroductionImageModelUpdateManyMutationInput, HSIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput>
+  export type HSExampleImageModelUpdateManyWithWhereWithoutHs_providerInput = {
+    where: HSExampleImageModelScalarWhereInput
+    data: XOR<HSExampleImageModelUpdateManyMutationInput, HSExampleImageModelUncheckedUpdateManyWithoutExample_imagesInput>
   }
 
-  export type HSIntroductionImageModelScalarWhereInput = {
-    AND?: Enumerable<HSIntroductionImageModelScalarWhereInput>
-    OR?: Enumerable<HSIntroductionImageModelScalarWhereInput>
-    NOT?: Enumerable<HSIntroductionImageModelScalarWhereInput>
+  export type HSExampleImageModelScalarWhereInput = {
+    AND?: Enumerable<HSExampleImageModelScalarWhereInput>
+    OR?: Enumerable<HSExampleImageModelScalarWhereInput>
+    NOT?: Enumerable<HSExampleImageModelScalarWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -35073,6 +33642,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutCertification_imagesInput = {
@@ -35089,6 +33659,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutCertification_imagesInput = {
@@ -35115,6 +33686,7 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutCertification_imagesInput = {
@@ -35131,34 +33703,35 @@ export namespace Prisma {
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
-  export type HSProviderModelCreateWithoutIntroduction_imagesInput = {
+  export type HSProviderModelCreateWithoutExample_imagesInput = {
     business_registration_num: string
     base: BusinessUserModelCreateNestedOneWithoutHs_providerInput
   }
 
-  export type HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput = {
+  export type HSProviderModelUncheckedCreateWithoutExample_imagesInput = {
     id: string
     business_registration_num: string
   }
 
-  export type HSProviderModelCreateOrConnectWithoutIntroduction_imagesInput = {
+  export type HSProviderModelCreateOrConnectWithoutExample_imagesInput = {
     where: HSProviderModelWhereUniqueInput
-    create: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+    create: XOR<HSProviderModelCreateWithoutExample_imagesInput, HSProviderModelUncheckedCreateWithoutExample_imagesInput>
   }
 
-  export type HSProviderModelUpsertWithoutIntroduction_imagesInput = {
-    update: XOR<HSProviderModelUpdateWithoutIntroduction_imagesInput, HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput>
-    create: XOR<HSProviderModelCreateWithoutIntroduction_imagesInput, HSProviderModelUncheckedCreateWithoutIntroduction_imagesInput>
+  export type HSProviderModelUpsertWithoutExample_imagesInput = {
+    update: XOR<HSProviderModelUpdateWithoutExample_imagesInput, HSProviderModelUncheckedUpdateWithoutExample_imagesInput>
+    create: XOR<HSProviderModelCreateWithoutExample_imagesInput, HSProviderModelUncheckedCreateWithoutExample_imagesInput>
   }
 
-  export type HSProviderModelUpdateWithoutIntroduction_imagesInput = {
+  export type HSProviderModelUpdateWithoutExample_imagesInput = {
     business_registration_num?: StringFieldUpdateOperationsInput | string
     base?: BusinessUserModelUpdateOneRequiredWithoutHs_providerNestedInput
   }
 
-  export type HSProviderModelUncheckedUpdateWithoutIntroduction_imagesInput = {
+  export type HSProviderModelUncheckedUpdateWithoutExample_imagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     business_registration_num?: StringFieldUpdateOperationsInput | string
   }
@@ -35177,6 +33750,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutOauth_accountsInput = {
@@ -35193,6 +33767,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
+    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutOauth_accountsInput = {
@@ -35248,6 +33823,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutOauth_accountsInput = {
@@ -35264,6 +33840,7 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
+    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type CustomerModelUpsertWithoutOauth_accountsInput = {
@@ -35346,7 +33923,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    re_property?: REProertyModelUpdateOneRequiredWithoutCategoriesNestedInput
+    re_property?: REPropertyModelUpdateOneRequiredWithoutCategoriesNestedInput
   }
 
   export type REPropertyCategoryModelUncheckedUpdateWithoutSub_categoryInput = {
@@ -35441,76 +34018,6 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RateModelCreateManyReviewInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    category_id: string
-  }
-
-  export type RateModelUpdateWithoutReviewInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category?: RateCategoryModelUpdateOneRequiredWithoutRatesNestedInput
-  }
-
-  export type RateModelUncheckedUpdateWithoutReviewInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RateModelUncheckedUpdateManyWithoutRatesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    category_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RateModelCreateManyCategoryInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    score: number
-    review_id: string
-  }
-
-  export type RateModelUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    review?: ReviewModelUpdateOneRequiredWithoutRatesNestedInput
-  }
-
-  export type RateModelUncheckedUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    score?: IntFieldUpdateOperationsInput | number
-    review_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type AgreementAcceptanceModelCreateManyAgreementInput = {
@@ -35798,6 +34305,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     reviewee_id: string
     content: string
+    rating: number
   }
 
   export type ZipzoongCareRequestModelCreateManyRequesterInput = {
@@ -35876,8 +34384,8 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
     reviewee?: BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput
-    rates?: RateModelUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewModelUncheckedUpdateWithoutReviewerInput = {
@@ -35888,7 +34396,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewee_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    rates?: RateModelUncheckedUpdateManyWithoutReviewNestedInput
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type ReviewModelUncheckedUpdateManyWithoutReviewsInput = {
@@ -35899,6 +34407,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewee_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type ZipzoongCareRequestModelUpdateWithoutRequesterInput = {
@@ -35986,6 +34495,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     reviewer_id: string
     content: string
+    rating: number
   }
 
   export type BusinessCertificationImageModelUpdateWithoutBusiness_userInput = {
@@ -36087,8 +34597,8 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     content?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
     reviewer?: CustomerModelUpdateOneRequiredWithoutReviewsNestedInput
-    rates?: RateModelUpdateManyWithoutReviewNestedInput
   }
 
   export type ReviewModelUncheckedUpdateWithoutRevieweeInput = {
@@ -36099,10 +34609,10 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewer_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    rates?: RateModelUncheckedUpdateManyWithoutReviewNestedInput
+    rating?: IntFieldUpdateOperationsInput | number
   }
 
-  export type REProertyModelCreateManyRe_agentInput = {
+  export type REPropertyModelCreateManyRe_agentInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -36112,7 +34622,7 @@ export namespace Prisma {
     main_image_url: string
   }
 
-  export type REProertyModelUpdateWithoutRe_agentInput = {
+  export type REPropertyModelUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36123,7 +34633,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
 
-  export type REProertyModelUncheckedUpdateWithoutRe_agentInput = {
+  export type REPropertyModelUncheckedUpdateWithoutRe_agentInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36134,7 +34644,7 @@ export namespace Prisma {
     categories?: REPropertyCategoryModelUncheckedUpdateManyWithoutRe_propertyNestedInput
   }
 
-  export type REProertyModelUncheckedUpdateManyWithoutPropertiesInput = {
+  export type REPropertyModelUncheckedUpdateManyWithoutPropertiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36144,7 +34654,7 @@ export namespace Prisma {
     main_image_url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelCreateManyHs_providerInput = {
+  export type HSExampleImageModelCreateManyHs_providerInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -36153,7 +34663,7 @@ export namespace Prisma {
     url: string
   }
 
-  export type HSIntroductionImageModelUpdateWithoutHs_providerInput = {
+  export type HSExampleImageModelUpdateWithoutHs_providerInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36162,7 +34672,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelUncheckedUpdateWithoutHs_providerInput = {
+  export type HSExampleImageModelUncheckedUpdateWithoutHs_providerInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36171,7 +34681,7 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
   }
 
-  export type HSIntroductionImageModelUncheckedUpdateManyWithoutIntroduction_imagesInput = {
+  export type HSExampleImageModelUncheckedUpdateManyWithoutExample_imagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

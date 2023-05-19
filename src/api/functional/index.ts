@@ -6,7 +6,6 @@
 //================================================================
 export * as agreements from "./agreements";
 export * as auth from "./auth";
-export * as rate_categories from "./rate_categories";
 export * as re_properties from "./re_properties";
 export * as re_property_categories from "./re_property_categories";
 export * as reviews from "./reviews";

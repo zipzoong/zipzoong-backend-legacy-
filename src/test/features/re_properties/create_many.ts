@@ -1,8 +1,9 @@
 import { IREProperty } from "@DTO/re_property";
+import { prisma } from "@INFRA/DB";
 import { ArrayUtil, RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import Authentication from "@PROVIDER/authentication";
-import { re_properties, re_property_categories, users } from "@SDK";
+import { re_properties, re_property_categories } from "@SDK";
 import { internal } from "@TEST/internal";
 import { pick } from "@UTIL";
 import typia from "typia";
@@ -27,15 +28,18 @@ export const test_success = async (connection: IConnection) => {
     return input;
   });
 
-  const { data: agents } = await users.re_agents.getList(connection, {
-    page: 1
-  });
+  const agents = (
+    await prisma.rEAgentModel.findMany({
+      where: { base: { is_verified: true, base: { is_deleted: false } } },
+      include: { _count: { select: { properties: true } } }
+    })
+  ).filter((agent) => agent._count.properties === 0);
 
-  const agent = RandomGenerator.pick(agents);
+  const user_id = RandomGenerator.pick(agents).id;
 
   const token = Authentication.Crypto.getUserToken({
     type: "user",
-    user_id: agent.id,
+    user_id,
     user_type: "real estate agent"
   });
 
@@ -43,6 +47,11 @@ export const test_success = async (connection: IConnection) => {
     internal.addAuthorizationHeader(connection)("bearer", token),
     { data: list }
   );
+
+  await prisma.rEPropertyCategoryModel.deleteMany({
+    where: { re_property: { re_agent_id: user_id } }
+  });
+  await prisma.rEPropertyModel.deleteMany({ where: { re_agent_id: user_id } });
 };
 
 export const test_authorization_fail = internal.test_authorization_fail(

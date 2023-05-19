@@ -21,12 +21,12 @@ export namespace Map {
     return `${hours}:${minutes}`;
   };
 
-  export const zipzoongCareRequest = (
+  export const entity = (
     input: NonNullable<
       Awaited<
         ReturnType<
           typeof prisma.zipzoongCareRequestModel.findFirst<{
-            include: ReturnType<typeof Json.findInclude>;
+            select: ReturnType<typeof Json.findSelect>;
           }>
         >
       >
@@ -35,19 +35,19 @@ export namespace Map {
     const request = {
       id: input.id,
       status: input.status,
+      detail: input.detail,
       created_at: getISOString(input.created_at),
       updated_at: getISOString(input.updated_at),
+      care_start_date: Map.dateString(input.care_start_date),
+      care_end_date: Map.dateString(input.care_end_date),
       requester: {
         id: input.requester.id,
         name: input.requester.base.name,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         phone: input.requester.phone!
       },
-      care_start_date: Map.dateString(input.care_start_date),
-      care_end_date: Map.dateString(input.care_end_date),
-      detail: input.detail,
       checked_services: input.service_checks.filter(isActive).map((check) => ({
-        id: check.service_super_category_id,
+        id: check.service_super_category.id,
         name: check.service_super_category.name
       })),
       checked_consultation_times: input.consultation_time_checks

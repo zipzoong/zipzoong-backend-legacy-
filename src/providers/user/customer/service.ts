@@ -22,7 +22,7 @@ export namespace Service {
       findFirst: async (id) =>
         tx.customerModel.findFirst({
           where: { id },
-          include: Json.findInclude()
+          select: Json.findSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
@@ -32,7 +32,7 @@ export namespace Service {
           ? toThrow(User.Exception.NotFound)
           : user,
 
-      mapper: Map.customer
+      mapper: Map.entity
     });
 
   export namespace Me {
@@ -49,14 +49,14 @@ export namespace Service {
         findFirst: async (id) =>
           tx.customerModel.findFirst({
             where: { id },
-            include: Json.findPrivateInclude()
+            select: Json.findPrivateSelect()
           }),
 
         exception_for_notfound: Authentication.Exception.MeNotFound,
 
         validator: identity,
 
-        mapper: Map.privateCustomer
+        mapper: Map.privateEntity
       });
   }
 }
