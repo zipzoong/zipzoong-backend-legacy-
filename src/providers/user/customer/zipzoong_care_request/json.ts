@@ -1,4 +1,4 @@
-import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 import { Prisma } from "@PRISMA";
 import { getISOString } from "@UTIL";
 import { randomUUID } from "crypto";
@@ -56,17 +56,6 @@ export namespace Json {
       care_end_date: true,
       detail: true,
       status: true,
-      requester: {
-        select: {
-          id: true,
-          phone: true,
-          base: {
-            select: {
-              name: true
-            }
-          }
-        }
-      },
       consultation_time_checks: {
         select: {
           id: true,

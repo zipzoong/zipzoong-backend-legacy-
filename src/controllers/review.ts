@@ -1,5 +1,4 @@
 import { IReview } from "@DTO/review";
-import { IPaginatedResponse } from "@DTO/common";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import { CustomerToken } from "./decorators";
@@ -19,7 +18,7 @@ export class ReviewsController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IReview.ISearch
-  ): Promise<IPaginatedResponse<IReview>> {
+  ): Promise<IReview.IPaginatedResponse> {
     return Review.Service.getList(query);
   }
 

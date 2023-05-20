@@ -1,4 +1,4 @@
-import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";

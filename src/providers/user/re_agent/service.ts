@@ -1,4 +1,3 @@
-import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { identity, map, pipe, toArray } from "@fxts/core";
@@ -15,7 +14,7 @@ export namespace Service {
     page = 1,
     super_category_id,
     sub_category_id
-  }: IBusinessUser.ISearch): Promise<IPaginatedResponse<IREAgent.ISummary>> =>
+  }: IBusinessUser.ISearch): Promise<IREAgent.IPaginatedResponse> =>
     pipe(
       30,
 
@@ -108,7 +107,7 @@ export namespace Service {
       }: {
         user_id: string;
         search: IREAgent.IProperty.ISearch;
-      }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+      }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
         pipe(
           get({ user_id }),
 
@@ -155,7 +154,7 @@ export namespace Service {
     }: {
       user_id: string;
       search: IREAgent.IProperty.ISearch;
-    }): Promise<IPaginatedResponse<IREAgent.IProperty>> =>
+    }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
       pipe(
         getOne({ user_id }),
 

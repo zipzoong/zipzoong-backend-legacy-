@@ -12,12 +12,20 @@ export namespace IServiceCategory {
   }
 
   export interface ISub extends IBase<"sub"> {
-    readonly super_category: Omit<ISuper, "sub_categories">;
+    readonly super_category: ISub.ISuper;
+  }
+
+  export namespace ISub {
+    export type ISuper = Omit<IServiceCategory.ISuper, "sub_categories">;
   }
 
   export interface ISuper extends IBase<"super"> {
     readonly type: Type;
-    readonly sub_categories: Omit<ISub, "super_category">[];
+    readonly sub_categories: ISuper.ISub[];
+  }
+
+  export namespace ISuper {
+    export type ISub = Omit<IServiceCategory.ISub, "super_category">;
   }
 
   export interface ISearch {

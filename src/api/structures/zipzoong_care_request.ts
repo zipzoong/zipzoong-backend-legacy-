@@ -1,11 +1,10 @@
 import { Mutable, Omit } from "@TYPE";
-import { IDateTime, IPage } from "./common";
+import { IDateTime, IPage, IPaginatedResponse as IPaginated } from "./common";
 import { ICustomer } from "./user/customer";
 
 export interface IZipzoongCareRequest extends IDateTime {
   readonly id: string;
   readonly status: IZipzoongCareRequest.Status;
-  readonly requester: IZipzoongCareRequest.IRequester;
   /** @format date */
   readonly care_start_date: string;
   /** @format date */
@@ -51,7 +50,6 @@ export namespace IZipzoongCareRequest {
       | "created_at"
       | "updated_at"
       | "status"
-      | "requester"
       | "checked_consultation_times"
       | "checked_services"
     > {
@@ -63,4 +61,6 @@ export namespace IZipzoongCareRequest {
   }
 
   export type ICreateRequest = Omit<ICreate, "requester_id">;
+
+  export type IPaginatedResponse = IPaginated<IZipzoongCareRequest>;
 }

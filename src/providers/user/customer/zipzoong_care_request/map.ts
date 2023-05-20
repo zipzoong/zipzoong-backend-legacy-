@@ -2,7 +2,7 @@ import { prisma } from "@INFRA/DB";
 import { Json } from "./json";
 import { getISOString, isActive } from "@UTIL";
 import typia from "typia";
-import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 
 export namespace Map {
   /** @format date */
@@ -40,12 +40,6 @@ export namespace Map {
       updated_at: getISOString(input.updated_at),
       care_start_date: Map.dateString(input.care_start_date),
       care_end_date: Map.dateString(input.care_end_date),
-      requester: {
-        id: input.requester.id,
-        name: input.requester.base.name,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        phone: input.requester.phone!
-      },
       checked_services: input.service_checks.filter(isActive).map((check) => ({
         id: check.service_super_category.id,
         name: check.service_super_category.name

@@ -8,8 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IZipzoongCareRequest } from "./../../../../../../structures/zipzoong_care";
-import type { IPaginatedResponse } from "./../../../../../../structures/common/pagination";
+import type { IZipzoongCareRequest } from "./../../../../../../structures/zipzoong_care_request";
 
 /**
  * @summary 집중 케어 신청 목록 검색
@@ -42,7 +41,7 @@ export function getList
 export namespace getList
 {
     export type Query = IZipzoongCareRequest.ISearch;
-    export type Output = IPaginatedResponse<IZipzoongCareRequest>;
+    export type Output = IZipzoongCareRequest.IPaginatedResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/customers/me/zipzoong-care/requests";

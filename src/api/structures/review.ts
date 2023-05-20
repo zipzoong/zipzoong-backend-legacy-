@@ -1,4 +1,8 @@
-import { IDateTime, IPage } from "@DTO/common";
+import {
+  IDateTime,
+  IPage,
+  IPaginatedResponse as IPaginated
+} from "@DTO/common";
 import { Mutable, Omit } from "@TYPE";
 
 export interface IReview extends IDateTime {
@@ -37,4 +41,6 @@ export namespace IReview {
   }
 
   export type ICreateRequest = Omit<ICreate, "reviewer_id">;
+
+  export type IPaginatedResponse = IPaginated<IReview>;
 }
