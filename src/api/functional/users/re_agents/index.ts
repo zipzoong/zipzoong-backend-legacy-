@@ -8,7 +8,6 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
 import type { IBusinessUser } from "./../../../structures/user/business_user";
-import type { IPaginatedResponse } from "./../../../structures/common/pagination";
 import type { IREAgent } from "./../../../structures/user/re_agent";
 
 export * as me from "./me";
@@ -43,7 +42,7 @@ export function getList
 export namespace getList
 {
     export type Query = IBusinessUser.ISearch;
-    export type Output = IPaginatedResponse<IREAgent.ISummary>;
+    export type Output = IREAgent.IPaginatedResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents";

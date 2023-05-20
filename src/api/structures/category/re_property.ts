@@ -14,15 +14,28 @@ export namespace IREPropertyCategory {
   }
 
   export interface ISuper extends IBase<"super"> {
-    readonly middle_categories: Omit<IMiddle, "super_category">[];
+    readonly middle_categories: ISuper.IMiddle[];
+  }
+
+  export namespace ISuper {
+    export type IMiddle = Omit<IREPropertyCategory.IMiddle, "super_category">;
   }
 
   export interface IMiddle extends IBase<"middle"> {
-    readonly super_category: Omit<ISuper, "middle_categories">;
-    readonly sub_categories: Omit<ISub, "middle_category">[];
+    readonly super_category: IMiddle.ISuper;
+    readonly sub_categories: IMiddle.ISub[];
+  }
+
+  export namespace IMiddle {
+    export type ISuper = Omit<IREPropertyCategory.ISuper, "middle_categories">;
+    export type ISub = Omit<IREPropertyCategory.ISub, "middle_category">;
   }
 
   export interface ISub extends IBase<"sub"> {
-    readonly middle_category: Omit<IMiddle, "sub_categories">;
+    readonly middle_category: ISub.IMiddle;
+  }
+
+  export namespace ISub {
+    export type IMiddle = Omit<IREPropertyCategory.IMiddle, "sub_categories">;
   }
 }

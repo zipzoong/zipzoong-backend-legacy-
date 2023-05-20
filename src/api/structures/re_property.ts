@@ -1,4 +1,8 @@
-import { IDateTime, IPage } from "@DTO/common";
+import {
+  IDateTime,
+  IPage,
+  IPaginatedResponse as IPaginated
+} from "@DTO/common";
 import { IREAgent } from "@DTO/user/re_agent";
 import { Mutable, Omit } from "@TYPE";
 import { IREPropertyCategory } from "./category/re_property";
@@ -48,4 +52,6 @@ export namespace IREProperty {
      */
     data: ICreateRequest[];
   }
+
+  export type IPaginatedResponse = IPaginated<IREProperty>;
 }

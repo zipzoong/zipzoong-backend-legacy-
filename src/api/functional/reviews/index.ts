@@ -9,7 +9,6 @@ import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
 import type { IReview } from "./../../structures/review";
-import type { IPaginatedResponse } from "./../../structures/common/pagination";
 
 /**
  * 사업자를 기준으로 리뷰를 검색하거나 리뷰어를 기준으로 검색할 수 있습니다.
@@ -41,7 +40,7 @@ export function getList
 export namespace getList
 {
     export type Query = IReview.ISearch;
-    export type Output = IPaginatedResponse<IReview>;
+    export type Output = IReview.IPaginatedResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/reviews";

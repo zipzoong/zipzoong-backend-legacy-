@@ -1,5 +1,4 @@
 import { ITokens } from "@DTO/auth";
-import { IPaginatedResponse } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
@@ -17,7 +16,7 @@ export class REPropertiesController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREProperty.ISearch
-  ): Promise<IPaginatedResponse<IREProperty>> {
+  ): Promise<IREProperty.IPaginatedResponse> {
     return REProperty.Service.getList(query);
   }
 

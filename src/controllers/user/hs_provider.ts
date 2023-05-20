@@ -1,5 +1,4 @@
 import { ITokens } from "@DTO/auth";
-import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
@@ -19,7 +18,7 @@ export class HSProvidersController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
-  ): Promise<IPaginatedResponse<IHSProvider.ISummary>> {
+  ): Promise<IHSProvider.IPaginatedResponse> {
     return HSProvider.Service.getList(query);
   }
 

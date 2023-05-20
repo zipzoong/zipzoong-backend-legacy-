@@ -1,4 +1,4 @@
-import { IAddress, IPage } from "@DTO/common";
+import { IAddress, IPage, IPaginatedResponse as IPaginated } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
 import { Mutable, Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
@@ -73,6 +73,7 @@ export namespace IREAgent {
       middle_category_id?: string;
       super_category_id?: string;
     }
+    export type IPaginatedResponse = IPaginated<IREAgent.IProperty>;
   }
 
   export interface ICreate
@@ -87,4 +88,6 @@ export namespace IREAgent {
 
   export type ICreateRequest = Omit<ICreate, "email" | "phone"> &
     IBusinessUser.ICreateRequest<"real estate agent">;
+
+  export type IPaginatedResponse = IPaginated<ISummary>;
 }

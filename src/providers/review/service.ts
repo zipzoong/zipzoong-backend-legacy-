@@ -1,4 +1,3 @@
-import { IPaginatedResponse } from "@DTO/common";
 import { IReview } from "@DTO/review";
 import { map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
@@ -13,7 +12,7 @@ export namespace Service {
     page = 1,
     reviewee_id,
     reviewer_id
-  }: IReview.ISearch): Promise<IPaginatedResponse<IReview>> =>
+  }: IReview.ISearch): Promise<IReview.IPaginatedResponse> =>
     pipe(
       30,
 

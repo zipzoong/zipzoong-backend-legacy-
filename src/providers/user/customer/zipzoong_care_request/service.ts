@@ -1,5 +1,4 @@
-import { IPaginatedResponse } from "@DTO/common";
-import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 import { map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
@@ -32,7 +31,7 @@ export namespace Service {
   }: {
     search: IZipzoongCareRequest.ISearch;
     user_id: string;
-  }): Promise<IPaginatedResponse<IZipzoongCareRequest>> => {
+  }): Promise<IZipzoongCareRequest.IPaginatedResponse> => {
     const tx = prisma;
     const customer = await Customer.Service.Me.get({ user_id, tx });
     Authentication.Check.verifyUser(customer);

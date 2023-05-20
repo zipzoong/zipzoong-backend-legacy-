@@ -8,7 +8,6 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 
 import type { IREAgent } from "./../../../../structures/user/re_agent";
-import type { IPaginatedResponse } from "./../../../../structures/common/pagination";
 
 /**
  * 공인중개사 프로필에서 매물 목록을 추가로 불러올 때 사용한다.
@@ -44,7 +43,7 @@ export function getList
 export namespace getList
 {
     export type Query = IREAgent.IProperty.ISearch;
-    export type Output = IPaginatedResponse<IREAgent.IProperty>;
+    export type Output = IREAgent.IProperty.IPaginatedResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents/:agent_id/properties";

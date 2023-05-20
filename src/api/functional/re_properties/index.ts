@@ -9,7 +9,6 @@ import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
 import type { IREProperty } from "./../../structures/re_property";
-import type { IPaginatedResponse } from "./../../structures/common/pagination";
 
 /**
  * @summary 부동산 매물 목록 검색
@@ -39,7 +38,7 @@ export function getList
 export namespace getList
 {
     export type Query = IREProperty.ISearch;
-    export type Output = IPaginatedResponse<IREProperty>;
+    export type Output = IREProperty.IPaginatedResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/re-properties";

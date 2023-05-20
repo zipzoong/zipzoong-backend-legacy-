@@ -1,6 +1,5 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
-import { IPaginatedResponse } from "@DTO/common";
 import { Controller } from "@nestjs/common";
 import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { REAgentToken } from "../decorators";
@@ -19,7 +18,7 @@ export class REAgentsController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IBusinessUser.ISearch
-  ): Promise<IPaginatedResponse<IREAgent.ISummary>> {
+  ): Promise<IREAgent.IPaginatedResponse> {
     return REAgent.Service.getList(query);
   }
 
@@ -69,7 +68,7 @@ export class REAgentsMyPropertiesController {
   getList(
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
-  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
+  ): Promise<IREAgent.IProperty.IPaginatedResponse> {
     return REAgent.Service.Me.Property.getList({ user_id, search: query });
   }
 }
@@ -91,7 +90,7 @@ export class REAgentsPropertiesController {
   getList(
     @TypedParam("agent_id") agent_id: string,
     @TypedQuery() query: IREAgent.IProperty.ISearch
-  ): Promise<IPaginatedResponse<IREAgent.IProperty>> {
+  ): Promise<IREAgent.IProperty.IPaginatedResponse> {
     return REAgent.Service.Property.getList({
       user_id: agent_id,
       search: query

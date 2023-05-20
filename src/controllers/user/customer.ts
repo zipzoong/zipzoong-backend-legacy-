@@ -1,11 +1,10 @@
 import { ITokens } from "@DTO/auth";
-import { IPaginatedResponse } from "@DTO/common";
 import { ICustomer } from "@DTO/user/customer";
-import { IZipzoongCareRequest } from "@DTO/zipzoong_care";
-import { TypedBody, TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
+import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
+import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import Customer from "@PROVIDER/user/customer";
-import ZipzoongCareRequest from "@PROVIDER/zipzoong_care_request";
+import ZipzoongCareRequest from "@PROVIDER/user/customer/zipzoong_care_request";
 import { CustomerToken } from "../decorators";
 
 @Controller("users/customers")
@@ -38,7 +37,7 @@ export class CustomersController {
   getList(
     @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
     @TypedQuery() query: IZipzoongCareRequest.ISearch
-  ): Promise<IPaginatedResponse<IZipzoongCareRequest>> {
+  ): Promise<IZipzoongCareRequest.IPaginatedResponse> {
     return ZipzoongCareRequest.Service.getList({ user_id, search: query });
   }
 
@@ -65,9 +64,9 @@ export class CustomersController {
    * @param customer_id 일반 고객 id
    * @return 일반 고객 정보
    * @throw 404 Not Found
-   */
   @TypedRoute.Get(":customer_id")
   getOne(@TypedParam("customer_id") customer_id: string): Promise<ICustomer> {
     return Customer.Service.getOne({ user_id: customer_id });
   }
+  */
 }

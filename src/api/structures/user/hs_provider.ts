@@ -1,4 +1,4 @@
-import { IAddress } from "@DTO/common";
+import { IAddress, IPaginatedResponse as IPaginated } from "@DTO/common";
 import { Mutable, Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
@@ -51,4 +51,6 @@ export namespace IHSProvider {
 
   export type ICreateRequest = Omit<ICreate, "email" | "phone"> &
     IBusinessUser.ICreateRequest<"home service provider">;
+
+  export type IPaginatedResponse = IPaginated<ISummary>;
 }

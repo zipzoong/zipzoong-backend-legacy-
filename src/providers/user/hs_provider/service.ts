@@ -1,4 +1,3 @@
-import { IPaginatedResponse } from "@DTO/common";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { identity, map, pipe, toArray } from "@fxts/core";
@@ -15,9 +14,7 @@ export namespace Service {
     page = 1,
     super_category_id,
     sub_category_id
-  }: IBusinessUser.ISearch): Promise<
-    IPaginatedResponse<IHSProvider.ISummary>
-  > =>
+  }: IBusinessUser.ISearch): Promise<IHSProvider.IPaginatedResponse> =>
     pipe(
       30,
 
