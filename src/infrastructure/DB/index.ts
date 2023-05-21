@@ -2,6 +2,9 @@ import { Configuration } from "@INFRA/config";
 import { PrismaClient } from "@PRISMA";
 
 export const prisma = new PrismaClient({
+  datasources: {
+    database: { url: Configuration.DATABASE_URL }
+  },
   log:
     Configuration.NODE_ENV === "development"
       ? [

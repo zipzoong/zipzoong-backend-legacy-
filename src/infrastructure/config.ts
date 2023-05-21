@@ -26,6 +26,7 @@ export const Configuration: IEnv = init();
 interface IEnv {
   readonly NODE_ENV: "development" | "production" | "test";
   readonly PORT: string | number;
+  readonly DATABASE_URL: string;
 
   readonly ACCESSOR_TOKEN_PUBLIC_KEY: string;
   readonly ACCESSOR_TOKEN_PRIVATE_KEY: string;

@@ -2431,7 +2431,7 @@
         "type": "object",
         "properties": {
           "target_type": {
-            "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+            "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관\n\n@minItems 1",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -2453,7 +2453,7 @@
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관",
+              "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관\n\n@minItems 1",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -2489,31 +2489,28 @@
         "required": [
           "target_type"
         ],
+        "description": "약관 조회 필터링 기준(최소 1개 필요)\n- all 전체 약관\n- customer 일반 고객 대상 약관\n- business 사업자 대상 약관\n- RE 공인중개사 대상 약관\n- HS 생활서비스 대상 약관\n\n@minItems 1",
         "x-typia-jsDocTags": []
       },
       "IAgreement": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "title": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "content": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "target_type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2526,13 +2523,12 @@
             ]
           },
           "is_required": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "boolean"
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2556,7 +2552,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2596,7 +2592,6 @@
         "type": "object",
         "properties": {
           "user_type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2607,13 +2602,11 @@
             ]
           },
           "code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "oauth_type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2634,7 +2627,6 @@
         "type": "object",
         "properties": {
           "access_token": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -2650,13 +2642,11 @@
         "type": "object",
         "properties": {
           "code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "oauth_type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2676,14 +2666,13 @@
         "type": "object",
         "properties": {
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2708,21 +2697,19 @@
             "nullable": true
           },
           "phone": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "birth": {
-            "description": "YYYY-MM-DD",
+            "description": "YYYY-MM-DD\n@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2747,7 +2734,6 @@
             "nullable": true
           },
           "gender": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2760,7 +2746,6 @@
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -2775,19 +2760,18 @@
           "gender",
           "address"
         ],
+        "description": "YYYY-MM-DD\n@format date",
         "x-typia-jsDocTags": []
       },
       "IAddress.Nullable": {
         "type": "object",
         "properties": {
           "first": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "second": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2805,7 +2789,6 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2813,12 +2796,11 @@
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "birth": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -2843,7 +2825,6 @@
             "nullable": true
           },
           "gender": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2855,25 +2836,21 @@
             "nullable": true
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "acceptant_agreement_ids": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
             }
           },
           "type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2882,14 +2859,12 @@
             ]
           },
           "email_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "phone_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2914,13 +2889,11 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -2939,13 +2912,11 @@
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -2974,19 +2945,16 @@
             }
           },
           "sub_expertise_ids": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
             }
           },
           "type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2995,14 +2963,12 @@
             ]
           },
           "email_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "phone_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3030,13 +2996,11 @@
         "type": "object",
         "properties": {
           "review_cnt": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "number"
           },
           "rating_avg": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "number"
@@ -3053,13 +3017,11 @@
         "type": "object",
         "properties": {
           "title": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "content": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3114,19 +3076,18 @@
           "licensed_agent_name",
           "address"
         ],
+        "description": "부동산 주소",
         "x-typia-jsDocTags": []
       },
       "IAddress": {
         "type": "object",
         "properties": {
           "first": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "second": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3144,13 +3105,12 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3174,7 +3134,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3198,25 +3158,21 @@
             "format": "date-time"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "main_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "sub_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
@@ -3238,12 +3194,10 @@
         "properties": {
           "middle_category": {
             "$ref": "#/components/schemas/IREProperty.IMiddleCategory",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3252,13 +3206,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3278,12 +3230,10 @@
         "properties": {
           "super_category": {
             "$ref": "#/components/schemas/IREProperty.ISuperCategory",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3292,13 +3242,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3317,7 +3265,6 @@
         "type": "object",
         "properties": {
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3326,13 +3273,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3350,30 +3295,25 @@
         "type": "object",
         "properties": {
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "acceptant_agreement_ids": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
@@ -3381,48 +3321,40 @@
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "sub_expertise_ids": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
             }
           },
           "business_registration_num": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "example_image_urls": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
             }
           },
           "type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3431,14 +3363,12 @@
             ]
           },
           "email_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "phone_access_code": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3466,25 +3396,22 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "middle_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "sub_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "page": {
-            "description": "",
+            "description": "@default 1\n@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -3538,19 +3465,17 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -3592,49 +3517,44 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       },
       "IREProperty": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "main_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "re_agent": {
             "$ref": "#/components/schemas/IREProperty.IAgent",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "sub_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3658,7 +3578,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -3698,26 +3618,22 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -3735,25 +3651,21 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "super_category_name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "sub_expertises": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IBusinessUser.ISubExpertise",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
@@ -3771,13 +3683,11 @@
         "type": "object",
         "properties": {
           "sub_category_id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "sub_category_name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3794,7 +3704,7 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
+            "description": "@minItems 1\n@maxItems 10",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -3830,7 +3740,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREProperty.ICreateRequest",
-              "description": "",
+              "description": "@minItems 1\n@maxItems 10",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -3872,30 +3782,27 @@
         "required": [
           "data"
         ],
+        "description": "@minItems 1\n@maxItems 10",
         "x-typia-jsDocTags": []
       },
       "IREProperty.ICreateRequest": {
         "type": "object",
         "properties": {
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "main_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "sub_category_ids": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false,
               "type": "string"
@@ -3914,19 +3821,16 @@
         "type": "object",
         "properties": {
           "middle_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.ISuper.IMiddle",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3935,13 +3839,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3960,31 +3862,26 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "sub_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISub",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4006,19 +3903,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4040,24 +3934,20 @@
         "properties": {
           "super_category": {
             "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISuper",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "sub_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISub",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4066,13 +3956,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4092,19 +3980,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4125,19 +4010,17 @@
         "type": "object",
         "properties": {
           "reviewer_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "reviewee_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "page": {
-            "description": "",
+            "description": "@default 1\n@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4191,19 +4074,17 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IReview",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4245,31 +4126,29 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       },
       "IReview": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "reviewer": {
             "$ref": "#/components/schemas/IReview.IReviewer",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "reviewee": {
             "$ref": "#/components/schemas/IReview.IReviewee",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "content": {
-            "description": "",
+            "description": "@maxLength 500",
             "x-typia-metaTags": [
               {
                 "kind": "maxLength",
@@ -4293,7 +4172,7 @@
             "maxLength": 500
           },
           "rating": {
-            "description": "",
+            "description": "@type int\n@minimum 0\n@maximum 10",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4344,7 +4223,7 @@
             "maximum": 10
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4368,7 +4247,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4402,19 +4281,18 @@
           "created_at",
           "updated_at"
         ],
+        "description": "@type int\n@minimum 0\n@maximum 10",
         "x-typia-jsDocTags": []
       },
       "IReview.IReviewer": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4431,13 +4309,11 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4454,7 +4330,7 @@
         "type": "object",
         "properties": {
           "rating": {
-            "description": "",
+            "description": "@type int\n@minimum 0\n@maximum 10",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -4505,7 +4381,7 @@
             "maximum": 10
           },
           "content": {
-            "description": "",
+            "description": "@maxLength 500",
             "x-typia-metaTags": [
               {
                 "kind": "maxLength",
@@ -4529,7 +4405,6 @@
             "maxLength": 500
           },
           "reviewee_id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4547,7 +4422,7 @@
         "type": "object",
         "properties": {
           "type": {
-            "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야",
+            "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야\n\n@minItems 1",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -4569,7 +4444,7 @@
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야",
+              "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야\n\n@minItems 1",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -4602,13 +4477,13 @@
         "required": [
           "type"
         ],
+        "description": "서비스 카테고리 조회 필터링 기준(최소 1개 필요)\n- RE 부동산 분야\n- HS 생활서비스 분야\n\n@minItems 1",
         "x-typia-jsDocTags": []
       },
       "IServiceCategory.ISuper": {
         "type": "object",
         "properties": {
           "type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4618,19 +4493,16 @@
             ]
           },
           "sub_categories": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IServiceCategory.ISuper.ISub",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4639,13 +4511,11 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4665,19 +4535,16 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "level": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4698,14 +4565,13 @@
         "type": "object",
         "properties": {
           "phone": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4739,13 +4605,12 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4769,7 +4634,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4793,7 +4658,6 @@
             "format": "date-time"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4801,12 +4665,11 @@
           },
           "address": {
             "$ref": "#/components/schemas/IAddress.Nullable",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "birth": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -4831,7 +4694,6 @@
             "nullable": true
           },
           "gender": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4843,7 +4705,6 @@
             "nullable": true
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -4882,25 +4743,21 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "content": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "title": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "target_type": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -4913,7 +4770,6 @@
             ]
           },
           "is_required": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "boolean"
@@ -4933,7 +4789,7 @@
         "type": "object",
         "properties": {
           "status": {
-            "description": "",
+            "description": "@minItems 1",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -4955,7 +4811,7 @@
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
+              "description": "@minItems 1",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -4986,7 +4842,7 @@
             "minItems": 1
           },
           "page": {
-            "description": "",
+            "description": "@default 1\n@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5037,25 +4893,24 @@
         "required": [
           "status"
         ],
+        "description": "@minItems 1",
         "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest.IPaginatedResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5097,19 +4952,18 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "status": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -5121,7 +4975,7 @@
             ]
           },
           "care_start_date": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5145,7 +4999,7 @@
             "format": "date"
           },
           "care_end_date": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5169,7 +5023,7 @@
             "format": "date"
           },
           "detail": {
-            "description": "",
+            "description": "@maxLength 500",
             "x-typia-metaTags": [
               {
                 "kind": "maxLength",
@@ -5193,31 +5047,27 @@
             "maxLength": 500
           },
           "checked_services": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedService",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "checked_consultation_times": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedConsultationTime",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5241,7 +5091,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5277,19 +5127,18 @@
           "created_at",
           "updated_at"
         ],
+        "description": "@maxLength 500",
         "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest.ICheckedService": {
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -5306,13 +5155,12 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "start_time": {
-            "description": "",
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
             "x-typia-jsDocTags": [
               {
                 "name": "format",
@@ -5330,7 +5178,7 @@
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           },
           "end_time": {
-            "description": "",
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
             "x-typia-jsDocTags": [
               {
                 "name": "format",
@@ -5354,13 +5202,14 @@
           "start_time",
           "end_time"
         ],
+        "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
         "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest.ICreateRequest": {
         "type": "object",
         "properties": {
           "care_start_date": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5384,7 +5233,7 @@
             "format": "date"
           },
           "care_end_date": {
-            "description": "",
+            "description": "@format date",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5408,7 +5257,7 @@
             "format": "date"
           },
           "detail": {
-            "description": "",
+            "description": "@maxLength 500",
             "x-typia-metaTags": [
               {
                 "kind": "maxLength",
@@ -5432,7 +5281,7 @@
             "maxLength": 500
           },
           "consultation_times": {
-            "description": "",
+            "description": "@minItems 1",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -5455,7 +5304,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateCheckedConsultationTime",
-              "description": "",
+              "description": "@minItems 1",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -5479,7 +5328,7 @@
             "minItems": 1
           },
           "service_ids": {
-            "description": "",
+            "description": "@minItems 1",
             "x-typia-metaTags": [
               {
                 "kind": "minItems",
@@ -5501,7 +5350,7 @@
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "description": "",
+              "description": "@minItems 1",
               "x-typia-metaTags": [
                 {
                   "kind": "minItems",
@@ -5540,7 +5389,7 @@
         "type": "object",
         "properties": {
           "start_time": {
-            "description": "",
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
             "x-typia-jsDocTags": [
               {
                 "name": "format",
@@ -5558,7 +5407,7 @@
             "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
           },
           "end_time": {
-            "description": "",
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
             "x-typia-jsDocTags": [
               {
                 "name": "format",
@@ -5587,19 +5436,17 @@
         "type": "object",
         "properties": {
           "super_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "sub_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "page": {
-            "description": "",
+            "description": "@default 1\n@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5653,19 +5500,17 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider.ISummary",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -5707,6 +5552,7 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       },
       "IHSProvider.ISummary": {
@@ -5722,44 +5568,37 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           }
@@ -5781,55 +5620,46 @@
         "type": "object",
         "properties": {
           "phone": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "example_images": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider.IExampleImage",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "business_registration_num": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -5844,19 +5674,17 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5881,7 +5709,7 @@
             "nullable": true
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5905,7 +5733,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -5985,13 +5813,11 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -6008,13 +5834,11 @@
         "type": "object",
         "properties": {
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -6031,55 +5855,46 @@
         "type": "object",
         "properties": {
           "phone": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "example_images": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IHSProvider.IExampleImage",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "address": {
             "$ref": "#/components/schemas/IAddress",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "business_registration_num": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -6094,19 +5909,17 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6131,7 +5944,7 @@
             "nullable": true
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6155,7 +5968,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6202,19 +6015,17 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.ISummary",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -6256,6 +6067,7 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       },
       "IREAgent.ISummary": {
@@ -6271,38 +6083,32 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -6336,26 +6142,22 @@
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -6393,19 +6195,17 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6430,7 +6230,7 @@
             "nullable": true
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6454,7 +6254,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6540,26 +6340,22 @@
             "type": "string"
           },
           "profile_image_url": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "review_stats": {
             "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise",
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false
           },
@@ -6597,19 +6393,17 @@
             ]
           },
           "id": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "name": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
           "email": {
-            "description": "",
+            "description": "@format email",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6634,7 +6428,7 @@
             "nullable": true
           },
           "created_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6658,7 +6452,7 @@
             "format": "date-time"
           },
           "updated_at": {
-            "description": "",
+            "description": "@format date-time",
             "x-typia-metaTags": [
               {
                 "kind": "format",
@@ -6699,31 +6493,29 @@
           "created_at",
           "updated_at"
         ],
+        "description": "부동산 매물 목록",
         "x-typia-jsDocTags": []
       },
       "IREAgent.IProperty.ISearch": {
         "type": "object",
         "properties": {
           "sub_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "middle_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "super_category_id": {
-            "description": "",
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "string"
           },
           "page": {
-            "description": "",
+            "description": "@default 1\n@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -6777,19 +6569,17 @@
         "type": "object",
         "properties": {
           "data": {
-            "description": "",
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/IREAgent.IProperty",
-              "description": "",
               "x-typia-required": true,
               "x-typia-optional": false
             }
           },
           "page": {
-            "description": "",
+            "description": "@type uint\n@minimum 1",
             "x-typia-metaTags": [
               {
                 "kind": "type",
@@ -6831,6 +6621,7 @@
           "data",
           "page"
         ],
+        "description": "@type uint\n@minimum 1",
         "x-typia-jsDocTags": []
       }
     },
