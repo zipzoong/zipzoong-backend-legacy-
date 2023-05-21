@@ -18,28 +18,11 @@ process.stdout.write = (str: string) => {
   return write(str);
 };
 
-console.log("# Test Report");
-logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
-
-async function run(): Promise<void> {
-  const app = await Backend.start({ logger: ["error"] });
-
-  const connection: IConnection = {
-    host: `http://localhost:${Configuration.PORT}`
-  };
-
-  await internal.seed(connection);
-
-  internal.mock();
-
+async function test(connection: IConnection): Promise<void> {
   const report = await DynamicExecutor.validate({
     prefix: "test",
     parameters: () => [connection]
   })(__dirname + "/features");
-
-  await internal.truncate();
-
-  await Backend.end(app);
 
   const executions = report.executions.filter((line) => line.error !== null);
 
@@ -91,11 +74,29 @@ async function run(): Promise<void> {
   }
 }
 
-run()
-  .catch((err) => {
-    console.error(err);
-    process.exit(-1);
-  })
-  .finally(() => {
-    logger.end();
-  });
+async function run(): Promise<void> {
+  const app = await Backend.start({ logger: ["error"] });
+  const connection: IConnection = {
+    host: `http://localhost:${Configuration.PORT}`
+  };
+
+  await internal.seed(connection);
+
+  internal.mock();
+
+  console.log("# Test Report");
+  logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
+
+  await test(connection).catch(console.error);
+
+  logger.end();
+
+  await internal.truncate();
+
+  await Backend.end(app);
+}
+
+run().catch((err) => {
+  console.error(err);
+  process.exit(-1);
+});
