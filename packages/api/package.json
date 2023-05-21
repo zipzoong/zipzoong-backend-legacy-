@@ -1,6 +1,6 @@
 {
   "name": "@zipzoong/sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SDK for Zipzoong API",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -16,6 +16,6 @@
   "homepage": "https://github.com/zipzoong/zipzoong-backend#readme",
   "dependencies": {
     "@nestia/fetcher": "^1.2.2",
-    "typia": "^3.8.6"
+    "typia": "^3.8.9"
   }
 }
