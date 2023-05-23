@@ -15,14 +15,13 @@ export const test_success = async (connection: IConnection) => {
 
   const user_id = RandomGenerator.pick(customers).id;
 
-  const token = Authentication.Crypto.getUserToken({
-    type: "user",
+  const { access_token } = Authentication.Token.Access.generate({
     user_id,
     user_type: "customer"
   });
 
   const received = await users.customers.me.get(
-    internal.addAuthorizationHeader(connection)("bearer", token)
+    internal.addAuthorizationHeader(connection)("access", access_token)
   );
 
   typia.assertEquals(received);

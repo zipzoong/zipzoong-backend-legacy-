@@ -8,8 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IAuthentication } from "./../../../structures/auth/authentication";
-import type { ITokens } from "./../../../structures/auth/token";
+import type { IAuthentication } from "./../../../structures/authentication";
 
 /**
  * 전달된 정보에 대응하는 특정 회원에 대한 권한이 부여된 인증 토큰을 발급한다.
@@ -45,7 +44,7 @@ export function execute
 export namespace execute
 {
     export type Input = IAuthentication.ISignIn;
-    export type Output = ITokens;
+    export type Output = IAuthentication.IResponse;
 
     export const METHOD = "POST" as const;
     export const PATH: string = "/auth/sign-in";

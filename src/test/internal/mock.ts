@@ -1,4 +1,4 @@
-import { IAuthentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/authentication";
 import { UnauthorizedException } from "@nestjs/common";
 import { Oauth } from "@PROVIDER/authentication/oauth";
 

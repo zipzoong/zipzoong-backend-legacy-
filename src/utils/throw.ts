@@ -5,8 +5,8 @@ export const toThrow = (exception: unknown): never => {
 };
 
 interface throwIf {
-  <T, N>(predicate: (input: unknown) => input is N, exception: unknown): (
-    input: unknown
+  <T, N>(predicate: (input: T | N) => input is N, exception: unknown): (
+    input: T | N
   ) => T;
   <T>(predicate: (input: T) => boolean, exception: unknown): (input: T) => T;
 }

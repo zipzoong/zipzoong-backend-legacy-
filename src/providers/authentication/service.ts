@@ -2,23 +2,23 @@ import { Check } from "./check";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString, isNull } from "@UTIL";
+import { getISOString, isNull, Result, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
-import { Crypto } from "./crypto";
 import { Oauth } from "./oauth";
 import { Customer } from "@PROVIDER/user/customer";
 import { HSProvider } from "@PROVIDER/user/hs_provider";
 import { REAgent } from "@PROVIDER/user/re_agent";
-import { IAuthentication, ITokens } from "@DTO/auth";
 import BusinessUser from "@PROVIDER/user/business_user";
 import { Exception } from "./exception";
+import { IAuthentication } from "@DTO/authentication";
+import { Token } from "./token";
 
 export namespace Service {
   export const signIn = ({
     user_type,
     code,
     oauth_type
-  }: IAuthentication.ISignIn): Promise<ITokens> =>
+  }: IAuthentication.ISignIn): Promise<IAuthentication.IResponse> =>
     pipe(
       code,
 
@@ -35,15 +35,16 @@ export namespace Service {
 
       Check.existUserId(user_type),
 
-      (user_id) => Crypto.getUserToken({ type: "user", user_id, user_type }),
-
-      (access_token) => ({ access_token })
+      (user_id) => ({
+        ...Token.Access.generate({ user_id, user_type }),
+        ...Token.Refresh.generate({ user_id, user_type })
+      })
     );
 
   export const signUp = ({
     code,
     oauth_type
-  }: IAuthentication.ISignUp): Promise<ITokens> =>
+  }: IAuthentication.ISignUp): Promise<IAuthentication.IAccountToken> =>
     pipe(
       code,
 
@@ -75,10 +76,7 @@ export namespace Service {
 
       Check.activeAccount,
 
-      (model) =>
-        Crypto.getAccountToken({ type: "account", account_id: model.id }),
-
-      (access_token) => ({ access_token })
+      (model) => Token.Account.generate({ account_id: model.id })
     );
 
   export const getProfile = (
@@ -131,7 +129,7 @@ export namespace Service {
   }: {
     input: IAuthentication.ICreateRequest;
     account_id: string;
-  }): Promise<void> => {
+  }): Promise<IAuthentication.IResponse> => {
     const email = input.email_access_code
       ? await getEmail(input.email_access_code)
       : null;
@@ -139,7 +137,7 @@ export namespace Service {
       ? await getPhone(input.phone_access_code)
       : null;
 
-    await prisma.$transaction(async (tx) => {
+    const user_id = await prisma.$transaction(async (tx) => {
       const account = await Check.canCreateUser(input.type)({ account_id, tx });
 
       const connect = (
@@ -159,18 +157,17 @@ export namespace Service {
         });
 
       switch (input.type) {
-        case "customer":
-          {
-            await Check.acceptanceValid({
-              type: input.type,
-              acceptant_agreement_ids: input.acceptant_agreement_ids,
-              tx
-            });
-            const data = Customer.Json.createData({ ...input, email, phone });
-            await tx.customerModel.create({ data });
-            await connect({ customer_id: data.base.create.id });
-          }
-          break;
+        case "customer": {
+          await Check.acceptanceValid({
+            type: input.type,
+            acceptant_agreement_ids: input.acceptant_agreement_ids,
+            tx
+          });
+          const data = Customer.Json.createData({ ...input, email, phone });
+          await tx.customerModel.create({ data });
+          await connect({ customer_id: data.base.create.id });
+          return data.base.create.id;
+        }
         case "real estate agent":
           if (isNull(phone)) throw Exception.PhoneRequired;
           {
@@ -189,8 +186,8 @@ export namespace Service {
             await connect({
               business_user_id: data.base.create.base.create.id
             });
+            return data.base.create.base.create.id;
           }
-          break;
         case "home service provider":
           if (isNull(phone)) throw Exception.PhoneRequired;
           {
@@ -209,13 +206,34 @@ export namespace Service {
             await connect({
               business_user_id: data.base.create.base.create.id
             });
+            return data.base.create.base.create.id;
           }
-          break;
         default:
           throw Error("unreachable case");
       }
     });
 
-    return;
+    return {
+      ...Token.Access.generate({ user_id, user_type: input.type }),
+      ...Token.Refresh.generate({ user_id, user_type: input.type })
+    };
   };
+
+  export const refresh = async (
+    refresh_token: string
+  ): Promise<IAuthentication.IAccessToken> =>
+    pipe(
+      refresh_token,
+
+      Token.Refresh.refresh,
+
+      (input) =>
+        Result.Ok.is(input)
+          ? Result.Ok.flatten(input)
+          : toThrow(
+              Result.Error.flatten(input) === "Token Expired"
+                ? Exception.TokenExpired
+                : Exception.TokenInvalid
+            )
+    );
 }

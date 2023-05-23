@@ -6,20 +6,20 @@ import typia from "typia";
 console.log("\n- auth.profile.get");
 
 export const test_success = async (connection: IConnection): Promise<void> => {
-  const { access_token } = await auth.sign_up.execute(connection, {
+  const { account_token } = await auth.sign_up.execute(connection, {
     code: "test_user_get_profile",
     oauth_type: "kakao"
   });
 
   const received = await auth.profile.get(
-    internal.addHeader(connection)("Authorization", `basic ${access_token}`)
+    internal.addAuthorizationHeader(connection)("account", account_token)
   );
 
   typia.assertEquals(received);
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
-export const test_invalid_account = internal.test_invalid_account(
+export const test_account_token_invalid = internal.test_invalid_account_token(
   auth.profile.get
 );

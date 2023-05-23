@@ -8,8 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IAuthentication } from "./../../../structures/auth/authentication";
-import type { ITokens } from "./../../../structures/auth/token";
+import type { IAuthentication } from "./../../../structures/authentication";
 
 /**
  * 회원을 생성하거나 oauth-profile 요청을 위한 인증 토큰을 발급한다.
@@ -20,7 +19,7 @@ import type { ITokens } from "./../../../structures/auth/token";
  * @tag authentication
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type
- * @return tokens
+ * @return account_token
  * @throw 403 Forbidden
  * 
  * @controller SignUpController.execute()
@@ -46,7 +45,7 @@ export function execute
 export namespace execute
 {
     export type Input = IAuthentication.ISignUp;
-    export type Output = ITokens;
+    export type Output = IAuthentication.IAccountToken;
 
     export const METHOD = "POST" as const;
     export const PATH: string = "/auth/sign-up";

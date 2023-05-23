@@ -1,9 +1,8 @@
-import { ITokens } from "@DTO/auth";
 import { IREProperty } from "@DTO/re_property";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import REProperty from "@PROVIDER/re_property";
-import { REAgentToken } from "./decorators";
+import { Token } from "./decorators";
 
 @Controller("re-properties")
 export class REPropertiesController {
@@ -31,7 +30,7 @@ export class REPropertiesController {
   @TypedRoute.Post()
   createMany(
     @TypedBody() body: IREProperty.ICreateManyRequest,
-    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+    @Token.UserId("real estate agent") user_id: string
   ): Promise<void> {
     return REProperty.Service.createMany({ input: body.data, user_id });
   }

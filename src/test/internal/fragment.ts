@@ -1,14 +1,15 @@
-import { ITokens } from "@DTO/auth";
 import { IUser } from "@DTO/user/user";
+import { Configuration } from "@INFRA/config";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
+import { IToken } from "@PROVIDER/authentication/interface";
 import { auth } from "@SDK";
-import { Mutable } from "@TYPE";
-import { getISOString } from "@UTIL";
+import { Crypto, getISOString, Result } from "@UTIL";
 import assert from "assert";
+import { randomUUID } from "crypto";
 import typia from "typia";
 import { addAuthorizationHeader } from "./utils";
 
@@ -79,14 +80,13 @@ export const test_error =
 export const test_not_exist_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
-    const accessor_token = Authentication.Crypto.getAccountToken({
-      type: "account",
+    const { account_token } = Authentication.Token.Account.generate({
       account_id: "invalid_id"
     });
 
     const _connection: IConnection = addAuthorizationHeader(connection)(
-      "basic",
-      accessor_token
+      "account",
+      account_token
     );
 
     await test_error(api)(HttpStatus.UNAUTHORIZED, "Authentication Fail")(
@@ -98,7 +98,7 @@ export const test_inactive_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
     const code = "inactive_accessor";
-    const { access_token } = await auth.sign_up.execute(connection, {
+    const { account_token } = await auth.sign_up.execute(connection, {
       code,
       oauth_type: "kakao"
     });
@@ -109,49 +109,69 @@ export const test_inactive_account =
     });
 
     const _connection: IConnection = addAuthorizationHeader(connection)(
-      "basic",
-      access_token
+      "account",
+      account_token
     );
 
     await test_error(api)(HttpStatus.FORBIDDEN, "Account Inactive")(
       _connection
     );
-    await deleteAccount(access_token);
+    await deleteAccount(account_token);
   };
 
-export const test_invalid_account =
+export const test_invalid_account_token =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
     await test_not_exist_account(api)(connection);
     await test_inactive_account(api)(connection);
   };
 
-export const test_invalid_user_token =
+export const test_invalid_access_token =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    const payload = typia.random<ITokens.IAccountPayload>();
-    const access_token = Authentication.Crypto.getAccountToken(payload);
+    const { account_token } = Authentication.Token.Account.generate({
+      account_id: randomUUID()
+    });
 
-    await test_error(api)(HttpStatus.UNAUTHORIZED, "Authentication Fail")(
-      addAuthorizationHeader(connection)("bearer", access_token)
+    await test_error(api)(HttpStatus.UNAUTHORIZED, "Token Invalid")(
+      addAuthorizationHeader(connection)("access", account_token)
     );
   };
 
-export const test_user_token_mismatch =
-  (user_type: IUser.Type) =>
+export const test_access_token_expired =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    const payload = typia.random<Mutable<ITokens.IUserPayload>>();
+    const now = new Date(Date.now() - 1000);
+    const token = Crypto.encrypt({
+      plain: typia.stringify<IToken.IAccessPayload<IUser.Type>>({
+        type: "access",
+        user_id: randomUUID(),
+        user_type: "customer",
+        expired_at: getISOString(now)
+      }),
+      key: Configuration.ACCESS_TOKEN_KEY
+    });
+    await test_error(api)(HttpStatus.FORBIDDEN, "Token Expired")(
+      addAuthorizationHeader(connection)("access", token)
+    );
+  };
 
-    if (user_type === "customer") payload.user_type = "home service provider";
-    if (user_type === "home service provider") payload.user_type = "customer";
-    if (user_type === "real estate agent")
-      payload.user_type = "home service provider";
+export const test_access_token_mismatch =
+  (_user_type: IUser.Type) =>
+  <T>(api: (connection: IConnection) => Promise<T>) =>
+  async (connection: IConnection) => {
+    let user_type: IUser.Type;
+    if (_user_type === "customer") user_type = "home service provider";
+    else if (_user_type === "home service provider") user_type = "customer";
+    else user_type = "home service provider";
 
-    const access_token = Authentication.Crypto.getUserToken(payload);
+    const { access_token } = Authentication.Token.Access.generate({
+      user_id: randomUUID(),
+      user_type
+    });
 
     await test_error(api)(HttpStatus.FORBIDDEN, "User Type Mismatch")(
-      addAuthorizationHeader(connection)("bearer", access_token)
+      addAuthorizationHeader(connection)("access", access_token)
     );
   };
 
@@ -177,38 +197,41 @@ export const test_user_unverified =
       user_id = RandomGenerator.pick(agents).id;
     }
 
-    const token = Authentication.Crypto.getUserToken({
-      type: "user",
+    const { access_token } = Authentication.Token.Access.generate({
       user_id,
       user_type
     });
 
     await test_error(api)(HttpStatus.FORBIDDEN, "User Unverified")(
-      addAuthorizationHeader(connection)("bearer", token)
+      addAuthorizationHeader(connection)("access", access_token)
     );
   };
 
-export const deleteAccount = async (accessor_token: string) => {
-  const { account_id } =
-    Authentication.Crypto.getAccountTokenPayload(accessor_token);
+export const deleteAccount = async (account_token: string) => {
+  const result = Authentication.Token.Account.verify(account_token);
 
-  await prisma.oauthAccountModel.delete({ where: { id: account_id } });
+  if (Result.Error.is(result)) {
+    throw Error("invalid account token");
+  }
+  await prisma.oauthAccountModel.delete({
+    where: { id: Result.Ok.flatten(result).account_id }
+  });
 };
 
 export const test_authorization_fail =
   <T = void>(api: (connection: IConnection) => Promise<T>) =>
   <U extends IUser.Type>(user_type: U) =>
   async (connection: IConnection) => {
-    await test_invalid_user_token(api)(connection);
-    await test_user_token_mismatch(user_type)(api)(connection);
+    await test_invalid_access_token(api)(connection);
+    await test_access_token_mismatch(user_type)(api)(connection);
+    await test_access_token_expired(api)(connection);
 
-    const payload = typia.random<Mutable<ITokens.IUserPayload>>();
-
-    payload.user_type = user_type;
-
-    const token = Authentication.Crypto.getUserToken(payload);
+    const { access_token } = Authentication.Token.Access.generate({
+      user_id: randomUUID(),
+      user_type
+    });
 
     await test_error(api)(HttpStatus.FORBIDDEN, "User Not Found")(
-      addAuthorizationHeader(connection)("bearer", token)
+      addAuthorizationHeader(connection)("access", access_token)
     );
   };

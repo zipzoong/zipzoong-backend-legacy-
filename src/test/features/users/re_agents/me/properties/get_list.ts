@@ -19,14 +19,13 @@ export const test_success = async (connection: IConnection) => {
     agents.filter((agent) => agent._count.properties > 0)
   ).id;
 
-  const token = Authentication.Crypto.getUserToken({
-    type: "user",
+  const { access_token } = Authentication.Token.Access.generate({
     user_id,
     user_type: "real estate agent"
   });
 
   const received = await users.re_agents.me.properties.getList(
-    internal.addAuthorizationHeader(connection)("bearer", token),
+    internal.addAuthorizationHeader(connection)("access", access_token),
     {}
   );
 

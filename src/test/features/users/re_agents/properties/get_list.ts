@@ -30,6 +30,7 @@ export const test_success = async (connection: IConnection) => {
   assert.notStrictEqual(received.data.length, 0);
 };
 
-export const test_not_found = internal.test_error((connection: IConnection) =>
-  users.re_agents.properties.getList(connection, randomUUID(), {})
+export const test_user_not_found = internal.test_error(
+  (connection: IConnection) =>
+    users.re_agents.properties.getList(connection, randomUUID(), {})
 )(HttpStatus.NOT_FOUND, "User Not Found");

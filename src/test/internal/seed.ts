@@ -830,14 +830,13 @@ const seedZipzoongCareRequests = async (connection: IConnection) => {
         randomInt(1, categories.length)
       ).map(pick("id"));
 
-      const token = Authentication.Crypto.getUserToken({
-        type: "user",
+      const { access_token } = Authentication.Token.Access.generate({
         user_id,
         user_type: "customer"
       });
 
       return users.customers.me.zipzoong_care.requests.create(
-        addAuthorizationHeader(connection)("bearer", token),
+        addAuthorizationHeader(connection)("access", access_token),
         body
       );
     }

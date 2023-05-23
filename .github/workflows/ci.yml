@@ -11,10 +11,9 @@ on:
 env:
   PORT: 4000
   DATABASE_URL: postgresql://test:test@localhost:5432/test
-  ACCESSOR_TOKEN_PRIVATE_KEY: ${{ vars.ACCESSOR_TOKEN_PRIVATE_KEY }}
-  ACCESSOR_TOKEN_PUBLIC_KEY: ${{ vars.ACCESSOR_TOKEN_PUBLIC_KEY }}
-  USER_TOKEN_PRIVATE_KEY: ${{ vars.USER_TOKEN_PRIVATE_KEY }}
-  USER_TOKEN_PUBLIC_KEY: ${{ vars.USER_TOKEN_PUBLIC_KEY }}
+  ACCOUNT_TOKEN_KEY: ${{ secrets.ACCOUNT_TOKEN_KEY }}
+  ACCESS_TOKEN_KEY: ${{ secrets.ACCESS_TOKEN_KEY }}
+  REFRESH_TOKEN_KEY: ${{ secrets.REFRESH_TOKEN_KEY }}
 
 permissions:
   pull-requests: write

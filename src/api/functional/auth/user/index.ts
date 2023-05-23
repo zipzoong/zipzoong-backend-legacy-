@@ -8,7 +8,7 @@ import { Fetcher } from "@nestia/fetcher";
 import type { IConnection } from "@nestia/fetcher";
 import typia from "typia";
 
-import type { IAuthentication } from "./../../../structures/auth/authentication";
+import type { IAuthentication } from "./../../../structures/authentication";
 
 /**
  * type 속성을 통해 사용자 분류를 구분한다.
@@ -26,7 +26,7 @@ import type { IAuthentication } from "./../../../structures/auth/authentication"
  * @tag users
  * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 사용자 생성 정보
- * @return void
+ * @return tokens
  * @throw 400 BadRequest
  * @throw 401 Unauthorized
  * @throw 403 Forbidden
@@ -39,7 +39,7 @@ export function create
     (
         connection: IConnection,
         body: IAuthentication.ICreateRequest
-    ): Promise<void>
+    ): Promise<create.Output>
 {
     return Fetcher.fetch
     (
@@ -54,6 +54,7 @@ export function create
 export namespace create
 {
     export type Input = IAuthentication.ICreateRequest;
+    export type Output = IAuthentication.IResponse;
 
     export const METHOD = "POST" as const;
     export const PATH: string = "/auth/user";

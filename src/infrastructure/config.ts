@@ -28,11 +28,11 @@ interface IEnv {
   readonly PORT: string | number;
   readonly DATABASE_URL: string;
 
-  readonly ACCESSOR_TOKEN_PUBLIC_KEY: string;
-  readonly ACCESSOR_TOKEN_PRIVATE_KEY: string;
+  readonly ACCOUNT_TOKEN_KEY: string;
 
-  readonly USER_TOKEN_PUBLIC_KEY: string;
-  readonly USER_TOKEN_PRIVATE_KEY: string;
+  readonly ACCESS_TOKEN_KEY: string;
+
+  readonly REFRESH_TOKEN_KEY: string;
 
   readonly KAKAO_CLIENT_ID: string;
   readonly KAKAO_CLIENT_SECRET: string;
