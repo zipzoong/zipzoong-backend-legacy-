@@ -1,7 +1,8 @@
 import { IAuthentication } from "@DTO/authentication";
-import { TypedBody, TypedRoute } from "@nestia/core";
-import { Controller, HttpCode, HttpStatus } from "@nestjs/common";
+import { TypedBody, TypedParam, TypedRoute } from "@nestia/core";
+import { Controller, HttpCode, HttpStatus, Res } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
+import { Response } from "express";
 import { Token } from "./decorators";
 
 @Controller("auth/sign-in")
@@ -22,6 +23,24 @@ export class SignInController {
     @TypedBody() body: IAuthentication.ISignIn
   ): Promise<IAuthentication.IResponse> {
     return Authentication.Service.signIn(body);
+  }
+
+  /**
+   * 해당 API는 ajax API 방식으로 호출하면 안되고,
+   * document api 형식으로 요청해야 합니다.
+   *
+   * @summary oauth login redirect api
+   * @tag authentication
+   * @param oauth_type
+   * @return redirect
+   */
+  @HttpCode(HttpStatus.FOUND)
+  @TypedRoute.Get(":oauth_type")
+  async redirect(
+    @TypedParam("oauth_type") oauth_type: IAuthentication.OauthType,
+    @Res() res: Response
+  ): Promise<void> {
+    return res.redirect(Authentication.Service.getUri(oauth_type));
   }
 }
 
