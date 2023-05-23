@@ -13,6 +13,9 @@ CREATE TYPE "AgreementTargetType" AS ENUM ('all', 'customer', 'business', 'HS', 
 -- CreateEnum
 CREATE TYPE "ZipzoongCareStatus" AS ENUM ('pending', 'caring', 'cared', 'cancelled');
 
+-- CreateEnum
+CREATE TYPE "SMSType" AS ENUM ('naver');
+
 -- CreateTable
 CREATE TABLE "re_properties" (
     "id" TEXT NOT NULL,
@@ -202,6 +205,22 @@ CREATE TABLE "zipzoong_care_consultation_time_checks" (
 );
 
 -- CreateTable
+CREATE TABLE "phone_verifications" (
+    "id" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+    "is_deleted" BOOLEAN NOT NULL,
+    "deleted_at" TIMESTAMPTZ,
+    "user_id" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "sms_type" "SMSType" NOT NULL,
+    "sms_message_id" TEXT NOT NULL,
+
+    CONSTRAINT "phone_verifications_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
@@ -379,6 +398,9 @@ ALTER TABLE "zipzoong_care_service_checks" ADD CONSTRAINT "zipzoong_care_service
 
 -- AddForeignKey
 ALTER TABLE "zipzoong_care_consultation_time_checks" ADD CONSTRAINT "zipzoong_care_consultation_time_checks_request_id_fkey" FOREIGN KEY ("request_id") REFERENCES "zipzoong_care_requests"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "phone_verifications" ADD CONSTRAINT "phone_verifications_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "customers" ADD CONSTRAINT "customers_id_fkey" FOREIGN KEY ("id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

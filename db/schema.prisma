@@ -39,6 +39,10 @@ enum ZipzoongCareStatus {
   cancelled
 }
 
+enum SMSType {
+  naver
+}
+
 model REPropertyModel {
   id             String                    @id
   created_at     DateTime                  @database.Timestamptz
@@ -239,6 +243,22 @@ model ZipzoongCareConsultationTimeCheckModel {
   @@map("zipzoong_care_consultation_time_checks")
 }
 
+model PhoneVerificationModel {
+  id             String    @id
+  created_at     DateTime  @database.Timestamptz
+  updated_at     DateTime  @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime? @database.Timestamptz
+  user_id        String
+  phone          String
+  code           String
+  sms_type       SMSType
+  sms_message_id String
+  user           UserModel @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("phone_verifications")
+}
+
 model UserModel {
   id                    String                     @id
   created_at            DateTime                   @database.Timestamptz
@@ -250,6 +270,7 @@ model UserModel {
   customer              CustomerModel?
   business_user         BusinessUserModel?
   agreement_acceptances AgreementAcceptanceModel[]
+  phone_verifications   PhoneVerificationModel[]
 
   @@map("users")
 }

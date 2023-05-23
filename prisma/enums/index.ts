@@ -26,3 +26,5 @@ export const ZipzoongCareStatus = createEnum("ZipzoongCareStatus", (Enum) => {
     .addValue("cared")
     .addValue("cancelled");
 });
+
+export const SMSType = createEnum("SMSType", (Enum) => Enum.addValue("naver"));

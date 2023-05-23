@@ -8,6 +8,7 @@ import { OauthAccount } from "./account";
 import { AgreementAcceptance } from "./agreement";
 import { ZipzoongCareRequest } from "./zipzoong_care";
 import { ServiceSubCategory } from "./service_category";
+import { PhoneVerification } from "./sms";
 
 const one_to_one: RelationalFieldOptions = {
   fields: ["id"],
@@ -24,6 +25,7 @@ export const User = createModel("UserModel", (model) => {
     .relation("customer", Customer, { optional: true })
     .relation("business_user", BusinessUser, { optional: true })
     .relation("agreement_acceptances", AgreementAcceptance, { list: true })
+    .relation("phone_verifications", PhoneVerification, { list: true })
     .map("users");
 });
 
