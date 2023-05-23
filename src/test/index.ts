@@ -18,7 +18,7 @@ process.stdout.write = (str: string) => {
   return write(str);
 };
 
-async function test(connection: IConnection): Promise<void> {
+async function test(connection: IConnection): Promise<-1 | 0> {
   const report = await DynamicExecutor.validate({
     prefix: "test",
     parameters: () => [connection]
@@ -47,6 +47,7 @@ async function test(connection: IConnection): Promise<void> {
         `${report.time.toLocaleString()}` +
         "}`$\n"
     );
+    return 0;
   } else {
     write(`\n\x1b[31m${executions.length} Tests have Failed\x1b[0m\n`);
     logger.write(
@@ -71,6 +72,7 @@ async function test(connection: IConnection): Promise<void> {
         console.error(error);
       });
     });
+    return -1;
   }
 }
 
@@ -87,13 +89,18 @@ async function run(): Promise<void> {
   console.log("# Test Report");
   logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
 
-  await test(connection).catch(console.error);
+  const state = await test(connection).catch((err) => {
+    console.error(err);
+    return -1 as const;
+  });
 
   logger.end();
 
   await internal.truncate();
 
   await Backend.end(app);
+
+  process.exit(state);
 }
 
 run().catch((err) => {

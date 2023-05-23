@@ -41,7 +41,7 @@ export namespace Crypto {
   }): string => {
     const [iv, tag, encrypted] = token.split(".");
     if (iv === undefined || tag === undefined || encrypted === undefined) {
-      throw Error();
+      throw Error("Invalid Token String");
     }
     const decipher = crypto
       .createDecipheriv("aes-256-gcm", key, Buffer.from(iv, "base64"))

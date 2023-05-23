@@ -1,13 +1,16 @@
 import { IUser } from "@DTO/user/user";
+import { Configuration } from "@INFRA/config";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { HttpError, IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
+import { IToken } from "@PROVIDER/authentication/interface";
 import { auth } from "@SDK";
-import { getISOString, Result } from "@UTIL";
+import { Crypto, getISOString, Result } from "@UTIL";
 import assert from "assert";
 import { randomUUID } from "crypto";
+import typia from "typia";
 import { addAuthorizationHeader } from "./utils";
 
 export const deleteCustomer = (customer_id: string) =>
@@ -138,11 +141,17 @@ export const test_invalid_access_token =
 export const test_access_token_expired =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    const access_token =
-      "HzG2eqCdWg1o+BNb47iIOf6zTvovVCM+WBfPDg==8YevDftRx8jvWeLfTkkLI1o=";
-
-    await test_error(api)(HttpStatus.UNAUTHORIZED, "Token Invalid")(
-      addAuthorizationHeader(connection)("access", access_token)
+    const token = Crypto.encrypt({
+      plain: typia.stringify<IToken.IAccessPayload<IUser.Type>>({
+        type: "access",
+        user_id: randomUUID(),
+        user_type: "customer",
+        expired_at: getISOString()
+      }),
+      key: Configuration.ACCESS_TOKEN_KEY
+    });
+    await test_error(api)(HttpStatus.FORBIDDEN, "Token Expired")(
+      addAuthorizationHeader(connection)("access", token)
     );
   };
 

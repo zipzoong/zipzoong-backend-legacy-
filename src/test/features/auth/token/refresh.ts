@@ -1,9 +1,13 @@
+import { Crypto, getISOString } from "@UTIL";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
 import typia from "typia";
+import { IToken } from "@PROVIDER/authentication/interface";
+import { randomUUID } from "crypto";
+import { Configuration } from "@INFRA/config";
 
 console.log("\n- auth.token.refresh.execute");
 
@@ -38,7 +42,15 @@ export const test_token_expired = internal.test_error(
     auth.token.refresh.execute(
       internal.addAuthorizationHeader(connection)(
         "refresh",
-        "19m3mh6xtnC8OOq6.Ezth7TIVFoLMhTNS3DJlUg==.RpWqjhkaRPR95/Ebl/HWikxvCvTIVQiHERTGSb6X7thoFUqTykbnfAMRbQPKXEMMOuJFOjJ6VJngoIgmxRgQVES2fiMVYr9rUeBYDvGeQC4EDNdHoHFNbz8WgzXNuoU05dk="
+        Crypto.encrypt({
+          plain: typia.stringify<IToken.IRefreshPayload>({
+            type: "refresh",
+            user_id: randomUUID(),
+            user_type: "customer",
+            expired_at: getISOString()
+          }),
+          key: Configuration.REFRESH_TOKEN_KEY
+        })
       )
     )
 )(HttpStatus.FORBIDDEN, "Token Expired");
