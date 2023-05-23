@@ -141,7 +141,7 @@ export const test_invalid_access_token =
 export const test_access_token_expired =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection) => {
-    const now = new Date(Date.now() - 1000 * 60 * 60 * 1);
+    const now = new Date(Date.now() - 1000);
     const token = Crypto.encrypt({
       plain: typia.stringify<IToken.IAccessPayload<IUser.Type>>({
         type: "access",
