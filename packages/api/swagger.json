@@ -201,6 +201,74 @@
         ]
       }
     },
+    "/auth/sign-in/{oauth_type}": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "parameters": [
+          {
+            "name": "oauth_type",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "kakao"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "redirect",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "oauth login redirect api",
+        "description": "해당 API는 ajax API 방식으로 호출하면 안되고,\ndocument api 형식으로 요청해야 합니다.",
+        "x-nestia-namespace": "auth.sign-in.redirect",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "oauth login redirect api",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "authentication",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "oauth_type",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "redirect",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "/auth/sign-up": {
       "post": {
         "tags": [

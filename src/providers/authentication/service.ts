@@ -4,7 +4,7 @@ import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
 import { getISOString, isNull, Result, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
-import { Oauth } from "./oauth";
+import { LoginUrl, Oauth } from "./oauth";
 import { Customer } from "@PROVIDER/user/customer";
 import { HSProvider } from "@PROVIDER/user/hs_provider";
 import { REAgent } from "@PROVIDER/user/re_agent";
@@ -40,6 +40,10 @@ export namespace Service {
         ...Token.Refresh.generate({ user_id, user_type })
       })
     );
+
+  export const getUri = (oauth_type: IAuthentication.OauthType): string => {
+    return LoginUrl[oauth_type];
+  };
 
   export const signUp = ({
     code,
