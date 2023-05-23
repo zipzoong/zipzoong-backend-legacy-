@@ -68,8 +68,8 @@ async function test(connection: IConnection): Promise<-1 | 0> {
       );
       list.forEach(({ name, error }) => {
         console.log("\n- \x1b[34mFunction:\x1b[0m " + name);
-        console.error();
-        console.error(error);
+        console.log();
+        console.log(error);
       });
     });
     return -1;
@@ -90,7 +90,7 @@ async function run(): Promise<void> {
   logger.write("\n<details>\n<summary>detail test case</summary>\n\n");
 
   const state = await test(connection).catch((err) => {
-    console.error(err);
+    console.log(err);
     return -1 as const;
   });
 
@@ -104,6 +104,6 @@ async function run(): Promise<void> {
 }
 
 run().catch((err) => {
-  console.error(err);
+  console.log(err);
   process.exit(-1);
 });
