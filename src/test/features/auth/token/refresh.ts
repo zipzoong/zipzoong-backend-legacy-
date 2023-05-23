@@ -47,7 +47,7 @@ export const test_token_expired = internal.test_error(
             type: "refresh",
             user_id: randomUUID(),
             user_type: "customer",
-            expired_at: getISOString()
+            expired_at: getISOString(new Date(Date.now() - 1000 * 60 * 60 * 1))
           }),
           key: Configuration.REFRESH_TOKEN_KEY
         })
