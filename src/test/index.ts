@@ -45,7 +45,7 @@ async function test(connection: IConnection): Promise<-1 | 0> {
     logger.write(
       "\nTotal Test Time: $`\\color{#ffff00}\\text{" +
         `${report.time.toLocaleString()}` +
-        "}`$\n"
+        "}`$ms\n"
     );
     return 0;
   } else {
