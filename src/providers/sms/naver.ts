@@ -31,8 +31,10 @@ export namespace NaverSENS {
    * @return 성공시 message_id, 실패시 실패 메시지를 반환
    */
   export const send = async (
-    input: Omit<INaver.ISendInput, "from">
-  ): Promise<IResult<string, string>> => {
+    input: Omit<INaver.ISendInput, "type" | "countryCode" | "from">
+  ): Promise<
+    IResult<string, "SMS Send Response Invalid" | "SMS Send Fail">
+  > => {
     try {
       const response = await Fetcher.fetch<
         INaver.ISendInput,
@@ -44,21 +46,19 @@ export namespace NaverSENS {
         },
         "POST",
         `/services/${service_id}/messages`,
-        { ...input, from: caller },
+        { ...input, type: "SMS", countryCode: "82", from: caller },
         typia.createAssertStringify<INaver.ISendInput>()
       );
 
-      if (!typia.is<INaver.ISendOutput>(response)) {
-        console.log("message send response dto invalid");
-        return Result.Error.map("Message Send Fail");
-      }
+      if (!typia.is<INaver.ISendOutput>(response))
+        return Result.Error.map("SMS Send Response Invalid" as const);
 
       if (response.statusName === "fail")
-        return Result.Error.map("Message Send Fail");
+        return Result.Error.map("SMS Send Fail" as const);
 
       return Result.Ok.map(response.requestId);
     } catch {
-      return Result.Error.map("Message Send Fail");
+      return Result.Error.map("SMS Send Fail" as const);
     }
   };
 }
