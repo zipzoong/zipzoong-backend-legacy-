@@ -1,9 +1,8 @@
 import { IReview } from "@DTO/review";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
-import { CustomerToken } from "./decorators";
-import { ITokens } from "@DTO/auth";
 import { Review } from "@PROVIDER/review";
+import { Token } from "./decorators";
 
 @Controller("reviews")
 export class ReviewsController {
@@ -32,7 +31,7 @@ export class ReviewsController {
    */
   @TypedRoute.Post()
   create(
-    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @Token.UserId("customer") user_id: string,
     @TypedBody() body: IReview.ICreateRequest
   ): Promise<void> {
     return Review.Service.create({

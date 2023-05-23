@@ -1,4 +1,4 @@
-import { IAuthentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/authentication";
 import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
@@ -24,7 +24,7 @@ const test_success = async (
   connection: IConnection,
   body: IAuthentication.ICreateRequest
 ): Promise<void> => {
-  const { access_token } = await getTokens(connection);
+  const { account_token } = await getTokens(connection);
 
   if (
     body.type === "home service provider" ||
@@ -33,7 +33,7 @@ const test_success = async (
     body.phone_access_code = "test";
 
   await sdk.auth.user.create(
-    internal.addAuthorizationHeader(connection)("basic", access_token),
+    internal.addAuthorizationHeader(connection)("account", account_token),
     body
   );
   const account = await prisma.oauthAccountModel.findFirstOrThrow({
@@ -46,7 +46,7 @@ const test_success = async (
   if (isNotNull(account.business_user_id)) {
     await internal.deleteBusinessUser(account.business_user_id);
   }
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
 export const test_success_customer_create = async (
@@ -100,7 +100,7 @@ export const test_success_hs_provider_create = async (
   await test_success(connection, create);
 };
 
-export const test_invalid_account = internal.test_invalid_account(
+export const test_account_token_invalid = internal.test_invalid_account_token(
   (connection: IConnection) =>
     sdk.auth.user.create(
       connection,
@@ -108,13 +108,13 @@ export const test_invalid_account = internal.test_invalid_account(
     )
 );
 
-export const test_already_user_exist = async (connection: IConnection) => {
-  const { access_token } = await getTokens(connection);
+export const test_user_already_exist = async (connection: IConnection) => {
+  const { account_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
 
   const _connection = internal.addAuthorizationHeader(connection)(
-    "basic",
-    access_token
+    "account",
+    account_token
   );
 
   const list = await sdk.agreements.getList(connection, {
@@ -136,28 +136,28 @@ export const test_already_user_exist = async (connection: IConnection) => {
     await internal.deleteCustomer(account.customer_id);
   }
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
-export const test_insufficient_agreement_acceptance = async (
+export const test_acceptant_agreements_insufficient = async (
   connection: IConnection
 ) => {
-  const { access_token } = await getTokens(connection);
+  const { account_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
   create.acceptant_agreement_ids = [];
 
   await internal.test_error(() =>
     sdk.auth.user.create(
-      internal.addAuthorizationHeader(connection)("basic", access_token),
+      internal.addAuthorizationHeader(connection)("account", account_token),
       create
     )
   )(HttpStatus.FORBIDDEN, "Agreement Acceptance InSufficient")();
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
-export const test_invalid_super_expertise = async (connection: IConnection) => {
-  const { access_token } = await getTokens(connection);
+export const test_super_expertise_invalid = async (connection: IConnection) => {
+  const { account_token } = await getTokens(connection);
 
   const create = typia.random<IREAgent.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
@@ -176,15 +176,15 @@ export const test_invalid_super_expertise = async (connection: IConnection) => {
 
   await internal.test_error(() =>
     sdk.auth.user.create(
-      internal.addAuthorizationHeader(connection)("basic", access_token),
+      internal.addAuthorizationHeader(connection)("account", account_token),
       create
     )
   )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
-export const test_invalid_sub_expertises = async (connection: IConnection) => {
-  const { access_token } = await getTokens(connection);
+export const test_sub_expertises_invalid = async (connection: IConnection) => {
+  const { account_token } = await getTokens(connection);
 
   const create = typia.random<IREAgent.ICreateRequest>();
   const list = await sdk.agreements.getList(connection, {
@@ -211,15 +211,15 @@ export const test_invalid_sub_expertises = async (connection: IConnection) => {
 
   await internal.test_error(() =>
     sdk.auth.user.create(
-      internal.addAuthorizationHeader(connection)("basic", access_token),
+      internal.addAuthorizationHeader(connection)("account", account_token),
       create
     )
   )(HttpStatus.BAD_REQUEST, "Expertise Invalid")();
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
 
 export const test_phone_required = async (connection: IConnection) => {
-  const { access_token } = await getTokens(connection);
+  const { account_token } = await getTokens(connection);
 
   await prisma.oauthAccountModel.updateMany({
     where: { oauth_sub: code, oauth_type: "kakao" },
@@ -227,8 +227,8 @@ export const test_phone_required = async (connection: IConnection) => {
   });
 
   const _connection = internal.addAuthorizationHeader(connection)(
-    "basic",
-    access_token
+    "account",
+    account_token
   );
 
   const create = typia.random<IHSProvider.ICreateRequest>();
@@ -251,5 +251,5 @@ export const test_phone_required = async (connection: IConnection) => {
     "Phone Required"
   )();
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };

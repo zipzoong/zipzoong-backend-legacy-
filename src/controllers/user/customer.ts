@@ -1,11 +1,10 @@
-import { ITokens } from "@DTO/auth";
 import { ICustomer } from "@DTO/user/customer";
 import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 import { TypedBody, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import Customer from "@PROVIDER/user/customer";
 import ZipzoongCareRequest from "@PROVIDER/user/customer/zipzoong_care_request";
-import { CustomerToken } from "../decorators";
+import { Token } from "../decorators";
 
 @Controller("users/customers")
 export class CustomersController {
@@ -18,10 +17,8 @@ export class CustomersController {
    * @throw 403 Forbidden
    */
   @TypedRoute.Get("me")
-  get(
-    @CustomerToken() payload: ITokens.IUserPayload<"customer">
-  ): Promise<ICustomer.IPrivate> {
-    return Customer.Service.Me.get({ user_id: payload.user_id });
+  get(@Token.UserId("customer") user_id: string): Promise<ICustomer.IPrivate> {
+    return Customer.Service.Me.get({ user_id });
   }
 
   /**
@@ -35,7 +32,7 @@ export class CustomersController {
    */
   @TypedRoute.Get("me/zipzoong-care/requests")
   getList(
-    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @Token.UserId("customer") user_id: string,
     @TypedQuery() query: IZipzoongCareRequest.ISearch
   ): Promise<IZipzoongCareRequest.IPaginatedResponse> {
     return ZipzoongCareRequest.Service.getList({ user_id, search: query });
@@ -51,7 +48,7 @@ export class CustomersController {
    */
   @TypedRoute.Post("me/zipzoong-care/requests")
   create(
-    @CustomerToken() { user_id }: ITokens.IUserPayload<"customer">,
+    @Token.UserId("customer") user_id: string,
     @TypedBody() body: IZipzoongCareRequest.ICreateRequest
   ): Promise<void> {
     return ZipzoongCareRequest.Service.create({ input: body, user_id });

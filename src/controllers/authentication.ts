@@ -1,8 +1,8 @@
-import { IAuthentication, ITokens } from "@DTO/auth";
+import { IAuthentication } from "@DTO/authentication";
 import { TypedBody, TypedRoute } from "@nestia/core";
 import { Controller, HttpCode, HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
-import { Authorization } from "./decorators";
+import { Token } from "./decorators";
 
 @Controller("auth/sign-in")
 export class SignInController {
@@ -18,7 +18,9 @@ export class SignInController {
    */
   @HttpCode(HttpStatus.OK)
   @TypedRoute.Post()
-  execute(@TypedBody() body: IAuthentication.ISignIn): Promise<ITokens> {
+  execute(
+    @TypedBody() body: IAuthentication.ISignIn
+  ): Promise<IAuthentication.IResponse> {
     return Authentication.Service.signIn(body);
   }
 }
@@ -33,11 +35,13 @@ export class SignUpController {
    * @summary 회원가입
    * @tag authentication
    * @param body oauth code, oauth type
-   * @return tokens
+   * @return account_token
    * @throw 403 Forbidden
    */
   @TypedRoute.Post()
-  execute(@TypedBody() body: IAuthentication.ISignUp): Promise<ITokens> {
+  execute(
+    @TypedBody() body: IAuthentication.ISignUp
+  ): Promise<IAuthentication.IAccountToken> {
     return Authentication.Service.signUp(body);
   }
 }
@@ -55,9 +59,8 @@ export class ProfileController {
    */
   @TypedRoute.Get()
   get(
-    @Authorization("basic") token: string
+    @Token.AccountId() account_id: string
   ): Promise<IAuthentication.IProfile> {
-    const { account_id } = Authentication.Crypto.getAccountTokenPayload(token);
     return Authentication.Service.getProfile(account_id);
   }
 }
@@ -79,17 +82,33 @@ export class UserCreateController {
    * @tag authentication
    * @tag users
    * @param body 사용자 생성 정보
-   * @return void
+   * @return tokens
    * @throw 400 BadRequest
    * @throw 401 Unauthorized
    * @throw 403 Forbidden
    */
   @TypedRoute.Post()
   create(
-    @Authorization("basic") token: string,
+    @Token.AccountId() account_id: string,
     @TypedBody() body: IAuthentication.ICreateRequest
-  ): Promise<void> {
-    const { account_id } = Authentication.Crypto.getAccountTokenPayload(token);
+  ): Promise<IAuthentication.IResponse> {
     return Authentication.Service.createUser({ input: body, account_id });
+  }
+}
+
+@Controller("auth/token/refresh")
+export class TokenRefreshController {
+  /**
+   * @summary token refresh
+   * @tag authentication
+   * @return access_token
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  @TypedRoute.Post()
+  execute(
+    @Token.Refresh() refresh_token: string
+  ): Promise<IAuthentication.IAccessToken> {
+    return Authentication.Service.refresh(refresh_token);
   }
 }

@@ -1,4 +1,4 @@
-import { IAuthentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/authentication";
 import typia from "typia";
 import { KakaoStrategy } from "./strategy";
 

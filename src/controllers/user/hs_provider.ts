@@ -1,10 +1,9 @@
-import { ITokens } from "@DTO/auth";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 import HSProvider from "@PROVIDER/user/hs_provider";
-import { HSProviderToken } from "../decorators";
+import { Token } from "../decorators";
 
 @Controller("users/hs-providers")
 export class HSProvidersController {
@@ -32,8 +31,7 @@ export class HSProvidersController {
    */
   @TypedRoute.Get("me")
   get(
-    @HSProviderToken()
-    { user_id }: ITokens.IUserPayload<"home service provider">
+    @Token.UserId("home service provider") user_id: string
   ): Promise<IHSProvider.IPrivate> {
     return HSProvider.Service.Me.get({ user_id });
   }

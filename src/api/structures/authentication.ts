@@ -11,9 +11,45 @@ export namespace IAuthentication {
     code: string;
     oauth_type: OauthType;
   }
+  export type IResponse = IAccessToken & IRefreshToken;
 
   export interface ISignIn extends ISignUp {
     user_type: IUser.Type;
+  }
+
+  export interface IAccountToken {
+    /**
+     * 회원 가입시 발급됩니다.
+     *
+     * 다음과 같은 작업을 할 수 있습니다.
+     * - 사용자 정보 생성
+     * - 계정 프로필 조회
+     */
+    readonly account_token: string;
+  }
+
+  export interface IAccessToken {
+    /**
+     * 특정 사용자 정보에 대한 권한을 가지고 있습니다.
+     */
+    readonly access_token: string;
+    /**
+     * access_token 만료일자
+     * @format date-time
+     */
+    readonly access_token_expired_at: string;
+  }
+
+  export interface IRefreshToken {
+    /**
+     * 특정 사용자 정보에 대한 access token을 재발급 받기 위해 사용합니다.
+     */
+    readonly refresh_token: string;
+    /**
+     * refresh_token 만료일자
+     * @format date-time
+     */
+    readonly refresh_token_expired_at: string;
   }
 
   export interface IProfile {

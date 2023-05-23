@@ -43,14 +43,13 @@ export const test_success = async (connection: IConnection) => {
 
   const user_id = RandomGenerator.pick(customers).id;
 
-  const token = Authentication.Crypto.getUserToken({
-    type: "user",
-    user_id,
+  const { access_token } = Authentication.Token.Access.generate({
+    user_id: user_id,
     user_type: "customer"
   });
 
   await users.customers.me.zipzoong_care.requests.create(
-    internal.addAuthorizationHeader(connection)("bearer", token),
+    internal.addAuthorizationHeader(connection)("access", access_token),
     body
   );
 
@@ -91,15 +90,14 @@ export const test_service_category_invalid = async (
     where: { base: { is_deleted: false }, phone: { not: null } }
   });
 
-  const token = Authentication.Crypto.getUserToken({
-    type: "user",
+  const { access_token } = Authentication.Token.Access.generate({
     user_id: RandomGenerator.pick(customers).id,
     user_type: "customer"
   });
 
   await internal.test_error(() =>
     users.customers.me.zipzoong_care.requests.create(
-      internal.addAuthorizationHeader(connection)("bearer", token),
+      internal.addAuthorizationHeader(connection)("access", access_token),
       body
     )
   )(HttpStatus.BAD_REQUEST, "Service Category Invalid")();

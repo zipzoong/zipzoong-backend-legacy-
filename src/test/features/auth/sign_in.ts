@@ -4,7 +4,7 @@ import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { agreements, auth } from "@SDK";
 import { internal } from "@TEST/internal";
-import { pick } from "@UTIL";
+import { pick, Result } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- auth.sign_in.execute");
@@ -12,14 +12,14 @@ console.log("\n- auth.sign_in.execute");
 const code = "test_sign_in";
 
 export const test_success = async (connection: IConnection) => {
-  const { access_token } = await auth.sign_up.execute(connection, {
+  const { account_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
 
   const _connection = internal.addAuthorizationHeader(connection)(
-    "basic",
-    access_token
+    "account",
+    account_token
   );
 
   const input = typia.random<ICustomer.ICreateRequest>();
@@ -39,15 +39,17 @@ export const test_success = async (connection: IConnection) => {
 
   typia.assertEquals(received);
 
-  const { user_id } = Authentication.Crypto.getUserTokenPayload(
-    received.access_token
-  );
+  const monad = Authentication.Token.Access.verify(received.access_token);
 
-  await internal.deleteCustomer(user_id);
-  await internal.deleteAccount(access_token);
+  if (Result.Error.is(monad)) {
+    throw Error(Result.Error.flatten(monad));
+  }
+
+  await internal.deleteCustomer(Result.Ok.flatten(monad).user_id);
+  await internal.deleteAccount(account_token);
 };
 
-export const test_invalid_account = internal.test_invalid_account(
+export const test_account_token_invalid = internal.test_invalid_account_token(
   (connection: IConnection) =>
     auth.sign_in.execute(connection, {
       code: "inactive_accessor",
@@ -56,15 +58,15 @@ export const test_invalid_account = internal.test_invalid_account(
     })
 );
 
-export const test_not_found_user = async (connection: IConnection) => {
-  const { access_token } = await auth.sign_up.execute(connection, {
+export const test_user_not_found = async (connection: IConnection) => {
+  const { account_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
 
   const _connection = internal.addAuthorizationHeader(connection)(
-    "basic",
-    access_token
+    "account",
+    account_token
   );
   await internal.test_error(() =>
     auth.sign_in.execute(_connection, {
@@ -74,5 +76,5 @@ export const test_not_found_user = async (connection: IConnection) => {
     })
   )(HttpStatus.FORBIDDEN, "User Not Found")();
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };

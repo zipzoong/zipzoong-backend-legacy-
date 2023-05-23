@@ -1,5 +1,5 @@
-import { ITokens } from "@DTO/auth";
 import { IConnection } from "@nestia/fetcher";
+import { IToken } from "@PROVIDER/authentication/interface";
 
 export const addHeader =
   (connection: IConnection) =>
@@ -12,6 +12,5 @@ export const addHeader =
   });
 
 export const addAuthorizationHeader =
-  (connection: IConnection) =>
-  (token_type: ITokens.AuthorizationHeaderTokenType, token: string) =>
+  (connection: IConnection) => (token_type: IToken.Type, token: string) =>
     addHeader(connection)("Authorization", `${token_type} ${token}`);

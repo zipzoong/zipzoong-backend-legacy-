@@ -420,8 +420,7 @@ const config = {
     "database"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false,
-  "postinstall": true
+  "dataProxy": false
 }
 
 const fs = require('fs')

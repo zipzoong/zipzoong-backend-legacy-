@@ -2,9 +2,8 @@ import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { Controller } from "@nestjs/common";
 import { TypedParam, TypedQuery, TypedRoute } from "@nestia/core";
-import { REAgentToken } from "../decorators";
-import { ITokens } from "@DTO/auth";
 import REAgent from "@PROVIDER/user/re_agent";
+import { Token } from "../decorators";
 
 @Controller("users/re-agents")
 export class REAgentsController {
@@ -32,7 +31,7 @@ export class REAgentsController {
    */
   @TypedRoute.Get("me")
   get(
-    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+    @Token.UserId("real estate agent") user_id: string
   ): Promise<IREAgent.IPrivate> {
     return REAgent.Service.Me.get({ user_id });
   }
@@ -67,7 +66,7 @@ export class REAgentsMyPropertiesController {
   @TypedRoute.Get()
   getList(
     @TypedQuery() query: IREAgent.IProperty.ISearch,
-    @REAgentToken() { user_id }: ITokens.IUserPayload<"real estate agent">
+    @Token.UserId("real estate agent") user_id: string
   ): Promise<IREAgent.IProperty.IPaginatedResponse> {
     return REAgent.Service.Me.Property.getList({ user_id, search: query });
   }

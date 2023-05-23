@@ -19,13 +19,15 @@ export const test_success = async (connection: IConnection) => {
 
   const user_id = RandomGenerator.pick(customers).id;
 
-  const token = Authentication.Crypto.getUserToken({
-    type: "user",
+  const { access_token } = Authentication.Token.Access.generate({
     user_id,
     user_type: "customer"
   });
 
-  const cnt = internal.addAuthorizationHeader(connection)("bearer", token);
+  const cnt = internal.addAuthorizationHeader(connection)(
+    "access",
+    access_token
+  );
 
   const received = await users.customers.me.zipzoong_care.requests.getList(
     cnt,

@@ -1,4 +1,4 @@
-import { IAuthentication } from "@DTO/auth";
+import { IAuthentication } from "@DTO/authentication";
 import { prisma } from "@INFRA/DB";
 import { ArrayUtil } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
@@ -6,7 +6,7 @@ import { HttpStatus } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { auth } from "@SDK";
 import { internal } from "@TEST/internal";
-import { getISOString } from "@UTIL";
+import { getISOString, Result } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- auth.sign_up.execute");
@@ -21,7 +21,7 @@ export const test_success = async (connection: IConnection): Promise<void> => {
 
   typia.assertEquals(received);
 
-  await internal.deleteAccount(received.access_token);
+  await internal.deleteAccount(received.account_token);
 };
 
 export const test_oauth_fail = (connection: IConnection) =>
@@ -32,14 +32,16 @@ export const test_oauth_fail = (connection: IConnection) =>
   );
 
 export const test_inactive_account = async (connection: IConnection) => {
-  const { access_token } = await auth.sign_up.execute(connection, {
+  const { account_token } = await auth.sign_up.execute(connection, {
     code,
     oauth_type: "kakao"
   });
-  const { account_id } =
-    Authentication.Crypto.getAccountTokenPayload(access_token);
+  const monad = Authentication.Token.Account.verify(account_token);
+  if (Result.Error.is(monad)) {
+    throw Error(Result.Error.flatten(monad));
+  }
   await prisma.oauthAccountModel.update({
-    where: { id: account_id },
+    where: { id: Result.Ok.flatten(monad).account_id },
     data: { is_deleted: true, deleted_at: getISOString() }
   });
 
@@ -50,5 +52,5 @@ export const test_inactive_account = async (connection: IConnection) => {
     })
   )(HttpStatus.FORBIDDEN, "Account Inactive")();
 
-  await internal.deleteAccount(access_token);
+  await internal.deleteAccount(account_token);
 };
