@@ -37,7 +37,7 @@ export namespace IUser {
 
   export interface ICreateRequest<T extends Type> {
     type: T;
-    email_authentication_id: string | null;
-    phone_authentication_id: string | null;
+    email_verification_id: string | null;
+    phone_verification_id: string | null;
   }
 }

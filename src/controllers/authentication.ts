@@ -1,5 +1,4 @@
 import { IAuthentication } from "@DTO/authentication";
-import { IPhoneAuthentication } from "@DTO/phone_authentication";
 import { TypedBody, TypedParam, TypedRoute } from "@nestia/core";
 import { Controller, HttpCode, HttpStatus, Res } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
@@ -130,45 +129,5 @@ export class TokenRefreshController {
     @Token.Refresh() refresh_token: string
   ): Promise<IAuthentication.IAccessToken> {
     return Authentication.Service.refresh(refresh_token);
-  }
-}
-
-@Controller("auth/phone/request")
-export class PhoneAuthenticationRequestController {
-  /**
-   * 해당 API를 호출시, 전달된 휴대폰 번호로 문자를 전송합니다.
-   *
-   * @summary phone authentication request
-   * @tag authentication
-   * @param body phone authentication input
-   * @return authentication expired date-time
-   * @throw 401 Unauthorized
-   */
-  @TypedRoute.Post()
-  execute(
-    @TypedBody() body: IPhoneAuthentication.IRequest.Input
-  ): Promise<IPhoneAuthentication.IRequest.Output> {
-    return Authentication.Phone.request(body);
-  }
-}
-
-@Controller("auth/phone/verify")
-export class PhoneAuthenticationVerifyController {
-  /**
-   * phone authentication request를 통해 생성한 정보에 대해 인증을 진행합니다.
-   *
-   * 응답 결과에 담긴 식별자는 회원 정보 생성/수정시에 사용되며, 식별되는 휴대폰 번호를 저장합니다.
-   *
-   * @summary phone verify
-   * @tag authentication
-   * @param body phone verify input
-   * @return phone_authentication_id
-   */
-  @HttpCode(HttpStatus.OK)
-  @TypedRoute.Post()
-  execute(
-    @TypedBody() body: IPhoneAuthentication.IVerify.Input
-  ): Promise<IPhoneAuthentication.IVerify.Output> {
-    return Authentication.Phone.verify(body);
   }
 }
