@@ -1,4 +1,4 @@
-import { getISOString, isActive, Result } from "@UTIL";
+import { getISOString, isActive, isInActive, isNull, Result } from "@UTIL";
 import { NaverSENS } from "@EXTERNAL/sms";
 import { IPhoneAuthentication } from "@DTO/phone_authentication";
 import { randomInt, randomUUID } from "node:crypto";
@@ -7,6 +7,7 @@ import { isUndefined } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 
 export namespace Phone {
+  const duration = 1000 * 60 * 5; // 5min
   export const request = async ({
     phone
   }: IPhoneAuthentication.IRequest.Input): Promise<IPhoneAuthentication.IRequest.Output> => {
@@ -35,7 +36,8 @@ export namespace Phone {
 
     if (isUndefined(message)) throw Exception.PhoneAuthenticationFail;
 
-    const now = getISOString();
+    const _now = Date.now();
+    const now = getISOString(new Date(_now));
     await prisma.phoneAuthenticationModel.create({
       data: {
         id: randomUUID(),
@@ -49,14 +51,14 @@ export namespace Phone {
         deleted_at: null
       }
     });
-    return { code };
+    return { expired_at: getISOString(new Date(_now + duration)) };
   };
 
   export const verify = async ({
     phone,
     code
   }: IPhoneAuthentication.IVerify.Input): Promise<IPhoneAuthentication.IVerify.Output> => {
-    const now = new Date(Date.now() - 1000 * 60 * 5); // 5분동안 유효함
+    const now = new Date(Date.now() - duration); // 5분동안 유효함
     const auths = (
       await prisma.phoneAuthenticationModel.findMany({
         where: { code, phone }
@@ -82,5 +84,24 @@ export namespace Phone {
     }
 
     return { phone_authentication_id: auth.id };
+  };
+
+  /**
+   * @throw 401 Unauthorized
+   * @throw 403 Forbidden
+   */
+  export const getOne = async (auth_id: string): Promise<string> => {
+    const threshold = new Date(Date.now() - duration * 60); // 5h
+    const auth = await prisma.phoneAuthenticationModel.findFirst({
+      where: { id: auth_id }
+    });
+    if (isNull(auth)) throw Exception.PhoneAuthenticationNotFound;
+    if (isInActive(auth)) throw Exception.PhoneAuthenticationNotFound;
+    if (auth.is_verified) {
+      if (threshold > auth.updated_at)
+        throw Exception.PhoneAuthenticationExpired;
+      return auth.phone; // not expired and verified
+    }
+    throw Exception.PhoneUnverified;
   };
 }

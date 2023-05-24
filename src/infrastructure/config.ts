@@ -40,4 +40,5 @@ interface IEnv {
   readonly NAVER_SENS_ACCESS_KEY: string;
   readonly NAVER_SENS_SECRET_KEY: string;
   readonly NAVER_SENS_CALLER: string;
+  readonly NAVER_SENS_HOST: string;
 }

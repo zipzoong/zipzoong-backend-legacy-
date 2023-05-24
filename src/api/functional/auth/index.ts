@@ -9,3 +9,4 @@ export * as sign_up from "./sign_up";
 export * as profile from "./profile";
 export * as user from "./user";
 export * as token from "./token";
+export * as phone from "./phone";

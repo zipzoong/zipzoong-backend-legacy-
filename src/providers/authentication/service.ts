@@ -2,7 +2,7 @@ import { Check } from "./check";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString, isInActive, isNull, Result, toThrow } from "@UTIL";
+import { getISOString, isNull, Result, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
 import { LoginUrl, Oauth } from "./oauth";
 import { Customer } from "@PROVIDER/user/customer";
@@ -12,6 +12,7 @@ import BusinessUser from "@PROVIDER/user/business_user";
 import { Exception } from "./exception";
 import { IAuthentication } from "@DTO/authentication";
 import { Token } from "./token";
+import { Phone } from "./phone";
 
 export namespace Service {
   export const signIn = ({
@@ -119,30 +120,6 @@ export namespace Service {
       })
     );
 
-  const getVerifiedEmail = async ({
-    email_authentication_id
-  }: {
-    email_authentication_id: string | null;
-  }): Promise<string | null> => {
-    if (isNull(email_authentication_id)) return null;
-    return null;
-  };
-
-  const getVerifiedPhone = async ({
-    phone_authentication_id
-  }: {
-    phone_authentication_id: string | null;
-  }): Promise<string | null> => {
-    if (isNull(phone_authentication_id)) return null;
-    const auth = await prisma.phoneAuthenticationModel.findFirst({
-      where: { id: phone_authentication_id }
-    });
-    if (isNull(auth)) return null;
-    if (isInActive(auth)) return null;
-    if (auth.is_verified) return auth.phone;
-    return null;
-  };
-
   export const createUser = async ({
     input,
     account_id
@@ -150,8 +127,10 @@ export namespace Service {
     input: IAuthentication.ICreateRequest;
     account_id: string;
   }): Promise<IAuthentication.IResponse> => {
-    const email = await getVerifiedEmail(input);
-    const phone = await getVerifiedPhone(input);
+    const email = null;
+    const phone = isNull(input.phone_authentication_id)
+      ? null
+      : await Phone.getOne(input.phone_authentication_id);
 
     const user_id = await prisma.$transaction(async (tx) => {
       const account = await Check.canCreateUser(input.type)({ account_id, tx });

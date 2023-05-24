@@ -32,4 +32,5 @@ export namespace Exception {
   export const PhoneAuthenticationExpired = new ForbiddenException(
     "Phone Authentication Expired"
   );
+  export const PhoneUnverified = new ForbiddenException("Phone Unverified");
 }

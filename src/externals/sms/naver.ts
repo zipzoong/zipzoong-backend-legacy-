@@ -11,6 +11,7 @@ export namespace NaverSENS {
   const access_key = Configuration.NAVER_SENS_ACCESS_KEY;
   const secret_key = Configuration.NAVER_SENS_SECRET_KEY;
   const caller = Configuration.NAVER_SENS_CALLER;
+  const host = Configuration.NAVER_SENS_HOST;
 
   interface ISignatureInput {
     method: "GET" | "POST";
@@ -36,7 +37,7 @@ export namespace NaverSENS {
     path,
     timestamp
   }: ISignatureInput): IConnection => ({
-    host: "https://sens.apigw.ntruss.com",
+    host,
     headers: {
       ...(method === "POST"
         ? { "Content-Type": "application/json; charset=utf-8" }
