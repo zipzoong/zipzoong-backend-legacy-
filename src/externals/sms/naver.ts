@@ -57,7 +57,10 @@ export namespace NaverSENS {
   export const sendMessage = async (
     input: Omit<INaver.ISendMessageInput, "type" | "countryCode" | "from">
   ): Promise<
-    IResult<string, "SendMessageOutput Invalid" | "SendMessage Fail">
+    IResult<
+      { send_request_id: string },
+      "SendMessageOutput Invalid" | "SendMessage Fail"
+    >
   > => {
     try {
       const method = "POST";
@@ -81,7 +84,7 @@ export namespace NaverSENS {
       if (!typia.is<INaver.ISendMessageOutput>(response))
         return Result.Error.map("SendMessageOutput Invalid" as const);
 
-      return Result.Ok.map(response.requestId);
+      return Result.Ok.map({ send_request_id: response.requestId });
     } catch {
       return Result.Error.map("SendMessage Fail" as const);
     }

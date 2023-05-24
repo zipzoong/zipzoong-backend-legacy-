@@ -30,6 +30,7 @@
     "paths": {
       "@PRISMA": ["./db"],
       "@APP": ["./src/application"],
+      "@EXTERNAL/*": ["./src/externals/*"],
       "@INFRA/*": ["./src/infrastructure/*"],
       "@DTO/*": ["./src/api/structures/*"],
       "@SDK": ["./src/api/functional"],
