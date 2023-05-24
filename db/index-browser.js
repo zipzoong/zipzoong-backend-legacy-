@@ -180,11 +180,9 @@ exports.Prisma.PhoneVerificationModelScalarFieldEnum = {
   updated_at: 'updated_at',
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
-  user_id: 'user_id',
   phone: 'phone',
   code: 'code',
-  sms_type: 'sms_type',
-  sms_message_id: 'sms_message_id'
+  message_id: 'message_id'
 };
 
 exports.Prisma.QueryMode = {
@@ -375,10 +373,6 @@ exports.OauthType = {
   naver: 'naver'
 };
 
-exports.SMSType = {
-  naver: 'naver'
-};
-
 exports.ServiceType = {
   HS: 'HS',
   RE: 'RE'
@@ -406,7 +400,6 @@ exports.Prisma.ModelName = {
   ZipzoongCareRequestModel: 'ZipzoongCareRequestModel',
   ZipzoongCareServiceCheckModel: 'ZipzoongCareServiceCheckModel',
   ZipzoongCareConsultationTimeCheckModel: 'ZipzoongCareConsultationTimeCheckModel',
-  PhoneVerificationModel: 'PhoneVerificationModel',
   UserModel: 'UserModel',
   CustomerModel: 'CustomerModel',
   BusinessUserModel: 'BusinessUserModel',
@@ -415,7 +408,8 @@ exports.Prisma.ModelName = {
   HSProviderModel: 'HSProviderModel',
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',
   HSExampleImageModel: 'HSExampleImageModel',
-  OauthAccountModel: 'OauthAccountModel'
+  OauthAccountModel: 'OauthAccountModel',
+  PhoneVerificationModel: 'PhoneVerificationModel'
 };
 
 /**
