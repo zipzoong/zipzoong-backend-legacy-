@@ -2,7 +2,7 @@ import { Check } from "./check";
 import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
-import { getISOString, isNull, Result, toThrow } from "@UTIL";
+import { getISOString, isInActive, isNull, Result, toThrow } from "@UTIL";
 import { randomUUID } from "crypto";
 import { LoginUrl, Oauth } from "./oauth";
 import { Customer } from "@PROVIDER/user/customer";
@@ -119,12 +119,28 @@ export namespace Service {
       })
     );
 
-  const getEmail = async (code: string): Promise<string> => {
-    return `${code}@test.com`;
+  const getVerifiedEmail = async ({
+    email_authentication_id
+  }: {
+    email_authentication_id: string | null;
+  }): Promise<string | null> => {
+    if (isNull(email_authentication_id)) return null;
+    return null;
   };
 
-  const getPhone = async (code: string): Promise<string> => {
-    return code;
+  const getVerifiedPhone = async ({
+    phone_authentication_id
+  }: {
+    phone_authentication_id: string | null;
+  }): Promise<string | null> => {
+    if (isNull(phone_authentication_id)) return null;
+    const auth = await prisma.phoneAuthenticationModel.findFirst({
+      where: { id: phone_authentication_id }
+    });
+    if (isNull(auth)) return null;
+    if (isInActive(auth)) return null;
+    if (auth.is_verified) return auth.phone;
+    return null;
   };
 
   export const createUser = async ({
@@ -134,12 +150,8 @@ export namespace Service {
     input: IAuthentication.ICreateRequest;
     account_id: string;
   }): Promise<IAuthentication.IResponse> => {
-    const email = input.email_access_code
-      ? await getEmail(input.email_access_code)
-      : null;
-    const phone = input.phone_access_code
-      ? await getPhone(input.phone_access_code)
-      : null;
+    const email = await getVerifiedEmail(input);
+    const phone = await getVerifiedPhone(input);
 
     const user_id = await prisma.$transaction(async (tx) => {
       const account = await Check.canCreateUser(input.type)({ account_id, tx });

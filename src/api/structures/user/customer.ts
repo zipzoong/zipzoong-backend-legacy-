@@ -3,6 +3,9 @@ import { Mutable, Omit } from "@TYPE";
 import { IUser } from "./user";
 
 export interface ICustomer extends IUser.IBase<"customer"> {
+  /**
+   * @format ^[0-9]+$
+   */
   readonly phone: string;
   readonly profile_image_url: string | null;
   readonly address: IAddress | null;

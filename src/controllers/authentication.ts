@@ -1,4 +1,5 @@
 import { IAuthentication } from "@DTO/authentication";
+import { IPhoneAuthentication } from "@DTO/phone_authentication";
 import { TypedBody, TypedParam, TypedRoute } from "@nestia/core";
 import { Controller, HttpCode, HttpStatus, Res } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
@@ -129,5 +130,25 @@ export class TokenRefreshController {
     @Token.Refresh() refresh_token: string
   ): Promise<IAuthentication.IAccessToken> {
     return Authentication.Service.refresh(refresh_token);
+  }
+}
+
+@Controller("auth/phone/request")
+export class PhoneAuthenticationRequestController {
+  @TypedRoute.Post()
+  execute(
+    @TypedBody() body: IPhoneAuthentication.IRequest.Input
+  ): Promise<IPhoneAuthentication.IRequest.Output> {
+    return Authentication.Phone.request(body);
+  }
+}
+
+@Controller("auth/phone/verify")
+export class PhoneAuthenticationVerifyController {
+  @TypedRoute.Post()
+  execute(
+    @TypedBody() body: IPhoneAuthentication.IVerify.Input
+  ): Promise<IPhoneAuthentication.IVerify.Output> {
+    return Authentication.Phone.verify(body);
   }
 }

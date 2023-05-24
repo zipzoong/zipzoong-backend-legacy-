@@ -22,4 +22,14 @@ export namespace Exception {
   export const PhoneRequired = new BadRequestException("Phone Required");
 
   export const UserUnverified = new ForbiddenException("User Unverified");
+
+  export const PhoneAuthenticationFail = new UnauthorizedException(
+    "Phone Authentication Fail"
+  );
+  export const PhoneAuthenticationNotFound = new UnauthorizedException(
+    "Phone Authentication Not Found"
+  );
+  export const PhoneAuthenticationExpired = new ForbiddenException(
+    "Phone Authentication Expired"
+  );
 }
