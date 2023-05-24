@@ -1,8 +1,8 @@
 import { createModel } from "schemix";
 import { Entity } from "../mixins";
 
-export const PhoneAuthentication = createModel(
-  "PhoneAuthenticationModel",
+export const PhoneVerification = createModel(
+  "PhoneVerificationModel",
   (model) => {
     model
       .mixin(Entity)
@@ -10,6 +10,6 @@ export const PhoneAuthentication = createModel(
       .string("code")
       .string("message_id")
       .boolean("is_verified")
-      .map("phone_authentications");
+      .map("phone_verifications");
   }
 );

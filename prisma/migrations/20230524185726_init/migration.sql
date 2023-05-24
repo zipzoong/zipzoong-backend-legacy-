@@ -324,7 +324,7 @@ CREATE TABLE "oauth_accounts" (
 );
 
 -- CreateTable
-CREATE TABLE "phone_authentications" (
+CREATE TABLE "phone_verifications" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
     "updated_at" TIMESTAMPTZ NOT NULL,
@@ -335,7 +335,7 @@ CREATE TABLE "phone_authentications" (
     "message_id" TEXT NOT NULL,
     "is_verified" BOOLEAN NOT NULL,
 
-    CONSTRAINT "phone_authentications_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "phone_verifications_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

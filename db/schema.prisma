@@ -378,7 +378,7 @@ model OauthAccountModel {
   @@map("oauth_accounts")
 }
 
-model PhoneAuthenticationModel {
+model PhoneVerificationModel {
   id          String    @id
   created_at  DateTime  @database.Timestamptz
   updated_at  DateTime  @database.Timestamptz
@@ -389,5 +389,5 @@ model PhoneAuthenticationModel {
   message_id  String
   is_verified Boolean
 
-  @@map("phone_authentications")
+  @@map("phone_verifications")
 }
