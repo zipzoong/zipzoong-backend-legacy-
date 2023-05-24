@@ -1,14 +1,15 @@
 import { createModel } from "schemix";
 import { Entity } from "../mixins";
 
-export const PhoneVerification = createModel(
-  "PhoneVerificationModel",
+export const PhoneAuthentication = createModel(
+  "PhoneAuthenticationModel",
   (model) => {
     model
       .mixin(Entity)
       .string("phone")
       .string("code")
       .string("message_id")
-      .map("phone_verifications");
+      .boolean("is_verified")
+      .map("phone_authentications");
   }
 );

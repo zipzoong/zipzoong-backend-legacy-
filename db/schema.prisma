@@ -378,15 +378,16 @@ model OauthAccountModel {
   @@map("oauth_accounts")
 }
 
-model PhoneVerificationModel {
-  id         String    @id
-  created_at DateTime  @database.Timestamptz
-  updated_at DateTime  @database.Timestamptz
-  is_deleted Boolean
-  deleted_at DateTime? @database.Timestamptz
-  phone      String
-  code       String
-  message_id String
+model PhoneAuthenticationModel {
+  id          String    @id
+  created_at  DateTime  @database.Timestamptz
+  updated_at  DateTime  @database.Timestamptz
+  is_deleted  Boolean
+  deleted_at  DateTime? @database.Timestamptz
+  phone       String
+  code        String
+  message_id  String
+  is_verified Boolean
 
-  @@map("phone_verifications")
+  @@map("phone_authentications")
 }

@@ -346,10 +346,10 @@ export type OauthAccountModel = {
 }
 
 /**
- * Model PhoneVerificationModel
+ * Model PhoneAuthenticationModel
  * 
  */
-export type PhoneVerificationModel = {
+export type PhoneAuthenticationModel = {
   id: string
   created_at: Date
   updated_at: Date
@@ -358,6 +358,7 @@ export type PhoneVerificationModel = {
   phone: string
   code: string
   message_id: string
+  is_verified: boolean
 }
 
 
@@ -762,14 +763,14 @@ export class PrismaClient<
   get oauthAccountModel(): Prisma.OauthAccountModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.phoneVerificationModel`: Exposes CRUD operations for the **PhoneVerificationModel** model.
+   * `prisma.phoneAuthenticationModel`: Exposes CRUD operations for the **PhoneAuthenticationModel** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more PhoneVerificationModels
-    * const phoneVerificationModels = await prisma.phoneVerificationModel.findMany()
+    * // Fetch zero or more PhoneAuthenticationModels
+    * const phoneAuthenticationModels = await prisma.phoneAuthenticationModel.findMany()
     * ```
     */
-  get phoneVerificationModel(): Prisma.PhoneVerificationModelDelegate<GlobalReject>;
+  get phoneAuthenticationModel(): Prisma.PhoneAuthenticationModelDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -1262,7 +1263,7 @@ export namespace Prisma {
     BusinessCertificationImageModel: 'BusinessCertificationImageModel',
     HSExampleImageModel: 'HSExampleImageModel',
     OauthAccountModel: 'OauthAccountModel',
-    PhoneVerificationModel: 'PhoneVerificationModel'
+    PhoneAuthenticationModel: 'PhoneAuthenticationModel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -24576,17 +24577,17 @@ export namespace Prisma {
 
 
   /**
-   * Model PhoneVerificationModel
+   * Model PhoneAuthenticationModel
    */
 
 
-  export type AggregatePhoneVerificationModel = {
-    _count: PhoneVerificationModelCountAggregateOutputType | null
-    _min: PhoneVerificationModelMinAggregateOutputType | null
-    _max: PhoneVerificationModelMaxAggregateOutputType | null
+  export type AggregatePhoneAuthenticationModel = {
+    _count: PhoneAuthenticationModelCountAggregateOutputType | null
+    _min: PhoneAuthenticationModelMinAggregateOutputType | null
+    _max: PhoneAuthenticationModelMaxAggregateOutputType | null
   }
 
-  export type PhoneVerificationModelMinAggregateOutputType = {
+  export type PhoneAuthenticationModelMinAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -24595,9 +24596,10 @@ export namespace Prisma {
     phone: string | null
     code: string | null
     message_id: string | null
+    is_verified: boolean | null
   }
 
-  export type PhoneVerificationModelMaxAggregateOutputType = {
+  export type PhoneAuthenticationModelMaxAggregateOutputType = {
     id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -24606,9 +24608,10 @@ export namespace Prisma {
     phone: string | null
     code: string | null
     message_id: string | null
+    is_verified: boolean | null
   }
 
-  export type PhoneVerificationModelCountAggregateOutputType = {
+  export type PhoneAuthenticationModelCountAggregateOutputType = {
     id: number
     created_at: number
     updated_at: number
@@ -24617,11 +24620,12 @@ export namespace Prisma {
     phone: number
     code: number
     message_id: number
+    is_verified: number
     _all: number
   }
 
 
-  export type PhoneVerificationModelMinAggregateInputType = {
+  export type PhoneAuthenticationModelMinAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -24630,9 +24634,10 @@ export namespace Prisma {
     phone?: true
     code?: true
     message_id?: true
+    is_verified?: true
   }
 
-  export type PhoneVerificationModelMaxAggregateInputType = {
+  export type PhoneAuthenticationModelMaxAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -24641,9 +24646,10 @@ export namespace Prisma {
     phone?: true
     code?: true
     message_id?: true
+    is_verified?: true
   }
 
-  export type PhoneVerificationModelCountAggregateInputType = {
+  export type PhoneAuthenticationModelCountAggregateInputType = {
     id?: true
     created_at?: true
     updated_at?: true
@@ -24652,83 +24658,84 @@ export namespace Prisma {
     phone?: true
     code?: true
     message_id?: true
+    is_verified?: true
     _all?: true
   }
 
-  export type PhoneVerificationModelAggregateArgs = {
+  export type PhoneAuthenticationModelAggregateArgs = {
     /**
-     * Filter which PhoneVerificationModel to aggregate.
+     * Filter which PhoneAuthenticationModel to aggregate.
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PhoneVerificationModels to fetch.
+     * Determine the order of PhoneAuthenticationModels to fetch.
      */
-    orderBy?: Enumerable<PhoneVerificationModelOrderByWithRelationInput>
+    orderBy?: Enumerable<PhoneAuthenticationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: PhoneVerificationModelWhereUniqueInput
+    cursor?: PhoneAuthenticationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PhoneVerificationModels from the position of the cursor.
+     * Take `±n` PhoneAuthenticationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PhoneVerificationModels.
+     * Skip the first `n` PhoneAuthenticationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned PhoneVerificationModels
+     * Count returned PhoneAuthenticationModels
     **/
-    _count?: true | PhoneVerificationModelCountAggregateInputType
+    _count?: true | PhoneAuthenticationModelCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: PhoneVerificationModelMinAggregateInputType
+    _min?: PhoneAuthenticationModelMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: PhoneVerificationModelMaxAggregateInputType
+    _max?: PhoneAuthenticationModelMaxAggregateInputType
   }
 
-  export type GetPhoneVerificationModelAggregateType<T extends PhoneVerificationModelAggregateArgs> = {
-        [P in keyof T & keyof AggregatePhoneVerificationModel]: P extends '_count' | 'count'
+  export type GetPhoneAuthenticationModelAggregateType<T extends PhoneAuthenticationModelAggregateArgs> = {
+        [P in keyof T & keyof AggregatePhoneAuthenticationModel]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregatePhoneVerificationModel[P]>
-      : GetScalarType<T[P], AggregatePhoneVerificationModel[P]>
+        : GetScalarType<T[P], AggregatePhoneAuthenticationModel[P]>
+      : GetScalarType<T[P], AggregatePhoneAuthenticationModel[P]>
   }
 
 
 
 
-  export type PhoneVerificationModelGroupByArgs = {
-    where?: PhoneVerificationModelWhereInput
-    orderBy?: Enumerable<PhoneVerificationModelOrderByWithAggregationInput>
-    by: PhoneVerificationModelScalarFieldEnum[]
-    having?: PhoneVerificationModelScalarWhereWithAggregatesInput
+  export type PhoneAuthenticationModelGroupByArgs = {
+    where?: PhoneAuthenticationModelWhereInput
+    orderBy?: Enumerable<PhoneAuthenticationModelOrderByWithAggregationInput>
+    by: PhoneAuthenticationModelScalarFieldEnum[]
+    having?: PhoneAuthenticationModelScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: PhoneVerificationModelCountAggregateInputType | true
-    _min?: PhoneVerificationModelMinAggregateInputType
-    _max?: PhoneVerificationModelMaxAggregateInputType
+    _count?: PhoneAuthenticationModelCountAggregateInputType | true
+    _min?: PhoneAuthenticationModelMinAggregateInputType
+    _max?: PhoneAuthenticationModelMaxAggregateInputType
   }
 
 
-  export type PhoneVerificationModelGroupByOutputType = {
+  export type PhoneAuthenticationModelGroupByOutputType = {
     id: string
     created_at: Date
     updated_at: Date
@@ -24737,26 +24744,27 @@ export namespace Prisma {
     phone: string
     code: string
     message_id: string
-    _count: PhoneVerificationModelCountAggregateOutputType | null
-    _min: PhoneVerificationModelMinAggregateOutputType | null
-    _max: PhoneVerificationModelMaxAggregateOutputType | null
+    is_verified: boolean
+    _count: PhoneAuthenticationModelCountAggregateOutputType | null
+    _min: PhoneAuthenticationModelMinAggregateOutputType | null
+    _max: PhoneAuthenticationModelMaxAggregateOutputType | null
   }
 
-  type GetPhoneVerificationModelGroupByPayload<T extends PhoneVerificationModelGroupByArgs> = Prisma.PrismaPromise<
+  type GetPhoneAuthenticationModelGroupByPayload<T extends PhoneAuthenticationModelGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<PhoneVerificationModelGroupByOutputType, T['by']> &
+      PickArray<PhoneAuthenticationModelGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof PhoneVerificationModelGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof PhoneAuthenticationModelGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], PhoneVerificationModelGroupByOutputType[P]>
-            : GetScalarType<T[P], PhoneVerificationModelGroupByOutputType[P]>
+              : GetScalarType<T[P], PhoneAuthenticationModelGroupByOutputType[P]>
+            : GetScalarType<T[P], PhoneAuthenticationModelGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type PhoneVerificationModelSelect = {
+  export type PhoneAuthenticationModelSelect = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -24765,170 +24773,171 @@ export namespace Prisma {
     phone?: boolean
     code?: boolean
     message_id?: boolean
+    is_verified?: boolean
   }
 
 
-  export type PhoneVerificationModelGetPayload<S extends boolean | null | undefined | PhoneVerificationModelArgs> =
+  export type PhoneAuthenticationModelGetPayload<S extends boolean | null | undefined | PhoneAuthenticationModelArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? PhoneVerificationModel :
+    S extends true ? PhoneAuthenticationModel :
     S extends undefined ? never :
-    S extends { include: any } & (PhoneVerificationModelArgs | PhoneVerificationModelFindManyArgs)
-    ? PhoneVerificationModel 
-    : S extends { select: any } & (PhoneVerificationModelArgs | PhoneVerificationModelFindManyArgs)
+    S extends { include: any } & (PhoneAuthenticationModelArgs | PhoneAuthenticationModelFindManyArgs)
+    ? PhoneAuthenticationModel 
+    : S extends { select: any } & (PhoneAuthenticationModelArgs | PhoneAuthenticationModelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof PhoneVerificationModel ? PhoneVerificationModel[P] : never
+    P extends keyof PhoneAuthenticationModel ? PhoneAuthenticationModel[P] : never
   } 
-      : PhoneVerificationModel
+      : PhoneAuthenticationModel
 
 
-  type PhoneVerificationModelCountArgs = 
-    Omit<PhoneVerificationModelFindManyArgs, 'select' | 'include'> & {
-      select?: PhoneVerificationModelCountAggregateInputType | true
+  type PhoneAuthenticationModelCountArgs = 
+    Omit<PhoneAuthenticationModelFindManyArgs, 'select' | 'include'> & {
+      select?: PhoneAuthenticationModelCountAggregateInputType | true
     }
 
-  export interface PhoneVerificationModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface PhoneAuthenticationModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one PhoneVerificationModel that matches the filter.
-     * @param {PhoneVerificationModelFindUniqueArgs} args - Arguments to find a PhoneVerificationModel
+     * Find zero or one PhoneAuthenticationModel that matches the filter.
+     * @param {PhoneAuthenticationModelFindUniqueArgs} args - Arguments to find a PhoneAuthenticationModel
      * @example
-     * // Get one PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.findUnique({
+     * // Get one PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends PhoneVerificationModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, PhoneVerificationModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>> : Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T> | null, null>
+    findUnique<T extends PhoneAuthenticationModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PhoneAuthenticationModelFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PhoneAuthenticationModel'> extends True ? Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>> : Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T> | null, null>
 
     /**
-     * Find one PhoneVerificationModel that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one PhoneAuthenticationModel that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {PhoneVerificationModelFindUniqueOrThrowArgs} args - Arguments to find a PhoneVerificationModel
+     * @param {PhoneAuthenticationModelFindUniqueOrThrowArgs} args - Arguments to find a PhoneAuthenticationModel
      * @example
-     * // Get one PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.findUniqueOrThrow({
+     * // Get one PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends PhoneVerificationModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindUniqueOrThrowArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    findUniqueOrThrow<T extends PhoneAuthenticationModelFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PhoneAuthenticationModelFindUniqueOrThrowArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Find the first PhoneVerificationModel that matches the filter.
+     * Find the first PhoneAuthenticationModel that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelFindFirstArgs} args - Arguments to find a PhoneVerificationModel
+     * @param {PhoneAuthenticationModelFindFirstArgs} args - Arguments to find a PhoneAuthenticationModel
      * @example
-     * // Get one PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.findFirst({
+     * // Get one PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends PhoneVerificationModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, PhoneVerificationModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>> : Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T> | null, null>
+    findFirst<T extends PhoneAuthenticationModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PhoneAuthenticationModelFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PhoneAuthenticationModel'> extends True ? Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>> : Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T> | null, null>
 
     /**
-     * Find the first PhoneVerificationModel that matches the filter or
+     * Find the first PhoneAuthenticationModel that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelFindFirstOrThrowArgs} args - Arguments to find a PhoneVerificationModel
+     * @param {PhoneAuthenticationModelFindFirstOrThrowArgs} args - Arguments to find a PhoneAuthenticationModel
      * @example
-     * // Get one PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.findFirstOrThrow({
+     * // Get one PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends PhoneVerificationModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindFirstOrThrowArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    findFirstOrThrow<T extends PhoneAuthenticationModelFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PhoneAuthenticationModelFindFirstOrThrowArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Find zero or more PhoneVerificationModels that matches the filter.
+     * Find zero or more PhoneAuthenticationModels that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {PhoneAuthenticationModelFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all PhoneVerificationModels
-     * const phoneVerificationModels = await prisma.phoneVerificationModel.findMany()
+     * // Get all PhoneAuthenticationModels
+     * const phoneAuthenticationModels = await prisma.phoneAuthenticationModel.findMany()
      * 
-     * // Get first 10 PhoneVerificationModels
-     * const phoneVerificationModels = await prisma.phoneVerificationModel.findMany({ take: 10 })
+     * // Get first 10 PhoneAuthenticationModels
+     * const phoneAuthenticationModels = await prisma.phoneAuthenticationModel.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const phoneVerificationModelWithIdOnly = await prisma.phoneVerificationModel.findMany({ select: { id: true } })
+     * const phoneAuthenticationModelWithIdOnly = await prisma.phoneAuthenticationModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends PhoneVerificationModelFindManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<PhoneVerificationModelGetPayload<T>>>
+    findMany<T extends PhoneAuthenticationModelFindManyArgs>(
+      args?: SelectSubset<T, PhoneAuthenticationModelFindManyArgs>
+    ): Prisma.PrismaPromise<Array<PhoneAuthenticationModelGetPayload<T>>>
 
     /**
-     * Create a PhoneVerificationModel.
-     * @param {PhoneVerificationModelCreateArgs} args - Arguments to create a PhoneVerificationModel.
+     * Create a PhoneAuthenticationModel.
+     * @param {PhoneAuthenticationModelCreateArgs} args - Arguments to create a PhoneAuthenticationModel.
      * @example
-     * // Create one PhoneVerificationModel
-     * const PhoneVerificationModel = await prisma.phoneVerificationModel.create({
+     * // Create one PhoneAuthenticationModel
+     * const PhoneAuthenticationModel = await prisma.phoneAuthenticationModel.create({
      *   data: {
-     *     // ... data to create a PhoneVerificationModel
+     *     // ... data to create a PhoneAuthenticationModel
      *   }
      * })
      * 
     **/
-    create<T extends PhoneVerificationModelCreateArgs>(
-      args: SelectSubset<T, PhoneVerificationModelCreateArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    create<T extends PhoneAuthenticationModelCreateArgs>(
+      args: SelectSubset<T, PhoneAuthenticationModelCreateArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Create many PhoneVerificationModels.
-     *     @param {PhoneVerificationModelCreateManyArgs} args - Arguments to create many PhoneVerificationModels.
+     * Create many PhoneAuthenticationModels.
+     *     @param {PhoneAuthenticationModelCreateManyArgs} args - Arguments to create many PhoneAuthenticationModels.
      *     @example
-     *     // Create many PhoneVerificationModels
-     *     const phoneVerificationModel = await prisma.phoneVerificationModel.createMany({
+     *     // Create many PhoneAuthenticationModels
+     *     const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends PhoneVerificationModelCreateManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelCreateManyArgs>
+    createMany<T extends PhoneAuthenticationModelCreateManyArgs>(
+      args?: SelectSubset<T, PhoneAuthenticationModelCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a PhoneVerificationModel.
-     * @param {PhoneVerificationModelDeleteArgs} args - Arguments to delete one PhoneVerificationModel.
+     * Delete a PhoneAuthenticationModel.
+     * @param {PhoneAuthenticationModelDeleteArgs} args - Arguments to delete one PhoneAuthenticationModel.
      * @example
-     * // Delete one PhoneVerificationModel
-     * const PhoneVerificationModel = await prisma.phoneVerificationModel.delete({
+     * // Delete one PhoneAuthenticationModel
+     * const PhoneAuthenticationModel = await prisma.phoneAuthenticationModel.delete({
      *   where: {
-     *     // ... filter to delete one PhoneVerificationModel
+     *     // ... filter to delete one PhoneAuthenticationModel
      *   }
      * })
      * 
     **/
-    delete<T extends PhoneVerificationModelDeleteArgs>(
-      args: SelectSubset<T, PhoneVerificationModelDeleteArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    delete<T extends PhoneAuthenticationModelDeleteArgs>(
+      args: SelectSubset<T, PhoneAuthenticationModelDeleteArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Update one PhoneVerificationModel.
-     * @param {PhoneVerificationModelUpdateArgs} args - Arguments to update one PhoneVerificationModel.
+     * Update one PhoneAuthenticationModel.
+     * @param {PhoneAuthenticationModelUpdateArgs} args - Arguments to update one PhoneAuthenticationModel.
      * @example
-     * // Update one PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.update({
+     * // Update one PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24938,34 +24947,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends PhoneVerificationModelUpdateArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpdateArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    update<T extends PhoneAuthenticationModelUpdateArgs>(
+      args: SelectSubset<T, PhoneAuthenticationModelUpdateArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Delete zero or more PhoneVerificationModels.
-     * @param {PhoneVerificationModelDeleteManyArgs} args - Arguments to filter PhoneVerificationModels to delete.
+     * Delete zero or more PhoneAuthenticationModels.
+     * @param {PhoneAuthenticationModelDeleteManyArgs} args - Arguments to filter PhoneAuthenticationModels to delete.
      * @example
-     * // Delete a few PhoneVerificationModels
-     * const { count } = await prisma.phoneVerificationModel.deleteMany({
+     * // Delete a few PhoneAuthenticationModels
+     * const { count } = await prisma.phoneAuthenticationModel.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends PhoneVerificationModelDeleteManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelDeleteManyArgs>
+    deleteMany<T extends PhoneAuthenticationModelDeleteManyArgs>(
+      args?: SelectSubset<T, PhoneAuthenticationModelDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more PhoneVerificationModels.
+     * Update zero or more PhoneAuthenticationModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {PhoneAuthenticationModelUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many PhoneVerificationModels
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.updateMany({
+     * // Update many PhoneAuthenticationModels
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -24975,59 +24984,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends PhoneVerificationModelUpdateManyArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpdateManyArgs>
+    updateMany<T extends PhoneAuthenticationModelUpdateManyArgs>(
+      args: SelectSubset<T, PhoneAuthenticationModelUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one PhoneVerificationModel.
-     * @param {PhoneVerificationModelUpsertArgs} args - Arguments to update or create a PhoneVerificationModel.
+     * Create or update one PhoneAuthenticationModel.
+     * @param {PhoneAuthenticationModelUpsertArgs} args - Arguments to update or create a PhoneAuthenticationModel.
      * @example
-     * // Update or create a PhoneVerificationModel
-     * const phoneVerificationModel = await prisma.phoneVerificationModel.upsert({
+     * // Update or create a PhoneAuthenticationModel
+     * const phoneAuthenticationModel = await prisma.phoneAuthenticationModel.upsert({
      *   create: {
-     *     // ... data to create a PhoneVerificationModel
+     *     // ... data to create a PhoneAuthenticationModel
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the PhoneVerificationModel we want to update
+     *     // ... the filter for the PhoneAuthenticationModel we want to update
      *   }
      * })
     **/
-    upsert<T extends PhoneVerificationModelUpsertArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpsertArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    upsert<T extends PhoneAuthenticationModelUpsertArgs>(
+      args: SelectSubset<T, PhoneAuthenticationModelUpsertArgs>
+    ): Prisma__PhoneAuthenticationModelClient<PhoneAuthenticationModelGetPayload<T>>
 
     /**
-     * Count the number of PhoneVerificationModels.
+     * Count the number of PhoneAuthenticationModels.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelCountArgs} args - Arguments to filter PhoneVerificationModels to count.
+     * @param {PhoneAuthenticationModelCountArgs} args - Arguments to filter PhoneAuthenticationModels to count.
      * @example
-     * // Count the number of PhoneVerificationModels
-     * const count = await prisma.phoneVerificationModel.count({
+     * // Count the number of PhoneAuthenticationModels
+     * const count = await prisma.phoneAuthenticationModel.count({
      *   where: {
-     *     // ... the filter for the PhoneVerificationModels we want to count
+     *     // ... the filter for the PhoneAuthenticationModels we want to count
      *   }
      * })
     **/
-    count<T extends PhoneVerificationModelCountArgs>(
-      args?: Subset<T, PhoneVerificationModelCountArgs>,
+    count<T extends PhoneAuthenticationModelCountArgs>(
+      args?: Subset<T, PhoneAuthenticationModelCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], PhoneVerificationModelCountAggregateOutputType>
+          : GetScalarType<T['select'], PhoneAuthenticationModelCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a PhoneVerificationModel.
+     * Allows you to perform aggregations operations on a PhoneAuthenticationModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {PhoneAuthenticationModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -25047,13 +25056,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PhoneVerificationModelAggregateArgs>(args: Subset<T, PhoneVerificationModelAggregateArgs>): Prisma.PrismaPromise<GetPhoneVerificationModelAggregateType<T>>
+    aggregate<T extends PhoneAuthenticationModelAggregateArgs>(args: Subset<T, PhoneAuthenticationModelAggregateArgs>): Prisma.PrismaPromise<GetPhoneAuthenticationModelAggregateType<T>>
 
     /**
-     * Group by PhoneVerificationModel.
+     * Group by PhoneAuthenticationModel.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhoneVerificationModelGroupByArgs} args - Group by arguments.
+     * @param {PhoneAuthenticationModelGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -25068,14 +25077,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends PhoneVerificationModelGroupByArgs,
+      T extends PhoneAuthenticationModelGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PhoneVerificationModelGroupByArgs['orderBy'] }
-        : { orderBy?: PhoneVerificationModelGroupByArgs['orderBy'] },
+        ? { orderBy: PhoneAuthenticationModelGroupByArgs['orderBy'] }
+        : { orderBy?: PhoneAuthenticationModelGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -25124,17 +25133,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PhoneVerificationModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPhoneVerificationModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PhoneAuthenticationModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPhoneAuthenticationModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for PhoneVerificationModel.
+   * The delegate class that acts as a "Promise-like" for PhoneAuthenticationModel.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__PhoneVerificationModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__PhoneAuthenticationModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -25178,23 +25187,23 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * PhoneVerificationModel base type for findUnique actions
+   * PhoneAuthenticationModel base type for findUnique actions
    */
-  export type PhoneVerificationModelFindUniqueArgsBase = {
+  export type PhoneAuthenticationModelFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter, which PhoneVerificationModel to fetch.
+     * Filter, which PhoneAuthenticationModel to fetch.
      */
-    where: PhoneVerificationModelWhereUniqueInput
+    where: PhoneAuthenticationModelWhereUniqueInput
   }
 
   /**
-   * PhoneVerificationModel findUnique
+   * PhoneAuthenticationModel findUnique
    */
-  export interface PhoneVerificationModelFindUniqueArgs extends PhoneVerificationModelFindUniqueArgsBase {
+  export interface PhoneAuthenticationModelFindUniqueArgs extends PhoneAuthenticationModelFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -25204,68 +25213,68 @@ export namespace Prisma {
       
 
   /**
-   * PhoneVerificationModel findUniqueOrThrow
+   * PhoneAuthenticationModel findUniqueOrThrow
    */
-  export type PhoneVerificationModelFindUniqueOrThrowArgs = {
+  export type PhoneAuthenticationModelFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter, which PhoneVerificationModel to fetch.
+     * Filter, which PhoneAuthenticationModel to fetch.
      */
-    where: PhoneVerificationModelWhereUniqueInput
+    where: PhoneAuthenticationModelWhereUniqueInput
   }
 
 
   /**
-   * PhoneVerificationModel base type for findFirst actions
+   * PhoneAuthenticationModel base type for findFirst actions
    */
-  export type PhoneVerificationModelFindFirstArgsBase = {
+  export type PhoneAuthenticationModelFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter, which PhoneVerificationModel to fetch.
+     * Filter, which PhoneAuthenticationModel to fetch.
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PhoneVerificationModels to fetch.
+     * Determine the order of PhoneAuthenticationModels to fetch.
      */
-    orderBy?: Enumerable<PhoneVerificationModelOrderByWithRelationInput>
+    orderBy?: Enumerable<PhoneAuthenticationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for PhoneVerificationModels.
+     * Sets the position for searching for PhoneAuthenticationModels.
      */
-    cursor?: PhoneVerificationModelWhereUniqueInput
+    cursor?: PhoneAuthenticationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PhoneVerificationModels from the position of the cursor.
+     * Take `±n` PhoneAuthenticationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PhoneVerificationModels.
+     * Skip the first `n` PhoneAuthenticationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of PhoneVerificationModels.
+     * Filter by unique combinations of PhoneAuthenticationModels.
      */
-    distinct?: Enumerable<PhoneVerificationModelScalarFieldEnum>
+    distinct?: Enumerable<PhoneAuthenticationModelScalarFieldEnum>
   }
 
   /**
-   * PhoneVerificationModel findFirst
+   * PhoneAuthenticationModel findFirst
    */
-  export interface PhoneVerificationModelFindFirstArgs extends PhoneVerificationModelFindFirstArgsBase {
+  export interface PhoneAuthenticationModelFindFirstArgs extends PhoneAuthenticationModelFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -25275,208 +25284,208 @@ export namespace Prisma {
       
 
   /**
-   * PhoneVerificationModel findFirstOrThrow
+   * PhoneAuthenticationModel findFirstOrThrow
    */
-  export type PhoneVerificationModelFindFirstOrThrowArgs = {
+  export type PhoneAuthenticationModelFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter, which PhoneVerificationModel to fetch.
+     * Filter, which PhoneAuthenticationModel to fetch.
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PhoneVerificationModels to fetch.
+     * Determine the order of PhoneAuthenticationModels to fetch.
      */
-    orderBy?: Enumerable<PhoneVerificationModelOrderByWithRelationInput>
+    orderBy?: Enumerable<PhoneAuthenticationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for PhoneVerificationModels.
+     * Sets the position for searching for PhoneAuthenticationModels.
      */
-    cursor?: PhoneVerificationModelWhereUniqueInput
+    cursor?: PhoneAuthenticationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PhoneVerificationModels from the position of the cursor.
+     * Take `±n` PhoneAuthenticationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PhoneVerificationModels.
+     * Skip the first `n` PhoneAuthenticationModels.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of PhoneVerificationModels.
+     * Filter by unique combinations of PhoneAuthenticationModels.
      */
-    distinct?: Enumerable<PhoneVerificationModelScalarFieldEnum>
+    distinct?: Enumerable<PhoneAuthenticationModelScalarFieldEnum>
   }
 
 
   /**
-   * PhoneVerificationModel findMany
+   * PhoneAuthenticationModel findMany
    */
-  export type PhoneVerificationModelFindManyArgs = {
+  export type PhoneAuthenticationModelFindManyArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter, which PhoneVerificationModels to fetch.
+     * Filter, which PhoneAuthenticationModels to fetch.
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PhoneVerificationModels to fetch.
+     * Determine the order of PhoneAuthenticationModels to fetch.
      */
-    orderBy?: Enumerable<PhoneVerificationModelOrderByWithRelationInput>
+    orderBy?: Enumerable<PhoneAuthenticationModelOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing PhoneVerificationModels.
+     * Sets the position for listing PhoneAuthenticationModels.
      */
-    cursor?: PhoneVerificationModelWhereUniqueInput
+    cursor?: PhoneAuthenticationModelWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PhoneVerificationModels from the position of the cursor.
+     * Take `±n` PhoneAuthenticationModels from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PhoneVerificationModels.
+     * Skip the first `n` PhoneAuthenticationModels.
      */
     skip?: number
-    distinct?: Enumerable<PhoneVerificationModelScalarFieldEnum>
+    distinct?: Enumerable<PhoneAuthenticationModelScalarFieldEnum>
   }
 
 
   /**
-   * PhoneVerificationModel create
+   * PhoneAuthenticationModel create
    */
-  export type PhoneVerificationModelCreateArgs = {
+  export type PhoneAuthenticationModelCreateArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * The data needed to create a PhoneVerificationModel.
+     * The data needed to create a PhoneAuthenticationModel.
      */
-    data: XOR<PhoneVerificationModelCreateInput, PhoneVerificationModelUncheckedCreateInput>
+    data: XOR<PhoneAuthenticationModelCreateInput, PhoneAuthenticationModelUncheckedCreateInput>
   }
 
 
   /**
-   * PhoneVerificationModel createMany
+   * PhoneAuthenticationModel createMany
    */
-  export type PhoneVerificationModelCreateManyArgs = {
+  export type PhoneAuthenticationModelCreateManyArgs = {
     /**
-     * The data used to create many PhoneVerificationModels.
+     * The data used to create many PhoneAuthenticationModels.
      */
-    data: Enumerable<PhoneVerificationModelCreateManyInput>
+    data: Enumerable<PhoneAuthenticationModelCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * PhoneVerificationModel update
+   * PhoneAuthenticationModel update
    */
-  export type PhoneVerificationModelUpdateArgs = {
+  export type PhoneAuthenticationModelUpdateArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * The data needed to update a PhoneVerificationModel.
+     * The data needed to update a PhoneAuthenticationModel.
      */
-    data: XOR<PhoneVerificationModelUpdateInput, PhoneVerificationModelUncheckedUpdateInput>
+    data: XOR<PhoneAuthenticationModelUpdateInput, PhoneAuthenticationModelUncheckedUpdateInput>
     /**
-     * Choose, which PhoneVerificationModel to update.
+     * Choose, which PhoneAuthenticationModel to update.
      */
-    where: PhoneVerificationModelWhereUniqueInput
+    where: PhoneAuthenticationModelWhereUniqueInput
   }
 
 
   /**
-   * PhoneVerificationModel updateMany
+   * PhoneAuthenticationModel updateMany
    */
-  export type PhoneVerificationModelUpdateManyArgs = {
+  export type PhoneAuthenticationModelUpdateManyArgs = {
     /**
-     * The data used to update PhoneVerificationModels.
+     * The data used to update PhoneAuthenticationModels.
      */
-    data: XOR<PhoneVerificationModelUpdateManyMutationInput, PhoneVerificationModelUncheckedUpdateManyInput>
+    data: XOR<PhoneAuthenticationModelUpdateManyMutationInput, PhoneAuthenticationModelUncheckedUpdateManyInput>
     /**
-     * Filter which PhoneVerificationModels to update
+     * Filter which PhoneAuthenticationModels to update
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
   }
 
 
   /**
-   * PhoneVerificationModel upsert
+   * PhoneAuthenticationModel upsert
    */
-  export type PhoneVerificationModelUpsertArgs = {
+  export type PhoneAuthenticationModelUpsertArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * The filter to search for the PhoneVerificationModel to update in case it exists.
+     * The filter to search for the PhoneAuthenticationModel to update in case it exists.
      */
-    where: PhoneVerificationModelWhereUniqueInput
+    where: PhoneAuthenticationModelWhereUniqueInput
     /**
-     * In case the PhoneVerificationModel found by the `where` argument doesn't exist, create a new PhoneVerificationModel with this data.
+     * In case the PhoneAuthenticationModel found by the `where` argument doesn't exist, create a new PhoneAuthenticationModel with this data.
      */
-    create: XOR<PhoneVerificationModelCreateInput, PhoneVerificationModelUncheckedCreateInput>
+    create: XOR<PhoneAuthenticationModelCreateInput, PhoneAuthenticationModelUncheckedCreateInput>
     /**
-     * In case the PhoneVerificationModel was found with the provided `where` argument, update it with this data.
+     * In case the PhoneAuthenticationModel was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<PhoneVerificationModelUpdateInput, PhoneVerificationModelUncheckedUpdateInput>
+    update: XOR<PhoneAuthenticationModelUpdateInput, PhoneAuthenticationModelUncheckedUpdateInput>
   }
 
 
   /**
-   * PhoneVerificationModel delete
+   * PhoneAuthenticationModel delete
    */
-  export type PhoneVerificationModelDeleteArgs = {
+  export type PhoneAuthenticationModelDeleteArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
     /**
-     * Filter which PhoneVerificationModel to delete.
+     * Filter which PhoneAuthenticationModel to delete.
      */
-    where: PhoneVerificationModelWhereUniqueInput
+    where: PhoneAuthenticationModelWhereUniqueInput
   }
 
 
   /**
-   * PhoneVerificationModel deleteMany
+   * PhoneAuthenticationModel deleteMany
    */
-  export type PhoneVerificationModelDeleteManyArgs = {
+  export type PhoneAuthenticationModelDeleteManyArgs = {
     /**
-     * Filter which PhoneVerificationModels to delete
+     * Filter which PhoneAuthenticationModels to delete
      */
-    where?: PhoneVerificationModelWhereInput
+    where?: PhoneAuthenticationModelWhereInput
   }
 
 
   /**
-   * PhoneVerificationModel without action
+   * PhoneAuthenticationModel without action
    */
-  export type PhoneVerificationModelArgs = {
+  export type PhoneAuthenticationModelArgs = {
     /**
-     * Select specific fields to fetch from the PhoneVerificationModel
+     * Select specific fields to fetch from the PhoneAuthenticationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneAuthenticationModelSelect | null
   }
 
 
@@ -25600,7 +25609,7 @@ export namespace Prisma {
   export type OauthAccountModelScalarFieldEnum = (typeof OauthAccountModelScalarFieldEnum)[keyof typeof OauthAccountModelScalarFieldEnum]
 
 
-  export const PhoneVerificationModelScalarFieldEnum: {
+  export const PhoneAuthenticationModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -25608,10 +25617,11 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     phone: 'phone',
     code: 'code',
-    message_id: 'message_id'
+    message_id: 'message_id',
+    is_verified: 'is_verified'
   };
 
-  export type PhoneVerificationModelScalarFieldEnum = (typeof PhoneVerificationModelScalarFieldEnum)[keyof typeof PhoneVerificationModelScalarFieldEnum]
+  export type PhoneAuthenticationModelScalarFieldEnum = (typeof PhoneAuthenticationModelScalarFieldEnum)[keyof typeof PhoneAuthenticationModelScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -27214,10 +27224,10 @@ export namespace Prisma {
     address_second?: StringNullableWithAggregatesFilter | string | null
   }
 
-  export type PhoneVerificationModelWhereInput = {
-    AND?: Enumerable<PhoneVerificationModelWhereInput>
-    OR?: Enumerable<PhoneVerificationModelWhereInput>
-    NOT?: Enumerable<PhoneVerificationModelWhereInput>
+  export type PhoneAuthenticationModelWhereInput = {
+    AND?: Enumerable<PhoneAuthenticationModelWhereInput>
+    OR?: Enumerable<PhoneAuthenticationModelWhereInput>
+    NOT?: Enumerable<PhoneAuthenticationModelWhereInput>
     id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeFilter | Date | string
@@ -27226,9 +27236,10 @@ export namespace Prisma {
     phone?: StringFilter | string
     code?: StringFilter | string
     message_id?: StringFilter | string
+    is_verified?: BoolFilter | boolean
   }
 
-  export type PhoneVerificationModelOrderByWithRelationInput = {
+  export type PhoneAuthenticationModelOrderByWithRelationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27237,13 +27248,14 @@ export namespace Prisma {
     phone?: SortOrder
     code?: SortOrder
     message_id?: SortOrder
+    is_verified?: SortOrder
   }
 
-  export type PhoneVerificationModelWhereUniqueInput = {
+  export type PhoneAuthenticationModelWhereUniqueInput = {
     id?: string
   }
 
-  export type PhoneVerificationModelOrderByWithAggregationInput = {
+  export type PhoneAuthenticationModelOrderByWithAggregationInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -27252,15 +27264,16 @@ export namespace Prisma {
     phone?: SortOrder
     code?: SortOrder
     message_id?: SortOrder
-    _count?: PhoneVerificationModelCountOrderByAggregateInput
-    _max?: PhoneVerificationModelMaxOrderByAggregateInput
-    _min?: PhoneVerificationModelMinOrderByAggregateInput
+    is_verified?: SortOrder
+    _count?: PhoneAuthenticationModelCountOrderByAggregateInput
+    _max?: PhoneAuthenticationModelMaxOrderByAggregateInput
+    _min?: PhoneAuthenticationModelMinOrderByAggregateInput
   }
 
-  export type PhoneVerificationModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<PhoneVerificationModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<PhoneVerificationModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<PhoneVerificationModelScalarWhereWithAggregatesInput>
+  export type PhoneAuthenticationModelScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<PhoneAuthenticationModelScalarWhereWithAggregatesInput>
+    OR?: Enumerable<PhoneAuthenticationModelScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<PhoneAuthenticationModelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeWithAggregatesFilter | Date | string
@@ -27269,6 +27282,7 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter | string
     code?: StringWithAggregatesFilter | string
     message_id?: StringWithAggregatesFilter | string
+    is_verified?: BoolWithAggregatesFilter | boolean
   }
 
   export type REPropertyModelCreateInput = {
@@ -29033,7 +29047,7 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PhoneVerificationModelCreateInput = {
+  export type PhoneAuthenticationModelCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29042,9 +29056,10 @@ export namespace Prisma {
     phone: string
     code: string
     message_id: string
+    is_verified: boolean
   }
 
-  export type PhoneVerificationModelUncheckedCreateInput = {
+  export type PhoneAuthenticationModelUncheckedCreateInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29053,9 +29068,10 @@ export namespace Prisma {
     phone: string
     code: string
     message_id: string
+    is_verified: boolean
   }
 
-  export type PhoneVerificationModelUpdateInput = {
+  export type PhoneAuthenticationModelUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29064,9 +29080,10 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     message_id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type PhoneVerificationModelUncheckedUpdateInput = {
+  export type PhoneAuthenticationModelUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29075,9 +29092,10 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     message_id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type PhoneVerificationModelCreateManyInput = {
+  export type PhoneAuthenticationModelCreateManyInput = {
     id: string
     created_at: Date | string
     updated_at: Date | string
@@ -29086,9 +29104,10 @@ export namespace Prisma {
     phone: string
     code: string
     message_id: string
+    is_verified: boolean
   }
 
-  export type PhoneVerificationModelUpdateManyMutationInput = {
+  export type PhoneAuthenticationModelUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29097,9 +29116,10 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     message_id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type PhoneVerificationModelUncheckedUpdateManyInput = {
+  export type PhoneAuthenticationModelUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29108,6 +29128,7 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     message_id?: StringFieldUpdateOperationsInput | string
+    is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter = {
@@ -30339,7 +30360,7 @@ export namespace Prisma {
     _max?: NestedEnumOauthTypeFilter
   }
 
-  export type PhoneVerificationModelCountOrderByAggregateInput = {
+  export type PhoneAuthenticationModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30348,9 +30369,10 @@ export namespace Prisma {
     phone?: SortOrder
     code?: SortOrder
     message_id?: SortOrder
+    is_verified?: SortOrder
   }
 
-  export type PhoneVerificationModelMaxOrderByAggregateInput = {
+  export type PhoneAuthenticationModelMaxOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30359,9 +30381,10 @@ export namespace Prisma {
     phone?: SortOrder
     code?: SortOrder
     message_id?: SortOrder
+    is_verified?: SortOrder
   }
 
-  export type PhoneVerificationModelMinOrderByAggregateInput = {
+  export type PhoneAuthenticationModelMinOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -30370,6 +30393,7 @@ export namespace Prisma {
     phone?: SortOrder
     code?: SortOrder
     message_id?: SortOrder
+    is_verified?: SortOrder
   }
 
   export type REAgentModelCreateNestedOneWithoutPropertiesInput = {

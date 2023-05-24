@@ -174,7 +174,7 @@ exports.Prisma.OauthAccountModelScalarFieldEnum = {
   address_second: 'address_second'
 };
 
-exports.Prisma.PhoneVerificationModelScalarFieldEnum = {
+exports.Prisma.PhoneAuthenticationModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -182,7 +182,8 @@ exports.Prisma.PhoneVerificationModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   phone: 'phone',
   code: 'code',
-  message_id: 'message_id'
+  message_id: 'message_id',
+  is_verified: 'is_verified'
 };
 
 exports.Prisma.QueryMode = {
@@ -409,7 +410,7 @@ exports.Prisma.ModelName = {
   BusinessCertificationImageModel: 'BusinessCertificationImageModel',
   HSExampleImageModel: 'HSExampleImageModel',
   OauthAccountModel: 'OauthAccountModel',
-  PhoneVerificationModel: 'PhoneVerificationModel'
+  PhoneAuthenticationModel: 'PhoneAuthenticationModel'
 };
 
 /**
