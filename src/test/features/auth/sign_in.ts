@@ -29,6 +29,9 @@ export const test_success = async (connection: IConnection) => {
     })
   ).map(pick("id"));
 
+  input.phone_verification_id = null;
+  input.email_verification_id = null;
+
   await auth.user.create(_connection, input);
 
   const received = await auth.sign_in.execute(_connection, {
@@ -52,7 +55,7 @@ export const test_success = async (connection: IConnection) => {
 export const test_account_token_invalid = internal.test_invalid_account_token(
   (connection: IConnection) =>
     auth.sign_in.execute(connection, {
-      code: "inactive_accessor",
+      code: "inactive_account",
       oauth_type: "kakao",
       user_type: "customer"
     })

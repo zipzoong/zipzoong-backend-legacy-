@@ -14,6 +14,11 @@ env:
   ACCOUNT_TOKEN_KEY: ${{ secrets.ACCOUNT_TOKEN_KEY }}
   ACCESS_TOKEN_KEY: ${{ secrets.ACCESS_TOKEN_KEY }}
   REFRESH_TOKEN_KEY: ${{ secrets.REFRESH_TOKEN_KEY }}
+  NAVER_SENS_SERVICE_ID: afdsafnaeiofnaeifnjsdfwsklfnkldsaanfalk
+  NAVER_SENS_ACCESS_KEY: dfadfaefesfescwecweace
+  NAVER_SENS_SECRET_KEY: caseccascescsae
+  NAVER_SENS_CALLER: 01033334444
+  NAVER_SENS_HOST: http://localhost:60000
 
 permissions:
   pull-requests: write

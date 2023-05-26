@@ -2575,6 +2575,206 @@
           }
         ]
       }
+    },
+    "/verification/phones": {
+      "post": {
+        "tags": [
+          "verification"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "phone verification create input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IPhoneVerification.ICreateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "verification expired date-time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPhoneVerification.ICreateResponse"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "phone verification create",
+        "description": "해당 API를 호출시, 전달된 휴대폰 번호로 문자를 전송합니다.",
+        "x-nestia-namespace": "verification.phones.create",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "phone verification create",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "verification",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "phone verification create input",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "verification expired date-time",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/verification/phones/verify": {
+      "post": {
+        "tags": [
+          "verification"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "phone verification verify input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mutable_lt_IPhoneVerification_gt_"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "200": {
+            "description": "phone_verification_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IPhoneVerification.IVerifyResponse"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "summary": "phone verification verify",
+        "description": "`POST /verification/phones`를 통해 생성된 인증 정보를 인증하는 API\n\n인증 정보 생성 5분 이내에 실행되어야 한다.",
+        "x-nestia-namespace": "verification.phones.verify.execute",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "phone verification verify",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "verification",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "body",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "phone verification verify input",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "phone_verification_id",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "401 Unauthorized",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throw",
+            "text": [
+              {
+                "text": "403 Forbidden",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -3085,13 +3285,13 @@
               "customer"
             ]
           },
-          "email_access_code": {
+          "email_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
-          "phone_access_code": {
+          "phone_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3107,8 +3307,8 @@
           "name",
           "acceptant_agreement_ids",
           "type",
-          "email_access_code",
-          "phone_access_code"
+          "email_verification_id",
+          "phone_verification_id"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3189,13 +3389,13 @@
               "real estate agent"
             ]
           },
-          "email_access_code": {
+          "email_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
-          "phone_access_code": {
+          "phone_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3214,8 +3414,8 @@
           "properties",
           "sub_expertise_ids",
           "type",
-          "email_access_code",
-          "phone_access_code"
+          "email_verification_id",
+          "phone_verification_id"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3589,13 +3789,13 @@
               "home service provider"
             ]
           },
-          "email_access_code": {
+          "email_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
           },
-          "phone_access_code": {
+          "phone_verification_id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3614,8 +3814,8 @@
           "business_registration_num",
           "example_image_urls",
           "type",
-          "email_access_code",
-          "phone_access_code"
+          "email_verification_id",
+          "phone_verification_id"
         ],
         "x-typia-jsDocTags": []
       },
@@ -5889,9 +6089,22 @@
         "type": "object",
         "properties": {
           "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string"
+            "type": "string",
+            "format": "^[0-9]+$"
           },
           "profile_image_url": {
             "x-typia-required": true,
@@ -6124,9 +6337,22 @@
         "type": "object",
         "properties": {
           "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string"
+            "type": "string",
+            "format": "^[0-9]+$"
           },
           "profile_image_url": {
             "x-typia-required": true,
@@ -6278,6 +6504,7 @@
           "created_at",
           "updated_at"
         ],
+        "description": "@format ^[0-9]+$",
         "x-typia-jsDocTags": []
       },
       "IREAgent.IPaginatedResponse": {
@@ -6405,10 +6632,22 @@
         "type": "object",
         "properties": {
           "phone": {
-            "description": "가입자 전화번호",
+            "description": "가입자 전화번호\n\n@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string"
+            "type": "string",
+            "format": "^[0-9]+$"
           },
           "profile_image_url": {
             "x-typia-required": true,
@@ -6603,10 +6842,22 @@
         "type": "object",
         "properties": {
           "phone": {
-            "description": "가입자 전화번호",
+            "description": "가입자 전화번호\n\n@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string"
+            "type": "string",
+            "format": "^[0-9]+$"
           },
           "profile_image_url": {
             "x-typia-required": true,
@@ -6891,6 +7142,133 @@
           "page"
         ],
         "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
+      },
+      "IPhoneVerification.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]+$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IPhoneVerification.ICreateResponse": {
+        "type": "object",
+        "properties": {
+          "expired_at": {
+            "description": "인증 요청 만료 일시\n\n@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "expired_at"
+        ],
+        "description": "인증 요청 만료 일시\n\n@format date-time",
+        "x-typia-jsDocTags": []
+      },
+      "Mutable_lt_IPhoneVerification_gt_": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]+$"
+          },
+          "code": {
+            "description": "@format ^[0-9]{6}$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]{6}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]{6}$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone",
+          "code"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IPhoneVerification.IVerifyResponse": {
+        "type": "object",
+        "properties": {
+          "phone_verification_id": {
+            "description": "휴대폰 인증 정보 식별자\n\n회원가입/회원정보 수정시 해당 정보를 전달하면 인증 정보에 저장된 휴대폰 번호가 사용자 정보에게 적용됩니다.\n",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone_verification_id"
+        ],
+        "description": "휴대폰 인증 정보 식별자\n\n회원가입/회원정보 수정시 해당 정보를 전달하면 인증 정보에 저장된 휴대폰 번호가 사용자 정보에게 적용됩니다.\n",
         "x-typia-jsDocTags": []
       }
     },

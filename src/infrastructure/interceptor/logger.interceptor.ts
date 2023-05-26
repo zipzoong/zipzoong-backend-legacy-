@@ -14,7 +14,10 @@ export class LoggerInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((err) => {
         if (!(err instanceof HttpException))
-          Logger.get().error(err, context.getHandler().name);
+          Logger.get().error(
+            err,
+            `${context.getClass().name}:${context.getHandler().name}`
+          );
         return throwError(() => err);
       })
     );

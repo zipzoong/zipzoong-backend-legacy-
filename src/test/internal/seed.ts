@@ -36,6 +36,21 @@ export const seed = async (connection: IConnection) => {
 
   await seedZipzoongCareRequests(connection);
 
+  const now = getISOString();
+  await prisma.phoneVerificationModel.create({
+    data: {
+      id: "test_verification_id",
+      phone: RandomGenerator.mobile(),
+      code: randomInt(1_00_000, 9_00_000).toString(),
+      is_verified: true,
+      request_id: "test request id",
+      created_at: now,
+      updated_at: now,
+      is_deleted: false,
+      deleted_at: null
+    }
+  });
+
   await prisma.$queryRaw`
     WITH updated_rows AS (
       INSERT INTO review_stats (reviewee_id, rating_sum, review_cnt)

@@ -11,3 +11,4 @@ export * as re_property_categories from "./re_property_categories";
 export * as reviews from "./reviews";
 export * as service_categories from "./service_categories";
 export * as users from "./users";
+export * as verification from "./verification";

@@ -16,8 +16,10 @@ export const extract_token = (input: RegExpMatchArray) =>
   input[0].split(/\s+/)[1];
 
 export const misMatchUserType =
-  (user_type: IUser.Type) =>
-  (payload: IToken.IAccessPayload<IUser.Type>): boolean => {
+  <T extends IUser.Type>(user_type: T) =>
+  (
+    payload: IToken.IAccessPayload<IUser.Type>
+  ): payload is IToken.IAccessPayload<Exclude<IUser.Type, T>> => {
     return payload.user_type !== user_type;
   };
 

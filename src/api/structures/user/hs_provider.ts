@@ -4,6 +4,9 @@ import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
 
 export interface IHSProvider extends IUser.IBase<"home service provider"> {
+  /**
+   * @format ^[0-9]+$
+   */
   readonly phone: string;
   readonly profile_image_url: string;
   readonly review_stats: IBusinessUser.IReviewStats;

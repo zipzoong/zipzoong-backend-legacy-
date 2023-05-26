@@ -97,7 +97,7 @@ export const test_not_exist_account =
 export const test_inactive_account =
   <T>(api: (connection: IConnection) => Promise<T>) =>
   async (connection: IConnection): Promise<void> => {
-    const code = "inactive_accessor";
+    const code = "inactive_account";
     const { account_token } = await auth.sign_up.execute(connection, {
       code,
       oauth_type: "kakao"

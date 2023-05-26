@@ -1,8 +1,8 @@
-import { IError, IOk } from "@TYPE";
+import { IError, IOk, IResult } from "@TYPE";
 
 export namespace Result {
   export namespace Ok {
-    export const is = <T, E>(input: IOk<T> | IError<E>): input is IOk<T> =>
+    export const is = <T, E>(input: IResult<T, E>): input is IOk<T> =>
       input.type === "ok";
 
     export const map = <T>(input: T): IOk<T> => ({ type: "ok", result: input });
@@ -11,7 +11,7 @@ export namespace Result {
   }
 
   export namespace Error {
-    export const is = <T, E>(input: IOk<T> | IError<E>): input is IError<E> =>
+    export const is = <T, E>(input: IResult<T, E>): input is IError<E> =>
       input.type === "error";
 
     export const map = <E>(input: E): IError<E> => ({

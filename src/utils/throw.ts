@@ -5,16 +5,18 @@ export const toThrow = (exception: unknown): never => {
 };
 
 interface throwIf {
-  <T, N>(predicate: (input: T | N) => input is N, exception: unknown): (
-    input: T | N
-  ) => T;
+  <T, N extends T>(predicate: (input: T) => input is N, exception: unknown): (
+    input: T
+  ) => Exclude<T, N>;
+  /**
   <T>(predicate: (input: T) => boolean, exception: unknown): (input: T) => T;
+  */
 }
 
 export const throwIf: throwIf =
-  (predicate: (input: unknown) => boolean, exception: unknown) =>
-  (input: unknown) =>
-    predicate(input) ? toThrow(exception) : input;
+  <T, N extends T>(predicate: (input: T) => input is N, exception: unknown) =>
+  (input: T) =>
+    predicate(input) ? toThrow(exception) : (input as Exclude<T, N>);
 
 export const throwIfNull =
   <T>(exception: unknown) =>

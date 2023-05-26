@@ -12,6 +12,7 @@ import BusinessUser from "@PROVIDER/user/business_user";
 import { Exception } from "./exception";
 import { IAuthentication } from "@DTO/authentication";
 import { Token } from "./token";
+import Verification from "@PROVIDER/verification";
 
 export namespace Service {
   export const signIn = ({
@@ -119,14 +120,6 @@ export namespace Service {
       })
     );
 
-  const getEmail = async (code: string): Promise<string> => {
-    return `${code}@test.com`;
-  };
-
-  const getPhone = async (code: string): Promise<string> => {
-    return code;
-  };
-
   export const createUser = async ({
     input,
     account_id
@@ -134,15 +127,13 @@ export namespace Service {
     input: IAuthentication.ICreateRequest;
     account_id: string;
   }): Promise<IAuthentication.IResponse> => {
-    const email = input.email_access_code
-      ? await getEmail(input.email_access_code)
-      : null;
-    const phone = input.phone_access_code
-      ? await getPhone(input.phone_access_code)
-      : null;
-
     const user_id = await prisma.$transaction(async (tx) => {
       const account = await Check.canCreateUser(input.type)({ account_id, tx });
+
+      const email = isNull(input.email_verification_id) ? account.email : null;
+      const phone = isNull(input.phone_verification_id)
+        ? account.phone
+        : await Verification.Phone.getOne(input.phone_verification_id);
 
       const connect = (
         input: Partial<

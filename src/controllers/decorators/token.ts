@@ -1,9 +1,9 @@
 import { IUser } from "@DTO/user/user";
-import { isUndefined, pipe } from "@fxts/core";
+import { pipe } from "@fxts/core";
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import Authentication from "@PROVIDER/authentication";
 import { IToken } from "@PROVIDER/authentication/interface";
-import { isNull, throwIf } from "@UTIL";
+import { isNull, isUndefined, throwIf } from "@UTIL";
 import {
   AuthorizationRequired,
   RequestUnauthorized,
@@ -22,15 +22,15 @@ export namespace Token {
     [
       extract_authorization_header,
 
-      throwIf<string, undefined>(isUndefined, AuthorizationRequired),
+      throwIf(isUndefined, AuthorizationRequired),
 
       validate_token_type(token_type),
 
-      throwIf<RegExpMatchArray, null>(isNull, RequestUnauthorized),
+      throwIf(isNull, RequestUnauthorized),
 
       extract_token,
 
-      throwIf<string, undefined>(isUndefined, RequestUnauthorized)
+      throwIf(isUndefined, RequestUnauthorized)
     ] as const;
 
   export const UserId = (user_type: IUser.Type) =>
