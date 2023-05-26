@@ -8,7 +8,7 @@ export const PhoneVerification = createModel(
       .mixin(Entity)
       .string("phone")
       .string("code")
-      .string("message_id")
+      .string("request_id")
       .boolean("is_verified")
       .map("phone_verifications");
   }

@@ -386,7 +386,7 @@ model PhoneVerificationModel {
   deleted_at  DateTime? @database.Timestamptz
   phone       String
   code        String
-  message_id  String
+  request_id  String
   is_verified Boolean
 
   @@map("phone_verifications")

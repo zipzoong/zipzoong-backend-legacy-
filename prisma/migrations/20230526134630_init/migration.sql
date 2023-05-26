@@ -332,7 +332,7 @@ CREATE TABLE "phone_verifications" (
     "deleted_at" TIMESTAMPTZ,
     "phone" TEXT NOT NULL,
     "code" TEXT NOT NULL,
-    "message_id" TEXT NOT NULL,
+    "request_id" TEXT NOT NULL,
     "is_verified" BOOLEAN NOT NULL,
 
     CONSTRAINT "phone_verifications_pkey" PRIMARY KEY ("id")

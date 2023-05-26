@@ -357,7 +357,7 @@ export type PhoneVerificationModel = {
   deleted_at: Date | null
   phone: string
   code: string
-  message_id: string
+  request_id: string
   is_verified: boolean
 }
 
@@ -24595,7 +24595,7 @@ export namespace Prisma {
     deleted_at: Date | null
     phone: string | null
     code: string | null
-    message_id: string | null
+    request_id: string | null
     is_verified: boolean | null
   }
 
@@ -24607,7 +24607,7 @@ export namespace Prisma {
     deleted_at: Date | null
     phone: string | null
     code: string | null
-    message_id: string | null
+    request_id: string | null
     is_verified: boolean | null
   }
 
@@ -24619,7 +24619,7 @@ export namespace Prisma {
     deleted_at: number
     phone: number
     code: number
-    message_id: number
+    request_id: number
     is_verified: number
     _all: number
   }
@@ -24633,7 +24633,7 @@ export namespace Prisma {
     deleted_at?: true
     phone?: true
     code?: true
-    message_id?: true
+    request_id?: true
     is_verified?: true
   }
 
@@ -24645,7 +24645,7 @@ export namespace Prisma {
     deleted_at?: true
     phone?: true
     code?: true
-    message_id?: true
+    request_id?: true
     is_verified?: true
   }
 
@@ -24657,7 +24657,7 @@ export namespace Prisma {
     deleted_at?: true
     phone?: true
     code?: true
-    message_id?: true
+    request_id?: true
     is_verified?: true
     _all?: true
   }
@@ -24743,7 +24743,7 @@ export namespace Prisma {
     deleted_at: Date | null
     phone: string
     code: string
-    message_id: string
+    request_id: string
     is_verified: boolean
     _count: PhoneVerificationModelCountAggregateOutputType | null
     _min: PhoneVerificationModelMinAggregateOutputType | null
@@ -24772,7 +24772,7 @@ export namespace Prisma {
     deleted_at?: boolean
     phone?: boolean
     code?: boolean
-    message_id?: boolean
+    request_id?: boolean
     is_verified?: boolean
   }
 
@@ -25617,7 +25617,7 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     phone: 'phone',
     code: 'code',
-    message_id: 'message_id',
+    request_id: 'request_id',
     is_verified: 'is_verified'
   };
 
@@ -27235,7 +27235,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     phone?: StringFilter | string
     code?: StringFilter | string
-    message_id?: StringFilter | string
+    request_id?: StringFilter | string
     is_verified?: BoolFilter | boolean
   }
 
@@ -27247,7 +27247,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     phone?: SortOrder
     code?: SortOrder
-    message_id?: SortOrder
+    request_id?: SortOrder
     is_verified?: SortOrder
   }
 
@@ -27263,7 +27263,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     phone?: SortOrder
     code?: SortOrder
-    message_id?: SortOrder
+    request_id?: SortOrder
     is_verified?: SortOrder
     _count?: PhoneVerificationModelCountOrderByAggregateInput
     _max?: PhoneVerificationModelMaxOrderByAggregateInput
@@ -27281,7 +27281,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     phone?: StringWithAggregatesFilter | string
     code?: StringWithAggregatesFilter | string
-    message_id?: StringWithAggregatesFilter | string
+    request_id?: StringWithAggregatesFilter | string
     is_verified?: BoolWithAggregatesFilter | boolean
   }
 
@@ -29055,7 +29055,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     phone: string
     code: string
-    message_id: string
+    request_id: string
     is_verified: boolean
   }
 
@@ -29067,7 +29067,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     phone: string
     code: string
-    message_id: string
+    request_id: string
     is_verified: boolean
   }
 
@@ -29079,7 +29079,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    message_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -29091,7 +29091,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    message_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -29103,7 +29103,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     phone: string
     code: string
-    message_id: string
+    request_id: string
     is_verified: boolean
   }
 
@@ -29115,7 +29115,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    message_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -29127,7 +29127,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    message_id?: StringFieldUpdateOperationsInput | string
+    request_id?: StringFieldUpdateOperationsInput | string
     is_verified?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -30368,7 +30368,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     phone?: SortOrder
     code?: SortOrder
-    message_id?: SortOrder
+    request_id?: SortOrder
     is_verified?: SortOrder
   }
 
@@ -30380,7 +30380,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     phone?: SortOrder
     code?: SortOrder
-    message_id?: SortOrder
+    request_id?: SortOrder
     is_verified?: SortOrder
   }
 
@@ -30392,7 +30392,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     phone?: SortOrder
     code?: SortOrder
-    message_id?: SortOrder
+    request_id?: SortOrder
     is_verified?: SortOrder
   }
 

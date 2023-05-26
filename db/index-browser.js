@@ -182,7 +182,7 @@ exports.Prisma.PhoneVerificationModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   phone: 'phone',
   code: 'code',
-  message_id: 'message_id',
+  request_id: 'request_id',
   is_verified: 'is_verified'
 };
 
