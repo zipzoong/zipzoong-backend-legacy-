@@ -1,7 +1,15 @@
-import { getISOString, isActive, isInActive, isNull, Result } from "@UTIL";
+import {
+  getISOString,
+  isActive,
+  isInActive,
+  isNull,
+  isUndefined,
+  Result,
+  throwIf
+} from "@UTIL";
 import { NaverSENS } from "@EXTERNAL/sms";
 import { randomInt, randomUUID } from "node:crypto";
-import { isUndefined } from "@fxts/core";
+import { pipe } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { IPhoneVerification } from "@DTO/verification/phone";
 import { Exception } from "./Exception";
@@ -12,50 +20,42 @@ export namespace Phone {
   /**
    * @throw 401 {@link Exception.PhoneVerificationFail}
    */
-  export const create = async ({
-    phone
-  }: IPhoneVerification.ICreateRequest): Promise<IPhoneVerification.ICreateResponse> => {
+  export const create = (
+    input: IPhoneVerification.ICreateRequest
+  ): Promise<IPhoneVerification.ICreateResponse> => {
+    const phone = input.phone;
     const code = randomInt(1_00_000, 9_00_000).toString();
+    return pipe(
+      NaverSENS.sendMessage({
+        contentType: "COMM",
+        content: `[집중 서비스] 인증번호 [${code}]를 입력해주세요.`,
+        messages: [{ to: phone }]
+      }),
 
-    const sendMessage = await NaverSENS.sendMessage({
-      contentType: "COMM",
-      content: "",
-      messages: [
-        {
-          to: phone,
-          content: `[집중 서비스] 인증번호 [${code}]를 입력해주세요.`
-        }
-      ]
-    });
+      throwIf(Result.Error.is, Exception.PhoneVerificationFail),
 
-    if (Result.Error.is(sendMessage)) throw Exception.PhoneVerificationFail;
+      Result.Ok.flatten,
 
-    const request_id = Result.Ok.flatten(sendMessage).send_request_id;
-
-    const request = await NaverSENS.getSendMessageRequest(request_id);
-
-    if (Result.Error.is(request)) throw Exception.PhoneVerificationFail;
-
-    const message = Result.Ok.flatten(request)[0];
-
-    if (isUndefined(message)) throw Exception.PhoneVerificationFail;
-
-    const _now = Date.now();
-    const now = getISOString(new Date(_now));
-    await prisma.phoneVerificationModel.create({
-      data: {
-        id: randomUUID(),
-        phone,
-        code,
-        message_id: message.messageId,
-        is_verified: false,
-        created_at: now,
-        updated_at: now,
-        is_deleted: false,
-        deleted_at: null
-      }
-    });
-    return { expired_at: getISOString(new Date(_now + duration)) };
+      async ({ send_request_id }) => {
+        const _now = Date.now();
+        const now = getISOString(new Date(_now));
+        await prisma.phoneVerificationModel.create({
+          data: {
+            id: randomUUID(),
+            phone,
+            code,
+            request_id: send_request_id,
+            is_verified: false,
+            created_at: now,
+            updated_at: now,
+            is_deleted: false,
+            deleted_at: null
+          }
+        });
+        return _now;
+      },
+      (time) => ({ expired_at: getISOString(new Date(time + duration)) })
+    );
   };
 
   /**

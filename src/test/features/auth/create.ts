@@ -25,12 +25,9 @@ const test_success = async (
   body: IAuthentication.ICreateRequest
 ): Promise<void> => {
   const { account_token } = await getTokens(connection);
+  const phone_verification_id = "test_verification_id";
 
-  if (
-    body.type === "home service provider" ||
-    body.type === "real estate agent"
-  )
-    body.phone_access_code = "test";
+  body.phone_verification_id = phone_verification_id;
 
   await sdk.auth.user.create(
     internal.addAuthorizationHeader(connection)("account", account_token),
@@ -111,6 +108,8 @@ export const test_account_token_invalid = internal.test_invalid_account_token(
 export const test_user_already_exist = async (connection: IConnection) => {
   const { account_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
+  create.phone_verification_id = null;
+  create.email_verification_id = null;
 
   const _connection = internal.addAuthorizationHeader(connection)(
     "account",
@@ -145,6 +144,7 @@ export const test_acceptant_agreements_insufficient = async (
   const { account_token } = await getTokens(connection);
   const create = typia.random<ICustomer.ICreateRequest>();
   create.acceptant_agreement_ids = [];
+  create.phone_verification_id = null;
 
   await internal.test_error(() =>
     sdk.auth.user.create(
@@ -164,7 +164,7 @@ export const test_super_expertise_invalid = async (connection: IConnection) => {
     target_type: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(pick("id"));
-  create.phone_access_code = "test_phone";
+  create.phone_verification_id = "test_verification_id";
 
   const super_expertise_list = await sdk.service_categories.super.getList(
     connection,
@@ -191,7 +191,7 @@ export const test_sub_expertises_invalid = async (connection: IConnection) => {
     target_type: ["all", "business", "RE"]
   });
   create.acceptant_agreement_ids = list.map(pick("id"));
-  create.phone_access_code = "phone";
+  create.phone_verification_id = "test_verification_id";
 
   const valid_super_list = await sdk.service_categories.super.getList(
     connection,
@@ -236,7 +236,7 @@ export const test_phone_required = async (connection: IConnection) => {
     target_type: ["all", "business", "HS"]
   });
   create.acceptant_agreement_ids = list.map(pick("id"));
-  create.phone_access_code = null;
+  create.phone_verification_id = null;
 
   const super_expertise_list = await sdk.service_categories.super.getList(
     connection,

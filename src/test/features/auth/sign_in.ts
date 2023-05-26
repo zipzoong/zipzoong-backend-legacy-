@@ -29,6 +29,9 @@ export const test_success = async (connection: IConnection) => {
     })
   ).map(pick("id"));
 
+  input.phone_verification_id = null;
+  input.email_verification_id = null;
+
   await auth.user.create(_connection, input);
 
   const received = await auth.sign_in.execute(_connection, {

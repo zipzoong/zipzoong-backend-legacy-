@@ -127,8 +127,7 @@ export namespace NaverSENS {
         return Result.Error.map("GetSendMessageRequestOutput Invalid" as const);
 
       return Result.Ok.map(response.messages);
-    } catch (err) {
-      console.log(err);
+    } catch {
       return Result.Error.map("GetSendMessageRequest Fail" as const);
     }
   };

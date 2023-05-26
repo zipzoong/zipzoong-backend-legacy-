@@ -6,6 +6,7 @@ import { createWriteStream } from "fs";
 import path from "path";
 import stripAnsi from "strip-ansi";
 import { internal } from "./internal";
+import { sens } from "./mocks/sens/sens.application";
 
 const logger = createWriteStream(path.join(__dirname, "./../../test_log.md"), {
   flags: "w"
@@ -82,6 +83,8 @@ async function run(): Promise<void> {
     host: `http://localhost:${Configuration.PORT}`
   };
 
+  const sens_app = await sens(); // naver sens mocking server
+
   await internal.seed(connection);
 
   internal.mock();
@@ -99,6 +102,8 @@ async function run(): Promise<void> {
   await internal.truncate();
 
   await Backend.end(app);
+
+  await sens_app.close();
 
   process.exit(state);
 }

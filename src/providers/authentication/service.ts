@@ -127,13 +127,13 @@ export namespace Service {
     input: IAuthentication.ICreateRequest;
     account_id: string;
   }): Promise<IAuthentication.IResponse> => {
-    const email = null;
-    const phone = isNull(input.phone_verification_id)
-      ? null
-      : await Verification.Phone.getOne(input.phone_verification_id);
-
     const user_id = await prisma.$transaction(async (tx) => {
       const account = await Check.canCreateUser(input.type)({ account_id, tx });
+
+      const email = isNull(input.email_verification_id) ? account.email : null;
+      const phone = isNull(input.phone_verification_id)
+        ? account.phone
+        : await Verification.Phone.getOne(input.phone_verification_id);
 
       const connect = (
         input: Partial<
