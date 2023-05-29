@@ -11,6 +11,7 @@ export namespace Json {
       id: randomUUID(),
       name: input.name,
       main_image_url: input.main_image_url,
+      is_visible: true,
       re_agent: { connect: { id: input.re_agent_id } },
       categories: {
         createMany: {
@@ -48,6 +49,7 @@ export namespace Json {
             name: data.name,
             main_image_url: data.main_image_url,
             re_agent_id: data.re_agent.connect.id,
+            is_visible: data.is_visible,
             created_at: data.created_at,
             updated_at: data.updated_at,
             is_deleted: data.is_deleted,
@@ -91,6 +93,40 @@ export namespace Json {
     };
   };
 
+  export const findSummarySelect = () =>
+    ({
+      id: true,
+      name: true,
+      main_image_url: true,
+      created_at: true,
+      updated_at: true,
+      is_visible: true,
+      categories: {
+        select: {
+          is_deleted: true,
+          deleted_at: true,
+          sub_category: {
+            select: {
+              id: true,
+              name: true,
+              middle_category: {
+                select: {
+                  id: true,
+                  name: true,
+                  super_category: {
+                    select: {
+                      id: true,
+                      name: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } satisfies Prisma.REPropertyModelSelect);
+
   export const findSelect = () =>
     ({
       id: true,
@@ -99,6 +135,7 @@ export namespace Json {
       created_at: true,
       updated_at: true,
       is_deleted: true,
+      is_visible: true,
       deleted_at: true,
       re_agent: {
         select: {

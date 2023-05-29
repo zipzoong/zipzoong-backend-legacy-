@@ -146,7 +146,8 @@ exports.Prisma.HSExampleImageModelScalarFieldEnum = {
   is_deleted: 'is_deleted',
   deleted_at: 'deleted_at',
   hs_provider_id: 'hs_provider_id',
-  url: 'url'
+  url: 'url',
+  is_visible: 'is_visible'
 };
 
 exports.Prisma.HSProviderModelScalarFieldEnum = {
@@ -228,7 +229,8 @@ exports.Prisma.REPropertyModelScalarFieldEnum = {
   deleted_at: 'deleted_at',
   name: 'name',
   main_image_url: 'main_image_url',
-  re_agent_id: 're_agent_id'
+  re_agent_id: 're_agent_id',
+  is_visible: 'is_visible'
 };
 
 exports.Prisma.REPropertySubCategoryModelScalarFieldEnum = {

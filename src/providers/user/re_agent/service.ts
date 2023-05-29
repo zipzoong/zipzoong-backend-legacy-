@@ -70,6 +70,51 @@ export namespace Service {
       mapper: Map.entity
     });
 
+  export namespace Property {
+    export const getList = ({
+      user_id,
+      search: {
+        page = 1,
+        sub_category_id,
+        middle_category_id,
+        super_category_id
+      }
+    }: {
+      user_id: string;
+      search: IREAgent.IProperty.ISearch;
+    }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
+      pipe(
+        getOne({ user_id }),
+
+        async (agent) =>
+          prisma.rEPropertyModel.findMany({
+            where: {
+              re_agent_id: agent.id,
+              is_deleted: false,
+              is_visible: true,
+              categories: {
+                some: {
+                  id: sub_category_id,
+                  sub_category: {
+                    middle_category_id,
+                    middle_category: { super_category_id }
+                  }
+                }
+              }
+            },
+            select: Json.findPropertySelect(),
+            take: 30,
+            skip: 30 * (page - 1)
+          }),
+
+        map(Map.property),
+
+        toArray,
+
+        (data) => ({ page, data })
+      );
+  }
+
   export namespace Me {
     /** @throw Forbidden */
     export const get = ({
@@ -140,49 +185,5 @@ export namespace Service {
           (data) => ({ page, data })
         );
     }
-  }
-
-  export namespace Property {
-    export const getList = ({
-      user_id,
-      search: {
-        page = 1,
-        sub_category_id,
-        middle_category_id,
-        super_category_id
-      }
-    }: {
-      user_id: string;
-      search: IREAgent.IProperty.ISearch;
-    }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
-      pipe(
-        getOne({ user_id }),
-
-        async (agent) =>
-          prisma.rEPropertyModel.findMany({
-            where: {
-              re_agent_id: agent.id,
-              is_deleted: false,
-              categories: {
-                some: {
-                  id: sub_category_id,
-                  sub_category: {
-                    middle_category_id,
-                    middle_category: { super_category_id }
-                  }
-                }
-              }
-            },
-            select: Json.findPropertySelect(),
-            take: 30,
-            skip: 30 * (page - 1)
-          }),
-
-        map(Map.property),
-
-        toArray,
-
-        (data) => ({ page, data })
-      );
   }
 }

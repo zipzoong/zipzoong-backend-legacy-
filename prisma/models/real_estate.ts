@@ -8,6 +8,7 @@ export const REProperty = createModel("REPropertyModel", (model) => {
     .string("name")
     .string("main_image_url")
     .string("re_agent_id")
+    .boolean("is_visible")
     .relation("re_agent", REAgent, {
       fields: ["re_agent_id"],
       references: ["id"],

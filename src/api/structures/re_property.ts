@@ -7,18 +7,41 @@ import { IREAgent } from "@DTO/user/re_agent";
 import { Mutable, Omit } from "@TYPE";
 import { IREPropertyCategory } from "./category/re_property";
 
-export interface IREProperty extends IDateTime {
-  readonly id: string;
-  readonly name: string;
-  readonly main_image_url: string;
-  readonly re_agent: IREProperty.IAgent;
-  readonly sub_categories: IREProperty.ISubCategory[];
-}
+export type IREProperty =
+  | IREProperty.ISummary
+  | IREProperty.IPublic
+  | IREProperty.IPrivate;
 
 export namespace IREProperty {
+  export type Mode = "summary" | "public" | "private";
+
+  export interface IBase<M extends Mode> extends IDateTime {
+    readonly id: string;
+    readonly mode: M;
+    readonly name: string;
+    readonly main_image_url: string;
+    readonly re_agent: IREProperty.IAgent;
+    readonly sub_categories: IREProperty.ISubCategory[];
+  }
+
+  // 아직 자체적으로 쓸데는 없고 다른 DTO에서 필요할 때, 사용하려고 만듬
+  export type ISummary = Omit<IBase<"summary">, "re_agent">;
+
+  export interface IPublic extends IBase<"public"> {}
+
+  export interface IPrivate extends IBase<"private"> {
+    /** 게시 상태 */
+    readonly is_visible: boolean;
+  }
+
   export type IAgent = Pick<
-    IREAgent,
-    "id" | "name" | "profile_image_url" | "expertise"
+    IREAgent.ISummary,
+    | "id"
+    | "name"
+    | "profile_image_url"
+    | "introduction"
+    | "is_licensed"
+    | "expertise"
   >;
 
   export interface ISuperCategory extends IREPropertyCategory.IBase<"super"> {}
@@ -38,7 +61,15 @@ export namespace IREProperty {
   }
 
   export interface ICreate
-    extends Pick<Mutable<IREProperty>, "main_image_url" | "name"> {
+    extends Omit<
+      Mutable<IPrivate>,
+      | "id"
+      | "mode"
+      | "created_at"
+      | "updated_at"
+      | "re_agent"
+      | "sub_categories"
+    > {
     re_agent_id: string;
     sub_category_ids: string[];
   }
@@ -53,5 +84,5 @@ export namespace IREProperty {
     data: ICreateRequest[];
   }
 
-  export type IPaginatedResponse = IPaginated<IREProperty>;
+  export type IPaginatedResponse = IPaginated<IREProperty.IPublic>;
 }

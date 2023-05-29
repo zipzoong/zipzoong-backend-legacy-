@@ -131,6 +131,7 @@ export const HSExampleImage = createModel("HSExampleImageModel", (model) => {
     .mixin(Entity)
     .string("hs_provider_id")
     .string("url")
+    .boolean("is_visible")
     .relation("hs_provider", HSProvider, {
       fields: ["hs_provider_id"],
       references: ["id"],

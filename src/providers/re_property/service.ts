@@ -22,6 +22,7 @@ export namespace Service {
         prisma.rEPropertyModel.findMany({
           where: {
             is_deleted: false,
+            is_visible: true,
             re_agent: {
               base: { is_verified: true, base: { is_deleted: false } }
             },

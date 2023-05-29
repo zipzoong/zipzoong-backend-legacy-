@@ -80,10 +80,12 @@ export namespace Json {
       }
     } satisfies Prisma.ZipzoongCareRequestModelSelect);
 
+  /**
   export const findInclude = () =>
     ({
       requester: { include: { base: true } },
       service_checks: { include: { service_super_category: true } },
       consultation_time_checks: true
     } satisfies Prisma.ZipzoongCareRequestModelInclude);
+    */
 }

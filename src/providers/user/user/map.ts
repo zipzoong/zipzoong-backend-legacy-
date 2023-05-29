@@ -1,6 +1,6 @@
 import { IUser } from "@DTO/user/user";
 import { prisma } from "@INFRA/DB";
-import { isActive } from "@UTIL";
+import { isActive, pick } from "@UTIL";
 
 export namespace Map {
   export const accepatantAgreements = (
@@ -20,14 +20,13 @@ export namespace Map {
   ): IUser.IAcceptantAgreement[] =>
     input
       .filter(isActive)
-      .filter(({ agreement }) => isActive(agreement))
-      .map(
-        ({ agreement: { id, title, content, target_type, is_required } }) => ({
-          id,
-          title,
-          content,
-          target_type,
-          is_required
-        })
-      );
+      .map(pick("agreement"))
+      .filter(isActive)
+      .map(({ id, title, content, target_type, is_required }) => ({
+        id,
+        title,
+        content,
+        target_type,
+        is_required
+      }));
 }
