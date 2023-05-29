@@ -1,10 +1,11 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
-import { identity, map, pipe, toArray } from "@fxts/core";
+import { filter, identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
 import Authentication from "@PROVIDER/authentication";
-import { toThrow } from "@UTIL";
+import REProperty from "@PROVIDER/re_property";
+import { isInActive, Result, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";
@@ -37,7 +38,11 @@ export namespace Service {
           skip: (page - 1) * take
         }),
 
-      map(Map.summaryEntity),
+      map(Map.entitySummary),
+
+      filter(Result.Ok.is),
+
+      map(Result.Ok.flatten),
 
       toArray,
 
@@ -50,24 +55,24 @@ export namespace Service {
   }: {
     user_id: string;
     tx?: Prisma.TransactionClient;
-  }): Promise<IREAgent> =>
+  }): Promise<IREAgent.IPublic> =>
     User.Service.getOne({
       user_id,
 
       findFirst: async (id) =>
         tx.rEAgentModel.findFirst({
           where: { id },
-          select: Json.findSelect()
+          select: Json.findPublicSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
 
       validator: (agent) =>
-        !agent.base.is_verified || agent.base.base.is_deleted
+        !agent.base.is_verified || isInActive(agent.base.base)
           ? toThrow(User.Exception.NotFound)
           : agent,
 
-      mapper: Map.entity
+      mapper: Map.entityPublic
     });
 
   export namespace Property {
@@ -82,7 +87,7 @@ export namespace Service {
     }: {
       user_id: string;
       search: IREAgent.IProperty.ISearch;
-    }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
+    }): Promise<IREAgent.IProperty.IPaginatedPublicResponse> =>
       pipe(
         getOne({ user_id }),
 
@@ -102,12 +107,12 @@ export namespace Service {
                 }
               }
             },
-            select: Json.findPropertySelect(),
+            select: REProperty.Json.findSummarySelect(),
             take: 30,
             skip: 30 * (page - 1)
           }),
 
-        map(Map.property),
+        map(Map.propertyPublic),
 
         toArray,
 
@@ -137,7 +142,7 @@ export namespace Service {
 
         validator: identity,
 
-        mapper: Map.privateEntity
+        mapper: Map.entityPrivate
       });
 
     export namespace Property {
@@ -152,7 +157,7 @@ export namespace Service {
       }: {
         user_id: string;
         search: IREAgent.IProperty.ISearch;
-      }): Promise<IREAgent.IProperty.IPaginatedResponse> =>
+      }): Promise<IREAgent.IProperty.IPaginatedPrivateResponse> =>
         pipe(
           get({ user_id }),
 
@@ -173,12 +178,12 @@ export namespace Service {
                   }
                 }
               },
-              select: Json.findPropertySelect(),
+              select: REProperty.Json.findSummarySelect(),
               take: 30,
               skip: 30 * (page - 1)
             }),
 
-          map(Map.property),
+          map(Map.propertyPrivate),
 
           toArray,
 

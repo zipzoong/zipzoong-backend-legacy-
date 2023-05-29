@@ -63,7 +63,7 @@ export namespace IAuthentication {
      * @format date
      */
     readonly birth: string | null;
-    readonly gender: ICustomer["gender"];
+    readonly gender: ICustomer.IPrivate["gender"];
     readonly address: IAddress | null;
   }
 

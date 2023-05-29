@@ -1,6 +1,7 @@
 import { IREProperty } from "@DTO/re_property";
 import { flatMap, map, pipe, toArray } from "@fxts/core";
 import { Prisma } from "@PRISMA";
+import REAgent from "@PROVIDER/user/re_agent";
 import { getISOString } from "@UTIL";
 import { randomUUID } from "crypto";
 
@@ -93,6 +94,30 @@ export namespace Json {
     };
   };
 
+  export const findCategorySelect = () =>
+    ({
+      is_deleted: true,
+      deleted_at: true,
+      sub_category: {
+        select: {
+          id: true,
+          name: true,
+          middle_category: {
+            select: {
+              id: true,
+              name: true,
+              super_category: {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      }
+    } satisfies Prisma.REPropertyCategoryModelSelect);
+
   export const findSummarySelect = () =>
     ({
       id: true,
@@ -101,33 +126,10 @@ export namespace Json {
       created_at: true,
       updated_at: true,
       is_visible: true,
-      categories: {
-        select: {
-          is_deleted: true,
-          deleted_at: true,
-          sub_category: {
-            select: {
-              id: true,
-              name: true,
-              middle_category: {
-                select: {
-                  id: true,
-                  name: true,
-                  super_category: {
-                    select: {
-                      id: true,
-                      name: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      categories: { select: findCategorySelect() }
     } satisfies Prisma.REPropertyModelSelect);
 
-  export const findSelect = () =>
+  export const findPublicSelect = () =>
     ({
       id: true,
       name: true,
@@ -135,54 +137,30 @@ export namespace Json {
       created_at: true,
       updated_at: true,
       is_deleted: true,
-      is_visible: true,
       deleted_at: true,
       re_agent: {
-        select: {
-          id: true,
-          base: {
-            select: {
-              profile_image_url: true,
-              sub_expertises: {
-                select: {
-                  is_deleted: true,
-                  sub_category: {
-                    select: { id: true, name: true, super_category: true }
-                  }
-                }
-              },
-              base: {
-                select: {
-                  name: true
-                }
-              }
-            }
-          }
-        }
+        select: REAgent.Json.findSummarySelect()
       },
       categories: {
-        select: {
-          is_deleted: true,
-          deleted_at: true,
-          sub_category: {
-            select: {
-              id: true,
-              name: true,
-              middle_category: {
-                select: {
-                  id: true,
-                  name: true,
-                  super_category: {
-                    select: {
-                      id: true,
-                      name: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+        select: findCategorySelect()
       }
+    } satisfies Prisma.REPropertyModelSelect);
+
+  export const findPrivateSelect = () =>
+    ({
+      id: true,
+      name: true,
+      main_image_url: true,
+      created_at: true,
+      updated_at: true,
+      is_deleted: true,
+      deleted_at: true,
+      re_agent: {
+        select: REAgent.Json.findSummarySelect()
+      },
+      categories: {
+        select: findCategorySelect()
+      },
+      is_visible: true
     } satisfies Prisma.REPropertyModelSelect);
 }

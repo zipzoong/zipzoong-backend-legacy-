@@ -1,5 +1,6 @@
+import { Result } from "@UTIL";
 import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
-import { map, pipe, toArray } from "@fxts/core";
+import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
 import Customer from "@PROVIDER/user/customer";
@@ -54,6 +55,10 @@ export namespace Service {
         }),
 
       map(Map.entity),
+
+      filter(Result.Ok.is),
+
+      map(Result.Ok.flatten),
 
       toArray,
 

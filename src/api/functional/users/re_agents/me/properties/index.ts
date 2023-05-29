@@ -42,7 +42,7 @@ export function getList
 export namespace getList
 {
     export type Query = IREAgent.IProperty.ISearch;
-    export type Output = IREAgent.IProperty.IPaginatedResponse;
+    export type Output = IREAgent.IProperty.IPaginatedPrivateResponse;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents/me/properties";

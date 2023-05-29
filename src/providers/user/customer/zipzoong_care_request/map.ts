@@ -1,6 +1,13 @@
+import { IResult } from "@TYPE";
 import { prisma } from "@INFRA/DB";
 import { Json } from "./json";
-import { getDateString, getISOString, getTimeString, isActive } from "@UTIL";
+import {
+  getDateString,
+  getISOString,
+  getTimeString,
+  isActive,
+  Result
+} from "@UTIL";
 import typia from "typia";
 import { IZipzoongCareRequest } from "@DTO/zipzoong_care_request";
 
@@ -15,8 +22,8 @@ export namespace Map {
         >
       >
     >
-  ): IZipzoongCareRequest => {
-    const request = {
+  ): IResult<IZipzoongCareRequest, null> => {
+    const request: IZipzoongCareRequest = {
       id: input.id,
       status: input.status,
       detail: input.detail,
@@ -37,9 +44,8 @@ export namespace Map {
         }))
     };
 
-    if (!typia.equals<IZipzoongCareRequest>(request))
-      throw Error("ZZCare Request have invalid data");
-
-    return request;
+    return typia.equals<IZipzoongCareRequest>(request)
+      ? Result.Ok.map(request)
+      : Result.Error.map(null);
   };
 }

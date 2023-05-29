@@ -45,7 +45,7 @@ export class REAgentsController {
    * @throw 404 Not Found
    */
   @TypedRoute.Get(":agent_id")
-  getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent> {
+  getOne(@TypedParam("agent_id") agent_id: string): Promise<IREAgent.IPublic> {
     return REAgent.Service.getOne({ user_id: agent_id });
   }
 }
@@ -67,7 +67,7 @@ export class REAgentsMyPropertiesController {
   getList(
     @TypedQuery() query: IREAgent.IProperty.ISearch,
     @Token.UserId("real estate agent") user_id: string
-  ): Promise<IREAgent.IProperty.IPaginatedResponse> {
+  ): Promise<IREAgent.IProperty.IPaginatedPrivateResponse> {
     return REAgent.Service.Me.Property.getList({ user_id, search: query });
   }
 }
@@ -89,7 +89,7 @@ export class REAgentsPropertiesController {
   getList(
     @TypedParam("agent_id") agent_id: string,
     @TypedQuery() query: IREAgent.IProperty.ISearch
-  ): Promise<IREAgent.IProperty.IPaginatedResponse> {
+  ): Promise<IREAgent.IProperty.IPaginatedPublicResponse> {
     return REAgent.Service.Property.getList({
       user_id: agent_id,
       search: query

@@ -1,6 +1,6 @@
-import { IPaginatedResponse } from "@DTO/common";
+import { Result } from "@UTIL";
 import { IREProperty } from "@DTO/re_property";
-import { map, pipe, toArray } from "@fxts/core";
+import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import Authentication from "@PROVIDER/authentication";
 import REAgent from "@PROVIDER/user/re_agent";
@@ -14,7 +14,7 @@ export namespace Service {
     sub_category_id,
     middle_category_id,
     super_category_id
-  }: IREProperty.ISearch): Promise<IPaginatedResponse<IREProperty>> =>
+  }: IREProperty.ISearch): Promise<IREProperty.IPaginatedResponse> =>
     pipe(
       30,
 
@@ -37,12 +37,16 @@ export namespace Service {
               }
             }
           },
-          select: Json.findSelect(),
+          select: Json.findPublicSelect(),
           take,
           skip: (page - 1) * take
         }),
 
-      map(Map.entity),
+      map(Map.entityPublic),
+
+      filter(Result.Ok.is),
+
+      map(Result.Ok.flatten),
 
       toArray,
 

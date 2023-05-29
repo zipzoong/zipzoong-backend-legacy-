@@ -94,7 +94,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = IHSProvider;
+    export type Output = IHSProvider.IPublic;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/hs-providers/:provider_id";

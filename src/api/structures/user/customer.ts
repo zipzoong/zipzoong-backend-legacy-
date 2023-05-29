@@ -20,7 +20,7 @@ export namespace ICustomer {
     /**
      * @format ^[0-9]+$
      */
-    readonly phone: string;
+    readonly phone: string | null;
     readonly address: IAddress | null;
   }
 

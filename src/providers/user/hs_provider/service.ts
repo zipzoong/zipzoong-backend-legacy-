@@ -1,10 +1,10 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
-import { identity, map, pipe, toArray } from "@fxts/core";
+import { filter, identity, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
 import Authentication from "@PROVIDER/authentication";
-import { toThrow } from "@UTIL";
+import { isInActive, Result, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";
@@ -34,7 +34,11 @@ export namespace Service {
           skip: (page - 1) * take
         }),
 
-      map(Map.summaryEntity),
+      map(Map.entitySummary),
+
+      filter(Result.Ok.is),
+
+      map(Result.Ok.flatten),
 
       toArray,
 
@@ -47,24 +51,24 @@ export namespace Service {
   }: {
     user_id: string;
     tx?: Prisma.TransactionClient;
-  }): Promise<IHSProvider> =>
+  }): Promise<IHSProvider.IPublic> =>
     User.Service.getOne({
       user_id,
 
       findFirst: async (id) =>
         tx.hSProviderModel.findFirst({
           where: { id },
-          select: Json.findSelect()
+          select: Json.findPublicSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
 
       validator: (provider) =>
-        !provider.base.is_verified || provider.base.base.is_deleted
+        !provider.base.is_verified || isInActive(provider.base.base)
           ? toThrow(User.Exception.NotFound)
           : provider,
 
-      mapper: Map.entity
+      mapper: Map.entityPublic
     });
 
   export namespace Me {
@@ -88,7 +92,7 @@ export namespace Service {
 
         validator: identity,
 
-        mapper: Map.privateEntity
+        mapper: Map.entityPrivate
       });
   }
 }

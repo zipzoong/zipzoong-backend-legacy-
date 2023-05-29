@@ -682,7 +682,8 @@ const seedREAgents = async (connection: IConnection) => {
         ...createEntity(),
         name: RandomGenerator.name(3),
         main_image_url: "",
-        re_agent_id
+        re_agent_id,
+        is_visible: true
       }));
 
       const sub_categories = await prisma.rEPropertySubCategoryModel.findMany();
