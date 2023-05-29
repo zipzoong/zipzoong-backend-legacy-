@@ -1,6 +1,5 @@
 import { Mutable, Omit } from "@TYPE";
 import { IDateTime, IPage, IPaginatedResponse as IPaginated } from "./common";
-import { ICustomer } from "./user/customer";
 
 export interface IZipzoongCareRequest extends IDateTime {
   readonly id: string;
@@ -22,8 +21,6 @@ export namespace IZipzoongCareRequest {
     /** @minItems 1 */
     status: Status[];
   }
-
-  export type IRequester = Pick<ICustomer, "id" | "name" | "phone">;
 
   export interface ICheckedService {
     readonly id: string;

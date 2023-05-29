@@ -1,16 +1,14 @@
 import { IAgreement } from "@DTO/agreement";
 import { IDateTime } from "@DTO/common";
 import { Omit } from "@TYPE";
+import { IBusinessUser } from "./business_user";
 import { ICustomer } from "./customer";
-import { IHSProvider } from "./hs_provider";
-import { IREAgent } from "./re_agent";
-
-export type IUser = ICustomer | IREAgent | IHSProvider;
 
 export namespace IUser {
   export type Type = "customer" | "real estate agent" | "home service provider";
+  export type Mode = "summary" | "public" | "private";
 
-  export interface IBase<T extends Type> extends IDateTime {
+  export interface IBase<T extends Type, M extends Mode> extends IDateTime {
     /**
      * 사용자 분류
      *
@@ -19,6 +17,7 @@ export namespace IUser {
      * - home service provider 생활서비스 제공자
      */
     readonly type: T;
+    readonly mode: M;
     readonly id: string;
     readonly name: string;
     /** @format email */
@@ -34,6 +33,8 @@ export namespace IUser {
     /** 동의한 약관 목록 */
     readonly acceptant_agreements: IAcceptantAgreement[];
   }
+
+  export type ICreate = ICustomer.ICreate | IBusinessUser.ICreate;
 
   export interface ICreateRequest<T extends Type> {
     type: T;

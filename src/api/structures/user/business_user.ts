@@ -1,4 +1,6 @@
-import { IPage } from "@DTO/common";
+import { IDateTime, IPage } from "@DTO/common";
+import { IHSProvider } from "./hs_provider";
+import { IREAgent } from "./re_agent";
 import { IUser } from "./user";
 
 export namespace IBusinessUser {
@@ -25,7 +27,7 @@ export namespace IBusinessUser {
     readonly content: string;
   }
 
-  export interface ICertificationImage {
+  export interface ICertificationImage extends IDateTime {
     readonly id: string;
     readonly url: string;
   }
@@ -41,6 +43,8 @@ export namespace IBusinessUser {
     super_category_id?: string;
     sub_category_id?: string;
   }
+
+  export type ICreate = IREAgent.ICreate | IHSProvider.ICreate;
 
   export type ICreateRequest<T extends Type> = IUser.ICreateRequest<T>;
 }

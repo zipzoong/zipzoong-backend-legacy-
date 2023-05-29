@@ -25,6 +25,7 @@ export type REPropertyModel = {
   name: string
   main_image_url: string
   re_agent_id: string
+  is_visible: boolean
 }
 
 /**
@@ -319,6 +320,7 @@ export type HSExampleImageModel = {
   deleted_at: Date | null
   hs_provider_id: string
   url: string
+  is_visible: boolean
 }
 
 /**
@@ -2021,6 +2023,7 @@ export namespace Prisma {
     name: string | null
     main_image_url: string | null
     re_agent_id: string | null
+    is_visible: boolean | null
   }
 
   export type REPropertyModelMaxAggregateOutputType = {
@@ -2032,6 +2035,7 @@ export namespace Prisma {
     name: string | null
     main_image_url: string | null
     re_agent_id: string | null
+    is_visible: boolean | null
   }
 
   export type REPropertyModelCountAggregateOutputType = {
@@ -2043,6 +2047,7 @@ export namespace Prisma {
     name: number
     main_image_url: number
     re_agent_id: number
+    is_visible: number
     _all: number
   }
 
@@ -2056,6 +2061,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     re_agent_id?: true
+    is_visible?: true
   }
 
   export type REPropertyModelMaxAggregateInputType = {
@@ -2067,6 +2073,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     re_agent_id?: true
+    is_visible?: true
   }
 
   export type REPropertyModelCountAggregateInputType = {
@@ -2078,6 +2085,7 @@ export namespace Prisma {
     name?: true
     main_image_url?: true
     re_agent_id?: true
+    is_visible?: true
     _all?: true
   }
 
@@ -2163,6 +2171,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     re_agent_id: string
+    is_visible: boolean
     _count: REPropertyModelCountAggregateOutputType | null
     _min: REPropertyModelMinAggregateOutputType | null
     _max: REPropertyModelMaxAggregateOutputType | null
@@ -2191,6 +2200,7 @@ export namespace Prisma {
     name?: boolean
     main_image_url?: boolean
     re_agent_id?: boolean
+    is_visible?: boolean
     re_agent?: boolean | REAgentModelArgs
     categories?: boolean | REPropertyModel$categoriesArgs
     _count?: boolean | REPropertyModelCountOutputTypeArgs
@@ -22615,6 +22625,7 @@ export namespace Prisma {
     deleted_at: Date | null
     hs_provider_id: string | null
     url: string | null
+    is_visible: boolean | null
   }
 
   export type HSExampleImageModelMaxAggregateOutputType = {
@@ -22625,6 +22636,7 @@ export namespace Prisma {
     deleted_at: Date | null
     hs_provider_id: string | null
     url: string | null
+    is_visible: boolean | null
   }
 
   export type HSExampleImageModelCountAggregateOutputType = {
@@ -22635,6 +22647,7 @@ export namespace Prisma {
     deleted_at: number
     hs_provider_id: number
     url: number
+    is_visible: number
     _all: number
   }
 
@@ -22647,6 +22660,7 @@ export namespace Prisma {
     deleted_at?: true
     hs_provider_id?: true
     url?: true
+    is_visible?: true
   }
 
   export type HSExampleImageModelMaxAggregateInputType = {
@@ -22657,6 +22671,7 @@ export namespace Prisma {
     deleted_at?: true
     hs_provider_id?: true
     url?: true
+    is_visible?: true
   }
 
   export type HSExampleImageModelCountAggregateInputType = {
@@ -22667,6 +22682,7 @@ export namespace Prisma {
     deleted_at?: true
     hs_provider_id?: true
     url?: true
+    is_visible?: true
     _all?: true
   }
 
@@ -22751,6 +22767,7 @@ export namespace Prisma {
     deleted_at: Date | null
     hs_provider_id: string
     url: string
+    is_visible: boolean
     _count: HSExampleImageModelCountAggregateOutputType | null
     _min: HSExampleImageModelMinAggregateOutputType | null
     _max: HSExampleImageModelMaxAggregateOutputType | null
@@ -22778,6 +22795,7 @@ export namespace Prisma {
     deleted_at?: boolean
     hs_provider_id?: boolean
     url?: boolean
+    is_visible?: boolean
     hs_provider?: boolean | HSProviderModelArgs
   }
 
@@ -25572,7 +25590,8 @@ export namespace Prisma {
     is_deleted: 'is_deleted',
     deleted_at: 'deleted_at',
     hs_provider_id: 'hs_provider_id',
-    url: 'url'
+    url: 'url',
+    is_visible: 'is_visible'
   };
 
   export type HSExampleImageModelScalarFieldEnum = (typeof HSExampleImageModelScalarFieldEnum)[keyof typeof HSExampleImageModelScalarFieldEnum]
@@ -25678,7 +25697,8 @@ export namespace Prisma {
     deleted_at: 'deleted_at',
     name: 'name',
     main_image_url: 'main_image_url',
-    re_agent_id: 're_agent_id'
+    re_agent_id: 're_agent_id',
+    is_visible: 'is_visible'
   };
 
   export type REPropertyModelScalarFieldEnum = (typeof REPropertyModelScalarFieldEnum)[keyof typeof REPropertyModelScalarFieldEnum]
@@ -25865,6 +25885,7 @@ export namespace Prisma {
     name?: StringFilter | string
     main_image_url?: StringFilter | string
     re_agent_id?: StringFilter | string
+    is_visible?: BoolFilter | boolean
     re_agent?: XOR<REAgentModelRelationFilter, REAgentModelWhereInput>
     categories?: REPropertyCategoryModelListRelationFilter
   }
@@ -25878,6 +25899,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
+    is_visible?: SortOrder
     re_agent?: REAgentModelOrderByWithRelationInput
     categories?: REPropertyCategoryModelOrderByRelationAggregateInput
   }
@@ -25895,6 +25917,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
+    is_visible?: SortOrder
     _count?: REPropertyModelCountOrderByAggregateInput
     _max?: REPropertyModelMaxOrderByAggregateInput
     _min?: REPropertyModelMinOrderByAggregateInput
@@ -25912,6 +25935,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter | string
     main_image_url?: StringWithAggregatesFilter | string
     re_agent_id?: StringWithAggregatesFilter | string
+    is_visible?: BoolWithAggregatesFilter | boolean
   }
 
   export type REPropertyCategoryModelWhereInput = {
@@ -27083,6 +27107,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     hs_provider_id?: StringFilter | string
     url?: StringFilter | string
+    is_visible?: BoolFilter | boolean
     hs_provider?: XOR<HSProviderModelRelationFilter, HSProviderModelWhereInput>
   }
 
@@ -27094,6 +27119,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
+    is_visible?: SortOrder
     hs_provider?: HSProviderModelOrderByWithRelationInput
   }
 
@@ -27109,6 +27135,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
+    is_visible?: SortOrder
     _count?: HSExampleImageModelCountOrderByAggregateInput
     _max?: HSExampleImageModelMaxOrderByAggregateInput
     _min?: HSExampleImageModelMinOrderByAggregateInput
@@ -27125,6 +27152,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     hs_provider_id?: StringWithAggregatesFilter | string
     url?: StringWithAggregatesFilter | string
+    is_visible?: BoolWithAggregatesFilter | boolean
   }
 
   export type OauthAccountModelWhereInput = {
@@ -27293,6 +27321,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    is_visible: boolean
     re_agent: REAgentModelCreateNestedOneWithoutPropertiesInput
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
@@ -27306,6 +27335,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     re_agent_id: string
+    is_visible: boolean
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
@@ -27317,6 +27347,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     re_agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
@@ -27330,6 +27361,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     re_agent_id?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     categories?: REPropertyCategoryModelUncheckedUpdateManyWithoutRe_propertyNestedInput
   }
 
@@ -27342,6 +27374,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     re_agent_id: string
+    is_visible: boolean
   }
 
   export type REPropertyModelUpdateManyMutationInput = {
@@ -27352,6 +27385,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type REPropertyModelUncheckedUpdateManyInput = {
@@ -27363,6 +27397,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     re_agent_id?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type REPropertyCategoryModelCreateInput = {
@@ -28847,6 +28882,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     url: string
+    is_visible: boolean
     hs_provider: HSProviderModelCreateNestedOneWithoutExample_imagesInput
   }
 
@@ -28858,6 +28894,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     hs_provider_id: string
     url: string
+    is_visible: boolean
   }
 
   export type HSExampleImageModelUpdateInput = {
@@ -28867,6 +28904,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     hs_provider?: HSProviderModelUpdateOneRequiredWithoutExample_imagesNestedInput
   }
 
@@ -28878,6 +28916,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hs_provider_id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type HSExampleImageModelCreateManyInput = {
@@ -28888,6 +28927,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     hs_provider_id: string
     url: string
+    is_visible: boolean
   }
 
   export type HSExampleImageModelUpdateManyMutationInput = {
@@ -28897,6 +28937,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type HSExampleImageModelUncheckedUpdateManyInput = {
@@ -28907,6 +28948,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hs_provider_id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type OauthAccountModelCreateInput = {
@@ -29197,6 +29239,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type REPropertyModelMaxOrderByAggregateInput = {
@@ -29208,6 +29251,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type REPropertyModelMinOrderByAggregateInput = {
@@ -29219,6 +29263,7 @@ export namespace Prisma {
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -30261,6 +30306,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type HSExampleImageModelMaxOrderByAggregateInput = {
@@ -30271,6 +30317,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type HSExampleImageModelMinOrderByAggregateInput = {
@@ -30281,6 +30328,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
+    is_visible?: SortOrder
   }
 
   export type EnumOauthTypeFilter = {
@@ -32203,6 +32251,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    is_visible: boolean
     re_agent: REAgentModelCreateNestedOneWithoutPropertiesInput
   }
 
@@ -32215,6 +32264,7 @@ export namespace Prisma {
     name: string
     main_image_url: string
     re_agent_id: string
+    is_visible: boolean
   }
 
   export type REPropertyModelCreateOrConnectWithoutCategoriesInput = {
@@ -32260,6 +32310,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     re_agent?: REAgentModelUpdateOneRequiredWithoutPropertiesNestedInput
   }
 
@@ -32272,6 +32323,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
     re_agent_id?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type REPropertySubCategoryModelUpsertWithoutProperty_categoriesInput = {
@@ -34537,6 +34589,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    is_visible: boolean
     categories?: REPropertyCategoryModelCreateNestedManyWithoutRe_propertyInput
   }
 
@@ -34548,6 +34601,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    is_visible: boolean
     categories?: REPropertyCategoryModelUncheckedCreateNestedManyWithoutRe_propertyInput
   }
 
@@ -34628,6 +34682,7 @@ export namespace Prisma {
     name?: StringFilter | string
     main_image_url?: StringFilter | string
     re_agent_id?: StringFilter | string
+    is_visible?: BoolFilter | boolean
   }
 
   export type BusinessUserModelCreateWithoutHs_providerInput = {
@@ -34676,6 +34731,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     url: string
+    is_visible: boolean
   }
 
   export type HSExampleImageModelUncheckedCreateWithoutHs_providerInput = {
@@ -34685,6 +34741,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     url: string
+    is_visible: boolean
   }
 
   export type HSExampleImageModelCreateOrConnectWithoutHs_providerInput = {
@@ -34763,6 +34820,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     hs_provider_id?: StringFilter | string
     url?: StringFilter | string
+    is_visible?: BoolFilter | boolean
   }
 
   export type BusinessUserModelCreateWithoutCertification_imagesInput = {
@@ -35757,6 +35815,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     name: string
     main_image_url: string
+    is_visible: boolean
   }
 
   export type REPropertyModelUpdateWithoutRe_agentInput = {
@@ -35767,6 +35826,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     categories?: REPropertyCategoryModelUpdateManyWithoutRe_propertyNestedInput
   }
 
@@ -35778,6 +35838,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
     categories?: REPropertyCategoryModelUncheckedUpdateManyWithoutRe_propertyNestedInput
   }
 
@@ -35789,6 +35850,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     name?: StringFieldUpdateOperationsInput | string
     main_image_url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type HSExampleImageModelCreateManyHs_providerInput = {
@@ -35798,6 +35860,7 @@ export namespace Prisma {
     is_deleted: boolean
     deleted_at?: Date | string | null
     url: string
+    is_visible: boolean
   }
 
   export type HSExampleImageModelUpdateWithoutHs_providerInput = {
@@ -35807,6 +35870,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type HSExampleImageModelUncheckedUpdateWithoutHs_providerInput = {
@@ -35816,6 +35880,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type HSExampleImageModelUncheckedUpdateManyWithoutExample_imagesInput = {
@@ -35825,6 +35890,7 @@ export namespace Prisma {
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     url?: StringFieldUpdateOperationsInput | string
+    is_visible?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

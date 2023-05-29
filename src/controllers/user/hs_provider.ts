@@ -45,7 +45,9 @@ export class HSProvidersController {
    * @throw 404 Not Found
    */
   @TypedRoute.Get(":provider_id")
-  getOne(@TypedParam("provider_id") provider_id: string): Promise<IHSProvider> {
+  getOne(
+    @TypedParam("provider_id") provider_id: string
+  ): Promise<IHSProvider.IPublic> {
     return HSProvider.Service.getOne({ user_id: provider_id });
   }
 }

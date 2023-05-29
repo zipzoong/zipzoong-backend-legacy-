@@ -145,23 +145,13 @@ export namespace Check {
     T extends ICustomer.IPrivate | IREAgent.IPrivate | IHSProvider.IPrivate
   >(
     user: T
-  ): T =>
-    pipe(
-      user,
-
-      tap((u) => {
-        if (u.type === "customer" && isNull(u.phone))
-          throw Exception.UserUnverified;
-      }),
-
-      tap((u) => {
-        if (u.type === "home service provider" && !u.is_verified)
-          throw Exception.UserUnverified;
-      }),
-
-      tap((u) => {
-        if (u.type === "real estate agent" && !u.is_verified)
-          throw Exception.UserUnverified;
-      })
-    );
+  ): T => {
+    if (user.type === "customer" && isNull(user.phone))
+      throw Exception.UserUnverified;
+    if (user.type === "home service provider" && !user.is_verified)
+      throw Exception.UserUnverified;
+    if (user.type === "real estate agent" && !user.is_verified)
+      throw Exception.UserUnverified;
+    return user;
+  };
 }

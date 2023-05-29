@@ -23,6 +23,7 @@ CREATE TABLE "re_properties" (
     "name" TEXT NOT NULL,
     "main_image_url" TEXT NOT NULL,
     "re_agent_id" TEXT NOT NULL,
+    "is_visible" BOOLEAN NOT NULL,
 
     CONSTRAINT "re_properties_pkey" PRIMARY KEY ("id")
 );
@@ -296,6 +297,7 @@ CREATE TABLE "hs_example_images" (
     "deleted_at" TIMESTAMPTZ,
     "hs_provider_id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
+    "is_visible" BOOLEAN NOT NULL,
 
     CONSTRAINT "hs_example_images_pkey" PRIMARY KEY ("id")
 );

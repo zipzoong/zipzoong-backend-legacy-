@@ -15,14 +15,14 @@ export namespace Service {
   }: {
     user_id: string;
     tx?: Prisma.TransactionClient;
-  }): Promise<ICustomer> =>
+  }): Promise<ICustomer.IPublic> =>
     User.Service.getOne({
       user_id,
 
       findFirst: async (id) =>
         tx.customerModel.findFirst({
           where: { id },
-          select: Json.findSelect()
+          select: Json.findPublicSelect()
         }),
 
       exception_for_notfound: User.Exception.NotFound,
@@ -32,7 +32,7 @@ export namespace Service {
           ? toThrow(User.Exception.NotFound)
           : user,
 
-      mapper: Map.entity
+      mapper: Map.entityPublic
     });
 
   export namespace Me {
@@ -56,7 +56,7 @@ export namespace Service {
 
         validator: identity,
 
-        mapper: Map.privateEntity
+        mapper: Map.entityPrivate
       });
   }
 }

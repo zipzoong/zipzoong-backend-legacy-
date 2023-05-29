@@ -95,7 +95,7 @@ export function getOne
 }
 export namespace getOne
 {
-    export type Output = IREAgent;
+    export type Output = IREAgent.IPublic;
 
     export const METHOD = "GET" as const;
     export const PATH: string = "/users/re-agents/:agent_id";
