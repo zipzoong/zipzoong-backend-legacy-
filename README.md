@@ -13,12 +13,6 @@
 
 집중 백엔드 프로젝트
 
-## API 문서
-
-- [정식 버전](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/main/packages/api/swagger.json)
-
-- [개발 버전](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/develop/packages/api/swagger.json)
-
 ## 깃 컨벤션
 
 1. 기본적으로 [유다시티 커밋 컨벤션](https://udacity.github.io/git-styleguide/)을 따른다.
