@@ -15,7 +15,9 @@
 
 ## API 문서
 
-- [View in the `Swagger Editor`](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/main/packages/api/swagger.json)
+- [정식 버전](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/main/packages/api/swagger.json)
+
+- [개발 버전](https://editor.swagger.io/?url=https://raw.githubusercontent.com/zipzoong/zipzoong-backend/develop/packages/api/swagger.json)
 
 ## 깃 컨벤션
 
