@@ -1,6 +1,7 @@
 import { Kakao, isError } from "@devts/authjs";
 import { IAuthentication } from "@DTO/authentication";
 import { Configuration } from "@INFRA/config";
+import { inspect } from "node:util";
 import typia from "typia";
 import { Exception } from "./exception";
 
@@ -25,21 +26,12 @@ export const Oauth: Record<
 
     if (isError(response)) throw Exception.AuthenticationFail;
 
-    const me_response = await Kakao.getMe({
-      secure_resource: true,
-      property_keys: [
-        "kakao_account.birthday",
-        "kakao_account.email",
-        "kakao_account.gender",
-        "kakao_account.name",
-        "kakao_account.profile"
-      ]
-    })(response.result.access_token);
+    const me_response = await Kakao.getMe(response.result.access_token);
 
     if (isError(me_response)) throw Exception.AuthenticationFail;
 
     const me = me_response.result;
-
+    console.log(inspect(me, { depth: null }));
     const oauth_sub = me.id + "";
 
     const birthyear = me.kakao_account?.birthyear;
@@ -51,11 +43,17 @@ export const Oauth: Record<
         me.kakao_account.is_email_verified &&
         me.kakao_account?.email) ||
       null;
-    const phone = me.kakao_account?.phone_number ?? null;
+    const phone =
+      (me.kakao_account?.phone_number &&
+        me.kakao_account.phone_number.startsWith("+82 ") &&
+        me.kakao_account.phone_number
+          .replace("+82 ", "0")
+          .replaceAll("-", "")) ||
+      null;
     const birth =
       (birthyear &&
         birthday &&
-        `${birthday}-${birthday.slice(0, 2)}-${birthday.slice(2, 4)}`) ??
+        `${birthyear}-${birthday.slice(0, 2)}-${birthday.slice(2, 4)}`) ??
       null;
     const gender = me.kakao_account?.gender ?? null;
     const profile_image_url =
@@ -84,6 +82,7 @@ export const Oauth: Record<
         : null,
       address: null
     };
+    console.log("profile", inspect(profile, { depth: null }));
     return { oauth_sub, profile };
   }
 };
