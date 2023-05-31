@@ -33,7 +33,6 @@ export namespace Map {
         title: input.base.introduction_title,
         content: input.base.introduction_content
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises)
     };
     return typia.equals<IREAgent.ISummary>(agent)
@@ -64,7 +63,6 @@ export namespace Map {
         title: input.base.introduction_title,
         content: input.base.introduction_content
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises),
       email: input.base.base.email,
       phone: input.base.phone,
@@ -108,7 +106,6 @@ export namespace Map {
         title: input.base.introduction_title,
         content: input.base.introduction_content
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises),
       email: input.base.base.email,
       phone: input.base.phone,

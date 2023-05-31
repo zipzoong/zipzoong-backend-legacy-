@@ -17,7 +17,6 @@ export namespace IREAgent {
      */
     readonly phone: string;
     readonly profile_image_url: string;
-    readonly review_stats: IBusinessUser.IReviewStats;
     readonly introduction: IBusinessUser.IIntroduction;
     readonly expertise: IBusinessUser.IExpertise;
     /**
@@ -91,7 +90,6 @@ export namespace IREAgent {
       | "created_at"
       | "updated_at"
       | "expertise"
-      | "review_stats"
       | "properties"
       | "is_verified"
       | "acceptant_agreements"

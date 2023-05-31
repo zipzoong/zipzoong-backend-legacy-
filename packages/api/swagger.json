@@ -1102,186 +1102,6 @@
         ]
       }
     },
-    "/reviews": {
-      "get": {
-        "tags": [
-          "reviews"
-        ],
-        "parameters": [
-          {
-            "name": "query",
-            "in": "query",
-            "description": "리뷰어 혹은 리뷰 대상자를 조건으로 지정 가능",
-            "schema": {
-              "$ref": "#/components/schemas/IReview.ISearch"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "리뷰 목록",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IReview.IPaginatedResponse"
-                }
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "summary": "리뷰 목록 검색",
-        "description": "사업자를 기준으로 리뷰를 검색하거나 리뷰어를 기준으로 검색할 수 있습니다.",
-        "x-nestia-namespace": "reviews.getList",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "summary",
-            "text": [
-              {
-                "text": "리뷰 목록 검색",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "reviews",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "param",
-            "text": [
-              {
-                "text": "query",
-                "kind": "parameterName"
-              },
-              {
-                "text": " ",
-                "kind": "space"
-              },
-              {
-                "text": "리뷰어 혹은 리뷰 대상자를 조건으로 지정 가능",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "returns",
-            "text": [
-              {
-                "text": "리뷰 목록",
-                "kind": "text"
-              }
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "reviews"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "리뷰 내용과 평점 리스트를 포함",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IReview.ICreateRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-nestia-encrypted": false
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "x-nestia-encrypted": false
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "summary": "리뷰 등록",
-        "description": "",
-        "x-nestia-namespace": "reviews.create",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "summary",
-            "text": [
-              {
-                "text": "리뷰 등록",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "reviews",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "param",
-            "text": [
-              {
-                "text": "body",
-                "kind": "parameterName"
-              },
-              {
-                "text": " ",
-                "kind": "space"
-              },
-              {
-                "text": "리뷰 내용과 평점 리스트를 포함",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "throw",
-            "text": [
-              {
-                "text": "401 Unauthorized",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "throw",
-            "text": [
-              {
-                "text": "403 Forbidden",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "throw",
-            "text": [
-              {
-                "text": "404 Not Found",
-                "kind": "text"
-              }
-            ]
-          }
-        ]
-      }
-    },
     "/service-categories/super": {
       "get": {
         "tags": [
@@ -4394,418 +4214,6 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IReview.ISearch": {
-        "type": "object",
-        "properties": {
-          "reviewer_id": {
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "string"
-          },
-          "reviewee_id": {
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "string"
-          },
-          "page": {
-            "description": "@default 1\n@type uint\n@minimum 1",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "uint"
-              },
-              {
-                "kind": "minimum",
-                "value": 1
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "uint",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "integer",
-            "minimum": 1,
-            "default": 1
-          }
-        },
-        "nullable": false,
-        "x-typia-jsDocTags": []
-      },
-      "IReview.IPaginatedResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IReview",
-              "x-typia-required": true,
-              "x-typia-optional": false
-            }
-          },
-          "page": {
-            "description": "@type uint\n@minimum 1",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "uint"
-              },
-              {
-                "kind": "minimum",
-                "value": 1
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "uint",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "integer",
-            "minimum": 1
-          }
-        },
-        "nullable": false,
-        "required": [
-          "data",
-          "page"
-        ],
-        "description": "@type uint\n@minimum 1",
-        "x-typia-jsDocTags": []
-      },
-      "IReview": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "reviewer": {
-            "$ref": "#/components/schemas/IReview.IReviewer",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "reviewee": {
-            "$ref": "#/components/schemas/IReview.IReviewee",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
-          "content": {
-            "description": "@maxLength 500",
-            "x-typia-metaTags": [
-              {
-                "kind": "maxLength",
-                "value": 500
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "maxLength",
-                "text": [
-                  {
-                    "text": "500",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "maxLength": 500
-          },
-          "rating": {
-            "description": "@type int\n@minimum 0\n@maximum 10",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "int"
-              },
-              {
-                "kind": "minimum",
-                "value": 0
-              },
-              {
-                "kind": "maximum",
-                "value": 10
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "int",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "0",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "maximum",
-                "text": [
-                  {
-                    "text": "10",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 10
-          },
-          "created_at": {
-            "description": "@format date-time",
-            "x-typia-metaTags": [
-              {
-                "kind": "format",
-                "value": "datetime"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "date-time",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "description": "@format date-time",
-            "x-typia-metaTags": [
-              {
-                "kind": "format",
-                "value": "datetime"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "format",
-                "text": [
-                  {
-                    "text": "date-time",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "reviewer",
-          "reviewee",
-          "content",
-          "rating",
-          "created_at",
-          "updated_at"
-        ],
-        "description": "@type int\n@minimum 0\n@maximum 10",
-        "x-typia-jsDocTags": []
-      },
-      "IReview.IReviewer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IReview.IReviewee": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IReview.ICreateRequest": {
-        "type": "object",
-        "properties": {
-          "rating": {
-            "description": "@type int\n@minimum 0\n@maximum 10",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "int"
-              },
-              {
-                "kind": "minimum",
-                "value": 0
-              },
-              {
-                "kind": "maximum",
-                "value": 10
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "int",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "0",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "maximum",
-                "text": [
-                  {
-                    "text": "10",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 10
-          },
-          "content": {
-            "description": "@maxLength 500",
-            "x-typia-metaTags": [
-              {
-                "kind": "maxLength",
-                "value": 500
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "maxLength",
-                "text": [
-                  {
-                    "text": "500",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "maxLength": 500
-          },
-          "reviewee_id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "rating",
-          "content",
-          "reviewee_id"
-        ],
-        "x-typia-jsDocTags": []
-      },
       "IServiceCategory.ISearch": {
         "type": "object",
         "properties": {
@@ -5158,12 +4566,12 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "content": {
+          "title": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
-          "title": {
+          "content": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -5189,8 +4597,8 @@
         "nullable": false,
         "required": [
           "id",
-          "content",
           "title",
+          "content",
           "target_type",
           "is_required"
         ],
@@ -6059,11 +5467,6 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true,
@@ -6081,29 +5484,7 @@
           "address",
           "name",
           "expertise",
-          "review_stats",
           "introduction"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.IReviewStats": {
-        "type": "object",
-        "properties": {
-          "review_cnt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "rating_avg": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "review_cnt",
-          "rating_avg"
         ],
         "x-typia-jsDocTags": []
       },
@@ -6142,11 +5523,6 @@
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
-          },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
@@ -6304,7 +5680,6 @@
           "example_images",
           "phone",
           "profile_image_url",
-          "review_stats",
           "introduction",
           "expertise",
           "address",
@@ -6508,11 +5883,6 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true,
@@ -6639,7 +6009,6 @@
           "example_images",
           "phone",
           "profile_image_url",
-          "review_stats",
           "introduction",
           "expertise",
           "address",
@@ -6872,11 +6241,6 @@
             "x-typia-required": true,
             "x-typia-optional": false
           },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true,
@@ -6899,7 +6263,6 @@
           "profile_image_url",
           "name",
           "expertise",
-          "review_stats",
           "introduction",
           "is_licensed"
         ],
@@ -6940,11 +6303,6 @@
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
-          },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
           },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
@@ -7104,7 +6462,6 @@
           "properties",
           "phone",
           "profile_image_url",
-          "review_stats",
           "introduction",
           "expertise",
           "is_licensed",
@@ -7252,11 +6609,6 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "review_stats": {
-            "$ref": "#/components/schemas/IBusinessUser.IReviewStats",
-            "x-typia-required": true,
-            "x-typia-optional": false
-          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction",
             "x-typia-required": true,
@@ -7385,7 +6737,6 @@
           "properties",
           "phone",
           "profile_image_url",
-          "review_stats",
           "introduction",
           "expertise",
           "is_licensed",

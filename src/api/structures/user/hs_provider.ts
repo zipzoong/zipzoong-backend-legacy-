@@ -21,7 +21,6 @@ export namespace IHSProvider {
      */
     readonly phone: string;
     readonly profile_image_url: string;
-    readonly review_stats: IBusinessUser.IReviewStats;
     readonly introduction: IBusinessUser.IIntroduction;
     readonly expertise: IBusinessUser.IExpertise;
     readonly example_images: IHSProvider.IExampleImage[];
@@ -69,7 +68,6 @@ export namespace IHSProvider {
       | "created_at"
       | "updated_at"
       | "expertise"
-      | "review_stats"
       | "example_images"
       | "is_verified"
       | "acceptant_agreements"

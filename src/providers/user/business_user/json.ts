@@ -16,7 +16,6 @@ export namespace Json {
       introduction_content: true,
       address_first: true,
       address_second: true,
-      review_stats: true,
       sub_expertises: {
         select: findExpertiseSelect()
       },
@@ -34,7 +33,6 @@ export namespace Json {
       introduction_content: true,
       address_first: true,
       address_second: true,
-      review_stats: true,
       sub_expertises: {
         select: findExpertiseSelect()
       },
@@ -53,7 +51,6 @@ export namespace Json {
       introduction_content: true,
       address_first: true,
       address_second: true,
-      review_stats: true,
       sub_expertises: {
         select: findExpertiseSelect()
       },

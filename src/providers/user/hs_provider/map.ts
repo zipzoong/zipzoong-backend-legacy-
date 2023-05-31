@@ -35,7 +35,6 @@ export namespace Map {
         first: input.base.address_first,
         second: input.base.address_second
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises)
     };
     return typia.equals<IHSProvider.ISummary>(provider)
@@ -69,7 +68,6 @@ export namespace Map {
         first: input.base.address_first,
         second: input.base.address_second
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises),
       email: input.base.base.email,
       phone: input.base.phone,
@@ -114,7 +112,6 @@ export namespace Map {
         first: input.base.address_first,
         second: input.base.address_second
       },
-      review_stats: BusinessUser.Map.reviewStats(input.base),
       expertise: BusinessUser.Map.expertise(input.base.sub_expertises),
       email: input.base.base.email,
       phone: input.base.phone,

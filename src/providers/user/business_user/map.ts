@@ -1,7 +1,7 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { prisma } from "@INFRA/DB";
-import { BusinessCertificationImageModel, ReviewStatsModel } from "@PRISMA";
-import { getISOString, isActive, isNull, pick, toFixed } from "@UTIL";
+import { BusinessCertificationImageModel } from "@PRISMA";
+import { getISOString, isActive, pick } from "@UTIL";
 import { Json } from "./json";
 
 export namespace Map {
@@ -40,22 +40,4 @@ export namespace Map {
       created_at: getISOString(created_at),
       updated_at: getISOString(updated_at)
     }));
-
-  export const reviewStats = ({
-    review_stats
-  }: {
-    review_stats: ReviewStatsModel | null;
-  }): IBusinessUser.IReviewStats =>
-    isNull(review_stats)
-      ? {
-          review_cnt: 0,
-          rating_avg: 0
-        }
-      : {
-          review_cnt: review_stats.review_cnt.toNumber(),
-          rating_avg: toFixed(3)(
-            review_stats.rating_sum.toNumber() /
-              review_stats.review_cnt.toNumber()
-          )
-        };
 }

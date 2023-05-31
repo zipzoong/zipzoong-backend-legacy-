@@ -6,11 +6,6 @@ import { IUser } from "./user";
 export namespace IBusinessUser {
   export type Type = Exclude<IUser.Type, "customer">;
 
-  export interface IReviewStats {
-    readonly review_cnt: number;
-    readonly rating_avg: number;
-  }
-
   export interface IExpertise {
     readonly super_category_id: string;
     readonly super_category_name: string;
