@@ -4,6 +4,7 @@ import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import { users } from "@SDK";
 import { internal } from "@TEST/internal";
+import assert from "assert";
 import { randomUUID } from "crypto";
 import typia from "typia";
 
@@ -21,6 +22,20 @@ export const test_success = async (connection: IConnection) => {
   const received = await users.hs_providers.getOne(connection, user_id);
 
   typia.assertEquals(received);
+
+  await prisma.hSExampleImageModel.updateMany({
+    where: { hs_provider_id: user_id },
+    data: { is_visible: false }
+  });
+
+  const received2 = await users.hs_providers.getOne(connection, user_id);
+
+  assert.strictEqual(received2.example_images.length, 0);
+
+  await prisma.hSExampleImageModel.updateMany({
+    where: { hs_provider_id: user_id },
+    data: { is_visible: true }
+  });
 };
 
 export const test_not_found_if_unverified = async (connection: IConnection) => {

@@ -620,6 +620,10 @@ const seedHSProviders = async (connection: IConnection) => {
         3
       ).map(pick("id"));
 
+      input.example_image_urls = new Array(10)
+        .fill(1)
+        .map(() => RandomGenerator.alphabets(10));
+
       const data = HSProvider.Json.createData(input);
       data.base.create.is_verified = true;
 

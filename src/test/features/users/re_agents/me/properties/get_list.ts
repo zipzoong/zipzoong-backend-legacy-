@@ -31,6 +31,23 @@ export const test_success = async (connection: IConnection) => {
 
   typia.assertEquals(received);
   assert.notStrictEqual(received.data.length, 0);
+
+  await prisma.rEPropertyModel.updateMany({
+    where: { re_agent_id: user_id },
+    data: { is_visible: false }
+  });
+
+  const received2 = await users.re_agents.me.properties.getList(
+    internal.addAuthorizationHeader(connection)("access", access_token),
+    {}
+  );
+
+  assert.strictEqual(received.data.length, received2.data.length);
+
+  await prisma.rEPropertyModel.updateMany({
+    where: { re_agent_id: user_id },
+    data: { is_visible: true }
+  });
 };
 
 export const test_authorization_fail = internal.test_authorization_fail((cnt) =>

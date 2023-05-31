@@ -4,6 +4,7 @@ import { IConnection } from "@nestia/fetcher";
 import Authentication from "@PROVIDER/authentication";
 import { users } from "@SDK";
 import { internal } from "@TEST/internal";
+import assert from "assert";
 import typia from "typia";
 
 console.log("\n- users.hs_providers.me.get");
@@ -25,6 +26,25 @@ export const test_success = async (connection: IConnection) => {
   );
 
   typia.assertEquals(received);
+
+  await prisma.hSExampleImageModel.updateMany({
+    where: { hs_provider_id: user_id },
+    data: { is_visible: false }
+  });
+
+  const received2 = await users.hs_providers.me.get(
+    internal.addAuthorizationHeader(connection)("access", access_token)
+  );
+
+  assert.strictEqual(
+    received.example_images.length,
+    received2.example_images.length
+  );
+
+  await prisma.hSExampleImageModel.updateMany({
+    where: { hs_provider_id: user_id },
+    data: { is_visible: true }
+  });
 };
 
 export const test_authorization_fail = internal.test_authorization_fail(

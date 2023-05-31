@@ -28,6 +28,24 @@ export const test_success = async (connection: IConnection) => {
 
   typia.assertEquals(received);
   assert.notStrictEqual(received.data.length, 0);
+
+  await prisma.rEPropertyModel.updateMany({
+    where: { re_agent_id: user_id },
+    data: { is_visible: false }
+  });
+
+  const empty_list = await users.re_agents.properties.getList(
+    connection,
+    user_id,
+    {}
+  );
+
+  assert.strictEqual(empty_list.data.length, 0);
+
+  await prisma.rEPropertyModel.updateMany({
+    where: { re_agent_id: user_id },
+    data: { is_visible: true }
+  });
 };
 
 export const test_user_not_found = internal.test_error(
