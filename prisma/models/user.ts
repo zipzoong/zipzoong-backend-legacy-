@@ -3,7 +3,6 @@ import { createModel } from "schemix";
 import { RelationalFieldOptions } from "schemix/dist/typings/prisma-type-options";
 import { GenderType } from "../enums";
 import { REProperty } from "./real_estate";
-import { Review, ReviewStats } from "./review";
 import { OauthAccount } from "./account";
 import { AgreementAcceptance } from "./agreement";
 import { ZipzoongCareRequest } from "./zipzoong_care";
@@ -38,7 +37,6 @@ export const Customer = createModel("CustomerModel", (model) => {
     .string("profile_image_url", { optional: true })
     .relation("base", User, one_to_one)
     .relation("oauth_accounts", OauthAccount, { list: true })
-    .relation("reviews", Review, { list: true })
     .relation("zipzoong_care_requests", ZipzoongCareRequest, { list: true })
     .map("customers");
 });
@@ -61,8 +59,6 @@ export const BusinessUser = createModel("BusinessUserModel", (model) => {
     })
     .relation("sub_expertises", SubExpertise, { list: true })
     .relation("oauth_accounts", OauthAccount, { list: true })
-    .relation("reviews", Review, { list: true })
-    .relation("review_stats", ReviewStats, { optional: true })
     .map("business_users");
 });
 

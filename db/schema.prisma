@@ -109,33 +109,6 @@ model REPropertySuperCategoryModel {
   @@map("re_property_super_categories")
 }
 
-model ReviewModel {
-  id          String            @id
-  created_at  DateTime          @database.Timestamptz
-  updated_at  DateTime          @database.Timestamptz
-  is_deleted  Boolean
-  deleted_at  DateTime?         @database.Timestamptz
-  reviewer_id String
-  reviewee_id String
-  content     String
-  rating      Int               @database.SmallInt
-  reviewer    CustomerModel     @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  reviewee    BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("reviews")
-}
-
-model ReviewStatsModel {
-  created_at  DateTime          @default(now()) @database.Timestamptz
-  updated_at  DateTime          @default(now()) @database.Timestamptz
-  review_cnt  Decimal
-  rating_sum  Decimal
-  reviewee_id String            @id
-  reviewee    BusinessUserModel @relation(fields: [reviewee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("review_stats")
-}
-
 model AgreementModel {
   id          String                     @id
   created_at  DateTime                   @database.Timestamptz
@@ -265,7 +238,6 @@ model CustomerModel {
   profile_image_url      String?
   base                   UserModel                  @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
   oauth_accounts         OauthAccountModel[]
-  reviews                ReviewModel[]
   zipzoong_care_requests ZipzoongCareRequestModel[]
 
   @@map("customers")
@@ -286,8 +258,6 @@ model BusinessUserModel {
   certification_images BusinessCertificationImageModel[]
   sub_expertises       SubExpertiseModel[]
   oauth_accounts       OauthAccountModel[]
-  reviews              ReviewModel[]
-  review_stats         ReviewStatsModel?
 
   @@map("business_users")
 }

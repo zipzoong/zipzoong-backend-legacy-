@@ -80,32 +80,6 @@ CREATE TABLE "re_property_super_categories" (
 );
 
 -- CreateTable
-CREATE TABLE "reviews" (
-    "id" TEXT NOT NULL,
-    "created_at" TIMESTAMPTZ NOT NULL,
-    "updated_at" TIMESTAMPTZ NOT NULL,
-    "is_deleted" BOOLEAN NOT NULL,
-    "deleted_at" TIMESTAMPTZ,
-    "reviewer_id" TEXT NOT NULL,
-    "reviewee_id" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "rating" SMALLINT NOT NULL,
-
-    CONSTRAINT "reviews_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "review_stats" (
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "review_cnt" DECIMAL(65,30) NOT NULL,
-    "rating_sum" DECIMAL(65,30) NOT NULL,
-    "reviewee_id" TEXT NOT NULL,
-
-    CONSTRAINT "review_stats_pkey" PRIMARY KEY ("reviewee_id")
-);
-
--- CreateTable
 CREATE TABLE "agreements" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
@@ -366,15 +340,6 @@ ALTER TABLE "re_property_sub_categories" ADD CONSTRAINT "re_property_sub_categor
 
 -- AddForeignKey
 ALTER TABLE "re_property_middle_categories" ADD CONSTRAINT "re_property_middle_categories_super_category_id_fkey" FOREIGN KEY ("super_category_id") REFERENCES "re_property_super_categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "reviews" ADD CONSTRAINT "reviews_reviewer_id_fkey" FOREIGN KEY ("reviewer_id") REFERENCES "customers"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "reviews" ADD CONSTRAINT "reviews_reviewee_id_fkey" FOREIGN KEY ("reviewee_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "review_stats" ADD CONSTRAINT "review_stats_reviewee_id_fkey" FOREIGN KEY ("reviewee_id") REFERENCES "business_users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "agreement_acceptances" ADD CONSTRAINT "agreement_acceptances_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

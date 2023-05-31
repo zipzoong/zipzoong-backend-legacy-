@@ -84,34 +84,6 @@ export type REPropertySuperCategoryModel = {
 }
 
 /**
- * Model ReviewModel
- * 
- */
-export type ReviewModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  reviewer_id: string
-  reviewee_id: string
-  content: string
-  rating: number
-}
-
-/**
- * Model ReviewStatsModel
- * 
- */
-export type ReviewStatsModel = {
-  created_at: Date
-  updated_at: Date
-  review_cnt: Prisma.Decimal
-  rating_sum: Prisma.Decimal
-  reviewee_id: string
-}
-
-/**
  * Model AgreementModel
  * 
  */
@@ -368,9 +340,6 @@ export type PhoneVerificationModel = {
  * Enums
  */
 
-// Based on
-// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-
 export const AgreementTargetType: {
   all: 'all',
   customer: 'customer',
@@ -585,26 +554,6 @@ export class PrismaClient<
   get rEPropertySuperCategoryModel(): Prisma.REPropertySuperCategoryModelDelegate<GlobalReject>;
 
   /**
-   * `prisma.reviewModel`: Exposes CRUD operations for the **ReviewModel** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ReviewModels
-    * const reviewModels = await prisma.reviewModel.findMany()
-    * ```
-    */
-  get reviewModel(): Prisma.ReviewModelDelegate<GlobalReject>;
-
-  /**
-   * `prisma.reviewStatsModel`: Exposes CRUD operations for the **ReviewStatsModel** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ReviewStatsModels
-    * const reviewStatsModels = await prisma.reviewStatsModel.findMany()
-    * ```
-    */
-  get reviewStatsModel(): Prisma.ReviewStatsModelDelegate<GlobalReject>;
-
-  /**
    * `prisma.agreementModel`: Exposes CRUD operations for the **AgreementModel** model.
     * Example usage:
     * ```ts
@@ -816,8 +765,8 @@ export namespace Prisma {
 
 
   /**
-   * Prisma Client JS version: 4.14.1
-   * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
+   * Prisma Client JS version: 4.15.0
+   * Query Engine version: 8fbc245156db7124f997f4cecdd8d1219e360944
    */
   export type PrismaVersion = {
     client: string
@@ -1247,8 +1196,6 @@ export namespace Prisma {
     REPropertySubCategoryModel: 'REPropertySubCategoryModel',
     REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
     REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
-    ReviewModel: 'ReviewModel',
-    ReviewStatsModel: 'ReviewStatsModel',
     AgreementModel: 'AgreementModel',
     AgreementAcceptanceModel: 'AgreementAcceptanceModel',
     ServiceSubCategoryModel: 'ServiceSubCategoryModel',
@@ -1824,13 +1771,11 @@ export namespace Prisma {
 
   export type CustomerModelCountOutputType = {
     oauth_accounts: number
-    reviews: number
     zipzoong_care_requests: number
   }
 
   export type CustomerModelCountOutputTypeSelect = {
     oauth_accounts?: boolean
-    reviews?: boolean
     zipzoong_care_requests?: boolean
   }
 
@@ -1873,14 +1818,12 @@ export namespace Prisma {
     certification_images: number
     sub_expertises: number
     oauth_accounts: number
-    reviews: number
   }
 
   export type BusinessUserModelCountOutputTypeSelect = {
     certification_images?: boolean
     sub_expertises?: boolean
     oauth_accounts?: boolean
-    reviews?: boolean
   }
 
   export type BusinessUserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserModelCountOutputTypeArgs> =
@@ -6866,1978 +6809,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: REPropertySuperCategoryModelInclude | null
-  }
-
-
-
-  /**
-   * Model ReviewModel
-   */
-
-
-  export type AggregateReviewModel = {
-    _count: ReviewModelCountAggregateOutputType | null
-    _avg: ReviewModelAvgAggregateOutputType | null
-    _sum: ReviewModelSumAggregateOutputType | null
-    _min: ReviewModelMinAggregateOutputType | null
-    _max: ReviewModelMaxAggregateOutputType | null
-  }
-
-  export type ReviewModelAvgAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type ReviewModelSumAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type ReviewModelMinAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    reviewer_id: string | null
-    reviewee_id: string | null
-    content: string | null
-    rating: number | null
-  }
-
-  export type ReviewModelMaxAggregateOutputType = {
-    id: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    is_deleted: boolean | null
-    deleted_at: Date | null
-    reviewer_id: string | null
-    reviewee_id: string | null
-    content: string | null
-    rating: number | null
-  }
-
-  export type ReviewModelCountAggregateOutputType = {
-    id: number
-    created_at: number
-    updated_at: number
-    is_deleted: number
-    deleted_at: number
-    reviewer_id: number
-    reviewee_id: number
-    content: number
-    rating: number
-    _all: number
-  }
-
-
-  export type ReviewModelAvgAggregateInputType = {
-    rating?: true
-  }
-
-  export type ReviewModelSumAggregateInputType = {
-    rating?: true
-  }
-
-  export type ReviewModelMinAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    reviewer_id?: true
-    reviewee_id?: true
-    content?: true
-    rating?: true
-  }
-
-  export type ReviewModelMaxAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    reviewer_id?: true
-    reviewee_id?: true
-    content?: true
-    rating?: true
-  }
-
-  export type ReviewModelCountAggregateInputType = {
-    id?: true
-    created_at?: true
-    updated_at?: true
-    is_deleted?: true
-    deleted_at?: true
-    reviewer_id?: true
-    reviewee_id?: true
-    content?: true
-    rating?: true
-    _all?: true
-  }
-
-  export type ReviewModelAggregateArgs = {
-    /**
-     * Filter which ReviewModel to aggregate.
-     */
-    where?: ReviewModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ReviewModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ReviewModels
-    **/
-    _count?: true | ReviewModelCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: ReviewModelAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ReviewModelSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ReviewModelMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ReviewModelMaxAggregateInputType
-  }
-
-  export type GetReviewModelAggregateType<T extends ReviewModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateReviewModel]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateReviewModel[P]>
-      : GetScalarType<T[P], AggregateReviewModel[P]>
-  }
-
-
-
-
-  export type ReviewModelGroupByArgs = {
-    where?: ReviewModelWhereInput
-    orderBy?: Enumerable<ReviewModelOrderByWithAggregationInput>
-    by: ReviewModelScalarFieldEnum[]
-    having?: ReviewModelScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ReviewModelCountAggregateInputType | true
-    _avg?: ReviewModelAvgAggregateInputType
-    _sum?: ReviewModelSumAggregateInputType
-    _min?: ReviewModelMinAggregateInputType
-    _max?: ReviewModelMaxAggregateInputType
-  }
-
-
-  export type ReviewModelGroupByOutputType = {
-    id: string
-    created_at: Date
-    updated_at: Date
-    is_deleted: boolean
-    deleted_at: Date | null
-    reviewer_id: string
-    reviewee_id: string
-    content: string
-    rating: number
-    _count: ReviewModelCountAggregateOutputType | null
-    _avg: ReviewModelAvgAggregateOutputType | null
-    _sum: ReviewModelSumAggregateOutputType | null
-    _min: ReviewModelMinAggregateOutputType | null
-    _max: ReviewModelMaxAggregateOutputType | null
-  }
-
-  type GetReviewModelGroupByPayload<T extends ReviewModelGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<ReviewModelGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ReviewModelGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ReviewModelGroupByOutputType[P]>
-            : GetScalarType<T[P], ReviewModelGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ReviewModelSelect = {
-    id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    is_deleted?: boolean
-    deleted_at?: boolean
-    reviewer_id?: boolean
-    reviewee_id?: boolean
-    content?: boolean
-    rating?: boolean
-    reviewer?: boolean | CustomerModelArgs
-    reviewee?: boolean | BusinessUserModelArgs
-  }
-
-
-  export type ReviewModelInclude = {
-    reviewer?: boolean | CustomerModelArgs
-    reviewee?: boolean | BusinessUserModelArgs
-  }
-
-  export type ReviewModelGetPayload<S extends boolean | null | undefined | ReviewModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ReviewModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ReviewModelArgs | ReviewModelFindManyArgs)
-    ? ReviewModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'reviewer' ? CustomerModelGetPayload<S['include'][P]> :
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ReviewModelArgs | ReviewModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'reviewer' ? CustomerModelGetPayload<S['select'][P]> :
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof ReviewModel ? ReviewModel[P] : never
-  } 
-      : ReviewModel
-
-
-  type ReviewModelCountArgs = 
-    Omit<ReviewModelFindManyArgs, 'select' | 'include'> & {
-      select?: ReviewModelCountAggregateInputType | true
-    }
-
-  export interface ReviewModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one ReviewModel that matches the filter.
-     * @param {ReviewModelFindUniqueArgs} args - Arguments to find a ReviewModel
-     * @example
-     * // Get one ReviewModel
-     * const reviewModel = await prisma.reviewModel.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends ReviewModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ReviewModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ReviewModel'> extends True ? Prisma__ReviewModelClient<ReviewModelGetPayload<T>> : Prisma__ReviewModelClient<ReviewModelGetPayload<T> | null, null>
-
-    /**
-     * Find one ReviewModel that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {ReviewModelFindUniqueOrThrowArgs} args - Arguments to find a ReviewModel
-     * @example
-     * // Get one ReviewModel
-     * const reviewModel = await prisma.reviewModel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends ReviewModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ReviewModelFindUniqueOrThrowArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Find the first ReviewModel that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelFindFirstArgs} args - Arguments to find a ReviewModel
-     * @example
-     * // Get one ReviewModel
-     * const reviewModel = await prisma.reviewModel.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends ReviewModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ReviewModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ReviewModel'> extends True ? Prisma__ReviewModelClient<ReviewModelGetPayload<T>> : Prisma__ReviewModelClient<ReviewModelGetPayload<T> | null, null>
-
-    /**
-     * Find the first ReviewModel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelFindFirstOrThrowArgs} args - Arguments to find a ReviewModel
-     * @example
-     * // Get one ReviewModel
-     * const reviewModel = await prisma.reviewModel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends ReviewModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ReviewModelFindFirstOrThrowArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Find zero or more ReviewModels that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ReviewModels
-     * const reviewModels = await prisma.reviewModel.findMany()
-     * 
-     * // Get first 10 ReviewModels
-     * const reviewModels = await prisma.reviewModel.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const reviewModelWithIdOnly = await prisma.reviewModel.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends ReviewModelFindManyArgs>(
-      args?: SelectSubset<T, ReviewModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>>
-
-    /**
-     * Create a ReviewModel.
-     * @param {ReviewModelCreateArgs} args - Arguments to create a ReviewModel.
-     * @example
-     * // Create one ReviewModel
-     * const ReviewModel = await prisma.reviewModel.create({
-     *   data: {
-     *     // ... data to create a ReviewModel
-     *   }
-     * })
-     * 
-    **/
-    create<T extends ReviewModelCreateArgs>(
-      args: SelectSubset<T, ReviewModelCreateArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Create many ReviewModels.
-     *     @param {ReviewModelCreateManyArgs} args - Arguments to create many ReviewModels.
-     *     @example
-     *     // Create many ReviewModels
-     *     const reviewModel = await prisma.reviewModel.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends ReviewModelCreateManyArgs>(
-      args?: SelectSubset<T, ReviewModelCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a ReviewModel.
-     * @param {ReviewModelDeleteArgs} args - Arguments to delete one ReviewModel.
-     * @example
-     * // Delete one ReviewModel
-     * const ReviewModel = await prisma.reviewModel.delete({
-     *   where: {
-     *     // ... filter to delete one ReviewModel
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends ReviewModelDeleteArgs>(
-      args: SelectSubset<T, ReviewModelDeleteArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Update one ReviewModel.
-     * @param {ReviewModelUpdateArgs} args - Arguments to update one ReviewModel.
-     * @example
-     * // Update one ReviewModel
-     * const reviewModel = await prisma.reviewModel.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends ReviewModelUpdateArgs>(
-      args: SelectSubset<T, ReviewModelUpdateArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Delete zero or more ReviewModels.
-     * @param {ReviewModelDeleteManyArgs} args - Arguments to filter ReviewModels to delete.
-     * @example
-     * // Delete a few ReviewModels
-     * const { count } = await prisma.reviewModel.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends ReviewModelDeleteManyArgs>(
-      args?: SelectSubset<T, ReviewModelDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ReviewModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ReviewModels
-     * const reviewModel = await prisma.reviewModel.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends ReviewModelUpdateManyArgs>(
-      args: SelectSubset<T, ReviewModelUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one ReviewModel.
-     * @param {ReviewModelUpsertArgs} args - Arguments to update or create a ReviewModel.
-     * @example
-     * // Update or create a ReviewModel
-     * const reviewModel = await prisma.reviewModel.upsert({
-     *   create: {
-     *     // ... data to create a ReviewModel
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ReviewModel we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends ReviewModelUpsertArgs>(
-      args: SelectSubset<T, ReviewModelUpsertArgs>
-    ): Prisma__ReviewModelClient<ReviewModelGetPayload<T>>
-
-    /**
-     * Count the number of ReviewModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelCountArgs} args - Arguments to filter ReviewModels to count.
-     * @example
-     * // Count the number of ReviewModels
-     * const count = await prisma.reviewModel.count({
-     *   where: {
-     *     // ... the filter for the ReviewModels we want to count
-     *   }
-     * })
-    **/
-    count<T extends ReviewModelCountArgs>(
-      args?: Subset<T, ReviewModelCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ReviewModelCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ReviewModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ReviewModelAggregateArgs>(args: Subset<T, ReviewModelAggregateArgs>): Prisma.PrismaPromise<GetReviewModelAggregateType<T>>
-
-    /**
-     * Group by ReviewModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewModelGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ReviewModelGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ReviewModelGroupByArgs['orderBy'] }
-        : { orderBy?: ReviewModelGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ReviewModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ReviewModel.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__ReviewModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    reviewer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
-
-    reviewee<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * ReviewModel base type for findUnique actions
-   */
-  export type ReviewModelFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter, which ReviewModel to fetch.
-     */
-    where: ReviewModelWhereUniqueInput
-  }
-
-  /**
-   * ReviewModel findUnique
-   */
-  export interface ReviewModelFindUniqueArgs extends ReviewModelFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ReviewModel findUniqueOrThrow
-   */
-  export type ReviewModelFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter, which ReviewModel to fetch.
-     */
-    where: ReviewModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewModel base type for findFirst actions
-   */
-  export type ReviewModelFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter, which ReviewModel to fetch.
-     */
-    where?: ReviewModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ReviewModels.
-     */
-    cursor?: ReviewModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ReviewModels.
-     */
-    distinct?: Enumerable<ReviewModelScalarFieldEnum>
-  }
-
-  /**
-   * ReviewModel findFirst
-   */
-  export interface ReviewModelFindFirstArgs extends ReviewModelFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ReviewModel findFirstOrThrow
-   */
-  export type ReviewModelFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter, which ReviewModel to fetch.
-     */
-    where?: ReviewModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ReviewModels.
-     */
-    cursor?: ReviewModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ReviewModels.
-     */
-    distinct?: Enumerable<ReviewModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ReviewModel findMany
-   */
-  export type ReviewModelFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter, which ReviewModels to fetch.
-     */
-    where?: ReviewModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ReviewModels.
-     */
-    cursor?: ReviewModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewModels.
-     */
-    skip?: number
-    distinct?: Enumerable<ReviewModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ReviewModel create
-   */
-  export type ReviewModelCreateArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * The data needed to create a ReviewModel.
-     */
-    data: XOR<ReviewModelCreateInput, ReviewModelUncheckedCreateInput>
-  }
-
-
-  /**
-   * ReviewModel createMany
-   */
-  export type ReviewModelCreateManyArgs = {
-    /**
-     * The data used to create many ReviewModels.
-     */
-    data: Enumerable<ReviewModelCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * ReviewModel update
-   */
-  export type ReviewModelUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * The data needed to update a ReviewModel.
-     */
-    data: XOR<ReviewModelUpdateInput, ReviewModelUncheckedUpdateInput>
-    /**
-     * Choose, which ReviewModel to update.
-     */
-    where: ReviewModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewModel updateMany
-   */
-  export type ReviewModelUpdateManyArgs = {
-    /**
-     * The data used to update ReviewModels.
-     */
-    data: XOR<ReviewModelUpdateManyMutationInput, ReviewModelUncheckedUpdateManyInput>
-    /**
-     * Filter which ReviewModels to update
-     */
-    where?: ReviewModelWhereInput
-  }
-
-
-  /**
-   * ReviewModel upsert
-   */
-  export type ReviewModelUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * The filter to search for the ReviewModel to update in case it exists.
-     */
-    where: ReviewModelWhereUniqueInput
-    /**
-     * In case the ReviewModel found by the `where` argument doesn't exist, create a new ReviewModel with this data.
-     */
-    create: XOR<ReviewModelCreateInput, ReviewModelUncheckedCreateInput>
-    /**
-     * In case the ReviewModel was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ReviewModelUpdateInput, ReviewModelUncheckedUpdateInput>
-  }
-
-
-  /**
-   * ReviewModel delete
-   */
-  export type ReviewModelDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    /**
-     * Filter which ReviewModel to delete.
-     */
-    where: ReviewModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewModel deleteMany
-   */
-  export type ReviewModelDeleteManyArgs = {
-    /**
-     * Filter which ReviewModels to delete
-     */
-    where?: ReviewModelWhereInput
-  }
-
-
-  /**
-   * ReviewModel without action
-   */
-  export type ReviewModelArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-  }
-
-
-
-  /**
-   * Model ReviewStatsModel
-   */
-
-
-  export type AggregateReviewStatsModel = {
-    _count: ReviewStatsModelCountAggregateOutputType | null
-    _avg: ReviewStatsModelAvgAggregateOutputType | null
-    _sum: ReviewStatsModelSumAggregateOutputType | null
-    _min: ReviewStatsModelMinAggregateOutputType | null
-    _max: ReviewStatsModelMaxAggregateOutputType | null
-  }
-
-  export type ReviewStatsModelAvgAggregateOutputType = {
-    review_cnt: Decimal | null
-    rating_sum: Decimal | null
-  }
-
-  export type ReviewStatsModelSumAggregateOutputType = {
-    review_cnt: Decimal | null
-    rating_sum: Decimal | null
-  }
-
-  export type ReviewStatsModelMinAggregateOutputType = {
-    created_at: Date | null
-    updated_at: Date | null
-    review_cnt: Decimal | null
-    rating_sum: Decimal | null
-    reviewee_id: string | null
-  }
-
-  export type ReviewStatsModelMaxAggregateOutputType = {
-    created_at: Date | null
-    updated_at: Date | null
-    review_cnt: Decimal | null
-    rating_sum: Decimal | null
-    reviewee_id: string | null
-  }
-
-  export type ReviewStatsModelCountAggregateOutputType = {
-    created_at: number
-    updated_at: number
-    review_cnt: number
-    rating_sum: number
-    reviewee_id: number
-    _all: number
-  }
-
-
-  export type ReviewStatsModelAvgAggregateInputType = {
-    review_cnt?: true
-    rating_sum?: true
-  }
-
-  export type ReviewStatsModelSumAggregateInputType = {
-    review_cnt?: true
-    rating_sum?: true
-  }
-
-  export type ReviewStatsModelMinAggregateInputType = {
-    created_at?: true
-    updated_at?: true
-    review_cnt?: true
-    rating_sum?: true
-    reviewee_id?: true
-  }
-
-  export type ReviewStatsModelMaxAggregateInputType = {
-    created_at?: true
-    updated_at?: true
-    review_cnt?: true
-    rating_sum?: true
-    reviewee_id?: true
-  }
-
-  export type ReviewStatsModelCountAggregateInputType = {
-    created_at?: true
-    updated_at?: true
-    review_cnt?: true
-    rating_sum?: true
-    reviewee_id?: true
-    _all?: true
-  }
-
-  export type ReviewStatsModelAggregateArgs = {
-    /**
-     * Filter which ReviewStatsModel to aggregate.
-     */
-    where?: ReviewStatsModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewStatsModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ReviewStatsModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewStatsModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewStatsModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ReviewStatsModels
-    **/
-    _count?: true | ReviewStatsModelCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: ReviewStatsModelAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ReviewStatsModelSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ReviewStatsModelMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ReviewStatsModelMaxAggregateInputType
-  }
-
-  export type GetReviewStatsModelAggregateType<T extends ReviewStatsModelAggregateArgs> = {
-        [P in keyof T & keyof AggregateReviewStatsModel]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateReviewStatsModel[P]>
-      : GetScalarType<T[P], AggregateReviewStatsModel[P]>
-  }
-
-
-
-
-  export type ReviewStatsModelGroupByArgs = {
-    where?: ReviewStatsModelWhereInput
-    orderBy?: Enumerable<ReviewStatsModelOrderByWithAggregationInput>
-    by: ReviewStatsModelScalarFieldEnum[]
-    having?: ReviewStatsModelScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ReviewStatsModelCountAggregateInputType | true
-    _avg?: ReviewStatsModelAvgAggregateInputType
-    _sum?: ReviewStatsModelSumAggregateInputType
-    _min?: ReviewStatsModelMinAggregateInputType
-    _max?: ReviewStatsModelMaxAggregateInputType
-  }
-
-
-  export type ReviewStatsModelGroupByOutputType = {
-    created_at: Date
-    updated_at: Date
-    review_cnt: Decimal
-    rating_sum: Decimal
-    reviewee_id: string
-    _count: ReviewStatsModelCountAggregateOutputType | null
-    _avg: ReviewStatsModelAvgAggregateOutputType | null
-    _sum: ReviewStatsModelSumAggregateOutputType | null
-    _min: ReviewStatsModelMinAggregateOutputType | null
-    _max: ReviewStatsModelMaxAggregateOutputType | null
-  }
-
-  type GetReviewStatsModelGroupByPayload<T extends ReviewStatsModelGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<ReviewStatsModelGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ReviewStatsModelGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ReviewStatsModelGroupByOutputType[P]>
-            : GetScalarType<T[P], ReviewStatsModelGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ReviewStatsModelSelect = {
-    created_at?: boolean
-    updated_at?: boolean
-    review_cnt?: boolean
-    rating_sum?: boolean
-    reviewee_id?: boolean
-    reviewee?: boolean | BusinessUserModelArgs
-  }
-
-
-  export type ReviewStatsModelInclude = {
-    reviewee?: boolean | BusinessUserModelArgs
-  }
-
-  export type ReviewStatsModelGetPayload<S extends boolean | null | undefined | ReviewStatsModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ReviewStatsModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ReviewStatsModelArgs | ReviewStatsModelFindManyArgs)
-    ? ReviewStatsModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ReviewStatsModelArgs | ReviewStatsModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'reviewee' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof ReviewStatsModel ? ReviewStatsModel[P] : never
-  } 
-      : ReviewStatsModel
-
-
-  type ReviewStatsModelCountArgs = 
-    Omit<ReviewStatsModelFindManyArgs, 'select' | 'include'> & {
-      select?: ReviewStatsModelCountAggregateInputType | true
-    }
-
-  export interface ReviewStatsModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one ReviewStatsModel that matches the filter.
-     * @param {ReviewStatsModelFindUniqueArgs} args - Arguments to find a ReviewStatsModel
-     * @example
-     * // Get one ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends ReviewStatsModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ReviewStatsModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ReviewStatsModel'> extends True ? Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>> : Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | null, null>
-
-    /**
-     * Find one ReviewStatsModel that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {ReviewStatsModelFindUniqueOrThrowArgs} args - Arguments to find a ReviewStatsModel
-     * @example
-     * // Get one ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends ReviewStatsModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ReviewStatsModelFindUniqueOrThrowArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Find the first ReviewStatsModel that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelFindFirstArgs} args - Arguments to find a ReviewStatsModel
-     * @example
-     * // Get one ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends ReviewStatsModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ReviewStatsModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ReviewStatsModel'> extends True ? Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>> : Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | null, null>
-
-    /**
-     * Find the first ReviewStatsModel that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelFindFirstOrThrowArgs} args - Arguments to find a ReviewStatsModel
-     * @example
-     * // Get one ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends ReviewStatsModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ReviewStatsModelFindFirstOrThrowArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Find zero or more ReviewStatsModels that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ReviewStatsModels
-     * const reviewStatsModels = await prisma.reviewStatsModel.findMany()
-     * 
-     * // Get first 10 ReviewStatsModels
-     * const reviewStatsModels = await prisma.reviewStatsModel.findMany({ take: 10 })
-     * 
-     * // Only select the `created_at`
-     * const reviewStatsModelWithCreated_atOnly = await prisma.reviewStatsModel.findMany({ select: { created_at: true } })
-     * 
-    **/
-    findMany<T extends ReviewStatsModelFindManyArgs>(
-      args?: SelectSubset<T, ReviewStatsModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ReviewStatsModelGetPayload<T>>>
-
-    /**
-     * Create a ReviewStatsModel.
-     * @param {ReviewStatsModelCreateArgs} args - Arguments to create a ReviewStatsModel.
-     * @example
-     * // Create one ReviewStatsModel
-     * const ReviewStatsModel = await prisma.reviewStatsModel.create({
-     *   data: {
-     *     // ... data to create a ReviewStatsModel
-     *   }
-     * })
-     * 
-    **/
-    create<T extends ReviewStatsModelCreateArgs>(
-      args: SelectSubset<T, ReviewStatsModelCreateArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Create many ReviewStatsModels.
-     *     @param {ReviewStatsModelCreateManyArgs} args - Arguments to create many ReviewStatsModels.
-     *     @example
-     *     // Create many ReviewStatsModels
-     *     const reviewStatsModel = await prisma.reviewStatsModel.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends ReviewStatsModelCreateManyArgs>(
-      args?: SelectSubset<T, ReviewStatsModelCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a ReviewStatsModel.
-     * @param {ReviewStatsModelDeleteArgs} args - Arguments to delete one ReviewStatsModel.
-     * @example
-     * // Delete one ReviewStatsModel
-     * const ReviewStatsModel = await prisma.reviewStatsModel.delete({
-     *   where: {
-     *     // ... filter to delete one ReviewStatsModel
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends ReviewStatsModelDeleteArgs>(
-      args: SelectSubset<T, ReviewStatsModelDeleteArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Update one ReviewStatsModel.
-     * @param {ReviewStatsModelUpdateArgs} args - Arguments to update one ReviewStatsModel.
-     * @example
-     * // Update one ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends ReviewStatsModelUpdateArgs>(
-      args: SelectSubset<T, ReviewStatsModelUpdateArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Delete zero or more ReviewStatsModels.
-     * @param {ReviewStatsModelDeleteManyArgs} args - Arguments to filter ReviewStatsModels to delete.
-     * @example
-     * // Delete a few ReviewStatsModels
-     * const { count } = await prisma.reviewStatsModel.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends ReviewStatsModelDeleteManyArgs>(
-      args?: SelectSubset<T, ReviewStatsModelDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ReviewStatsModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ReviewStatsModels
-     * const reviewStatsModel = await prisma.reviewStatsModel.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends ReviewStatsModelUpdateManyArgs>(
-      args: SelectSubset<T, ReviewStatsModelUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one ReviewStatsModel.
-     * @param {ReviewStatsModelUpsertArgs} args - Arguments to update or create a ReviewStatsModel.
-     * @example
-     * // Update or create a ReviewStatsModel
-     * const reviewStatsModel = await prisma.reviewStatsModel.upsert({
-     *   create: {
-     *     // ... data to create a ReviewStatsModel
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ReviewStatsModel we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends ReviewStatsModelUpsertArgs>(
-      args: SelectSubset<T, ReviewStatsModelUpsertArgs>
-    ): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T>>
-
-    /**
-     * Count the number of ReviewStatsModels.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelCountArgs} args - Arguments to filter ReviewStatsModels to count.
-     * @example
-     * // Count the number of ReviewStatsModels
-     * const count = await prisma.reviewStatsModel.count({
-     *   where: {
-     *     // ... the filter for the ReviewStatsModels we want to count
-     *   }
-     * })
-    **/
-    count<T extends ReviewStatsModelCountArgs>(
-      args?: Subset<T, ReviewStatsModelCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ReviewStatsModelCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ReviewStatsModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ReviewStatsModelAggregateArgs>(args: Subset<T, ReviewStatsModelAggregateArgs>): Prisma.PrismaPromise<GetReviewStatsModelAggregateType<T>>
-
-    /**
-     * Group by ReviewStatsModel.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewStatsModelGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ReviewStatsModelGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ReviewStatsModelGroupByArgs['orderBy'] }
-        : { orderBy?: ReviewStatsModelGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ReviewStatsModelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewStatsModelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ReviewStatsModel.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__ReviewStatsModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    reviewee<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * ReviewStatsModel base type for findUnique actions
-   */
-  export type ReviewStatsModelFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter, which ReviewStatsModel to fetch.
-     */
-    where: ReviewStatsModelWhereUniqueInput
-  }
-
-  /**
-   * ReviewStatsModel findUnique
-   */
-  export interface ReviewStatsModelFindUniqueArgs extends ReviewStatsModelFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ReviewStatsModel findUniqueOrThrow
-   */
-  export type ReviewStatsModelFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter, which ReviewStatsModel to fetch.
-     */
-    where: ReviewStatsModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewStatsModel base type for findFirst actions
-   */
-  export type ReviewStatsModelFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter, which ReviewStatsModel to fetch.
-     */
-    where?: ReviewStatsModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewStatsModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ReviewStatsModels.
-     */
-    cursor?: ReviewStatsModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewStatsModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewStatsModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ReviewStatsModels.
-     */
-    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
-  }
-
-  /**
-   * ReviewStatsModel findFirst
-   */
-  export interface ReviewStatsModelFindFirstArgs extends ReviewStatsModelFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * ReviewStatsModel findFirstOrThrow
-   */
-  export type ReviewStatsModelFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter, which ReviewStatsModel to fetch.
-     */
-    where?: ReviewStatsModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewStatsModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ReviewStatsModels.
-     */
-    cursor?: ReviewStatsModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewStatsModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewStatsModels.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ReviewStatsModels.
-     */
-    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ReviewStatsModel findMany
-   */
-  export type ReviewStatsModelFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter, which ReviewStatsModels to fetch.
-     */
-    where?: ReviewStatsModelWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ReviewStatsModels to fetch.
-     */
-    orderBy?: Enumerable<ReviewStatsModelOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ReviewStatsModels.
-     */
-    cursor?: ReviewStatsModelWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ReviewStatsModels from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ReviewStatsModels.
-     */
-    skip?: number
-    distinct?: Enumerable<ReviewStatsModelScalarFieldEnum>
-  }
-
-
-  /**
-   * ReviewStatsModel create
-   */
-  export type ReviewStatsModelCreateArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * The data needed to create a ReviewStatsModel.
-     */
-    data: XOR<ReviewStatsModelCreateInput, ReviewStatsModelUncheckedCreateInput>
-  }
-
-
-  /**
-   * ReviewStatsModel createMany
-   */
-  export type ReviewStatsModelCreateManyArgs = {
-    /**
-     * The data used to create many ReviewStatsModels.
-     */
-    data: Enumerable<ReviewStatsModelCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * ReviewStatsModel update
-   */
-  export type ReviewStatsModelUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * The data needed to update a ReviewStatsModel.
-     */
-    data: XOR<ReviewStatsModelUpdateInput, ReviewStatsModelUncheckedUpdateInput>
-    /**
-     * Choose, which ReviewStatsModel to update.
-     */
-    where: ReviewStatsModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewStatsModel updateMany
-   */
-  export type ReviewStatsModelUpdateManyArgs = {
-    /**
-     * The data used to update ReviewStatsModels.
-     */
-    data: XOR<ReviewStatsModelUpdateManyMutationInput, ReviewStatsModelUncheckedUpdateManyInput>
-    /**
-     * Filter which ReviewStatsModels to update
-     */
-    where?: ReviewStatsModelWhereInput
-  }
-
-
-  /**
-   * ReviewStatsModel upsert
-   */
-  export type ReviewStatsModelUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * The filter to search for the ReviewStatsModel to update in case it exists.
-     */
-    where: ReviewStatsModelWhereUniqueInput
-    /**
-     * In case the ReviewStatsModel found by the `where` argument doesn't exist, create a new ReviewStatsModel with this data.
-     */
-    create: XOR<ReviewStatsModelCreateInput, ReviewStatsModelUncheckedCreateInput>
-    /**
-     * In case the ReviewStatsModel was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ReviewStatsModelUpdateInput, ReviewStatsModelUncheckedUpdateInput>
-  }
-
-
-  /**
-   * ReviewStatsModel delete
-   */
-  export type ReviewStatsModelDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
-    /**
-     * Filter which ReviewStatsModel to delete.
-     */
-    where: ReviewStatsModelWhereUniqueInput
-  }
-
-
-  /**
-   * ReviewStatsModel deleteMany
-   */
-  export type ReviewStatsModelDeleteManyArgs = {
-    /**
-     * Filter which ReviewStatsModels to delete
-     */
-    where?: ReviewStatsModelWhereInput
-  }
-
-
-  /**
-   * ReviewStatsModel without action
-   */
-  export type ReviewStatsModelArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewStatsModel
-     */
-    select?: ReviewStatsModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewStatsModelInclude | null
   }
 
 
@@ -16865,7 +14836,6 @@ export namespace Prisma {
     profile_image_url?: boolean
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
-    reviews?: boolean | CustomerModel$reviewsArgs
     zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
@@ -16874,7 +14844,6 @@ export namespace Prisma {
   export type CustomerModelInclude = {
     base?: boolean | UserModelArgs
     oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
-    reviews?: boolean | CustomerModel$reviewsArgs
     zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
     _count?: boolean | CustomerModelCountOutputTypeArgs
   }
@@ -16888,7 +14857,6 @@ export namespace Prisma {
     [P in TruthyKeys<S['include']>]:
         P extends 'base' ? UserModelGetPayload<S['include'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
-        P extends 'reviews' ? Array < ReviewModelGetPayload<S['include'][P]>>  :
         P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['include'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -16897,7 +14865,6 @@ export namespace Prisma {
     [P in TruthyKeys<S['select']>]:
         P extends 'base' ? UserModelGetPayload<S['select'][P]> :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
-        P extends 'reviews' ? Array < ReviewModelGetPayload<S['select'][P]>>  :
         P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['select'][P]>>  :
         P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomerModel ? CustomerModel[P] : never
   } 
@@ -17274,8 +15241,6 @@ export namespace Prisma {
     base<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
 
     oauth_accounts<T extends CustomerModel$oauth_accountsArgs= {}>(args?: Subset<T, CustomerModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
-
-    reviews<T extends CustomerModel$reviewsArgs= {}>(args?: Subset<T, CustomerModel$reviewsArgs>): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>| Null>;
 
     zipzoong_care_requests<T extends CustomerModel$zipzoong_care_requestsArgs= {}>(args?: Subset<T, CustomerModel$zipzoong_care_requestsArgs>): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>| Null>;
 
@@ -17656,27 +15621,6 @@ export namespace Prisma {
 
 
   /**
-   * CustomerModel.reviews
-   */
-  export type CustomerModel$reviewsArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    where?: ReviewModelWhereInput
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    cursor?: ReviewModelWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<ReviewModelScalarFieldEnum>
-  }
-
-
-  /**
    * CustomerModel.zipzoong_care_requests
    */
   export type CustomerModel$zipzoong_care_requestsArgs = {
@@ -17909,8 +15853,6 @@ export namespace Prisma {
     certification_images?: boolean | BusinessUserModel$certification_imagesArgs
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
-    reviews?: boolean | BusinessUserModel$reviewsArgs
-    review_stats?: boolean | ReviewStatsModelArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -17922,8 +15864,6 @@ export namespace Prisma {
     certification_images?: boolean | BusinessUserModel$certification_imagesArgs
     sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
     oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
-    reviews?: boolean | BusinessUserModel$reviewsArgs
-    review_stats?: boolean | ReviewStatsModelArgs
     _count?: boolean | BusinessUserModelCountOutputTypeArgs
   }
 
@@ -17940,8 +15880,6 @@ export namespace Prisma {
         P extends 'certification_images' ? Array < BusinessCertificationImageModelGetPayload<S['include'][P]>>  :
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
-        P extends 'reviews' ? Array < ReviewModelGetPayload<S['include'][P]>>  :
-        P extends 'review_stats' ? ReviewStatsModelGetPayload<S['include'][P]> | null :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
@@ -17953,8 +15891,6 @@ export namespace Prisma {
         P extends 'certification_images' ? Array < BusinessCertificationImageModelGetPayload<S['select'][P]>>  :
         P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
         P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
-        P extends 'reviews' ? Array < ReviewModelGetPayload<S['select'][P]>>  :
-        P extends 'review_stats' ? ReviewStatsModelGetPayload<S['select'][P]> | null :
         P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
   } 
       : BusinessUserModel
@@ -18338,10 +16274,6 @@ export namespace Prisma {
     sub_expertises<T extends BusinessUserModel$sub_expertisesArgs= {}>(args?: Subset<T, BusinessUserModel$sub_expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
 
     oauth_accounts<T extends BusinessUserModel$oauth_accountsArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
-
-    reviews<T extends BusinessUserModel$reviewsArgs= {}>(args?: Subset<T, BusinessUserModel$reviewsArgs>): Prisma.PrismaPromise<Array<ReviewModelGetPayload<T>>| Null>;
-
-    review_stats<T extends ReviewStatsModelArgs= {}>(args?: Subset<T, ReviewStatsModelArgs>): Prisma__ReviewStatsModelClient<ReviewStatsModelGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -18758,27 +16690,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<OauthAccountModelScalarFieldEnum>
-  }
-
-
-  /**
-   * BusinessUserModel.reviews
-   */
-  export type BusinessUserModel$reviewsArgs = {
-    /**
-     * Select specific fields to fetch from the ReviewModel
-     */
-    select?: ReviewModelSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: ReviewModelInclude | null
-    where?: ReviewModelWhereInput
-    orderBy?: Enumerable<ReviewModelOrderByWithRelationInput>
-    cursor?: ReviewModelWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<ReviewModelScalarFieldEnum>
   }
 
 
@@ -25512,9 +23423,6 @@ export namespace Prisma {
    * Enums
    */
 
-  // Based on
-  // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
-
   export const AgreementAcceptanceModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
@@ -25727,32 +23635,6 @@ export namespace Prisma {
   };
 
   export type REPropertySuperCategoryModelScalarFieldEnum = (typeof REPropertySuperCategoryModelScalarFieldEnum)[keyof typeof REPropertySuperCategoryModelScalarFieldEnum]
-
-
-  export const ReviewModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    reviewer_id: 'reviewer_id',
-    reviewee_id: 'reviewee_id',
-    content: 'content',
-    rating: 'rating'
-  };
-
-  export type ReviewModelScalarFieldEnum = (typeof ReviewModelScalarFieldEnum)[keyof typeof ReviewModelScalarFieldEnum]
-
-
-  export const ReviewStatsModelScalarFieldEnum: {
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    review_cnt: 'review_cnt',
-    rating_sum: 'rating_sum',
-    reviewee_id: 'reviewee_id'
-  };
-
-  export type ReviewStatsModelScalarFieldEnum = (typeof ReviewStatsModelScalarFieldEnum)[keyof typeof ReviewStatsModelScalarFieldEnum]
 
 
   export const ServiceSubCategoryModelScalarFieldEnum: {
@@ -26159,122 +24041,6 @@ export namespace Prisma {
     is_deleted?: BoolWithAggregatesFilter | boolean
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     name?: StringWithAggregatesFilter | string
-  }
-
-  export type ReviewModelWhereInput = {
-    AND?: Enumerable<ReviewModelWhereInput>
-    OR?: Enumerable<ReviewModelWhereInput>
-    NOT?: Enumerable<ReviewModelWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    reviewer_id?: StringFilter | string
-    reviewee_id?: StringFilter | string
-    content?: StringFilter | string
-    rating?: IntFilter | number
-    reviewer?: XOR<CustomerModelRelationFilter, CustomerModelWhereInput>
-    reviewee?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-  }
-
-  export type ReviewModelOrderByWithRelationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-    rating?: SortOrder
-    reviewer?: CustomerModelOrderByWithRelationInput
-    reviewee?: BusinessUserModelOrderByWithRelationInput
-  }
-
-  export type ReviewModelWhereUniqueInput = {
-    id?: string
-  }
-
-  export type ReviewModelOrderByWithAggregationInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-    rating?: SortOrder
-    _count?: ReviewModelCountOrderByAggregateInput
-    _avg?: ReviewModelAvgOrderByAggregateInput
-    _max?: ReviewModelMaxOrderByAggregateInput
-    _min?: ReviewModelMinOrderByAggregateInput
-    _sum?: ReviewModelSumOrderByAggregateInput
-  }
-
-  export type ReviewModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<ReviewModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<ReviewModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<ReviewModelScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    created_at?: DateTimeWithAggregatesFilter | Date | string
-    updated_at?: DateTimeWithAggregatesFilter | Date | string
-    is_deleted?: BoolWithAggregatesFilter | boolean
-    deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    reviewer_id?: StringWithAggregatesFilter | string
-    reviewee_id?: StringWithAggregatesFilter | string
-    content?: StringWithAggregatesFilter | string
-    rating?: IntWithAggregatesFilter | number
-  }
-
-  export type ReviewStatsModelWhereInput = {
-    AND?: Enumerable<ReviewStatsModelWhereInput>
-    OR?: Enumerable<ReviewStatsModelWhereInput>
-    NOT?: Enumerable<ReviewStatsModelWhereInput>
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    review_cnt?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFilter | Decimal | DecimalJsLike | number | string
-    reviewee_id?: StringFilter | string
-    reviewee?: XOR<BusinessUserModelRelationFilter, BusinessUserModelWhereInput>
-  }
-
-  export type ReviewStatsModelOrderByWithRelationInput = {
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-    reviewee_id?: SortOrder
-    reviewee?: BusinessUserModelOrderByWithRelationInput
-  }
-
-  export type ReviewStatsModelWhereUniqueInput = {
-    reviewee_id?: string
-  }
-
-  export type ReviewStatsModelOrderByWithAggregationInput = {
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-    reviewee_id?: SortOrder
-    _count?: ReviewStatsModelCountOrderByAggregateInput
-    _avg?: ReviewStatsModelAvgOrderByAggregateInput
-    _max?: ReviewStatsModelMaxOrderByAggregateInput
-    _min?: ReviewStatsModelMinOrderByAggregateInput
-    _sum?: ReviewStatsModelSumOrderByAggregateInput
-  }
-
-  export type ReviewStatsModelScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
-    OR?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<ReviewStatsModelScalarWhereWithAggregatesInput>
-    created_at?: DateTimeWithAggregatesFilter | Date | string
-    updated_at?: DateTimeWithAggregatesFilter | Date | string
-    review_cnt?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    reviewee_id?: StringWithAggregatesFilter | string
   }
 
   export type AgreementModelWhereInput = {
@@ -26772,7 +24538,6 @@ export namespace Prisma {
     profile_image_url?: StringNullableFilter | string | null
     base?: XOR<UserModelRelationFilter, UserModelWhereInput>
     oauth_accounts?: OauthAccountModelListRelationFilter
-    reviews?: ReviewModelListRelationFilter
     zipzoong_care_requests?: ZipzoongCareRequestModelListRelationFilter
   }
 
@@ -26786,7 +24551,6 @@ export namespace Prisma {
     profile_image_url?: SortOrder
     base?: UserModelOrderByWithRelationInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
-    reviews?: ReviewModelOrderByRelationAggregateInput
     zipzoong_care_requests?: ZipzoongCareRequestModelOrderByRelationAggregateInput
   }
 
@@ -26838,8 +24602,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelListRelationFilter
     sub_expertises?: SubExpertiseModelListRelationFilter
     oauth_accounts?: OauthAccountModelListRelationFilter
-    reviews?: ReviewModelListRelationFilter
-    review_stats?: XOR<ReviewStatsModelRelationFilter, ReviewStatsModelWhereInput> | null
   }
 
   export type BusinessUserModelOrderByWithRelationInput = {
@@ -26857,8 +24619,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelOrderByRelationAggregateInput
     sub_expertises?: SubExpertiseModelOrderByRelationAggregateInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
-    reviews?: ReviewModelOrderByRelationAggregateInput
-    review_stats?: ReviewStatsModelOrderByWithRelationInput
   }
 
   export type BusinessUserModelWhereUniqueInput = {
@@ -27681,143 +25441,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ReviewModelCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    content: string
-    rating: number
-    reviewer: CustomerModelCreateNestedOneWithoutReviewsInput
-    reviewee: BusinessUserModelCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewModelUncheckedCreateInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewer_id: string
-    reviewee_id: string
-    content: string
-    rating: number
-  }
-
-  export type ReviewModelUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    reviewer?: CustomerModelUpdateOneRequiredWithoutReviewsNestedInput
-    reviewee?: BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput
-  }
-
-  export type ReviewModelUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewer_id?: StringFieldUpdateOperationsInput | string
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ReviewModelCreateManyInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewer_id: string
-    reviewee_id: string
-    content: string
-    rating: number
-  }
-
-  export type ReviewModelUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ReviewModelUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewer_id?: StringFieldUpdateOperationsInput | string
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ReviewStatsModelCreateInput = {
-    created_at?: Date | string
-    updated_at?: Date | string
-    review_cnt: Decimal | DecimalJsLike | number | string
-    rating_sum: Decimal | DecimalJsLike | number | string
-    reviewee: BusinessUserModelCreateNestedOneWithoutReview_statsInput
-  }
-
-  export type ReviewStatsModelUncheckedCreateInput = {
-    created_at?: Date | string
-    updated_at?: Date | string
-    review_cnt: Decimal | DecimalJsLike | number | string
-    rating_sum: Decimal | DecimalJsLike | number | string
-    reviewee_id: string
-  }
-
-  export type ReviewStatsModelUpdateInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reviewee?: BusinessUserModelUpdateOneRequiredWithoutReview_statsNestedInput
-  }
-
-  export type ReviewStatsModelUncheckedUpdateInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ReviewStatsModelCreateManyInput = {
-    created_at?: Date | string
-    updated_at?: Date | string
-    review_cnt: Decimal | DecimalJsLike | number | string
-    rating_sum: Decimal | DecimalJsLike | number | string
-    reviewee_id: string
-  }
-
-  export type ReviewStatsModelUpdateManyMutationInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-  }
-
-  export type ReviewStatsModelUncheckedUpdateManyInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-  }
-
   export type AgreementModelCreateInput = {
     id: string
     created_at: Date | string
@@ -28458,7 +26081,6 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
@@ -28471,7 +26093,6 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
@@ -28484,7 +26105,6 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
@@ -28497,7 +26117,6 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
@@ -28544,8 +26163,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateInput = {
@@ -28562,8 +26179,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUpdateInput = {
@@ -28580,8 +26195,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateInput = {
@@ -28598,8 +26211,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelCreateManyInput = {
@@ -29477,148 +27088,6 @@ export namespace Prisma {
     name?: SortOrder
   }
 
-  export type IntFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
-  }
-
-  export type CustomerModelRelationFilter = {
-    is?: CustomerModelWhereInput | null
-    isNot?: CustomerModelWhereInput | null
-  }
-
-  export type BusinessUserModelRelationFilter = {
-    is?: BusinessUserModelWhereInput | null
-    isNot?: BusinessUserModelWhereInput | null
-  }
-
-  export type ReviewModelCountOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-    rating?: SortOrder
-  }
-
-  export type ReviewModelAvgOrderByAggregateInput = {
-    rating?: SortOrder
-  }
-
-  export type ReviewModelMaxOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-    rating?: SortOrder
-  }
-
-  export type ReviewModelMinOrderByAggregateInput = {
-    id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    is_deleted?: SortOrder
-    deleted_at?: SortOrder
-    reviewer_id?: SortOrder
-    reviewee_id?: SortOrder
-    content?: SortOrder
-    rating?: SortOrder
-  }
-
-  export type ReviewModelSumOrderByAggregateInput = {
-    rating?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
-  }
-
-  export type DecimalFilter = {
-    equals?: Decimal | DecimalJsLike | number | string
-    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    lt?: Decimal | DecimalJsLike | number | string
-    lte?: Decimal | DecimalJsLike | number | string
-    gt?: Decimal | DecimalJsLike | number | string
-    gte?: Decimal | DecimalJsLike | number | string
-    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
-  }
-
-  export type ReviewStatsModelCountOrderByAggregateInput = {
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-    reviewee_id?: SortOrder
-  }
-
-  export type ReviewStatsModelAvgOrderByAggregateInput = {
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-  }
-
-  export type ReviewStatsModelMaxOrderByAggregateInput = {
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-    reviewee_id?: SortOrder
-  }
-
-  export type ReviewStatsModelMinOrderByAggregateInput = {
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-    reviewee_id?: SortOrder
-  }
-
-  export type ReviewStatsModelSumOrderByAggregateInput = {
-    review_cnt?: SortOrder
-    rating_sum?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter = {
-    equals?: Decimal | DecimalJsLike | number | string
-    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    lt?: Decimal | DecimalJsLike | number | string
-    lte?: Decimal | DecimalJsLike | number | string
-    gt?: Decimal | DecimalJsLike | number | string
-    gte?: Decimal | DecimalJsLike | number | string
-    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter
-    _avg?: NestedDecimalFilter
-    _sum?: NestedDecimalFilter
-    _min?: NestedDecimalFilter
-    _max?: NestedDecimalFilter
-  }
-
   export type EnumAgreementTargetTypeFilter = {
     equals?: AgreementTargetType
     in?: Enumerable<AgreementTargetType>
@@ -29846,6 +27315,11 @@ export namespace Prisma {
     not?: NestedEnumZipzoongCareStatusFilter | ZipzoongCareStatus
   }
 
+  export type CustomerModelRelationFilter = {
+    is?: CustomerModelWhereInput | null
+    isNot?: CustomerModelWhereInput | null
+  }
+
   export type ZipzoongCareConsultationTimeCheckModelListRelationFilter = {
     every?: ZipzoongCareConsultationTimeCheckModelWhereInput
     some?: ZipzoongCareConsultationTimeCheckModelWhereInput
@@ -29988,6 +27462,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
+  export type BusinessUserModelRelationFilter = {
+    is?: BusinessUserModelWhereInput | null
+    isNot?: BusinessUserModelWhereInput | null
+  }
+
   export type UserModelCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
@@ -30049,12 +27528,6 @@ export namespace Prisma {
     none?: OauthAccountModelWhereInput
   }
 
-  export type ReviewModelListRelationFilter = {
-    every?: ReviewModelWhereInput
-    some?: ReviewModelWhereInput
-    none?: ReviewModelWhereInput
-  }
-
   export type ZipzoongCareRequestModelListRelationFilter = {
     every?: ZipzoongCareRequestModelWhereInput
     some?: ZipzoongCareRequestModelWhereInput
@@ -30062,10 +27535,6 @@ export namespace Prisma {
   }
 
   export type OauthAccountModelOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ReviewModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30122,11 +27591,6 @@ export namespace Prisma {
     every?: BusinessCertificationImageModelWhereInput
     some?: BusinessCertificationImageModelWhereInput
     none?: BusinessCertificationImageModelWhereInput
-  }
-
-  export type ReviewStatsModelRelationFilter = {
-    is?: ReviewStatsModelWhereInput | null
-    isNot?: ReviewStatsModelWhereInput | null
   }
 
   export type BusinessCertificationImageModelOrderByRelationAggregateInput = {
@@ -30698,64 +28162,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<REPropertyMiddleCategoryModelScalarWhereInput>
   }
 
-  export type CustomerModelCreateNestedOneWithoutReviewsInput = {
-    create?: XOR<CustomerModelCreateWithoutReviewsInput, CustomerModelUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutReviewsInput
-    connect?: CustomerModelWhereUniqueInput
-  }
-
-  export type BusinessUserModelCreateNestedOneWithoutReviewsInput = {
-    create?: XOR<BusinessUserModelCreateWithoutReviewsInput, BusinessUserModelUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReviewsInput
-    connect?: BusinessUserModelWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type CustomerModelUpdateOneRequiredWithoutReviewsNestedInput = {
-    create?: XOR<CustomerModelCreateWithoutReviewsInput, CustomerModelUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: CustomerModelCreateOrConnectWithoutReviewsInput
-    upsert?: CustomerModelUpsertWithoutReviewsInput
-    connect?: CustomerModelWhereUniqueInput
-    update?: XOR<CustomerModelUpdateWithoutReviewsInput, CustomerModelUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutReviewsInput, BusinessUserModelUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReviewsInput
-    upsert?: BusinessUserModelUpsertWithoutReviewsInput
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutReviewsInput, BusinessUserModelUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type BusinessUserModelCreateNestedOneWithoutReview_statsInput = {
-    create?: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReview_statsInput
-    connect?: BusinessUserModelWhereUniqueInput
-  }
-
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type BusinessUserModelUpdateOneRequiredWithoutReview_statsNestedInput = {
-    create?: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
-    connectOrCreate?: BusinessUserModelCreateOrConnectWithoutReview_statsInput
-    upsert?: BusinessUserModelUpsertWithoutReview_statsInput
-    connect?: BusinessUserModelWhereUniqueInput
-    update?: XOR<BusinessUserModelUpdateWithoutReview_statsInput, BusinessUserModelUncheckedUpdateWithoutReview_statsInput>
-  }
-
   export type AgreementAcceptanceModelCreateNestedManyWithoutAgreementInput = {
     create?: XOR<Enumerable<AgreementAcceptanceModelCreateWithoutAgreementInput>, Enumerable<AgreementAcceptanceModelUncheckedCreateWithoutAgreementInput>>
     connectOrCreate?: Enumerable<AgreementAcceptanceModelCreateOrConnectWithoutAgreementInput>
@@ -31241,13 +28647,6 @@ export namespace Prisma {
     connect?: Enumerable<OauthAccountModelWhereUniqueInput>
   }
 
-  export type ReviewModelCreateNestedManyWithoutReviewerInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutReviewerInput>, Enumerable<ReviewModelUncheckedCreateWithoutReviewerInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutReviewerInput>
-    createMany?: ReviewModelCreateManyReviewerInputEnvelope
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-  }
-
   export type ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput = {
     create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
     connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
@@ -31260,13 +28659,6 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<OauthAccountModelCreateOrConnectWithoutCustomerInput>
     createMany?: OauthAccountModelCreateManyCustomerInputEnvelope
     connect?: Enumerable<OauthAccountModelWhereUniqueInput>
-  }
-
-  export type ReviewModelUncheckedCreateNestedManyWithoutReviewerInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutReviewerInput>, Enumerable<ReviewModelUncheckedCreateWithoutReviewerInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutReviewerInput>
-    createMany?: ReviewModelCreateManyReviewerInputEnvelope
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
   }
 
   export type ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput = {
@@ -31302,20 +28694,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<OauthAccountModelScalarWhereInput>
   }
 
-  export type ReviewModelUpdateManyWithoutReviewerNestedInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutReviewerInput>, Enumerable<ReviewModelUncheckedCreateWithoutReviewerInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutReviewerInput>
-    upsert?: Enumerable<ReviewModelUpsertWithWhereUniqueWithoutReviewerInput>
-    createMany?: ReviewModelCreateManyReviewerInputEnvelope
-    set?: Enumerable<ReviewModelWhereUniqueInput>
-    disconnect?: Enumerable<ReviewModelWhereUniqueInput>
-    delete?: Enumerable<ReviewModelWhereUniqueInput>
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-    update?: Enumerable<ReviewModelUpdateWithWhereUniqueWithoutReviewerInput>
-    updateMany?: Enumerable<ReviewModelUpdateManyWithWhereWithoutReviewerInput>
-    deleteMany?: Enumerable<ReviewModelScalarWhereInput>
-  }
-
   export type ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput = {
     create?: XOR<Enumerable<ZipzoongCareRequestModelCreateWithoutRequesterInput>, Enumerable<ZipzoongCareRequestModelUncheckedCreateWithoutRequesterInput>>
     connectOrCreate?: Enumerable<ZipzoongCareRequestModelCreateOrConnectWithoutRequesterInput>
@@ -31342,20 +28720,6 @@ export namespace Prisma {
     update?: Enumerable<OauthAccountModelUpdateWithWhereUniqueWithoutCustomerInput>
     updateMany?: Enumerable<OauthAccountModelUpdateManyWithWhereWithoutCustomerInput>
     deleteMany?: Enumerable<OauthAccountModelScalarWhereInput>
-  }
-
-  export type ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutReviewerInput>, Enumerable<ReviewModelUncheckedCreateWithoutReviewerInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutReviewerInput>
-    upsert?: Enumerable<ReviewModelUpsertWithWhereUniqueWithoutReviewerInput>
-    createMany?: ReviewModelCreateManyReviewerInputEnvelope
-    set?: Enumerable<ReviewModelWhereUniqueInput>
-    disconnect?: Enumerable<ReviewModelWhereUniqueInput>
-    delete?: Enumerable<ReviewModelWhereUniqueInput>
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-    update?: Enumerable<ReviewModelUpdateWithWhereUniqueWithoutReviewerInput>
-    updateMany?: Enumerable<ReviewModelUpdateManyWithWhereWithoutReviewerInput>
-    deleteMany?: Enumerable<ReviewModelScalarWhereInput>
   }
 
   export type ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput = {
@@ -31411,19 +28775,6 @@ export namespace Prisma {
     connect?: Enumerable<OauthAccountModelWhereUniqueInput>
   }
 
-  export type ReviewModelCreateNestedManyWithoutRevieweeInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutRevieweeInput>, Enumerable<ReviewModelUncheckedCreateWithoutRevieweeInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutRevieweeInput>
-    createMany?: ReviewModelCreateManyRevieweeInputEnvelope
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-  }
-
-  export type ReviewStatsModelCreateNestedOneWithoutRevieweeInput = {
-    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
-    connect?: ReviewStatsModelWhereUniqueInput
-  }
-
   export type REAgentModelUncheckedCreateNestedOneWithoutBaseInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -31455,19 +28806,6 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<OauthAccountModelCreateOrConnectWithoutBusiness_userInput>
     createMany?: OauthAccountModelCreateManyBusiness_userInputEnvelope
     connect?: Enumerable<OauthAccountModelWhereUniqueInput>
-  }
-
-  export type ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutRevieweeInput>, Enumerable<ReviewModelUncheckedCreateWithoutRevieweeInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutRevieweeInput>
-    createMany?: ReviewModelCreateManyRevieweeInputEnvelope
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-  }
-
-  export type ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput = {
-    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
-    connect?: ReviewStatsModelWhereUniqueInput
   }
 
   export type UserModelUpdateOneRequiredWithoutBusiness_userNestedInput = {
@@ -31540,30 +28878,6 @@ export namespace Prisma {
     deleteMany?: Enumerable<OauthAccountModelScalarWhereInput>
   }
 
-  export type ReviewModelUpdateManyWithoutRevieweeNestedInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutRevieweeInput>, Enumerable<ReviewModelUncheckedCreateWithoutRevieweeInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutRevieweeInput>
-    upsert?: Enumerable<ReviewModelUpsertWithWhereUniqueWithoutRevieweeInput>
-    createMany?: ReviewModelCreateManyRevieweeInputEnvelope
-    set?: Enumerable<ReviewModelWhereUniqueInput>
-    disconnect?: Enumerable<ReviewModelWhereUniqueInput>
-    delete?: Enumerable<ReviewModelWhereUniqueInput>
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-    update?: Enumerable<ReviewModelUpdateWithWhereUniqueWithoutRevieweeInput>
-    updateMany?: Enumerable<ReviewModelUpdateManyWithWhereWithoutRevieweeInput>
-    deleteMany?: Enumerable<ReviewModelScalarWhereInput>
-  }
-
-  export type ReviewStatsModelUpdateOneWithoutRevieweeNestedInput = {
-    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
-    upsert?: ReviewStatsModelUpsertWithoutRevieweeInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: ReviewStatsModelWhereUniqueInput
-    update?: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
-  }
-
   export type REAgentModelUncheckedUpdateOneWithoutBaseNestedInput = {
     create?: XOR<REAgentModelCreateWithoutBaseInput, REAgentModelUncheckedCreateWithoutBaseInput>
     connectOrCreate?: REAgentModelCreateOrConnectWithoutBaseInput
@@ -31624,30 +28938,6 @@ export namespace Prisma {
     update?: Enumerable<OauthAccountModelUpdateWithWhereUniqueWithoutBusiness_userInput>
     updateMany?: Enumerable<OauthAccountModelUpdateManyWithWhereWithoutBusiness_userInput>
     deleteMany?: Enumerable<OauthAccountModelScalarWhereInput>
-  }
-
-  export type ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput = {
-    create?: XOR<Enumerable<ReviewModelCreateWithoutRevieweeInput>, Enumerable<ReviewModelUncheckedCreateWithoutRevieweeInput>>
-    connectOrCreate?: Enumerable<ReviewModelCreateOrConnectWithoutRevieweeInput>
-    upsert?: Enumerable<ReviewModelUpsertWithWhereUniqueWithoutRevieweeInput>
-    createMany?: ReviewModelCreateManyRevieweeInputEnvelope
-    set?: Enumerable<ReviewModelWhereUniqueInput>
-    disconnect?: Enumerable<ReviewModelWhereUniqueInput>
-    delete?: Enumerable<ReviewModelWhereUniqueInput>
-    connect?: Enumerable<ReviewModelWhereUniqueInput>
-    update?: Enumerable<ReviewModelUpdateWithWhereUniqueWithoutRevieweeInput>
-    updateMany?: Enumerable<ReviewModelUpdateManyWithWhereWithoutRevieweeInput>
-    deleteMany?: Enumerable<ReviewModelScalarWhereInput>
-  }
-
-  export type ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput = {
-    create?: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-    connectOrCreate?: ReviewStatsModelCreateOrConnectWithoutRevieweeInput
-    upsert?: ReviewStatsModelUpsertWithoutRevieweeInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: ReviewStatsModelWhereUniqueInput
-    update?: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
   }
 
   export type ServiceSubCategoryModelCreateNestedOneWithoutExpertisesInput = {
@@ -31968,60 +29258,6 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntNullableFilter | number | null
-  }
-
-  export type NestedIntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
-  }
-
-  export type NestedFloatFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
-  }
-
-  export type NestedDecimalFilter = {
-    equals?: Decimal | DecimalJsLike | number | string
-    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    lt?: Decimal | DecimalJsLike | number | string
-    lte?: Decimal | DecimalJsLike | number | string
-    gt?: Decimal | DecimalJsLike | number | string
-    gte?: Decimal | DecimalJsLike | number | string
-    not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalWithAggregatesFilter = {
-    equals?: Decimal | DecimalJsLike | number | string
-    in?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    notIn?: Enumerable<Decimal> | Enumerable<DecimalJsLike> | Enumerable<number> | Enumerable<string> | Decimal | DecimalJsLike | number | string
-    lt?: Decimal | DecimalJsLike | number | string
-    lte?: Decimal | DecimalJsLike | number | string
-    gt?: Decimal | DecimalJsLike | number | string
-    gte?: Decimal | DecimalJsLike | number | string
-    not?: NestedDecimalWithAggregatesFilter | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter
-    _avg?: NestedDecimalFilter
-    _sum?: NestedDecimalFilter
-    _min?: NestedDecimalFilter
-    _max?: NestedDecimalFilter
   }
 
   export type NestedEnumAgreementTargetTypeFilter = {
@@ -32609,220 +29845,6 @@ export namespace Prisma {
     super_category_id?: StringFilter | string
   }
 
-  export type CustomerModelCreateWithoutReviewsInput = {
-    birth?: string | null
-    gender?: GenderType | null
-    phone?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    profile_image_url?: string | null
-    base: UserModelCreateNestedOneWithoutCustomerInput
-    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
-    zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
-  }
-
-  export type CustomerModelUncheckedCreateWithoutReviewsInput = {
-    id: string
-    birth?: string | null
-    gender?: GenderType | null
-    phone?: string | null
-    address_first?: string | null
-    address_second?: string | null
-    profile_image_url?: string | null
-    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
-    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
-  }
-
-  export type CustomerModelCreateOrConnectWithoutReviewsInput = {
-    where: CustomerModelWhereUniqueInput
-    create: XOR<CustomerModelCreateWithoutReviewsInput, CustomerModelUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type BusinessUserModelCreateWithoutReviewsInput = {
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    base: UserModelCreateNestedOneWithoutBusiness_userInput
-    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
-    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelUncheckedCreateWithoutReviewsInput = {
-    id: string
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelCreateOrConnectWithoutReviewsInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutReviewsInput, BusinessUserModelUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type CustomerModelUpsertWithoutReviewsInput = {
-    update: XOR<CustomerModelUpdateWithoutReviewsInput, CustomerModelUncheckedUpdateWithoutReviewsInput>
-    create: XOR<CustomerModelCreateWithoutReviewsInput, CustomerModelUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type CustomerModelUpdateWithoutReviewsInput = {
-    birth?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
-    oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
-    zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
-  }
-
-  export type CustomerModelUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    birth?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address_first?: NullableStringFieldUpdateOperationsInput | string | null
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
-    zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
-  }
-
-  export type BusinessUserModelUpsertWithoutReviewsInput = {
-    update: XOR<BusinessUserModelUpdateWithoutReviewsInput, BusinessUserModelUncheckedUpdateWithoutReviewsInput>
-    create: XOR<BusinessUserModelCreateWithoutReviewsInput, BusinessUserModelUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type BusinessUserModelUpdateWithoutReviewsInput = {
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
-    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
-    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
-  }
-
-  export type BusinessUserModelUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
-  }
-
-  export type BusinessUserModelCreateWithoutReview_statsInput = {
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    base: UserModelCreateNestedOneWithoutBusiness_userInput
-    re_agent?: REAgentModelCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
-    sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelUncheckedCreateWithoutReview_statsInput = {
-    id: string
-    is_verified: boolean
-    introduction_title: string
-    introduction_content: string
-    phone: string
-    address_first: string
-    address_second?: string | null
-    profile_image_url: string
-    re_agent?: REAgentModelUncheckedCreateNestedOneWithoutBaseInput
-    hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
-    certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-  }
-
-  export type BusinessUserModelCreateOrConnectWithoutReview_statsInput = {
-    where: BusinessUserModelWhereUniqueInput
-    create: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
-  }
-
-  export type BusinessUserModelUpsertWithoutReview_statsInput = {
-    update: XOR<BusinessUserModelUpdateWithoutReview_statsInput, BusinessUserModelUncheckedUpdateWithoutReview_statsInput>
-    create: XOR<BusinessUserModelCreateWithoutReview_statsInput, BusinessUserModelUncheckedCreateWithoutReview_statsInput>
-  }
-
-  export type BusinessUserModelUpdateWithoutReview_statsInput = {
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    base?: UserModelUpdateOneRequiredWithoutBusiness_userNestedInput
-    re_agent?: REAgentModelUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
-    sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-  }
-
-  export type BusinessUserModelUncheckedUpdateWithoutReview_statsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    introduction_title?: StringFieldUpdateOperationsInput | string
-    introduction_content?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address_first?: StringFieldUpdateOperationsInput | string
-    address_second?: NullableStringFieldUpdateOperationsInput | string | null
-    profile_image_url?: StringFieldUpdateOperationsInput | string
-    re_agent?: REAgentModelUncheckedUpdateOneWithoutBaseNestedInput
-    hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
-    certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-  }
-
   export type AgreementAcceptanceModelCreateWithoutAgreementInput = {
     id: string
     created_at: Date | string
@@ -33232,7 +30254,6 @@ export namespace Prisma {
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
   }
 
   export type CustomerModelUncheckedCreateWithoutZipzoong_care_requestsInput = {
@@ -33244,7 +30265,6 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
   }
 
   export type CustomerModelCreateOrConnectWithoutZipzoong_care_requestsInput = {
@@ -33324,7 +30344,6 @@ export namespace Prisma {
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
   }
 
   export type CustomerModelUncheckedUpdateWithoutZipzoong_care_requestsInput = {
@@ -33336,7 +30355,6 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
   }
 
   export type ZipzoongCareConsultationTimeCheckModelUpsertWithWhereUniqueWithoutRequestInput = {
@@ -33579,7 +30597,6 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
@@ -33591,7 +30608,6 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutCustomerInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
@@ -33613,8 +30629,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutBaseInput = {
@@ -33630,8 +30644,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutBaseInput = {
@@ -33680,7 +30692,6 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
@@ -33692,7 +30703,6 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutCustomerNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
@@ -33714,8 +30724,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutBaseInput = {
@@ -33731,8 +30739,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type AgreementAcceptanceModelUpsertWithWhereUniqueWithoutUserInput = {
@@ -33825,38 +30831,6 @@ export namespace Prisma {
 
   export type OauthAccountModelCreateManyCustomerInputEnvelope = {
     data: Enumerable<OauthAccountModelCreateManyCustomerInput>
-    skipDuplicates?: boolean
-  }
-
-  export type ReviewModelCreateWithoutReviewerInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    content: string
-    rating: number
-    reviewee: BusinessUserModelCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewModelUncheckedCreateWithoutReviewerInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewee_id: string
-    content: string
-    rating: number
-  }
-
-  export type ReviewModelCreateOrConnectWithoutReviewerInput = {
-    where: ReviewModelWhereUniqueInput
-    create: XOR<ReviewModelCreateWithoutReviewerInput, ReviewModelUncheckedCreateWithoutReviewerInput>
-  }
-
-  export type ReviewModelCreateManyReviewerInputEnvelope = {
-    data: Enumerable<ReviewModelCreateManyReviewerInput>
     skipDuplicates?: boolean
   }
 
@@ -33964,37 +30938,6 @@ export namespace Prisma {
     gender?: EnumGenderTypeNullableFilter | GenderType | null
     address_first?: StringNullableFilter | string | null
     address_second?: StringNullableFilter | string | null
-  }
-
-  export type ReviewModelUpsertWithWhereUniqueWithoutReviewerInput = {
-    where: ReviewModelWhereUniqueInput
-    update: XOR<ReviewModelUpdateWithoutReviewerInput, ReviewModelUncheckedUpdateWithoutReviewerInput>
-    create: XOR<ReviewModelCreateWithoutReviewerInput, ReviewModelUncheckedCreateWithoutReviewerInput>
-  }
-
-  export type ReviewModelUpdateWithWhereUniqueWithoutReviewerInput = {
-    where: ReviewModelWhereUniqueInput
-    data: XOR<ReviewModelUpdateWithoutReviewerInput, ReviewModelUncheckedUpdateWithoutReviewerInput>
-  }
-
-  export type ReviewModelUpdateManyWithWhereWithoutReviewerInput = {
-    where: ReviewModelScalarWhereInput
-    data: XOR<ReviewModelUpdateManyMutationInput, ReviewModelUncheckedUpdateManyWithoutReviewsInput>
-  }
-
-  export type ReviewModelScalarWhereInput = {
-    AND?: Enumerable<ReviewModelScalarWhereInput>
-    OR?: Enumerable<ReviewModelScalarWhereInput>
-    NOT?: Enumerable<ReviewModelScalarWhereInput>
-    id?: StringFilter | string
-    created_at?: DateTimeFilter | Date | string
-    updated_at?: DateTimeFilter | Date | string
-    is_deleted?: BoolFilter | boolean
-    deleted_at?: DateTimeNullableFilter | Date | string | null
-    reviewer_id?: StringFilter | string
-    reviewee_id?: StringFilter | string
-    content?: StringFilter | string
-    rating?: IntFilter | number
   }
 
   export type ZipzoongCareRequestModelUpsertWithWhereUniqueWithoutRequesterInput = {
@@ -34200,57 +31143,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ReviewModelCreateWithoutRevieweeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    content: string
-    rating: number
-    reviewer: CustomerModelCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewModelUncheckedCreateWithoutRevieweeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewer_id: string
-    content: string
-    rating: number
-  }
-
-  export type ReviewModelCreateOrConnectWithoutRevieweeInput = {
-    where: ReviewModelWhereUniqueInput
-    create: XOR<ReviewModelCreateWithoutRevieweeInput, ReviewModelUncheckedCreateWithoutRevieweeInput>
-  }
-
-  export type ReviewModelCreateManyRevieweeInputEnvelope = {
-    data: Enumerable<ReviewModelCreateManyRevieweeInput>
-    skipDuplicates?: boolean
-  }
-
-  export type ReviewStatsModelCreateWithoutRevieweeInput = {
-    created_at?: Date | string
-    updated_at?: Date | string
-    review_cnt: Decimal | DecimalJsLike | number | string
-    rating_sum: Decimal | DecimalJsLike | number | string
-  }
-
-  export type ReviewStatsModelUncheckedCreateWithoutRevieweeInput = {
-    created_at?: Date | string
-    updated_at?: Date | string
-    review_cnt: Decimal | DecimalJsLike | number | string
-    rating_sum: Decimal | DecimalJsLike | number | string
-  }
-
-  export type ReviewStatsModelCreateOrConnectWithoutRevieweeInput = {
-    where: ReviewStatsModelWhereUniqueInput
-    create: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-  }
-
   export type UserModelUpsertWithoutBusiness_userInput = {
     update: XOR<UserModelUpdateWithoutBusiness_userInput, UserModelUncheckedUpdateWithoutBusiness_userInput>
     create: XOR<UserModelCreateWithoutBusiness_userInput, UserModelUncheckedCreateWithoutBusiness_userInput>
@@ -34379,41 +31271,6 @@ export namespace Prisma {
     data: XOR<OauthAccountModelUpdateManyMutationInput, OauthAccountModelUncheckedUpdateManyWithoutOauth_accountsInput>
   }
 
-  export type ReviewModelUpsertWithWhereUniqueWithoutRevieweeInput = {
-    where: ReviewModelWhereUniqueInput
-    update: XOR<ReviewModelUpdateWithoutRevieweeInput, ReviewModelUncheckedUpdateWithoutRevieweeInput>
-    create: XOR<ReviewModelCreateWithoutRevieweeInput, ReviewModelUncheckedCreateWithoutRevieweeInput>
-  }
-
-  export type ReviewModelUpdateWithWhereUniqueWithoutRevieweeInput = {
-    where: ReviewModelWhereUniqueInput
-    data: XOR<ReviewModelUpdateWithoutRevieweeInput, ReviewModelUncheckedUpdateWithoutRevieweeInput>
-  }
-
-  export type ReviewModelUpdateManyWithWhereWithoutRevieweeInput = {
-    where: ReviewModelScalarWhereInput
-    data: XOR<ReviewModelUpdateManyMutationInput, ReviewModelUncheckedUpdateManyWithoutReviewsInput>
-  }
-
-  export type ReviewStatsModelUpsertWithoutRevieweeInput = {
-    update: XOR<ReviewStatsModelUpdateWithoutRevieweeInput, ReviewStatsModelUncheckedUpdateWithoutRevieweeInput>
-    create: XOR<ReviewStatsModelCreateWithoutRevieweeInput, ReviewStatsModelUncheckedCreateWithoutRevieweeInput>
-  }
-
-  export type ReviewStatsModelUpdateWithoutRevieweeInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-  }
-
-  export type ReviewStatsModelUncheckedUpdateWithoutRevieweeInput = {
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    review_cnt?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    rating_sum?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-  }
-
   export type ServiceSubCategoryModelCreateWithoutExpertisesInput = {
     id: string
     created_at: Date | string
@@ -34452,8 +31309,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutSub_expertisesInput = {
@@ -34469,8 +31324,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutSub_expertisesInput = {
@@ -34521,8 +31374,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutSub_expertisesInput = {
@@ -34538,8 +31389,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelCreateWithoutRe_agentInput = {
@@ -34555,8 +31404,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutRe_agentInput = {
@@ -34572,8 +31419,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutRe_agentInput = {
@@ -34633,8 +31478,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutRe_agentInput = {
@@ -34650,8 +31493,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type REPropertyModelUpsertWithWhereUniqueWithoutRe_agentInput = {
@@ -34698,8 +31539,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutHs_providerInput = {
@@ -34715,8 +31554,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutHs_providerInput = {
@@ -34772,8 +31609,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutHs_providerInput = {
@@ -34789,8 +31624,6 @@ export namespace Prisma {
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type HSExampleImageModelUpsertWithWhereUniqueWithoutHs_providerInput = {
@@ -34836,8 +31669,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutCertification_imagesInput = {
@@ -34853,8 +31684,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
     oauth_accounts?: OauthAccountModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutCertification_imagesInput = {
@@ -34880,8 +31709,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutCertification_imagesInput = {
@@ -34897,8 +31724,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     oauth_accounts?: OauthAccountModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type HSProviderModelCreateWithoutExample_imagesInput = {
@@ -34944,8 +31769,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelCreateNestedOneWithoutBaseInput
     certification_images?: BusinessCertificationImageModelCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelUncheckedCreateWithoutOauth_accountsInput = {
@@ -34961,8 +31784,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedCreateNestedOneWithoutBaseInput
     certification_images?: BusinessCertificationImageModelUncheckedCreateNestedManyWithoutBusiness_userInput
     sub_expertises?: SubExpertiseModelUncheckedCreateNestedManyWithoutBusiness_userInput
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutRevieweeInput
-    review_stats?: ReviewStatsModelUncheckedCreateNestedOneWithoutRevieweeInput
   }
 
   export type BusinessUserModelCreateOrConnectWithoutOauth_accountsInput = {
@@ -34978,7 +31799,6 @@ export namespace Prisma {
     address_second?: string | null
     profile_image_url?: string | null
     base: UserModelCreateNestedOneWithoutCustomerInput
-    reviews?: ReviewModelCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelCreateNestedManyWithoutRequesterInput
   }
 
@@ -34990,7 +31810,6 @@ export namespace Prisma {
     address_first?: string | null
     address_second?: string | null
     profile_image_url?: string | null
-    reviews?: ReviewModelUncheckedCreateNestedManyWithoutReviewerInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedCreateNestedManyWithoutRequesterInput
   }
 
@@ -35017,8 +31836,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUpdateOneWithoutBaseNestedInput
     certification_images?: BusinessCertificationImageModelUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUpdateOneWithoutRevieweeNestedInput
   }
 
   export type BusinessUserModelUncheckedUpdateWithoutOauth_accountsInput = {
@@ -35034,8 +31851,6 @@ export namespace Prisma {
     hs_provider?: HSProviderModelUncheckedUpdateOneWithoutBaseNestedInput
     certification_images?: BusinessCertificationImageModelUncheckedUpdateManyWithoutBusiness_userNestedInput
     sub_expertises?: SubExpertiseModelUncheckedUpdateManyWithoutBusiness_userNestedInput
-    reviews?: ReviewModelUncheckedUpdateManyWithoutRevieweeNestedInput
-    review_stats?: ReviewStatsModelUncheckedUpdateOneWithoutRevieweeNestedInput
   }
 
   export type CustomerModelUpsertWithoutOauth_accountsInput = {
@@ -35051,7 +31866,6 @@ export namespace Prisma {
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
     base?: UserModelUpdateOneRequiredWithoutCustomerNestedInput
-    reviews?: ReviewModelUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUpdateManyWithoutRequesterNestedInput
   }
 
@@ -35063,7 +31877,6 @@ export namespace Prisma {
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
     profile_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    reviews?: ReviewModelUncheckedUpdateManyWithoutReviewerNestedInput
     zipzoong_care_requests?: ZipzoongCareRequestModelUncheckedUpdateManyWithoutRequesterNestedInput
   }
 
@@ -35492,17 +32305,6 @@ export namespace Prisma {
     address_second?: string | null
   }
 
-  export type ReviewModelCreateManyReviewerInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewee_id: string
-    content: string
-    rating: number
-  }
-
   export type ZipzoongCareRequestModelCreateManyRequesterInput = {
     id: string
     created_at: Date | string
@@ -35570,39 +32372,6 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ReviewModelUpdateWithoutReviewerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    reviewee?: BusinessUserModelUpdateOneRequiredWithoutReviewsNestedInput
-  }
-
-  export type ReviewModelUncheckedUpdateWithoutReviewerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ReviewModelUncheckedUpdateManyWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewee_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type ZipzoongCareRequestModelUpdateWithoutRequesterInput = {
@@ -35680,17 +32449,6 @@ export namespace Prisma {
     gender?: GenderType | null
     address_first?: string | null
     address_second?: string | null
-  }
-
-  export type ReviewModelCreateManyRevieweeInput = {
-    id: string
-    created_at: Date | string
-    updated_at: Date | string
-    is_deleted: boolean
-    deleted_at?: Date | string | null
-    reviewer_id: string
-    content: string
-    rating: number
   }
 
   export type BusinessCertificationImageModelUpdateWithoutBusiness_userInput = {
@@ -35783,28 +32541,6 @@ export namespace Prisma {
     gender?: NullableEnumGenderTypeFieldUpdateOperationsInput | GenderType | null
     address_first?: NullableStringFieldUpdateOperationsInput | string | null
     address_second?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ReviewModelUpdateWithoutRevieweeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    reviewer?: CustomerModelUpdateOneRequiredWithoutReviewsNestedInput
-  }
-
-  export type ReviewModelUncheckedUpdateWithoutRevieweeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    is_deleted?: BoolFieldUpdateOperationsInput | boolean
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewer_id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
   }
 
   export type REPropertyModelCreateManyRe_agentInput = {

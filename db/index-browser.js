@@ -13,12 +13,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.14.1
- * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
+ * Prisma Client JS version: 4.15.0
+ * Query Engine version: 8fbc245156db7124f997f4cecdd8d1219e360944
  */
 Prisma.prismaVersion = {
-  client: "4.14.1",
-  engine: "d9a4c5988f480fa576d43970d5a23641aa77bc9c"
+  client: "4.15.0",
+  engine: "8fbc245156db7124f997f4cecdd8d1219e360944"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -252,26 +252,6 @@ exports.Prisma.REPropertySuperCategoryModelScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.ReviewModelScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  is_deleted: 'is_deleted',
-  deleted_at: 'deleted_at',
-  reviewer_id: 'reviewer_id',
-  reviewee_id: 'reviewee_id',
-  content: 'content',
-  rating: 'rating'
-};
-
-exports.Prisma.ReviewStatsModelScalarFieldEnum = {
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  review_cnt: 'review_cnt',
-  rating_sum: 'rating_sum',
-  reviewee_id: 'reviewee_id'
-};
-
 exports.Prisma.ServiceSubCategoryModelScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
@@ -394,8 +374,6 @@ exports.Prisma.ModelName = {
   REPropertySubCategoryModel: 'REPropertySubCategoryModel',
   REPropertyMiddleCategoryModel: 'REPropertyMiddleCategoryModel',
   REPropertySuperCategoryModel: 'REPropertySuperCategoryModel',
-  ReviewModel: 'ReviewModel',
-  ReviewStatsModel: 'ReviewStatsModel',
   AgreementModel: 'AgreementModel',
   AgreementAcceptanceModel: 'AgreementAcceptanceModel',
   ServiceSubCategoryModel: 'ServiceSubCategoryModel',
