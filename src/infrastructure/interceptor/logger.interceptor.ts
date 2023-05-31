@@ -13,10 +13,7 @@ export class LoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       catchError((err: Error) => {
-        if (!(err instanceof HttpException))
-          Logger.get().error(
-            err.stack + "\n    at " + new Date().toISOString()
-          );
+        if (!(err instanceof HttpException)) Logger.get().error(err.stack);
         return throwError(() => err);
       })
     );

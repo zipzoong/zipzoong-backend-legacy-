@@ -41,4 +41,7 @@ interface IEnv {
   readonly NAVER_SENS_SECRET_KEY: string;
   readonly NAVER_SENS_CALLER: string;
   readonly NAVER_SENS_HOST: string;
+
+  readonly AWS_LOGGER_ACCESS_KEY: string;
+  readonly AWS_LOGGER_SECRET_KEY: string;
 }

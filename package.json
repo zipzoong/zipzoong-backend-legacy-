@@ -37,6 +37,7 @@
     "url": "https://github.com/zipzoong/zipzoong-backend.git"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.342.0",
     "@devts/authjs": "^0.0.16",
     "@fxts/core": "^0.15.1",
     "@nestia/core": "^1.2.4",
