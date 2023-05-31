@@ -10,7 +10,7 @@ const NESTIA_CONFIG: nestia.INestiaConfig = {
   json: true,
   primitive: false,
   swagger: {
-    output: "packages/api/swagger.json",
+    output: "packages/swagger-ui/swagger.json",
     info: {
       version: "0.0.1",
       title: "Zipzoong RESTAPI",
