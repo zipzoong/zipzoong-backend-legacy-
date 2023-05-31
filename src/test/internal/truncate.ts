@@ -8,9 +8,6 @@ export const truncate = () =>
     prisma.$executeRaw`TRUNCATE TABLE zipzoong_care_service_checks cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE zipzoong_care_requests cascade;`,
 
-    prisma.$executeRaw`TRUNCATE TABLE review_stats cascade;`,
-    prisma.$executeRaw`TRUNCATE TABLE reviews cascade;`,
-
     prisma.$executeRaw`TRUNCATE TABLE sub_expertises cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE service_super_categories cascade;`,
     prisma.$executeRaw`TRUNCATE TABLE service_sub_categories cascade;`,

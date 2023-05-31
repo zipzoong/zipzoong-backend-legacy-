@@ -32,8 +32,6 @@ export const seed = async (connection: IConnection) => {
   await seedHSProviders(connection);
   await seedREAgents(connection);
 
-  await seedReviews();
-
   await seedZipzoongCareRequests(connection);
 
   const now = getISOString();
@@ -50,33 +48,6 @@ export const seed = async (connection: IConnection) => {
       deleted_at: null
     }
   });
-
-  await prisma.$queryRaw`
-    WITH updated_rows AS (
-      INSERT INTO review_stats (reviewee_id, rating_sum, review_cnt)
-      SELECT
-        reviewee_id,
-        SUM(rating) AS rating_sum,
-        COUNT(*) AS review_cnt
-      FROM
-        reviews
-      WHERE reviewee_id IN (SELECT
-                              id
-                            FROM business_users INNER JOIN users
-                            USING (id)
-                            WHERE is_verified = true AND is_deleted = false)
-      GROUP BY
-        reviewee_id
-      ON CONFLICT (reviewee_id) DO UPDATE
-      SET
-        rating_sum = EXCLUDED.rating_sum,
-        review_cnt = EXCLUDED.review_cnt,
-        updated_at = NOW()
-      RETURNING reviewee_id
-    )
-    DELETE FROM review_stats
-    WHERE reviewee_id NOT IN (SELECT reviewee_id FROM updated_rows);
-  `;
 };
 
 export const seedCategories = () =>
@@ -750,69 +721,6 @@ const seedREAgents = async (connection: IConnection) => {
     })
   );
   await prisma.$transaction(queries);
-};
-
-const seedReviews = async () => {
-  const customers = await prisma.customerModel.findMany({
-    where: { phone: { not: null }, base: { is_deleted: false } }
-  });
-
-  const reviewer_id = RandomGenerator.pick(customers).id;
-
-  const business_users = await prisma.businessUserModel.findMany({
-    where: { is_verified: true, base: { is_deleted: false } }
-  });
-
-  const now = getISOString();
-
-  const bs_user_ids = business_users.map(pick("id"));
-
-  const data = () =>
-    bs_user_ids.map((reviewee_id) => ({
-      id: randomUUID(),
-      created_at: now,
-      updated_at: now,
-      is_deleted: false,
-      deleted_at: null,
-      reviewer_id,
-      reviewee_id,
-      content: "test review",
-      rating: randomInt(0, 10)
-    }));
-
-  await prisma.reviewModel.createMany({
-    data: [
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data(),
-      ...data()
-    ]
-  });
 };
 
 const sample_times: IZipzoongCareRequest.ICreateCheckedConsultationTime[] = [
