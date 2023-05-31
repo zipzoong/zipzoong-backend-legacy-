@@ -1,28 +1,18 @@
-import { ConsoleLogger, LoggerService } from "@nestjs/common";
+import { LoggerService } from "@nestjs/common";
+import winston from "winston";
 import { Configuration } from "./config";
 
 export namespace Logger {
-  export const none: LoggerService = {
-    log() {},
-    error() {},
-    warn() {}
-  };
-  export const Console = new ConsoleLogger();
+  const logger: LoggerService = (() => {
+    const console = new winston.transports.Stream({ stream: process.stdout });
+    const extend = new winston.transports.Stream({ stream: process.stdout });
+    const _logger = winston.createLogger({
+      level: Configuration.NODE_ENV === "development" ? "silly" : "error",
+      format: winston.format.simple(),
+      transports: Configuration.NODE_ENV === "production" ? extend : console
+    });
+    return _logger;
+  })();
 
-  export const get = (): LoggerService => {
-    switch (Configuration.NODE_ENV) {
-      case "development":
-        Console.setLogLevels(["error", "verbose", "warn"]);
-        return Console;
-
-      case "production":
-        Console.setLogLevels(["error", "warn"]);
-        return Console; // 추후 변경
-
-      case "test":
-        Console.setLogLevels(["error"]);
-        return Console;
-    }
-    //  return none;
-  };
+  export const get = (): LoggerService => logger;
 }

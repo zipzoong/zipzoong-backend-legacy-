@@ -49,7 +49,8 @@
     "helmet": "^7.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typia": "^3.8.9"
+    "typia": "^3.8.9",
+    "winston": "^3.9.0"
   },
   "devDependencies": {
     "@nestia/e2e": "^0.3.1",

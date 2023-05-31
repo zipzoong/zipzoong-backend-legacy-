@@ -12,11 +12,10 @@ import { catchError, Observable, throwError } from "rxjs";
 export class LoggerInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
-      catchError((err) => {
+      catchError((err: Error) => {
         if (!(err instanceof HttpException))
           Logger.get().error(
-            err,
-            `${context.getClass().name}:${context.getHandler().name}`
+            err.stack + "\n    at " + new Date().toISOString()
           );
         return throwError(() => err);
       })
