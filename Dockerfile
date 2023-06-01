@@ -7,7 +7,7 @@ RUN npm i -g npm && npm ci
 
 COPY ./db  ./db
 COPY ./src ./src
-RUN npm run build && npm run prune --production
+RUN npm run build && npm prune --production
 
 FROM node:18-alpine AS runner
 
