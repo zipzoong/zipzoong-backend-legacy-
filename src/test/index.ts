@@ -78,7 +78,7 @@ async function test(connection: IConnection): Promise<-1 | 0> {
 }
 
 async function run(): Promise<void> {
-  const app = await Backend.start({ logger: ["error"] });
+  const app = await Backend.start({ logger: false });
   const connection: IConnection = {
     host: `http://localhost:${Configuration.PORT}`
   };
