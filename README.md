@@ -50,3 +50,4 @@
 | chore    | :heavy_plus_sign:     | ➕    | dependency 추가             |
 | chore    | :heavy_minus_sign:    | ➖    | dependency 제거             |
 | chore    | :card_file_box:       | 🗃️    | DB 관련 수정 사항 적용      |
+| release  | :bookmark:            | 🔖    | 새로운 버전 출시            |
