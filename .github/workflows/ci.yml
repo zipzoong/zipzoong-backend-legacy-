@@ -4,7 +4,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: main
 
 env:
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}

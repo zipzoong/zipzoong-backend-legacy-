@@ -6,4 +6,9 @@ export class HealthCheckController {
   check() {
     return "health check";
   }
+
+  @Get("log")
+  log() {
+    throw Error("로그 테스트");
+  }
 }
