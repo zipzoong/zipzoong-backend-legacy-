@@ -1,0 +1,32 @@
+node_modules
+.github
+.vscode
+
+# file
+
+build
+tbuild
+packages
+prisma
+
+# log
+
+test_log.md
+README.md
+
+# env
+
+.env
+.env.\*
+
+.DS_Store
+
+# config
+
+nestia.config.ts
+tsconfig.api.json
+tsconfig.test.json
+.eslintrc.js
+.gitignore
+.prettierignore
+prettier.config.js

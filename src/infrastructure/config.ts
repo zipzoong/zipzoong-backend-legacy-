@@ -16,18 +16,27 @@ const init = () => {
   }
 
   return process.env.NODE_ENV === "test"
-    ? ({ ...process.env } as unknown as IEnv)
-    : {
-        ...typia.assert<IEnv>(process.env)
-      };
+    ? ({ ...process.env, PORT: 4000 } as unknown as IEnv)
+    : typia.assert<IEnv>({ ...process.env, PORT: 4000 });
 };
 export const Configuration: IEnv = init();
 
 interface IEnv {
   readonly NODE_ENV: "development" | "production" | "test";
-  readonly PORT: string | number;
+  readonly PORT: 4000;
+  readonly DATABASE_URL: string;
 
-  readonly GOOGLE_CLIENT_ID: string;
-  readonly GOOGLE_CLIENT_SECRET: string;
-  readonly GOOGLE_REDIRECT_URI: string;
+  readonly ACCOUNT_TOKEN_KEY: string;
+  readonly ACCESS_TOKEN_KEY: string;
+  readonly REFRESH_TOKEN_KEY: string;
+
+  readonly KAKAO_CLIENT_ID: string;
+  readonly KAKAO_CLIENT_SECRET: string;
+  readonly KAKAO_REDIRECT_URI: string;
+
+  readonly NAVER_SENS_SERVICE_ID: string;
+  readonly NAVER_SENS_ACCESS_KEY: string;
+  readonly NAVER_SENS_SECRET_KEY: string;
+  readonly NAVER_SENS_CALLER: string;
+  readonly NAVER_SENS_HOST: string;
 }

@@ -1,6 +1,6 @@
 {
-  "name": "zipzoong-sdk",
-  "version": "0.0.0",
+  "name": "@zipzoong/sdk",
+  "version": "0.1.9",
   "description": "SDK for Zipzoong API",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -13,9 +13,9 @@
   "bugs": {
     "url": "https://github.com/zipzoong/zipzoong-backend/issues"
   },
-  "homepage": "https://github.com/szipzoong/zipzoong-backend#readme",
+  "homepage": "https://github.com/zipzoong/zipzoong-backend#readme",
   "dependencies": {
-    "@nestia/fetcher": "^1.0.1",
-    "typia": "^3.7.4"
+    "@nestia/fetcher": "^1.2.2",
+    "typia": "^3.8.9"
   }
 }

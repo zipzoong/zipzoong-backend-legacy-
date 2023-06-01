@@ -1,68 +1,48 @@
-name: Test
+# https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+
+name: CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: main
 
 env:
-  PORT: 4000
-  DATABASE_URL: mysql://test:test@localhost:3306/test
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
 
 permissions:
-  pull-requests: write
+  id-token: write
+  contents: read
 
 jobs:
-  Test_Report:
+  docker-build:
+    name: Docker Image Build & Push
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-        env:
-          MYSQL_USER: test
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_PASSWORD: test
-          MYSQL_DATABASE: test
-
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@main
 
-      - name: Install
-        run: npm ci
-
-      - name: Setup DB
-        run: npm run db:deploy
-
-      - name: Test 🧪
-        run: npm run test
-
-      - name: Create or Update PR Comment 💬
-        uses: actions/github-script@main
-        if: github.event.pull_request
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          script: |
-            const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
-            const cmts = await github.rest.issues.listComments({ issue_number, owner, repo });
+          role-to-assume: ${{ secrets.AWS_ECR_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
 
-            const comment = cmts.data.find(cmt => cmt.user.login === 'github-actions[bot]');
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-            const fs = require('fs');
-            const path = './test_log.md';
-            const body = fs.readFileSync(path, 'utf8');
-            comment
-                ? github.rest.issues.updateComment({ comment_id: comment.id, owner, repo, body })
-                : github.rest.issues.createComment({ issue_number, owner, repo, body });
+      - name: Read package.json version
+        id: read-version
+        run: |
+          echo ::set-output name=VERSION::$(node -p "require('./package.json').version")
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.read-version.outputs.VERSION }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

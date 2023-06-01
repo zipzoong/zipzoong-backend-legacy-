@@ -1,16 +1,365 @@
+datasource database {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../db"
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+enum GenderType {
+  female
+  male
+  other
 }
-model User {
-  id    String @id
-  name  String
-  email String
+
+enum OauthType {
+  kakao
+  naver
+}
+
+enum ServiceType {
+  HS
+  RE
+}
+
+enum AgreementTargetType {
+  all
+  customer
+  business
+  HS
+  RE
+}
+
+enum ZipzoongCareStatus {
+  pending
+  caring
+  cared
+  cancelled
+}
+
+model REPropertyModel {
+  id             String                    @id
+  created_at     DateTime                  @database.Timestamptz
+  updated_at     DateTime                  @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?                 @database.Timestamptz
+  name           String
+  main_image_url String
+  re_agent_id    String
+  is_visible     Boolean
+  re_agent       REAgentModel              @relation(fields: [re_agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categories     REPropertyCategoryModel[]
+
+  @@map("re_properties")
+}
+
+model REPropertyCategoryModel {
+  id              String                     @id
+  created_at      DateTime                   @database.Timestamptz
+  updated_at      DateTime                   @database.Timestamptz
+  is_deleted      Boolean
+  deleted_at      DateTime?                  @database.Timestamptz
+  re_property_id  String
+  sub_category_id String
+  re_property     REPropertyModel            @relation(fields: [re_property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_category    REPropertySubCategoryModel @relation(fields: [sub_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("re_property_categories")
+}
+
+model REPropertySubCategoryModel {
+  id                  String                        @id
+  created_at          DateTime                      @database.Timestamptz
+  updated_at          DateTime                      @database.Timestamptz
+  is_deleted          Boolean
+  deleted_at          DateTime?                     @database.Timestamptz
+  name                String
+  middle_category_id  String
+  middle_category     REPropertyMiddleCategoryModel @relation(fields: [middle_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  property_categories REPropertyCategoryModel[]
+
+  @@map("re_property_sub_categories")
+}
+
+model REPropertyMiddleCategoryModel {
+  id                String                       @id
+  created_at        DateTime                     @database.Timestamptz
+  updated_at        DateTime                     @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                    @database.Timestamptz
+  name              String
+  super_category_id String
+  super_category    REPropertySuperCategoryModel @relation(fields: [super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_categories    REPropertySubCategoryModel[]
+
+  @@map("re_property_middle_categories")
+}
+
+model REPropertySuperCategoryModel {
+  id                String                          @id
+  created_at        DateTime                        @database.Timestamptz
+  updated_at        DateTime                        @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                       @database.Timestamptz
+  name              String                          @unique
+  middle_categories REPropertyMiddleCategoryModel[]
+
+  @@map("re_property_super_categories")
+}
+
+model AgreementModel {
+  id          String                     @id
+  created_at  DateTime                   @database.Timestamptz
+  updated_at  DateTime                   @database.Timestamptz
+  is_deleted  Boolean
+  deleted_at  DateTime?                  @database.Timestamptz
+  title       String
+  content     String
+  is_required Boolean
+  target_type AgreementTargetType
+  acceptances AgreementAcceptanceModel[]
+
+  @@map("agreements")
+}
+
+model AgreementAcceptanceModel {
+  id           String         @id
+  created_at   DateTime       @database.Timestamptz
+  updated_at   DateTime       @database.Timestamptz
+  is_deleted   Boolean
+  deleted_at   DateTime?      @database.Timestamptz
+  user_id      String
+  agreement_id String
+  user         UserModel      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agreement    AgreementModel @relation(fields: [agreement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, agreement_id])
+  @@map("agreement_acceptances")
+}
+
+model ServiceSubCategoryModel {
+  id                String                    @id
+  created_at        DateTime                  @database.Timestamptz
+  updated_at        DateTime                  @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                 @database.Timestamptz
+  name              String
+  super_category_id String
+  super_category    ServiceSuperCategoryModel @relation(fields: [super_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  expertises        SubExpertiseModel[]
+
+  @@map("service_sub_categories")
+}
+
+model ServiceSuperCategoryModel {
+  id                String                          @id
+  created_at        DateTime                        @database.Timestamptz
+  updated_at        DateTime                        @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?                       @database.Timestamptz
+  name              String                          @unique
+  type              ServiceType
+  sub_categories    ServiceSubCategoryModel[]
+  focus_care_checks ZipzoongCareServiceCheckModel[]
+
+  @@map("service_super_categories")
+}
+
+model ZipzoongCareRequestModel {
+  id                       String                                   @id
+  created_at               DateTime                                 @database.Timestamptz
+  updated_at               DateTime                                 @database.Timestamptz
+  is_deleted               Boolean
+  deleted_at               DateTime?                                @database.Timestamptz
+  care_start_date          DateTime                                 @database.Date
+  care_end_date            DateTime                                 @database.Date
+  detail                   String
+  status                   ZipzoongCareStatus
+  requester_id             String
+  requester                CustomerModel                            @relation(fields: [requester_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  consultation_time_checks ZipzoongCareConsultationTimeCheckModel[]
+  service_checks           ZipzoongCareServiceCheckModel[]
+
+  @@map("zipzoong_care_requests")
+}
+
+model ZipzoongCareServiceCheckModel {
+  id                        String                    @id
+  created_at                DateTime                  @database.Timestamptz
+  updated_at                DateTime                  @database.Timestamptz
+  is_deleted                Boolean
+  deleted_at                DateTime?                 @database.Timestamptz
+  service_super_category_id String
+  request_id                String
+  service_super_category    ServiceSuperCategoryModel @relation(fields: [service_super_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  request                   ZipzoongCareRequestModel  @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("zipzoong_care_service_checks")
+}
+
+model ZipzoongCareConsultationTimeCheckModel {
+  id         String                   @id
+  created_at DateTime                 @database.Timestamptz
+  updated_at DateTime                 @database.Timestamptz
+  is_deleted Boolean
+  deleted_at DateTime?                @database.Timestamptz
+  start_time DateTime                 @database.Timetz
+  end_time   DateTime                 @database.Timetz
+  request_id String
+  request    ZipzoongCareRequestModel @relation(fields: [request_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("zipzoong_care_consultation_time_checks")
+}
+
+model UserModel {
+  id                    String                     @id
+  created_at            DateTime                   @database.Timestamptz
+  updated_at            DateTime                   @database.Timestamptz
+  is_deleted            Boolean
+  deleted_at            DateTime?                  @database.Timestamptz
+  name                  String
+  email                 String?
+  customer              CustomerModel?
+  business_user         BusinessUserModel?
+  agreement_acceptances AgreementAcceptanceModel[]
 
   @@map("users")
+}
+
+model CustomerModel {
+  id                     String                     @id
+  birth                  String?
+  gender                 GenderType?
+  phone                  String?
+  address_first          String?
+  address_second         String?
+  profile_image_url      String?
+  base                   UserModel                  @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  oauth_accounts         OauthAccountModel[]
+  zipzoong_care_requests ZipzoongCareRequestModel[]
+
+  @@map("customers")
+}
+
+model BusinessUserModel {
+  id                   String                            @id
+  is_verified          Boolean
+  introduction_title   String
+  introduction_content String
+  phone                String
+  address_first        String
+  address_second       String?
+  profile_image_url    String
+  base                 UserModel                         @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  re_agent             REAgentModel?
+  hs_provider          HSProviderModel?
+  certification_images BusinessCertificationImageModel[]
+  sub_expertises       SubExpertiseModel[]
+  oauth_accounts       OauthAccountModel[]
+
+  @@map("business_users")
+}
+
+model SubExpertiseModel {
+  id               String                  @id
+  created_at       DateTime                @database.Timestamptz
+  updated_at       DateTime                @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?               @database.Timestamptz
+  sub_category_id  String
+  business_user_id String
+  sub_category     ServiceSubCategoryModel @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  business_user    BusinessUserModel       @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@unique([sub_category_id, business_user_id])
+  @@map("sub_expertises")
+}
+
+model REAgentModel {
+  id                     String            @id
+  is_licensed            Boolean
+  re_num                 String
+  re_name                String
+  re_phone               String
+  re_licensed_agent_name String
+  base                   BusinessUserModel @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  properties             REPropertyModel[]
+
+  @@map("re_agents")
+}
+
+model HSProviderModel {
+  id                        String                @id
+  business_registration_num String
+  base                      BusinessUserModel     @relation(fields: [id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  example_images            HSExampleImageModel[]
+
+  @@map("hs_providers")
+}
+
+model BusinessCertificationImageModel {
+  id               String            @id
+  created_at       DateTime          @database.Timestamptz
+  updated_at       DateTime          @database.Timestamptz
+  is_deleted       Boolean
+  deleted_at       DateTime?         @database.Timestamptz
+  business_user_id String
+  url              String
+  business_user    BusinessUserModel @relation(fields: [business_user_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@map("business_certification_images")
+}
+
+model HSExampleImageModel {
+  id             String          @id
+  created_at     DateTime        @database.Timestamptz
+  updated_at     DateTime        @database.Timestamptz
+  is_deleted     Boolean
+  deleted_at     DateTime?       @database.Timestamptz
+  hs_provider_id String
+  url            String
+  is_visible     Boolean
+  hs_provider    HSProviderModel @relation(fields: [hs_provider_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+
+  @@map("hs_example_images")
+}
+
+model OauthAccountModel {
+  id                String             @id
+  created_at        DateTime           @database.Timestamptz
+  updated_at        DateTime           @database.Timestamptz
+  is_deleted        Boolean
+  deleted_at        DateTime?          @database.Timestamptz
+  oauth_type        OauthType
+  oauth_sub         String
+  business_user_id  String?
+  customer_id       String?
+  name              String?
+  email             String?
+  phone             String?
+  profile_image_url String?
+  birth             String?
+  gender            GenderType?
+  address_first     String?
+  address_second    String?
+  business_user     BusinessUserModel? @relation(fields: [business_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer          CustomerModel?     @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("oauth_accounts")
+}
+
+model PhoneVerificationModel {
+  id          String    @id
+  created_at  DateTime  @database.Timestamptz
+  updated_at  DateTime  @database.Timestamptz
+  is_deleted  Boolean
+  deleted_at  DateTime? @database.Timestamptz
+  phone       String
+  code        String
+  request_id  String
+  is_verified Boolean
+
+  @@map("phone_verifications")
 }

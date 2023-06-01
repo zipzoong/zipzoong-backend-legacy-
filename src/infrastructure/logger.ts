@@ -1,22 +1,48 @@
-import { ConsoleLogger, LoggerService } from "@nestjs/common";
+import { LoggerService } from "@nestjs/common";
+import winston from "winston";
 import { Configuration } from "./config";
+import {
+  CloudWatchLogsClient,
+  PutLogEventsCommand
+} from "@aws-sdk/client-cloudwatch-logs";
+import { Writable } from "stream";
 
 export namespace Logger {
-  export const none: LoggerService = {
-    log() {},
-    error() {},
-    warn() {}
-  };
-  export const Console = new ConsoleLogger();
+  const createAwsStream = () => {
+    const client = new CloudWatchLogsClient({
+      region: "ap-northeast-2"
+    });
+    const stream = new Writable({
+      write(chunk, encoding, callback) {
+        const log = chunk.toString();
+        const command = new PutLogEventsCommand({
+          logGroupName: "/main_server",
+          logStreamName: "application",
+          logEvents: [{ message: log, timestamp: Date.now() }]
+        });
+        client
+          .send(command)
+          .then(() => {
+            callback();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
 
-  export const get = (): LoggerService => {
-    switch (Configuration.NODE_ENV) {
-      case "development":
-        return Console;
-
-      case "production":
-        return Console; // 추후 변경
-    }
-    return none;
+    return new winston.transports.Stream({ stream });
   };
+  const logger: LoggerService = (() => {
+    const console = new winston.transports.Stream({ stream: process.stdout });
+    const _logger = winston.createLogger({
+      level: Configuration.NODE_ENV === "development" ? "silly" : "error",
+      format: winston.format.simple(),
+      transports:
+        Configuration.NODE_ENV === "production" ? createAwsStream() : console
+    });
+    return _logger;
+  })();
+
+  export const get = (): LoggerService => logger;
 }

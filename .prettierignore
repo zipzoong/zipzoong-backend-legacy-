@@ -3,7 +3,7 @@ dist
 build
 tbuild
 db
-packages
+packages/api
 
 src/api/functional
 
