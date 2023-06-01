@@ -3,7 +3,7 @@ FROM node:18-alpine AS builder
 WORKDIR /usr/src/app
 
 COPY package*.json tsconfig*.json ./
-RUN npm i -g npm && npm ci && npm cache clean -f
+RUN npm i -g npm && npm ci
 
 COPY ./db  ./db
 COPY ./src ./src
