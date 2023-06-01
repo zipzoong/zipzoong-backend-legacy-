@@ -5,9 +5,8 @@ WORKDIR /usr/src/app
 COPY package*.json tsconfig*.json ./
 RUN npm i -g npm && npm ci
 
-COPY ./db  ./db
-COPY ./src ./src
-RUN npm run build && npm prune --production
+COPY ./db ./src ./
+RUN npm run build && npm prune --omit=dev
 
 FROM node:18-alpine AS runner
 
@@ -18,8 +17,7 @@ WORKDIR usr/src/app
 
 COPY --from=builder /usr/src/app ./package.json
 COPY --from=builder /usr/src/app ./node_modules
-COPY --from=builder /usr/src/app ./db
-COPY --from=builder /usr/src/app ./build
+COPY --from=builder /usr/src/app ./db ./build
 
 EXPOSE 4000
 CMD [ "npm start" ]
