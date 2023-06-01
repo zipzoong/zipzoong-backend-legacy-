@@ -1,6 +1,6 @@
 {
   "name": "@zipzoong/zipzoong-backend",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "backend for zipzoong service",
   "main": "build/main",
   "scripts": {

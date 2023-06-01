@@ -10,11 +10,7 @@ import { Writable } from "stream";
 export namespace Logger {
   const createAwsStream = () => {
     const client = new CloudWatchLogsClient({
-      region: "ap-northeast-2",
-      credentials: {
-        accessKeyId: Configuration.AWS_LOGGER_ACCESS_KEY,
-        secretAccessKey: Configuration.AWS_LOGGER_SECRET_KEY
-      }
+      region: "ap-northeast-2"
     });
     const stream = new Writable({
       write(chunk, encoding, callback) {
