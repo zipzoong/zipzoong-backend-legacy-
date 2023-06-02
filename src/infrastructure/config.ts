@@ -10,9 +10,9 @@ const init = () => {
       dotenv.config({ path: ".env.test" });
       break;
     case "production":
-    default:
-      // not use .env file
       break;
+    default:
+      throw Error("NODE_ENV have to be one of (development|production|test)");
   }
 
   return process.env.NODE_ENV === "test"

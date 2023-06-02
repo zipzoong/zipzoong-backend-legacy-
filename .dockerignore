@@ -4,11 +4,10 @@ node_modules
 
 # file
 
+db
 build
 tbuild
 packages
-prisma
-
 # log
 
 test_log.md
