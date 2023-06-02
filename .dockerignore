@@ -16,7 +16,7 @@ README.md
 # env
 
 .env
-.env.\*
+.env.*
 
 .DS_Store
 
