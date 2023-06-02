@@ -36,7 +36,7 @@ jobs:
       - name: Read package.json version
         id: read-version
         run: |
-          echo "VERSION=$(node -p "require('./package.json').version" >> $GITHUB_OUTPUT
+          echo "VERSION=$(node -p "require('./package.json').version)" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
