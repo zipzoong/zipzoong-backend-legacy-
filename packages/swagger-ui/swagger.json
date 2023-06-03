@@ -3994,12 +3994,6 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "is_visible": {
-            "description": "게시 상태",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "boolean"
-          },
           "main_image_url": {
             "x-typia-required": true,
             "x-typia-optional": false,
@@ -4019,7 +4013,6 @@
         "nullable": false,
         "required": [
           "name",
-          "is_visible",
           "main_image_url",
           "sub_category_ids"
         ],

@@ -68,6 +68,7 @@ export namespace IREProperty {
       | "created_at"
       | "updated_at"
       | "re_agent"
+      | "is_visible"
       | "sub_categories"
     > {
     re_agent_id: string;
