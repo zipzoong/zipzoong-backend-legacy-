@@ -392,7 +392,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/rojiwon/industriously/zipzoong-backend/db",
+      "value": "/Users/rojiwon/github/zipzoong-backend/db",
       "fromEnvVar": null
     },
     "config": {
@@ -401,7 +401,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
@@ -419,8 +419,7 @@ const config = {
     "database"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false,
-  "postinstall": false
+  "dataProxy": false
 }
 
 const fs = require('fs')
@@ -450,7 +449,7 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-path.join(__dirname, "libquery_engine-darwin.dylib.node");
-path.join(process.cwd(), "db/libquery_engine-darwin.dylib.node")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "db/libquery_engine-darwin-arm64.dylib.node")
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "db/schema.prisma")

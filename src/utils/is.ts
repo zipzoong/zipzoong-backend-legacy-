@@ -15,7 +15,7 @@ export const isStringArray = (input: unknown): input is string[] =>
   isArray(input) && input.every(isString);
 
 export const isNumberArray = (input: unknown): input is number[] =>
-  isArray(input) && isNumber(input);
+  isArray(input) && input.every(isNumber);
 
 export const isActive = <T extends { is_deleted: boolean }>(
   agg: T
