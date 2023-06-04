@@ -14,7 +14,6 @@ import type { IZipzoongCareRequest } from "./../../../../../../structures/zipzoo
  * @summary 집중 케어 신청 목록 검색
  * @tag customers
  * @tag zipzoong-care
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 목록 검색 조건
  * @return 집중 케어 신청 목록
  * @throw 401 Unauthorized
@@ -69,7 +68,6 @@ export namespace getList
  * @summary 집중 케어 신청
  * @tag customers
  * @tag zipzoong-care
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 집중 케어 신청 정보
  * @throw 401 Unauthorized
  * @throw 403 Forbidden

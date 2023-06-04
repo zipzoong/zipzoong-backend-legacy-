@@ -13,7 +13,6 @@ import type { IServiceCategory } from "./../../../structures/category/service";
  * @summary 서비스 상위 카테고리 목록 검색
  * @tag services
  * @tag categories
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 서비스 상위 카테고리 목록 검색 조건
  * @return 서비스 상위 카테고리 목록
  * 
@@ -66,7 +65,6 @@ export namespace getList
  * @summary 서비스 상위 카테고리 조회
  * @tag services
  * @tag categories
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param category_id 서비스 상위 카테고리 id
  * @return 서비스 상위 카테고리 정보
  * @throw 404 Not Found

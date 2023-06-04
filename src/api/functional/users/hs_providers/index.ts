@@ -16,7 +16,6 @@ export * as me from "./me";
  * @summary 생활서비스 전문가 목록 조회
  * @tag hs-providers
  * @tag users
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 필터링 기준
  * @return 생활서비스 제공자 목록
  * 
@@ -69,7 +68,6 @@ export namespace getList
  * @summary 생활서비스 전문가 조회
  * @tag hs-providers
  * @tag users
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param provider_id 생활서비스 전문가 id
  * @return 생활서비스 제공자 정보
  * @throw 404 Not Found

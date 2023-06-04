@@ -24,7 +24,6 @@ import type { IAuthentication } from "./../../../structures/authentication";
  * @summary 사용자 생성
  * @tag authentication
  * @tag users
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body 사용자 생성 정보
  * @return tokens
  * @throw 400 BadRequest

@@ -15,7 +15,6 @@ import type { IAuthentication } from "./../../../structures/authentication";
  * 
  * @summary 로그인
  * @tag authentication
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type, user_type
  * @return tokens
  * @throw 401 Unauthorized
@@ -67,7 +66,6 @@ export namespace execute
  * 
  * @summary oauth login redirect api
  * @tag authentication
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param oauth_type
  * @return redirect
  * 

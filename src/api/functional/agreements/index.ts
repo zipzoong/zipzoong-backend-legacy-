@@ -12,7 +12,6 @@ import type { IAgreement } from "./../../structures/agreement";
 /**
  * @summary 약관 조회
  * @tag agreements
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 약관 검색 조건
  * @return 약관 목록
  * 

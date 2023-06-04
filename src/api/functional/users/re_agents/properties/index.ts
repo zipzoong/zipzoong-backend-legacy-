@@ -15,7 +15,6 @@ import type { IREAgent } from "./../../../../structures/user/re_agent";
  * @summary 매물 목록 조회
  * @tag re-agents
  * @tag re-properties
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param agent_id 공인중개사 id
  * @param query 페이지 정보
  * @return 부동산 매물 목록

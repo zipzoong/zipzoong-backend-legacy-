@@ -17,7 +17,6 @@ import type { IAuthentication } from "./../../../structures/authentication";
  * 
  * @summary 회원가입
  * @tag authentication
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body oauth code, oauth type
  * @return account_token
  * @throw 403 Forbidden
