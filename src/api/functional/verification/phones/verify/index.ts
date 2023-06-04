@@ -18,7 +18,6 @@ import type { IPhoneVerification } from "./../../../../structures/verification/p
  * 
  * @summary phone verification verify
  * @tag verification
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body phone verification verify input
  * @return phone_verification_id
  * @throw 401 Unauthorized

@@ -13,7 +13,6 @@ import type { IREProperty } from "./../../structures/re_property";
 /**
  * @summary 부동산 매물 목록 검색
  * @tag re-properties
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 부동산 매물 필터링 조건
  * @return 부동산 매물 목록
  * 
@@ -65,7 +64,6 @@ export namespace getList
 /**
  * @summary 부동산 매물 복수 등록
  * @tag re-properties
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 부동산 매물 필터링 조건
  * @return 부동산 매물 목록
  * @throw 401 Unauthorized

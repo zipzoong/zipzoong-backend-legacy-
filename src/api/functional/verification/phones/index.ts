@@ -17,7 +17,6 @@ export * as verify from "./verify";
  * 
  * @summary phone verification create
  * @tag verification
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param body phone verification create input
  * @return verification expired date-time
  * @throw 401 Unauthorized

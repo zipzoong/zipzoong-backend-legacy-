@@ -17,7 +17,6 @@ export * as properties from "./properties";
  * @summary 공인중개사 목록 검색
  * @tag re-agents
  * @tag users
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param query 필터링 기준
  * @return 공인중개사 목록
  * 
@@ -70,7 +69,6 @@ export namespace getList
  * @summary 공인중개사 조회
  * @tag re-agents
  * @tag users
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param agent_id 공인중개사 id
  * @return 공인중개사 정보
  * @throw 404 Not Found

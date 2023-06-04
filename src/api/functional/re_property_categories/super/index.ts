@@ -53,7 +53,6 @@ export namespace getList
  * @summary 부동산 매물 상위 카테고리 조회
  * @tag re-properties
  * @tag categories
- * @param connection connection Information of the remote HTTP(s) server with headers (+encryption password)
  * @param super_category_id 부동산 매물 상위 카테고리 id
  * @return 부동산 매물 상위 카테고리
  * @throw 404 Not Found
