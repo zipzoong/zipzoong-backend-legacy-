@@ -10,14 +10,14 @@ import { Writable } from "stream";
 export namespace Logger {
   const createAwsStream = () => {
     const client = new CloudWatchLogsClient({
-      region: "ap-northeast-2"
+      region: Configuration.AWS_REGION
     });
     const stream = new Writable({
       write(chunk, encoding, callback) {
         const log = chunk.toString();
         const command = new PutLogEventsCommand({
-          logGroupName: "/main_server",
-          logStreamName: "application",
+          logGroupName: Configuration.AWS_LOG_GROUP,
+          logStreamName: Configuration.AWS_LOG_STREAM,
           logEvents: [{ message: log, timestamp: Date.now() }]
         });
         client

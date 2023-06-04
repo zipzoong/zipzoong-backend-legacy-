@@ -85,6 +85,7 @@ async function run(): Promise<void> {
 
   const sens_app = await sens(); // naver sens mocking server
 
+  await internal.truncate();
   await internal.seed(connection);
 
   internal.mock();
