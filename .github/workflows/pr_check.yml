@@ -1,4 +1,4 @@
-name: Test
+name: E2E Test ✅
 
 on:
   pull_request:
@@ -47,10 +47,10 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@main
 
-      - name: Install
+      - name: Install 🔧
         run: npm ci
 
-      - name: Setup DB
+      - name: Setup DB 🔧
         run: npm run db:deploy
 
       - name: Test 🧪

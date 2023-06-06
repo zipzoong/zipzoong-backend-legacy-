@@ -1,10 +1,10 @@
 # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 
-name: CI
+name: Docker Image Push 🔖
 
 on:
   push:
-    branches: main
+    tags: v*
 
 env:
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  docker-build:
+  build_and_push:
     name: Docker Image Build & Push
     runs-on: ubuntu-latest
 
@@ -23,22 +23,22 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@main
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials 🔒
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ECR_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
+      - name: Login to Amazon ECR 🔒
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Read package.json version
+      - name: Read package.json version 🔖
         id: read-version
         run: |
           echo VERSION=$(node -p "require('./package.json').version") >> $GITHUB_OUTPUT
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Image Build and Push to Amazon ECR ✨
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
