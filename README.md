@@ -5,7 +5,7 @@
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-[![Test Status](https://github.com/zipzoong/zipzoong-backend/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/zipzoong/zipzoong-backend/actions/workflows/ci.yml)
+[![Test ✅](https://github.com/zipzoong/zipzoong-backend/actions/workflows/pr_check.yml/badge.svg?branch=develop)](https://github.com/zipzoong/zipzoong-backend/actions/workflows/pr_check.yml)
 
 </div>
 
