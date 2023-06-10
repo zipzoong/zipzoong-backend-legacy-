@@ -17,7 +17,7 @@ export namespace Logger {
         const log = chunk.toString();
         const command = new PutLogEventsCommand({
           logGroupName: Configuration.AWS_LOG_GROUP,
-          logStreamName: Configuration.AWS_LOG_STREAM,
+          logStreamName: Configuration.NODE_ENV,
           logEvents: [{ message: log, timestamp: Date.now() }]
         });
         client
