@@ -6,9 +6,9 @@ const NESTIA_CONFIG: nestia.INestiaConfig = {
     exclude: ["src/**/*.internal.ts"]
   },
   output: "src/api",
-  e2e: "test",
   json: true,
   primitive: false,
+  simulate: true,
   swagger: {
     output: "packages/swagger-ui/swagger.json",
     info: {

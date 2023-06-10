@@ -2761,7 +2761,77 @@
         ]
       },
       "IAuthentication.IResponse": {
-        "$ref": "#/components/schemas/IAuthentication.IResponse"
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "description": "특정 사용자 정보에 대한 권한을 가지고 있습니다.",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "access_token_expired_at": {
+            "description": "access_token 만료일자\n@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "refresh_token": {
+            "description": "특정 사용자 정보에 대한 access token을 재발급 받기 위해 사용합니다.",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "refresh_token_expired_at": {
+            "description": "refresh_token 만료일자\n@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "access_token",
+          "access_token_expired_at",
+          "refresh_token",
+          "refresh_token_expired_at"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IAuthentication.ISignUp": {
         "type": "object",
@@ -3053,7 +3123,372 @@
         "x-typia-jsDocTags": []
       },
       "IREProperty.IPaginatedResponse": {
-        "$ref": "#/components/schemas/IREProperty.IPaginatedResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.IPublic"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.IPublic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "mode": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "public"
+            ]
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "main_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "re_agent": {
+            "$ref": "#/components/schemas/IREProperty.IAgent"
+          },
+          "sub_categories": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.ISubCategory"
+            }
+          },
+          "created_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "mode",
+          "name",
+          "main_image_url",
+          "re_agent",
+          "sub_categories",
+          "created_at",
+          "updated_at"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.IAgent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise"
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
+          "is_licensed": {
+            "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "profile_image_url",
+          "name",
+          "expertise",
+          "introduction",
+          "is_licensed"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IExpertise": {
+        "type": "object",
+        "properties": {
+          "super_category_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "super_category_name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "sub_expertises": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise"
+            }
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category_id",
+          "super_category_name",
+          "sub_expertises"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.ISubExpertise": {
+        "type": "object",
+        "properties": {
+          "sub_category_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "sub_category_name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "sub_category_id",
+          "sub_category_name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IIntroduction": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "content": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISubCategory": {
+        "type": "object",
+        "properties": {
+          "middle_category": {
+            "$ref": "#/components/schemas/IREProperty.IMiddleCategory"
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "sub"
+            ]
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "middle_category",
+          "level",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.IMiddleCategory": {
+        "type": "object",
+        "properties": {
+          "super_category": {
+            "$ref": "#/components/schemas/IREProperty.ISuperCategory"
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "middle"
+            ]
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "super_category",
+          "level",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREProperty.ISuperCategory": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "super"
+            ]
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "level",
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IREProperty.ICreateManyRequest": {
         "type": "object",
@@ -3108,7 +3543,36 @@
         "x-typia-jsDocTags": []
       },
       "IREProperty.ICreateRequest": {
-        "$ref": "#/components/schemas/IREProperty.ICreateRequest"
+        "type": "object",
+        "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "main_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "sub_category_ids": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "main_image_url",
+          "sub_category_ids"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IREPropertyCategory.ISuper": {
         "type": "object",
@@ -3150,7 +3614,73 @@
         "x-typia-jsDocTags": []
       },
       "IREPropertyCategory.ISuper.IMiddle": {
-        "$ref": "#/components/schemas/IREPropertyCategory.ISuper.IMiddle"
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "sub_categories": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISub"
+            }
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "middle"
+            ]
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "sub_categories",
+          "level"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREPropertyCategory.IMiddle.ISub": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "sub"
+            ]
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "level"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IREPropertyCategory.IMiddle": {
         "type": "object",
@@ -3196,10 +3726,34 @@
         "x-typia-jsDocTags": []
       },
       "IREPropertyCategory.IMiddle.ISuper": {
-        "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISuper"
-      },
-      "IREPropertyCategory.IMiddle.ISub": {
-        "$ref": "#/components/schemas/IREPropertyCategory.IMiddle.ISub"
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "super"
+            ]
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "level"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IServiceCategory.ISearch": {
         "type": "object",
@@ -3290,7 +3844,34 @@
         "x-typia-jsDocTags": []
       },
       "IServiceCategory.ISuper.ISub": {
-        "$ref": "#/components/schemas/IServiceCategory.ISuper.ISub"
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "level": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "sub"
+            ]
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "level"
+        ],
+        "x-typia-jsDocTags": []
       },
       "ICustomer.IPrivate": {
         "type": "object",
@@ -3489,7 +4070,41 @@
         "x-typia-jsDocTags": []
       },
       "IUser.IAcceptantAgreement": {
-        "$ref": "#/components/schemas/IUser.IAcceptantAgreement"
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "title": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "content": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "target_type": {
+            "$ref": "#/components/schemas/IAgreement.TargetType"
+          },
+          "is_required": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "title",
+          "content",
+          "target_type",
+          "is_required"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest.ISearch": {
         "type": "object",
@@ -3586,10 +4201,506 @@
         ]
       },
       "IZipzoongCareRequest.IPaginatedResponse": {
-        "$ref": "#/components/schemas/IZipzoongCareRequest.IPaginatedResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/IZipzoongCareRequest.Status"
+          },
+          "care_start_date": {
+            "description": "@format date",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date"
+          },
+          "care_end_date": {
+            "description": "@format date",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date"
+          },
+          "detail": {
+            "description": "@maxLength 500",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "maxLength": 500
+          },
+          "checked_services": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedService"
+            }
+          },
+          "checked_consultation_times": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICheckedConsultationTime"
+            }
+          },
+          "created_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "status",
+          "care_start_date",
+          "care_end_date",
+          "detail",
+          "checked_services",
+          "checked_consultation_times",
+          "created_at",
+          "updated_at"
+        ],
+        "description": "@maxLength 500",
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICheckedService": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICheckedConsultationTime": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "start_time": {
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          },
+          "end_time": {
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "start_time",
+          "end_time"
+        ],
+        "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+        "x-typia-jsDocTags": []
       },
       "IZipzoongCareRequest.ICreateRequest": {
-        "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateRequest"
+        "type": "object",
+        "properties": {
+          "care_start_date": {
+            "description": "@format date",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date"
+          },
+          "care_end_date": {
+            "description": "@format date",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date"
+          },
+          "detail": {
+            "description": "@maxLength 500",
+            "x-typia-metaTags": [
+              {
+                "kind": "maxLength",
+                "value": 500
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "500",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "maxLength": 500
+          },
+          "consultation_times": {
+            "description": "@minItems 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IZipzoongCareRequest.ICreateCheckedConsultationTime"
+            },
+            "minItems": 1
+          },
+          "service_ids": {
+            "description": "@minItems 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "@minItems 1",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 1
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "1",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "care_start_date",
+          "care_end_date",
+          "detail",
+          "consultation_times",
+          "service_ids"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IZipzoongCareRequest.ICreateCheckedConsultationTime": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          },
+          "end_time": {
+            "description": "@format ^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^([0-1][0-9]|2[0-3]):([0-5][0-9])$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "start_time",
+          "end_time"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IBusinessUser.ISearch": {
         "type": "object",
@@ -3656,7 +4767,191 @@
         "x-typia-jsDocTags": []
       },
       "IHSProvider.IPaginatedResponse": {
-        "$ref": "#/components/schemas/IHSProvider.IPaginatedResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IHSProvider.ISummary"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
+      },
+      "IHSProvider.ISummary": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "home service provider"
+            ]
+          },
+          "mode": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "summary"
+            ]
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "created_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/IAddress"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise"
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "mode",
+          "id",
+          "created_at",
+          "updated_at",
+          "profile_image_url",
+          "address",
+          "name",
+          "expertise",
+          "introduction"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IAddress": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "second": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "first",
+          "second"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IHSProvider.IPrivate": {
         "type": "object",
@@ -3930,100 +5225,6 @@
           "updated_at"
         ],
         "description": "게시 상태",
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.IIntroduction": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "content": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "title",
-          "content"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.IExpertise": {
-        "type": "object",
-        "properties": {
-          "super_category_id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "super_category_name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "sub_expertises": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IBusinessUser.ISubExpertise"
-            }
-          }
-        },
-        "nullable": false,
-        "required": [
-          "super_category_id",
-          "super_category_name",
-          "sub_expertises"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.ISubExpertise": {
-        "type": "object",
-        "properties": {
-          "sub_category_id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "sub_category_name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "sub_category_id",
-          "sub_category_name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IAddress": {
-        "type": "object",
-        "properties": {
-          "first": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "second": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "first",
-          "second"
-        ],
         "x-typia-jsDocTags": []
       },
       "IBusinessUser.ICertificationImage": {
@@ -4337,7 +5538,172 @@
         "x-typia-jsDocTags": []
       },
       "IREAgent.IPaginatedResponse": {
-        "$ref": "#/components/schemas/IREAgent.IPaginatedResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.ISummary"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.ISummary": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "real estate agent"
+            ]
+          },
+          "mode": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "summary"
+            ]
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "created_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise"
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
+          "is_licensed": {
+            "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "type",
+          "mode",
+          "id",
+          "created_at",
+          "updated_at",
+          "profile_image_url",
+          "name",
+          "expertise",
+          "introduction",
+          "is_licensed"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IREAgent.IPrivate": {
         "type": "object",
@@ -4627,104 +5993,6 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IREProperty.ISubCategory": {
-        "type": "object",
-        "properties": {
-          "middle_category": {
-            "$ref": "#/components/schemas/IREProperty.IMiddleCategory"
-          },
-          "level": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "sub"
-            ]
-          },
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "middle_category",
-          "level",
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IREProperty.IMiddleCategory": {
-        "type": "object",
-        "properties": {
-          "super_category": {
-            "$ref": "#/components/schemas/IREProperty.ISuperCategory"
-          },
-          "level": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "middle"
-            ]
-          },
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "super_category",
-          "level",
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IREProperty.ISuperCategory": {
-        "type": "object",
-        "properties": {
-          "level": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "super"
-            ]
-          },
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "level",
-          "id",
-          "name"
-        ],
-        "x-typia-jsDocTags": []
-      },
       "IREAgent.IRealEstate": {
         "type": "object",
         "properties": {
@@ -4937,7 +6205,90 @@
         "x-typia-jsDocTags": []
       },
       "IREAgent.IProperty.IPublic": {
-        "$ref": "#/components/schemas/IREAgent.IProperty.IPublic"
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "created_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "description": "@format date-time",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "datetime"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date-time",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "sub_categories": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREProperty.ISubCategory"
+            }
+          },
+          "main_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "created_at",
+          "updated_at",
+          "name",
+          "sub_categories",
+          "main_image_url"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IREAgent.IProperty.ISearch": {
         "type": "object",
@@ -5009,13 +6360,146 @@
         "x-typia-jsDocTags": []
       },
       "IREAgent.IProperty.IPaginatedPrivateResponse": {
-        "$ref": "#/components/schemas/IREAgent.IProperty.IPaginatedPrivateResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty.IPrivate"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
       },
       "IREAgent.IProperty.IPaginatedPublicResponse": {
-        "$ref": "#/components/schemas/IREAgent.IProperty.IPaginatedPublicResponse"
+        "type": "object",
+        "properties": {
+          "data": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IREAgent.IProperty.IPublic"
+            }
+          },
+          "page": {
+            "description": "@type uint\n@minimum 1",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "uint"
+              },
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "uint",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "nullable": false,
+        "required": [
+          "data",
+          "page"
+        ],
+        "description": "@type uint\n@minimum 1",
+        "x-typia-jsDocTags": []
       },
       "IPhoneVerification.ICreateRequest": {
-        "$ref": "#/components/schemas/IPhoneVerification.ICreateRequest"
+        "type": "object",
+        "properties": {
+          "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]+$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IPhoneVerification.ICreateResponse": {
         "type": "object",
@@ -5053,7 +6537,51 @@
         "x-typia-jsDocTags": []
       },
       "Mutable_lt_IPhoneVerification_gt_": {
-        "$ref": "#/components/schemas/Mutable_lt_IPhoneVerification_gt_"
+        "type": "object",
+        "properties": {
+          "phone": {
+            "description": "@format ^[0-9]+$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]+$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]+$"
+          },
+          "code": {
+            "description": "@format ^[0-9]{6}$",
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "^[0-9]{6}$",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "^[0-9]{6}$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "phone",
+          "code"
+        ],
+        "x-typia-jsDocTags": []
       },
       "IPhoneVerification.IVerifyResponse": {
         "type": "object",
