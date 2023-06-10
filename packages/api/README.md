@@ -12,6 +12,6 @@ const connection: IConnection = {
   headers: { Authorization: "bearer adfdasfds" }
 };
 
- const profile = await auth.profile.getOauthProfile(connection);
+ const profile = await auth.profile.get(connection);
 
 ```
