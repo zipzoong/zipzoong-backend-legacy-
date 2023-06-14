@@ -1,4 +1,3 @@
-import { Omit } from "@TYPE";
 import { ICategory } from "./base";
 
 export type IREPropertyCategory =
@@ -18,7 +17,10 @@ export namespace IREPropertyCategory {
   }
 
   export namespace ISuper {
-    export type IMiddle = Omit<IREPropertyCategory.IMiddle, "super_category">;
+    export type IMiddle = Pick<
+      IREPropertyCategory.IMiddle,
+      "level" | "id" | "name" | "sub_categories"
+    >;
   }
 
   export interface IMiddle extends IBase<"middle"> {
@@ -27,8 +29,11 @@ export namespace IREPropertyCategory {
   }
 
   export namespace IMiddle {
-    export type ISuper = Omit<IREPropertyCategory.ISuper, "middle_categories">;
-    export type ISub = Omit<IREPropertyCategory.ISub, "middle_category">;
+    export type ISuper = Pick<
+      IREPropertyCategory.ISuper,
+      "level" | "id" | "name"
+    >;
+    export type ISub = Pick<IREPropertyCategory.ISub, "level" | "id" | "name">;
   }
 
   export interface ISub extends IBase<"sub"> {
@@ -36,6 +41,9 @@ export namespace IREPropertyCategory {
   }
 
   export namespace ISub {
-    export type IMiddle = Omit<IREPropertyCategory.IMiddle, "sub_categories">;
+    export type IMiddle = Pick<
+      IREPropertyCategory.IMiddle,
+      "level" | "id" | "name" | "super_category"
+    >;
   }
 }

@@ -1,6 +1,6 @@
 import { IAddress, IPage, IPaginatedResponse as IPaginated } from "@DTO/common";
 import { IREProperty } from "@DTO/re_property";
-import { Mutable, Omit } from "@TYPE";
+import { Mutable } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { IUser } from "./user";
 
@@ -36,9 +36,18 @@ export namespace IREAgent {
     readonly properties: IProperty[];
   }
 
-  export type ISummary = Omit<
+  export type ISummary = Pick<
     IBase<"summary">,
-    "email" | "phone" | "real_estate" | "properties"
+    | "type"
+    | "mode"
+    | "id"
+    | "name"
+    | "introduction"
+    | "profile_image_url"
+    | "expertise"
+    | "is_licensed"
+    | "created_at"
+    | "updated_at"
   >;
 
   export interface IPublic extends IBase<"public"> {
@@ -67,7 +76,15 @@ export namespace IREAgent {
   export type IProperty = IProperty.IPublic | IProperty.IPrivate;
 
   export namespace IProperty {
-    export type IPublic = Omit<IREProperty.ISummary, "mode">;
+    export type IPublic = Pick<
+      IREProperty.ISummary,
+      | "id"
+      | "name"
+      | "main_image_url"
+      | "sub_categories"
+      | "created_at"
+      | "updated_at"
+    >;
     export interface IPrivate extends IPublic {
       readonly is_visible: boolean;
     }
@@ -82,18 +99,15 @@ export namespace IREAgent {
   }
 
   export interface ICreate
-    extends Omit<
+    extends Pick<
       Mutable<IPrivate>,
-      | "type"
-      | "mode"
-      | "id"
-      | "created_at"
-      | "updated_at"
-      | "expertise"
-      | "properties"
-      | "is_verified"
-      | "acceptant_agreements"
-      | "business_certification_images"
+      | "name"
+      | "phone"
+      | "email"
+      | "introduction"
+      | "profile_image_url"
+      | "is_licensed"
+      | "real_estate"
     > {
     /** 동의 약관 id 목록 */
     acceptant_agreement_ids: string[];
@@ -101,7 +115,17 @@ export namespace IREAgent {
     business_certification_image_urls: string[];
   }
 
-  export type ICreateRequest = Omit<ICreate, "email" | "phone"> &
+  export type ICreateRequest = Pick<
+    ICreate,
+    | "name"
+    | "introduction"
+    | "profile_image_url"
+    | "is_licensed"
+    | "real_estate"
+    | "acceptant_agreement_ids"
+    | "sub_expertise_ids"
+    | "business_certification_image_urls"
+  > &
     IBusinessUser.ICreateRequest<"real estate agent">;
 
   export type IPaginatedResponse = IPaginated<ISummary>;

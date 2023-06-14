@@ -1,4 +1,3 @@
-import { Omit } from "@TYPE";
 import { ICategory } from "./base";
 
 export type IServiceCategory = IServiceCategory.ISuper | IServiceCategory.ISub;
@@ -16,7 +15,10 @@ export namespace IServiceCategory {
   }
 
   export namespace ISub {
-    export type ISuper = Omit<IServiceCategory.ISuper, "sub_categories">;
+    export type ISuper = Pick<
+      IServiceCategory.ISuper,
+      "type" | "level" | "id" | "name"
+    >;
   }
 
   export interface ISuper extends IBase<"super"> {
@@ -25,7 +27,7 @@ export namespace IServiceCategory {
   }
 
   export namespace ISuper {
-    export type ISub = Omit<IServiceCategory.ISub, "super_category">;
+    export type ISub = Pick<IServiceCategory.ISub, "level" | "id" | "name">;
   }
 
   export interface ISearch {

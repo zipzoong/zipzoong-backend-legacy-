@@ -1,5 +1,5 @@
 import { IAddress } from "@DTO/common";
-import { Mutable, Omit } from "@TYPE";
+import { Mutable } from "@TYPE";
 import { IUser } from "./user";
 
 export type ICustomer =
@@ -24,7 +24,16 @@ export namespace ICustomer {
     readonly address: IAddress | null;
   }
 
-  export type ISummary = Omit<IBase<"summary">, "email" | "phone" | "address">;
+  export type ISummary = Pick<
+    IBase<"summary">,
+    | "type"
+    | "mode"
+    | "id"
+    | "name"
+    | "profile_image_url"
+    | "created_at"
+    | "updated_at"
+  >;
 
   export interface IPublic extends IBase<"public"> {
     readonly phone: string;
@@ -37,18 +46,27 @@ export namespace ICustomer {
   }
 
   export interface ICreate
-    extends Omit<
+    extends Pick<
       Mutable<IPrivate>,
-      | "type"
-      | "mode"
-      | "id"
-      | "created_at"
-      | "updated_at"
-      | "acceptant_agreements"
+      | "name"
+      | "profile_image_url"
+      | "phone"
+      | "address"
+      | "email"
+      | "gender"
+      | "birth"
     > {
     acceptant_agreement_ids: string[];
   }
 
-  export type ICreateRequest = Omit<ICreate, "email" | "phone"> &
+  export type ICreateRequest = Pick<
+    ICreate,
+    | "name"
+    | "profile_image_url"
+    | "address"
+    | "gender"
+    | "birth"
+    | "acceptant_agreement_ids"
+  > &
     IUser.ICreateRequest<"customer">;
 }

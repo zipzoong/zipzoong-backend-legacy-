@@ -4,7 +4,7 @@ import {
   IPaginatedResponse as IPaginated
 } from "@DTO/common";
 import { IREAgent } from "@DTO/user/re_agent";
-import { Mutable, Omit } from "@TYPE";
+import { Mutable } from "@TYPE";
 import { IREPropertyCategory } from "./category/re_property";
 
 export type IREProperty =
@@ -25,7 +25,16 @@ export namespace IREProperty {
   }
 
   // 아직 자체적으로 쓸데는 없고 다른 DTO에서 필요할 때, 사용하려고 만듬
-  export type ISummary = Omit<IBase<"summary">, "re_agent">;
+  export type ISummary = Pick<
+    IBase<"summary">,
+    | "mode"
+    | "id"
+    | "name"
+    | "main_image_url"
+    | "sub_categories"
+    | "created_at"
+    | "updated_at"
+  >;
 
   export interface IPublic extends IBase<"public"> {}
 
@@ -61,21 +70,15 @@ export namespace IREProperty {
   }
 
   export interface ICreate
-    extends Omit<
-      Mutable<IPrivate>,
-      | "id"
-      | "mode"
-      | "created_at"
-      | "updated_at"
-      | "re_agent"
-      | "is_visible"
-      | "sub_categories"
-    > {
+    extends Pick<Mutable<IPrivate>, "name" | "main_image_url"> {
     re_agent_id: string;
     sub_category_ids: string[];
   }
 
-  export type ICreateRequest = Omit<ICreate, "re_agent_id">;
+  export type ICreateRequest = Pick<
+    ICreate,
+    "name" | "main_image_url" | "sub_category_ids"
+  >;
 
   export interface ICreateManyRequest {
     /**

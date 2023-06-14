@@ -1,6 +1,5 @@
 import { IAgreement } from "@DTO/agreement";
 import { IDateTime } from "@DTO/common";
-import { Omit } from "@TYPE";
 import { IBusinessUser } from "./business_user";
 import { ICustomer } from "./customer";
 
@@ -24,9 +23,9 @@ export namespace IUser {
     readonly email: string | null;
   }
 
-  export type IAcceptantAgreement = Omit<
+  export type IAcceptantAgreement = Pick<
     IAgreement,
-    "created_at" | "updated_at"
+    "id" | "title" | "content" | "target_type" | "is_required"
   >;
 
   export interface IPrivateFragment {
