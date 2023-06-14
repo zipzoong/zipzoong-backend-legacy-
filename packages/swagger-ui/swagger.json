@@ -3008,9 +3008,387 @@
           }
         ]
       },
-      "ICustomer.ICreateRequest": {},
-      "IREAgent.ICreateRequest": {},
-      "IHSProvider.ICreateRequest": {},
+      "ICustomer.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/IAddress.Nullable"
+          },
+          "gender": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "female",
+              "male",
+              "other"
+            ],
+            "nullable": true
+          },
+          "birth": {
+            "description": "@format date",
+            "x-typia-metaTags": [
+              {
+                "kind": "format",
+                "value": "date"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "format",
+                "text": [
+                  {
+                    "text": "date",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "acceptant_agreement_ids": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "type": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "customer"
+            ]
+          },
+          "email_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "phone_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "profile_image_url",
+          "address",
+          "gender",
+          "birth",
+          "acceptant_agreement_ids",
+          "type",
+          "email_verification_id",
+          "phone_verification_id"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "acceptant_agreement_ids": {
+            "description": "동의 약관 id 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "동의 약관 id 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
+          "is_licensed": {
+            "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
+          "real_estate": {
+            "$ref": "#/components/schemas/IREAgent.IRealEstate"
+          },
+          "sub_expertise_ids": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "business_certification_image_urls": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "type": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "real estate agent"
+            ]
+          },
+          "email_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "phone_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "profile_image_url",
+          "acceptant_agreement_ids",
+          "introduction",
+          "is_licensed",
+          "real_estate",
+          "sub_expertise_ids",
+          "business_certification_image_urls",
+          "type",
+          "email_verification_id",
+          "phone_verification_id"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IBusinessUser.IIntroduction": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "content": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IREAgent.IRealEstate": {
+        "type": "object",
+        "properties": {
+          "num": {
+            "description": "부동산개설등록번호",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "name": {
+            "description": "부동산 상호명",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "phone": {
+            "description": "부동산 전화번호",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "licensed_agent_name": {
+            "description": "부동산 대표자 이름",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/IAddress"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "num",
+          "name",
+          "phone",
+          "licensed_agent_name",
+          "address"
+        ],
+        "description": "부동산 주소",
+        "x-typia-jsDocTags": []
+      },
+      "IAddress": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "second": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "first",
+          "second"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "IHSProvider.ICreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/IAddress"
+          },
+          "acceptant_agreement_ids": {
+            "description": "동의 약관 id 목록",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "동의 약관 id 목록",
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
+          "sub_expertise_ids": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "business_certification_image_urls": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "business_registration_num": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "example_image_urls": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            }
+          },
+          "type": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "enum": [
+              "home service provider"
+            ]
+          },
+          "email_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "phone_verification_id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "profile_image_url",
+          "address",
+          "acceptant_agreement_ids",
+          "introduction",
+          "sub_expertise_ids",
+          "business_certification_image_urls",
+          "business_registration_num",
+          "example_image_urls",
+          "type",
+          "email_verification_id",
+          "phone_verification_id"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "IAuthentication.IAccessToken": {
         "type": "object",
         "properties": {
@@ -3281,7 +3659,7 @@
       "IREProperty.IAgent": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3291,14 +3669,6 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "expertise": {
-            "$ref": "#/components/schemas/IBusinessUser.IExpertise"
-          },
           "introduction": {
             "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
           },
@@ -3307,16 +3677,24 @@
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "boolean"
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "expertise": {
+            "$ref": "#/components/schemas/IBusinessUser.IExpertise"
           }
         },
         "nullable": false,
         "required": [
-          "id",
-          "profile_image_url",
           "name",
-          "expertise",
+          "profile_image_url",
           "introduction",
-          "is_licensed"
+          "is_licensed",
+          "id",
+          "expertise"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3368,27 +3746,6 @@
         "required": [
           "sub_category_id",
           "sub_category_name"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IBusinessUser.IIntroduction": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "content": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "title",
-          "content"
         ],
         "x-typia-jsDocTags": []
       },
@@ -3616,12 +3973,12 @@
       "IREPropertyCategory.ISuper.IMiddle": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
-          "name": {
+          "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3645,8 +4002,8 @@
         },
         "nullable": false,
         "required": [
-          "id",
           "name",
+          "id",
           "sub_categories",
           "level"
         ],
@@ -3655,12 +4012,12 @@
       "IREPropertyCategory.IMiddle.ISub": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
-          "name": {
+          "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3676,8 +4033,8 @@
         },
         "nullable": false,
         "required": [
-          "id",
           "name",
+          "id",
           "level"
         ],
         "x-typia-jsDocTags": []
@@ -3728,12 +4085,12 @@
       "IREPropertyCategory.IMiddle.ISuper": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
-          "name": {
+          "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3749,8 +4106,8 @@
         },
         "nullable": false,
         "required": [
-          "id",
           "name",
+          "id",
           "level"
         ],
         "x-typia-jsDocTags": []
@@ -3846,12 +4203,12 @@
       "IServiceCategory.ISuper.ISub": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
           },
-          "name": {
+          "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -3867,8 +4224,8 @@
         },
         "nullable": false,
         "required": [
-          "id",
           "name",
+          "id",
           "level"
         ],
         "x-typia-jsDocTags": []
@@ -4826,6 +5183,22 @@
       "IHSProvider.ISummary": {
         "type": "object",
         "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/IAddress"
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
           "type": {
             "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
             "x-typia-required": true,
@@ -4896,60 +5269,22 @@
             "type": "string",
             "format": "date-time"
           },
-          "profile_image_url": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "address": {
-            "$ref": "#/components/schemas/IAddress"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise"
-          },
-          "introduction": {
-            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
           }
         },
         "nullable": false,
         "required": [
+          "name",
+          "profile_image_url",
+          "address",
+          "introduction",
           "type",
           "mode",
           "id",
           "created_at",
           "updated_at",
-          "profile_image_url",
-          "address",
-          "name",
-          "expertise",
-          "introduction"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "IAddress": {
-        "type": "object",
-        "properties": {
-          "first": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "second": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "nullable": false,
-        "required": [
-          "first",
-          "second"
+          "expertise"
         ],
         "x-typia-jsDocTags": []
       },
@@ -5597,6 +5932,25 @@
       "IREAgent.ISummary": {
         "type": "object",
         "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "profile_image_url": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "introduction": {
+            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
+          },
+          "is_licensed": {
+            "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
           "type": {
             "description": "사용자 분류\n\n- customer 일반 회원\n- real estate agent 공인중개사\n- home service provider 생활서비스 제공자",
             "x-typia-required": true,
@@ -5667,41 +6021,22 @@
             "type": "string",
             "format": "date-time"
           },
-          "profile_image_url": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
           "expertise": {
             "$ref": "#/components/schemas/IBusinessUser.IExpertise"
-          },
-          "introduction": {
-            "$ref": "#/components/schemas/IBusinessUser.IIntroduction"
-          },
-          "is_licensed": {
-            "description": "개업/소속 공인중개사 구분\n\ntrue: 개업\nfalse: 소속",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "boolean"
           }
         },
         "nullable": false,
         "required": [
+          "name",
+          "profile_image_url",
+          "introduction",
+          "is_licensed",
           "type",
           "mode",
           "id",
           "created_at",
           "updated_at",
-          "profile_image_url",
-          "name",
-          "expertise",
-          "introduction",
-          "is_licensed"
+          "expertise"
         ],
         "x-typia-jsDocTags": []
       },
@@ -5909,6 +6244,11 @@
             "x-typia-optional": false,
             "type": "boolean"
           },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
           "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
@@ -5962,7 +6302,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "name": {
+          "main_image_url": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -5974,65 +6314,18 @@
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory"
             }
-          },
-          "main_image_url": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
           }
         },
         "nullable": false,
         "required": [
           "is_visible",
+          "name",
           "id",
           "created_at",
           "updated_at",
-          "name",
-          "sub_categories",
-          "main_image_url"
+          "main_image_url",
+          "sub_categories"
         ],
-        "x-typia-jsDocTags": []
-      },
-      "IREAgent.IRealEstate": {
-        "type": "object",
-        "properties": {
-          "num": {
-            "description": "부동산개설등록번호",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "name": {
-            "description": "부동산 상호명",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "phone": {
-            "description": "부동산 전화번호",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "licensed_agent_name": {
-            "description": "부동산 대표자 이름",
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "address": {
-            "$ref": "#/components/schemas/IAddress"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "num",
-          "name",
-          "phone",
-          "licensed_agent_name",
-          "address"
-        ],
-        "description": "부동산 주소",
         "x-typia-jsDocTags": []
       },
       "IREAgent.IPublic": {
@@ -6207,6 +6500,11 @@
       "IREAgent.IProperty.IPublic": {
         "type": "object",
         "properties": {
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
           "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
@@ -6260,7 +6558,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "name": {
+          "main_image_url": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
@@ -6272,21 +6570,16 @@
             "items": {
               "$ref": "#/components/schemas/IREProperty.ISubCategory"
             }
-          },
-          "main_image_url": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
           }
         },
         "nullable": false,
         "required": [
+          "name",
           "id",
           "created_at",
           "updated_at",
-          "name",
-          "sub_categories",
-          "main_image_url"
+          "main_image_url",
+          "sub_categories"
         ],
         "x-typia-jsDocTags": []
       },
