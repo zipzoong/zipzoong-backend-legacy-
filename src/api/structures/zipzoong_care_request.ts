@@ -1,4 +1,4 @@
-import { Mutable, Omit } from "@TYPE";
+import { Mutable } from "@TYPE";
 import { IDateTime, IPage, IPaginatedResponse as IPaginated } from "./common";
 
 export interface IZipzoongCareRequest extends IDateTime {
@@ -35,20 +35,15 @@ export namespace IZipzoongCareRequest {
     readonly end_time: string;
   }
 
-  export type ICreateCheckedConsultationTime = Omit<
+  export type ICreateCheckedConsultationTime = Pick<
     ICheckedConsultationTime,
-    "id"
+    "start_time" | "end_time"
   >;
 
   export interface ICreate
-    extends Omit<
+    extends Pick<
       Mutable<IZipzoongCareRequest>,
-      | "id"
-      | "created_at"
-      | "updated_at"
-      | "status"
-      | "checked_consultation_times"
-      | "checked_services"
+      "care_start_date" | "care_end_date" | "detail"
     > {
     requester_id: string;
     /** @minItems 1 */
@@ -57,7 +52,14 @@ export namespace IZipzoongCareRequest {
     service_ids: string[];
   }
 
-  export type ICreateRequest = Omit<ICreate, "requester_id">;
+  export type ICreateRequest = Pick<
+    ICreate,
+    | "care_start_date"
+    | "care_end_date"
+    | "detail"
+    | "consultation_times"
+    | "service_ids"
+  >;
 
   export type IPaginatedResponse = IPaginated<IZipzoongCareRequest>;
 }

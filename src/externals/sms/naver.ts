@@ -1,5 +1,5 @@
 import { Result } from "@UTIL";
-import { IResult, Omit } from "@TYPE";
+import { IResult } from "@TYPE";
 import { Fetcher, IConnection } from "@nestia/fetcher";
 import typia from "typia";
 import { INaver } from "./naver.interface";
@@ -56,7 +56,10 @@ export namespace NaverSENS {
    * @return 성공시 request_id, 실패시 실패 메시지를 반환
    */
   export const sendMessage = async (
-    input: Omit<INaver.ISendMessageInput, "type" | "countryCode" | "from">
+    input: Pick<
+      INaver.ISendMessageInput,
+      "content" | "contentType" | "messages"
+    >
   ): Promise<
     IResult<
       { send_request_id: string },
