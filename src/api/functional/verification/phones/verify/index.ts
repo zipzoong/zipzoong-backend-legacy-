@@ -32,7 +32,7 @@ export async function execute(
     connection: IConnection,
     body: Mutable<IPhoneVerification>,
 ): Promise<execute.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? execute.simulate(
               connection,
               body,
@@ -74,9 +74,9 @@ export namespace execute {
         });
         assert.body(() => typia.assert(body));
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }

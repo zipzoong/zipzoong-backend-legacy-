@@ -26,7 +26,7 @@ import type { IAuthentication } from "./../../../structures/authentication";
 export async function get(
     connection: IConnection,
 ): Promise<get.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? get.simulate(
               connection,
           )
@@ -56,9 +56,9 @@ export namespace get {
         connection: IConnection,
     ): Promise<Output> => {
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }
