@@ -15,13 +15,12 @@ export const validate_token_type = (type: IToken.Type) => (input: string) =>
 export const extract_token = (input: RegExpMatchArray) =>
   input[0].split(/\s+/)[1];
 
-export const misMatchUserType =
+export const matchUserType =
   <T extends IUser.Type>(user_type: T) =>
   (
     payload: IToken.IAccessPayload<IUser.Type>
-  ): payload is IToken.IAccessPayload<Exclude<IUser.Type, T>> => {
-    return payload.user_type !== user_type;
-  };
+  ): payload is IToken.IAccessPayload<T> =>
+    payload.user_type === user_type;
 
 export const throwIfError = <T>(
   input: IResult<T, "Token Expired" | "Token Invalid">

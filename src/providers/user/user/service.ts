@@ -1,6 +1,6 @@
 import { IResult } from "@TYPE";
-import { pipe } from "@fxts/core";
-import { Result, throwIf, throwIfNull } from "@UTIL";
+import { pipe, throwIf } from "@fxts/core";
+import { Result, throwIfNull } from "@UTIL";
 
 export namespace Service {
   export const getOne = <T, R>(input: {
@@ -21,7 +21,7 @@ export namespace Service {
 
       input.mapper,
 
-      throwIf(Result.Error.is, input.exception_for_notfound),
+      throwIf(Result.Error.is, () => input.exception_for_notfound),
 
       Result.Ok.flatten
     );

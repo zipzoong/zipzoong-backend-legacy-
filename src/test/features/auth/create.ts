@@ -2,13 +2,14 @@ import { IAuthentication } from "@DTO/authentication";
 import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
+import { isNull, negate } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
 import { HttpStatus } from "@nestjs/common";
 import * as sdk from "@SDK";
 import { internal } from "@TEST/internal";
-import { isNotNull, pick } from "@UTIL";
+import { pick } from "@UTIL";
 import typia from "typia";
 
 console.log("\n- auth.user.create");
@@ -37,10 +38,10 @@ const test_success = async (
     where: { oauth_sub: code, oauth_type: "kakao" }
   });
 
-  if (isNotNull(account.customer_id)) {
+  if (negate(isNull)(account.customer_id)) {
     await internal.deleteCustomer(account.customer_id);
   }
-  if (isNotNull(account.business_user_id)) {
+  if (negate(isNull)(account.business_user_id)) {
     await internal.deleteBusinessUser(account.business_user_id);
   }
   await internal.deleteAccount(account_token);
@@ -131,7 +132,7 @@ export const test_user_already_exist = async (connection: IConnection) => {
     where: { oauth_sub: code, oauth_type: "kakao" }
   });
 
-  if (isNotNull(account.customer_id)) {
+  if (negate(isNull)(account.customer_id)) {
     await internal.deleteCustomer(account.customer_id);
   }
 

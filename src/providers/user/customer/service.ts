@@ -1,9 +1,9 @@
 import { ICustomer } from "@DTO/user/customer";
-import { identity } from "@fxts/core";
+import { identity, isNull } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { Prisma } from "@PRISMA";
 import Authentication from "@PROVIDER/authentication";
-import { isNull, toThrow } from "@UTIL";
+import { toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";

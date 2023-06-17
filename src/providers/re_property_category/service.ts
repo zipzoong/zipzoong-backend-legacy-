@@ -1,7 +1,7 @@
 import { IREPropertyCategory } from "@DTO/category/re_property";
 import { filter, map, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { isActive, isInActive, throwIf, throwIfNull } from "@UTIL";
+import { isActive, throwIfNot, throwIfNull } from "@UTIL";
 import { Exception } from "./exception";
 
 export namespace Service {
@@ -70,7 +70,7 @@ export namespace Service {
 
         throwIfNull(Exception.NotFound),
 
-        throwIf(isInActive, Exception.NotFound),
+        throwIfNot(isActive, () => Exception.NotFound),
 
         (model) => ({
           level: "super",
@@ -120,7 +120,7 @@ export namespace Service {
 
         throwIfNull(Exception.NotFound),
 
-        throwIf(isInActive, Exception.NotFound),
+        throwIfNot(isActive, () => Exception.NotFound),
 
         (middle_category) => ({
           level: "middle",

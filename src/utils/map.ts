@@ -1,4 +1,4 @@
-import { isNull } from "./is";
+import { isNull } from "@fxts/core";
 
 export const nullToUndefined = <T>(input: T | null): T | undefined =>
   isNull(input) ? undefined : input;

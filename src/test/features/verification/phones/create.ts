@@ -1,4 +1,4 @@
-import { isNull } from "@UTIL";
+import { isNull } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { RandomGenerator } from "@nestia/e2e";
 import { IConnection } from "@nestia/fetcher";
