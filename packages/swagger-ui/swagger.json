@@ -1287,6 +1287,151 @@
         ]
       }
     },
+    "/upload/public-images/{resource_type}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "resource_type",
+            "in": "path",
+            "description": "public resource type",
+            "schema": {
+              "$ref": "#/components/schemas/IUpload.PublicImageType"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "url and presigned url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IUpload"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "description": "공개 리소스를 업로드하기 위한 presigned url을 얻기 위한 요청\n\n@param resource_type public resource type\n@return url and presigned url\n@throws 500 Internal Server Error",
+        "x-nestia-namespace": "upload.public-images.getUrls",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "resource_type",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "public resource type",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "url and presigned url",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throws",
+            "text": [
+              {
+                "text": "500 Internal Server Error",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "/upload/private-images/{resource_type}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "resource_type",
+            "in": "path",
+            "description": "private resource type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "business-certifications"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "url and presigned url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IUpload"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "description": "비공개 리소스를 업로드하기 위한 presigned url을 얻기 위한 요청\n\n@param resource_type private resource type\n@return url and presigned url\n@throws 500 Internal Server Error",
+        "x-nestia-namespace": "upload.private-images.getUrls",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "param",
+            "text": [
+              {
+                "text": "resource_type",
+                "kind": "parameterName"
+              },
+              {
+                "text": " ",
+                "kind": "space"
+              },
+              {
+                "text": "private resource type",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "return",
+            "text": [
+              {
+                "text": "url and presigned url",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "throws",
+            "text": [
+              {
+                "text": "500 Internal Server Error",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "/users/customers/me": {
       "get": {
         "tags": [
@@ -4228,6 +4373,38 @@
           "id",
           "level"
         ],
+        "x-typia-jsDocTags": []
+      },
+      "IUpload.PublicImageType": {
+        "type": "string",
+        "enum": [
+          "user-profiles",
+          "re-property-mains",
+          "hs-examples"
+        ]
+      },
+      "IUpload": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "해당 리소스를 조회할 때 사용\n\n서비스에 리소스를 등록할 때, 해당 값을 사용한다.",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "presigned_url": {
+            "description": "리소스를 업로드하기 위해 부여된 url\n\n업로드된 리소스는 `url`을 통해 접근할 수 있다.",
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "url",
+          "presigned_url"
+        ],
+        "description": "리소스를 업로드하기 위해 부여된 url\n\n업로드된 리소스는 `url`을 통해 접근할 수 있다.",
         "x-typia-jsDocTags": []
       },
       "ICustomer.IPrivate": {

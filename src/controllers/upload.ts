@@ -3,7 +3,7 @@ import Upload from "@PROVIDER/upload";
 import { TypedParam, TypedRoute } from "@nestia/core";
 import { Controller } from "@nestjs/common";
 
-@Controller("upload/public")
+@Controller("upload/public-images")
 export class PublicUploadController {
   /**
    * 공개 리소스를 업로드하기 위한 presigned url을 얻기 위한 요청
@@ -12,7 +12,7 @@ export class PublicUploadController {
    * @return url and presigned url
    * @throws 500 Internal Server Error
    */
-  @TypedRoute.Get("image/:resource_type")
+  @TypedRoute.Get(":resource_type")
   getUrls(
     @TypedParam("resource_type") resource_type: IUpload.PublicImageType
   ): Promise<IUpload> {
@@ -20,7 +20,7 @@ export class PublicUploadController {
   }
 }
 
-@Controller("upload/private")
+@Controller("upload/private-images")
 export class PrivateUploadController {
   /**
    * 비공개 리소스를 업로드하기 위한 presigned url을 얻기 위한 요청
@@ -29,7 +29,7 @@ export class PrivateUploadController {
    * @return url and presigned url
    * @throws 500 Internal Server Error
    */
-  @TypedRoute.Get("image/:resource_type")
+  @TypedRoute.Get(":resource_type")
   getUrls(
     @TypedParam("resource_type") resource_type: IUpload.PrivateImageType
   ): Promise<IUpload> {
