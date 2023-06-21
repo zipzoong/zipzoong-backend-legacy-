@@ -1,13 +1,13 @@
 import { Result } from "@UTIL";
 import { IUpload } from "@DTO/upload";
-import { AwsS3 } from "@EXTERNAL/storage";
 import { Exception } from "./exception";
+import { EStorage } from "@EXTERNAL/storage";
 
 export namespace Service {
   export const getPublicImageUrls = async (
     resource: IUpload.PublicImageType
   ): Promise<IUpload> => {
-    const urls = await AwsS3.Upload.publicImage({
+    const urls = await EStorage.Upload.publicImage({
       "content-type": "image",
       "resource-type": resource
     });
@@ -20,7 +20,7 @@ export namespace Service {
   export const getPrivateImageUrls = async (
     resource: IUpload.PrivateImageType
   ): Promise<IUpload> => {
-    const urls = await AwsS3.Upload.privateImage({
+    const urls = await EStorage.Upload.privateImage({
       "content-type": "image",
       "resource-type": resource
     });

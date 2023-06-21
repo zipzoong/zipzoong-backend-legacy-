@@ -21,4 +21,14 @@ export namespace IUpload {
     | "hs-examples";
 
   export type PrivateImageType = "business-certifications";
+
+  export interface IPublicImageInput {
+    content: "public-image";
+    resource: PublicImageType;
+  }
+  export interface IPrivateImageInput {
+    content: "private-image";
+    resource: PrivateImageType;
+  }
+  export type IInput = IPublicImageInput | IPrivateImageInput;
 }

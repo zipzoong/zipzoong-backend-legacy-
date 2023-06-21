@@ -9,7 +9,7 @@ import { isInActive, Result, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";
-import { AwsS3 } from "@EXTERNAL/storage";
+import BusinessUser from "../business_user";
 
 export namespace Service {
   export const getList = async ({
@@ -81,7 +81,7 @@ export namespace Service {
       user_id: string;
       tx?: Prisma.TransactionClient;
     }): Promise<IHSProvider.IPrivate> => {
-      const me = await User.Service.getOne({
+      const me: Mutable<IHSProvider.IPrivate> = await User.Service.getOne({
         user_id,
 
         findFirst: async (id) =>
@@ -96,13 +96,8 @@ export namespace Service {
 
         mapper: Map.entityPrivate
       });
-      await Promise.all(
-        map(async (image: Mutable<IBusinessUser.ICertificationImage>) => {
-          const presigned_url = await AwsS3.Read.getUrl(image.url);
-          image.url = Result.Ok.is(presigned_url)
-            ? Result.Ok.flatten(presigned_url)
-            : image.url;
-        }, me.business_certification_images)
+      me.business_certification_images = await Promise.all(
+        me.business_certification_images.map(BusinessUser.Service.signUrl)
       );
       return me;
     };

@@ -8,7 +8,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
-import { isNull } from "@fxts/core";
+import { isNull, isUndefined } from "@fxts/core";
 import { Logger } from "@INFRA/logger";
 import { IUpload } from "@DTO/upload";
 
@@ -88,12 +88,13 @@ export namespace AwsS3 {
 
     const createGetCommand = (url: string): IResult<GetObjectCommand, null> => {
       const regex = new RegExp(
-        `^https:\/\/${Configuration.AWS_S3_PRIVATE}\.s3\.${Configuration.AWS_REGION}\.amazonaws\.com\/([^?]+)(?:\?|$)`
+        `^https:\\/\\/${Configuration.AWS_S3_PRIVATE}\\.s3\\.${Configuration.AWS_REGION}\\.amazonaws\\.com\\/([^?]+)(?:\\?|$)`
       );
 
       const match = url.match(regex);
       if (isNull(match)) return Result.Error.map(null);
-      const key = match[0];
+      const key = match[1];
+      if (isUndefined(key)) return Result.Error.map(null);
 
       return Result.Ok.map(
         new GetObjectCommand({ Bucket: Configuration.AWS_S3_PRIVATE, Key: key })

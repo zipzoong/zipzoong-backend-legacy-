@@ -1,3 +1,4 @@
+import { Mutable } from "@TYPE";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IREAgent } from "@DTO/user/re_agent";
 import { filter, identity, map, pipe, toArray } from "@fxts/core";
@@ -9,6 +10,7 @@ import { isInActive, Result, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";
+import BusinessUser from "../business_user";
 
 export namespace Service {
   export const getList = async ({
@@ -122,14 +124,14 @@ export namespace Service {
 
   export namespace Me {
     /** @throw Forbidden */
-    export const get = ({
+    export const get = async ({
       user_id,
       tx = prisma
     }: {
       user_id: string;
       tx?: Prisma.TransactionClient;
-    }): Promise<IREAgent.IPrivate> =>
-      User.Service.getOne({
+    }): Promise<IREAgent.IPrivate> => {
+      const me: Mutable<IREAgent.IPrivate> = await User.Service.getOne({
         user_id,
 
         findFirst: async (id) =>
@@ -144,6 +146,11 @@ export namespace Service {
 
         mapper: Map.entityPrivate
       });
+      me.business_certification_images = await Promise.all(
+        me.business_certification_images.map(BusinessUser.Service.signUrl)
+      );
+      return me;
+    };
 
     export namespace Property {
       export const getList = ({
