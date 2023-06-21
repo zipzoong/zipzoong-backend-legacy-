@@ -1,3 +1,4 @@
+import { Mutable } from "@TYPE";
 import { IBusinessUser } from "@DTO/user/business_user";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { filter, identity, map, pipe, toArray } from "@fxts/core";
@@ -8,6 +9,7 @@ import { isInActive, Result, toThrow } from "@UTIL";
 import User from "../user";
 import { Json } from "./json";
 import { Map } from "./map";
+import { AwsS3 } from "@EXTERNAL/storage";
 
 export namespace Service {
   export const getList = async ({
@@ -72,14 +74,14 @@ export namespace Service {
     });
 
   export namespace Me {
-    export const get = ({
+    export const get = async ({
       user_id,
       tx = prisma
     }: {
       user_id: string;
       tx?: Prisma.TransactionClient;
-    }): Promise<IHSProvider.IPrivate> =>
-      User.Service.getOne({
+    }): Promise<IHSProvider.IPrivate> => {
+      const me = await User.Service.getOne({
         user_id,
 
         findFirst: async (id) =>
@@ -94,5 +96,15 @@ export namespace Service {
 
         mapper: Map.entityPrivate
       });
+      await Promise.all(
+        map(async (image: Mutable<IBusinessUser.ICertificationImage>) => {
+          const presigned_url = await AwsS3.Read.getUrl(image.url);
+          image.url = Result.Ok.is(presigned_url)
+            ? Result.Ok.flatten(presigned_url)
+            : image.url;
+        }, me.business_certification_images)
+      );
+      return me;
+    };
   }
 }

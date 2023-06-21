@@ -42,4 +42,6 @@ interface IEnv {
 
   readonly AWS_REGION: string;
   readonly AWS_LOG_GROUP: string;
+  readonly AWS_S3_PUBLIC: string;
+  readonly AWS_S3_PRIVATE: string;
 }
