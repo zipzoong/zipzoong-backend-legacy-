@@ -1,15 +1,7 @@
-import {
-  getISOString,
-  isActive,
-  isInActive,
-  isNull,
-  isUndefined,
-  Result,
-  throwIf
-} from "@UTIL";
+import { getISOString, isActive, isInActive, Result } from "@UTIL";
 import { NaverSENS } from "@EXTERNAL/sms";
 import { randomInt, randomUUID } from "node:crypto";
-import { pipe } from "@fxts/core";
+import { isNull, isUndefined, pipe, throwIf } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { IPhoneVerification } from "@DTO/verification/phone";
 import { Exception } from "./Exception";
@@ -32,7 +24,7 @@ export namespace Phone {
         messages: [{ to: phone }]
       }),
 
-      throwIf(Result.Error.is, Exception.PhoneVerificationFail),
+      throwIf(Result.Error.is, () => Exception.PhoneVerificationFail),
 
       Result.Ok.flatten,
 

@@ -1,10 +1,11 @@
 import { IResult } from "@TYPE";
 import { ICustomer } from "@DTO/user/customer";
 import { prisma } from "@INFRA/DB";
-import { getISOString, isNull, Result } from "@UTIL";
+import { getISOString, Result } from "@UTIL";
 import typia from "typia";
 import { Json } from "./json";
 import User from "../user";
+import { isNull } from "@fxts/core";
 
 export namespace Map {
   export const entitySummary = (

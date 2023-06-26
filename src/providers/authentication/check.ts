@@ -3,11 +3,11 @@ import { ICustomer } from "@DTO/user/customer";
 import { IHSProvider } from "@DTO/user/hs_provider";
 import { IREAgent } from "@DTO/user/re_agent";
 import { IUser } from "@DTO/user/user";
-import { pipe, tap } from "@fxts/core";
+import { pipe, tap, isNull } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
 import { AgreementTargetType, OauthAccountModel, Prisma } from "@PRISMA";
 import Agreement from "@PROVIDER/agreement";
-import { isActive, isInActive, isNull, toThrow } from "@UTIL";
+import { isActive, isInActive, toThrow } from "@UTIL";
 import { Exception } from "./exception";
 
 export namespace Check {

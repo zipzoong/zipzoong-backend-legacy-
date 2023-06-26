@@ -1,9 +1,10 @@
 import { IBusinessUser } from "@DTO/user/business_user";
 import { prisma } from "@INFRA/DB";
 import { ServiceType, Prisma } from "@PRISMA";
-import { isActive, isNull } from "@UTIL";
+import { isActive } from "@UTIL";
 import User from "../user";
 import { Exception } from "./exception";
+import { isNull } from "@fxts/core";
 
 export namespace Check {
   const mapper: Record<IBusinessUser.Type, ServiceType> = {

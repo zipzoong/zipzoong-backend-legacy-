@@ -25,7 +25,7 @@ export async function getList(
     connection: IConnection,
     query: IAgreement.ISearch,
 ): Promise<getList.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? getList.simulate(
               connection,
               query,
@@ -73,9 +73,9 @@ export namespace getList {
         });
         assert.query(() => typia.assert(query));
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }

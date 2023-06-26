@@ -29,7 +29,7 @@ export async function getList(
     connection: IConnection,
     query: IBusinessUser.ISearch,
 ): Promise<getList.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? getList.simulate(
               connection,
               query,
@@ -77,9 +77,9 @@ export namespace getList {
         });
         assert.query(() => typia.assert(query));
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }
@@ -101,7 +101,7 @@ export async function getOne(
     connection: IConnection,
     provider_id: string,
 ): Promise<getOne.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? getOne.simulate(
               connection,
               provider_id,
@@ -139,9 +139,9 @@ export namespace getOne {
         });
         assert.param("provider_id")("string")(() => typia.assert(provider_id));
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }

@@ -39,7 +39,7 @@ export async function create(
     connection: IConnection,
     body: IAuthentication.ICreateRequest,
 ): Promise<create.Output> {
-    return !!(connection.simulate ?? (connection as any).random)
+    return !!connection.simulate
         ? create.simulate(
               connection,
               body,
@@ -80,9 +80,9 @@ export namespace create {
         });
         assert.body(() => typia.assert(body));
         return random(
-            typeof (connection.simulate ?? (connection as any).random) === 'object'
-            && (connection.simulate ?? (connection as any).random) !== null
-                ? (connection.simulate ?? (connection as any).random)
+            typeof connection.simulate === 'object' &&
+                connection.simulate !== null
+                ? connection.simulate
                 : undefined
         );
     }

@@ -1,7 +1,7 @@
 import { IServiceCategory } from "@DTO/category/service";
-import { filter, map, pipe, toArray } from "@fxts/core";
+import { filter, isNull, map, negate, pipe, toArray } from "@fxts/core";
 import { prisma } from "@INFRA/DB";
-import { isActive, isInActive, isNull, toThrow } from "@UTIL";
+import { isActive, toThrow } from "@UTIL";
 import { Exception } from "./exception";
 
 export namespace Service {
@@ -51,9 +51,9 @@ export namespace Service {
           }),
 
         (model) =>
-          isNull(model) || isInActive(model)
-            ? toThrow(Exception.NotFound)
-            : model,
+          negate(isNull)(model) && isActive(model)
+            ? model
+            : toThrow(Exception.NotFound),
 
         (model) => ({
           level: "super",
