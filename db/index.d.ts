@@ -4,337 +4,512 @@
 **/
 
 import * as runtime from './runtime/library';
-type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
-type UnwrapTuple<Tuple extends readonly unknown[]> = {
-  [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends Prisma.PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
-};
+import $Types = runtime.Types // general types
+import $Public = runtime.Types.Public
+import $Utils = runtime.Types.Utils
+import $Extensions = runtime.Types.Extensions
 
-export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
+
+export type REPropertyModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    re_agent: REAgentModelPayload<ExtArgs>
+    categories: REPropertyCategoryModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    main_image_url: string
+    re_agent_id: string
+    is_visible: boolean
+  }, ExtArgs["result"]["rEPropertyModel"]>
+  composites: {}
+}
 
 /**
  * Model REPropertyModel
  * 
  */
-export type REPropertyModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  main_image_url: string
-  re_agent_id: string
-  is_visible: boolean
+export type REPropertyModel = runtime.Types.DefaultSelection<REPropertyModelPayload>
+export type REPropertyCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    re_property: REPropertyModelPayload<ExtArgs>
+    sub_category: REPropertySubCategoryModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    re_property_id: string
+    sub_category_id: string
+  }, ExtArgs["result"]["rEPropertyCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model REPropertyCategoryModel
  * 
  */
-export type REPropertyCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  re_property_id: string
-  sub_category_id: string
+export type REPropertyCategoryModel = runtime.Types.DefaultSelection<REPropertyCategoryModelPayload>
+export type REPropertySubCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    middle_category: REPropertyMiddleCategoryModelPayload<ExtArgs>
+    property_categories: REPropertyCategoryModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    middle_category_id: string
+  }, ExtArgs["result"]["rEPropertySubCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model REPropertySubCategoryModel
  * 
  */
-export type REPropertySubCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  middle_category_id: string
+export type REPropertySubCategoryModel = runtime.Types.DefaultSelection<REPropertySubCategoryModelPayload>
+export type REPropertyMiddleCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    super_category: REPropertySuperCategoryModelPayload<ExtArgs>
+    sub_categories: REPropertySubCategoryModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    super_category_id: string
+  }, ExtArgs["result"]["rEPropertyMiddleCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model REPropertyMiddleCategoryModel
  * 
  */
-export type REPropertyMiddleCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  super_category_id: string
+export type REPropertyMiddleCategoryModel = runtime.Types.DefaultSelection<REPropertyMiddleCategoryModelPayload>
+export type REPropertySuperCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    middle_categories: REPropertyMiddleCategoryModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+  }, ExtArgs["result"]["rEPropertySuperCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model REPropertySuperCategoryModel
  * 
  */
-export type REPropertySuperCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
+export type REPropertySuperCategoryModel = runtime.Types.DefaultSelection<REPropertySuperCategoryModelPayload>
+export type AgreementModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    acceptances: AgreementAcceptanceModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    title: string
+    content: string
+    is_required: boolean
+    target_type: AgreementTargetType
+  }, ExtArgs["result"]["agreementModel"]>
+  composites: {}
 }
 
 /**
  * Model AgreementModel
  * 
  */
-export type AgreementModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  title: string
-  content: string
-  is_required: boolean
-  target_type: AgreementTargetType
+export type AgreementModel = runtime.Types.DefaultSelection<AgreementModelPayload>
+export type AgreementAcceptanceModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    user: UserModelPayload<ExtArgs>
+    agreement: AgreementModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    user_id: string
+    agreement_id: string
+  }, ExtArgs["result"]["agreementAcceptanceModel"]>
+  composites: {}
 }
 
 /**
  * Model AgreementAcceptanceModel
  * 
  */
-export type AgreementAcceptanceModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  user_id: string
-  agreement_id: string
+export type AgreementAcceptanceModel = runtime.Types.DefaultSelection<AgreementAcceptanceModelPayload>
+export type ServiceSubCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    super_category: ServiceSuperCategoryModelPayload<ExtArgs>
+    expertises: SubExpertiseModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    super_category_id: string
+  }, ExtArgs["result"]["serviceSubCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model ServiceSubCategoryModel
  * 
  */
-export type ServiceSubCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  super_category_id: string
+export type ServiceSubCategoryModel = runtime.Types.DefaultSelection<ServiceSubCategoryModelPayload>
+export type ServiceSuperCategoryModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    sub_categories: ServiceSubCategoryModelPayload<ExtArgs>[]
+    focus_care_checks: ZipzoongCareServiceCheckModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    type: ServiceType
+  }, ExtArgs["result"]["serviceSuperCategoryModel"]>
+  composites: {}
 }
 
 /**
  * Model ServiceSuperCategoryModel
  * 
  */
-export type ServiceSuperCategoryModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  type: ServiceType
+export type ServiceSuperCategoryModel = runtime.Types.DefaultSelection<ServiceSuperCategoryModelPayload>
+export type ZipzoongCareRequestModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    requester: CustomerModelPayload<ExtArgs>
+    consultation_time_checks: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>[]
+    service_checks: ZipzoongCareServiceCheckModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    care_start_date: Date
+    care_end_date: Date
+    detail: string
+    status: ZipzoongCareStatus
+    requester_id: string
+  }, ExtArgs["result"]["zipzoongCareRequestModel"]>
+  composites: {}
 }
 
 /**
  * Model ZipzoongCareRequestModel
  * 
  */
-export type ZipzoongCareRequestModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  care_start_date: Date
-  care_end_date: Date
-  detail: string
-  status: ZipzoongCareStatus
-  requester_id: string
+export type ZipzoongCareRequestModel = runtime.Types.DefaultSelection<ZipzoongCareRequestModelPayload>
+export type ZipzoongCareServiceCheckModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    service_super_category: ServiceSuperCategoryModelPayload<ExtArgs>
+    request: ZipzoongCareRequestModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    service_super_category_id: string
+    request_id: string
+  }, ExtArgs["result"]["zipzoongCareServiceCheckModel"]>
+  composites: {}
 }
 
 /**
  * Model ZipzoongCareServiceCheckModel
  * 
  */
-export type ZipzoongCareServiceCheckModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  service_super_category_id: string
-  request_id: string
+export type ZipzoongCareServiceCheckModel = runtime.Types.DefaultSelection<ZipzoongCareServiceCheckModelPayload>
+export type ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    request: ZipzoongCareRequestModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    start_time: Date
+    end_time: Date
+    request_id: string
+  }, ExtArgs["result"]["zipzoongCareConsultationTimeCheckModel"]>
+  composites: {}
 }
 
 /**
  * Model ZipzoongCareConsultationTimeCheckModel
  * 
  */
-export type ZipzoongCareConsultationTimeCheckModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  start_time: Date
-  end_time: Date
-  request_id: string
+export type ZipzoongCareConsultationTimeCheckModel = runtime.Types.DefaultSelection<ZipzoongCareConsultationTimeCheckModelPayload>
+export type UserModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    customer: CustomerModelPayload<ExtArgs> | null
+    business_user: BusinessUserModelPayload<ExtArgs> | null
+    agreement_acceptances: AgreementAcceptanceModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    name: string
+    email: string | null
+  }, ExtArgs["result"]["userModel"]>
+  composites: {}
 }
 
 /**
  * Model UserModel
  * 
  */
-export type UserModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  name: string
-  email: string | null
+export type UserModel = runtime.Types.DefaultSelection<UserModelPayload>
+export type CustomerModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    base: UserModelPayload<ExtArgs>
+    oauth_accounts: OauthAccountModelPayload<ExtArgs>[]
+    zipzoong_care_requests: ZipzoongCareRequestModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    birth: string | null
+    gender: GenderType | null
+    phone: string | null
+    address_first: string | null
+    address_second: string | null
+    profile_image_url: string | null
+  }, ExtArgs["result"]["customerModel"]>
+  composites: {}
 }
 
 /**
  * Model CustomerModel
  * 
  */
-export type CustomerModel = {
-  id: string
-  birth: string | null
-  gender: GenderType | null
-  phone: string | null
-  address_first: string | null
-  address_second: string | null
-  profile_image_url: string | null
+export type CustomerModel = runtime.Types.DefaultSelection<CustomerModelPayload>
+export type BusinessUserModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    base: UserModelPayload<ExtArgs>
+    re_agent: REAgentModelPayload<ExtArgs> | null
+    hs_provider: HSProviderModelPayload<ExtArgs> | null
+    certification_images: BusinessCertificationImageModelPayload<ExtArgs>[]
+    sub_expertises: SubExpertiseModelPayload<ExtArgs>[]
+    oauth_accounts: OauthAccountModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    is_verified: boolean
+    introduction_title: string
+    introduction_content: string
+    phone: string
+    address_first: string
+    address_second: string | null
+    profile_image_url: string
+  }, ExtArgs["result"]["businessUserModel"]>
+  composites: {}
 }
 
 /**
  * Model BusinessUserModel
  * 
  */
-export type BusinessUserModel = {
-  id: string
-  is_verified: boolean
-  introduction_title: string
-  introduction_content: string
-  phone: string
-  address_first: string
-  address_second: string | null
-  profile_image_url: string
+export type BusinessUserModel = runtime.Types.DefaultSelection<BusinessUserModelPayload>
+export type SubExpertiseModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    sub_category: ServiceSubCategoryModelPayload<ExtArgs>
+    business_user: BusinessUserModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    sub_category_id: string
+    business_user_id: string
+  }, ExtArgs["result"]["subExpertiseModel"]>
+  composites: {}
 }
 
 /**
  * Model SubExpertiseModel
  * 
  */
-export type SubExpertiseModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  sub_category_id: string
-  business_user_id: string
+export type SubExpertiseModel = runtime.Types.DefaultSelection<SubExpertiseModelPayload>
+export type REAgentModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    base: BusinessUserModelPayload<ExtArgs>
+    properties: REPropertyModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    is_licensed: boolean
+    re_num: string
+    re_name: string
+    re_phone: string
+    re_licensed_agent_name: string
+  }, ExtArgs["result"]["rEAgentModel"]>
+  composites: {}
 }
 
 /**
  * Model REAgentModel
  * 
  */
-export type REAgentModel = {
-  id: string
-  is_licensed: boolean
-  re_num: string
-  re_name: string
-  re_phone: string
-  re_licensed_agent_name: string
+export type REAgentModel = runtime.Types.DefaultSelection<REAgentModelPayload>
+export type HSProviderModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    base: BusinessUserModelPayload<ExtArgs>
+    example_images: HSExampleImageModelPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    business_registration_num: string
+  }, ExtArgs["result"]["hSProviderModel"]>
+  composites: {}
 }
 
 /**
  * Model HSProviderModel
  * 
  */
-export type HSProviderModel = {
-  id: string
-  business_registration_num: string
+export type HSProviderModel = runtime.Types.DefaultSelection<HSProviderModelPayload>
+export type BusinessCertificationImageModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    business_user: BusinessUserModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    business_user_id: string
+    url: string
+  }, ExtArgs["result"]["businessCertificationImageModel"]>
+  composites: {}
 }
 
 /**
  * Model BusinessCertificationImageModel
  * 
  */
-export type BusinessCertificationImageModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  business_user_id: string
-  url: string
+export type BusinessCertificationImageModel = runtime.Types.DefaultSelection<BusinessCertificationImageModelPayload>
+export type HSExampleImageModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    hs_provider: HSProviderModelPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    hs_provider_id: string
+    url: string
+    is_visible: boolean
+  }, ExtArgs["result"]["hSExampleImageModel"]>
+  composites: {}
 }
 
 /**
  * Model HSExampleImageModel
  * 
  */
-export type HSExampleImageModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  hs_provider_id: string
-  url: string
-  is_visible: boolean
+export type HSExampleImageModel = runtime.Types.DefaultSelection<HSExampleImageModelPayload>
+export type OauthAccountModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {
+    business_user: BusinessUserModelPayload<ExtArgs> | null
+    customer: CustomerModelPayload<ExtArgs> | null
+  }
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    oauth_type: OauthType
+    oauth_sub: string
+    business_user_id: string | null
+    customer_id: string | null
+    name: string | null
+    email: string | null
+    phone: string | null
+    profile_image_url: string | null
+    birth: string | null
+    gender: GenderType | null
+    address_first: string | null
+    address_second: string | null
+  }, ExtArgs["result"]["oauthAccountModel"]>
+  composites: {}
 }
 
 /**
  * Model OauthAccountModel
  * 
  */
-export type OauthAccountModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  oauth_type: OauthType
-  oauth_sub: string
-  business_user_id: string | null
-  customer_id: string | null
-  name: string | null
-  email: string | null
-  phone: string | null
-  profile_image_url: string | null
-  birth: string | null
-  gender: GenderType | null
-  address_first: string | null
-  address_second: string | null
+export type OauthAccountModel = runtime.Types.DefaultSelection<OauthAccountModelPayload>
+export type PhoneVerificationModelPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {}
+  scalars: $Extensions.GetResult<{
+    id: string
+    created_at: Date
+    updated_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    phone: string
+    code: string
+    request_id: string
+    is_verified: boolean
+  }, ExtArgs["result"]["phoneVerificationModel"]>
+  composites: {}
 }
 
 /**
  * Model PhoneVerificationModel
  * 
  */
-export type PhoneVerificationModel = {
-  id: string
-  created_at: Date
-  updated_at: Date
-  is_deleted: boolean
-  deleted_at: Date | null
-  phone: string
-  code: string
-  request_id: string
-  is_verified: boolean
-}
-
+export type PhoneVerificationModel = runtime.Types.DefaultSelection<PhoneVerificationModelPayload>
 
 /**
  * Enums
@@ -349,23 +524,6 @@ export const AgreementTargetType: {
 };
 
 export type AgreementTargetType = (typeof AgreementTargetType)[keyof typeof AgreementTargetType]
-
-
-export const GenderType: {
-  female: 'female',
-  male: 'male',
-  other: 'other'
-};
-
-export type GenderType = (typeof GenderType)[keyof typeof GenderType]
-
-
-export const OauthType: {
-  kakao: 'kakao',
-  naver: 'naver'
-};
-
-export type OauthType = (typeof OauthType)[keyof typeof OauthType]
 
 
 export const ServiceType: {
@@ -384,6 +542,23 @@ export const ZipzoongCareStatus: {
 };
 
 export type ZipzoongCareStatus = (typeof ZipzoongCareStatus)[keyof typeof ZipzoongCareStatus]
+
+
+export const GenderType: {
+  female: 'female',
+  male: 'male',
+  other: 'other'
+};
+
+export type GenderType = (typeof GenderType)[keyof typeof GenderType]
+
+
+export const OauthType: {
+  kakao: 'kakao',
+  naver: 'naver'
+};
+
+export type OauthType = (typeof OauthType)[keyof typeof OauthType]
 
 
 /**
@@ -405,8 +580,11 @@ export class PrismaClient<
   U = 'log' extends keyof T ? T['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<T['log']> : never : never,
   GlobalReject extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined = 'rejectOnNotFound' extends keyof T
     ? T['rejectOnNotFound']
-    : false
-      > {
+    : false,
+  ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
+
     /**
    * ##  Prisma Client ʲˢ
    * 
@@ -437,6 +615,8 @@ export class PrismaClient<
 
   /**
    * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
    */
   $use(cb: Prisma.Middleware): void
 
@@ -499,9 +679,12 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<runtime.Types.Utils.UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
+
+
+  $extends: $Extensions.ExtendsHook<'extends', Prisma.TypeMapCb, ExtArgs>
 
       /**
    * `prisma.rEPropertyModel`: Exposes CRUD operations for the **REPropertyModel** model.
@@ -511,7 +694,7 @@ export class PrismaClient<
     * const rEPropertyModels = await prisma.rEPropertyModel.findMany()
     * ```
     */
-  get rEPropertyModel(): Prisma.REPropertyModelDelegate<GlobalReject>;
+  get rEPropertyModel(): Prisma.REPropertyModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.rEPropertyCategoryModel`: Exposes CRUD operations for the **REPropertyCategoryModel** model.
@@ -521,7 +704,7 @@ export class PrismaClient<
     * const rEPropertyCategoryModels = await prisma.rEPropertyCategoryModel.findMany()
     * ```
     */
-  get rEPropertyCategoryModel(): Prisma.REPropertyCategoryModelDelegate<GlobalReject>;
+  get rEPropertyCategoryModel(): Prisma.REPropertyCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.rEPropertySubCategoryModel`: Exposes CRUD operations for the **REPropertySubCategoryModel** model.
@@ -531,7 +714,7 @@ export class PrismaClient<
     * const rEPropertySubCategoryModels = await prisma.rEPropertySubCategoryModel.findMany()
     * ```
     */
-  get rEPropertySubCategoryModel(): Prisma.REPropertySubCategoryModelDelegate<GlobalReject>;
+  get rEPropertySubCategoryModel(): Prisma.REPropertySubCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.rEPropertyMiddleCategoryModel`: Exposes CRUD operations for the **REPropertyMiddleCategoryModel** model.
@@ -541,7 +724,7 @@ export class PrismaClient<
     * const rEPropertyMiddleCategoryModels = await prisma.rEPropertyMiddleCategoryModel.findMany()
     * ```
     */
-  get rEPropertyMiddleCategoryModel(): Prisma.REPropertyMiddleCategoryModelDelegate<GlobalReject>;
+  get rEPropertyMiddleCategoryModel(): Prisma.REPropertyMiddleCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.rEPropertySuperCategoryModel`: Exposes CRUD operations for the **REPropertySuperCategoryModel** model.
@@ -551,7 +734,7 @@ export class PrismaClient<
     * const rEPropertySuperCategoryModels = await prisma.rEPropertySuperCategoryModel.findMany()
     * ```
     */
-  get rEPropertySuperCategoryModel(): Prisma.REPropertySuperCategoryModelDelegate<GlobalReject>;
+  get rEPropertySuperCategoryModel(): Prisma.REPropertySuperCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.agreementModel`: Exposes CRUD operations for the **AgreementModel** model.
@@ -561,7 +744,7 @@ export class PrismaClient<
     * const agreementModels = await prisma.agreementModel.findMany()
     * ```
     */
-  get agreementModel(): Prisma.AgreementModelDelegate<GlobalReject>;
+  get agreementModel(): Prisma.AgreementModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.agreementAcceptanceModel`: Exposes CRUD operations for the **AgreementAcceptanceModel** model.
@@ -571,7 +754,7 @@ export class PrismaClient<
     * const agreementAcceptanceModels = await prisma.agreementAcceptanceModel.findMany()
     * ```
     */
-  get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject>;
+  get agreementAcceptanceModel(): Prisma.AgreementAcceptanceModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.serviceSubCategoryModel`: Exposes CRUD operations for the **ServiceSubCategoryModel** model.
@@ -581,7 +764,7 @@ export class PrismaClient<
     * const serviceSubCategoryModels = await prisma.serviceSubCategoryModel.findMany()
     * ```
     */
-  get serviceSubCategoryModel(): Prisma.ServiceSubCategoryModelDelegate<GlobalReject>;
+  get serviceSubCategoryModel(): Prisma.ServiceSubCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.serviceSuperCategoryModel`: Exposes CRUD operations for the **ServiceSuperCategoryModel** model.
@@ -591,7 +774,7 @@ export class PrismaClient<
     * const serviceSuperCategoryModels = await prisma.serviceSuperCategoryModel.findMany()
     * ```
     */
-  get serviceSuperCategoryModel(): Prisma.ServiceSuperCategoryModelDelegate<GlobalReject>;
+  get serviceSuperCategoryModel(): Prisma.ServiceSuperCategoryModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.zipzoongCareRequestModel`: Exposes CRUD operations for the **ZipzoongCareRequestModel** model.
@@ -601,7 +784,7 @@ export class PrismaClient<
     * const zipzoongCareRequestModels = await prisma.zipzoongCareRequestModel.findMany()
     * ```
     */
-  get zipzoongCareRequestModel(): Prisma.ZipzoongCareRequestModelDelegate<GlobalReject>;
+  get zipzoongCareRequestModel(): Prisma.ZipzoongCareRequestModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.zipzoongCareServiceCheckModel`: Exposes CRUD operations for the **ZipzoongCareServiceCheckModel** model.
@@ -611,7 +794,7 @@ export class PrismaClient<
     * const zipzoongCareServiceCheckModels = await prisma.zipzoongCareServiceCheckModel.findMany()
     * ```
     */
-  get zipzoongCareServiceCheckModel(): Prisma.ZipzoongCareServiceCheckModelDelegate<GlobalReject>;
+  get zipzoongCareServiceCheckModel(): Prisma.ZipzoongCareServiceCheckModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.zipzoongCareConsultationTimeCheckModel`: Exposes CRUD operations for the **ZipzoongCareConsultationTimeCheckModel** model.
@@ -621,7 +804,7 @@ export class PrismaClient<
     * const zipzoongCareConsultationTimeCheckModels = await prisma.zipzoongCareConsultationTimeCheckModel.findMany()
     * ```
     */
-  get zipzoongCareConsultationTimeCheckModel(): Prisma.ZipzoongCareConsultationTimeCheckModelDelegate<GlobalReject>;
+  get zipzoongCareConsultationTimeCheckModel(): Prisma.ZipzoongCareConsultationTimeCheckModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.userModel`: Exposes CRUD operations for the **UserModel** model.
@@ -631,7 +814,7 @@ export class PrismaClient<
     * const userModels = await prisma.userModel.findMany()
     * ```
     */
-  get userModel(): Prisma.UserModelDelegate<GlobalReject>;
+  get userModel(): Prisma.UserModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.customerModel`: Exposes CRUD operations for the **CustomerModel** model.
@@ -641,7 +824,7 @@ export class PrismaClient<
     * const customerModels = await prisma.customerModel.findMany()
     * ```
     */
-  get customerModel(): Prisma.CustomerModelDelegate<GlobalReject>;
+  get customerModel(): Prisma.CustomerModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.businessUserModel`: Exposes CRUD operations for the **BusinessUserModel** model.
@@ -651,7 +834,7 @@ export class PrismaClient<
     * const businessUserModels = await prisma.businessUserModel.findMany()
     * ```
     */
-  get businessUserModel(): Prisma.BusinessUserModelDelegate<GlobalReject>;
+  get businessUserModel(): Prisma.BusinessUserModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.subExpertiseModel`: Exposes CRUD operations for the **SubExpertiseModel** model.
@@ -661,7 +844,7 @@ export class PrismaClient<
     * const subExpertiseModels = await prisma.subExpertiseModel.findMany()
     * ```
     */
-  get subExpertiseModel(): Prisma.SubExpertiseModelDelegate<GlobalReject>;
+  get subExpertiseModel(): Prisma.SubExpertiseModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.rEAgentModel`: Exposes CRUD operations for the **REAgentModel** model.
@@ -671,7 +854,7 @@ export class PrismaClient<
     * const rEAgentModels = await prisma.rEAgentModel.findMany()
     * ```
     */
-  get rEAgentModel(): Prisma.REAgentModelDelegate<GlobalReject>;
+  get rEAgentModel(): Prisma.REAgentModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.hSProviderModel`: Exposes CRUD operations for the **HSProviderModel** model.
@@ -681,7 +864,7 @@ export class PrismaClient<
     * const hSProviderModels = await prisma.hSProviderModel.findMany()
     * ```
     */
-  get hSProviderModel(): Prisma.HSProviderModelDelegate<GlobalReject>;
+  get hSProviderModel(): Prisma.HSProviderModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.businessCertificationImageModel`: Exposes CRUD operations for the **BusinessCertificationImageModel** model.
@@ -691,7 +874,7 @@ export class PrismaClient<
     * const businessCertificationImageModels = await prisma.businessCertificationImageModel.findMany()
     * ```
     */
-  get businessCertificationImageModel(): Prisma.BusinessCertificationImageModelDelegate<GlobalReject>;
+  get businessCertificationImageModel(): Prisma.BusinessCertificationImageModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.hSExampleImageModel`: Exposes CRUD operations for the **HSExampleImageModel** model.
@@ -701,7 +884,7 @@ export class PrismaClient<
     * const hSExampleImageModels = await prisma.hSExampleImageModel.findMany()
     * ```
     */
-  get hSExampleImageModel(): Prisma.HSExampleImageModelDelegate<GlobalReject>;
+  get hSExampleImageModel(): Prisma.HSExampleImageModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.oauthAccountModel`: Exposes CRUD operations for the **OauthAccountModel** model.
@@ -711,7 +894,7 @@ export class PrismaClient<
     * const oauthAccountModels = await prisma.oauthAccountModel.findMany()
     * ```
     */
-  get oauthAccountModel(): Prisma.OauthAccountModelDelegate<GlobalReject>;
+  get oauthAccountModel(): Prisma.OauthAccountModelDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.phoneVerificationModel`: Exposes CRUD operations for the **PhoneVerificationModel** model.
@@ -721,13 +904,18 @@ export class PrismaClient<
     * const phoneVerificationModels = await prisma.phoneVerificationModel.findMany()
     * ```
     */
-  get phoneVerificationModel(): Prisma.PhoneVerificationModelDelegate<GlobalReject>;
+  get phoneVerificationModel(): Prisma.PhoneVerificationModelDelegate<GlobalReject, ExtArgs>;
 }
 
 export namespace Prisma {
   export import DMMF = runtime.DMMF
 
-  export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>
+
+  /**
+   * Validator
+   */
+  export import validator = runtime.Public.validator
 
   /**
    * Prisma Errors
@@ -763,10 +951,19 @@ export namespace Prisma {
   export type MetricHistogram = runtime.MetricHistogram
   export type MetricHistogramBucket = runtime.MetricHistogramBucket
 
+  /**
+  * Extensions
+  */
+  export type Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export type Args<T, F extends $Public.Operation> = $Public.Args<T, F>
+  export type Payload<T, F extends $Public.Operation> = $Public.Payload<T, F>
+  export type Result<T, A, F extends $Public.Operation> = $Public.Result<T, A, F>
+  export type Exact<T, W> = $Public.Exact<T, W>
 
   /**
-   * Prisma Client JS version: 4.15.0
-   * Query Engine version: 8fbc245156db7124f997f4cecdd8d1219e360944
+   * Prisma Client JS version: 4.16.1
+   * Query Engine version: b20ead4d3ab9e78ac112966e242ded703f4a052c
    */
   export type PrismaVersion = {
     client: string
@@ -1134,7 +1331,7 @@ export namespace Prisma {
 
   export const type: unique symbol;
 
-  export function validator<V>(): <S>(select: runtime.Types.Utils.LegacyExact<S, V>) => S;
+
 
   /**
    * Used by group by
@@ -1222,6 +1419,1783 @@ export namespace Prisma {
     database?: Datasource
   }
 
+
+  interface TypeMapCb extends $Utils.Fn<{extArgs: $Extensions.Args}, $Utils.Record<string, any>> {
+    returns: Prisma.TypeMap<this['params']['extArgs']>
+  }
+
+  export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    meta: {
+      modelProps: 'rEPropertyModel' | 'rEPropertyCategoryModel' | 'rEPropertySubCategoryModel' | 'rEPropertyMiddleCategoryModel' | 'rEPropertySuperCategoryModel' | 'agreementModel' | 'agreementAcceptanceModel' | 'serviceSubCategoryModel' | 'serviceSuperCategoryModel' | 'zipzoongCareRequestModel' | 'zipzoongCareServiceCheckModel' | 'zipzoongCareConsultationTimeCheckModel' | 'userModel' | 'customerModel' | 'businessUserModel' | 'subExpertiseModel' | 'rEAgentModel' | 'hSProviderModel' | 'businessCertificationImageModel' | 'hSExampleImageModel' | 'oauthAccountModel' | 'phoneVerificationModel'
+      txIsolationLevel: Prisma.TransactionIsolationLevel
+    },
+    model: {
+      REPropertyModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REPropertyModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload> | null
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REPropertyModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REPropertyModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload> | null
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REPropertyModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REPropertyModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>[]
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REPropertyModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REPropertyModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REPropertyModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REPropertyModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REPropertyModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REPropertyModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REPropertyModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyModelPayload>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REPropertyModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREPropertyModel>
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REPropertyModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyModelGroupByOutputType>[]
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REPropertyModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyModelCountAggregateOutputType> | number
+            payload: REPropertyModelPayload<ExtArgs>
+          }
+        }
+      }
+      REPropertyCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REPropertyCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload> | null
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REPropertyCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REPropertyCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload> | null
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REPropertyCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REPropertyCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>[]
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REPropertyCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REPropertyCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REPropertyCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REPropertyCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REPropertyCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REPropertyCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REPropertyCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyCategoryModelPayload>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REPropertyCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREPropertyCategoryModel>
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REPropertyCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyCategoryModelGroupByOutputType>[]
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REPropertyCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyCategoryModelCountAggregateOutputType> | number
+            payload: REPropertyCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      REPropertySubCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REPropertySubCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload> | null
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REPropertySubCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REPropertySubCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload> | null
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REPropertySubCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REPropertySubCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>[]
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REPropertySubCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REPropertySubCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REPropertySubCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REPropertySubCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REPropertySubCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REPropertySubCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REPropertySubCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySubCategoryModelPayload>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REPropertySubCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREPropertySubCategoryModel>
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REPropertySubCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertySubCategoryModelGroupByOutputType>[]
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REPropertySubCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertySubCategoryModelCountAggregateOutputType> | number
+            payload: REPropertySubCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      REPropertyMiddleCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REPropertyMiddleCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload> | null
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REPropertyMiddleCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REPropertyMiddleCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload> | null
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REPropertyMiddleCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REPropertyMiddleCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>[]
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REPropertyMiddleCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REPropertyMiddleCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REPropertyMiddleCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REPropertyMiddleCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REPropertyMiddleCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REPropertyMiddleCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REPropertyMiddleCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertyMiddleCategoryModelPayload>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REPropertyMiddleCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREPropertyMiddleCategoryModel>
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REPropertyMiddleCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyMiddleCategoryModelGroupByOutputType>[]
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REPropertyMiddleCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertyMiddleCategoryModelCountAggregateOutputType> | number
+            payload: REPropertyMiddleCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      REPropertySuperCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REPropertySuperCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload> | null
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REPropertySuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REPropertySuperCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload> | null
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REPropertySuperCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REPropertySuperCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>[]
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REPropertySuperCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REPropertySuperCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REPropertySuperCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REPropertySuperCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REPropertySuperCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REPropertySuperCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REPropertySuperCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REPropertySuperCategoryModelPayload>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REPropertySuperCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREPropertySuperCategoryModel>
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REPropertySuperCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertySuperCategoryModelGroupByOutputType>[]
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REPropertySuperCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REPropertySuperCategoryModelCountAggregateOutputType> | number
+            payload: REPropertySuperCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      AgreementModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.AgreementModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload> | null
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgreementModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.AgreementModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload> | null
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgreementModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.AgreementModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>[]
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.AgreementModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.AgreementModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.AgreementModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.AgreementModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.AgreementModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.AgreementModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.AgreementModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementModelPayload>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.AgreementModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateAgreementModel>
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.AgreementModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<AgreementModelGroupByOutputType>[]
+            payload: AgreementModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.AgreementModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<AgreementModelCountAggregateOutputType> | number
+            payload: AgreementModelPayload<ExtArgs>
+          }
+        }
+      }
+      AgreementAcceptanceModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.AgreementAcceptanceModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload> | null
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgreementAcceptanceModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.AgreementAcceptanceModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload> | null
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgreementAcceptanceModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.AgreementAcceptanceModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>[]
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.AgreementAcceptanceModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.AgreementAcceptanceModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.AgreementAcceptanceModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.AgreementAcceptanceModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.AgreementAcceptanceModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.AgreementAcceptanceModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.AgreementAcceptanceModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<AgreementAcceptanceModelPayload>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.AgreementAcceptanceModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateAgreementAcceptanceModel>
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.AgreementAcceptanceModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<AgreementAcceptanceModelGroupByOutputType>[]
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.AgreementAcceptanceModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<AgreementAcceptanceModelCountAggregateOutputType> | number
+            payload: AgreementAcceptanceModelPayload<ExtArgs>
+          }
+        }
+      }
+      ServiceSubCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceSubCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload> | null
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceSubCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.ServiceSubCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload> | null
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceSubCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.ServiceSubCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>[]
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.ServiceSubCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.ServiceSubCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.ServiceSubCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.ServiceSubCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.ServiceSubCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.ServiceSubCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.ServiceSubCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSubCategoryModelPayload>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.ServiceSubCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateServiceSubCategoryModel>
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.ServiceSubCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ServiceSubCategoryModelGroupByOutputType>[]
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.ServiceSubCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<ServiceSubCategoryModelCountAggregateOutputType> | number
+            payload: ServiceSubCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      ServiceSuperCategoryModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceSuperCategoryModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload> | null
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceSuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.ServiceSuperCategoryModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload> | null
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceSuperCategoryModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.ServiceSuperCategoryModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>[]
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.ServiceSuperCategoryModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.ServiceSuperCategoryModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.ServiceSuperCategoryModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.ServiceSuperCategoryModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.ServiceSuperCategoryModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.ServiceSuperCategoryModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.ServiceSuperCategoryModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ServiceSuperCategoryModelPayload>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.ServiceSuperCategoryModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateServiceSuperCategoryModel>
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.ServiceSuperCategoryModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ServiceSuperCategoryModelGroupByOutputType>[]
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.ServiceSuperCategoryModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<ServiceSuperCategoryModelCountAggregateOutputType> | number
+            payload: ServiceSuperCategoryModelPayload<ExtArgs>
+          }
+        }
+      }
+      ZipzoongCareRequestModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.ZipzoongCareRequestModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload> | null
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ZipzoongCareRequestModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.ZipzoongCareRequestModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload> | null
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.ZipzoongCareRequestModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.ZipzoongCareRequestModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>[]
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.ZipzoongCareRequestModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.ZipzoongCareRequestModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.ZipzoongCareRequestModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.ZipzoongCareRequestModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.ZipzoongCareRequestModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.ZipzoongCareRequestModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.ZipzoongCareRequestModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareRequestModelPayload>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.ZipzoongCareRequestModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateZipzoongCareRequestModel>
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.ZipzoongCareRequestModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareRequestModelGroupByOutputType>[]
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.ZipzoongCareRequestModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareRequestModelCountAggregateOutputType> | number
+            payload: ZipzoongCareRequestModelPayload<ExtArgs>
+          }
+        }
+      }
+      ZipzoongCareServiceCheckModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.ZipzoongCareServiceCheckModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload> | null
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.ZipzoongCareServiceCheckModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload> | null
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.ZipzoongCareServiceCheckModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.ZipzoongCareServiceCheckModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>[]
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.ZipzoongCareServiceCheckModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.ZipzoongCareServiceCheckModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.ZipzoongCareServiceCheckModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.ZipzoongCareServiceCheckModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.ZipzoongCareServiceCheckModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.ZipzoongCareServiceCheckModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.ZipzoongCareServiceCheckModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareServiceCheckModelPayload>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.ZipzoongCareServiceCheckModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateZipzoongCareServiceCheckModel>
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.ZipzoongCareServiceCheckModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareServiceCheckModelGroupByOutputType>[]
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.ZipzoongCareServiceCheckModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareServiceCheckModelCountAggregateOutputType> | number
+            payload: ZipzoongCareServiceCheckModelPayload<ExtArgs>
+          }
+        }
+      }
+      ZipzoongCareConsultationTimeCheckModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload> | null
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload> | null
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>[]
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<ZipzoongCareConsultationTimeCheckModelPayload>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateZipzoongCareConsultationTimeCheckModel>
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareConsultationTimeCheckModelGroupByOutputType>[]
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.ZipzoongCareConsultationTimeCheckModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType> | number
+            payload: ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>
+          }
+        }
+      }
+      UserModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.UserModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload> | null
+            payload: UserModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.UserModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload> | null
+            payload: UserModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.UserModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>[]
+            payload: UserModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.UserModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.UserModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: UserModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.UserModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.UserModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.UserModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: UserModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.UserModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: UserModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.UserModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<UserModelPayload>
+            payload: UserModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.UserModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateUserModel>
+            payload: UserModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.UserModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<UserModelGroupByOutputType>[]
+            payload: UserModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.UserModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<UserModelCountAggregateOutputType> | number
+            payload: UserModelPayload<ExtArgs>
+          }
+        }
+      }
+      CustomerModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.CustomerModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload> | null
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomerModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.CustomerModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload> | null
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomerModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.CustomerModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>[]
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.CustomerModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.CustomerModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.CustomerModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.CustomerModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.CustomerModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.CustomerModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.CustomerModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<CustomerModelPayload>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.CustomerModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateCustomerModel>
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.CustomerModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<CustomerModelGroupByOutputType>[]
+            payload: CustomerModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.CustomerModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<CustomerModelCountAggregateOutputType> | number
+            payload: CustomerModelPayload<ExtArgs>
+          }
+        }
+      }
+      BusinessUserModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessUserModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload> | null
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessUserModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.BusinessUserModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload> | null
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessUserModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.BusinessUserModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>[]
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.BusinessUserModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.BusinessUserModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.BusinessUserModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.BusinessUserModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.BusinessUserModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.BusinessUserModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.BusinessUserModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessUserModelPayload>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.BusinessUserModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateBusinessUserModel>
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.BusinessUserModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<BusinessUserModelGroupByOutputType>[]
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.BusinessUserModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<BusinessUserModelCountAggregateOutputType> | number
+            payload: BusinessUserModelPayload<ExtArgs>
+          }
+        }
+      }
+      SubExpertiseModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.SubExpertiseModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload> | null
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubExpertiseModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.SubExpertiseModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload> | null
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubExpertiseModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.SubExpertiseModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>[]
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.SubExpertiseModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.SubExpertiseModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.SubExpertiseModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.SubExpertiseModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.SubExpertiseModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.SubExpertiseModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.SubExpertiseModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubExpertiseModelPayload>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.SubExpertiseModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateSubExpertiseModel>
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.SubExpertiseModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<SubExpertiseModelGroupByOutputType>[]
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.SubExpertiseModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<SubExpertiseModelCountAggregateOutputType> | number
+            payload: SubExpertiseModelPayload<ExtArgs>
+          }
+        }
+      }
+      REAgentModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.REAgentModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload> | null
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.REAgentModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.REAgentModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload> | null
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.REAgentModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.REAgentModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>[]
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.REAgentModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.REAgentModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.REAgentModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.REAgentModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.REAgentModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.REAgentModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.REAgentModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<REAgentModelPayload>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.REAgentModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateREAgentModel>
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.REAgentModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<REAgentModelGroupByOutputType>[]
+            payload: REAgentModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.REAgentModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<REAgentModelCountAggregateOutputType> | number
+            payload: REAgentModelPayload<ExtArgs>
+          }
+        }
+      }
+      HSProviderModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.HSProviderModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload> | null
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HSProviderModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.HSProviderModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload> | null
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.HSProviderModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.HSProviderModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>[]
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.HSProviderModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.HSProviderModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.HSProviderModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.HSProviderModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.HSProviderModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.HSProviderModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.HSProviderModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSProviderModelPayload>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.HSProviderModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateHSProviderModel>
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.HSProviderModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<HSProviderModelGroupByOutputType>[]
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.HSProviderModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<HSProviderModelCountAggregateOutputType> | number
+            payload: HSProviderModelPayload<ExtArgs>
+          }
+        }
+      }
+      BusinessCertificationImageModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessCertificationImageModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload> | null
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessCertificationImageModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.BusinessCertificationImageModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload> | null
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessCertificationImageModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.BusinessCertificationImageModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>[]
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.BusinessCertificationImageModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.BusinessCertificationImageModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.BusinessCertificationImageModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.BusinessCertificationImageModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.BusinessCertificationImageModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.BusinessCertificationImageModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.BusinessCertificationImageModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<BusinessCertificationImageModelPayload>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.BusinessCertificationImageModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateBusinessCertificationImageModel>
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.BusinessCertificationImageModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<BusinessCertificationImageModelGroupByOutputType>[]
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.BusinessCertificationImageModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<BusinessCertificationImageModelCountAggregateOutputType> | number
+            payload: BusinessCertificationImageModelPayload<ExtArgs>
+          }
+        }
+      }
+      HSExampleImageModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.HSExampleImageModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload> | null
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HSExampleImageModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.HSExampleImageModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload> | null
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.HSExampleImageModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.HSExampleImageModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>[]
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.HSExampleImageModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.HSExampleImageModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.HSExampleImageModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.HSExampleImageModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.HSExampleImageModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.HSExampleImageModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.HSExampleImageModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<HSExampleImageModelPayload>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.HSExampleImageModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateHSExampleImageModel>
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.HSExampleImageModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<HSExampleImageModelGroupByOutputType>[]
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.HSExampleImageModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<HSExampleImageModelCountAggregateOutputType> | number
+            payload: HSExampleImageModelPayload<ExtArgs>
+          }
+        }
+      }
+      OauthAccountModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.OauthAccountModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload> | null
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OauthAccountModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.OauthAccountModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload> | null
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.OauthAccountModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.OauthAccountModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>[]
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.OauthAccountModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.OauthAccountModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.OauthAccountModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.OauthAccountModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.OauthAccountModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.OauthAccountModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.OauthAccountModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OauthAccountModelPayload>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.OauthAccountModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOauthAccountModel>
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.OauthAccountModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OauthAccountModelGroupByOutputType>[]
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.OauthAccountModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<OauthAccountModelCountAggregateOutputType> | number
+            payload: OauthAccountModelPayload<ExtArgs>
+          }
+        }
+      }
+      PhoneVerificationModel: {
+        operations: {
+          findUnique: {
+            args: Prisma.PhoneVerificationModelFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload> | null
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PhoneVerificationModelFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.PhoneVerificationModelFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload> | null
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.PhoneVerificationModelFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.PhoneVerificationModelFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>[]
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.PhoneVerificationModelCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.PhoneVerificationModelCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.PhoneVerificationModelDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.PhoneVerificationModelUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.PhoneVerificationModelDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.PhoneVerificationModelUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.PhoneVerificationModelUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<PhoneVerificationModelPayload>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.PhoneVerificationModelAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregatePhoneVerificationModel>
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.PhoneVerificationModelGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<PhoneVerificationModelGroupByOutputType>[]
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.PhoneVerificationModelCountArgs<ExtArgs>,
+            result: $Utils.Optional<PhoneVerificationModelCountAggregateOutputType> | number
+            payload: PhoneVerificationModelPayload<ExtArgs>
+          }
+        }
+      }
+    }
+  } & {
+    other: {
+      operations: {
+        $executeRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+          payload: any
+        }
+        $executeRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+          payload: any
+        }
+        $queryRawUnsafe: {
+          args: [query: string, ...values: any[]],
+          result: any
+          payload: any
+        }
+        $queryRaw: {
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
+          result: any
+          payload: any
+        }
+      }
+    }
+  }
+  export const defineExtension: $Extensions.ExtendsHook<'define', Prisma.TypeMapCb, $Extensions.DefaultArgs>
   export type DefaultPrismaClient = PrismaClient
   export type RejectOnNotFound = boolean | ((error: Error) => Error)
   export type RejectPerModel = { [P in ModelName]?: RejectOnNotFound }
@@ -1362,7 +3336,7 @@ export namespace Prisma {
   /**
    * `PrismaClient` proxy available in interactive transactions.
    */
-  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'>
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>
 
   export type Datasource = {
     url?: string
@@ -1382,36 +3356,28 @@ export namespace Prisma {
     categories: number
   }
 
-  export type REPropertyModelCountOutputTypeSelect = {
-    categories?: boolean
+  export type REPropertyModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    categories?: boolean | REPropertyModelCountOutputTypeCountCategoriesArgs
   }
-
-  export type REPropertyModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertyModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertyModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertyModelCountOutputTypeArgs)
-    ? REPropertyModelCountOutputType 
-    : S extends { select: any } & (REPropertyModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof REPropertyModelCountOutputType ? REPropertyModelCountOutputType[P] : never
-  } 
-      : REPropertyModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * REPropertyModelCountOutputType without action
    */
-  export type REPropertyModelCountOutputTypeArgs = {
+  export type REPropertyModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModelCountOutputType
      */
-    select?: REPropertyModelCountOutputTypeSelect | null
+    select?: REPropertyModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * REPropertyModelCountOutputType without action
+   */
+  export type REPropertyModelCountOutputTypeCountCategoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: REPropertyCategoryModelWhereInput
   }
 
 
@@ -1425,36 +3391,28 @@ export namespace Prisma {
     property_categories: number
   }
 
-  export type REPropertySubCategoryModelCountOutputTypeSelect = {
-    property_categories?: boolean
+  export type REPropertySubCategoryModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    property_categories?: boolean | REPropertySubCategoryModelCountOutputTypeCountProperty_categoriesArgs
   }
-
-  export type REPropertySubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertySubCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertySubCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertySubCategoryModelCountOutputTypeArgs)
-    ? REPropertySubCategoryModelCountOutputType 
-    : S extends { select: any } & (REPropertySubCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof REPropertySubCategoryModelCountOutputType ? REPropertySubCategoryModelCountOutputType[P] : never
-  } 
-      : REPropertySubCategoryModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * REPropertySubCategoryModelCountOutputType without action
    */
-  export type REPropertySubCategoryModelCountOutputTypeArgs = {
+  export type REPropertySubCategoryModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModelCountOutputType
      */
-    select?: REPropertySubCategoryModelCountOutputTypeSelect | null
+    select?: REPropertySubCategoryModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * REPropertySubCategoryModelCountOutputType without action
+   */
+  export type REPropertySubCategoryModelCountOutputTypeCountProperty_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: REPropertyCategoryModelWhereInput
   }
 
 
@@ -1468,36 +3426,28 @@ export namespace Prisma {
     sub_categories: number
   }
 
-  export type REPropertyMiddleCategoryModelCountOutputTypeSelect = {
-    sub_categories?: boolean
+  export type REPropertyMiddleCategoryModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    sub_categories?: boolean | REPropertyMiddleCategoryModelCountOutputTypeCountSub_categoriesArgs
   }
-
-  export type REPropertyMiddleCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertyMiddleCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertyMiddleCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertyMiddleCategoryModelCountOutputTypeArgs)
-    ? REPropertyMiddleCategoryModelCountOutputType 
-    : S extends { select: any } & (REPropertyMiddleCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof REPropertyMiddleCategoryModelCountOutputType ? REPropertyMiddleCategoryModelCountOutputType[P] : never
-  } 
-      : REPropertyMiddleCategoryModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * REPropertyMiddleCategoryModelCountOutputType without action
    */
-  export type REPropertyMiddleCategoryModelCountOutputTypeArgs = {
+  export type REPropertyMiddleCategoryModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModelCountOutputType
      */
-    select?: REPropertyMiddleCategoryModelCountOutputTypeSelect | null
+    select?: REPropertyMiddleCategoryModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * REPropertyMiddleCategoryModelCountOutputType without action
+   */
+  export type REPropertyMiddleCategoryModelCountOutputTypeCountSub_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: REPropertySubCategoryModelWhereInput
   }
 
 
@@ -1511,36 +3461,28 @@ export namespace Prisma {
     middle_categories: number
   }
 
-  export type REPropertySuperCategoryModelCountOutputTypeSelect = {
-    middle_categories?: boolean
+  export type REPropertySuperCategoryModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    middle_categories?: boolean | REPropertySuperCategoryModelCountOutputTypeCountMiddle_categoriesArgs
   }
-
-  export type REPropertySuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REPropertySuperCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertySuperCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertySuperCategoryModelCountOutputTypeArgs)
-    ? REPropertySuperCategoryModelCountOutputType 
-    : S extends { select: any } & (REPropertySuperCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof REPropertySuperCategoryModelCountOutputType ? REPropertySuperCategoryModelCountOutputType[P] : never
-  } 
-      : REPropertySuperCategoryModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * REPropertySuperCategoryModelCountOutputType without action
    */
-  export type REPropertySuperCategoryModelCountOutputTypeArgs = {
+  export type REPropertySuperCategoryModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModelCountOutputType
      */
-    select?: REPropertySuperCategoryModelCountOutputTypeSelect | null
+    select?: REPropertySuperCategoryModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * REPropertySuperCategoryModelCountOutputType without action
+   */
+  export type REPropertySuperCategoryModelCountOutputTypeCountMiddle_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: REPropertyMiddleCategoryModelWhereInput
   }
 
 
@@ -1554,36 +3496,28 @@ export namespace Prisma {
     acceptances: number
   }
 
-  export type AgreementModelCountOutputTypeSelect = {
-    acceptances?: boolean
+  export type AgreementModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    acceptances?: boolean | AgreementModelCountOutputTypeCountAcceptancesArgs
   }
-
-  export type AgreementModelCountOutputTypeGetPayload<S extends boolean | null | undefined | AgreementModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AgreementModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (AgreementModelCountOutputTypeArgs)
-    ? AgreementModelCountOutputType 
-    : S extends { select: any } & (AgreementModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof AgreementModelCountOutputType ? AgreementModelCountOutputType[P] : never
-  } 
-      : AgreementModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * AgreementModelCountOutputType without action
    */
-  export type AgreementModelCountOutputTypeArgs = {
+  export type AgreementModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModelCountOutputType
      */
-    select?: AgreementModelCountOutputTypeSelect | null
+    select?: AgreementModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * AgreementModelCountOutputType without action
+   */
+  export type AgreementModelCountOutputTypeCountAcceptancesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: AgreementAcceptanceModelWhereInput
   }
 
 
@@ -1597,36 +3531,28 @@ export namespace Prisma {
     expertises: number
   }
 
-  export type ServiceSubCategoryModelCountOutputTypeSelect = {
-    expertises?: boolean
+  export type ServiceSubCategoryModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    expertises?: boolean | ServiceSubCategoryModelCountOutputTypeCountExpertisesArgs
   }
-
-  export type ServiceSubCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ServiceSubCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ServiceSubCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ServiceSubCategoryModelCountOutputTypeArgs)
-    ? ServiceSubCategoryModelCountOutputType 
-    : S extends { select: any } & (ServiceSubCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ServiceSubCategoryModelCountOutputType ? ServiceSubCategoryModelCountOutputType[P] : never
-  } 
-      : ServiceSubCategoryModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * ServiceSubCategoryModelCountOutputType without action
    */
-  export type ServiceSubCategoryModelCountOutputTypeArgs = {
+  export type ServiceSubCategoryModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModelCountOutputType
      */
-    select?: ServiceSubCategoryModelCountOutputTypeSelect | null
+    select?: ServiceSubCategoryModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * ServiceSubCategoryModelCountOutputType without action
+   */
+  export type ServiceSubCategoryModelCountOutputTypeCountExpertisesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SubExpertiseModelWhereInput
   }
 
 
@@ -1641,37 +3567,37 @@ export namespace Prisma {
     focus_care_checks: number
   }
 
-  export type ServiceSuperCategoryModelCountOutputTypeSelect = {
-    sub_categories?: boolean
-    focus_care_checks?: boolean
+  export type ServiceSuperCategoryModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    sub_categories?: boolean | ServiceSuperCategoryModelCountOutputTypeCountSub_categoriesArgs
+    focus_care_checks?: boolean | ServiceSuperCategoryModelCountOutputTypeCountFocus_care_checksArgs
   }
-
-  export type ServiceSuperCategoryModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ServiceSuperCategoryModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ServiceSuperCategoryModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ServiceSuperCategoryModelCountOutputTypeArgs)
-    ? ServiceSuperCategoryModelCountOutputType 
-    : S extends { select: any } & (ServiceSuperCategoryModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ServiceSuperCategoryModelCountOutputType ? ServiceSuperCategoryModelCountOutputType[P] : never
-  } 
-      : ServiceSuperCategoryModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * ServiceSuperCategoryModelCountOutputType without action
    */
-  export type ServiceSuperCategoryModelCountOutputTypeArgs = {
+  export type ServiceSuperCategoryModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModelCountOutputType
      */
-    select?: ServiceSuperCategoryModelCountOutputTypeSelect | null
+    select?: ServiceSuperCategoryModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * ServiceSuperCategoryModelCountOutputType without action
+   */
+  export type ServiceSuperCategoryModelCountOutputTypeCountSub_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: ServiceSubCategoryModelWhereInput
+  }
+
+
+  /**
+   * ServiceSuperCategoryModelCountOutputType without action
+   */
+  export type ServiceSuperCategoryModelCountOutputTypeCountFocus_care_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: ZipzoongCareServiceCheckModelWhereInput
   }
 
 
@@ -1686,37 +3612,37 @@ export namespace Prisma {
     service_checks: number
   }
 
-  export type ZipzoongCareRequestModelCountOutputTypeSelect = {
-    consultation_time_checks?: boolean
-    service_checks?: boolean
+  export type ZipzoongCareRequestModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    consultation_time_checks?: boolean | ZipzoongCareRequestModelCountOutputTypeCountConsultation_time_checksArgs
+    service_checks?: boolean | ZipzoongCareRequestModelCountOutputTypeCountService_checksArgs
   }
-
-  export type ZipzoongCareRequestModelCountOutputTypeGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ZipzoongCareRequestModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
-    ? ZipzoongCareRequestModelCountOutputType 
-    : S extends { select: any } & (ZipzoongCareRequestModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof ZipzoongCareRequestModelCountOutputType ? ZipzoongCareRequestModelCountOutputType[P] : never
-  } 
-      : ZipzoongCareRequestModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * ZipzoongCareRequestModelCountOutputType without action
    */
-  export type ZipzoongCareRequestModelCountOutputTypeArgs = {
+  export type ZipzoongCareRequestModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModelCountOutputType
      */
-    select?: ZipzoongCareRequestModelCountOutputTypeSelect | null
+    select?: ZipzoongCareRequestModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * ZipzoongCareRequestModelCountOutputType without action
+   */
+  export type ZipzoongCareRequestModelCountOutputTypeCountConsultation_time_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: ZipzoongCareConsultationTimeCheckModelWhereInput
+  }
+
+
+  /**
+   * ZipzoongCareRequestModelCountOutputType without action
+   */
+  export type ZipzoongCareRequestModelCountOutputTypeCountService_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: ZipzoongCareServiceCheckModelWhereInput
   }
 
 
@@ -1730,36 +3656,28 @@ export namespace Prisma {
     agreement_acceptances: number
   }
 
-  export type UserModelCountOutputTypeSelect = {
-    agreement_acceptances?: boolean
+  export type UserModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    agreement_acceptances?: boolean | UserModelCountOutputTypeCountAgreement_acceptancesArgs
   }
-
-  export type UserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | UserModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? UserModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (UserModelCountOutputTypeArgs)
-    ? UserModelCountOutputType 
-    : S extends { select: any } & (UserModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof UserModelCountOutputType ? UserModelCountOutputType[P] : never
-  } 
-      : UserModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * UserModelCountOutputType without action
    */
-  export type UserModelCountOutputTypeArgs = {
+  export type UserModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModelCountOutputType
      */
-    select?: UserModelCountOutputTypeSelect | null
+    select?: UserModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * UserModelCountOutputType without action
+   */
+  export type UserModelCountOutputTypeCountAgreement_acceptancesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: AgreementAcceptanceModelWhereInput
   }
 
 
@@ -1774,37 +3692,37 @@ export namespace Prisma {
     zipzoong_care_requests: number
   }
 
-  export type CustomerModelCountOutputTypeSelect = {
-    oauth_accounts?: boolean
-    zipzoong_care_requests?: boolean
+  export type CustomerModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    oauth_accounts?: boolean | CustomerModelCountOutputTypeCountOauth_accountsArgs
+    zipzoong_care_requests?: boolean | CustomerModelCountOutputTypeCountZipzoong_care_requestsArgs
   }
-
-  export type CustomerModelCountOutputTypeGetPayload<S extends boolean | null | undefined | CustomerModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CustomerModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (CustomerModelCountOutputTypeArgs)
-    ? CustomerModelCountOutputType 
-    : S extends { select: any } & (CustomerModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof CustomerModelCountOutputType ? CustomerModelCountOutputType[P] : never
-  } 
-      : CustomerModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * CustomerModelCountOutputType without action
    */
-  export type CustomerModelCountOutputTypeArgs = {
+  export type CustomerModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModelCountOutputType
      */
-    select?: CustomerModelCountOutputTypeSelect | null
+    select?: CustomerModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * CustomerModelCountOutputType without action
+   */
+  export type CustomerModelCountOutputTypeCountOauth_accountsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: OauthAccountModelWhereInput
+  }
+
+
+  /**
+   * CustomerModelCountOutputType without action
+   */
+  export type CustomerModelCountOutputTypeCountZipzoong_care_requestsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: ZipzoongCareRequestModelWhereInput
   }
 
 
@@ -1820,38 +3738,46 @@ export namespace Prisma {
     oauth_accounts: number
   }
 
-  export type BusinessUserModelCountOutputTypeSelect = {
-    certification_images?: boolean
-    sub_expertises?: boolean
-    oauth_accounts?: boolean
+  export type BusinessUserModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    certification_images?: boolean | BusinessUserModelCountOutputTypeCountCertification_imagesArgs
+    sub_expertises?: boolean | BusinessUserModelCountOutputTypeCountSub_expertisesArgs
+    oauth_accounts?: boolean | BusinessUserModelCountOutputTypeCountOauth_accountsArgs
   }
-
-  export type BusinessUserModelCountOutputTypeGetPayload<S extends boolean | null | undefined | BusinessUserModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUserModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (BusinessUserModelCountOutputTypeArgs)
-    ? BusinessUserModelCountOutputType 
-    : S extends { select: any } & (BusinessUserModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof BusinessUserModelCountOutputType ? BusinessUserModelCountOutputType[P] : never
-  } 
-      : BusinessUserModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * BusinessUserModelCountOutputType without action
    */
-  export type BusinessUserModelCountOutputTypeArgs = {
+  export type BusinessUserModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModelCountOutputType
      */
-    select?: BusinessUserModelCountOutputTypeSelect | null
+    select?: BusinessUserModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * BusinessUserModelCountOutputType without action
+   */
+  export type BusinessUserModelCountOutputTypeCountCertification_imagesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: BusinessCertificationImageModelWhereInput
+  }
+
+
+  /**
+   * BusinessUserModelCountOutputType without action
+   */
+  export type BusinessUserModelCountOutputTypeCountSub_expertisesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SubExpertiseModelWhereInput
+  }
+
+
+  /**
+   * BusinessUserModelCountOutputType without action
+   */
+  export type BusinessUserModelCountOutputTypeCountOauth_accountsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: OauthAccountModelWhereInput
   }
 
 
@@ -1865,36 +3791,28 @@ export namespace Prisma {
     properties: number
   }
 
-  export type REAgentModelCountOutputTypeSelect = {
-    properties?: boolean
+  export type REAgentModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    properties?: boolean | REAgentModelCountOutputTypeCountPropertiesArgs
   }
-
-  export type REAgentModelCountOutputTypeGetPayload<S extends boolean | null | undefined | REAgentModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REAgentModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (REAgentModelCountOutputTypeArgs)
-    ? REAgentModelCountOutputType 
-    : S extends { select: any } & (REAgentModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof REAgentModelCountOutputType ? REAgentModelCountOutputType[P] : never
-  } 
-      : REAgentModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * REAgentModelCountOutputType without action
    */
-  export type REAgentModelCountOutputTypeArgs = {
+  export type REAgentModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModelCountOutputType
      */
-    select?: REAgentModelCountOutputTypeSelect | null
+    select?: REAgentModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * REAgentModelCountOutputType without action
+   */
+  export type REAgentModelCountOutputTypeCountPropertiesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: REPropertyModelWhereInput
   }
 
 
@@ -1908,36 +3826,28 @@ export namespace Prisma {
     example_images: number
   }
 
-  export type HSProviderModelCountOutputTypeSelect = {
-    example_images?: boolean
+  export type HSProviderModelCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    example_images?: boolean | HSProviderModelCountOutputTypeCountExample_imagesArgs
   }
-
-  export type HSProviderModelCountOutputTypeGetPayload<S extends boolean | null | undefined | HSProviderModelCountOutputTypeArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSProviderModelCountOutputType :
-    S extends undefined ? never :
-    S extends { include: any } & (HSProviderModelCountOutputTypeArgs)
-    ? HSProviderModelCountOutputType 
-    : S extends { select: any } & (HSProviderModelCountOutputTypeArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof HSProviderModelCountOutputType ? HSProviderModelCountOutputType[P] : never
-  } 
-      : HSProviderModelCountOutputType
-
-
-
 
   // Custom InputTypes
 
   /**
    * HSProviderModelCountOutputType without action
    */
-  export type HSProviderModelCountOutputTypeArgs = {
+  export type HSProviderModelCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModelCountOutputType
      */
-    select?: HSProviderModelCountOutputTypeSelect | null
+    select?: HSProviderModelCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * HSProviderModelCountOutputType without action
+   */
+  export type HSProviderModelCountOutputTypeCountExample_imagesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: HSExampleImageModelWhereInput
   }
 
 
@@ -2032,7 +3942,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REPropertyModelAggregateArgs = {
+  export type REPropertyModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyModel to aggregate.
      */
@@ -2092,7 +4002,7 @@ export namespace Prisma {
 
 
 
-  export type REPropertyModelGroupByArgs = {
+  export type REPropertyModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REPropertyModelWhereInput
     orderBy?: Enumerable<REPropertyModelOrderByWithAggregationInput>
     by: REPropertyModelScalarFieldEnum[]
@@ -2134,7 +4044,7 @@ export namespace Prisma {
     >
 
 
-  export type REPropertyModelSelect = {
+  export type REPropertyModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2144,46 +4054,39 @@ export namespace Prisma {
     main_image_url?: boolean
     re_agent_id?: boolean
     is_visible?: boolean
-    re_agent?: boolean | REAgentModelArgs
-    categories?: boolean | REPropertyModel$categoriesArgs
-    _count?: boolean | REPropertyModelCountOutputTypeArgs
+    re_agent?: boolean | REAgentModelArgs<ExtArgs>
+    categories?: boolean | REPropertyModel$categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertyModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["rEPropertyModel"]>
+
+  export type REPropertyModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    main_image_url?: boolean
+    re_agent_id?: boolean
+    is_visible?: boolean
+  }
+
+  export type REPropertyModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    re_agent?: boolean | REAgentModelArgs<ExtArgs>
+    categories?: boolean | REPropertyModel$categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertyModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type REPropertyModelInclude = {
-    re_agent?: boolean | REAgentModelArgs
-    categories?: boolean | REPropertyModel$categoriesArgs
-    _count?: boolean | REPropertyModelCountOutputTypeArgs
-  }
+  type REPropertyModelGetPayload<S extends boolean | null | undefined | REPropertyModelArgs> = $Types.GetResult<REPropertyModelPayload, S>
 
-  export type REPropertyModelGetPayload<S extends boolean | null | undefined | REPropertyModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertyModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertyModelArgs | REPropertyModelFindManyArgs)
-    ? REPropertyModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> :
-        P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REPropertyModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REPropertyModelArgs | REPropertyModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> :
-        P extends 'categories' ? Array < REPropertyCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REPropertyModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertyModel ? REPropertyModel[P] : never
-  } 
-      : REPropertyModel
-
-
-  type REPropertyModelCountArgs = 
+  type REPropertyModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REPropertyModelFindManyArgs, 'select' | 'include'> & {
       select?: REPropertyModelCountAggregateInputType | true
     }
 
-  export interface REPropertyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REPropertyModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REPropertyModel'], meta: { name: 'REPropertyModel' } }
     /**
      * Find zero or one REPropertyModel that matches the filter.
      * @param {REPropertyModelFindUniqueArgs} args - Arguments to find a REPropertyModel
@@ -2195,9 +4098,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REPropertyModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REPropertyModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>> : Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertyModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertyModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REPropertyModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -2211,9 +4114,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REPropertyModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyModelFindUniqueOrThrowArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertyModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REPropertyModel that matches the filter.
@@ -2228,9 +4131,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REPropertyModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REPropertyModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>> : Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertyModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertyModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyModel'> extends True ? Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REPropertyModel that matches the filter or
@@ -2246,9 +4149,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REPropertyModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyModelFindFirstOrThrowArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertyModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REPropertyModels that matches the filter.
@@ -2266,9 +4169,9 @@ export namespace Prisma {
      * const rEPropertyModelWithIdOnly = await prisma.rEPropertyModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REPropertyModelFindManyArgs>(
-      args?: SelectSubset<T, REPropertyModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REPropertyModelGetPayload<T>>>
+    findMany<T extends REPropertyModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REPropertyModel.
@@ -2282,9 +4185,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REPropertyModelCreateArgs>(
-      args: SelectSubset<T, REPropertyModelCreateArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    create<T extends REPropertyModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyModelCreateArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REPropertyModels.
@@ -2298,8 +4201,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REPropertyModelCreateManyArgs>(
-      args?: SelectSubset<T, REPropertyModelCreateManyArgs>
+    createMany<T extends REPropertyModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -2314,9 +4217,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REPropertyModelDeleteArgs>(
-      args: SelectSubset<T, REPropertyModelDeleteArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    delete<T extends REPropertyModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyModelDeleteArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REPropertyModel.
@@ -2333,9 +4236,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REPropertyModelUpdateArgs>(
-      args: SelectSubset<T, REPropertyModelUpdateArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    update<T extends REPropertyModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyModelUpdateArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REPropertyModels.
@@ -2349,8 +4252,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REPropertyModelDeleteManyArgs>(
-      args?: SelectSubset<T, REPropertyModelDeleteManyArgs>
+    deleteMany<T extends REPropertyModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -2370,8 +4273,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REPropertyModelUpdateManyArgs>(
-      args: SelectSubset<T, REPropertyModelUpdateManyArgs>
+    updateMany<T extends REPropertyModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -2391,9 +4294,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REPropertyModelUpsertArgs>(
-      args: SelectSubset<T, REPropertyModelUpsertArgs>
-    ): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T>>
+    upsert<T extends REPropertyModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyModelUpsertArgs<ExtArgs>>
+    ): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REPropertyModels.
@@ -2411,7 +4314,7 @@ export namespace Prisma {
     count<T extends REPropertyModelCountArgs>(
       args?: Subset<T, REPropertyModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REPropertyModelCountAggregateOutputType>
@@ -2529,7 +4432,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REPropertyModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertyModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -2544,9 +4447,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    re_agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
+    re_agent<T extends REAgentModelArgs<ExtArgs> = {}>(args?: Subset<T, REAgentModelArgs<ExtArgs>>): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    categories<T extends REPropertyModel$categoriesArgs= {}>(args?: Subset<T, REPropertyModel$categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>| Null>;
+    categories<T extends REPropertyModel$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, REPropertyModel$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -2578,15 +4481,15 @@ export namespace Prisma {
   /**
    * REPropertyModel base type for findUnique actions
    */
-  export type REPropertyModelFindUniqueArgsBase = {
+  export type REPropertyModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyModel to fetch.
      */
@@ -2596,7 +4499,7 @@ export namespace Prisma {
   /**
    * REPropertyModel findUnique
    */
-  export interface REPropertyModelFindUniqueArgs extends REPropertyModelFindUniqueArgsBase {
+  export interface REPropertyModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -2608,15 +4511,15 @@ export namespace Prisma {
   /**
    * REPropertyModel findUniqueOrThrow
    */
-  export type REPropertyModelFindUniqueOrThrowArgs = {
+  export type REPropertyModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyModel to fetch.
      */
@@ -2627,15 +4530,15 @@ export namespace Prisma {
   /**
    * REPropertyModel base type for findFirst actions
    */
-  export type REPropertyModelFindFirstArgsBase = {
+  export type REPropertyModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyModel to fetch.
      */
@@ -2675,7 +4578,7 @@ export namespace Prisma {
   /**
    * REPropertyModel findFirst
    */
-  export interface REPropertyModelFindFirstArgs extends REPropertyModelFindFirstArgsBase {
+  export interface REPropertyModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -2687,15 +4590,15 @@ export namespace Prisma {
   /**
    * REPropertyModel findFirstOrThrow
    */
-  export type REPropertyModelFindFirstOrThrowArgs = {
+  export type REPropertyModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyModel to fetch.
      */
@@ -2736,15 +4639,15 @@ export namespace Prisma {
   /**
    * REPropertyModel findMany
    */
-  export type REPropertyModelFindManyArgs = {
+  export type REPropertyModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyModels to fetch.
      */
@@ -2780,15 +4683,15 @@ export namespace Prisma {
   /**
    * REPropertyModel create
    */
-  export type REPropertyModelCreateArgs = {
+  export type REPropertyModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REPropertyModel.
      */
@@ -2799,7 +4702,7 @@ export namespace Prisma {
   /**
    * REPropertyModel createMany
    */
-  export type REPropertyModelCreateManyArgs = {
+  export type REPropertyModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REPropertyModels.
      */
@@ -2811,15 +4714,15 @@ export namespace Prisma {
   /**
    * REPropertyModel update
    */
-  export type REPropertyModelUpdateArgs = {
+  export type REPropertyModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REPropertyModel.
      */
@@ -2834,7 +4737,7 @@ export namespace Prisma {
   /**
    * REPropertyModel updateMany
    */
-  export type REPropertyModelUpdateManyArgs = {
+  export type REPropertyModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REPropertyModels.
      */
@@ -2849,15 +4752,15 @@ export namespace Prisma {
   /**
    * REPropertyModel upsert
    */
-  export type REPropertyModelUpsertArgs = {
+  export type REPropertyModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REPropertyModel to update in case it exists.
      */
@@ -2876,15 +4779,15 @@ export namespace Prisma {
   /**
    * REPropertyModel delete
    */
-  export type REPropertyModelDeleteArgs = {
+  export type REPropertyModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     /**
      * Filter which REPropertyModel to delete.
      */
@@ -2895,7 +4798,7 @@ export namespace Prisma {
   /**
    * REPropertyModel deleteMany
    */
-  export type REPropertyModelDeleteManyArgs = {
+  export type REPropertyModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyModels to delete
      */
@@ -2906,15 +4809,15 @@ export namespace Prisma {
   /**
    * REPropertyModel.categories
    */
-  export type REPropertyModel$categoriesArgs = {
+  export type REPropertyModel$categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     where?: REPropertyCategoryModelWhereInput
     orderBy?: Enumerable<REPropertyCategoryModelOrderByWithRelationInput>
     cursor?: REPropertyCategoryModelWhereUniqueInput
@@ -2927,15 +4830,15 @@ export namespace Prisma {
   /**
    * REPropertyModel without action
    */
-  export type REPropertyModelArgs = {
+  export type REPropertyModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
   }
 
 
@@ -3014,7 +4917,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REPropertyCategoryModelAggregateArgs = {
+  export type REPropertyCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyCategoryModel to aggregate.
      */
@@ -3074,7 +4977,7 @@ export namespace Prisma {
 
 
 
-  export type REPropertyCategoryModelGroupByArgs = {
+  export type REPropertyCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REPropertyCategoryModelWhereInput
     orderBy?: Enumerable<REPropertyCategoryModelOrderByWithAggregationInput>
     by: REPropertyCategoryModelScalarFieldEnum[]
@@ -3114,7 +5017,7 @@ export namespace Prisma {
     >
 
 
-  export type REPropertyCategoryModelSelect = {
+  export type REPropertyCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -3122,42 +5025,35 @@ export namespace Prisma {
     deleted_at?: boolean
     re_property_id?: boolean
     sub_category_id?: boolean
-    re_property?: boolean | REPropertyModelArgs
-    sub_category?: boolean | REPropertySubCategoryModelArgs
+    re_property?: boolean | REPropertyModelArgs<ExtArgs>
+    sub_category?: boolean | REPropertySubCategoryModelArgs<ExtArgs>
+  }, ExtArgs["result"]["rEPropertyCategoryModel"]>
+
+  export type REPropertyCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    re_property_id?: boolean
+    sub_category_id?: boolean
+  }
+
+  export type REPropertyCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    re_property?: boolean | REPropertyModelArgs<ExtArgs>
+    sub_category?: boolean | REPropertySubCategoryModelArgs<ExtArgs>
   }
 
 
-  export type REPropertyCategoryModelInclude = {
-    re_property?: boolean | REPropertyModelArgs
-    sub_category?: boolean | REPropertySubCategoryModelArgs
-  }
+  type REPropertyCategoryModelGetPayload<S extends boolean | null | undefined | REPropertyCategoryModelArgs> = $Types.GetResult<REPropertyCategoryModelPayload, S>
 
-  export type REPropertyCategoryModelGetPayload<S extends boolean | null | undefined | REPropertyCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertyCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertyCategoryModelArgs | REPropertyCategoryModelFindManyArgs)
-    ? REPropertyCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 're_property' ? REPropertyModelGetPayload<S['include'][P]> :
-        P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REPropertyCategoryModelArgs | REPropertyCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 're_property' ? REPropertyModelGetPayload<S['select'][P]> :
-        P extends 'sub_category' ? REPropertySubCategoryModelGetPayload<S['select'][P]> :  P extends keyof REPropertyCategoryModel ? REPropertyCategoryModel[P] : never
-  } 
-      : REPropertyCategoryModel
-
-
-  type REPropertyCategoryModelCountArgs = 
+  type REPropertyCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REPropertyCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: REPropertyCategoryModelCountAggregateInputType | true
     }
 
-  export interface REPropertyCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REPropertyCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REPropertyCategoryModel'], meta: { name: 'REPropertyCategoryModel' } }
     /**
      * Find zero or one REPropertyCategoryModel that matches the filter.
      * @param {REPropertyCategoryModelFindUniqueArgs} args - Arguments to find a REPropertyCategoryModel
@@ -3169,9 +5065,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REPropertyCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REPropertyCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyCategoryModel'> extends True ? Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>> : Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertyCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertyCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyCategoryModel'> extends True ? Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REPropertyCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -3185,9 +5081,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REPropertyCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertyCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REPropertyCategoryModel that matches the filter.
@@ -3202,9 +5098,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REPropertyCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REPropertyCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyCategoryModel'> extends True ? Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>> : Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertyCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertyCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyCategoryModel'> extends True ? Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REPropertyCategoryModel that matches the filter or
@@ -3220,9 +5116,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REPropertyCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertyCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REPropertyCategoryModels that matches the filter.
@@ -3240,9 +5136,9 @@ export namespace Prisma {
      * const rEPropertyCategoryModelWithIdOnly = await prisma.rEPropertyCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REPropertyCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, REPropertyCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>>
+    findMany<T extends REPropertyCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REPropertyCategoryModel.
@@ -3256,9 +5152,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REPropertyCategoryModelCreateArgs>(
-      args: SelectSubset<T, REPropertyCategoryModelCreateArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    create<T extends REPropertyCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REPropertyCategoryModels.
@@ -3272,8 +5168,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REPropertyCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, REPropertyCategoryModelCreateManyArgs>
+    createMany<T extends REPropertyCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -3288,9 +5184,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REPropertyCategoryModelDeleteArgs>(
-      args: SelectSubset<T, REPropertyCategoryModelDeleteArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    delete<T extends REPropertyCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REPropertyCategoryModel.
@@ -3307,9 +5203,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REPropertyCategoryModelUpdateArgs>(
-      args: SelectSubset<T, REPropertyCategoryModelUpdateArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    update<T extends REPropertyCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REPropertyCategoryModels.
@@ -3323,8 +5219,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REPropertyCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, REPropertyCategoryModelDeleteManyArgs>
+    deleteMany<T extends REPropertyCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -3344,8 +5240,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REPropertyCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, REPropertyCategoryModelUpdateManyArgs>
+    updateMany<T extends REPropertyCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -3365,9 +5261,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REPropertyCategoryModelUpsertArgs>(
-      args: SelectSubset<T, REPropertyCategoryModelUpsertArgs>
-    ): Prisma__REPropertyCategoryModelClient<REPropertyCategoryModelGetPayload<T>>
+    upsert<T extends REPropertyCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__REPropertyCategoryModelClient<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REPropertyCategoryModels.
@@ -3385,7 +5281,7 @@ export namespace Prisma {
     count<T extends REPropertyCategoryModelCountArgs>(
       args?: Subset<T, REPropertyCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REPropertyCategoryModelCountAggregateOutputType>
@@ -3503,7 +5399,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REPropertyCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertyCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -3518,9 +5414,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    re_property<T extends REPropertyModelArgs= {}>(args?: Subset<T, REPropertyModelArgs>): Prisma__REPropertyModelClient<REPropertyModelGetPayload<T> | Null>;
+    re_property<T extends REPropertyModelArgs<ExtArgs> = {}>(args?: Subset<T, REPropertyModelArgs<ExtArgs>>): Prisma__REPropertyModelClient<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    sub_category<T extends REPropertySubCategoryModelArgs= {}>(args?: Subset<T, REPropertySubCategoryModelArgs>): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | Null>;
+    sub_category<T extends REPropertySubCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, REPropertySubCategoryModelArgs<ExtArgs>>): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -3552,15 +5448,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel base type for findUnique actions
    */
-  export type REPropertyCategoryModelFindUniqueArgsBase = {
+  export type REPropertyCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyCategoryModel to fetch.
      */
@@ -3570,7 +5466,7 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel findUnique
    */
-  export interface REPropertyCategoryModelFindUniqueArgs extends REPropertyCategoryModelFindUniqueArgsBase {
+  export interface REPropertyCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -3582,15 +5478,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel findUniqueOrThrow
    */
-  export type REPropertyCategoryModelFindUniqueOrThrowArgs = {
+  export type REPropertyCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyCategoryModel to fetch.
      */
@@ -3601,15 +5497,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel base type for findFirst actions
    */
-  export type REPropertyCategoryModelFindFirstArgsBase = {
+  export type REPropertyCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyCategoryModel to fetch.
      */
@@ -3649,7 +5545,7 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel findFirst
    */
-  export interface REPropertyCategoryModelFindFirstArgs extends REPropertyCategoryModelFindFirstArgsBase {
+  export interface REPropertyCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -3661,15 +5557,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel findFirstOrThrow
    */
-  export type REPropertyCategoryModelFindFirstOrThrowArgs = {
+  export type REPropertyCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyCategoryModel to fetch.
      */
@@ -3710,15 +5606,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel findMany
    */
-  export type REPropertyCategoryModelFindManyArgs = {
+  export type REPropertyCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyCategoryModels to fetch.
      */
@@ -3754,15 +5650,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel create
    */
-  export type REPropertyCategoryModelCreateArgs = {
+  export type REPropertyCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REPropertyCategoryModel.
      */
@@ -3773,7 +5669,7 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel createMany
    */
-  export type REPropertyCategoryModelCreateManyArgs = {
+  export type REPropertyCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REPropertyCategoryModels.
      */
@@ -3785,15 +5681,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel update
    */
-  export type REPropertyCategoryModelUpdateArgs = {
+  export type REPropertyCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REPropertyCategoryModel.
      */
@@ -3808,7 +5704,7 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel updateMany
    */
-  export type REPropertyCategoryModelUpdateManyArgs = {
+  export type REPropertyCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REPropertyCategoryModels.
      */
@@ -3823,15 +5719,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel upsert
    */
-  export type REPropertyCategoryModelUpsertArgs = {
+  export type REPropertyCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REPropertyCategoryModel to update in case it exists.
      */
@@ -3850,15 +5746,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel delete
    */
-  export type REPropertyCategoryModelDeleteArgs = {
+  export type REPropertyCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which REPropertyCategoryModel to delete.
      */
@@ -3869,7 +5765,7 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel deleteMany
    */
-  export type REPropertyCategoryModelDeleteManyArgs = {
+  export type REPropertyCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyCategoryModels to delete
      */
@@ -3880,15 +5776,15 @@ export namespace Prisma {
   /**
    * REPropertyCategoryModel without action
    */
-  export type REPropertyCategoryModelArgs = {
+  export type REPropertyCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -3967,7 +5863,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REPropertySubCategoryModelAggregateArgs = {
+  export type REPropertySubCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertySubCategoryModel to aggregate.
      */
@@ -4027,7 +5923,7 @@ export namespace Prisma {
 
 
 
-  export type REPropertySubCategoryModelGroupByArgs = {
+  export type REPropertySubCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REPropertySubCategoryModelWhereInput
     orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithAggregationInput>
     by: REPropertySubCategoryModelScalarFieldEnum[]
@@ -4067,7 +5963,7 @@ export namespace Prisma {
     >
 
 
-  export type REPropertySubCategoryModelSelect = {
+  export type REPropertySubCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -4075,46 +5971,37 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     middle_category_id?: boolean
-    middle_category?: boolean | REPropertyMiddleCategoryModelArgs
-    property_categories?: boolean | REPropertySubCategoryModel$property_categoriesArgs
-    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs
+    middle_category?: boolean | REPropertyMiddleCategoryModelArgs<ExtArgs>
+    property_categories?: boolean | REPropertySubCategoryModel$property_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["rEPropertySubCategoryModel"]>
+
+  export type REPropertySubCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    middle_category_id?: boolean
+  }
+
+  export type REPropertySubCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    middle_category?: boolean | REPropertyMiddleCategoryModelArgs<ExtArgs>
+    property_categories?: boolean | REPropertySubCategoryModel$property_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type REPropertySubCategoryModelInclude = {
-    middle_category?: boolean | REPropertyMiddleCategoryModelArgs
-    property_categories?: boolean | REPropertySubCategoryModel$property_categoriesArgs
-    _count?: boolean | REPropertySubCategoryModelCountOutputTypeArgs
-  }
+  type REPropertySubCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySubCategoryModelArgs> = $Types.GetResult<REPropertySubCategoryModelPayload, S>
 
-  export type REPropertySubCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySubCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertySubCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertySubCategoryModelArgs | REPropertySubCategoryModelFindManyArgs)
-    ? REPropertySubCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'middle_category' ? REPropertyMiddleCategoryModelGetPayload<S['include'][P]> :
-        P extends 'property_categories' ? Array < REPropertyCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REPropertySubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REPropertySubCategoryModelArgs | REPropertySubCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'middle_category' ? REPropertyMiddleCategoryModelGetPayload<S['select'][P]> :
-        P extends 'property_categories' ? Array < REPropertyCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REPropertySubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertySubCategoryModel ? REPropertySubCategoryModel[P] : never
-  } 
-      : REPropertySubCategoryModel
-
-
-  type REPropertySubCategoryModelCountArgs = 
+  type REPropertySubCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REPropertySubCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: REPropertySubCategoryModelCountAggregateInputType | true
     }
 
-  export interface REPropertySubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REPropertySubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REPropertySubCategoryModel'], meta: { name: 'REPropertySubCategoryModel' } }
     /**
      * Find zero or one REPropertySubCategoryModel that matches the filter.
      * @param {REPropertySubCategoryModelFindUniqueArgs} args - Arguments to find a REPropertySubCategoryModel
@@ -4126,9 +6013,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REPropertySubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REPropertySubCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>> : Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertySubCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertySubCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REPropertySubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -4142,9 +6029,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REPropertySubCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REPropertySubCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertySubCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REPropertySubCategoryModel that matches the filter.
@@ -4159,9 +6046,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REPropertySubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>> : Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertySubCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySubCategoryModel'> extends True ? Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REPropertySubCategoryModel that matches the filter or
@@ -4177,9 +6064,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REPropertySubCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertySubCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REPropertySubCategoryModels that matches the filter.
@@ -4197,9 +6084,9 @@ export namespace Prisma {
      * const rEPropertySubCategoryModelWithIdOnly = await prisma.rEPropertySubCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REPropertySubCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, REPropertySubCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REPropertySubCategoryModelGetPayload<T>>>
+    findMany<T extends REPropertySubCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySubCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REPropertySubCategoryModel.
@@ -4213,9 +6100,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REPropertySubCategoryModelCreateArgs>(
-      args: SelectSubset<T, REPropertySubCategoryModelCreateArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    create<T extends REPropertySubCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySubCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REPropertySubCategoryModels.
@@ -4229,8 +6116,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REPropertySubCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, REPropertySubCategoryModelCreateManyArgs>
+    createMany<T extends REPropertySubCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySubCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -4245,9 +6132,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REPropertySubCategoryModelDeleteArgs>(
-      args: SelectSubset<T, REPropertySubCategoryModelDeleteArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    delete<T extends REPropertySubCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySubCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REPropertySubCategoryModel.
@@ -4264,9 +6151,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REPropertySubCategoryModelUpdateArgs>(
-      args: SelectSubset<T, REPropertySubCategoryModelUpdateArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    update<T extends REPropertySubCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REPropertySubCategoryModels.
@@ -4280,8 +6167,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REPropertySubCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, REPropertySubCategoryModelDeleteManyArgs>
+    deleteMany<T extends REPropertySubCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySubCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -4301,8 +6188,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REPropertySubCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, REPropertySubCategoryModelUpdateManyArgs>
+    updateMany<T extends REPropertySubCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -4322,9 +6209,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REPropertySubCategoryModelUpsertArgs>(
-      args: SelectSubset<T, REPropertySubCategoryModelUpsertArgs>
-    ): Prisma__REPropertySubCategoryModelClient<REPropertySubCategoryModelGetPayload<T>>
+    upsert<T extends REPropertySubCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySubCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__REPropertySubCategoryModelClient<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REPropertySubCategoryModels.
@@ -4342,7 +6229,7 @@ export namespace Prisma {
     count<T extends REPropertySubCategoryModelCountArgs>(
       args?: Subset<T, REPropertySubCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REPropertySubCategoryModelCountAggregateOutputType>
@@ -4460,7 +6347,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REPropertySubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertySubCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -4475,9 +6362,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    middle_category<T extends REPropertyMiddleCategoryModelArgs= {}>(args?: Subset<T, REPropertyMiddleCategoryModelArgs>): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T> | Null>;
+    middle_category<T extends REPropertyMiddleCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, REPropertyMiddleCategoryModelArgs<ExtArgs>>): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    property_categories<T extends REPropertySubCategoryModel$property_categoriesArgs= {}>(args?: Subset<T, REPropertySubCategoryModel$property_categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyCategoryModelGetPayload<T>>| Null>;
+    property_categories<T extends REPropertySubCategoryModel$property_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, REPropertySubCategoryModel$property_categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<REPropertyCategoryModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -4509,15 +6396,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel base type for findUnique actions
    */
-  export type REPropertySubCategoryModelFindUniqueArgsBase = {
+  export type REPropertySubCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySubCategoryModel to fetch.
      */
@@ -4527,7 +6414,7 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel findUnique
    */
-  export interface REPropertySubCategoryModelFindUniqueArgs extends REPropertySubCategoryModelFindUniqueArgsBase {
+  export interface REPropertySubCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertySubCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -4539,15 +6426,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel findUniqueOrThrow
    */
-  export type REPropertySubCategoryModelFindUniqueOrThrowArgs = {
+  export type REPropertySubCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySubCategoryModel to fetch.
      */
@@ -4558,15 +6445,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel base type for findFirst actions
    */
-  export type REPropertySubCategoryModelFindFirstArgsBase = {
+  export type REPropertySubCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySubCategoryModel to fetch.
      */
@@ -4606,7 +6493,7 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel findFirst
    */
-  export interface REPropertySubCategoryModelFindFirstArgs extends REPropertySubCategoryModelFindFirstArgsBase {
+  export interface REPropertySubCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertySubCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -4618,15 +6505,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel findFirstOrThrow
    */
-  export type REPropertySubCategoryModelFindFirstOrThrowArgs = {
+  export type REPropertySubCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySubCategoryModel to fetch.
      */
@@ -4667,15 +6554,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel findMany
    */
-  export type REPropertySubCategoryModelFindManyArgs = {
+  export type REPropertySubCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySubCategoryModels to fetch.
      */
@@ -4711,15 +6598,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel create
    */
-  export type REPropertySubCategoryModelCreateArgs = {
+  export type REPropertySubCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REPropertySubCategoryModel.
      */
@@ -4730,7 +6617,7 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel createMany
    */
-  export type REPropertySubCategoryModelCreateManyArgs = {
+  export type REPropertySubCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REPropertySubCategoryModels.
      */
@@ -4742,15 +6629,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel update
    */
-  export type REPropertySubCategoryModelUpdateArgs = {
+  export type REPropertySubCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REPropertySubCategoryModel.
      */
@@ -4765,7 +6652,7 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel updateMany
    */
-  export type REPropertySubCategoryModelUpdateManyArgs = {
+  export type REPropertySubCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REPropertySubCategoryModels.
      */
@@ -4780,15 +6667,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel upsert
    */
-  export type REPropertySubCategoryModelUpsertArgs = {
+  export type REPropertySubCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REPropertySubCategoryModel to update in case it exists.
      */
@@ -4807,15 +6694,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel delete
    */
-  export type REPropertySubCategoryModelDeleteArgs = {
+  export type REPropertySubCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which REPropertySubCategoryModel to delete.
      */
@@ -4826,7 +6713,7 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel deleteMany
    */
-  export type REPropertySubCategoryModelDeleteManyArgs = {
+  export type REPropertySubCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertySubCategoryModels to delete
      */
@@ -4837,15 +6724,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel.property_categories
    */
-  export type REPropertySubCategoryModel$property_categoriesArgs = {
+  export type REPropertySubCategoryModel$property_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyCategoryModel
      */
-    select?: REPropertyCategoryModelSelect | null
+    select?: REPropertyCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyCategoryModelInclude | null
+    include?: REPropertyCategoryModelInclude<ExtArgs> | null
     where?: REPropertyCategoryModelWhereInput
     orderBy?: Enumerable<REPropertyCategoryModelOrderByWithRelationInput>
     cursor?: REPropertyCategoryModelWhereUniqueInput
@@ -4858,15 +6745,15 @@ export namespace Prisma {
   /**
    * REPropertySubCategoryModel without action
    */
-  export type REPropertySubCategoryModelArgs = {
+  export type REPropertySubCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -4945,7 +6832,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REPropertyMiddleCategoryModelAggregateArgs = {
+  export type REPropertyMiddleCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyMiddleCategoryModel to aggregate.
      */
@@ -5005,7 +6892,7 @@ export namespace Prisma {
 
 
 
-  export type REPropertyMiddleCategoryModelGroupByArgs = {
+  export type REPropertyMiddleCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REPropertyMiddleCategoryModelWhereInput
     orderBy?: Enumerable<REPropertyMiddleCategoryModelOrderByWithAggregationInput>
     by: REPropertyMiddleCategoryModelScalarFieldEnum[]
@@ -5045,7 +6932,7 @@ export namespace Prisma {
     >
 
 
-  export type REPropertyMiddleCategoryModelSelect = {
+  export type REPropertyMiddleCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -5053,46 +6940,37 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     super_category_id?: boolean
-    super_category?: boolean | REPropertySuperCategoryModelArgs
-    sub_categories?: boolean | REPropertyMiddleCategoryModel$sub_categoriesArgs
-    _count?: boolean | REPropertyMiddleCategoryModelCountOutputTypeArgs
+    super_category?: boolean | REPropertySuperCategoryModelArgs<ExtArgs>
+    sub_categories?: boolean | REPropertyMiddleCategoryModel$sub_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertyMiddleCategoryModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["rEPropertyMiddleCategoryModel"]>
+
+  export type REPropertyMiddleCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    super_category_id?: boolean
+  }
+
+  export type REPropertyMiddleCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    super_category?: boolean | REPropertySuperCategoryModelArgs<ExtArgs>
+    sub_categories?: boolean | REPropertyMiddleCategoryModel$sub_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertyMiddleCategoryModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type REPropertyMiddleCategoryModelInclude = {
-    super_category?: boolean | REPropertySuperCategoryModelArgs
-    sub_categories?: boolean | REPropertyMiddleCategoryModel$sub_categoriesArgs
-    _count?: boolean | REPropertyMiddleCategoryModelCountOutputTypeArgs
-  }
+  type REPropertyMiddleCategoryModelGetPayload<S extends boolean | null | undefined | REPropertyMiddleCategoryModelArgs> = $Types.GetResult<REPropertyMiddleCategoryModelPayload, S>
 
-  export type REPropertyMiddleCategoryModelGetPayload<S extends boolean | null | undefined | REPropertyMiddleCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertyMiddleCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertyMiddleCategoryModelArgs | REPropertyMiddleCategoryModelFindManyArgs)
-    ? REPropertyMiddleCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'super_category' ? REPropertySuperCategoryModelGetPayload<S['include'][P]> :
-        P extends 'sub_categories' ? Array < REPropertySubCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REPropertyMiddleCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REPropertyMiddleCategoryModelArgs | REPropertyMiddleCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'super_category' ? REPropertySuperCategoryModelGetPayload<S['select'][P]> :
-        P extends 'sub_categories' ? Array < REPropertySubCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REPropertyMiddleCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertyMiddleCategoryModel ? REPropertyMiddleCategoryModel[P] : never
-  } 
-      : REPropertyMiddleCategoryModel
-
-
-  type REPropertyMiddleCategoryModelCountArgs = 
+  type REPropertyMiddleCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REPropertyMiddleCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: REPropertyMiddleCategoryModelCountAggregateInputType | true
     }
 
-  export interface REPropertyMiddleCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REPropertyMiddleCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REPropertyMiddleCategoryModel'], meta: { name: 'REPropertyMiddleCategoryModel' } }
     /**
      * Find zero or one REPropertyMiddleCategoryModel that matches the filter.
      * @param {REPropertyMiddleCategoryModelFindUniqueArgs} args - Arguments to find a REPropertyMiddleCategoryModel
@@ -5104,9 +6982,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REPropertyMiddleCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyMiddleCategoryModel'> extends True ? Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>> : Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertyMiddleCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertyMiddleCategoryModel'> extends True ? Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REPropertyMiddleCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -5120,9 +6998,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REPropertyMiddleCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertyMiddleCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REPropertyMiddleCategoryModel that matches the filter.
@@ -5137,9 +7015,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REPropertyMiddleCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyMiddleCategoryModel'> extends True ? Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>> : Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertyMiddleCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertyMiddleCategoryModel'> extends True ? Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REPropertyMiddleCategoryModel that matches the filter or
@@ -5155,9 +7033,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REPropertyMiddleCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertyMiddleCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REPropertyMiddleCategoryModels that matches the filter.
@@ -5175,9 +7053,9 @@ export namespace Prisma {
      * const rEPropertyMiddleCategoryModelWithIdOnly = await prisma.rEPropertyMiddleCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REPropertyMiddleCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REPropertyMiddleCategoryModelGetPayload<T>>>
+    findMany<T extends REPropertyMiddleCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REPropertyMiddleCategoryModel.
@@ -5191,9 +7069,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REPropertyMiddleCategoryModelCreateArgs>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelCreateArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    create<T extends REPropertyMiddleCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REPropertyMiddleCategoryModels.
@@ -5207,8 +7085,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REPropertyMiddleCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelCreateManyArgs>
+    createMany<T extends REPropertyMiddleCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -5223,9 +7101,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REPropertyMiddleCategoryModelDeleteArgs>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelDeleteArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    delete<T extends REPropertyMiddleCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REPropertyMiddleCategoryModel.
@@ -5242,9 +7120,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REPropertyMiddleCategoryModelUpdateArgs>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelUpdateArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    update<T extends REPropertyMiddleCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REPropertyMiddleCategoryModels.
@@ -5258,8 +7136,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REPropertyMiddleCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, REPropertyMiddleCategoryModelDeleteManyArgs>
+    deleteMany<T extends REPropertyMiddleCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertyMiddleCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -5279,8 +7157,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REPropertyMiddleCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelUpdateManyArgs>
+    updateMany<T extends REPropertyMiddleCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -5300,9 +7178,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REPropertyMiddleCategoryModelUpsertArgs>(
-      args: SelectSubset<T, REPropertyMiddleCategoryModelUpsertArgs>
-    ): Prisma__REPropertyMiddleCategoryModelClient<REPropertyMiddleCategoryModelGetPayload<T>>
+    upsert<T extends REPropertyMiddleCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertyMiddleCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__REPropertyMiddleCategoryModelClient<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REPropertyMiddleCategoryModels.
@@ -5320,7 +7198,7 @@ export namespace Prisma {
     count<T extends REPropertyMiddleCategoryModelCountArgs>(
       args?: Subset<T, REPropertyMiddleCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REPropertyMiddleCategoryModelCountAggregateOutputType>
@@ -5438,7 +7316,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REPropertyMiddleCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertyMiddleCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -5453,9 +7331,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    super_category<T extends REPropertySuperCategoryModelArgs= {}>(args?: Subset<T, REPropertySuperCategoryModelArgs>): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | Null>;
+    super_category<T extends REPropertySuperCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, REPropertySuperCategoryModelArgs<ExtArgs>>): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    sub_categories<T extends REPropertyMiddleCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, REPropertyMiddleCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<REPropertySubCategoryModelGetPayload<T>>| Null>;
+    sub_categories<T extends REPropertyMiddleCategoryModel$sub_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, REPropertyMiddleCategoryModel$sub_categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<REPropertySubCategoryModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -5487,15 +7365,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel base type for findUnique actions
    */
-  export type REPropertyMiddleCategoryModelFindUniqueArgsBase = {
+  export type REPropertyMiddleCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyMiddleCategoryModel to fetch.
      */
@@ -5505,7 +7383,7 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel findUnique
    */
-  export interface REPropertyMiddleCategoryModelFindUniqueArgs extends REPropertyMiddleCategoryModelFindUniqueArgsBase {
+  export interface REPropertyMiddleCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyMiddleCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -5517,15 +7395,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel findUniqueOrThrow
    */
-  export type REPropertyMiddleCategoryModelFindUniqueOrThrowArgs = {
+  export type REPropertyMiddleCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyMiddleCategoryModel to fetch.
      */
@@ -5536,15 +7414,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel base type for findFirst actions
    */
-  export type REPropertyMiddleCategoryModelFindFirstArgsBase = {
+  export type REPropertyMiddleCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyMiddleCategoryModel to fetch.
      */
@@ -5584,7 +7462,7 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel findFirst
    */
-  export interface REPropertyMiddleCategoryModelFindFirstArgs extends REPropertyMiddleCategoryModelFindFirstArgsBase {
+  export interface REPropertyMiddleCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertyMiddleCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -5596,15 +7474,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel findFirstOrThrow
    */
-  export type REPropertyMiddleCategoryModelFindFirstOrThrowArgs = {
+  export type REPropertyMiddleCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyMiddleCategoryModel to fetch.
      */
@@ -5645,15 +7523,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel findMany
    */
-  export type REPropertyMiddleCategoryModelFindManyArgs = {
+  export type REPropertyMiddleCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertyMiddleCategoryModels to fetch.
      */
@@ -5689,15 +7567,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel create
    */
-  export type REPropertyMiddleCategoryModelCreateArgs = {
+  export type REPropertyMiddleCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REPropertyMiddleCategoryModel.
      */
@@ -5708,7 +7586,7 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel createMany
    */
-  export type REPropertyMiddleCategoryModelCreateManyArgs = {
+  export type REPropertyMiddleCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REPropertyMiddleCategoryModels.
      */
@@ -5720,15 +7598,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel update
    */
-  export type REPropertyMiddleCategoryModelUpdateArgs = {
+  export type REPropertyMiddleCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REPropertyMiddleCategoryModel.
      */
@@ -5743,7 +7621,7 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel updateMany
    */
-  export type REPropertyMiddleCategoryModelUpdateManyArgs = {
+  export type REPropertyMiddleCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REPropertyMiddleCategoryModels.
      */
@@ -5758,15 +7636,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel upsert
    */
-  export type REPropertyMiddleCategoryModelUpsertArgs = {
+  export type REPropertyMiddleCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REPropertyMiddleCategoryModel to update in case it exists.
      */
@@ -5785,15 +7663,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel delete
    */
-  export type REPropertyMiddleCategoryModelDeleteArgs = {
+  export type REPropertyMiddleCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which REPropertyMiddleCategoryModel to delete.
      */
@@ -5804,7 +7682,7 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel deleteMany
    */
-  export type REPropertyMiddleCategoryModelDeleteManyArgs = {
+  export type REPropertyMiddleCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertyMiddleCategoryModels to delete
      */
@@ -5815,15 +7693,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel.sub_categories
    */
-  export type REPropertyMiddleCategoryModel$sub_categoriesArgs = {
+  export type REPropertyMiddleCategoryModel$sub_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySubCategoryModel
      */
-    select?: REPropertySubCategoryModelSelect | null
+    select?: REPropertySubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySubCategoryModelInclude | null
+    include?: REPropertySubCategoryModelInclude<ExtArgs> | null
     where?: REPropertySubCategoryModelWhereInput
     orderBy?: Enumerable<REPropertySubCategoryModelOrderByWithRelationInput>
     cursor?: REPropertySubCategoryModelWhereUniqueInput
@@ -5836,15 +7714,15 @@ export namespace Prisma {
   /**
    * REPropertyMiddleCategoryModel without action
    */
-  export type REPropertyMiddleCategoryModelArgs = {
+  export type REPropertyMiddleCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -5917,7 +7795,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REPropertySuperCategoryModelAggregateArgs = {
+  export type REPropertySuperCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertySuperCategoryModel to aggregate.
      */
@@ -5977,7 +7855,7 @@ export namespace Prisma {
 
 
 
-  export type REPropertySuperCategoryModelGroupByArgs = {
+  export type REPropertySuperCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REPropertySuperCategoryModelWhereInput
     orderBy?: Enumerable<REPropertySuperCategoryModelOrderByWithAggregationInput>
     by: REPropertySuperCategoryModelScalarFieldEnum[]
@@ -6016,49 +7894,41 @@ export namespace Prisma {
     >
 
 
-  export type REPropertySuperCategoryModelSelect = {
+  export type REPropertySuperCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
     deleted_at?: boolean
     name?: boolean
-    middle_categories?: boolean | REPropertySuperCategoryModel$middle_categoriesArgs
-    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs
+    middle_categories?: boolean | REPropertySuperCategoryModel$middle_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["rEPropertySuperCategoryModel"]>
+
+  export type REPropertySuperCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+  }
+
+  export type REPropertySuperCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    middle_categories?: boolean | REPropertySuperCategoryModel$middle_categoriesArgs<ExtArgs>
+    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type REPropertySuperCategoryModelInclude = {
-    middle_categories?: boolean | REPropertySuperCategoryModel$middle_categoriesArgs
-    _count?: boolean | REPropertySuperCategoryModelCountOutputTypeArgs
-  }
+  type REPropertySuperCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySuperCategoryModelArgs> = $Types.GetResult<REPropertySuperCategoryModelPayload, S>
 
-  export type REPropertySuperCategoryModelGetPayload<S extends boolean | null | undefined | REPropertySuperCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REPropertySuperCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REPropertySuperCategoryModelArgs | REPropertySuperCategoryModelFindManyArgs)
-    ? REPropertySuperCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'middle_categories' ? Array < REPropertyMiddleCategoryModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REPropertySuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REPropertySuperCategoryModelArgs | REPropertySuperCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'middle_categories' ? Array < REPropertyMiddleCategoryModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REPropertySuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REPropertySuperCategoryModel ? REPropertySuperCategoryModel[P] : never
-  } 
-      : REPropertySuperCategoryModel
-
-
-  type REPropertySuperCategoryModelCountArgs = 
+  type REPropertySuperCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REPropertySuperCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: REPropertySuperCategoryModelCountAggregateInputType | true
     }
 
-  export interface REPropertySuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REPropertySuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REPropertySuperCategoryModel'], meta: { name: 'REPropertySuperCategoryModel' } }
     /**
      * Find zero or one REPropertySuperCategoryModel that matches the filter.
      * @param {REPropertySuperCategoryModelFindUniqueArgs} args - Arguments to find a REPropertySuperCategoryModel
@@ -6070,9 +7940,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REPropertySuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REPropertySuperCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>> : Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends REPropertySuperCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REPropertySuperCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REPropertySuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -6086,9 +7956,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REPropertySuperCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends REPropertySuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REPropertySuperCategoryModel that matches the filter.
@@ -6103,9 +7973,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REPropertySuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>> : Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends REPropertySuperCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REPropertySuperCategoryModel'> extends True ? Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REPropertySuperCategoryModel that matches the filter or
@@ -6121,9 +7991,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REPropertySuperCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends REPropertySuperCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REPropertySuperCategoryModels that matches the filter.
@@ -6141,9 +8011,9 @@ export namespace Prisma {
      * const rEPropertySuperCategoryModelWithIdOnly = await prisma.rEPropertySuperCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REPropertySuperCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REPropertySuperCategoryModelGetPayload<T>>>
+    findMany<T extends REPropertySuperCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REPropertySuperCategoryModel.
@@ -6157,9 +8027,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REPropertySuperCategoryModelCreateArgs>(
-      args: SelectSubset<T, REPropertySuperCategoryModelCreateArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    create<T extends REPropertySuperCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySuperCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REPropertySuperCategoryModels.
@@ -6173,8 +8043,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REPropertySuperCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelCreateManyArgs>
+    createMany<T extends REPropertySuperCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -6189,9 +8059,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REPropertySuperCategoryModelDeleteArgs>(
-      args: SelectSubset<T, REPropertySuperCategoryModelDeleteArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    delete<T extends REPropertySuperCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySuperCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REPropertySuperCategoryModel.
@@ -6208,9 +8078,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REPropertySuperCategoryModelUpdateArgs>(
-      args: SelectSubset<T, REPropertySuperCategoryModelUpdateArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    update<T extends REPropertySuperCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REPropertySuperCategoryModels.
@@ -6224,8 +8094,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REPropertySuperCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, REPropertySuperCategoryModelDeleteManyArgs>
+    deleteMany<T extends REPropertySuperCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REPropertySuperCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -6245,8 +8115,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REPropertySuperCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, REPropertySuperCategoryModelUpdateManyArgs>
+    updateMany<T extends REPropertySuperCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -6266,9 +8136,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REPropertySuperCategoryModelUpsertArgs>(
-      args: SelectSubset<T, REPropertySuperCategoryModelUpsertArgs>
-    ): Prisma__REPropertySuperCategoryModelClient<REPropertySuperCategoryModelGetPayload<T>>
+    upsert<T extends REPropertySuperCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REPropertySuperCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__REPropertySuperCategoryModelClient<$Types.GetResult<REPropertySuperCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REPropertySuperCategoryModels.
@@ -6286,7 +8156,7 @@ export namespace Prisma {
     count<T extends REPropertySuperCategoryModelCountArgs>(
       args?: Subset<T, REPropertySuperCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REPropertySuperCategoryModelCountAggregateOutputType>
@@ -6404,7 +8274,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REPropertySuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REPropertySuperCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -6419,7 +8289,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    middle_categories<T extends REPropertySuperCategoryModel$middle_categoriesArgs= {}>(args?: Subset<T, REPropertySuperCategoryModel$middle_categoriesArgs>): Prisma.PrismaPromise<Array<REPropertyMiddleCategoryModelGetPayload<T>>| Null>;
+    middle_categories<T extends REPropertySuperCategoryModel$middle_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, REPropertySuperCategoryModel$middle_categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<REPropertyMiddleCategoryModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -6451,15 +8321,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel base type for findUnique actions
    */
-  export type REPropertySuperCategoryModelFindUniqueArgsBase = {
+  export type REPropertySuperCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySuperCategoryModel to fetch.
      */
@@ -6469,7 +8339,7 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel findUnique
    */
-  export interface REPropertySuperCategoryModelFindUniqueArgs extends REPropertySuperCategoryModelFindUniqueArgsBase {
+  export interface REPropertySuperCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertySuperCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -6481,15 +8351,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel findUniqueOrThrow
    */
-  export type REPropertySuperCategoryModelFindUniqueOrThrowArgs = {
+  export type REPropertySuperCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySuperCategoryModel to fetch.
      */
@@ -6500,15 +8370,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel base type for findFirst actions
    */
-  export type REPropertySuperCategoryModelFindFirstArgsBase = {
+  export type REPropertySuperCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySuperCategoryModel to fetch.
      */
@@ -6548,7 +8418,7 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel findFirst
    */
-  export interface REPropertySuperCategoryModelFindFirstArgs extends REPropertySuperCategoryModelFindFirstArgsBase {
+  export interface REPropertySuperCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REPropertySuperCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -6560,15 +8430,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel findFirstOrThrow
    */
-  export type REPropertySuperCategoryModelFindFirstOrThrowArgs = {
+  export type REPropertySuperCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySuperCategoryModel to fetch.
      */
@@ -6609,15 +8479,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel findMany
    */
-  export type REPropertySuperCategoryModelFindManyArgs = {
+  export type REPropertySuperCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which REPropertySuperCategoryModels to fetch.
      */
@@ -6653,15 +8523,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel create
    */
-  export type REPropertySuperCategoryModelCreateArgs = {
+  export type REPropertySuperCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REPropertySuperCategoryModel.
      */
@@ -6672,7 +8542,7 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel createMany
    */
-  export type REPropertySuperCategoryModelCreateManyArgs = {
+  export type REPropertySuperCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REPropertySuperCategoryModels.
      */
@@ -6684,15 +8554,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel update
    */
-  export type REPropertySuperCategoryModelUpdateArgs = {
+  export type REPropertySuperCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REPropertySuperCategoryModel.
      */
@@ -6707,7 +8577,7 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel updateMany
    */
-  export type REPropertySuperCategoryModelUpdateManyArgs = {
+  export type REPropertySuperCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REPropertySuperCategoryModels.
      */
@@ -6722,15 +8592,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel upsert
    */
-  export type REPropertySuperCategoryModelUpsertArgs = {
+  export type REPropertySuperCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REPropertySuperCategoryModel to update in case it exists.
      */
@@ -6749,15 +8619,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel delete
    */
-  export type REPropertySuperCategoryModelDeleteArgs = {
+  export type REPropertySuperCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which REPropertySuperCategoryModel to delete.
      */
@@ -6768,7 +8638,7 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel deleteMany
    */
-  export type REPropertySuperCategoryModelDeleteManyArgs = {
+  export type REPropertySuperCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REPropertySuperCategoryModels to delete
      */
@@ -6779,15 +8649,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel.middle_categories
    */
-  export type REPropertySuperCategoryModel$middle_categoriesArgs = {
+  export type REPropertySuperCategoryModel$middle_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyMiddleCategoryModel
      */
-    select?: REPropertyMiddleCategoryModelSelect | null
+    select?: REPropertyMiddleCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyMiddleCategoryModelInclude | null
+    include?: REPropertyMiddleCategoryModelInclude<ExtArgs> | null
     where?: REPropertyMiddleCategoryModelWhereInput
     orderBy?: Enumerable<REPropertyMiddleCategoryModelOrderByWithRelationInput>
     cursor?: REPropertyMiddleCategoryModelWhereUniqueInput
@@ -6800,15 +8670,15 @@ export namespace Prisma {
   /**
    * REPropertySuperCategoryModel without action
    */
-  export type REPropertySuperCategoryModelArgs = {
+  export type REPropertySuperCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertySuperCategoryModel
      */
-    select?: REPropertySuperCategoryModelSelect | null
+    select?: REPropertySuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertySuperCategoryModelInclude | null
+    include?: REPropertySuperCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -6899,7 +8769,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type AgreementModelAggregateArgs = {
+  export type AgreementModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which AgreementModel to aggregate.
      */
@@ -6959,7 +8829,7 @@ export namespace Prisma {
 
 
 
-  export type AgreementModelGroupByArgs = {
+  export type AgreementModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: AgreementModelWhereInput
     orderBy?: Enumerable<AgreementModelOrderByWithAggregationInput>
     by: AgreementModelScalarFieldEnum[]
@@ -7001,7 +8871,7 @@ export namespace Prisma {
     >
 
 
-  export type AgreementModelSelect = {
+  export type AgreementModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -7011,42 +8881,37 @@ export namespace Prisma {
     content?: boolean
     is_required?: boolean
     target_type?: boolean
-    acceptances?: boolean | AgreementModel$acceptancesArgs
-    _count?: boolean | AgreementModelCountOutputTypeArgs
+    acceptances?: boolean | AgreementModel$acceptancesArgs<ExtArgs>
+    _count?: boolean | AgreementModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["agreementModel"]>
+
+  export type AgreementModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    title?: boolean
+    content?: boolean
+    is_required?: boolean
+    target_type?: boolean
+  }
+
+  export type AgreementModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    acceptances?: boolean | AgreementModel$acceptancesArgs<ExtArgs>
+    _count?: boolean | AgreementModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type AgreementModelInclude = {
-    acceptances?: boolean | AgreementModel$acceptancesArgs
-    _count?: boolean | AgreementModelCountOutputTypeArgs
-  }
+  type AgreementModelGetPayload<S extends boolean | null | undefined | AgreementModelArgs> = $Types.GetResult<AgreementModelPayload, S>
 
-  export type AgreementModelGetPayload<S extends boolean | null | undefined | AgreementModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AgreementModel :
-    S extends undefined ? never :
-    S extends { include: any } & (AgreementModelArgs | AgreementModelFindManyArgs)
-    ? AgreementModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? AgreementModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AgreementModelArgs | AgreementModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? AgreementModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof AgreementModel ? AgreementModel[P] : never
-  } 
-      : AgreementModel
-
-
-  type AgreementModelCountArgs = 
+  type AgreementModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<AgreementModelFindManyArgs, 'select' | 'include'> & {
       select?: AgreementModelCountAggregateInputType | true
     }
 
-  export interface AgreementModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface AgreementModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgreementModel'], meta: { name: 'AgreementModel' } }
     /**
      * Find zero or one AgreementModel that matches the filter.
      * @param {AgreementModelFindUniqueArgs} args - Arguments to find a AgreementModel
@@ -7058,9 +8923,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends AgreementModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, AgreementModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<AgreementModelGetPayload<T>> : Prisma__AgreementModelClient<AgreementModelGetPayload<T> | null, null>
+    findUnique<T extends AgreementModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AgreementModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one AgreementModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -7074,9 +8939,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends AgreementModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AgreementModelFindUniqueOrThrowArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    findUniqueOrThrow<T extends AgreementModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first AgreementModel that matches the filter.
@@ -7091,9 +8956,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends AgreementModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, AgreementModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<AgreementModelGetPayload<T>> : Prisma__AgreementModelClient<AgreementModelGetPayload<T> | null, null>
+    findFirst<T extends AgreementModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AgreementModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementModel'> extends True ? Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first AgreementModel that matches the filter or
@@ -7109,9 +8974,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends AgreementModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AgreementModelFindFirstOrThrowArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    findFirstOrThrow<T extends AgreementModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more AgreementModels that matches the filter.
@@ -7129,9 +8994,9 @@ export namespace Prisma {
      * const agreementModelWithIdOnly = await prisma.agreementModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends AgreementModelFindManyArgs>(
-      args?: SelectSubset<T, AgreementModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<AgreementModelGetPayload<T>>>
+    findMany<T extends AgreementModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a AgreementModel.
@@ -7145,9 +9010,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends AgreementModelCreateArgs>(
-      args: SelectSubset<T, AgreementModelCreateArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    create<T extends AgreementModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementModelCreateArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many AgreementModels.
@@ -7161,8 +9026,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends AgreementModelCreateManyArgs>(
-      args?: SelectSubset<T, AgreementModelCreateManyArgs>
+    createMany<T extends AgreementModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -7177,9 +9042,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends AgreementModelDeleteArgs>(
-      args: SelectSubset<T, AgreementModelDeleteArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    delete<T extends AgreementModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementModelDeleteArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one AgreementModel.
@@ -7196,9 +9061,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends AgreementModelUpdateArgs>(
-      args: SelectSubset<T, AgreementModelUpdateArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    update<T extends AgreementModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementModelUpdateArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more AgreementModels.
@@ -7212,8 +9077,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends AgreementModelDeleteManyArgs>(
-      args?: SelectSubset<T, AgreementModelDeleteManyArgs>
+    deleteMany<T extends AgreementModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -7233,8 +9098,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends AgreementModelUpdateManyArgs>(
-      args: SelectSubset<T, AgreementModelUpdateManyArgs>
+    updateMany<T extends AgreementModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -7254,9 +9119,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends AgreementModelUpsertArgs>(
-      args: SelectSubset<T, AgreementModelUpsertArgs>
-    ): Prisma__AgreementModelClient<AgreementModelGetPayload<T>>
+    upsert<T extends AgreementModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementModelUpsertArgs<ExtArgs>>
+    ): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of AgreementModels.
@@ -7274,7 +9139,7 @@ export namespace Prisma {
     count<T extends AgreementModelCountArgs>(
       args?: Subset<T, AgreementModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], AgreementModelCountAggregateOutputType>
@@ -7392,7 +9257,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AgreementModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__AgreementModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -7407,7 +9272,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    acceptances<T extends AgreementModel$acceptancesArgs= {}>(args?: Subset<T, AgreementModel$acceptancesArgs>): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>| Null>;
+    acceptances<T extends AgreementModel$acceptancesArgs<ExtArgs> = {}>(args?: Subset<T, AgreementModel$acceptancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -7439,15 +9304,15 @@ export namespace Prisma {
   /**
    * AgreementModel base type for findUnique actions
    */
-  export type AgreementModelFindUniqueArgsBase = {
+  export type AgreementModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementModel to fetch.
      */
@@ -7457,7 +9322,7 @@ export namespace Prisma {
   /**
    * AgreementModel findUnique
    */
-  export interface AgreementModelFindUniqueArgs extends AgreementModelFindUniqueArgsBase {
+  export interface AgreementModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends AgreementModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -7469,15 +9334,15 @@ export namespace Prisma {
   /**
    * AgreementModel findUniqueOrThrow
    */
-  export type AgreementModelFindUniqueOrThrowArgs = {
+  export type AgreementModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementModel to fetch.
      */
@@ -7488,15 +9353,15 @@ export namespace Prisma {
   /**
    * AgreementModel base type for findFirst actions
    */
-  export type AgreementModelFindFirstArgsBase = {
+  export type AgreementModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementModel to fetch.
      */
@@ -7536,7 +9401,7 @@ export namespace Prisma {
   /**
    * AgreementModel findFirst
    */
-  export interface AgreementModelFindFirstArgs extends AgreementModelFindFirstArgsBase {
+  export interface AgreementModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends AgreementModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -7548,15 +9413,15 @@ export namespace Prisma {
   /**
    * AgreementModel findFirstOrThrow
    */
-  export type AgreementModelFindFirstOrThrowArgs = {
+  export type AgreementModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementModel to fetch.
      */
@@ -7597,15 +9462,15 @@ export namespace Prisma {
   /**
    * AgreementModel findMany
    */
-  export type AgreementModelFindManyArgs = {
+  export type AgreementModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementModels to fetch.
      */
@@ -7641,15 +9506,15 @@ export namespace Prisma {
   /**
    * AgreementModel create
    */
-  export type AgreementModelCreateArgs = {
+  export type AgreementModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * The data needed to create a AgreementModel.
      */
@@ -7660,7 +9525,7 @@ export namespace Prisma {
   /**
    * AgreementModel createMany
    */
-  export type AgreementModelCreateManyArgs = {
+  export type AgreementModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many AgreementModels.
      */
@@ -7672,15 +9537,15 @@ export namespace Prisma {
   /**
    * AgreementModel update
    */
-  export type AgreementModelUpdateArgs = {
+  export type AgreementModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * The data needed to update a AgreementModel.
      */
@@ -7695,7 +9560,7 @@ export namespace Prisma {
   /**
    * AgreementModel updateMany
    */
-  export type AgreementModelUpdateManyArgs = {
+  export type AgreementModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update AgreementModels.
      */
@@ -7710,15 +9575,15 @@ export namespace Prisma {
   /**
    * AgreementModel upsert
    */
-  export type AgreementModelUpsertArgs = {
+  export type AgreementModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * The filter to search for the AgreementModel to update in case it exists.
      */
@@ -7737,15 +9602,15 @@ export namespace Prisma {
   /**
    * AgreementModel delete
    */
-  export type AgreementModelDeleteArgs = {
+  export type AgreementModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
     /**
      * Filter which AgreementModel to delete.
      */
@@ -7756,7 +9621,7 @@ export namespace Prisma {
   /**
    * AgreementModel deleteMany
    */
-  export type AgreementModelDeleteManyArgs = {
+  export type AgreementModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which AgreementModels to delete
      */
@@ -7767,15 +9632,15 @@ export namespace Prisma {
   /**
    * AgreementModel.acceptances
    */
-  export type AgreementModel$acceptancesArgs = {
+  export type AgreementModel$acceptancesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     where?: AgreementAcceptanceModelWhereInput
     orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
     cursor?: AgreementAcceptanceModelWhereUniqueInput
@@ -7788,15 +9653,15 @@ export namespace Prisma {
   /**
    * AgreementModel without action
    */
-  export type AgreementModelArgs = {
+  export type AgreementModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementModel
      */
-    select?: AgreementModelSelect | null
+    select?: AgreementModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementModelInclude | null
+    include?: AgreementModelInclude<ExtArgs> | null
   }
 
 
@@ -7875,7 +9740,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type AgreementAcceptanceModelAggregateArgs = {
+  export type AgreementAcceptanceModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which AgreementAcceptanceModel to aggregate.
      */
@@ -7935,7 +9800,7 @@ export namespace Prisma {
 
 
 
-  export type AgreementAcceptanceModelGroupByArgs = {
+  export type AgreementAcceptanceModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: AgreementAcceptanceModelWhereInput
     orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithAggregationInput>
     by: AgreementAcceptanceModelScalarFieldEnum[]
@@ -7975,7 +9840,7 @@ export namespace Prisma {
     >
 
 
-  export type AgreementAcceptanceModelSelect = {
+  export type AgreementAcceptanceModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -7983,42 +9848,35 @@ export namespace Prisma {
     deleted_at?: boolean
     user_id?: boolean
     agreement_id?: boolean
-    user?: boolean | UserModelArgs
-    agreement?: boolean | AgreementModelArgs
+    user?: boolean | UserModelArgs<ExtArgs>
+    agreement?: boolean | AgreementModelArgs<ExtArgs>
+  }, ExtArgs["result"]["agreementAcceptanceModel"]>
+
+  export type AgreementAcceptanceModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    user_id?: boolean
+    agreement_id?: boolean
+  }
+
+  export type AgreementAcceptanceModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    user?: boolean | UserModelArgs<ExtArgs>
+    agreement?: boolean | AgreementModelArgs<ExtArgs>
   }
 
 
-  export type AgreementAcceptanceModelInclude = {
-    user?: boolean | UserModelArgs
-    agreement?: boolean | AgreementModelArgs
-  }
+  type AgreementAcceptanceModelGetPayload<S extends boolean | null | undefined | AgreementAcceptanceModelArgs> = $Types.GetResult<AgreementAcceptanceModelPayload, S>
 
-  export type AgreementAcceptanceModelGetPayload<S extends boolean | null | undefined | AgreementAcceptanceModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? AgreementAcceptanceModel :
-    S extends undefined ? never :
-    S extends { include: any } & (AgreementAcceptanceModelArgs | AgreementAcceptanceModelFindManyArgs)
-    ? AgreementAcceptanceModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserModelGetPayload<S['include'][P]> :
-        P extends 'agreement' ? AgreementModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (AgreementAcceptanceModelArgs | AgreementAcceptanceModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserModelGetPayload<S['select'][P]> :
-        P extends 'agreement' ? AgreementModelGetPayload<S['select'][P]> :  P extends keyof AgreementAcceptanceModel ? AgreementAcceptanceModel[P] : never
-  } 
-      : AgreementAcceptanceModel
-
-
-  type AgreementAcceptanceModelCountArgs = 
+  type AgreementAcceptanceModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<AgreementAcceptanceModelFindManyArgs, 'select' | 'include'> & {
       select?: AgreementAcceptanceModelCountAggregateInputType | true
     }
 
-  export interface AgreementAcceptanceModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface AgreementAcceptanceModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgreementAcceptanceModel'], meta: { name: 'AgreementAcceptanceModel' } }
     /**
      * Find zero or one AgreementAcceptanceModel that matches the filter.
      * @param {AgreementAcceptanceModelFindUniqueArgs} args - Arguments to find a AgreementAcceptanceModel
@@ -8030,9 +9888,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends AgreementAcceptanceModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, AgreementAcceptanceModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>> : Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T> | null, null>
+    findUnique<T extends AgreementAcceptanceModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AgreementAcceptanceModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one AgreementAcceptanceModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -8046,9 +9904,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends AgreementAcceptanceModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, AgreementAcceptanceModelFindUniqueOrThrowArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    findUniqueOrThrow<T extends AgreementAcceptanceModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first AgreementAcceptanceModel that matches the filter.
@@ -8063,9 +9921,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends AgreementAcceptanceModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>> : Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T> | null, null>
+    findFirst<T extends AgreementAcceptanceModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'AgreementAcceptanceModel'> extends True ? Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first AgreementAcceptanceModel that matches the filter or
@@ -8081,9 +9939,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends AgreementAcceptanceModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstOrThrowArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    findFirstOrThrow<T extends AgreementAcceptanceModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more AgreementAcceptanceModels that matches the filter.
@@ -8101,9 +9959,9 @@ export namespace Prisma {
      * const agreementAcceptanceModelWithIdOnly = await prisma.agreementAcceptanceModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends AgreementAcceptanceModelFindManyArgs>(
-      args?: SelectSubset<T, AgreementAcceptanceModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>>
+    findMany<T extends AgreementAcceptanceModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementAcceptanceModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a AgreementAcceptanceModel.
@@ -8117,9 +9975,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends AgreementAcceptanceModelCreateArgs>(
-      args: SelectSubset<T, AgreementAcceptanceModelCreateArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    create<T extends AgreementAcceptanceModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementAcceptanceModelCreateArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many AgreementAcceptanceModels.
@@ -8133,8 +9991,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends AgreementAcceptanceModelCreateManyArgs>(
-      args?: SelectSubset<T, AgreementAcceptanceModelCreateManyArgs>
+    createMany<T extends AgreementAcceptanceModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementAcceptanceModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -8149,9 +10007,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends AgreementAcceptanceModelDeleteArgs>(
-      args: SelectSubset<T, AgreementAcceptanceModelDeleteArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    delete<T extends AgreementAcceptanceModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementAcceptanceModelDeleteArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one AgreementAcceptanceModel.
@@ -8168,9 +10026,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends AgreementAcceptanceModelUpdateArgs>(
-      args: SelectSubset<T, AgreementAcceptanceModelUpdateArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    update<T extends AgreementAcceptanceModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpdateArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more AgreementAcceptanceModels.
@@ -8184,8 +10042,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends AgreementAcceptanceModelDeleteManyArgs>(
-      args?: SelectSubset<T, AgreementAcceptanceModelDeleteManyArgs>
+    deleteMany<T extends AgreementAcceptanceModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AgreementAcceptanceModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -8205,8 +10063,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends AgreementAcceptanceModelUpdateManyArgs>(
-      args: SelectSubset<T, AgreementAcceptanceModelUpdateManyArgs>
+    updateMany<T extends AgreementAcceptanceModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -8226,9 +10084,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends AgreementAcceptanceModelUpsertArgs>(
-      args: SelectSubset<T, AgreementAcceptanceModelUpsertArgs>
-    ): Prisma__AgreementAcceptanceModelClient<AgreementAcceptanceModelGetPayload<T>>
+    upsert<T extends AgreementAcceptanceModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, AgreementAcceptanceModelUpsertArgs<ExtArgs>>
+    ): Prisma__AgreementAcceptanceModelClient<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of AgreementAcceptanceModels.
@@ -8246,7 +10104,7 @@ export namespace Prisma {
     count<T extends AgreementAcceptanceModelCountArgs>(
       args?: Subset<T, AgreementAcceptanceModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], AgreementAcceptanceModelCountAggregateOutputType>
@@ -8364,7 +10222,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__AgreementAcceptanceModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__AgreementAcceptanceModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -8379,9 +10237,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    user<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
+    user<T extends UserModelArgs<ExtArgs> = {}>(args?: Subset<T, UserModelArgs<ExtArgs>>): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    agreement<T extends AgreementModelArgs= {}>(args?: Subset<T, AgreementModelArgs>): Prisma__AgreementModelClient<AgreementModelGetPayload<T> | Null>;
+    agreement<T extends AgreementModelArgs<ExtArgs> = {}>(args?: Subset<T, AgreementModelArgs<ExtArgs>>): Prisma__AgreementModelClient<$Types.GetResult<AgreementModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -8413,15 +10271,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel base type for findUnique actions
    */
-  export type AgreementAcceptanceModelFindUniqueArgsBase = {
+  export type AgreementAcceptanceModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementAcceptanceModel to fetch.
      */
@@ -8431,7 +10289,7 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel findUnique
    */
-  export interface AgreementAcceptanceModelFindUniqueArgs extends AgreementAcceptanceModelFindUniqueArgsBase {
+  export interface AgreementAcceptanceModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends AgreementAcceptanceModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -8443,15 +10301,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel findUniqueOrThrow
    */
-  export type AgreementAcceptanceModelFindUniqueOrThrowArgs = {
+  export type AgreementAcceptanceModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementAcceptanceModel to fetch.
      */
@@ -8462,15 +10320,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel base type for findFirst actions
    */
-  export type AgreementAcceptanceModelFindFirstArgsBase = {
+  export type AgreementAcceptanceModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementAcceptanceModel to fetch.
      */
@@ -8510,7 +10368,7 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel findFirst
    */
-  export interface AgreementAcceptanceModelFindFirstArgs extends AgreementAcceptanceModelFindFirstArgsBase {
+  export interface AgreementAcceptanceModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends AgreementAcceptanceModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -8522,15 +10380,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel findFirstOrThrow
    */
-  export type AgreementAcceptanceModelFindFirstOrThrowArgs = {
+  export type AgreementAcceptanceModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementAcceptanceModel to fetch.
      */
@@ -8571,15 +10429,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel findMany
    */
-  export type AgreementAcceptanceModelFindManyArgs = {
+  export type AgreementAcceptanceModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter, which AgreementAcceptanceModels to fetch.
      */
@@ -8615,15 +10473,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel create
    */
-  export type AgreementAcceptanceModelCreateArgs = {
+  export type AgreementAcceptanceModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * The data needed to create a AgreementAcceptanceModel.
      */
@@ -8634,7 +10492,7 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel createMany
    */
-  export type AgreementAcceptanceModelCreateManyArgs = {
+  export type AgreementAcceptanceModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many AgreementAcceptanceModels.
      */
@@ -8646,15 +10504,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel update
    */
-  export type AgreementAcceptanceModelUpdateArgs = {
+  export type AgreementAcceptanceModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * The data needed to update a AgreementAcceptanceModel.
      */
@@ -8669,7 +10527,7 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel updateMany
    */
-  export type AgreementAcceptanceModelUpdateManyArgs = {
+  export type AgreementAcceptanceModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update AgreementAcceptanceModels.
      */
@@ -8684,15 +10542,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel upsert
    */
-  export type AgreementAcceptanceModelUpsertArgs = {
+  export type AgreementAcceptanceModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * The filter to search for the AgreementAcceptanceModel to update in case it exists.
      */
@@ -8711,15 +10569,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel delete
    */
-  export type AgreementAcceptanceModelDeleteArgs = {
+  export type AgreementAcceptanceModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     /**
      * Filter which AgreementAcceptanceModel to delete.
      */
@@ -8730,7 +10588,7 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel deleteMany
    */
-  export type AgreementAcceptanceModelDeleteManyArgs = {
+  export type AgreementAcceptanceModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which AgreementAcceptanceModels to delete
      */
@@ -8741,15 +10599,15 @@ export namespace Prisma {
   /**
    * AgreementAcceptanceModel without action
    */
-  export type AgreementAcceptanceModelArgs = {
+  export type AgreementAcceptanceModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
   }
 
 
@@ -8828,7 +10686,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ServiceSubCategoryModelAggregateArgs = {
+  export type ServiceSubCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ServiceSubCategoryModel to aggregate.
      */
@@ -8888,7 +10746,7 @@ export namespace Prisma {
 
 
 
-  export type ServiceSubCategoryModelGroupByArgs = {
+  export type ServiceSubCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ServiceSubCategoryModelWhereInput
     orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithAggregationInput>
     by: ServiceSubCategoryModelScalarFieldEnum[]
@@ -8928,7 +10786,7 @@ export namespace Prisma {
     >
 
 
-  export type ServiceSubCategoryModelSelect = {
+  export type ServiceSubCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -8936,46 +10794,37 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     super_category_id?: boolean
-    super_category?: boolean | ServiceSuperCategoryModelArgs
-    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs
-    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs
+    super_category?: boolean | ServiceSuperCategoryModelArgs<ExtArgs>
+    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs<ExtArgs>
+    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceSubCategoryModel"]>
+
+  export type ServiceSubCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    super_category_id?: boolean
+  }
+
+  export type ServiceSubCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    super_category?: boolean | ServiceSuperCategoryModelArgs<ExtArgs>
+    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs<ExtArgs>
+    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type ServiceSubCategoryModelInclude = {
-    super_category?: boolean | ServiceSuperCategoryModelArgs
-    expertises?: boolean | ServiceSubCategoryModel$expertisesArgs
-    _count?: boolean | ServiceSubCategoryModelCountOutputTypeArgs
-  }
+  type ServiceSubCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSubCategoryModelArgs> = $Types.GetResult<ServiceSubCategoryModelPayload, S>
 
-  export type ServiceSubCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSubCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ServiceSubCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ServiceSubCategoryModelArgs | ServiceSubCategoryModelFindManyArgs)
-    ? ServiceSubCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'super_category' ? ServiceSuperCategoryModelGetPayload<S['include'][P]> :
-        P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ServiceSubCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ServiceSubCategoryModelArgs | ServiceSubCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'super_category' ? ServiceSuperCategoryModelGetPayload<S['select'][P]> :
-        P extends 'expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ServiceSubCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ServiceSubCategoryModel ? ServiceSubCategoryModel[P] : never
-  } 
-      : ServiceSubCategoryModel
-
-
-  type ServiceSubCategoryModelCountArgs = 
+  type ServiceSubCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ServiceSubCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: ServiceSubCategoryModelCountAggregateInputType | true
     }
 
-  export interface ServiceSubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface ServiceSubCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceSubCategoryModel'], meta: { name: 'ServiceSubCategoryModel' } }
     /**
      * Find zero or one ServiceSubCategoryModel that matches the filter.
      * @param {ServiceSubCategoryModelFindUniqueArgs} args - Arguments to find a ServiceSubCategoryModel
@@ -8987,9 +10836,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends ServiceSubCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ServiceSubCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>> : Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends ServiceSubCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ServiceSubCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one ServiceSubCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -9003,9 +10852,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ServiceSubCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ServiceSubCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends ServiceSubCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first ServiceSubCategoryModel that matches the filter.
@@ -9020,9 +10869,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends ServiceSubCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>> : Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends ServiceSubCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSubCategoryModel'> extends True ? Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first ServiceSubCategoryModel that matches the filter or
@@ -9038,9 +10887,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ServiceSubCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends ServiceSubCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more ServiceSubCategoryModels that matches the filter.
@@ -9058,9 +10907,9 @@ export namespace Prisma {
      * const serviceSubCategoryModelWithIdOnly = await prisma.serviceSubCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ServiceSubCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, ServiceSubCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ServiceSubCategoryModelGetPayload<T>>>
+    findMany<T extends ServiceSubCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSubCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a ServiceSubCategoryModel.
@@ -9074,9 +10923,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends ServiceSubCategoryModelCreateArgs>(
-      args: SelectSubset<T, ServiceSubCategoryModelCreateArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    create<T extends ServiceSubCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSubCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many ServiceSubCategoryModels.
@@ -9090,8 +10939,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends ServiceSubCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, ServiceSubCategoryModelCreateManyArgs>
+    createMany<T extends ServiceSubCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSubCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -9106,9 +10955,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends ServiceSubCategoryModelDeleteArgs>(
-      args: SelectSubset<T, ServiceSubCategoryModelDeleteArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    delete<T extends ServiceSubCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSubCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one ServiceSubCategoryModel.
@@ -9125,9 +10974,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ServiceSubCategoryModelUpdateArgs>(
-      args: SelectSubset<T, ServiceSubCategoryModelUpdateArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    update<T extends ServiceSubCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more ServiceSubCategoryModels.
@@ -9141,8 +10990,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends ServiceSubCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, ServiceSubCategoryModelDeleteManyArgs>
+    deleteMany<T extends ServiceSubCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSubCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -9162,8 +11011,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ServiceSubCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, ServiceSubCategoryModelUpdateManyArgs>
+    updateMany<T extends ServiceSubCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -9183,9 +11032,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends ServiceSubCategoryModelUpsertArgs>(
-      args: SelectSubset<T, ServiceSubCategoryModelUpsertArgs>
-    ): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T>>
+    upsert<T extends ServiceSubCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSubCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of ServiceSubCategoryModels.
@@ -9203,7 +11052,7 @@ export namespace Prisma {
     count<T extends ServiceSubCategoryModelCountArgs>(
       args?: Subset<T, ServiceSubCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ServiceSubCategoryModelCountAggregateOutputType>
@@ -9321,7 +11170,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ServiceSubCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ServiceSubCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -9336,9 +11185,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    super_category<T extends ServiceSuperCategoryModelArgs= {}>(args?: Subset<T, ServiceSuperCategoryModelArgs>): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | Null>;
+    super_category<T extends ServiceSuperCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSuperCategoryModelArgs<ExtArgs>>): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    expertises<T extends ServiceSubCategoryModel$expertisesArgs= {}>(args?: Subset<T, ServiceSubCategoryModel$expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
+    expertises<T extends ServiceSubCategoryModel$expertisesArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSubCategoryModel$expertisesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -9370,15 +11219,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel base type for findUnique actions
    */
-  export type ServiceSubCategoryModelFindUniqueArgsBase = {
+  export type ServiceSubCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSubCategoryModel to fetch.
      */
@@ -9388,7 +11237,7 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel findUnique
    */
-  export interface ServiceSubCategoryModelFindUniqueArgs extends ServiceSubCategoryModelFindUniqueArgsBase {
+  export interface ServiceSubCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ServiceSubCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -9400,15 +11249,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel findUniqueOrThrow
    */
-  export type ServiceSubCategoryModelFindUniqueOrThrowArgs = {
+  export type ServiceSubCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSubCategoryModel to fetch.
      */
@@ -9419,15 +11268,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel base type for findFirst actions
    */
-  export type ServiceSubCategoryModelFindFirstArgsBase = {
+  export type ServiceSubCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSubCategoryModel to fetch.
      */
@@ -9467,7 +11316,7 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel findFirst
    */
-  export interface ServiceSubCategoryModelFindFirstArgs extends ServiceSubCategoryModelFindFirstArgsBase {
+  export interface ServiceSubCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ServiceSubCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -9479,15 +11328,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel findFirstOrThrow
    */
-  export type ServiceSubCategoryModelFindFirstOrThrowArgs = {
+  export type ServiceSubCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSubCategoryModel to fetch.
      */
@@ -9528,15 +11377,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel findMany
    */
-  export type ServiceSubCategoryModelFindManyArgs = {
+  export type ServiceSubCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSubCategoryModels to fetch.
      */
@@ -9572,15 +11421,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel create
    */
-  export type ServiceSubCategoryModelCreateArgs = {
+  export type ServiceSubCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a ServiceSubCategoryModel.
      */
@@ -9591,7 +11440,7 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel createMany
    */
-  export type ServiceSubCategoryModelCreateManyArgs = {
+  export type ServiceSubCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many ServiceSubCategoryModels.
      */
@@ -9603,15 +11452,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel update
    */
-  export type ServiceSubCategoryModelUpdateArgs = {
+  export type ServiceSubCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a ServiceSubCategoryModel.
      */
@@ -9626,7 +11475,7 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel updateMany
    */
-  export type ServiceSubCategoryModelUpdateManyArgs = {
+  export type ServiceSubCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update ServiceSubCategoryModels.
      */
@@ -9641,15 +11490,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel upsert
    */
-  export type ServiceSubCategoryModelUpsertArgs = {
+  export type ServiceSubCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the ServiceSubCategoryModel to update in case it exists.
      */
@@ -9668,15 +11517,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel delete
    */
-  export type ServiceSubCategoryModelDeleteArgs = {
+  export type ServiceSubCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which ServiceSubCategoryModel to delete.
      */
@@ -9687,7 +11536,7 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel deleteMany
    */
-  export type ServiceSubCategoryModelDeleteManyArgs = {
+  export type ServiceSubCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ServiceSubCategoryModels to delete
      */
@@ -9698,15 +11547,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel.expertises
    */
-  export type ServiceSubCategoryModel$expertisesArgs = {
+  export type ServiceSubCategoryModel$expertisesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     where?: SubExpertiseModelWhereInput
     orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     cursor?: SubExpertiseModelWhereUniqueInput
@@ -9719,15 +11568,15 @@ export namespace Prisma {
   /**
    * ServiceSubCategoryModel without action
    */
-  export type ServiceSubCategoryModelArgs = {
+  export type ServiceSubCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -9806,7 +11655,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ServiceSuperCategoryModelAggregateArgs = {
+  export type ServiceSuperCategoryModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ServiceSuperCategoryModel to aggregate.
      */
@@ -9866,7 +11715,7 @@ export namespace Prisma {
 
 
 
-  export type ServiceSuperCategoryModelGroupByArgs = {
+  export type ServiceSuperCategoryModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ServiceSuperCategoryModelWhereInput
     orderBy?: Enumerable<ServiceSuperCategoryModelOrderByWithAggregationInput>
     by: ServiceSuperCategoryModelScalarFieldEnum[]
@@ -9906,7 +11755,7 @@ export namespace Prisma {
     >
 
 
-  export type ServiceSuperCategoryModelSelect = {
+  export type ServiceSuperCategoryModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -9914,46 +11763,37 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     type?: boolean
-    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs
-    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs
-    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs
+    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs<ExtArgs>
+    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs<ExtArgs>
+    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceSuperCategoryModel"]>
+
+  export type ServiceSuperCategoryModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    type?: boolean
+  }
+
+  export type ServiceSuperCategoryModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs<ExtArgs>
+    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs<ExtArgs>
+    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type ServiceSuperCategoryModelInclude = {
-    sub_categories?: boolean | ServiceSuperCategoryModel$sub_categoriesArgs
-    focus_care_checks?: boolean | ServiceSuperCategoryModel$focus_care_checksArgs
-    _count?: boolean | ServiceSuperCategoryModelCountOutputTypeArgs
-  }
+  type ServiceSuperCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSuperCategoryModelArgs> = $Types.GetResult<ServiceSuperCategoryModelPayload, S>
 
-  export type ServiceSuperCategoryModelGetPayload<S extends boolean | null | undefined | ServiceSuperCategoryModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ServiceSuperCategoryModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ServiceSuperCategoryModelArgs | ServiceSuperCategoryModelFindManyArgs)
-    ? ServiceSuperCategoryModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['include'][P]>>  :
-        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ServiceSuperCategoryModelArgs | ServiceSuperCategoryModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'sub_categories' ? Array < ServiceSubCategoryModelGetPayload<S['select'][P]>>  :
-        P extends 'focus_care_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ServiceSuperCategoryModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ServiceSuperCategoryModel ? ServiceSuperCategoryModel[P] : never
-  } 
-      : ServiceSuperCategoryModel
-
-
-  type ServiceSuperCategoryModelCountArgs = 
+  type ServiceSuperCategoryModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ServiceSuperCategoryModelFindManyArgs, 'select' | 'include'> & {
       select?: ServiceSuperCategoryModelCountAggregateInputType | true
     }
 
-  export interface ServiceSuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface ServiceSuperCategoryModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceSuperCategoryModel'], meta: { name: 'ServiceSuperCategoryModel' } }
     /**
      * Find zero or one ServiceSuperCategoryModel that matches the filter.
      * @param {ServiceSuperCategoryModelFindUniqueArgs} args - Arguments to find a ServiceSuperCategoryModel
@@ -9965,9 +11805,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends ServiceSuperCategoryModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ServiceSuperCategoryModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>> : Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | null, null>
+    findUnique<T extends ServiceSuperCategoryModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ServiceSuperCategoryModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one ServiceSuperCategoryModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -9981,9 +11821,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ServiceSuperCategoryModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelFindUniqueOrThrowArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    findUniqueOrThrow<T extends ServiceSuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first ServiceSuperCategoryModel that matches the filter.
@@ -9998,9 +11838,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends ServiceSuperCategoryModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>> : Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | null, null>
+    findFirst<T extends ServiceSuperCategoryModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ServiceSuperCategoryModel'> extends True ? Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first ServiceSuperCategoryModel that matches the filter or
@@ -10016,9 +11856,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ServiceSuperCategoryModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstOrThrowArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    findFirstOrThrow<T extends ServiceSuperCategoryModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more ServiceSuperCategoryModels that matches the filter.
@@ -10036,9 +11876,9 @@ export namespace Prisma {
      * const serviceSuperCategoryModelWithIdOnly = await prisma.serviceSuperCategoryModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ServiceSuperCategoryModelFindManyArgs>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ServiceSuperCategoryModelGetPayload<T>>>
+    findMany<T extends ServiceSuperCategoryModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a ServiceSuperCategoryModel.
@@ -10052,9 +11892,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends ServiceSuperCategoryModelCreateArgs>(
-      args: SelectSubset<T, ServiceSuperCategoryModelCreateArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    create<T extends ServiceSuperCategoryModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSuperCategoryModelCreateArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many ServiceSuperCategoryModels.
@@ -10068,8 +11908,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends ServiceSuperCategoryModelCreateManyArgs>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelCreateManyArgs>
+    createMany<T extends ServiceSuperCategoryModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -10084,9 +11924,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends ServiceSuperCategoryModelDeleteArgs>(
-      args: SelectSubset<T, ServiceSuperCategoryModelDeleteArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    delete<T extends ServiceSuperCategoryModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSuperCategoryModelDeleteArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one ServiceSuperCategoryModel.
@@ -10103,9 +11943,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ServiceSuperCategoryModelUpdateArgs>(
-      args: SelectSubset<T, ServiceSuperCategoryModelUpdateArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    update<T extends ServiceSuperCategoryModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpdateArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more ServiceSuperCategoryModels.
@@ -10119,8 +11959,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends ServiceSuperCategoryModelDeleteManyArgs>(
-      args?: SelectSubset<T, ServiceSuperCategoryModelDeleteManyArgs>
+    deleteMany<T extends ServiceSuperCategoryModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ServiceSuperCategoryModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -10140,8 +11980,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ServiceSuperCategoryModelUpdateManyArgs>(
-      args: SelectSubset<T, ServiceSuperCategoryModelUpdateManyArgs>
+    updateMany<T extends ServiceSuperCategoryModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -10161,9 +12001,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends ServiceSuperCategoryModelUpsertArgs>(
-      args: SelectSubset<T, ServiceSuperCategoryModelUpsertArgs>
-    ): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T>>
+    upsert<T extends ServiceSuperCategoryModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ServiceSuperCategoryModelUpsertArgs<ExtArgs>>
+    ): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of ServiceSuperCategoryModels.
@@ -10181,7 +12021,7 @@ export namespace Prisma {
     count<T extends ServiceSuperCategoryModelCountArgs>(
       args?: Subset<T, ServiceSuperCategoryModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ServiceSuperCategoryModelCountAggregateOutputType>
@@ -10299,7 +12139,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ServiceSuperCategoryModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ServiceSuperCategoryModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -10314,9 +12154,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    sub_categories<T extends ServiceSuperCategoryModel$sub_categoriesArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$sub_categoriesArgs>): Prisma.PrismaPromise<Array<ServiceSubCategoryModelGetPayload<T>>| Null>;
+    sub_categories<T extends ServiceSuperCategoryModel$sub_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSuperCategoryModel$sub_categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    focus_care_checks<T extends ServiceSuperCategoryModel$focus_care_checksArgs= {}>(args?: Subset<T, ServiceSuperCategoryModel$focus_care_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
+    focus_care_checks<T extends ServiceSuperCategoryModel$focus_care_checksArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSuperCategoryModel$focus_care_checksArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -10348,15 +12188,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel base type for findUnique actions
    */
-  export type ServiceSuperCategoryModelFindUniqueArgsBase = {
+  export type ServiceSuperCategoryModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSuperCategoryModel to fetch.
      */
@@ -10366,7 +12206,7 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel findUnique
    */
-  export interface ServiceSuperCategoryModelFindUniqueArgs extends ServiceSuperCategoryModelFindUniqueArgsBase {
+  export interface ServiceSuperCategoryModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ServiceSuperCategoryModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -10378,15 +12218,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel findUniqueOrThrow
    */
-  export type ServiceSuperCategoryModelFindUniqueOrThrowArgs = {
+  export type ServiceSuperCategoryModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSuperCategoryModel to fetch.
      */
@@ -10397,15 +12237,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel base type for findFirst actions
    */
-  export type ServiceSuperCategoryModelFindFirstArgsBase = {
+  export type ServiceSuperCategoryModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSuperCategoryModel to fetch.
      */
@@ -10445,7 +12285,7 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel findFirst
    */
-  export interface ServiceSuperCategoryModelFindFirstArgs extends ServiceSuperCategoryModelFindFirstArgsBase {
+  export interface ServiceSuperCategoryModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ServiceSuperCategoryModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -10457,15 +12297,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel findFirstOrThrow
    */
-  export type ServiceSuperCategoryModelFindFirstOrThrowArgs = {
+  export type ServiceSuperCategoryModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSuperCategoryModel to fetch.
      */
@@ -10506,15 +12346,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel findMany
    */
-  export type ServiceSuperCategoryModelFindManyArgs = {
+  export type ServiceSuperCategoryModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter, which ServiceSuperCategoryModels to fetch.
      */
@@ -10550,15 +12390,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel create
    */
-  export type ServiceSuperCategoryModelCreateArgs = {
+  export type ServiceSuperCategoryModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to create a ServiceSuperCategoryModel.
      */
@@ -10569,7 +12409,7 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel createMany
    */
-  export type ServiceSuperCategoryModelCreateManyArgs = {
+  export type ServiceSuperCategoryModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many ServiceSuperCategoryModels.
      */
@@ -10581,15 +12421,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel update
    */
-  export type ServiceSuperCategoryModelUpdateArgs = {
+  export type ServiceSuperCategoryModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * The data needed to update a ServiceSuperCategoryModel.
      */
@@ -10604,7 +12444,7 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel updateMany
    */
-  export type ServiceSuperCategoryModelUpdateManyArgs = {
+  export type ServiceSuperCategoryModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update ServiceSuperCategoryModels.
      */
@@ -10619,15 +12459,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel upsert
    */
-  export type ServiceSuperCategoryModelUpsertArgs = {
+  export type ServiceSuperCategoryModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * The filter to search for the ServiceSuperCategoryModel to update in case it exists.
      */
@@ -10646,15 +12486,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel delete
    */
-  export type ServiceSuperCategoryModelDeleteArgs = {
+  export type ServiceSuperCategoryModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
     /**
      * Filter which ServiceSuperCategoryModel to delete.
      */
@@ -10665,7 +12505,7 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel deleteMany
    */
-  export type ServiceSuperCategoryModelDeleteManyArgs = {
+  export type ServiceSuperCategoryModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ServiceSuperCategoryModels to delete
      */
@@ -10676,15 +12516,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel.sub_categories
    */
-  export type ServiceSuperCategoryModel$sub_categoriesArgs = {
+  export type ServiceSuperCategoryModel$sub_categoriesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSubCategoryModel
      */
-    select?: ServiceSubCategoryModelSelect | null
+    select?: ServiceSubCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSubCategoryModelInclude | null
+    include?: ServiceSubCategoryModelInclude<ExtArgs> | null
     where?: ServiceSubCategoryModelWhereInput
     orderBy?: Enumerable<ServiceSubCategoryModelOrderByWithRelationInput>
     cursor?: ServiceSubCategoryModelWhereUniqueInput
@@ -10697,15 +12537,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel.focus_care_checks
    */
-  export type ServiceSuperCategoryModel$focus_care_checksArgs = {
+  export type ServiceSuperCategoryModel$focus_care_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     where?: ZipzoongCareServiceCheckModelWhereInput
     orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
@@ -10718,15 +12558,15 @@ export namespace Prisma {
   /**
    * ServiceSuperCategoryModel without action
    */
-  export type ServiceSuperCategoryModelArgs = {
+  export type ServiceSuperCategoryModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceSuperCategoryModel
      */
-    select?: ServiceSuperCategoryModelSelect | null
+    select?: ServiceSuperCategoryModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ServiceSuperCategoryModelInclude | null
+    include?: ServiceSuperCategoryModelInclude<ExtArgs> | null
   }
 
 
@@ -10823,7 +12663,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ZipzoongCareRequestModelAggregateArgs = {
+  export type ZipzoongCareRequestModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareRequestModel to aggregate.
      */
@@ -10883,7 +12723,7 @@ export namespace Prisma {
 
 
 
-  export type ZipzoongCareRequestModelGroupByArgs = {
+  export type ZipzoongCareRequestModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ZipzoongCareRequestModelWhereInput
     orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithAggregationInput>
     by: ZipzoongCareRequestModelScalarFieldEnum[]
@@ -10926,7 +12766,7 @@ export namespace Prisma {
     >
 
 
-  export type ZipzoongCareRequestModelSelect = {
+  export type ZipzoongCareRequestModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -10937,50 +12777,42 @@ export namespace Prisma {
     detail?: boolean
     status?: boolean
     requester_id?: boolean
-    requester?: boolean | CustomerModelArgs
-    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
-    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
-    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
+    requester?: boolean | CustomerModelArgs<ExtArgs>
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs<ExtArgs>
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs<ExtArgs>
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["zipzoongCareRequestModel"]>
+
+  export type ZipzoongCareRequestModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    care_start_date?: boolean
+    care_end_date?: boolean
+    detail?: boolean
+    status?: boolean
+    requester_id?: boolean
+  }
+
+  export type ZipzoongCareRequestModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    requester?: boolean | CustomerModelArgs<ExtArgs>
+    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs<ExtArgs>
+    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs<ExtArgs>
+    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type ZipzoongCareRequestModelInclude = {
-    requester?: boolean | CustomerModelArgs
-    consultation_time_checks?: boolean | ZipzoongCareRequestModel$consultation_time_checksArgs
-    service_checks?: boolean | ZipzoongCareRequestModel$service_checksArgs
-    _count?: boolean | ZipzoongCareRequestModelCountOutputTypeArgs
-  }
+  type ZipzoongCareRequestModelGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelArgs> = $Types.GetResult<ZipzoongCareRequestModelPayload, S>
 
-  export type ZipzoongCareRequestModelGetPayload<S extends boolean | null | undefined | ZipzoongCareRequestModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ZipzoongCareRequestModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
-    ? ZipzoongCareRequestModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'requester' ? CustomerModelGetPayload<S['include'][P]> :
-        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['include'][P]>>  :
-        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ZipzoongCareRequestModelArgs | ZipzoongCareRequestModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'requester' ? CustomerModelGetPayload<S['select'][P]> :
-        P extends 'consultation_time_checks' ? Array < ZipzoongCareConsultationTimeCheckModelGetPayload<S['select'][P]>>  :
-        P extends 'service_checks' ? Array < ZipzoongCareServiceCheckModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? ZipzoongCareRequestModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareRequestModel ? ZipzoongCareRequestModel[P] : never
-  } 
-      : ZipzoongCareRequestModel
-
-
-  type ZipzoongCareRequestModelCountArgs = 
+  type ZipzoongCareRequestModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ZipzoongCareRequestModelFindManyArgs, 'select' | 'include'> & {
       select?: ZipzoongCareRequestModelCountAggregateInputType | true
     }
 
-  export interface ZipzoongCareRequestModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface ZipzoongCareRequestModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ZipzoongCareRequestModel'], meta: { name: 'ZipzoongCareRequestModel' } }
     /**
      * Find zero or one ZipzoongCareRequestModel that matches the filter.
      * @param {ZipzoongCareRequestModelFindUniqueArgs} args - Arguments to find a ZipzoongCareRequestModel
@@ -10992,9 +12824,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends ZipzoongCareRequestModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ZipzoongCareRequestModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareRequestModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareRequestModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one ZipzoongCareRequestModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -11008,9 +12840,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ZipzoongCareRequestModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelFindUniqueOrThrowArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareRequestModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first ZipzoongCareRequestModel that matches the filter.
@@ -11025,9 +12857,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends ZipzoongCareRequestModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>> : Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareRequestModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareRequestModel'> extends True ? Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first ZipzoongCareRequestModel that matches the filter or
@@ -11043,9 +12875,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ZipzoongCareRequestModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstOrThrowArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareRequestModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more ZipzoongCareRequestModels that matches the filter.
@@ -11063,9 +12895,9 @@ export namespace Prisma {
      * const zipzoongCareRequestModelWithIdOnly = await prisma.zipzoongCareRequestModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ZipzoongCareRequestModelFindManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareRequestModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a ZipzoongCareRequestModel.
@@ -11079,9 +12911,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends ZipzoongCareRequestModelCreateArgs>(
-      args: SelectSubset<T, ZipzoongCareRequestModelCreateArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    create<T extends ZipzoongCareRequestModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareRequestModelCreateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many ZipzoongCareRequestModels.
@@ -11095,8 +12927,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends ZipzoongCareRequestModelCreateManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelCreateManyArgs>
+    createMany<T extends ZipzoongCareRequestModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -11111,9 +12943,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends ZipzoongCareRequestModelDeleteArgs>(
-      args: SelectSubset<T, ZipzoongCareRequestModelDeleteArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    delete<T extends ZipzoongCareRequestModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareRequestModelDeleteArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one ZipzoongCareRequestModel.
@@ -11130,9 +12962,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ZipzoongCareRequestModelUpdateArgs>(
-      args: SelectSubset<T, ZipzoongCareRequestModelUpdateArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    update<T extends ZipzoongCareRequestModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more ZipzoongCareRequestModels.
@@ -11146,8 +12978,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends ZipzoongCareRequestModelDeleteManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareRequestModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareRequestModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareRequestModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -11167,8 +12999,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ZipzoongCareRequestModelUpdateManyArgs>(
-      args: SelectSubset<T, ZipzoongCareRequestModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareRequestModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -11188,9 +13020,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends ZipzoongCareRequestModelUpsertArgs>(
-      args: SelectSubset<T, ZipzoongCareRequestModelUpsertArgs>
-    ): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T>>
+    upsert<T extends ZipzoongCareRequestModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareRequestModelUpsertArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of ZipzoongCareRequestModels.
@@ -11208,7 +13040,7 @@ export namespace Prisma {
     count<T extends ZipzoongCareRequestModelCountArgs>(
       args?: Subset<T, ZipzoongCareRequestModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ZipzoongCareRequestModelCountAggregateOutputType>
@@ -11326,7 +13158,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ZipzoongCareRequestModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareRequestModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -11341,11 +13173,11 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    requester<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
+    requester<T extends CustomerModelArgs<ExtArgs> = {}>(args?: Subset<T, CustomerModelArgs<ExtArgs>>): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    consultation_time_checks<T extends ZipzoongCareRequestModel$consultation_time_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$consultation_time_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>| Null>;
+    consultation_time_checks<T extends ZipzoongCareRequestModel$consultation_time_checksArgs<ExtArgs> = {}>(args?: Subset<T, ZipzoongCareRequestModel$consultation_time_checksArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    service_checks<T extends ZipzoongCareRequestModel$service_checksArgs= {}>(args?: Subset<T, ZipzoongCareRequestModel$service_checksArgs>): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>| Null>;
+    service_checks<T extends ZipzoongCareRequestModel$service_checksArgs<ExtArgs> = {}>(args?: Subset<T, ZipzoongCareRequestModel$service_checksArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -11377,15 +13209,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel base type for findUnique actions
    */
-  export type ZipzoongCareRequestModelFindUniqueArgsBase = {
+  export type ZipzoongCareRequestModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareRequestModel to fetch.
      */
@@ -11395,7 +13227,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel findUnique
    */
-  export interface ZipzoongCareRequestModelFindUniqueArgs extends ZipzoongCareRequestModelFindUniqueArgsBase {
+  export interface ZipzoongCareRequestModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareRequestModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -11407,15 +13239,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel findUniqueOrThrow
    */
-  export type ZipzoongCareRequestModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareRequestModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareRequestModel to fetch.
      */
@@ -11426,15 +13258,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel base type for findFirst actions
    */
-  export type ZipzoongCareRequestModelFindFirstArgsBase = {
+  export type ZipzoongCareRequestModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareRequestModel to fetch.
      */
@@ -11474,7 +13306,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel findFirst
    */
-  export interface ZipzoongCareRequestModelFindFirstArgs extends ZipzoongCareRequestModelFindFirstArgsBase {
+  export interface ZipzoongCareRequestModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareRequestModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -11486,15 +13318,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel findFirstOrThrow
    */
-  export type ZipzoongCareRequestModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareRequestModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareRequestModel to fetch.
      */
@@ -11535,15 +13367,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel findMany
    */
-  export type ZipzoongCareRequestModelFindManyArgs = {
+  export type ZipzoongCareRequestModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareRequestModels to fetch.
      */
@@ -11579,15 +13411,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel create
    */
-  export type ZipzoongCareRequestModelCreateArgs = {
+  export type ZipzoongCareRequestModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * The data needed to create a ZipzoongCareRequestModel.
      */
@@ -11598,7 +13430,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel createMany
    */
-  export type ZipzoongCareRequestModelCreateManyArgs = {
+  export type ZipzoongCareRequestModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many ZipzoongCareRequestModels.
      */
@@ -11610,15 +13442,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel update
    */
-  export type ZipzoongCareRequestModelUpdateArgs = {
+  export type ZipzoongCareRequestModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * The data needed to update a ZipzoongCareRequestModel.
      */
@@ -11633,7 +13465,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel updateMany
    */
-  export type ZipzoongCareRequestModelUpdateManyArgs = {
+  export type ZipzoongCareRequestModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update ZipzoongCareRequestModels.
      */
@@ -11648,15 +13480,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel upsert
    */
-  export type ZipzoongCareRequestModelUpsertArgs = {
+  export type ZipzoongCareRequestModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * The filter to search for the ZipzoongCareRequestModel to update in case it exists.
      */
@@ -11675,15 +13507,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel delete
    */
-  export type ZipzoongCareRequestModelDeleteArgs = {
+  export type ZipzoongCareRequestModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     /**
      * Filter which ZipzoongCareRequestModel to delete.
      */
@@ -11694,7 +13526,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel deleteMany
    */
-  export type ZipzoongCareRequestModelDeleteManyArgs = {
+  export type ZipzoongCareRequestModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareRequestModels to delete
      */
@@ -11705,15 +13537,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel.consultation_time_checks
    */
-  export type ZipzoongCareRequestModel$consultation_time_checksArgs = {
+  export type ZipzoongCareRequestModel$consultation_time_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithRelationInput>
     cursor?: ZipzoongCareConsultationTimeCheckModelWhereUniqueInput
@@ -11726,15 +13558,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel.service_checks
    */
-  export type ZipzoongCareRequestModel$service_checksArgs = {
+  export type ZipzoongCareRequestModel$service_checksArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     where?: ZipzoongCareServiceCheckModelWhereInput
     orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithRelationInput>
     cursor?: ZipzoongCareServiceCheckModelWhereUniqueInput
@@ -11747,15 +13579,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareRequestModel without action
    */
-  export type ZipzoongCareRequestModelArgs = {
+  export type ZipzoongCareRequestModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
   }
 
 
@@ -11834,7 +13666,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ZipzoongCareServiceCheckModelAggregateArgs = {
+  export type ZipzoongCareServiceCheckModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareServiceCheckModel to aggregate.
      */
@@ -11894,7 +13726,7 @@ export namespace Prisma {
 
 
 
-  export type ZipzoongCareServiceCheckModelGroupByArgs = {
+  export type ZipzoongCareServiceCheckModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ZipzoongCareServiceCheckModelWhereInput
     orderBy?: Enumerable<ZipzoongCareServiceCheckModelOrderByWithAggregationInput>
     by: ZipzoongCareServiceCheckModelScalarFieldEnum[]
@@ -11934,7 +13766,7 @@ export namespace Prisma {
     >
 
 
-  export type ZipzoongCareServiceCheckModelSelect = {
+  export type ZipzoongCareServiceCheckModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -11942,42 +13774,35 @@ export namespace Prisma {
     deleted_at?: boolean
     service_super_category_id?: boolean
     request_id?: boolean
-    service_super_category?: boolean | ServiceSuperCategoryModelArgs
-    request?: boolean | ZipzoongCareRequestModelArgs
+    service_super_category?: boolean | ServiceSuperCategoryModelArgs<ExtArgs>
+    request?: boolean | ZipzoongCareRequestModelArgs<ExtArgs>
+  }, ExtArgs["result"]["zipzoongCareServiceCheckModel"]>
+
+  export type ZipzoongCareServiceCheckModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    service_super_category_id?: boolean
+    request_id?: boolean
+  }
+
+  export type ZipzoongCareServiceCheckModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    service_super_category?: boolean | ServiceSuperCategoryModelArgs<ExtArgs>
+    request?: boolean | ZipzoongCareRequestModelArgs<ExtArgs>
   }
 
 
-  export type ZipzoongCareServiceCheckModelInclude = {
-    service_super_category?: boolean | ServiceSuperCategoryModelArgs
-    request?: boolean | ZipzoongCareRequestModelArgs
-  }
+  type ZipzoongCareServiceCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareServiceCheckModelArgs> = $Types.GetResult<ZipzoongCareServiceCheckModelPayload, S>
 
-  export type ZipzoongCareServiceCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareServiceCheckModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ZipzoongCareServiceCheckModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
-    ? ZipzoongCareServiceCheckModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['include'][P]> :
-        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ZipzoongCareServiceCheckModelArgs | ZipzoongCareServiceCheckModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'service_super_category' ? ServiceSuperCategoryModelGetPayload<S['select'][P]> :
-        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareServiceCheckModel ? ZipzoongCareServiceCheckModel[P] : never
-  } 
-      : ZipzoongCareServiceCheckModel
-
-
-  type ZipzoongCareServiceCheckModelCountArgs = 
+  type ZipzoongCareServiceCheckModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ZipzoongCareServiceCheckModelFindManyArgs, 'select' | 'include'> & {
       select?: ZipzoongCareServiceCheckModelCountAggregateInputType | true
     }
 
-  export interface ZipzoongCareServiceCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface ZipzoongCareServiceCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ZipzoongCareServiceCheckModel'], meta: { name: 'ZipzoongCareServiceCheckModel' } }
     /**
      * Find zero or one ZipzoongCareServiceCheckModel that matches the filter.
      * @param {ZipzoongCareServiceCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareServiceCheckModel
@@ -11989,9 +13814,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends ZipzoongCareServiceCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareServiceCheckModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one ZipzoongCareServiceCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -12005,9 +13830,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first ZipzoongCareServiceCheckModel that matches the filter.
@@ -12022,9 +13847,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends ZipzoongCareServiceCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>> : Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareServiceCheckModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareServiceCheckModel'> extends True ? Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first ZipzoongCareServiceCheckModel that matches the filter or
@@ -12040,9 +13865,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstOrThrowArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareServiceCheckModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more ZipzoongCareServiceCheckModels that matches the filter.
@@ -12060,9 +13885,9 @@ export namespace Prisma {
      * const zipzoongCareServiceCheckModelWithIdOnly = await prisma.zipzoongCareServiceCheckModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ZipzoongCareServiceCheckModelFindManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ZipzoongCareServiceCheckModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareServiceCheckModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a ZipzoongCareServiceCheckModel.
@@ -12076,9 +13901,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends ZipzoongCareServiceCheckModelCreateArgs>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelCreateArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    create<T extends ZipzoongCareServiceCheckModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelCreateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many ZipzoongCareServiceCheckModels.
@@ -12092,8 +13917,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends ZipzoongCareServiceCheckModelCreateManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelCreateManyArgs>
+    createMany<T extends ZipzoongCareServiceCheckModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -12108,9 +13933,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends ZipzoongCareServiceCheckModelDeleteArgs>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    delete<T extends ZipzoongCareServiceCheckModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one ZipzoongCareServiceCheckModel.
@@ -12127,9 +13952,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ZipzoongCareServiceCheckModelUpdateArgs>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    update<T extends ZipzoongCareServiceCheckModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more ZipzoongCareServiceCheckModels.
@@ -12143,8 +13968,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends ZipzoongCareServiceCheckModelDeleteManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareServiceCheckModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareServiceCheckModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -12164,8 +13989,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ZipzoongCareServiceCheckModelUpdateManyArgs>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareServiceCheckModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -12185,9 +14010,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends ZipzoongCareServiceCheckModelUpsertArgs>(
-      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpsertArgs>
-    ): Prisma__ZipzoongCareServiceCheckModelClient<ZipzoongCareServiceCheckModelGetPayload<T>>
+    upsert<T extends ZipzoongCareServiceCheckModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareServiceCheckModelUpsertArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareServiceCheckModelClient<$Types.GetResult<ZipzoongCareServiceCheckModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of ZipzoongCareServiceCheckModels.
@@ -12205,7 +14030,7 @@ export namespace Prisma {
     count<T extends ZipzoongCareServiceCheckModelCountArgs>(
       args?: Subset<T, ZipzoongCareServiceCheckModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ZipzoongCareServiceCheckModelCountAggregateOutputType>
@@ -12323,7 +14148,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ZipzoongCareServiceCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareServiceCheckModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -12338,9 +14163,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    service_super_category<T extends ServiceSuperCategoryModelArgs= {}>(args?: Subset<T, ServiceSuperCategoryModelArgs>): Prisma__ServiceSuperCategoryModelClient<ServiceSuperCategoryModelGetPayload<T> | Null>;
+    service_super_category<T extends ServiceSuperCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSuperCategoryModelArgs<ExtArgs>>): Prisma__ServiceSuperCategoryModelClient<$Types.GetResult<ServiceSuperCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
+    request<T extends ZipzoongCareRequestModelArgs<ExtArgs> = {}>(args?: Subset<T, ZipzoongCareRequestModelArgs<ExtArgs>>): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -12372,15 +14197,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel base type for findUnique actions
    */
-  export type ZipzoongCareServiceCheckModelFindUniqueArgsBase = {
+  export type ZipzoongCareServiceCheckModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
@@ -12390,7 +14215,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel findUnique
    */
-  export interface ZipzoongCareServiceCheckModelFindUniqueArgs extends ZipzoongCareServiceCheckModelFindUniqueArgsBase {
+  export interface ZipzoongCareServiceCheckModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareServiceCheckModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -12402,15 +14227,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel findUniqueOrThrow
    */
-  export type ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareServiceCheckModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
@@ -12421,15 +14246,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel base type for findFirst actions
    */
-  export type ZipzoongCareServiceCheckModelFindFirstArgsBase = {
+  export type ZipzoongCareServiceCheckModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
@@ -12469,7 +14294,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel findFirst
    */
-  export interface ZipzoongCareServiceCheckModelFindFirstArgs extends ZipzoongCareServiceCheckModelFindFirstArgsBase {
+  export interface ZipzoongCareServiceCheckModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareServiceCheckModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -12481,15 +14306,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel findFirstOrThrow
    */
-  export type ZipzoongCareServiceCheckModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareServiceCheckModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareServiceCheckModel to fetch.
      */
@@ -12530,15 +14355,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel findMany
    */
-  export type ZipzoongCareServiceCheckModelFindManyArgs = {
+  export type ZipzoongCareServiceCheckModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareServiceCheckModels to fetch.
      */
@@ -12574,15 +14399,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel create
    */
-  export type ZipzoongCareServiceCheckModelCreateArgs = {
+  export type ZipzoongCareServiceCheckModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * The data needed to create a ZipzoongCareServiceCheckModel.
      */
@@ -12593,7 +14418,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel createMany
    */
-  export type ZipzoongCareServiceCheckModelCreateManyArgs = {
+  export type ZipzoongCareServiceCheckModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many ZipzoongCareServiceCheckModels.
      */
@@ -12605,15 +14430,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel update
    */
-  export type ZipzoongCareServiceCheckModelUpdateArgs = {
+  export type ZipzoongCareServiceCheckModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * The data needed to update a ZipzoongCareServiceCheckModel.
      */
@@ -12628,7 +14453,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel updateMany
    */
-  export type ZipzoongCareServiceCheckModelUpdateManyArgs = {
+  export type ZipzoongCareServiceCheckModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update ZipzoongCareServiceCheckModels.
      */
@@ -12643,15 +14468,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel upsert
    */
-  export type ZipzoongCareServiceCheckModelUpsertArgs = {
+  export type ZipzoongCareServiceCheckModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * The filter to search for the ZipzoongCareServiceCheckModel to update in case it exists.
      */
@@ -12670,15 +14495,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel delete
    */
-  export type ZipzoongCareServiceCheckModelDeleteArgs = {
+  export type ZipzoongCareServiceCheckModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
     /**
      * Filter which ZipzoongCareServiceCheckModel to delete.
      */
@@ -12689,7 +14514,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel deleteMany
    */
-  export type ZipzoongCareServiceCheckModelDeleteManyArgs = {
+  export type ZipzoongCareServiceCheckModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareServiceCheckModels to delete
      */
@@ -12700,15 +14525,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareServiceCheckModel without action
    */
-  export type ZipzoongCareServiceCheckModelArgs = {
+  export type ZipzoongCareServiceCheckModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareServiceCheckModel
      */
-    select?: ZipzoongCareServiceCheckModelSelect | null
+    select?: ZipzoongCareServiceCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareServiceCheckModelInclude | null
+    include?: ZipzoongCareServiceCheckModelInclude<ExtArgs> | null
   }
 
 
@@ -12793,7 +14618,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ZipzoongCareConsultationTimeCheckModelAggregateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareConsultationTimeCheckModel to aggregate.
      */
@@ -12853,7 +14678,7 @@ export namespace Prisma {
 
 
 
-  export type ZipzoongCareConsultationTimeCheckModelGroupByArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: ZipzoongCareConsultationTimeCheckModelWhereInput
     orderBy?: Enumerable<ZipzoongCareConsultationTimeCheckModelOrderByWithAggregationInput>
     by: ZipzoongCareConsultationTimeCheckModelScalarFieldEnum[]
@@ -12894,7 +14719,7 @@ export namespace Prisma {
     >
 
 
-  export type ZipzoongCareConsultationTimeCheckModelSelect = {
+  export type ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -12903,38 +14728,34 @@ export namespace Prisma {
     start_time?: boolean
     end_time?: boolean
     request_id?: boolean
-    request?: boolean | ZipzoongCareRequestModelArgs
+    request?: boolean | ZipzoongCareRequestModelArgs<ExtArgs>
+  }, ExtArgs["result"]["zipzoongCareConsultationTimeCheckModel"]>
+
+  export type ZipzoongCareConsultationTimeCheckModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    request_id?: boolean
+  }
+
+  export type ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    request?: boolean | ZipzoongCareRequestModelArgs<ExtArgs>
   }
 
 
-  export type ZipzoongCareConsultationTimeCheckModelInclude = {
-    request?: boolean | ZipzoongCareRequestModelArgs
-  }
+  type ZipzoongCareConsultationTimeCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareConsultationTimeCheckModelArgs> = $Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload, S>
 
-  export type ZipzoongCareConsultationTimeCheckModelGetPayload<S extends boolean | null | undefined | ZipzoongCareConsultationTimeCheckModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? ZipzoongCareConsultationTimeCheckModel :
-    S extends undefined ? never :
-    S extends { include: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
-    ? ZipzoongCareConsultationTimeCheckModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (ZipzoongCareConsultationTimeCheckModelArgs | ZipzoongCareConsultationTimeCheckModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'request' ? ZipzoongCareRequestModelGetPayload<S['select'][P]> :  P extends keyof ZipzoongCareConsultationTimeCheckModel ? ZipzoongCareConsultationTimeCheckModel[P] : never
-  } 
-      : ZipzoongCareConsultationTimeCheckModel
-
-
-  type ZipzoongCareConsultationTimeCheckModelCountArgs = 
+  type ZipzoongCareConsultationTimeCheckModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<ZipzoongCareConsultationTimeCheckModelFindManyArgs, 'select' | 'include'> & {
       select?: ZipzoongCareConsultationTimeCheckModelCountAggregateInputType | true
     }
 
-  export interface ZipzoongCareConsultationTimeCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface ZipzoongCareConsultationTimeCheckModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ZipzoongCareConsultationTimeCheckModel'], meta: { name: 'ZipzoongCareConsultationTimeCheckModel' } }
     /**
      * Find zero or one ZipzoongCareConsultationTimeCheckModel that matches the filter.
      * @param {ZipzoongCareConsultationTimeCheckModelFindUniqueArgs} args - Arguments to find a ZipzoongCareConsultationTimeCheckModel
@@ -12946,9 +14767,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
+    findUnique<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one ZipzoongCareConsultationTimeCheckModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -12962,9 +14783,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    findUniqueOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter.
@@ -12979,9 +14800,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends ZipzoongCareConsultationTimeCheckModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T> | null, null>
+    findFirst<T extends ZipzoongCareConsultationTimeCheckModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ZipzoongCareConsultationTimeCheckModel'> extends True ? Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first ZipzoongCareConsultationTimeCheckModel that matches the filter or
@@ -12997,9 +14818,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    findFirstOrThrow<T extends ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more ZipzoongCareConsultationTimeCheckModels that matches the filter.
@@ -13017,9 +14838,9 @@ export namespace Prisma {
      * const zipzoongCareConsultationTimeCheckModelWithIdOnly = await prisma.zipzoongCareConsultationTimeCheckModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends ZipzoongCareConsultationTimeCheckModelFindManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>>
+    findMany<T extends ZipzoongCareConsultationTimeCheckModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a ZipzoongCareConsultationTimeCheckModel.
@@ -13033,9 +14854,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends ZipzoongCareConsultationTimeCheckModelCreateArgs>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    create<T extends ZipzoongCareConsultationTimeCheckModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many ZipzoongCareConsultationTimeCheckModels.
@@ -13049,8 +14870,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends ZipzoongCareConsultationTimeCheckModelCreateManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateManyArgs>
+    createMany<T extends ZipzoongCareConsultationTimeCheckModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -13065,9 +14886,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends ZipzoongCareConsultationTimeCheckModelDeleteArgs>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    delete<T extends ZipzoongCareConsultationTimeCheckModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one ZipzoongCareConsultationTimeCheckModel.
@@ -13084,9 +14905,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends ZipzoongCareConsultationTimeCheckModelUpdateArgs>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    update<T extends ZipzoongCareConsultationTimeCheckModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more ZipzoongCareConsultationTimeCheckModels.
@@ -13100,8 +14921,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>(
-      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteManyArgs>
+    deleteMany<T extends ZipzoongCareConsultationTimeCheckModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -13121,8 +14942,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateManyArgs>
+    updateMany<T extends ZipzoongCareConsultationTimeCheckModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -13142,9 +14963,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends ZipzoongCareConsultationTimeCheckModelUpsertArgs>(
-      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpsertArgs>
-    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<ZipzoongCareConsultationTimeCheckModelGetPayload<T>>
+    upsert<T extends ZipzoongCareConsultationTimeCheckModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ZipzoongCareConsultationTimeCheckModelUpsertArgs<ExtArgs>>
+    ): Prisma__ZipzoongCareConsultationTimeCheckModelClient<$Types.GetResult<ZipzoongCareConsultationTimeCheckModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of ZipzoongCareConsultationTimeCheckModels.
@@ -13162,7 +14983,7 @@ export namespace Prisma {
     count<T extends ZipzoongCareConsultationTimeCheckModelCountArgs>(
       args?: Subset<T, ZipzoongCareConsultationTimeCheckModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], ZipzoongCareConsultationTimeCheckModelCountAggregateOutputType>
@@ -13280,7 +15101,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__ZipzoongCareConsultationTimeCheckModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__ZipzoongCareConsultationTimeCheckModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -13295,7 +15116,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    request<T extends ZipzoongCareRequestModelArgs= {}>(args?: Subset<T, ZipzoongCareRequestModelArgs>): Prisma__ZipzoongCareRequestModelClient<ZipzoongCareRequestModelGetPayload<T> | Null>;
+    request<T extends ZipzoongCareRequestModelArgs<ExtArgs> = {}>(args?: Subset<T, ZipzoongCareRequestModelArgs<ExtArgs>>): Prisma__ZipzoongCareRequestModelClient<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -13327,15 +15148,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel base type for findUnique actions
    */
-  export type ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase = {
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
@@ -13345,7 +15166,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel findUnique
    */
-  export interface ZipzoongCareConsultationTimeCheckModelFindUniqueArgs extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase {
+  export interface ZipzoongCareConsultationTimeCheckModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareConsultationTimeCheckModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -13357,15 +15178,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel findUniqueOrThrow
    */
-  export type ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
@@ -13376,15 +15197,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel base type for findFirst actions
    */
-  export type ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase = {
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
@@ -13424,7 +15245,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel findFirst
    */
-  export interface ZipzoongCareConsultationTimeCheckModelFindFirstArgs extends ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase {
+  export interface ZipzoongCareConsultationTimeCheckModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends ZipzoongCareConsultationTimeCheckModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -13436,15 +15257,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel findFirstOrThrow
    */
-  export type ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareConsultationTimeCheckModel to fetch.
      */
@@ -13485,15 +15306,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel findMany
    */
-  export type ZipzoongCareConsultationTimeCheckModelFindManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter, which ZipzoongCareConsultationTimeCheckModels to fetch.
      */
@@ -13529,15 +15350,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel create
    */
-  export type ZipzoongCareConsultationTimeCheckModelCreateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * The data needed to create a ZipzoongCareConsultationTimeCheckModel.
      */
@@ -13548,7 +15369,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel createMany
    */
-  export type ZipzoongCareConsultationTimeCheckModelCreateManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many ZipzoongCareConsultationTimeCheckModels.
      */
@@ -13560,15 +15381,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel update
    */
-  export type ZipzoongCareConsultationTimeCheckModelUpdateArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * The data needed to update a ZipzoongCareConsultationTimeCheckModel.
      */
@@ -13583,7 +15404,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel updateMany
    */
-  export type ZipzoongCareConsultationTimeCheckModelUpdateManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update ZipzoongCareConsultationTimeCheckModels.
      */
@@ -13598,15 +15419,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel upsert
    */
-  export type ZipzoongCareConsultationTimeCheckModelUpsertArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * The filter to search for the ZipzoongCareConsultationTimeCheckModel to update in case it exists.
      */
@@ -13625,15 +15446,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel delete
    */
-  export type ZipzoongCareConsultationTimeCheckModelDeleteArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
     /**
      * Filter which ZipzoongCareConsultationTimeCheckModel to delete.
      */
@@ -13644,7 +15465,7 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel deleteMany
    */
-  export type ZipzoongCareConsultationTimeCheckModelDeleteManyArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which ZipzoongCareConsultationTimeCheckModels to delete
      */
@@ -13655,15 +15476,15 @@ export namespace Prisma {
   /**
    * ZipzoongCareConsultationTimeCheckModel without action
    */
-  export type ZipzoongCareConsultationTimeCheckModelArgs = {
+  export type ZipzoongCareConsultationTimeCheckModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareConsultationTimeCheckModel
      */
-    select?: ZipzoongCareConsultationTimeCheckModelSelect | null
+    select?: ZipzoongCareConsultationTimeCheckModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareConsultationTimeCheckModelInclude | null
+    include?: ZipzoongCareConsultationTimeCheckModelInclude<ExtArgs> | null
   }
 
 
@@ -13742,7 +15563,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type UserModelAggregateArgs = {
+  export type UserModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which UserModel to aggregate.
      */
@@ -13802,7 +15623,7 @@ export namespace Prisma {
 
 
 
-  export type UserModelGroupByArgs = {
+  export type UserModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: UserModelWhereInput
     orderBy?: Enumerable<UserModelOrderByWithAggregationInput>
     by: UserModelScalarFieldEnum[]
@@ -13842,7 +15663,7 @@ export namespace Prisma {
     >
 
 
-  export type UserModelSelect = {
+  export type UserModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -13850,50 +15671,39 @@ export namespace Prisma {
     deleted_at?: boolean
     name?: boolean
     email?: boolean
-    customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
-    _count?: boolean | UserModelCountOutputTypeArgs
+    customer?: boolean | CustomerModelArgs<ExtArgs>
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs<ExtArgs>
+    _count?: boolean | UserModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["userModel"]>
+
+  export type UserModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    name?: boolean
+    email?: boolean
+  }
+
+  export type UserModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerModelArgs<ExtArgs>
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs<ExtArgs>
+    _count?: boolean | UserModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type UserModelInclude = {
-    customer?: boolean | CustomerModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-    agreement_acceptances?: boolean | UserModel$agreement_acceptancesArgs
-    _count?: boolean | UserModelCountOutputTypeArgs
-  }
+  type UserModelGetPayload<S extends boolean | null | undefined | UserModelArgs> = $Types.GetResult<UserModelPayload, S>
 
-  export type UserModelGetPayload<S extends boolean | null | undefined | UserModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? UserModel :
-    S extends undefined ? never :
-    S extends { include: any } & (UserModelArgs | UserModelFindManyArgs)
-    ? UserModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :
-        P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? UserModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (UserModelArgs | UserModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :
-        P extends 'agreement_acceptances' ? Array < AgreementAcceptanceModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? UserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserModel ? UserModel[P] : never
-  } 
-      : UserModel
-
-
-  type UserModelCountArgs = 
+  type UserModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<UserModelFindManyArgs, 'select' | 'include'> & {
       select?: UserModelCountAggregateInputType | true
     }
 
-  export interface UserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface UserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserModel'], meta: { name: 'UserModel' } }
     /**
      * Find zero or one UserModel that matches the filter.
      * @param {UserModelFindUniqueArgs} args - Arguments to find a UserModel
@@ -13905,9 +15715,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends UserModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, UserModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserModel'> extends True ? Prisma__UserModelClient<UserModelGetPayload<T>> : Prisma__UserModelClient<UserModelGetPayload<T> | null, null>
+    findUnique<T extends UserModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserModel'> extends True ? Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one UserModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -13921,9 +15731,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends UserModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, UserModelFindUniqueOrThrowArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    findUniqueOrThrow<T extends UserModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first UserModel that matches the filter.
@@ -13938,9 +15748,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends UserModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, UserModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserModel'> extends True ? Prisma__UserModelClient<UserModelGetPayload<T>> : Prisma__UserModelClient<UserModelGetPayload<T> | null, null>
+    findFirst<T extends UserModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserModel'> extends True ? Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first UserModel that matches the filter or
@@ -13956,9 +15766,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends UserModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserModelFindFirstOrThrowArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    findFirstOrThrow<T extends UserModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more UserModels that matches the filter.
@@ -13976,9 +15786,9 @@ export namespace Prisma {
      * const userModelWithIdOnly = await prisma.userModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends UserModelFindManyArgs>(
-      args?: SelectSubset<T, UserModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<UserModelGetPayload<T>>>
+    findMany<T extends UserModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a UserModel.
@@ -13992,9 +15802,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends UserModelCreateArgs>(
-      args: SelectSubset<T, UserModelCreateArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    create<T extends UserModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, UserModelCreateArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many UserModels.
@@ -14008,8 +15818,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends UserModelCreateManyArgs>(
-      args?: SelectSubset<T, UserModelCreateManyArgs>
+    createMany<T extends UserModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -14024,9 +15834,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends UserModelDeleteArgs>(
-      args: SelectSubset<T, UserModelDeleteArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    delete<T extends UserModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, UserModelDeleteArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one UserModel.
@@ -14043,9 +15853,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends UserModelUpdateArgs>(
-      args: SelectSubset<T, UserModelUpdateArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    update<T extends UserModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, UserModelUpdateArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more UserModels.
@@ -14059,8 +15869,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends UserModelDeleteManyArgs>(
-      args?: SelectSubset<T, UserModelDeleteManyArgs>
+    deleteMany<T extends UserModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -14080,8 +15890,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends UserModelUpdateManyArgs>(
-      args: SelectSubset<T, UserModelUpdateManyArgs>
+    updateMany<T extends UserModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, UserModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -14101,9 +15911,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends UserModelUpsertArgs>(
-      args: SelectSubset<T, UserModelUpsertArgs>
-    ): Prisma__UserModelClient<UserModelGetPayload<T>>
+    upsert<T extends UserModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, UserModelUpsertArgs<ExtArgs>>
+    ): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of UserModels.
@@ -14121,7 +15931,7 @@ export namespace Prisma {
     count<T extends UserModelCountArgs>(
       args?: Subset<T, UserModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], UserModelCountAggregateOutputType>
@@ -14239,7 +16049,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__UserModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__UserModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -14254,11 +16064,11 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
+    customer<T extends CustomerModelArgs<ExtArgs> = {}>(args?: Subset<T, CustomerModelArgs<ExtArgs>>): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    agreement_acceptances<T extends UserModel$agreement_acceptancesArgs= {}>(args?: Subset<T, UserModel$agreement_acceptancesArgs>): Prisma.PrismaPromise<Array<AgreementAcceptanceModelGetPayload<T>>| Null>;
+    agreement_acceptances<T extends UserModel$agreement_acceptancesArgs<ExtArgs> = {}>(args?: Subset<T, UserModel$agreement_acceptancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<AgreementAcceptanceModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -14290,15 +16100,15 @@ export namespace Prisma {
   /**
    * UserModel base type for findUnique actions
    */
-  export type UserModelFindUniqueArgsBase = {
+  export type UserModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter, which UserModel to fetch.
      */
@@ -14308,7 +16118,7 @@ export namespace Prisma {
   /**
    * UserModel findUnique
    */
-  export interface UserModelFindUniqueArgs extends UserModelFindUniqueArgsBase {
+  export interface UserModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends UserModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -14320,15 +16130,15 @@ export namespace Prisma {
   /**
    * UserModel findUniqueOrThrow
    */
-  export type UserModelFindUniqueOrThrowArgs = {
+  export type UserModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter, which UserModel to fetch.
      */
@@ -14339,15 +16149,15 @@ export namespace Prisma {
   /**
    * UserModel base type for findFirst actions
    */
-  export type UserModelFindFirstArgsBase = {
+  export type UserModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter, which UserModel to fetch.
      */
@@ -14387,7 +16197,7 @@ export namespace Prisma {
   /**
    * UserModel findFirst
    */
-  export interface UserModelFindFirstArgs extends UserModelFindFirstArgsBase {
+  export interface UserModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends UserModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -14399,15 +16209,15 @@ export namespace Prisma {
   /**
    * UserModel findFirstOrThrow
    */
-  export type UserModelFindFirstOrThrowArgs = {
+  export type UserModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter, which UserModel to fetch.
      */
@@ -14448,15 +16258,15 @@ export namespace Prisma {
   /**
    * UserModel findMany
    */
-  export type UserModelFindManyArgs = {
+  export type UserModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter, which UserModels to fetch.
      */
@@ -14492,15 +16302,15 @@ export namespace Prisma {
   /**
    * UserModel create
    */
-  export type UserModelCreateArgs = {
+  export type UserModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * The data needed to create a UserModel.
      */
@@ -14511,7 +16321,7 @@ export namespace Prisma {
   /**
    * UserModel createMany
    */
-  export type UserModelCreateManyArgs = {
+  export type UserModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many UserModels.
      */
@@ -14523,15 +16333,15 @@ export namespace Prisma {
   /**
    * UserModel update
    */
-  export type UserModelUpdateArgs = {
+  export type UserModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * The data needed to update a UserModel.
      */
@@ -14546,7 +16356,7 @@ export namespace Prisma {
   /**
    * UserModel updateMany
    */
-  export type UserModelUpdateManyArgs = {
+  export type UserModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update UserModels.
      */
@@ -14561,15 +16371,15 @@ export namespace Prisma {
   /**
    * UserModel upsert
    */
-  export type UserModelUpsertArgs = {
+  export type UserModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * The filter to search for the UserModel to update in case it exists.
      */
@@ -14588,15 +16398,15 @@ export namespace Prisma {
   /**
    * UserModel delete
    */
-  export type UserModelDeleteArgs = {
+  export type UserModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
     /**
      * Filter which UserModel to delete.
      */
@@ -14607,7 +16417,7 @@ export namespace Prisma {
   /**
    * UserModel deleteMany
    */
-  export type UserModelDeleteManyArgs = {
+  export type UserModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which UserModels to delete
      */
@@ -14618,15 +16428,15 @@ export namespace Prisma {
   /**
    * UserModel.agreement_acceptances
    */
-  export type UserModel$agreement_acceptancesArgs = {
+  export type UserModel$agreement_acceptancesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AgreementAcceptanceModel
      */
-    select?: AgreementAcceptanceModelSelect | null
+    select?: AgreementAcceptanceModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: AgreementAcceptanceModelInclude | null
+    include?: AgreementAcceptanceModelInclude<ExtArgs> | null
     where?: AgreementAcceptanceModelWhereInput
     orderBy?: Enumerable<AgreementAcceptanceModelOrderByWithRelationInput>
     cursor?: AgreementAcceptanceModelWhereUniqueInput
@@ -14639,15 +16449,15 @@ export namespace Prisma {
   /**
    * UserModel without action
    */
-  export type UserModelArgs = {
+  export type UserModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserModel
      */
-    select?: UserModelSelect | null
+    select?: UserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: UserModelInclude | null
+    include?: UserModelInclude<ExtArgs> | null
   }
 
 
@@ -14726,7 +16536,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type CustomerModelAggregateArgs = {
+  export type CustomerModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which CustomerModel to aggregate.
      */
@@ -14786,7 +16596,7 @@ export namespace Prisma {
 
 
 
-  export type CustomerModelGroupByArgs = {
+  export type CustomerModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: CustomerModelWhereInput
     orderBy?: Enumerable<CustomerModelOrderByWithAggregationInput>
     by: CustomerModelScalarFieldEnum[]
@@ -14826,7 +16636,7 @@ export namespace Prisma {
     >
 
 
-  export type CustomerModelSelect = {
+  export type CustomerModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     birth?: boolean
     gender?: boolean
@@ -14834,50 +16644,39 @@ export namespace Prisma {
     address_first?: boolean
     address_second?: boolean
     profile_image_url?: boolean
-    base?: boolean | UserModelArgs
-    oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
-    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
-    _count?: boolean | CustomerModelCountOutputTypeArgs
+    base?: boolean | UserModelArgs<ExtArgs>
+    oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs<ExtArgs>
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs<ExtArgs>
+    _count?: boolean | CustomerModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["customerModel"]>
+
+  export type CustomerModelSelectScalar = {
+    id?: boolean
+    birth?: boolean
+    gender?: boolean
+    phone?: boolean
+    address_first?: boolean
+    address_second?: boolean
+    profile_image_url?: boolean
+  }
+
+  export type CustomerModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    base?: boolean | UserModelArgs<ExtArgs>
+    oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs<ExtArgs>
+    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs<ExtArgs>
+    _count?: boolean | CustomerModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type CustomerModelInclude = {
-    base?: boolean | UserModelArgs
-    oauth_accounts?: boolean | CustomerModel$oauth_accountsArgs
-    zipzoong_care_requests?: boolean | CustomerModel$zipzoong_care_requestsArgs
-    _count?: boolean | CustomerModelCountOutputTypeArgs
-  }
+  type CustomerModelGetPayload<S extends boolean | null | undefined | CustomerModelArgs> = $Types.GetResult<CustomerModelPayload, S>
 
-  export type CustomerModelGetPayload<S extends boolean | null | undefined | CustomerModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CustomerModel :
-    S extends undefined ? never :
-    S extends { include: any } & (CustomerModelArgs | CustomerModelFindManyArgs)
-    ? CustomerModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? UserModelGetPayload<S['include'][P]> :
-        P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
-        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (CustomerModelArgs | CustomerModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? UserModelGetPayload<S['select'][P]> :
-        P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
-        P extends 'zipzoong_care_requests' ? Array < ZipzoongCareRequestModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? CustomerModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof CustomerModel ? CustomerModel[P] : never
-  } 
-      : CustomerModel
-
-
-  type CustomerModelCountArgs = 
+  type CustomerModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<CustomerModelFindManyArgs, 'select' | 'include'> & {
       select?: CustomerModelCountAggregateInputType | true
     }
 
-  export interface CustomerModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface CustomerModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomerModel'], meta: { name: 'CustomerModel' } }
     /**
      * Find zero or one CustomerModel that matches the filter.
      * @param {CustomerModelFindUniqueArgs} args - Arguments to find a CustomerModel
@@ -14889,9 +16688,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends CustomerModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, CustomerModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CustomerModel'> extends True ? Prisma__CustomerModelClient<CustomerModelGetPayload<T>> : Prisma__CustomerModelClient<CustomerModelGetPayload<T> | null, null>
+    findUnique<T extends CustomerModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CustomerModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CustomerModel'> extends True ? Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one CustomerModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -14905,9 +16704,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends CustomerModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CustomerModelFindUniqueOrThrowArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    findUniqueOrThrow<T extends CustomerModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CustomerModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first CustomerModel that matches the filter.
@@ -14922,9 +16721,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends CustomerModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, CustomerModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CustomerModel'> extends True ? Prisma__CustomerModelClient<CustomerModelGetPayload<T>> : Prisma__CustomerModelClient<CustomerModelGetPayload<T> | null, null>
+    findFirst<T extends CustomerModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CustomerModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CustomerModel'> extends True ? Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first CustomerModel that matches the filter or
@@ -14940,9 +16739,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends CustomerModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CustomerModelFindFirstOrThrowArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    findFirstOrThrow<T extends CustomerModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CustomerModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more CustomerModels that matches the filter.
@@ -14960,9 +16759,9 @@ export namespace Prisma {
      * const customerModelWithIdOnly = await prisma.customerModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends CustomerModelFindManyArgs>(
-      args?: SelectSubset<T, CustomerModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<CustomerModelGetPayload<T>>>
+    findMany<T extends CustomerModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CustomerModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a CustomerModel.
@@ -14976,9 +16775,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends CustomerModelCreateArgs>(
-      args: SelectSubset<T, CustomerModelCreateArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    create<T extends CustomerModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, CustomerModelCreateArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many CustomerModels.
@@ -14992,8 +16791,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends CustomerModelCreateManyArgs>(
-      args?: SelectSubset<T, CustomerModelCreateManyArgs>
+    createMany<T extends CustomerModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CustomerModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -15008,9 +16807,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends CustomerModelDeleteArgs>(
-      args: SelectSubset<T, CustomerModelDeleteArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    delete<T extends CustomerModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, CustomerModelDeleteArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one CustomerModel.
@@ -15027,9 +16826,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends CustomerModelUpdateArgs>(
-      args: SelectSubset<T, CustomerModelUpdateArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    update<T extends CustomerModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, CustomerModelUpdateArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more CustomerModels.
@@ -15043,8 +16842,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends CustomerModelDeleteManyArgs>(
-      args?: SelectSubset<T, CustomerModelDeleteManyArgs>
+    deleteMany<T extends CustomerModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CustomerModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -15064,8 +16863,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends CustomerModelUpdateManyArgs>(
-      args: SelectSubset<T, CustomerModelUpdateManyArgs>
+    updateMany<T extends CustomerModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, CustomerModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -15085,9 +16884,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends CustomerModelUpsertArgs>(
-      args: SelectSubset<T, CustomerModelUpsertArgs>
-    ): Prisma__CustomerModelClient<CustomerModelGetPayload<T>>
+    upsert<T extends CustomerModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, CustomerModelUpsertArgs<ExtArgs>>
+    ): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of CustomerModels.
@@ -15105,7 +16904,7 @@ export namespace Prisma {
     count<T extends CustomerModelCountArgs>(
       args?: Subset<T, CustomerModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], CustomerModelCountAggregateOutputType>
@@ -15223,7 +17022,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CustomerModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__CustomerModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -15238,11 +17037,11 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
+    base<T extends UserModelArgs<ExtArgs> = {}>(args?: Subset<T, UserModelArgs<ExtArgs>>): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    oauth_accounts<T extends CustomerModel$oauth_accountsArgs= {}>(args?: Subset<T, CustomerModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
+    oauth_accounts<T extends CustomerModel$oauth_accountsArgs<ExtArgs> = {}>(args?: Subset<T, CustomerModel$oauth_accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    zipzoong_care_requests<T extends CustomerModel$zipzoong_care_requestsArgs= {}>(args?: Subset<T, CustomerModel$zipzoong_care_requestsArgs>): Prisma.PrismaPromise<Array<ZipzoongCareRequestModelGetPayload<T>>| Null>;
+    zipzoong_care_requests<T extends CustomerModel$zipzoong_care_requestsArgs<ExtArgs> = {}>(args?: Subset<T, CustomerModel$zipzoong_care_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<ZipzoongCareRequestModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -15274,15 +17073,15 @@ export namespace Prisma {
   /**
    * CustomerModel base type for findUnique actions
    */
-  export type CustomerModelFindUniqueArgsBase = {
+  export type CustomerModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter, which CustomerModel to fetch.
      */
@@ -15292,7 +17091,7 @@ export namespace Prisma {
   /**
    * CustomerModel findUnique
    */
-  export interface CustomerModelFindUniqueArgs extends CustomerModelFindUniqueArgsBase {
+  export interface CustomerModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends CustomerModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -15304,15 +17103,15 @@ export namespace Prisma {
   /**
    * CustomerModel findUniqueOrThrow
    */
-  export type CustomerModelFindUniqueOrThrowArgs = {
+  export type CustomerModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter, which CustomerModel to fetch.
      */
@@ -15323,15 +17122,15 @@ export namespace Prisma {
   /**
    * CustomerModel base type for findFirst actions
    */
-  export type CustomerModelFindFirstArgsBase = {
+  export type CustomerModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter, which CustomerModel to fetch.
      */
@@ -15371,7 +17170,7 @@ export namespace Prisma {
   /**
    * CustomerModel findFirst
    */
-  export interface CustomerModelFindFirstArgs extends CustomerModelFindFirstArgsBase {
+  export interface CustomerModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends CustomerModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -15383,15 +17182,15 @@ export namespace Prisma {
   /**
    * CustomerModel findFirstOrThrow
    */
-  export type CustomerModelFindFirstOrThrowArgs = {
+  export type CustomerModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter, which CustomerModel to fetch.
      */
@@ -15432,15 +17231,15 @@ export namespace Prisma {
   /**
    * CustomerModel findMany
    */
-  export type CustomerModelFindManyArgs = {
+  export type CustomerModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter, which CustomerModels to fetch.
      */
@@ -15476,15 +17275,15 @@ export namespace Prisma {
   /**
    * CustomerModel create
    */
-  export type CustomerModelCreateArgs = {
+  export type CustomerModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * The data needed to create a CustomerModel.
      */
@@ -15495,7 +17294,7 @@ export namespace Prisma {
   /**
    * CustomerModel createMany
    */
-  export type CustomerModelCreateManyArgs = {
+  export type CustomerModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many CustomerModels.
      */
@@ -15507,15 +17306,15 @@ export namespace Prisma {
   /**
    * CustomerModel update
    */
-  export type CustomerModelUpdateArgs = {
+  export type CustomerModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * The data needed to update a CustomerModel.
      */
@@ -15530,7 +17329,7 @@ export namespace Prisma {
   /**
    * CustomerModel updateMany
    */
-  export type CustomerModelUpdateManyArgs = {
+  export type CustomerModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update CustomerModels.
      */
@@ -15545,15 +17344,15 @@ export namespace Prisma {
   /**
    * CustomerModel upsert
    */
-  export type CustomerModelUpsertArgs = {
+  export type CustomerModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * The filter to search for the CustomerModel to update in case it exists.
      */
@@ -15572,15 +17371,15 @@ export namespace Prisma {
   /**
    * CustomerModel delete
    */
-  export type CustomerModelDeleteArgs = {
+  export type CustomerModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
     /**
      * Filter which CustomerModel to delete.
      */
@@ -15591,7 +17390,7 @@ export namespace Prisma {
   /**
    * CustomerModel deleteMany
    */
-  export type CustomerModelDeleteManyArgs = {
+  export type CustomerModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which CustomerModels to delete
      */
@@ -15602,15 +17401,15 @@ export namespace Prisma {
   /**
    * CustomerModel.oauth_accounts
    */
-  export type CustomerModel$oauth_accountsArgs = {
+  export type CustomerModel$oauth_accountsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     where?: OauthAccountModelWhereInput
     orderBy?: Enumerable<OauthAccountModelOrderByWithRelationInput>
     cursor?: OauthAccountModelWhereUniqueInput
@@ -15623,15 +17422,15 @@ export namespace Prisma {
   /**
    * CustomerModel.zipzoong_care_requests
    */
-  export type CustomerModel$zipzoong_care_requestsArgs = {
+  export type CustomerModel$zipzoong_care_requestsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ZipzoongCareRequestModel
      */
-    select?: ZipzoongCareRequestModelSelect | null
+    select?: ZipzoongCareRequestModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: ZipzoongCareRequestModelInclude | null
+    include?: ZipzoongCareRequestModelInclude<ExtArgs> | null
     where?: ZipzoongCareRequestModelWhereInput
     orderBy?: Enumerable<ZipzoongCareRequestModelOrderByWithRelationInput>
     cursor?: ZipzoongCareRequestModelWhereUniqueInput
@@ -15644,15 +17443,15 @@ export namespace Prisma {
   /**
    * CustomerModel without action
    */
-  export type CustomerModelArgs = {
+  export type CustomerModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CustomerModel
      */
-    select?: CustomerModelSelect | null
+    select?: CustomerModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CustomerModelInclude | null
+    include?: CustomerModelInclude<ExtArgs> | null
   }
 
 
@@ -15737,7 +17536,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type BusinessUserModelAggregateArgs = {
+  export type BusinessUserModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which BusinessUserModel to aggregate.
      */
@@ -15797,7 +17596,7 @@ export namespace Prisma {
 
 
 
-  export type BusinessUserModelGroupByArgs = {
+  export type BusinessUserModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: BusinessUserModelWhereInput
     orderBy?: Enumerable<BusinessUserModelOrderByWithAggregationInput>
     by: BusinessUserModelScalarFieldEnum[]
@@ -15838,7 +17637,7 @@ export namespace Prisma {
     >
 
 
-  export type BusinessUserModelSelect = {
+  export type BusinessUserModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     is_verified?: boolean
     introduction_title?: boolean
@@ -15847,62 +17646,46 @@ export namespace Prisma {
     address_first?: boolean
     address_second?: boolean
     profile_image_url?: boolean
-    base?: boolean | UserModelArgs
-    re_agent?: boolean | REAgentModelArgs
-    hs_provider?: boolean | HSProviderModelArgs
-    certification_images?: boolean | BusinessUserModel$certification_imagesArgs
-    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
-    oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
-    _count?: boolean | BusinessUserModelCountOutputTypeArgs
+    base?: boolean | UserModelArgs<ExtArgs>
+    re_agent?: boolean | REAgentModelArgs<ExtArgs>
+    hs_provider?: boolean | HSProviderModelArgs<ExtArgs>
+    certification_images?: boolean | BusinessUserModel$certification_imagesArgs<ExtArgs>
+    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs<ExtArgs>
+    oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs<ExtArgs>
+    _count?: boolean | BusinessUserModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["businessUserModel"]>
+
+  export type BusinessUserModelSelectScalar = {
+    id?: boolean
+    is_verified?: boolean
+    introduction_title?: boolean
+    introduction_content?: boolean
+    phone?: boolean
+    address_first?: boolean
+    address_second?: boolean
+    profile_image_url?: boolean
+  }
+
+  export type BusinessUserModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    base?: boolean | UserModelArgs<ExtArgs>
+    re_agent?: boolean | REAgentModelArgs<ExtArgs>
+    hs_provider?: boolean | HSProviderModelArgs<ExtArgs>
+    certification_images?: boolean | BusinessUserModel$certification_imagesArgs<ExtArgs>
+    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs<ExtArgs>
+    oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs<ExtArgs>
+    _count?: boolean | BusinessUserModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type BusinessUserModelInclude = {
-    base?: boolean | UserModelArgs
-    re_agent?: boolean | REAgentModelArgs
-    hs_provider?: boolean | HSProviderModelArgs
-    certification_images?: boolean | BusinessUserModel$certification_imagesArgs
-    sub_expertises?: boolean | BusinessUserModel$sub_expertisesArgs
-    oauth_accounts?: boolean | BusinessUserModel$oauth_accountsArgs
-    _count?: boolean | BusinessUserModelCountOutputTypeArgs
-  }
+  type BusinessUserModelGetPayload<S extends boolean | null | undefined | BusinessUserModelArgs> = $Types.GetResult<BusinessUserModelPayload, S>
 
-  export type BusinessUserModelGetPayload<S extends boolean | null | undefined | BusinessUserModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessUserModel :
-    S extends undefined ? never :
-    S extends { include: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
-    ? BusinessUserModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? UserModelGetPayload<S['include'][P]> :
-        P extends 're_agent' ? REAgentModelGetPayload<S['include'][P]> | null :
-        P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> | null :
-        P extends 'certification_images' ? Array < BusinessCertificationImageModelGetPayload<S['include'][P]>>  :
-        P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['include'][P]>>  :
-        P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (BusinessUserModelArgs | BusinessUserModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? UserModelGetPayload<S['select'][P]> :
-        P extends 're_agent' ? REAgentModelGetPayload<S['select'][P]> | null :
-        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> | null :
-        P extends 'certification_images' ? Array < BusinessCertificationImageModelGetPayload<S['select'][P]>>  :
-        P extends 'sub_expertises' ? Array < SubExpertiseModelGetPayload<S['select'][P]>>  :
-        P extends 'oauth_accounts' ? Array < OauthAccountModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? BusinessUserModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof BusinessUserModel ? BusinessUserModel[P] : never
-  } 
-      : BusinessUserModel
-
-
-  type BusinessUserModelCountArgs = 
+  type BusinessUserModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<BusinessUserModelFindManyArgs, 'select' | 'include'> & {
       select?: BusinessUserModelCountAggregateInputType | true
     }
 
-  export interface BusinessUserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface BusinessUserModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessUserModel'], meta: { name: 'BusinessUserModel' } }
     /**
      * Find zero or one BusinessUserModel that matches the filter.
      * @param {BusinessUserModelFindUniqueArgs} args - Arguments to find a BusinessUserModel
@@ -15914,9 +17697,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends BusinessUserModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, BusinessUserModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
+    findUnique<T extends BusinessUserModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessUserModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one BusinessUserModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -15930,9 +17713,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends BusinessUserModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindUniqueOrThrowArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    findUniqueOrThrow<T extends BusinessUserModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessUserModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first BusinessUserModel that matches the filter.
@@ -15947,9 +17730,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends BusinessUserModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, BusinessUserModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>> : Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | null, null>
+    findFirst<T extends BusinessUserModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessUserModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessUserModel'> extends True ? Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first BusinessUserModel that matches the filter or
@@ -15965,9 +17748,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends BusinessUserModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindFirstOrThrowArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    findFirstOrThrow<T extends BusinessUserModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessUserModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more BusinessUserModels that matches the filter.
@@ -15985,9 +17768,9 @@ export namespace Prisma {
      * const businessUserModelWithIdOnly = await prisma.businessUserModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends BusinessUserModelFindManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<BusinessUserModelGetPayload<T>>>
+    findMany<T extends BusinessUserModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessUserModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a BusinessUserModel.
@@ -16001,9 +17784,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends BusinessUserModelCreateArgs>(
-      args: SelectSubset<T, BusinessUserModelCreateArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    create<T extends BusinessUserModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessUserModelCreateArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many BusinessUserModels.
@@ -16017,8 +17800,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends BusinessUserModelCreateManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelCreateManyArgs>
+    createMany<T extends BusinessUserModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessUserModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -16033,9 +17816,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends BusinessUserModelDeleteArgs>(
-      args: SelectSubset<T, BusinessUserModelDeleteArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    delete<T extends BusinessUserModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessUserModelDeleteArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one BusinessUserModel.
@@ -16052,9 +17835,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends BusinessUserModelUpdateArgs>(
-      args: SelectSubset<T, BusinessUserModelUpdateArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    update<T extends BusinessUserModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessUserModelUpdateArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more BusinessUserModels.
@@ -16068,8 +17851,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends BusinessUserModelDeleteManyArgs>(
-      args?: SelectSubset<T, BusinessUserModelDeleteManyArgs>
+    deleteMany<T extends BusinessUserModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessUserModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -16089,8 +17872,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends BusinessUserModelUpdateManyArgs>(
-      args: SelectSubset<T, BusinessUserModelUpdateManyArgs>
+    updateMany<T extends BusinessUserModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessUserModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -16110,9 +17893,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends BusinessUserModelUpsertArgs>(
-      args: SelectSubset<T, BusinessUserModelUpsertArgs>
-    ): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T>>
+    upsert<T extends BusinessUserModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessUserModelUpsertArgs<ExtArgs>>
+    ): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of BusinessUserModels.
@@ -16130,7 +17913,7 @@ export namespace Prisma {
     count<T extends BusinessUserModelCountArgs>(
       args?: Subset<T, BusinessUserModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], BusinessUserModelCountAggregateOutputType>
@@ -16248,7 +18031,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BusinessUserModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__BusinessUserModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -16263,17 +18046,17 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends UserModelArgs= {}>(args?: Subset<T, UserModelArgs>): Prisma__UserModelClient<UserModelGetPayload<T> | Null>;
+    base<T extends UserModelArgs<ExtArgs> = {}>(args?: Subset<T, UserModelArgs<ExtArgs>>): Prisma__UserModelClient<$Types.GetResult<UserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    re_agent<T extends REAgentModelArgs= {}>(args?: Subset<T, REAgentModelArgs>): Prisma__REAgentModelClient<REAgentModelGetPayload<T> | Null>;
+    re_agent<T extends REAgentModelArgs<ExtArgs> = {}>(args?: Subset<T, REAgentModelArgs<ExtArgs>>): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    hs_provider<T extends HSProviderModelArgs= {}>(args?: Subset<T, HSProviderModelArgs>): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | Null>;
+    hs_provider<T extends HSProviderModelArgs<ExtArgs> = {}>(args?: Subset<T, HSProviderModelArgs<ExtArgs>>): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    certification_images<T extends BusinessUserModel$certification_imagesArgs= {}>(args?: Subset<T, BusinessUserModel$certification_imagesArgs>): Prisma.PrismaPromise<Array<BusinessCertificationImageModelGetPayload<T>>| Null>;
+    certification_images<T extends BusinessUserModel$certification_imagesArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModel$certification_imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    sub_expertises<T extends BusinessUserModel$sub_expertisesArgs= {}>(args?: Subset<T, BusinessUserModel$sub_expertisesArgs>): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>| Null>;
+    sub_expertises<T extends BusinessUserModel$sub_expertisesArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModel$sub_expertisesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
-    oauth_accounts<T extends BusinessUserModel$oauth_accountsArgs= {}>(args?: Subset<T, BusinessUserModel$oauth_accountsArgs>): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>| Null>;
+    oauth_accounts<T extends BusinessUserModel$oauth_accountsArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModel$oauth_accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -16305,15 +18088,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel base type for findUnique actions
    */
-  export type BusinessUserModelFindUniqueArgsBase = {
+  export type BusinessUserModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessUserModel to fetch.
      */
@@ -16323,7 +18106,7 @@ export namespace Prisma {
   /**
    * BusinessUserModel findUnique
    */
-  export interface BusinessUserModelFindUniqueArgs extends BusinessUserModelFindUniqueArgsBase {
+  export interface BusinessUserModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BusinessUserModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -16335,15 +18118,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel findUniqueOrThrow
    */
-  export type BusinessUserModelFindUniqueOrThrowArgs = {
+  export type BusinessUserModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessUserModel to fetch.
      */
@@ -16354,15 +18137,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel base type for findFirst actions
    */
-  export type BusinessUserModelFindFirstArgsBase = {
+  export type BusinessUserModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessUserModel to fetch.
      */
@@ -16402,7 +18185,7 @@ export namespace Prisma {
   /**
    * BusinessUserModel findFirst
    */
-  export interface BusinessUserModelFindFirstArgs extends BusinessUserModelFindFirstArgsBase {
+  export interface BusinessUserModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BusinessUserModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -16414,15 +18197,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel findFirstOrThrow
    */
-  export type BusinessUserModelFindFirstOrThrowArgs = {
+  export type BusinessUserModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessUserModel to fetch.
      */
@@ -16463,15 +18246,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel findMany
    */
-  export type BusinessUserModelFindManyArgs = {
+  export type BusinessUserModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessUserModels to fetch.
      */
@@ -16507,15 +18290,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel create
    */
-  export type BusinessUserModelCreateArgs = {
+  export type BusinessUserModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * The data needed to create a BusinessUserModel.
      */
@@ -16526,7 +18309,7 @@ export namespace Prisma {
   /**
    * BusinessUserModel createMany
    */
-  export type BusinessUserModelCreateManyArgs = {
+  export type BusinessUserModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many BusinessUserModels.
      */
@@ -16538,15 +18321,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel update
    */
-  export type BusinessUserModelUpdateArgs = {
+  export type BusinessUserModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * The data needed to update a BusinessUserModel.
      */
@@ -16561,7 +18344,7 @@ export namespace Prisma {
   /**
    * BusinessUserModel updateMany
    */
-  export type BusinessUserModelUpdateManyArgs = {
+  export type BusinessUserModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update BusinessUserModels.
      */
@@ -16576,15 +18359,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel upsert
    */
-  export type BusinessUserModelUpsertArgs = {
+  export type BusinessUserModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * The filter to search for the BusinessUserModel to update in case it exists.
      */
@@ -16603,15 +18386,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel delete
    */
-  export type BusinessUserModelDeleteArgs = {
+  export type BusinessUserModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
     /**
      * Filter which BusinessUserModel to delete.
      */
@@ -16622,7 +18405,7 @@ export namespace Prisma {
   /**
    * BusinessUserModel deleteMany
    */
-  export type BusinessUserModelDeleteManyArgs = {
+  export type BusinessUserModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which BusinessUserModels to delete
      */
@@ -16633,15 +18416,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel.certification_images
    */
-  export type BusinessUserModel$certification_imagesArgs = {
+  export type BusinessUserModel$certification_imagesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     where?: BusinessCertificationImageModelWhereInput
     orderBy?: Enumerable<BusinessCertificationImageModelOrderByWithRelationInput>
     cursor?: BusinessCertificationImageModelWhereUniqueInput
@@ -16654,15 +18437,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel.sub_expertises
    */
-  export type BusinessUserModel$sub_expertisesArgs = {
+  export type BusinessUserModel$sub_expertisesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     where?: SubExpertiseModelWhereInput
     orderBy?: Enumerable<SubExpertiseModelOrderByWithRelationInput>
     cursor?: SubExpertiseModelWhereUniqueInput
@@ -16675,15 +18458,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel.oauth_accounts
    */
-  export type BusinessUserModel$oauth_accountsArgs = {
+  export type BusinessUserModel$oauth_accountsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     where?: OauthAccountModelWhereInput
     orderBy?: Enumerable<OauthAccountModelOrderByWithRelationInput>
     cursor?: OauthAccountModelWhereUniqueInput
@@ -16696,15 +18479,15 @@ export namespace Prisma {
   /**
    * BusinessUserModel without action
    */
-  export type BusinessUserModelArgs = {
+  export type BusinessUserModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessUserModel
      */
-    select?: BusinessUserModelSelect | null
+    select?: BusinessUserModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessUserModelInclude | null
+    include?: BusinessUserModelInclude<ExtArgs> | null
   }
 
 
@@ -16783,7 +18566,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type SubExpertiseModelAggregateArgs = {
+  export type SubExpertiseModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which SubExpertiseModel to aggregate.
      */
@@ -16843,7 +18626,7 @@ export namespace Prisma {
 
 
 
-  export type SubExpertiseModelGroupByArgs = {
+  export type SubExpertiseModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: SubExpertiseModelWhereInput
     orderBy?: Enumerable<SubExpertiseModelOrderByWithAggregationInput>
     by: SubExpertiseModelScalarFieldEnum[]
@@ -16883,7 +18666,7 @@ export namespace Prisma {
     >
 
 
-  export type SubExpertiseModelSelect = {
+  export type SubExpertiseModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -16891,42 +18674,35 @@ export namespace Prisma {
     deleted_at?: boolean
     sub_category_id?: boolean
     business_user_id?: boolean
-    sub_category?: boolean | ServiceSubCategoryModelArgs
-    business_user?: boolean | BusinessUserModelArgs
+    sub_category?: boolean | ServiceSubCategoryModelArgs<ExtArgs>
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+  }, ExtArgs["result"]["subExpertiseModel"]>
+
+  export type SubExpertiseModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    sub_category_id?: boolean
+    business_user_id?: boolean
+  }
+
+  export type SubExpertiseModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    sub_category?: boolean | ServiceSubCategoryModelArgs<ExtArgs>
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
   }
 
 
-  export type SubExpertiseModelInclude = {
-    sub_category?: boolean | ServiceSubCategoryModelArgs
-    business_user?: boolean | BusinessUserModelArgs
-  }
+  type SubExpertiseModelGetPayload<S extends boolean | null | undefined | SubExpertiseModelArgs> = $Types.GetResult<SubExpertiseModelPayload, S>
 
-  export type SubExpertiseModelGetPayload<S extends boolean | null | undefined | SubExpertiseModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? SubExpertiseModel :
-    S extends undefined ? never :
-    S extends { include: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
-    ? SubExpertiseModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'sub_category' ? ServiceSubCategoryModelGetPayload<S['include'][P]> :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (SubExpertiseModelArgs | SubExpertiseModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'sub_category' ? ServiceSubCategoryModelGetPayload<S['select'][P]> :
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof SubExpertiseModel ? SubExpertiseModel[P] : never
-  } 
-      : SubExpertiseModel
-
-
-  type SubExpertiseModelCountArgs = 
+  type SubExpertiseModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<SubExpertiseModelFindManyArgs, 'select' | 'include'> & {
       select?: SubExpertiseModelCountAggregateInputType | true
     }
 
-  export interface SubExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface SubExpertiseModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubExpertiseModel'], meta: { name: 'SubExpertiseModel' } }
     /**
      * Find zero or one SubExpertiseModel that matches the filter.
      * @param {SubExpertiseModelFindUniqueArgs} args - Arguments to find a SubExpertiseModel
@@ -16938,9 +18714,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends SubExpertiseModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, SubExpertiseModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
+    findUnique<T extends SubExpertiseModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SubExpertiseModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one SubExpertiseModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -16954,9 +18730,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends SubExpertiseModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindUniqueOrThrowArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    findUniqueOrThrow<T extends SubExpertiseModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubExpertiseModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first SubExpertiseModel that matches the filter.
@@ -16971,9 +18747,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends SubExpertiseModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, SubExpertiseModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>> : Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T> | null, null>
+    findFirst<T extends SubExpertiseModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SubExpertiseModel'> extends True ? Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first SubExpertiseModel that matches the filter or
@@ -16989,9 +18765,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends SubExpertiseModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindFirstOrThrowArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    findFirstOrThrow<T extends SubExpertiseModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubExpertiseModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more SubExpertiseModels that matches the filter.
@@ -17009,9 +18785,9 @@ export namespace Prisma {
      * const subExpertiseModelWithIdOnly = await prisma.subExpertiseModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends SubExpertiseModelFindManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<SubExpertiseModelGetPayload<T>>>
+    findMany<T extends SubExpertiseModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubExpertiseModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a SubExpertiseModel.
@@ -17025,9 +18801,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends SubExpertiseModelCreateArgs>(
-      args: SelectSubset<T, SubExpertiseModelCreateArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    create<T extends SubExpertiseModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubExpertiseModelCreateArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many SubExpertiseModels.
@@ -17041,8 +18817,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends SubExpertiseModelCreateManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelCreateManyArgs>
+    createMany<T extends SubExpertiseModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubExpertiseModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -17057,9 +18833,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends SubExpertiseModelDeleteArgs>(
-      args: SelectSubset<T, SubExpertiseModelDeleteArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    delete<T extends SubExpertiseModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SubExpertiseModelDeleteArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one SubExpertiseModel.
@@ -17076,9 +18852,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends SubExpertiseModelUpdateArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpdateArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    update<T extends SubExpertiseModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubExpertiseModelUpdateArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more SubExpertiseModels.
@@ -17092,8 +18868,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends SubExpertiseModelDeleteManyArgs>(
-      args?: SelectSubset<T, SubExpertiseModelDeleteManyArgs>
+    deleteMany<T extends SubExpertiseModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubExpertiseModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -17113,8 +18889,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends SubExpertiseModelUpdateManyArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpdateManyArgs>
+    updateMany<T extends SubExpertiseModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SubExpertiseModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -17134,9 +18910,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends SubExpertiseModelUpsertArgs>(
-      args: SelectSubset<T, SubExpertiseModelUpsertArgs>
-    ): Prisma__SubExpertiseModelClient<SubExpertiseModelGetPayload<T>>
+    upsert<T extends SubExpertiseModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SubExpertiseModelUpsertArgs<ExtArgs>>
+    ): Prisma__SubExpertiseModelClient<$Types.GetResult<SubExpertiseModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of SubExpertiseModels.
@@ -17154,7 +18930,7 @@ export namespace Prisma {
     count<T extends SubExpertiseModelCountArgs>(
       args?: Subset<T, SubExpertiseModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], SubExpertiseModelCountAggregateOutputType>
@@ -17272,7 +19048,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__SubExpertiseModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__SubExpertiseModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -17287,9 +19063,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    sub_category<T extends ServiceSubCategoryModelArgs= {}>(args?: Subset<T, ServiceSubCategoryModelArgs>): Prisma__ServiceSubCategoryModelClient<ServiceSubCategoryModelGetPayload<T> | Null>;
+    sub_category<T extends ServiceSubCategoryModelArgs<ExtArgs> = {}>(args?: Subset<T, ServiceSubCategoryModelArgs<ExtArgs>>): Prisma__ServiceSubCategoryModelClient<$Types.GetResult<ServiceSubCategoryModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -17321,15 +19097,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel base type for findUnique actions
    */
-  export type SubExpertiseModelFindUniqueArgsBase = {
+  export type SubExpertiseModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter, which SubExpertiseModel to fetch.
      */
@@ -17339,7 +19115,7 @@ export namespace Prisma {
   /**
    * SubExpertiseModel findUnique
    */
-  export interface SubExpertiseModelFindUniqueArgs extends SubExpertiseModelFindUniqueArgsBase {
+  export interface SubExpertiseModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends SubExpertiseModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -17351,15 +19127,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel findUniqueOrThrow
    */
-  export type SubExpertiseModelFindUniqueOrThrowArgs = {
+  export type SubExpertiseModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter, which SubExpertiseModel to fetch.
      */
@@ -17370,15 +19146,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel base type for findFirst actions
    */
-  export type SubExpertiseModelFindFirstArgsBase = {
+  export type SubExpertiseModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter, which SubExpertiseModel to fetch.
      */
@@ -17418,7 +19194,7 @@ export namespace Prisma {
   /**
    * SubExpertiseModel findFirst
    */
-  export interface SubExpertiseModelFindFirstArgs extends SubExpertiseModelFindFirstArgsBase {
+  export interface SubExpertiseModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends SubExpertiseModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -17430,15 +19206,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel findFirstOrThrow
    */
-  export type SubExpertiseModelFindFirstOrThrowArgs = {
+  export type SubExpertiseModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter, which SubExpertiseModel to fetch.
      */
@@ -17479,15 +19255,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel findMany
    */
-  export type SubExpertiseModelFindManyArgs = {
+  export type SubExpertiseModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter, which SubExpertiseModels to fetch.
      */
@@ -17523,15 +19299,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel create
    */
-  export type SubExpertiseModelCreateArgs = {
+  export type SubExpertiseModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * The data needed to create a SubExpertiseModel.
      */
@@ -17542,7 +19318,7 @@ export namespace Prisma {
   /**
    * SubExpertiseModel createMany
    */
-  export type SubExpertiseModelCreateManyArgs = {
+  export type SubExpertiseModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many SubExpertiseModels.
      */
@@ -17554,15 +19330,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel update
    */
-  export type SubExpertiseModelUpdateArgs = {
+  export type SubExpertiseModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * The data needed to update a SubExpertiseModel.
      */
@@ -17577,7 +19353,7 @@ export namespace Prisma {
   /**
    * SubExpertiseModel updateMany
    */
-  export type SubExpertiseModelUpdateManyArgs = {
+  export type SubExpertiseModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update SubExpertiseModels.
      */
@@ -17592,15 +19368,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel upsert
    */
-  export type SubExpertiseModelUpsertArgs = {
+  export type SubExpertiseModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * The filter to search for the SubExpertiseModel to update in case it exists.
      */
@@ -17619,15 +19395,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel delete
    */
-  export type SubExpertiseModelDeleteArgs = {
+  export type SubExpertiseModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
     /**
      * Filter which SubExpertiseModel to delete.
      */
@@ -17638,7 +19414,7 @@ export namespace Prisma {
   /**
    * SubExpertiseModel deleteMany
    */
-  export type SubExpertiseModelDeleteManyArgs = {
+  export type SubExpertiseModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which SubExpertiseModels to delete
      */
@@ -17649,15 +19425,15 @@ export namespace Prisma {
   /**
    * SubExpertiseModel without action
    */
-  export type SubExpertiseModelArgs = {
+  export type SubExpertiseModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SubExpertiseModel
      */
-    select?: SubExpertiseModelSelect | null
+    select?: SubExpertiseModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: SubExpertiseModelInclude | null
+    include?: SubExpertiseModelInclude<ExtArgs> | null
   }
 
 
@@ -17730,7 +19506,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type REAgentModelAggregateArgs = {
+  export type REAgentModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REAgentModel to aggregate.
      */
@@ -17790,7 +19566,7 @@ export namespace Prisma {
 
 
 
-  export type REAgentModelGroupByArgs = {
+  export type REAgentModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: REAgentModelWhereInput
     orderBy?: Enumerable<REAgentModelOrderByWithAggregationInput>
     by: REAgentModelScalarFieldEnum[]
@@ -17829,53 +19605,43 @@ export namespace Prisma {
     >
 
 
-  export type REAgentModelSelect = {
+  export type REAgentModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     is_licensed?: boolean
     re_num?: boolean
     re_name?: boolean
     re_phone?: boolean
     re_licensed_agent_name?: boolean
-    base?: boolean | BusinessUserModelArgs
-    properties?: boolean | REAgentModel$propertiesArgs
-    _count?: boolean | REAgentModelCountOutputTypeArgs
+    base?: boolean | BusinessUserModelArgs<ExtArgs>
+    properties?: boolean | REAgentModel$propertiesArgs<ExtArgs>
+    _count?: boolean | REAgentModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["rEAgentModel"]>
+
+  export type REAgentModelSelectScalar = {
+    id?: boolean
+    is_licensed?: boolean
+    re_num?: boolean
+    re_name?: boolean
+    re_phone?: boolean
+    re_licensed_agent_name?: boolean
+  }
+
+  export type REAgentModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    base?: boolean | BusinessUserModelArgs<ExtArgs>
+    properties?: boolean | REAgentModel$propertiesArgs<ExtArgs>
+    _count?: boolean | REAgentModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type REAgentModelInclude = {
-    base?: boolean | BusinessUserModelArgs
-    properties?: boolean | REAgentModel$propertiesArgs
-    _count?: boolean | REAgentModelCountOutputTypeArgs
-  }
+  type REAgentModelGetPayload<S extends boolean | null | undefined | REAgentModelArgs> = $Types.GetResult<REAgentModelPayload, S>
 
-  export type REAgentModelGetPayload<S extends boolean | null | undefined | REAgentModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? REAgentModel :
-    S extends undefined ? never :
-    S extends { include: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
-    ? REAgentModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'properties' ? Array < REPropertyModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (REAgentModelArgs | REAgentModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'properties' ? Array < REPropertyModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? REAgentModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof REAgentModel ? REAgentModel[P] : never
-  } 
-      : REAgentModel
-
-
-  type REAgentModelCountArgs = 
+  type REAgentModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<REAgentModelFindManyArgs, 'select' | 'include'> & {
       select?: REAgentModelCountAggregateInputType | true
     }
 
-  export interface REAgentModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface REAgentModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['REAgentModel'], meta: { name: 'REAgentModel' } }
     /**
      * Find zero or one REAgentModel that matches the filter.
      * @param {REAgentModelFindUniqueArgs} args - Arguments to find a REAgentModel
@@ -17887,9 +19653,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends REAgentModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, REAgentModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REAgentModel'> extends True ? Prisma__REAgentModelClient<REAgentModelGetPayload<T>> : Prisma__REAgentModelClient<REAgentModelGetPayload<T> | null, null>
+    findUnique<T extends REAgentModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, REAgentModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'REAgentModel'> extends True ? Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one REAgentModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -17903,9 +19669,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends REAgentModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, REAgentModelFindUniqueOrThrowArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    findUniqueOrThrow<T extends REAgentModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REAgentModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first REAgentModel that matches the filter.
@@ -17920,9 +19686,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends REAgentModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, REAgentModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REAgentModel'> extends True ? Prisma__REAgentModelClient<REAgentModelGetPayload<T>> : Prisma__REAgentModelClient<REAgentModelGetPayload<T> | null, null>
+    findFirst<T extends REAgentModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, REAgentModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'REAgentModel'> extends True ? Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first REAgentModel that matches the filter or
@@ -17938,9 +19704,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends REAgentModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, REAgentModelFindFirstOrThrowArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    findFirstOrThrow<T extends REAgentModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, REAgentModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more REAgentModels that matches the filter.
@@ -17958,9 +19724,9 @@ export namespace Prisma {
      * const rEAgentModelWithIdOnly = await prisma.rEAgentModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends REAgentModelFindManyArgs>(
-      args?: SelectSubset<T, REAgentModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<REAgentModelGetPayload<T>>>
+    findMany<T extends REAgentModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REAgentModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a REAgentModel.
@@ -17974,9 +19740,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends REAgentModelCreateArgs>(
-      args: SelectSubset<T, REAgentModelCreateArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    create<T extends REAgentModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, REAgentModelCreateArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many REAgentModels.
@@ -17990,8 +19756,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends REAgentModelCreateManyArgs>(
-      args?: SelectSubset<T, REAgentModelCreateManyArgs>
+    createMany<T extends REAgentModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REAgentModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -18006,9 +19772,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends REAgentModelDeleteArgs>(
-      args: SelectSubset<T, REAgentModelDeleteArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    delete<T extends REAgentModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, REAgentModelDeleteArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one REAgentModel.
@@ -18025,9 +19791,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends REAgentModelUpdateArgs>(
-      args: SelectSubset<T, REAgentModelUpdateArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    update<T extends REAgentModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, REAgentModelUpdateArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more REAgentModels.
@@ -18041,8 +19807,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends REAgentModelDeleteManyArgs>(
-      args?: SelectSubset<T, REAgentModelDeleteManyArgs>
+    deleteMany<T extends REAgentModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, REAgentModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -18062,8 +19828,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends REAgentModelUpdateManyArgs>(
-      args: SelectSubset<T, REAgentModelUpdateManyArgs>
+    updateMany<T extends REAgentModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, REAgentModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -18083,9 +19849,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends REAgentModelUpsertArgs>(
-      args: SelectSubset<T, REAgentModelUpsertArgs>
-    ): Prisma__REAgentModelClient<REAgentModelGetPayload<T>>
+    upsert<T extends REAgentModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, REAgentModelUpsertArgs<ExtArgs>>
+    ): Prisma__REAgentModelClient<$Types.GetResult<REAgentModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of REAgentModels.
@@ -18103,7 +19869,7 @@ export namespace Prisma {
     count<T extends REAgentModelCountArgs>(
       args?: Subset<T, REAgentModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], REAgentModelCountAggregateOutputType>
@@ -18221,7 +19987,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__REAgentModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__REAgentModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -18236,9 +20002,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    base<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    properties<T extends REAgentModel$propertiesArgs= {}>(args?: Subset<T, REAgentModel$propertiesArgs>): Prisma.PrismaPromise<Array<REPropertyModelGetPayload<T>>| Null>;
+    properties<T extends REAgentModel$propertiesArgs<ExtArgs> = {}>(args?: Subset<T, REAgentModel$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<REPropertyModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -18270,15 +20036,15 @@ export namespace Prisma {
   /**
    * REAgentModel base type for findUnique actions
    */
-  export type REAgentModelFindUniqueArgsBase = {
+  export type REAgentModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter, which REAgentModel to fetch.
      */
@@ -18288,7 +20054,7 @@ export namespace Prisma {
   /**
    * REAgentModel findUnique
    */
-  export interface REAgentModelFindUniqueArgs extends REAgentModelFindUniqueArgsBase {
+  export interface REAgentModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REAgentModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -18300,15 +20066,15 @@ export namespace Prisma {
   /**
    * REAgentModel findUniqueOrThrow
    */
-  export type REAgentModelFindUniqueOrThrowArgs = {
+  export type REAgentModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter, which REAgentModel to fetch.
      */
@@ -18319,15 +20085,15 @@ export namespace Prisma {
   /**
    * REAgentModel base type for findFirst actions
    */
-  export type REAgentModelFindFirstArgsBase = {
+  export type REAgentModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter, which REAgentModel to fetch.
      */
@@ -18367,7 +20133,7 @@ export namespace Prisma {
   /**
    * REAgentModel findFirst
    */
-  export interface REAgentModelFindFirstArgs extends REAgentModelFindFirstArgsBase {
+  export interface REAgentModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends REAgentModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -18379,15 +20145,15 @@ export namespace Prisma {
   /**
    * REAgentModel findFirstOrThrow
    */
-  export type REAgentModelFindFirstOrThrowArgs = {
+  export type REAgentModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter, which REAgentModel to fetch.
      */
@@ -18428,15 +20194,15 @@ export namespace Prisma {
   /**
    * REAgentModel findMany
    */
-  export type REAgentModelFindManyArgs = {
+  export type REAgentModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter, which REAgentModels to fetch.
      */
@@ -18472,15 +20238,15 @@ export namespace Prisma {
   /**
    * REAgentModel create
    */
-  export type REAgentModelCreateArgs = {
+  export type REAgentModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * The data needed to create a REAgentModel.
      */
@@ -18491,7 +20257,7 @@ export namespace Prisma {
   /**
    * REAgentModel createMany
    */
-  export type REAgentModelCreateManyArgs = {
+  export type REAgentModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many REAgentModels.
      */
@@ -18503,15 +20269,15 @@ export namespace Prisma {
   /**
    * REAgentModel update
    */
-  export type REAgentModelUpdateArgs = {
+  export type REAgentModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * The data needed to update a REAgentModel.
      */
@@ -18526,7 +20292,7 @@ export namespace Prisma {
   /**
    * REAgentModel updateMany
    */
-  export type REAgentModelUpdateManyArgs = {
+  export type REAgentModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update REAgentModels.
      */
@@ -18541,15 +20307,15 @@ export namespace Prisma {
   /**
    * REAgentModel upsert
    */
-  export type REAgentModelUpsertArgs = {
+  export type REAgentModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * The filter to search for the REAgentModel to update in case it exists.
      */
@@ -18568,15 +20334,15 @@ export namespace Prisma {
   /**
    * REAgentModel delete
    */
-  export type REAgentModelDeleteArgs = {
+  export type REAgentModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
     /**
      * Filter which REAgentModel to delete.
      */
@@ -18587,7 +20353,7 @@ export namespace Prisma {
   /**
    * REAgentModel deleteMany
    */
-  export type REAgentModelDeleteManyArgs = {
+  export type REAgentModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which REAgentModels to delete
      */
@@ -18598,15 +20364,15 @@ export namespace Prisma {
   /**
    * REAgentModel.properties
    */
-  export type REAgentModel$propertiesArgs = {
+  export type REAgentModel$propertiesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REPropertyModel
      */
-    select?: REPropertyModelSelect | null
+    select?: REPropertyModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REPropertyModelInclude | null
+    include?: REPropertyModelInclude<ExtArgs> | null
     where?: REPropertyModelWhereInput
     orderBy?: Enumerable<REPropertyModelOrderByWithRelationInput>
     cursor?: REPropertyModelWhereUniqueInput
@@ -18619,15 +20385,15 @@ export namespace Prisma {
   /**
    * REAgentModel without action
    */
-  export type REAgentModelArgs = {
+  export type REAgentModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the REAgentModel
      */
-    select?: REAgentModelSelect | null
+    select?: REAgentModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: REAgentModelInclude | null
+    include?: REAgentModelInclude<ExtArgs> | null
   }
 
 
@@ -18676,7 +20442,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type HSProviderModelAggregateArgs = {
+  export type HSProviderModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which HSProviderModel to aggregate.
      */
@@ -18736,7 +20502,7 @@ export namespace Prisma {
 
 
 
-  export type HSProviderModelGroupByArgs = {
+  export type HSProviderModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: HSProviderModelWhereInput
     orderBy?: Enumerable<HSProviderModelOrderByWithAggregationInput>
     by: HSProviderModelScalarFieldEnum[]
@@ -18771,49 +20537,35 @@ export namespace Prisma {
     >
 
 
-  export type HSProviderModelSelect = {
+  export type HSProviderModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     business_registration_num?: boolean
-    base?: boolean | BusinessUserModelArgs
-    example_images?: boolean | HSProviderModel$example_imagesArgs
-    _count?: boolean | HSProviderModelCountOutputTypeArgs
+    base?: boolean | BusinessUserModelArgs<ExtArgs>
+    example_images?: boolean | HSProviderModel$example_imagesArgs<ExtArgs>
+    _count?: boolean | HSProviderModelCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["hSProviderModel"]>
+
+  export type HSProviderModelSelectScalar = {
+    id?: boolean
+    business_registration_num?: boolean
+  }
+
+  export type HSProviderModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    base?: boolean | BusinessUserModelArgs<ExtArgs>
+    example_images?: boolean | HSProviderModel$example_imagesArgs<ExtArgs>
+    _count?: boolean | HSProviderModelCountOutputTypeArgs<ExtArgs>
   }
 
 
-  export type HSProviderModelInclude = {
-    base?: boolean | BusinessUserModelArgs
-    example_images?: boolean | HSProviderModel$example_imagesArgs
-    _count?: boolean | HSProviderModelCountOutputTypeArgs
-  }
+  type HSProviderModelGetPayload<S extends boolean | null | undefined | HSProviderModelArgs> = $Types.GetResult<HSProviderModelPayload, S>
 
-  export type HSProviderModelGetPayload<S extends boolean | null | undefined | HSProviderModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSProviderModel :
-    S extends undefined ? never :
-    S extends { include: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
-    ? HSProviderModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['include'][P]> :
-        P extends 'example_images' ? Array < HSExampleImageModelGetPayload<S['include'][P]>>  :
-        P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (HSProviderModelArgs | HSProviderModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'base' ? BusinessUserModelGetPayload<S['select'][P]> :
-        P extends 'example_images' ? Array < HSExampleImageModelGetPayload<S['select'][P]>>  :
-        P extends '_count' ? HSProviderModelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof HSProviderModel ? HSProviderModel[P] : never
-  } 
-      : HSProviderModel
-
-
-  type HSProviderModelCountArgs = 
+  type HSProviderModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<HSProviderModelFindManyArgs, 'select' | 'include'> & {
       select?: HSProviderModelCountAggregateInputType | true
     }
 
-  export interface HSProviderModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface HSProviderModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HSProviderModel'], meta: { name: 'HSProviderModel' } }
     /**
      * Find zero or one HSProviderModel that matches the filter.
      * @param {HSProviderModelFindUniqueArgs} args - Arguments to find a HSProviderModel
@@ -18825,9 +20577,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends HSProviderModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HSProviderModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>> : Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | null, null>
+    findUnique<T extends HSProviderModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSProviderModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one HSProviderModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -18841,9 +20593,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HSProviderModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HSProviderModelFindUniqueOrThrowArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    findUniqueOrThrow<T extends HSProviderModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSProviderModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first HSProviderModel that matches the filter.
@@ -18858,9 +20610,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends HSProviderModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HSProviderModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>> : Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | null, null>
+    findFirst<T extends HSProviderModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSProviderModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSProviderModel'> extends True ? Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first HSProviderModel that matches the filter or
@@ -18876,9 +20628,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HSProviderModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HSProviderModelFindFirstOrThrowArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    findFirstOrThrow<T extends HSProviderModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSProviderModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more HSProviderModels that matches the filter.
@@ -18896,9 +20648,9 @@ export namespace Prisma {
      * const hSProviderModelWithIdOnly = await prisma.hSProviderModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends HSProviderModelFindManyArgs>(
-      args?: SelectSubset<T, HSProviderModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<HSProviderModelGetPayload<T>>>
+    findMany<T extends HSProviderModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSProviderModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a HSProviderModel.
@@ -18912,9 +20664,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends HSProviderModelCreateArgs>(
-      args: SelectSubset<T, HSProviderModelCreateArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    create<T extends HSProviderModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, HSProviderModelCreateArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many HSProviderModels.
@@ -18928,8 +20680,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends HSProviderModelCreateManyArgs>(
-      args?: SelectSubset<T, HSProviderModelCreateManyArgs>
+    createMany<T extends HSProviderModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSProviderModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -18944,9 +20696,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends HSProviderModelDeleteArgs>(
-      args: SelectSubset<T, HSProviderModelDeleteArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    delete<T extends HSProviderModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, HSProviderModelDeleteArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one HSProviderModel.
@@ -18963,9 +20715,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends HSProviderModelUpdateArgs>(
-      args: SelectSubset<T, HSProviderModelUpdateArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    update<T extends HSProviderModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, HSProviderModelUpdateArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more HSProviderModels.
@@ -18979,8 +20731,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends HSProviderModelDeleteManyArgs>(
-      args?: SelectSubset<T, HSProviderModelDeleteManyArgs>
+    deleteMany<T extends HSProviderModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSProviderModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -19000,8 +20752,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends HSProviderModelUpdateManyArgs>(
-      args: SelectSubset<T, HSProviderModelUpdateManyArgs>
+    updateMany<T extends HSProviderModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, HSProviderModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -19021,9 +20773,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends HSProviderModelUpsertArgs>(
-      args: SelectSubset<T, HSProviderModelUpsertArgs>
-    ): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T>>
+    upsert<T extends HSProviderModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, HSProviderModelUpsertArgs<ExtArgs>>
+    ): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of HSProviderModels.
@@ -19041,7 +20793,7 @@ export namespace Prisma {
     count<T extends HSProviderModelCountArgs>(
       args?: Subset<T, HSProviderModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], HSProviderModelCountAggregateOutputType>
@@ -19159,7 +20911,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HSProviderModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__HSProviderModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -19174,9 +20926,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    base<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    base<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    example_images<T extends HSProviderModel$example_imagesArgs= {}>(args?: Subset<T, HSProviderModel$example_imagesArgs>): Prisma.PrismaPromise<Array<HSExampleImageModelGetPayload<T>>| Null>;
+    example_images<T extends HSProviderModel$example_imagesArgs<ExtArgs> = {}>(args?: Subset<T, HSProviderModel$example_imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -19208,15 +20960,15 @@ export namespace Prisma {
   /**
    * HSProviderModel base type for findUnique actions
    */
-  export type HSProviderModelFindUniqueArgsBase = {
+  export type HSProviderModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter, which HSProviderModel to fetch.
      */
@@ -19226,7 +20978,7 @@ export namespace Prisma {
   /**
    * HSProviderModel findUnique
    */
-  export interface HSProviderModelFindUniqueArgs extends HSProviderModelFindUniqueArgsBase {
+  export interface HSProviderModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HSProviderModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -19238,15 +20990,15 @@ export namespace Prisma {
   /**
    * HSProviderModel findUniqueOrThrow
    */
-  export type HSProviderModelFindUniqueOrThrowArgs = {
+  export type HSProviderModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter, which HSProviderModel to fetch.
      */
@@ -19257,15 +21009,15 @@ export namespace Prisma {
   /**
    * HSProviderModel base type for findFirst actions
    */
-  export type HSProviderModelFindFirstArgsBase = {
+  export type HSProviderModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter, which HSProviderModel to fetch.
      */
@@ -19305,7 +21057,7 @@ export namespace Prisma {
   /**
    * HSProviderModel findFirst
    */
-  export interface HSProviderModelFindFirstArgs extends HSProviderModelFindFirstArgsBase {
+  export interface HSProviderModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HSProviderModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -19317,15 +21069,15 @@ export namespace Prisma {
   /**
    * HSProviderModel findFirstOrThrow
    */
-  export type HSProviderModelFindFirstOrThrowArgs = {
+  export type HSProviderModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter, which HSProviderModel to fetch.
      */
@@ -19366,15 +21118,15 @@ export namespace Prisma {
   /**
    * HSProviderModel findMany
    */
-  export type HSProviderModelFindManyArgs = {
+  export type HSProviderModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter, which HSProviderModels to fetch.
      */
@@ -19410,15 +21162,15 @@ export namespace Prisma {
   /**
    * HSProviderModel create
    */
-  export type HSProviderModelCreateArgs = {
+  export type HSProviderModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * The data needed to create a HSProviderModel.
      */
@@ -19429,7 +21181,7 @@ export namespace Prisma {
   /**
    * HSProviderModel createMany
    */
-  export type HSProviderModelCreateManyArgs = {
+  export type HSProviderModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many HSProviderModels.
      */
@@ -19441,15 +21193,15 @@ export namespace Prisma {
   /**
    * HSProviderModel update
    */
-  export type HSProviderModelUpdateArgs = {
+  export type HSProviderModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * The data needed to update a HSProviderModel.
      */
@@ -19464,7 +21216,7 @@ export namespace Prisma {
   /**
    * HSProviderModel updateMany
    */
-  export type HSProviderModelUpdateManyArgs = {
+  export type HSProviderModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update HSProviderModels.
      */
@@ -19479,15 +21231,15 @@ export namespace Prisma {
   /**
    * HSProviderModel upsert
    */
-  export type HSProviderModelUpsertArgs = {
+  export type HSProviderModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * The filter to search for the HSProviderModel to update in case it exists.
      */
@@ -19506,15 +21258,15 @@ export namespace Prisma {
   /**
    * HSProviderModel delete
    */
-  export type HSProviderModelDeleteArgs = {
+  export type HSProviderModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
     /**
      * Filter which HSProviderModel to delete.
      */
@@ -19525,7 +21277,7 @@ export namespace Prisma {
   /**
    * HSProviderModel deleteMany
    */
-  export type HSProviderModelDeleteManyArgs = {
+  export type HSProviderModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which HSProviderModels to delete
      */
@@ -19536,15 +21288,15 @@ export namespace Prisma {
   /**
    * HSProviderModel.example_images
    */
-  export type HSProviderModel$example_imagesArgs = {
+  export type HSProviderModel$example_imagesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     where?: HSExampleImageModelWhereInput
     orderBy?: Enumerable<HSExampleImageModelOrderByWithRelationInput>
     cursor?: HSExampleImageModelWhereUniqueInput
@@ -19557,15 +21309,15 @@ export namespace Prisma {
   /**
    * HSProviderModel without action
    */
-  export type HSProviderModelArgs = {
+  export type HSProviderModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSProviderModel
      */
-    select?: HSProviderModelSelect | null
+    select?: HSProviderModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSProviderModelInclude | null
+    include?: HSProviderModelInclude<ExtArgs> | null
   }
 
 
@@ -19644,7 +21396,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type BusinessCertificationImageModelAggregateArgs = {
+  export type BusinessCertificationImageModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which BusinessCertificationImageModel to aggregate.
      */
@@ -19704,7 +21456,7 @@ export namespace Prisma {
 
 
 
-  export type BusinessCertificationImageModelGroupByArgs = {
+  export type BusinessCertificationImageModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: BusinessCertificationImageModelWhereInput
     orderBy?: Enumerable<BusinessCertificationImageModelOrderByWithAggregationInput>
     by: BusinessCertificationImageModelScalarFieldEnum[]
@@ -19744,7 +21496,7 @@ export namespace Prisma {
     >
 
 
-  export type BusinessCertificationImageModelSelect = {
+  export type BusinessCertificationImageModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -19752,38 +21504,33 @@ export namespace Prisma {
     deleted_at?: boolean
     business_user_id?: boolean
     url?: boolean
-    business_user?: boolean | BusinessUserModelArgs
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+  }, ExtArgs["result"]["businessCertificationImageModel"]>
+
+  export type BusinessCertificationImageModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    business_user_id?: boolean
+    url?: boolean
+  }
+
+  export type BusinessCertificationImageModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
   }
 
 
-  export type BusinessCertificationImageModelInclude = {
-    business_user?: boolean | BusinessUserModelArgs
-  }
+  type BusinessCertificationImageModelGetPayload<S extends boolean | null | undefined | BusinessCertificationImageModelArgs> = $Types.GetResult<BusinessCertificationImageModelPayload, S>
 
-  export type BusinessCertificationImageModelGetPayload<S extends boolean | null | undefined | BusinessCertificationImageModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? BusinessCertificationImageModel :
-    S extends undefined ? never :
-    S extends { include: any } & (BusinessCertificationImageModelArgs | BusinessCertificationImageModelFindManyArgs)
-    ? BusinessCertificationImageModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (BusinessCertificationImageModelArgs | BusinessCertificationImageModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> :  P extends keyof BusinessCertificationImageModel ? BusinessCertificationImageModel[P] : never
-  } 
-      : BusinessCertificationImageModel
-
-
-  type BusinessCertificationImageModelCountArgs = 
+  type BusinessCertificationImageModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<BusinessCertificationImageModelFindManyArgs, 'select' | 'include'> & {
       select?: BusinessCertificationImageModelCountAggregateInputType | true
     }
 
-  export interface BusinessCertificationImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface BusinessCertificationImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessCertificationImageModel'], meta: { name: 'BusinessCertificationImageModel' } }
     /**
      * Find zero or one BusinessCertificationImageModel that matches the filter.
      * @param {BusinessCertificationImageModelFindUniqueArgs} args - Arguments to find a BusinessCertificationImageModel
@@ -19795,9 +21542,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends BusinessCertificationImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, BusinessCertificationImageModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessCertificationImageModel'> extends True ? Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>> : Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T> | null, null>
+    findUnique<T extends BusinessCertificationImageModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, BusinessCertificationImageModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'BusinessCertificationImageModel'> extends True ? Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one BusinessCertificationImageModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -19811,9 +21558,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends BusinessCertificationImageModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, BusinessCertificationImageModelFindUniqueOrThrowArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    findUniqueOrThrow<T extends BusinessCertificationImageModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessCertificationImageModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first BusinessCertificationImageModel that matches the filter.
@@ -19828,9 +21575,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends BusinessCertificationImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, BusinessCertificationImageModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessCertificationImageModel'> extends True ? Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>> : Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T> | null, null>
+    findFirst<T extends BusinessCertificationImageModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, BusinessCertificationImageModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'BusinessCertificationImageModel'> extends True ? Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first BusinessCertificationImageModel that matches the filter or
@@ -19846,9 +21593,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends BusinessCertificationImageModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, BusinessCertificationImageModelFindFirstOrThrowArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    findFirstOrThrow<T extends BusinessCertificationImageModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessCertificationImageModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more BusinessCertificationImageModels that matches the filter.
@@ -19866,9 +21613,9 @@ export namespace Prisma {
      * const businessCertificationImageModelWithIdOnly = await prisma.businessCertificationImageModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends BusinessCertificationImageModelFindManyArgs>(
-      args?: SelectSubset<T, BusinessCertificationImageModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<BusinessCertificationImageModelGetPayload<T>>>
+    findMany<T extends BusinessCertificationImageModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessCertificationImageModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a BusinessCertificationImageModel.
@@ -19882,9 +21629,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends BusinessCertificationImageModelCreateArgs>(
-      args: SelectSubset<T, BusinessCertificationImageModelCreateArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    create<T extends BusinessCertificationImageModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessCertificationImageModelCreateArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many BusinessCertificationImageModels.
@@ -19898,8 +21645,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends BusinessCertificationImageModelCreateManyArgs>(
-      args?: SelectSubset<T, BusinessCertificationImageModelCreateManyArgs>
+    createMany<T extends BusinessCertificationImageModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessCertificationImageModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -19914,9 +21661,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends BusinessCertificationImageModelDeleteArgs>(
-      args: SelectSubset<T, BusinessCertificationImageModelDeleteArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    delete<T extends BusinessCertificationImageModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessCertificationImageModelDeleteArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one BusinessCertificationImageModel.
@@ -19933,9 +21680,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends BusinessCertificationImageModelUpdateArgs>(
-      args: SelectSubset<T, BusinessCertificationImageModelUpdateArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    update<T extends BusinessCertificationImageModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessCertificationImageModelUpdateArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more BusinessCertificationImageModels.
@@ -19949,8 +21696,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends BusinessCertificationImageModelDeleteManyArgs>(
-      args?: SelectSubset<T, BusinessCertificationImageModelDeleteManyArgs>
+    deleteMany<T extends BusinessCertificationImageModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BusinessCertificationImageModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -19970,8 +21717,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends BusinessCertificationImageModelUpdateManyArgs>(
-      args: SelectSubset<T, BusinessCertificationImageModelUpdateManyArgs>
+    updateMany<T extends BusinessCertificationImageModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessCertificationImageModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -19991,9 +21738,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends BusinessCertificationImageModelUpsertArgs>(
-      args: SelectSubset<T, BusinessCertificationImageModelUpsertArgs>
-    ): Prisma__BusinessCertificationImageModelClient<BusinessCertificationImageModelGetPayload<T>>
+    upsert<T extends BusinessCertificationImageModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, BusinessCertificationImageModelUpsertArgs<ExtArgs>>
+    ): Prisma__BusinessCertificationImageModelClient<$Types.GetResult<BusinessCertificationImageModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of BusinessCertificationImageModels.
@@ -20011,7 +21758,7 @@ export namespace Prisma {
     count<T extends BusinessCertificationImageModelCountArgs>(
       args?: Subset<T, BusinessCertificationImageModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], BusinessCertificationImageModelCountAggregateOutputType>
@@ -20129,7 +21876,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__BusinessCertificationImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__BusinessCertificationImageModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -20144,7 +21891,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -20176,15 +21923,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel base type for findUnique actions
    */
-  export type BusinessCertificationImageModelFindUniqueArgsBase = {
+  export type BusinessCertificationImageModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessCertificationImageModel to fetch.
      */
@@ -20194,7 +21941,7 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel findUnique
    */
-  export interface BusinessCertificationImageModelFindUniqueArgs extends BusinessCertificationImageModelFindUniqueArgsBase {
+  export interface BusinessCertificationImageModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BusinessCertificationImageModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -20206,15 +21953,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel findUniqueOrThrow
    */
-  export type BusinessCertificationImageModelFindUniqueOrThrowArgs = {
+  export type BusinessCertificationImageModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessCertificationImageModel to fetch.
      */
@@ -20225,15 +21972,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel base type for findFirst actions
    */
-  export type BusinessCertificationImageModelFindFirstArgsBase = {
+  export type BusinessCertificationImageModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessCertificationImageModel to fetch.
      */
@@ -20273,7 +22020,7 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel findFirst
    */
-  export interface BusinessCertificationImageModelFindFirstArgs extends BusinessCertificationImageModelFindFirstArgsBase {
+  export interface BusinessCertificationImageModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends BusinessCertificationImageModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -20285,15 +22032,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel findFirstOrThrow
    */
-  export type BusinessCertificationImageModelFindFirstOrThrowArgs = {
+  export type BusinessCertificationImageModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessCertificationImageModel to fetch.
      */
@@ -20334,15 +22081,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel findMany
    */
-  export type BusinessCertificationImageModelFindManyArgs = {
+  export type BusinessCertificationImageModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter, which BusinessCertificationImageModels to fetch.
      */
@@ -20378,15 +22125,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel create
    */
-  export type BusinessCertificationImageModelCreateArgs = {
+  export type BusinessCertificationImageModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * The data needed to create a BusinessCertificationImageModel.
      */
@@ -20397,7 +22144,7 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel createMany
    */
-  export type BusinessCertificationImageModelCreateManyArgs = {
+  export type BusinessCertificationImageModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many BusinessCertificationImageModels.
      */
@@ -20409,15 +22156,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel update
    */
-  export type BusinessCertificationImageModelUpdateArgs = {
+  export type BusinessCertificationImageModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * The data needed to update a BusinessCertificationImageModel.
      */
@@ -20432,7 +22179,7 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel updateMany
    */
-  export type BusinessCertificationImageModelUpdateManyArgs = {
+  export type BusinessCertificationImageModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update BusinessCertificationImageModels.
      */
@@ -20447,15 +22194,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel upsert
    */
-  export type BusinessCertificationImageModelUpsertArgs = {
+  export type BusinessCertificationImageModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * The filter to search for the BusinessCertificationImageModel to update in case it exists.
      */
@@ -20474,15 +22221,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel delete
    */
-  export type BusinessCertificationImageModelDeleteArgs = {
+  export type BusinessCertificationImageModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
     /**
      * Filter which BusinessCertificationImageModel to delete.
      */
@@ -20493,7 +22240,7 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel deleteMany
    */
-  export type BusinessCertificationImageModelDeleteManyArgs = {
+  export type BusinessCertificationImageModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which BusinessCertificationImageModels to delete
      */
@@ -20504,15 +22251,15 @@ export namespace Prisma {
   /**
    * BusinessCertificationImageModel without action
    */
-  export type BusinessCertificationImageModelArgs = {
+  export type BusinessCertificationImageModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BusinessCertificationImageModel
      */
-    select?: BusinessCertificationImageModelSelect | null
+    select?: BusinessCertificationImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BusinessCertificationImageModelInclude | null
+    include?: BusinessCertificationImageModelInclude<ExtArgs> | null
   }
 
 
@@ -20597,7 +22344,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type HSExampleImageModelAggregateArgs = {
+  export type HSExampleImageModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which HSExampleImageModel to aggregate.
      */
@@ -20657,7 +22404,7 @@ export namespace Prisma {
 
 
 
-  export type HSExampleImageModelGroupByArgs = {
+  export type HSExampleImageModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: HSExampleImageModelWhereInput
     orderBy?: Enumerable<HSExampleImageModelOrderByWithAggregationInput>
     by: HSExampleImageModelScalarFieldEnum[]
@@ -20698,7 +22445,7 @@ export namespace Prisma {
     >
 
 
-  export type HSExampleImageModelSelect = {
+  export type HSExampleImageModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -20707,38 +22454,34 @@ export namespace Prisma {
     hs_provider_id?: boolean
     url?: boolean
     is_visible?: boolean
-    hs_provider?: boolean | HSProviderModelArgs
+    hs_provider?: boolean | HSProviderModelArgs<ExtArgs>
+  }, ExtArgs["result"]["hSExampleImageModel"]>
+
+  export type HSExampleImageModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    hs_provider_id?: boolean
+    url?: boolean
+    is_visible?: boolean
+  }
+
+  export type HSExampleImageModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    hs_provider?: boolean | HSProviderModelArgs<ExtArgs>
   }
 
 
-  export type HSExampleImageModelInclude = {
-    hs_provider?: boolean | HSProviderModelArgs
-  }
+  type HSExampleImageModelGetPayload<S extends boolean | null | undefined | HSExampleImageModelArgs> = $Types.GetResult<HSExampleImageModelPayload, S>
 
-  export type HSExampleImageModelGetPayload<S extends boolean | null | undefined | HSExampleImageModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? HSExampleImageModel :
-    S extends undefined ? never :
-    S extends { include: any } & (HSExampleImageModelArgs | HSExampleImageModelFindManyArgs)
-    ? HSExampleImageModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'hs_provider' ? HSProviderModelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (HSExampleImageModelArgs | HSExampleImageModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'hs_provider' ? HSProviderModelGetPayload<S['select'][P]> :  P extends keyof HSExampleImageModel ? HSExampleImageModel[P] : never
-  } 
-      : HSExampleImageModel
-
-
-  type HSExampleImageModelCountArgs = 
+  type HSExampleImageModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<HSExampleImageModelFindManyArgs, 'select' | 'include'> & {
       select?: HSExampleImageModelCountAggregateInputType | true
     }
 
-  export interface HSExampleImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface HSExampleImageModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HSExampleImageModel'], meta: { name: 'HSExampleImageModel' } }
     /**
      * Find zero or one HSExampleImageModel that matches the filter.
      * @param {HSExampleImageModelFindUniqueArgs} args - Arguments to find a HSExampleImageModel
@@ -20750,9 +22493,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends HSExampleImageModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, HSExampleImageModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>> : Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T> | null, null>
+    findUnique<T extends HSExampleImageModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, HSExampleImageModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one HSExampleImageModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -20766,9 +22509,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends HSExampleImageModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, HSExampleImageModelFindUniqueOrThrowArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    findUniqueOrThrow<T extends HSExampleImageModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSExampleImageModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first HSExampleImageModel that matches the filter.
@@ -20783,9 +22526,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends HSExampleImageModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, HSExampleImageModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>> : Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T> | null, null>
+    findFirst<T extends HSExampleImageModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, HSExampleImageModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'HSExampleImageModel'> extends True ? Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first HSExampleImageModel that matches the filter or
@@ -20801,9 +22544,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends HSExampleImageModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, HSExampleImageModelFindFirstOrThrowArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    findFirstOrThrow<T extends HSExampleImageModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSExampleImageModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more HSExampleImageModels that matches the filter.
@@ -20821,9 +22564,9 @@ export namespace Prisma {
      * const hSExampleImageModelWithIdOnly = await prisma.hSExampleImageModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends HSExampleImageModelFindManyArgs>(
-      args?: SelectSubset<T, HSExampleImageModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<HSExampleImageModelGetPayload<T>>>
+    findMany<T extends HSExampleImageModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSExampleImageModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a HSExampleImageModel.
@@ -20837,9 +22580,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends HSExampleImageModelCreateArgs>(
-      args: SelectSubset<T, HSExampleImageModelCreateArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    create<T extends HSExampleImageModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, HSExampleImageModelCreateArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many HSExampleImageModels.
@@ -20853,8 +22596,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends HSExampleImageModelCreateManyArgs>(
-      args?: SelectSubset<T, HSExampleImageModelCreateManyArgs>
+    createMany<T extends HSExampleImageModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSExampleImageModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -20869,9 +22612,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends HSExampleImageModelDeleteArgs>(
-      args: SelectSubset<T, HSExampleImageModelDeleteArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    delete<T extends HSExampleImageModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, HSExampleImageModelDeleteArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one HSExampleImageModel.
@@ -20888,9 +22631,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends HSExampleImageModelUpdateArgs>(
-      args: SelectSubset<T, HSExampleImageModelUpdateArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    update<T extends HSExampleImageModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, HSExampleImageModelUpdateArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more HSExampleImageModels.
@@ -20904,8 +22647,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends HSExampleImageModelDeleteManyArgs>(
-      args?: SelectSubset<T, HSExampleImageModelDeleteManyArgs>
+    deleteMany<T extends HSExampleImageModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, HSExampleImageModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -20925,8 +22668,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends HSExampleImageModelUpdateManyArgs>(
-      args: SelectSubset<T, HSExampleImageModelUpdateManyArgs>
+    updateMany<T extends HSExampleImageModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, HSExampleImageModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -20946,9 +22689,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends HSExampleImageModelUpsertArgs>(
-      args: SelectSubset<T, HSExampleImageModelUpsertArgs>
-    ): Prisma__HSExampleImageModelClient<HSExampleImageModelGetPayload<T>>
+    upsert<T extends HSExampleImageModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, HSExampleImageModelUpsertArgs<ExtArgs>>
+    ): Prisma__HSExampleImageModelClient<$Types.GetResult<HSExampleImageModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of HSExampleImageModels.
@@ -20966,7 +22709,7 @@ export namespace Prisma {
     count<T extends HSExampleImageModelCountArgs>(
       args?: Subset<T, HSExampleImageModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], HSExampleImageModelCountAggregateOutputType>
@@ -21084,7 +22827,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__HSExampleImageModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__HSExampleImageModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -21099,7 +22842,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    hs_provider<T extends HSProviderModelArgs= {}>(args?: Subset<T, HSProviderModelArgs>): Prisma__HSProviderModelClient<HSProviderModelGetPayload<T> | Null>;
+    hs_provider<T extends HSProviderModelArgs<ExtArgs> = {}>(args?: Subset<T, HSProviderModelArgs<ExtArgs>>): Prisma__HSProviderModelClient<$Types.GetResult<HSProviderModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -21131,15 +22874,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel base type for findUnique actions
    */
-  export type HSExampleImageModelFindUniqueArgsBase = {
+  export type HSExampleImageModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter, which HSExampleImageModel to fetch.
      */
@@ -21149,7 +22892,7 @@ export namespace Prisma {
   /**
    * HSExampleImageModel findUnique
    */
-  export interface HSExampleImageModelFindUniqueArgs extends HSExampleImageModelFindUniqueArgsBase {
+  export interface HSExampleImageModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HSExampleImageModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -21161,15 +22904,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel findUniqueOrThrow
    */
-  export type HSExampleImageModelFindUniqueOrThrowArgs = {
+  export type HSExampleImageModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter, which HSExampleImageModel to fetch.
      */
@@ -21180,15 +22923,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel base type for findFirst actions
    */
-  export type HSExampleImageModelFindFirstArgsBase = {
+  export type HSExampleImageModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter, which HSExampleImageModel to fetch.
      */
@@ -21228,7 +22971,7 @@ export namespace Prisma {
   /**
    * HSExampleImageModel findFirst
    */
-  export interface HSExampleImageModelFindFirstArgs extends HSExampleImageModelFindFirstArgsBase {
+  export interface HSExampleImageModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends HSExampleImageModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -21240,15 +22983,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel findFirstOrThrow
    */
-  export type HSExampleImageModelFindFirstOrThrowArgs = {
+  export type HSExampleImageModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter, which HSExampleImageModel to fetch.
      */
@@ -21289,15 +23032,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel findMany
    */
-  export type HSExampleImageModelFindManyArgs = {
+  export type HSExampleImageModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter, which HSExampleImageModels to fetch.
      */
@@ -21333,15 +23076,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel create
    */
-  export type HSExampleImageModelCreateArgs = {
+  export type HSExampleImageModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * The data needed to create a HSExampleImageModel.
      */
@@ -21352,7 +23095,7 @@ export namespace Prisma {
   /**
    * HSExampleImageModel createMany
    */
-  export type HSExampleImageModelCreateManyArgs = {
+  export type HSExampleImageModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many HSExampleImageModels.
      */
@@ -21364,15 +23107,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel update
    */
-  export type HSExampleImageModelUpdateArgs = {
+  export type HSExampleImageModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * The data needed to update a HSExampleImageModel.
      */
@@ -21387,7 +23130,7 @@ export namespace Prisma {
   /**
    * HSExampleImageModel updateMany
    */
-  export type HSExampleImageModelUpdateManyArgs = {
+  export type HSExampleImageModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update HSExampleImageModels.
      */
@@ -21402,15 +23145,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel upsert
    */
-  export type HSExampleImageModelUpsertArgs = {
+  export type HSExampleImageModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * The filter to search for the HSExampleImageModel to update in case it exists.
      */
@@ -21429,15 +23172,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel delete
    */
-  export type HSExampleImageModelDeleteArgs = {
+  export type HSExampleImageModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
     /**
      * Filter which HSExampleImageModel to delete.
      */
@@ -21448,7 +23191,7 @@ export namespace Prisma {
   /**
    * HSExampleImageModel deleteMany
    */
-  export type HSExampleImageModelDeleteManyArgs = {
+  export type HSExampleImageModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which HSExampleImageModels to delete
      */
@@ -21459,15 +23202,15 @@ export namespace Prisma {
   /**
    * HSExampleImageModel without action
    */
-  export type HSExampleImageModelArgs = {
+  export type HSExampleImageModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the HSExampleImageModel
      */
-    select?: HSExampleImageModelSelect | null
+    select?: HSExampleImageModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: HSExampleImageModelInclude | null
+    include?: HSExampleImageModelInclude<ExtArgs> | null
   }
 
 
@@ -21606,7 +23349,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type OauthAccountModelAggregateArgs = {
+  export type OauthAccountModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which OauthAccountModel to aggregate.
      */
@@ -21666,7 +23409,7 @@ export namespace Prisma {
 
 
 
-  export type OauthAccountModelGroupByArgs = {
+  export type OauthAccountModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: OauthAccountModelWhereInput
     orderBy?: Enumerable<OauthAccountModelOrderByWithAggregationInput>
     by: OauthAccountModelScalarFieldEnum[]
@@ -21716,7 +23459,7 @@ export namespace Prisma {
     >
 
 
-  export type OauthAccountModelSelect = {
+  export type OauthAccountModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -21734,42 +23477,45 @@ export namespace Prisma {
     gender?: boolean
     address_first?: boolean
     address_second?: boolean
-    business_user?: boolean | BusinessUserModelArgs
-    customer?: boolean | CustomerModelArgs
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+    customer?: boolean | CustomerModelArgs<ExtArgs>
+  }, ExtArgs["result"]["oauthAccountModel"]>
+
+  export type OauthAccountModelSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    oauth_type?: boolean
+    oauth_sub?: boolean
+    business_user_id?: boolean
+    customer_id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    profile_image_url?: boolean
+    birth?: boolean
+    gender?: boolean
+    address_first?: boolean
+    address_second?: boolean
+  }
+
+  export type OauthAccountModelInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    business_user?: boolean | BusinessUserModelArgs<ExtArgs>
+    customer?: boolean | CustomerModelArgs<ExtArgs>
   }
 
 
-  export type OauthAccountModelInclude = {
-    business_user?: boolean | BusinessUserModelArgs
-    customer?: boolean | CustomerModelArgs
-  }
+  type OauthAccountModelGetPayload<S extends boolean | null | undefined | OauthAccountModelArgs> = $Types.GetResult<OauthAccountModelPayload, S>
 
-  export type OauthAccountModelGetPayload<S extends boolean | null | undefined | OauthAccountModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? OauthAccountModel :
-    S extends undefined ? never :
-    S extends { include: any } & (OauthAccountModelArgs | OauthAccountModelFindManyArgs)
-    ? OauthAccountModel  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['include'][P]> | null :
-        P extends 'customer' ? CustomerModelGetPayload<S['include'][P]> | null :  never
-  } 
-    : S extends { select: any } & (OauthAccountModelArgs | OauthAccountModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'business_user' ? BusinessUserModelGetPayload<S['select'][P]> | null :
-        P extends 'customer' ? CustomerModelGetPayload<S['select'][P]> | null :  P extends keyof OauthAccountModel ? OauthAccountModel[P] : never
-  } 
-      : OauthAccountModel
-
-
-  type OauthAccountModelCountArgs = 
+  type OauthAccountModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<OauthAccountModelFindManyArgs, 'select' | 'include'> & {
       select?: OauthAccountModelCountAggregateInputType | true
     }
 
-  export interface OauthAccountModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface OauthAccountModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OauthAccountModel'], meta: { name: 'OauthAccountModel' } }
     /**
      * Find zero or one OauthAccountModel that matches the filter.
      * @param {OauthAccountModelFindUniqueArgs} args - Arguments to find a OauthAccountModel
@@ -21781,9 +23527,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends OauthAccountModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, OauthAccountModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'OauthAccountModel'> extends True ? Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>> : Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T> | null, null>
+    findUnique<T extends OauthAccountModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, OauthAccountModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'OauthAccountModel'> extends True ? Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one OauthAccountModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -21797,9 +23543,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends OauthAccountModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, OauthAccountModelFindUniqueOrThrowArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    findUniqueOrThrow<T extends OauthAccountModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OauthAccountModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first OauthAccountModel that matches the filter.
@@ -21814,9 +23560,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends OauthAccountModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, OauthAccountModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'OauthAccountModel'> extends True ? Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>> : Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T> | null, null>
+    findFirst<T extends OauthAccountModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, OauthAccountModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'OauthAccountModel'> extends True ? Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first OauthAccountModel that matches the filter or
@@ -21832,9 +23578,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends OauthAccountModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, OauthAccountModelFindFirstOrThrowArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    findFirstOrThrow<T extends OauthAccountModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OauthAccountModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more OauthAccountModels that matches the filter.
@@ -21852,9 +23598,9 @@ export namespace Prisma {
      * const oauthAccountModelWithIdOnly = await prisma.oauthAccountModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends OauthAccountModelFindManyArgs>(
-      args?: SelectSubset<T, OauthAccountModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<OauthAccountModelGetPayload<T>>>
+    findMany<T extends OauthAccountModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OauthAccountModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a OauthAccountModel.
@@ -21868,9 +23614,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends OauthAccountModelCreateArgs>(
-      args: SelectSubset<T, OauthAccountModelCreateArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    create<T extends OauthAccountModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OauthAccountModelCreateArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many OauthAccountModels.
@@ -21884,8 +23630,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends OauthAccountModelCreateManyArgs>(
-      args?: SelectSubset<T, OauthAccountModelCreateManyArgs>
+    createMany<T extends OauthAccountModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OauthAccountModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -21900,9 +23646,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends OauthAccountModelDeleteArgs>(
-      args: SelectSubset<T, OauthAccountModelDeleteArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    delete<T extends OauthAccountModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OauthAccountModelDeleteArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one OauthAccountModel.
@@ -21919,9 +23665,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends OauthAccountModelUpdateArgs>(
-      args: SelectSubset<T, OauthAccountModelUpdateArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    update<T extends OauthAccountModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OauthAccountModelUpdateArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more OauthAccountModels.
@@ -21935,8 +23681,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends OauthAccountModelDeleteManyArgs>(
-      args?: SelectSubset<T, OauthAccountModelDeleteManyArgs>
+    deleteMany<T extends OauthAccountModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OauthAccountModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -21956,8 +23702,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends OauthAccountModelUpdateManyArgs>(
-      args: SelectSubset<T, OauthAccountModelUpdateManyArgs>
+    updateMany<T extends OauthAccountModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OauthAccountModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -21977,9 +23723,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends OauthAccountModelUpsertArgs>(
-      args: SelectSubset<T, OauthAccountModelUpsertArgs>
-    ): Prisma__OauthAccountModelClient<OauthAccountModelGetPayload<T>>
+    upsert<T extends OauthAccountModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OauthAccountModelUpsertArgs<ExtArgs>>
+    ): Prisma__OauthAccountModelClient<$Types.GetResult<OauthAccountModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of OauthAccountModels.
@@ -21997,7 +23743,7 @@ export namespace Prisma {
     count<T extends OauthAccountModelCountArgs>(
       args?: Subset<T, OauthAccountModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], OauthAccountModelCountAggregateOutputType>
@@ -22115,7 +23861,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__OauthAccountModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__OauthAccountModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -22130,9 +23876,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    business_user<T extends BusinessUserModelArgs= {}>(args?: Subset<T, BusinessUserModelArgs>): Prisma__BusinessUserModelClient<BusinessUserModelGetPayload<T> | Null>;
+    business_user<T extends BusinessUserModelArgs<ExtArgs> = {}>(args?: Subset<T, BusinessUserModelArgs<ExtArgs>>): Prisma__BusinessUserModelClient<$Types.GetResult<BusinessUserModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    customer<T extends CustomerModelArgs= {}>(args?: Subset<T, CustomerModelArgs>): Prisma__CustomerModelClient<CustomerModelGetPayload<T> | Null>;
+    customer<T extends CustomerModelArgs<ExtArgs> = {}>(args?: Subset<T, CustomerModelArgs<ExtArgs>>): Prisma__CustomerModelClient<$Types.GetResult<CustomerModelPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -22164,15 +23910,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel base type for findUnique actions
    */
-  export type OauthAccountModelFindUniqueArgsBase = {
+  export type OauthAccountModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter, which OauthAccountModel to fetch.
      */
@@ -22182,7 +23928,7 @@ export namespace Prisma {
   /**
    * OauthAccountModel findUnique
    */
-  export interface OauthAccountModelFindUniqueArgs extends OauthAccountModelFindUniqueArgsBase {
+  export interface OauthAccountModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends OauthAccountModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -22194,15 +23940,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel findUniqueOrThrow
    */
-  export type OauthAccountModelFindUniqueOrThrowArgs = {
+  export type OauthAccountModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter, which OauthAccountModel to fetch.
      */
@@ -22213,15 +23959,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel base type for findFirst actions
    */
-  export type OauthAccountModelFindFirstArgsBase = {
+  export type OauthAccountModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter, which OauthAccountModel to fetch.
      */
@@ -22261,7 +24007,7 @@ export namespace Prisma {
   /**
    * OauthAccountModel findFirst
    */
-  export interface OauthAccountModelFindFirstArgs extends OauthAccountModelFindFirstArgsBase {
+  export interface OauthAccountModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends OauthAccountModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -22273,15 +24019,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel findFirstOrThrow
    */
-  export type OauthAccountModelFindFirstOrThrowArgs = {
+  export type OauthAccountModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter, which OauthAccountModel to fetch.
      */
@@ -22322,15 +24068,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel findMany
    */
-  export type OauthAccountModelFindManyArgs = {
+  export type OauthAccountModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter, which OauthAccountModels to fetch.
      */
@@ -22366,15 +24112,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel create
    */
-  export type OauthAccountModelCreateArgs = {
+  export type OauthAccountModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * The data needed to create a OauthAccountModel.
      */
@@ -22385,7 +24131,7 @@ export namespace Prisma {
   /**
    * OauthAccountModel createMany
    */
-  export type OauthAccountModelCreateManyArgs = {
+  export type OauthAccountModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many OauthAccountModels.
      */
@@ -22397,15 +24143,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel update
    */
-  export type OauthAccountModelUpdateArgs = {
+  export type OauthAccountModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * The data needed to update a OauthAccountModel.
      */
@@ -22420,7 +24166,7 @@ export namespace Prisma {
   /**
    * OauthAccountModel updateMany
    */
-  export type OauthAccountModelUpdateManyArgs = {
+  export type OauthAccountModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update OauthAccountModels.
      */
@@ -22435,15 +24181,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel upsert
    */
-  export type OauthAccountModelUpsertArgs = {
+  export type OauthAccountModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * The filter to search for the OauthAccountModel to update in case it exists.
      */
@@ -22462,15 +24208,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel delete
    */
-  export type OauthAccountModelDeleteArgs = {
+  export type OauthAccountModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
     /**
      * Filter which OauthAccountModel to delete.
      */
@@ -22481,7 +24227,7 @@ export namespace Prisma {
   /**
    * OauthAccountModel deleteMany
    */
-  export type OauthAccountModelDeleteManyArgs = {
+  export type OauthAccountModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which OauthAccountModels to delete
      */
@@ -22492,15 +24238,15 @@ export namespace Prisma {
   /**
    * OauthAccountModel without action
    */
-  export type OauthAccountModelArgs = {
+  export type OauthAccountModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the OauthAccountModel
      */
-    select?: OauthAccountModelSelect | null
+    select?: OauthAccountModelSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: OauthAccountModelInclude | null
+    include?: OauthAccountModelInclude<ExtArgs> | null
   }
 
 
@@ -22591,7 +24337,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type PhoneVerificationModelAggregateArgs = {
+  export type PhoneVerificationModelAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which PhoneVerificationModel to aggregate.
      */
@@ -22651,7 +24397,7 @@ export namespace Prisma {
 
 
 
-  export type PhoneVerificationModelGroupByArgs = {
+  export type PhoneVerificationModelGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: PhoneVerificationModelWhereInput
     orderBy?: Enumerable<PhoneVerificationModelOrderByWithAggregationInput>
     by: PhoneVerificationModelScalarFieldEnum[]
@@ -22693,7 +24439,19 @@ export namespace Prisma {
     >
 
 
-  export type PhoneVerificationModelSelect = {
+  export type PhoneVerificationModelSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    is_deleted?: boolean
+    deleted_at?: boolean
+    phone?: boolean
+    code?: boolean
+    request_id?: boolean
+    is_verified?: boolean
+  }, ExtArgs["result"]["phoneVerificationModel"]>
+
+  export type PhoneVerificationModelSelectScalar = {
     id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -22706,27 +24464,15 @@ export namespace Prisma {
   }
 
 
-  export type PhoneVerificationModelGetPayload<S extends boolean | null | undefined | PhoneVerificationModelArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? PhoneVerificationModel :
-    S extends undefined ? never :
-    S extends { include: any } & (PhoneVerificationModelArgs | PhoneVerificationModelFindManyArgs)
-    ? PhoneVerificationModel 
-    : S extends { select: any } & (PhoneVerificationModelArgs | PhoneVerificationModelFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-    P extends keyof PhoneVerificationModel ? PhoneVerificationModel[P] : never
-  } 
-      : PhoneVerificationModel
+  type PhoneVerificationModelGetPayload<S extends boolean | null | undefined | PhoneVerificationModelArgs> = $Types.GetResult<PhoneVerificationModelPayload, S>
 
-
-  type PhoneVerificationModelCountArgs = 
+  type PhoneVerificationModelCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
     Omit<PhoneVerificationModelFindManyArgs, 'select' | 'include'> & {
       select?: PhoneVerificationModelCountAggregateInputType | true
     }
 
-  export interface PhoneVerificationModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
+  export interface PhoneVerificationModelDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PhoneVerificationModel'], meta: { name: 'PhoneVerificationModel' } }
     /**
      * Find zero or one PhoneVerificationModel that matches the filter.
      * @param {PhoneVerificationModelFindUniqueArgs} args - Arguments to find a PhoneVerificationModel
@@ -22738,9 +24484,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUnique<T extends PhoneVerificationModelFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, PhoneVerificationModelFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>> : Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T> | null, null>
+    findUnique<T extends PhoneVerificationModelFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PhoneVerificationModelFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
 
     /**
      * Find one PhoneVerificationModel that matches the filter or throw an error  with `error.code='P2025'` 
@@ -22754,9 +24500,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends PhoneVerificationModelFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindUniqueOrThrowArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    findUniqueOrThrow<T extends PhoneVerificationModelFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PhoneVerificationModelFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
 
     /**
      * Find the first PhoneVerificationModel that matches the filter.
@@ -22771,9 +24517,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirst<T extends PhoneVerificationModelFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, PhoneVerificationModelFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>> : Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T> | null, null>
+    findFirst<T extends PhoneVerificationModelFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PhoneVerificationModelFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PhoneVerificationModel'> extends True ? Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
 
     /**
      * Find the first PhoneVerificationModel that matches the filter or
@@ -22789,9 +24535,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    findFirstOrThrow<T extends PhoneVerificationModelFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindFirstOrThrowArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    findFirstOrThrow<T extends PhoneVerificationModelFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PhoneVerificationModelFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
 
     /**
      * Find zero or more PhoneVerificationModels that matches the filter.
@@ -22809,9 +24555,9 @@ export namespace Prisma {
      * const phoneVerificationModelWithIdOnly = await prisma.phoneVerificationModel.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends PhoneVerificationModelFindManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelFindManyArgs>
-    ): Prisma.PrismaPromise<Array<PhoneVerificationModelGetPayload<T>>>
+    findMany<T extends PhoneVerificationModelFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PhoneVerificationModelFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'findMany', never>>
 
     /**
      * Create a PhoneVerificationModel.
@@ -22825,9 +24571,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    create<T extends PhoneVerificationModelCreateArgs>(
-      args: SelectSubset<T, PhoneVerificationModelCreateArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    create<T extends PhoneVerificationModelCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, PhoneVerificationModelCreateArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
 
     /**
      * Create many PhoneVerificationModels.
@@ -22841,8 +24587,8 @@ export namespace Prisma {
      *     })
      *     
     **/
-    createMany<T extends PhoneVerificationModelCreateManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelCreateManyArgs>
+    createMany<T extends PhoneVerificationModelCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PhoneVerificationModelCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -22857,9 +24603,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    delete<T extends PhoneVerificationModelDeleteArgs>(
-      args: SelectSubset<T, PhoneVerificationModelDeleteArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    delete<T extends PhoneVerificationModelDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, PhoneVerificationModelDeleteArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
 
     /**
      * Update one PhoneVerificationModel.
@@ -22876,9 +24622,9 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends PhoneVerificationModelUpdateArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpdateArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    update<T extends PhoneVerificationModelUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, PhoneVerificationModelUpdateArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
 
     /**
      * Delete zero or more PhoneVerificationModels.
@@ -22892,8 +24638,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    deleteMany<T extends PhoneVerificationModelDeleteManyArgs>(
-      args?: SelectSubset<T, PhoneVerificationModelDeleteManyArgs>
+    deleteMany<T extends PhoneVerificationModelDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PhoneVerificationModelDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -22913,8 +24659,8 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends PhoneVerificationModelUpdateManyArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpdateManyArgs>
+    updateMany<T extends PhoneVerificationModelUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, PhoneVerificationModelUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
@@ -22934,9 +24680,9 @@ export namespace Prisma {
      *   }
      * })
     **/
-    upsert<T extends PhoneVerificationModelUpsertArgs>(
-      args: SelectSubset<T, PhoneVerificationModelUpsertArgs>
-    ): Prisma__PhoneVerificationModelClient<PhoneVerificationModelGetPayload<T>>
+    upsert<T extends PhoneVerificationModelUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, PhoneVerificationModelUpsertArgs<ExtArgs>>
+    ): Prisma__PhoneVerificationModelClient<$Types.GetResult<PhoneVerificationModelPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
 
     /**
      * Count the number of PhoneVerificationModels.
@@ -22954,7 +24700,7 @@ export namespace Prisma {
     count<T extends PhoneVerificationModelCountArgs>(
       args?: Subset<T, PhoneVerificationModelCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], PhoneVerificationModelCountAggregateOutputType>
@@ -23072,7 +24818,7 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__PhoneVerificationModelClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__PhoneVerificationModelClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -23118,11 +24864,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel base type for findUnique actions
    */
-  export type PhoneVerificationModelFindUniqueArgsBase = {
+  export type PhoneVerificationModelFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter, which PhoneVerificationModel to fetch.
      */
@@ -23132,7 +24878,7 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel findUnique
    */
-  export interface PhoneVerificationModelFindUniqueArgs extends PhoneVerificationModelFindUniqueArgsBase {
+  export interface PhoneVerificationModelFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends PhoneVerificationModelFindUniqueArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -23144,11 +24890,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel findUniqueOrThrow
    */
-  export type PhoneVerificationModelFindUniqueOrThrowArgs = {
+  export type PhoneVerificationModelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter, which PhoneVerificationModel to fetch.
      */
@@ -23159,11 +24905,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel base type for findFirst actions
    */
-  export type PhoneVerificationModelFindFirstArgsBase = {
+  export type PhoneVerificationModelFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter, which PhoneVerificationModel to fetch.
      */
@@ -23203,7 +24949,7 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel findFirst
    */
-  export interface PhoneVerificationModelFindFirstArgs extends PhoneVerificationModelFindFirstArgsBase {
+  export interface PhoneVerificationModelFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends PhoneVerificationModelFindFirstArgsBase<ExtArgs> {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -23215,11 +24961,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel findFirstOrThrow
    */
-  export type PhoneVerificationModelFindFirstOrThrowArgs = {
+  export type PhoneVerificationModelFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter, which PhoneVerificationModel to fetch.
      */
@@ -23260,11 +25006,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel findMany
    */
-  export type PhoneVerificationModelFindManyArgs = {
+  export type PhoneVerificationModelFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter, which PhoneVerificationModels to fetch.
      */
@@ -23300,11 +25046,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel create
    */
-  export type PhoneVerificationModelCreateArgs = {
+  export type PhoneVerificationModelCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * The data needed to create a PhoneVerificationModel.
      */
@@ -23315,7 +25061,7 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel createMany
    */
-  export type PhoneVerificationModelCreateManyArgs = {
+  export type PhoneVerificationModelCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many PhoneVerificationModels.
      */
@@ -23327,11 +25073,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel update
    */
-  export type PhoneVerificationModelUpdateArgs = {
+  export type PhoneVerificationModelUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * The data needed to update a PhoneVerificationModel.
      */
@@ -23346,7 +25092,7 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel updateMany
    */
-  export type PhoneVerificationModelUpdateManyArgs = {
+  export type PhoneVerificationModelUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * The data used to update PhoneVerificationModels.
      */
@@ -23361,11 +25107,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel upsert
    */
-  export type PhoneVerificationModelUpsertArgs = {
+  export type PhoneVerificationModelUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * The filter to search for the PhoneVerificationModel to update in case it exists.
      */
@@ -23384,11 +25130,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel delete
    */
-  export type PhoneVerificationModelDeleteArgs = {
+  export type PhoneVerificationModelDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
     /**
      * Filter which PhoneVerificationModel to delete.
      */
@@ -23399,7 +25145,7 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel deleteMany
    */
-  export type PhoneVerificationModelDeleteManyArgs = {
+  export type PhoneVerificationModelDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Filter which PhoneVerificationModels to delete
      */
@@ -23410,11 +25156,11 @@ export namespace Prisma {
   /**
    * PhoneVerificationModel without action
    */
-  export type PhoneVerificationModelArgs = {
+  export type PhoneVerificationModelArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the PhoneVerificationModel
      */
-    select?: PhoneVerificationModelSelect | null
+    select?: PhoneVerificationModelSelect<ExtArgs> | null
   }
 
 
@@ -23423,17 +25169,80 @@ export namespace Prisma {
    * Enums
    */
 
-  export const AgreementAcceptanceModelScalarFieldEnum: {
+  export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
+    Serializable: 'Serializable'
+  };
+
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const REPropertyModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
     deleted_at: 'deleted_at',
-    user_id: 'user_id',
-    agreement_id: 'agreement_id'
+    name: 'name',
+    main_image_url: 'main_image_url',
+    re_agent_id: 're_agent_id',
+    is_visible: 'is_visible'
   };
 
-  export type AgreementAcceptanceModelScalarFieldEnum = (typeof AgreementAcceptanceModelScalarFieldEnum)[keyof typeof AgreementAcceptanceModelScalarFieldEnum]
+  export type REPropertyModelScalarFieldEnum = (typeof REPropertyModelScalarFieldEnum)[keyof typeof REPropertyModelScalarFieldEnum]
+
+
+  export const REPropertyCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    re_property_id: 're_property_id',
+    sub_category_id: 'sub_category_id'
+  };
+
+  export type REPropertyCategoryModelScalarFieldEnum = (typeof REPropertyCategoryModelScalarFieldEnum)[keyof typeof REPropertyCategoryModelScalarFieldEnum]
+
+
+  export const REPropertySubCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    middle_category_id: 'middle_category_id'
+  };
+
+  export type REPropertySubCategoryModelScalarFieldEnum = (typeof REPropertySubCategoryModelScalarFieldEnum)[keyof typeof REPropertySubCategoryModelScalarFieldEnum]
+
+
+  export const REPropertyMiddleCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    super_category_id: 'super_category_id'
+  };
+
+  export type REPropertyMiddleCategoryModelScalarFieldEnum = (typeof REPropertyMiddleCategoryModelScalarFieldEnum)[keyof typeof REPropertyMiddleCategoryModelScalarFieldEnum]
+
+
+  export const REPropertySuperCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name'
+  };
+
+  export type REPropertySuperCategoryModelScalarFieldEnum = (typeof REPropertySuperCategoryModelScalarFieldEnum)[keyof typeof REPropertySuperCategoryModelScalarFieldEnum]
 
 
   export const AgreementModelScalarFieldEnum: {
@@ -23451,17 +25260,112 @@ export namespace Prisma {
   export type AgreementModelScalarFieldEnum = (typeof AgreementModelScalarFieldEnum)[keyof typeof AgreementModelScalarFieldEnum]
 
 
-  export const BusinessCertificationImageModelScalarFieldEnum: {
+  export const AgreementAcceptanceModelScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted',
     deleted_at: 'deleted_at',
-    business_user_id: 'business_user_id',
-    url: 'url'
+    user_id: 'user_id',
+    agreement_id: 'agreement_id'
   };
 
-  export type BusinessCertificationImageModelScalarFieldEnum = (typeof BusinessCertificationImageModelScalarFieldEnum)[keyof typeof BusinessCertificationImageModelScalarFieldEnum]
+  export type AgreementAcceptanceModelScalarFieldEnum = (typeof AgreementAcceptanceModelScalarFieldEnum)[keyof typeof AgreementAcceptanceModelScalarFieldEnum]
+
+
+  export const ServiceSubCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    super_category_id: 'super_category_id'
+  };
+
+  export type ServiceSubCategoryModelScalarFieldEnum = (typeof ServiceSubCategoryModelScalarFieldEnum)[keyof typeof ServiceSubCategoryModelScalarFieldEnum]
+
+
+  export const ServiceSuperCategoryModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    type: 'type'
+  };
+
+  export type ServiceSuperCategoryModelScalarFieldEnum = (typeof ServiceSuperCategoryModelScalarFieldEnum)[keyof typeof ServiceSuperCategoryModelScalarFieldEnum]
+
+
+  export const ZipzoongCareRequestModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    care_start_date: 'care_start_date',
+    care_end_date: 'care_end_date',
+    detail: 'detail',
+    status: 'status',
+    requester_id: 'requester_id'
+  };
+
+  export type ZipzoongCareRequestModelScalarFieldEnum = (typeof ZipzoongCareRequestModelScalarFieldEnum)[keyof typeof ZipzoongCareRequestModelScalarFieldEnum]
+
+
+  export const ZipzoongCareServiceCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    service_super_category_id: 'service_super_category_id',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareServiceCheckModelScalarFieldEnum = (typeof ZipzoongCareServiceCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareServiceCheckModelScalarFieldEnum]
+
+
+  export const ZipzoongCareConsultationTimeCheckModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    start_time: 'start_time',
+    end_time: 'end_time',
+    request_id: 'request_id'
+  };
+
+  export type ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = (typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum]
+
+
+  export const UserModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    name: 'name',
+    email: 'email'
+  };
+
+  export type UserModelScalarFieldEnum = (typeof UserModelScalarFieldEnum)[keyof typeof UserModelScalarFieldEnum]
+
+
+  export const CustomerModelScalarFieldEnum: {
+    id: 'id',
+    birth: 'birth',
+    gender: 'gender',
+    phone: 'phone',
+    address_first: 'address_first',
+    address_second: 'address_second',
+    profile_image_url: 'profile_image_url'
+  };
+
+  export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
 
 
   export const BusinessUserModelScalarFieldEnum: {
@@ -23478,17 +25382,50 @@ export namespace Prisma {
   export type BusinessUserModelScalarFieldEnum = (typeof BusinessUserModelScalarFieldEnum)[keyof typeof BusinessUserModelScalarFieldEnum]
 
 
-  export const CustomerModelScalarFieldEnum: {
+  export const SubExpertiseModelScalarFieldEnum: {
     id: 'id',
-    birth: 'birth',
-    gender: 'gender',
-    phone: 'phone',
-    address_first: 'address_first',
-    address_second: 'address_second',
-    profile_image_url: 'profile_image_url'
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    sub_category_id: 'sub_category_id',
+    business_user_id: 'business_user_id'
   };
 
-  export type CustomerModelScalarFieldEnum = (typeof CustomerModelScalarFieldEnum)[keyof typeof CustomerModelScalarFieldEnum]
+  export type SubExpertiseModelScalarFieldEnum = (typeof SubExpertiseModelScalarFieldEnum)[keyof typeof SubExpertiseModelScalarFieldEnum]
+
+
+  export const REAgentModelScalarFieldEnum: {
+    id: 'id',
+    is_licensed: 'is_licensed',
+    re_num: 're_num',
+    re_name: 're_name',
+    re_phone: 're_phone',
+    re_licensed_agent_name: 're_licensed_agent_name'
+  };
+
+  export type REAgentModelScalarFieldEnum = (typeof REAgentModelScalarFieldEnum)[keyof typeof REAgentModelScalarFieldEnum]
+
+
+  export const HSProviderModelScalarFieldEnum: {
+    id: 'id',
+    business_registration_num: 'business_registration_num'
+  };
+
+  export type HSProviderModelScalarFieldEnum = (typeof HSProviderModelScalarFieldEnum)[keyof typeof HSProviderModelScalarFieldEnum]
+
+
+  export const BusinessCertificationImageModelScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    is_deleted: 'is_deleted',
+    deleted_at: 'deleted_at',
+    business_user_id: 'business_user_id',
+    url: 'url'
+  };
+
+  export type BusinessCertificationImageModelScalarFieldEnum = (typeof BusinessCertificationImageModelScalarFieldEnum)[keyof typeof BusinessCertificationImageModelScalarFieldEnum]
 
 
   export const HSExampleImageModelScalarFieldEnum: {
@@ -23503,14 +25440,6 @@ export namespace Prisma {
   };
 
   export type HSExampleImageModelScalarFieldEnum = (typeof HSExampleImageModelScalarFieldEnum)[keyof typeof HSExampleImageModelScalarFieldEnum]
-
-
-  export const HSProviderModelScalarFieldEnum: {
-    id: 'id',
-    business_registration_num: 'business_registration_num'
-  };
-
-  export type HSProviderModelScalarFieldEnum = (typeof HSProviderModelScalarFieldEnum)[keyof typeof HSProviderModelScalarFieldEnum]
 
 
   export const OauthAccountModelScalarFieldEnum: {
@@ -23551,118 +25480,6 @@ export namespace Prisma {
   export type PhoneVerificationModelScalarFieldEnum = (typeof PhoneVerificationModelScalarFieldEnum)[keyof typeof PhoneVerificationModelScalarFieldEnum]
 
 
-  export const QueryMode: {
-    default: 'default',
-    insensitive: 'insensitive'
-  };
-
-  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-  export const REAgentModelScalarFieldEnum: {
-    id: 'id',
-    is_licensed: 'is_licensed',
-    re_num: 're_num',
-    re_name: 're_name',
-    re_phone: 're_phone',
-    re_licensed_agent_name: 're_licensed_agent_name'
-  };
-
-  export type REAgentModelScalarFieldEnum = (typeof REAgentModelScalarFieldEnum)[keyof typeof REAgentModelScalarFieldEnum]
-
-
-  export const REPropertyCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    re_property_id: 're_property_id',
-    sub_category_id: 'sub_category_id'
-  };
-
-  export type REPropertyCategoryModelScalarFieldEnum = (typeof REPropertyCategoryModelScalarFieldEnum)[keyof typeof REPropertyCategoryModelScalarFieldEnum]
-
-
-  export const REPropertyMiddleCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    super_category_id: 'super_category_id'
-  };
-
-  export type REPropertyMiddleCategoryModelScalarFieldEnum = (typeof REPropertyMiddleCategoryModelScalarFieldEnum)[keyof typeof REPropertyMiddleCategoryModelScalarFieldEnum]
-
-
-  export const REPropertyModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    main_image_url: 'main_image_url',
-    re_agent_id: 're_agent_id',
-    is_visible: 'is_visible'
-  };
-
-  export type REPropertyModelScalarFieldEnum = (typeof REPropertyModelScalarFieldEnum)[keyof typeof REPropertyModelScalarFieldEnum]
-
-
-  export const REPropertySubCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    middle_category_id: 'middle_category_id'
-  };
-
-  export type REPropertySubCategoryModelScalarFieldEnum = (typeof REPropertySubCategoryModelScalarFieldEnum)[keyof typeof REPropertySubCategoryModelScalarFieldEnum]
-
-
-  export const REPropertySuperCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name'
-  };
-
-  export type REPropertySuperCategoryModelScalarFieldEnum = (typeof REPropertySuperCategoryModelScalarFieldEnum)[keyof typeof REPropertySuperCategoryModelScalarFieldEnum]
-
-
-  export const ServiceSubCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    super_category_id: 'super_category_id'
-  };
-
-  export type ServiceSubCategoryModelScalarFieldEnum = (typeof ServiceSubCategoryModelScalarFieldEnum)[keyof typeof ServiceSubCategoryModelScalarFieldEnum]
-
-
-  export const ServiceSuperCategoryModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    type: 'type'
-  };
-
-  export type ServiceSuperCategoryModelScalarFieldEnum = (typeof ServiceSuperCategoryModelScalarFieldEnum)[keyof typeof ServiceSuperCategoryModelScalarFieldEnum]
-
-
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -23671,83 +25488,20 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const SubExpertiseModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    sub_category_id: 'sub_category_id',
-    business_user_id: 'business_user_id'
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
   };
 
-  export type SubExpertiseModelScalarFieldEnum = (typeof SubExpertiseModelScalarFieldEnum)[keyof typeof SubExpertiseModelScalarFieldEnum]
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const TransactionIsolationLevel: {
-    ReadUncommitted: 'ReadUncommitted',
-    ReadCommitted: 'ReadCommitted',
-    RepeatableRead: 'RepeatableRead',
-    Serializable: 'Serializable'
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
   };
 
-  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-  export const UserModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    name: 'name',
-    email: 'email'
-  };
-
-  export type UserModelScalarFieldEnum = (typeof UserModelScalarFieldEnum)[keyof typeof UserModelScalarFieldEnum]
-
-
-  export const ZipzoongCareConsultationTimeCheckModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    start_time: 'start_time',
-    end_time: 'end_time',
-    request_id: 'request_id'
-  };
-
-  export type ZipzoongCareConsultationTimeCheckModelScalarFieldEnum = (typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareConsultationTimeCheckModelScalarFieldEnum]
-
-
-  export const ZipzoongCareRequestModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    care_start_date: 'care_start_date',
-    care_end_date: 'care_end_date',
-    detail: 'detail',
-    status: 'status',
-    requester_id: 'requester_id'
-  };
-
-  export type ZipzoongCareRequestModelScalarFieldEnum = (typeof ZipzoongCareRequestModelScalarFieldEnum)[keyof typeof ZipzoongCareRequestModelScalarFieldEnum]
-
-
-  export const ZipzoongCareServiceCheckModelScalarFieldEnum: {
-    id: 'id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    is_deleted: 'is_deleted',
-    deleted_at: 'deleted_at',
-    service_super_category_id: 'service_super_category_id',
-    request_id: 'request_id'
-  };
-
-  export type ZipzoongCareServiceCheckModelScalarFieldEnum = (typeof ZipzoongCareServiceCheckModelScalarFieldEnum)[keyof typeof ZipzoongCareServiceCheckModelScalarFieldEnum]
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -23777,7 +25531,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
@@ -23795,7 +25549,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     main_image_url?: SortOrder
     re_agent_id?: SortOrder
@@ -23840,7 +25594,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     re_property_id?: SortOrder
     sub_category_id?: SortOrder
     re_property?: REPropertyModelOrderByWithRelationInput
@@ -23856,7 +25610,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     re_property_id?: SortOrder
     sub_category_id?: SortOrder
     _count?: REPropertyCategoryModelCountOrderByAggregateInput
@@ -23897,7 +25651,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     middle_category_id?: SortOrder
     middle_category?: REPropertyMiddleCategoryModelOrderByWithRelationInput
@@ -23913,7 +25667,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     middle_category_id?: SortOrder
     _count?: REPropertySubCategoryModelCountOrderByAggregateInput
@@ -23954,7 +25708,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
     super_category?: REPropertySuperCategoryModelOrderByWithRelationInput
@@ -23970,7 +25724,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
     _count?: REPropertyMiddleCategoryModelCountOrderByAggregateInput
@@ -24009,7 +25763,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     middle_categories?: REPropertyMiddleCategoryModelOrderByRelationAggregateInput
   }
@@ -24024,7 +25778,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     _count?: REPropertySuperCategoryModelCountOrderByAggregateInput
     _max?: REPropertySuperCategoryModelMaxOrderByAggregateInput
@@ -24064,7 +25818,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
@@ -24081,7 +25835,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     title?: SortOrder
     content?: SortOrder
     is_required?: SortOrder
@@ -24126,7 +25880,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     user_id?: SortOrder
     agreement_id?: SortOrder
     user?: UserModelOrderByWithRelationInput
@@ -24143,7 +25897,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     user_id?: SortOrder
     agreement_id?: SortOrder
     _count?: AgreementAcceptanceModelCountOrderByAggregateInput
@@ -24184,7 +25938,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
     super_category?: ServiceSuperCategoryModelOrderByWithRelationInput
@@ -24200,7 +25954,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     super_category_id?: SortOrder
     _count?: ServiceSubCategoryModelCountOrderByAggregateInput
@@ -24241,7 +25995,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     type?: SortOrder
     sub_categories?: ServiceSubCategoryModelOrderByRelationAggregateInput
@@ -24258,7 +26012,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
     type?: SortOrder
     _count?: ServiceSuperCategoryModelCountOrderByAggregateInput
@@ -24303,7 +26057,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     care_start_date?: SortOrder
     care_end_date?: SortOrder
     detail?: SortOrder
@@ -24323,7 +26077,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     care_start_date?: SortOrder
     care_end_date?: SortOrder
     detail?: SortOrder
@@ -24370,7 +26124,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     service_super_category_id?: SortOrder
     request_id?: SortOrder
     service_super_category?: ServiceSuperCategoryModelOrderByWithRelationInput
@@ -24386,7 +26140,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     service_super_category_id?: SortOrder
     request_id?: SortOrder
     _count?: ZipzoongCareServiceCheckModelCountOrderByAggregateInput
@@ -24427,7 +26181,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     start_time?: SortOrder
     end_time?: SortOrder
     request_id?: SortOrder
@@ -24443,7 +26197,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     start_time?: SortOrder
     end_time?: SortOrder
     request_id?: SortOrder
@@ -24487,9 +26241,9 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
-    email?: SortOrder
+    email?: SortOrderInput | SortOrder
     customer?: CustomerModelOrderByWithRelationInput
     business_user?: BusinessUserModelOrderByWithRelationInput
     agreement_acceptances?: AgreementAcceptanceModelOrderByRelationAggregateInput
@@ -24504,9 +26258,9 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     name?: SortOrder
-    email?: SortOrder
+    email?: SortOrderInput | SortOrder
     _count?: UserModelCountOrderByAggregateInput
     _max?: UserModelMaxOrderByAggregateInput
     _min?: UserModelMinOrderByAggregateInput
@@ -24543,12 +26297,12 @@ export namespace Prisma {
 
   export type CustomerModelOrderByWithRelationInput = {
     id?: SortOrder
-    birth?: SortOrder
-    gender?: SortOrder
-    phone?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    profile_image_url?: SortOrder
+    birth?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    address_first?: SortOrderInput | SortOrder
+    address_second?: SortOrderInput | SortOrder
+    profile_image_url?: SortOrderInput | SortOrder
     base?: UserModelOrderByWithRelationInput
     oauth_accounts?: OauthAccountModelOrderByRelationAggregateInput
     zipzoong_care_requests?: ZipzoongCareRequestModelOrderByRelationAggregateInput
@@ -24560,12 +26314,12 @@ export namespace Prisma {
 
   export type CustomerModelOrderByWithAggregationInput = {
     id?: SortOrder
-    birth?: SortOrder
-    gender?: SortOrder
-    phone?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
-    profile_image_url?: SortOrder
+    birth?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    address_first?: SortOrderInput | SortOrder
+    address_second?: SortOrderInput | SortOrder
+    profile_image_url?: SortOrderInput | SortOrder
     _count?: CustomerModelCountOrderByAggregateInput
     _max?: CustomerModelMaxOrderByAggregateInput
     _min?: CustomerModelMinOrderByAggregateInput
@@ -24611,7 +26365,7 @@ export namespace Prisma {
     introduction_content?: SortOrder
     phone?: SortOrder
     address_first?: SortOrder
-    address_second?: SortOrder
+    address_second?: SortOrderInput | SortOrder
     profile_image_url?: SortOrder
     base?: UserModelOrderByWithRelationInput
     re_agent?: REAgentModelOrderByWithRelationInput
@@ -24632,7 +26386,7 @@ export namespace Prisma {
     introduction_content?: SortOrder
     phone?: SortOrder
     address_first?: SortOrder
-    address_second?: SortOrder
+    address_second?: SortOrderInput | SortOrder
     profile_image_url?: SortOrder
     _count?: BusinessUserModelCountOrderByAggregateInput
     _max?: BusinessUserModelMaxOrderByAggregateInput
@@ -24673,7 +26427,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     sub_category_id?: SortOrder
     business_user_id?: SortOrder
     sub_category?: ServiceSubCategoryModelOrderByWithRelationInput
@@ -24690,7 +26444,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     sub_category_id?: SortOrder
     business_user_id?: SortOrder
     _count?: SubExpertiseModelCountOrderByAggregateInput
@@ -24820,7 +26574,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     business_user_id?: SortOrder
     url?: SortOrder
     business_user?: BusinessUserModelOrderByWithRelationInput
@@ -24835,7 +26589,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     business_user_id?: SortOrder
     url?: SortOrder
     _count?: BusinessCertificationImageModelCountOrderByAggregateInput
@@ -24876,7 +26630,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
     is_visible?: SortOrder
@@ -24892,7 +26646,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     hs_provider_id?: SortOrder
     url?: SortOrder
     is_visible?: SortOrder
@@ -24945,19 +26699,19 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     oauth_type?: SortOrder
     oauth_sub?: SortOrder
-    business_user_id?: SortOrder
-    customer_id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phone?: SortOrder
-    profile_image_url?: SortOrder
-    birth?: SortOrder
-    gender?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
+    business_user_id?: SortOrderInput | SortOrder
+    customer_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    profile_image_url?: SortOrderInput | SortOrder
+    birth?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    address_first?: SortOrderInput | SortOrder
+    address_second?: SortOrderInput | SortOrder
     business_user?: BusinessUserModelOrderByWithRelationInput
     customer?: CustomerModelOrderByWithRelationInput
   }
@@ -24971,19 +26725,19 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     oauth_type?: SortOrder
     oauth_sub?: SortOrder
-    business_user_id?: SortOrder
-    customer_id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    phone?: SortOrder
-    profile_image_url?: SortOrder
-    birth?: SortOrder
-    gender?: SortOrder
-    address_first?: SortOrder
-    address_second?: SortOrder
+    business_user_id?: SortOrderInput | SortOrder
+    customer_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    profile_image_url?: SortOrderInput | SortOrder
+    birth?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    address_first?: SortOrderInput | SortOrder
+    address_second?: SortOrderInput | SortOrder
     _count?: OauthAccountModelCountOrderByAggregateInput
     _max?: OauthAccountModelMaxOrderByAggregateInput
     _min?: OauthAccountModelMinOrderByAggregateInput
@@ -25032,7 +26786,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     phone?: SortOrder
     code?: SortOrder
     request_id?: SortOrder
@@ -25048,7 +26802,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
-    deleted_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
     phone?: SortOrder
     code?: SortOrder
     request_id?: SortOrder
@@ -26837,6 +28591,11 @@ export namespace Prisma {
     none?: REPropertyCategoryModelWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type REPropertyCategoryModelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -26932,13 +28691,13 @@ export namespace Prisma {
   }
 
   export type REPropertyModelRelationFilter = {
-    is?: REPropertyModelWhereInput
-    isNot?: REPropertyModelWhereInput
+    is?: REPropertyModelWhereInput | null
+    isNot?: REPropertyModelWhereInput | null
   }
 
   export type REPropertySubCategoryModelRelationFilter = {
-    is?: REPropertySubCategoryModelWhereInput
-    isNot?: REPropertySubCategoryModelWhereInput
+    is?: REPropertySubCategoryModelWhereInput | null
+    isNot?: REPropertySubCategoryModelWhereInput | null
   }
 
   export type REPropertyCategoryModelCountOrderByAggregateInput = {
@@ -26972,8 +28731,8 @@ export namespace Prisma {
   }
 
   export type REPropertyMiddleCategoryModelRelationFilter = {
-    is?: REPropertyMiddleCategoryModelWhereInput
-    isNot?: REPropertyMiddleCategoryModelWhereInput
+    is?: REPropertyMiddleCategoryModelWhereInput | null
+    isNot?: REPropertyMiddleCategoryModelWhereInput | null
   }
 
   export type REPropertySubCategoryModelCountOrderByAggregateInput = {
@@ -27007,8 +28766,8 @@ export namespace Prisma {
   }
 
   export type REPropertySuperCategoryModelRelationFilter = {
-    is?: REPropertySuperCategoryModelWhereInput
-    isNot?: REPropertySuperCategoryModelWhereInput
+    is?: REPropertySuperCategoryModelWhereInput | null
+    isNot?: REPropertySuperCategoryModelWhereInput | null
   }
 
   export type REPropertySubCategoryModelListRelationFilter = {
@@ -27152,13 +28911,13 @@ export namespace Prisma {
   }
 
   export type UserModelRelationFilter = {
-    is?: UserModelWhereInput
-    isNot?: UserModelWhereInput
+    is?: UserModelWhereInput | null
+    isNot?: UserModelWhereInput | null
   }
 
   export type AgreementModelRelationFilter = {
-    is?: AgreementModelWhereInput
-    isNot?: AgreementModelWhereInput
+    is?: AgreementModelWhereInput | null
+    isNot?: AgreementModelWhereInput | null
   }
 
   export type AgreementAcceptanceModelUser_idAgreement_idCompoundUniqueInput = {
@@ -27197,8 +28956,8 @@ export namespace Prisma {
   }
 
   export type ServiceSuperCategoryModelRelationFilter = {
-    is?: ServiceSuperCategoryModelWhereInput
-    isNot?: ServiceSuperCategoryModelWhereInput
+    is?: ServiceSuperCategoryModelWhereInput | null
+    isNot?: ServiceSuperCategoryModelWhereInput | null
   }
 
   export type SubExpertiseModelListRelationFilter = {
@@ -27380,8 +29139,8 @@ export namespace Prisma {
   }
 
   export type ZipzoongCareRequestModelRelationFilter = {
-    is?: ZipzoongCareRequestModelWhereInput
-    isNot?: ZipzoongCareRequestModelWhereInput
+    is?: ZipzoongCareRequestModelWhereInput | null
+    isNot?: ZipzoongCareRequestModelWhereInput | null
   }
 
   export type ZipzoongCareServiceCheckModelCountOrderByAggregateInput = {
@@ -27583,8 +29342,8 @@ export namespace Prisma {
   }
 
   export type HSProviderModelRelationFilter = {
-    is?: HSProviderModelWhereInput
-    isNot?: HSProviderModelWhereInput
+    is?: HSProviderModelWhereInput | null
+    isNot?: HSProviderModelWhereInput | null
   }
 
   export type BusinessCertificationImageModelListRelationFilter = {
@@ -27631,8 +29390,8 @@ export namespace Prisma {
   }
 
   export type ServiceSubCategoryModelRelationFilter = {
-    is?: ServiceSubCategoryModelWhereInput
-    isNot?: ServiceSubCategoryModelWhereInput
+    is?: ServiceSubCategoryModelWhereInput | null
+    isNot?: ServiceSubCategoryModelWhereInput | null
   }
 
   export type SubExpertiseModelSub_category_idBusiness_user_idCompoundUniqueInput = {
