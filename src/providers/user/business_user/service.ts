@@ -5,7 +5,7 @@ export namespace Service {
   export const signUrl = async <T extends { url: string }>(
     input: T
   ): Promise<T> => {
-    const presigned_url = await EStorage.Read.getUrl(input.url);
+    const presigned_url = await EStorage.read(input.url);
     input.url = Result.Ok.is(presigned_url)
       ? Result.Ok.flatten(presigned_url)
       : input.url;
