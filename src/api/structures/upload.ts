@@ -14,21 +14,11 @@ export interface IUpload {
 }
 
 export namespace IUpload {
-  export type ContentType = "image";
-  export type PublicImageType =
-    | "user-profiles"
-    | "re-property-mains"
-    | "hs-examples";
+  export type PublicImageType = "profiles" | "portfolios";
+  export type PrivateImageType = "certifications";
 
-  export type PrivateImageType = "business-certifications";
-
-  export interface IPublicImageInput {
-    content: "public-image";
-    resource: PublicImageType;
+  export type IResourceType = PublicImageType | PrivateImageType;
+  export interface IBody {
+    resource: IResourceType;
   }
-  export interface IPrivateImageInput {
-    content: "private-image";
-    resource: PrivateImageType;
-  }
-  export type IInput = IPublicImageInput | IPrivateImageInput;
 }

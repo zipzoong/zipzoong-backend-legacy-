@@ -1296,7 +1296,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IUpload.IInput"
+                "$ref": "#/components/schemas/IUpload.IBody"
               }
             }
           },
@@ -1319,26 +1319,9 @@
             "description": "Internal Server Error"
           }
         },
-        "description": "리소스를 업로드하기 위한 presigned url을 얻기 위한 요청\n\n@param resource_type resource type\n@return url and presigned url\n@throws 500 Internal Server Error",
-        "x-nestia-namespace": "upload.getUrls",
+        "description": "리소스를 업로드하기 위한 presigned url을 얻기 위한 요청\n\n@return url and presigned url\n@throws 500 Internal Server Error",
+        "x-nestia-namespace": "upload.getImageUrls",
         "x-nestia-jsDocTags": [
-          {
-            "name": "param",
-            "text": [
-              {
-                "text": "resource_type",
-                "kind": "parameterName"
-              },
-              {
-                "text": " ",
-                "kind": "space"
-              },
-              {
-                "text": "resource type",
-                "kind": "text"
-              }
-            ]
-          },
           {
             "name": "return",
             "text": [
@@ -4303,72 +4286,26 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "IUpload.IInput": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/IUpload.IPublicImageInput"
-          },
-          {
-            "$ref": "#/components/schemas/IUpload.IPrivateImageInput"
-          }
-        ]
-      },
-      "IUpload.IPublicImageInput": {
+      "IUpload.IBody": {
         "type": "object",
         "properties": {
-          "content": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "public-image"
-            ]
-          },
           "resource": {
-            "$ref": "#/components/schemas/IUpload.PublicImageType"
+            "$ref": "#/components/schemas/IUpload.IResourceType"
           }
         },
         "nullable": false,
         "required": [
-          "content",
           "resource"
         ],
         "x-typia-jsDocTags": []
       },
-      "IUpload.PublicImageType": {
+      "IUpload.IResourceType": {
         "type": "string",
         "enum": [
-          "user-profiles",
-          "re-property-mains",
-          "hs-examples"
+          "profiles",
+          "portfolios",
+          "certifications"
         ]
-      },
-      "IUpload.IPrivateImageInput": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "private-image"
-            ]
-          },
-          "resource": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "enum": [
-              "business-certifications"
-            ]
-          }
-        },
-        "nullable": false,
-        "required": [
-          "content",
-          "resource"
-        ],
-        "x-typia-jsDocTags": []
       },
       "IUpload": {
         "type": "object",
